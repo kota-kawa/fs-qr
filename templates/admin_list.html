@@ -1,0 +1,24 @@
+{% extends "layout.html" %} {% block contents %}
+<div class="content">
+  <h2>管理ページ</h2>
+
+  <div style="text-align:center;">
+    <form action="/all-remove" method="POST" class="pure-form">
+
+      <input class="btn btn-success" type="submit" 　 value="すべて削除">
+    </form>
+    
+  </div>
+
+  {% for f in files %}
+  <div style="border: 1px solid silver;
+                padding: 8px; margin: 8px;
+                background-color: #fffff0;">
+    <p>ID - {{ f.id }}<br>
+      <a href="/admin/remove/{{ f.secure_id }}?pw={{ pw }}">削除</a>
+      - <a href="/download/{{ f.secure_id }}">ダウンロード</a>
+    </p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

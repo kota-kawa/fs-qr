@@ -1,0 +1,56 @@
+{% extends "layout.html" %} {% block contents %}
+  <div class="content">
+  
+  <div id="info" >
+    <form action="/upload" method="POST"
+     enctype="multipart/form-data"
+     class="pure-form pure-form-stacked">
+      <fieldset>
+      <legend>最初にファイルを選んでください。</legend>
+      <div class="fblock">
+        <label for="upfile">ファイル選択(10MBまで)</label>
+      
+        <input type="file" name="upfile" id="upfile" multiple="">
+      </div>
+
+      
+
+
+      <legend>下記の必要項目を記述してください。</legend>
+      <div class="fblock">
+        <label for="name">ID</label>
+        <input type="text" minlength="5" maxlength="10" name="name" id="name"
+               placeholder="IDを入力" required>
+       
+        
+        
+      </div>
+
+	  <input class="btn btn-success" type="submit" 　 value="アップロード" >
+
+      </fieldset>
+    </form>
+  </div>
+
+
+
+
+<div class="af-box">
+    <div class="af-textbox">
+    <div class="af-title">
+       10MBまでのファイルをIDを設定することで、他の人と共有することができます。<br>
+    他の人がアップロードしたファイルをダウンロードしたいときは、上の方にある検索マークを押して、IDとパスワードを入力してください。<br>
+    (1部アップロードできない種類のファイルもあります。)
+ 
+    </div>
+ 
+    </div>
+    </div>
+
+
+
+
+
+</div>
+{% endblock %}
+

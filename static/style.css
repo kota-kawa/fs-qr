@@ -1,0 +1,121 @@
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 768px;
+}
+h1 {
+  background-color:#f4faff;
+  color: white;
+  padding: 10px; margin:0;
+}
+h2 {
+  background-color:#0b850b;
+  color: white;
+  padding: 10px; margin:0;
+}
+#info {
+  margin: 16px; padding: 8px;
+}
+select {
+    width:13em;
+}
+.fblock {
+  padding: 0em 0em 1em 2em;
+}
+.box {
+  border:1px solid silver;
+  padding: 8px; margin: 8px;
+}
+.box-noborder {
+  padding: 8px; margin: 8px;
+}
+p{
+line-height: 1;
+}
+th { text-align: right; }
+
+
+
+
+
+
+.hold {
+  border-top: 1px solid rgb(209, 209, 209);
+  border-bottom: 1px solid rgb(209, 209, 209);
+  clear: both;
+  display: block;
+  margin: 48px 0;
+  padding: 12px 0;
+}
+
+.Paper {
+  display: table-cell;
+  font-weight: bold;
+  height: 100%;
+  padding-left: 16px;
+  vertical-align: middle;
+}
+
+.Label {
+  font-size: .8rem;
+  font-family: "headline-semi", "Helvetica", "Arial", sans-serif;
+  font-weight: 600;
+  line-height: 1;
+}
+
+
+
+
+.af-box {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #dedede;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  margin: 1.6rem 0;
+
+  border-radius: 10px;
+}
+
+
+.af-box a {
+  line-height: 1.9em;
+  text-decoration: none;
+  color: #ffffff;
+  display: grid;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 0) {
+  .af-box a {
+
+    grid-template-columns: 140px fit-content(100%);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .af-box a {
+
+    grid-template-columns: 160px fit-content(100%);
+  }
+}
+
+.af-box a:hover {
+  text-decoration: none;
+}
+
+.af-textbox {
+  position: relative;
+  grid-column: 2;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+.af-title {
+  font-weight: 700;
+  max-height: 30em;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+

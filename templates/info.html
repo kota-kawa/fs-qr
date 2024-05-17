@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block contents %}
+<div class="content">
+  <h2>
+     
+         <!-- タイトル -->
+      {% if mode == 'upload' %}
+        アップロード完了
+      {% else %}
+        ダウンロードできます
+      {% endif %}
+      
+  </h2>
+
+  
+   
+
+    {% if mode == 'upload' %}
+
+
+
+    <div align="center" class="box-noborder">
+      <p>ダウンロード先の情報:</p>
+      <table class="pure-table pure-table-bordered">
+        
+     <tr>
+        <th>ID</th>
+        <td>{{ id }}</td>
+      </tr>
+
+      <tr>
+        <th>パスワード</th>
+        <td>{{ password }}</td>
+      </tr>
+      
+      <tr>
+        <th>ファイル名</th>
+        <td>{{ secure_id }}.zip</td>
+      </tr>
+      
+     
+      </table>
+
+ <div align="center">
+      <a>
+        <img src="/static/qrcode/qrcode-{{ secure_id }}.jpg" width="350" height="350">
+        </a>
+</div>
+
+    </div>
+
+    
+{% else %}
+<div  align="center" class="box-noborder">
+
+ <table class="pure-table pure-table-bordered">
+      <tr>
+        <th>ID</th>
+        <td>{{ id }}</td>
+      </tr>
+      
+      <tr>
+        <th>ファイル名</th>
+        <td>{{ secure_id }}.zip</td>
+      </tr>
+     
+
+    </table>
+<p>　</p>
+
+                <p><form action="{{ url }}" method="POST" class="pure-form"></p>
+                 
+                  
+		<input class="btn btn-success" type="submit" 　 value="ダウンロード" >
+                </form>
+                </div>
+
+
+  {% endif %}
+
+
+  <p><a href="/">→他のファイルをアップロード</a></p>
+</div>
+{% endblock %}

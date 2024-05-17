@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block contents %}
+<div class="content" align="center">
+
+
+  <form action="/try_login"   method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked">
+  <fieldset>
+          <label for="name">ID</label>
+          <input type="text" minlength="5" maxlength="10"  name="name" id="name" placeholder="IDを入力" required />
+          
+          
+          <label for="pw">パスワード</label>
+	
+
+<input type="password" minlength="5" maxlength="10" name="pw" id="pw" placeholder="パスワードを入力" required />
+
+  <input class="btn btn-success" type="submit" 　 value="検索" >
+    
+  
+</fieldset>
+</form>
+
+</div>
+{% endblock %}   

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{staticfile('pure-min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
+  <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+  <link rel="icon" href="{{staticfile('favicon.ico')}}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
+  <title>FS!QR 簡単操作でファイルを共有</title>
+
+
+</head>
+
+<header>
+
+  <div class="container text-center">
+    <h1><a href="/" target="_self"><img class="mw-100" src="{{staticfile('logo.png')}}" alt="FS ! QR">
+      </a>
+    </h1>
+  </div>
+
+</header>
+
+<body>
+
+  <div style="text-align:center;">
+    <a href="/kensaku">
+      <img src="{{staticfile('kensaku.png')}}" text-align:right; width="60" height="60" alt="" />
+    </a>
+  </div>
+
+  <div id="layout" class="page">
+
+    <div id="main">
+
+      <div class="contents">
+        {% block contents %}
+        <!-- ここにメインコンテンツ -->
+        {% endblock %}
+      </div>
+      <!-- end of .contents -->
+    </div>
+
+  </div>
+
+
+
+  <footer class="py-4 bg-dark text-light">
+    <div class="container text-center">
+      <!-- ナビゲーション -->
+      <ul class="nav justify-content-center mb-3">
+        <li class="nav-item">
+          <a class="nav-link" href="/">ホーム</a>
+        </li>
+
+      </ul>
+      <!-- /ナビゲーション -->
+      <p>
+        <small>Copyright &copy;2021 FS!QR, All Rights Reserved.</small>
+      </p>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
