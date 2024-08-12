@@ -1,8 +1,22 @@
+import time
 import os
 from PIL import Image
+import qrcode
+
 # MySQLdbのインポート
 import MySQLdb
 import os
+import uuid
+from dotenv import load_dotenv
+
+#.envファイルの読み込み
+load_dotenv()
+
+# 環境変数の値を取得
+host_key = os.getenv("SQL_HOST")
+user_key = os.getenv("SQL_USER")
+pw_key = os.getenv("SQL_PW")
+db_key = os.getenv("SQL_DB")
 
 BASE_DIR = os.path.dirname(__file__)
 QR = BASE_DIR+'/static/qrcode'
@@ -10,10 +24,10 @@ STATIC = BASE_DIR+'/static/upload'
 
 # データベースへの接続とカーソルの生成
 connection = MySQLdb.connect(
-    host='*****',
-    user='*****',
-    passwd='*****',
-    db='*****',
+    host=host_key,
+    user=user_key,
+    passwd=pw_key,
+    db=db_key,
     # テーブル内部で日本語を扱うために追加
     charset='utf8'
 )
@@ -84,7 +98,10 @@ def get_data(secure_id):
         return result
 
 
-# 全てのデータを取得する 
+
+# 全てのデータを取得する --- (*9)
+
+
 def get_all():
     cursor.execute(
         " SELECT * FROM fsqr ORDER BY suji DESC")
@@ -93,7 +110,9 @@ def get_all():
     return result
 
 
-# アップロードされたファイルとメタ情報の削除 
+# アップロードされたファイルとメタ情報の削除 --- (*10)
+
+
 def remove_data(secure_id):
     # ファイルを削除 --- (*11)
     path = STATIC + '/' + secure_id+'.zip'
