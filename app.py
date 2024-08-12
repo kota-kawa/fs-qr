@@ -11,9 +11,7 @@ from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール --- (*1)
 #ファイルを削除
 import shutil
-
 from apscheduler.schedulers.background import BackgroundScheduler
-
 from dotenv import load_dotenv
 
 #.envファイルの読み込み
@@ -22,16 +20,12 @@ load_dotenv()
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
 
-
 app = Flask(__name__)
-#MASTER_PW = 'alibaba-intel'  # 管理用パスワード --- (*2)
 MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)
 QR = BASE_DIR+'/static/qrcode'
 STATIC = BASE_DIR+'/static/upload'
-
-
 SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
 @app.route('/get_data', methods=['GET'])
@@ -282,5 +276,4 @@ app.jinja_env.filters['datetime'] = filter_datetime
 
 if __name__ == '__main__':
     app.run(debug=True)
-    #socketio.run(app, debug=True)
 
