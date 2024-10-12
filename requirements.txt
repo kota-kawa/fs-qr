@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+qrcode
+uuid
+apscheduler
+mysqlclient
+Pillow

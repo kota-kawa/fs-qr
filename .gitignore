@@ -5,7 +5,6 @@
 *.sock
 *.exe
 *.dll
-*.txt
 *.json
 *.Identifier
 # ログファイルを無視
@@ -17,9 +16,7 @@
 *.png
 *.zip
 *.pptx
-
-chat_bot.html
-a.html
+gitoken.txt
 # OSやIDEの一時ファイルを無視
 .DS_Store
 Thumbs.db
@@ -27,6 +24,8 @@ Thumbs.db
 
 static/qrcode
 static/upload
+static/data
+/db_init
 # ビルドディレクトリを無視
 /build/
 __pycache__/
