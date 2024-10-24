@@ -16,6 +16,8 @@
 *.png
 *.zip
 *.pptx
+*ssh*
+
 gitoken.txt
 # OSやIDEの一時ファイルを無視
 .DS_Store

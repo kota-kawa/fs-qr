@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block contents %}
+<div class="content">
+    <!-- Form Area -->
+    <div id="info">
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked" id="uploadForm">
+            <fieldset>
+                <legend>最初にファイルを選んでください。</legend>
+                <div class="fblock">
+                    <label for="upfile">ファイル選択(10MBまで)</label>
+                    <input type="file" name="upfile" id="upfile" multiple="">
+                </div>
+
+                <legend>下記の必要項目を記述してください。</legend>
+                <div class="fblock">
+                    <label for="name">ID</label>
+                    <input type="text" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
+                </div>
+
+                <input class="btn btn-success" type="submit" value="アップロード">
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- Info Box -->
+    <div class="af-box">
+        <div class="af-textbox">
+            <div class="af-title">
+                10MBまでのファイルをIDを設定することで、他の人と共有することができます。<br>
+                他の人がアップロードしたファイルをダウンロードしたいときは、上の方にある検索マークを押して、IDとパスワードを入力してください。<br>
+                (1部アップロードできない種類のファイルもあります。)
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Spinner Container (Hidden initially) -->
+<div id="spinner-container" class="spinner-container" style="display:none;">
+    <div class="spinner">
+        <div class="cube">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for Spinner -->
+<style>
+  /* Spinner Styles (same as the provided spinner) */
+  .spinner-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+  }
+
+  .spinner {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      perspective: 800px;
+  }
+
+  .cube {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      animation: rotateCube 2s infinite ease-in-out;
+  }
+
+  .cube-face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      box-sizing: border-box;
+  }
+
+  /* Colors for each face */
+  .front  { transform: rotateY(0deg) translateZ(50px); background-color: #ff7e5f; }
+  .back   { transform: rotateY(180deg) translateZ(50px); background-color: #feb47b; }
+  .right  { transform: rotateY(90deg) translateZ(50px); background-color: #6a82fb; }
+  .left   { transform: rotateY(-90deg) translateZ(50px); background-color: #fc5c7d; }
+  .top    { transform: rotateX(90deg) translateZ(50px); background-color: #66a6ff; }
+  .bottom { transform: rotateX(-90deg) translateZ(50px); background-color: #f77062; }
+
+  @keyframes rotateCube {
+      0%   { transform: rotateX(0deg) rotateY(0deg); }
+      25%  { transform: rotateX(90deg) rotateY(0deg); }
+      50%  { transform: rotateX(90deg) rotateY(90deg); }
+      75%  { transform: rotateX(180deg) rotateY(90deg); }
+      100% { transform: rotateX(180deg) rotateY(180deg); }
+  }
+</style>
+
+
+<!-- JavaScript for Spinner Control -->
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        // Show the spinner
+        document.getElementById('spinner-container').style.display = 'flex';
+    });
+</script>
+{% endblock %}

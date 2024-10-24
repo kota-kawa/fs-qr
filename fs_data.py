@@ -90,9 +90,9 @@ def get_data(secure_id):
 
     # pythonで使えるデータを取得
     for s in result:
-        secure = s['secure_id']
+        secure_id = s['secure_id']
 
-    if secure == pas:
+    if secure_id == pas:
         return False
     else:
         return result

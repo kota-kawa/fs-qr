@@ -28,77 +28,6 @@ QR = BASE_DIR+'/static/qrcode'
 STATIC = BASE_DIR+'/static/upload'
 SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
-@app.route('/get_data', methods=['GET'])
-def get_data():
-     # サーバーに表示するデータ（テストデータ）
-    data = {"value": 17}  # データを辞書形式で定義
-    return jsonify(data)  # jsonify関数でデータをJSON形式に変換して返す
-
-
-@app.route('/kawagoe')
-def chat_bot():
-    return render_template('chat_bot.html')
-
-@app.route('/on', methods=['POST'])
-def send_data_a():
-    if 'send_button' in request.form:
-        data = "Send"
-        with open('data/data.json', 'r') as file:
-            existing_data = json.load(file)
-        if data in existing_data:
-            return "pass"
-        else:
-            existing_data += data
-            with open('data/data.json', 'w', encoding='utf-8') as file:
-                json.dump(existing_data, file)
-            return "ON"
-
-@app.route('/off', methods=['POST'])
-def send_data_b():
-    if 'send_button' in request.form:
-        off_data = "OFF"
-        with open('data/data.json', 'r') as file:
-            existing_data = json.load(file)
-        if off_data in existing_data:
-            return "pass"
-        else:
-            existing_data += off_data
-            with open('data/data.json', 'w', encoding='utf-8') as file:
-                json.dump(existing_data, file)
-            return "OFF"
-
-@app.route('/check_on_off', methods=['POST'])
-def send_data_c():
-    with open('data/data.json', 'r') as file:
-        onoff_data = json.load(file)
-    # 確認したい文字列
-    target_string = "Send"
-    off_string = "OFF"
-    # 文字列が存在するか確認し、存在する場合は削除
-    if target_string in onoff_data:
-        modified_string = onoff_data.replace(target_string, "")
-        with open('data/data.json', 'w', encoding='utf-8') as file:
-            json.dump(modified_string, file)
-        return "ON"
-    elif off_string in onoff_data:
-        modified_string = onoff_data.replace(off_string, "")
-        with open('data/data.json', 'w', encoding='utf-8') as file:
-            json.dump(modified_string, file)
-        return "OFF"
-    return  "Nothing"
-
-
-
-@app.route('/endpoint', methods=['POST'])
-def receive_data():
-    data = request.get_json()  # リクエストからJSONデータを取得
-    # データを処理するコードを追加
-    print(data)
-    return jsonify({'message': 'I received data.'})
-
-
-
-
 @app.route('/')
 def index():
     #fs_data.manage_time()
@@ -106,52 +35,30 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/upload', methods=['POST'])
-def upload():
-    # アップロードしたファイルのオブジェクト --- (*4)
-    uid = str(uuid.uuid4())[:10]
-    id = request.form.get('name', '名無し')
+@app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
+def upload():  # upload関数を定義
+    uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
+    id = request.form.get('name', '名無し')  # フォームから 'name' フィールドを取得し、なければ '名無し' を使う
+    password = str(random.randrange(10**5, 10**6))  # 6桁のランダムな数字を文字列として生成し、パスワードとする
 
-    password=str(random.randrange(10**5,10**6))
+    secure_id = str(id + '-' + uid)  # 'id' と 'uid' を組み合わせたセキュアIDを作成
 
-    secure_id=str(id+'-'+uid)
+    upfile = request.files.getlist('upfile', None)  # アップロードされたファイルリストを取得
+    if upfile is None:  # ファイルがアップロードされていなければ
+        return msg('アップロード失敗')  # エラーメッセージを返す
 
-    im = qrcode.make('https://fs-qr.net/' + 'download/' + secure_id)
-    im.save(QR+'/qrcode-'+secure_id+'.jpg')
+    for file in upfile:  # アップロードされた各ファイルに対して
+        file.save(STATIC + '/' + secure_id + file.filename)  # ファイルを指定フォルダに保存
+        secure_id = (secure_id + file.filename).replace('.zip', '')
 
-    upfile = request.files.getlist('upfile', None)
-    if upfile is None:
-        return msg('アップロード失敗')
+    im = qrcode.make('https://fs-qr.net/' + 'download/' + secure_id)  # セキュアIDを含んだURLからQRコードを生成
+    im.save(QR + '/qrcode-' + secure_id + '.jpg')  # QRコード画像を保存
 
-    os.mkdir(STATIC+'/'+secure_id)
+    fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)  # ファイル情報を保存
 
-
-    
-    compFile = zipfile.ZipFile(STATIC+'/'+secure_id+'.zip', 'w', zipfile.ZIP_DEFLATED)
-
-    for file in upfile:
-        filename = secure_id+'-'+file.filename
-        file.save(STATIC+'/'+secure_id+'/'+filename)
-
-        file_path=STATIC+'/'+secure_id+'/'+filename
-        compFile.write(file_path, basename(file_path))
-
-    compFile.close()
-    
-
-    shutil.rmtree(STATIC+'/'+secure_id)
-
-
-    # アップロードしたファイル説明を取得
-    fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)
-
-
-    data = fs_data.get_data(secure_id)
-
-    # ダウンロード先の表示 --- (*7)
-    return render_template('info.html',id=id,password=password,secure_id=secure_id,
-                           data=data, mode='upload',
-                           url=request.host_url + 'download/' + secure_id)
+    return render_template('info.html', id=id, password=password, secure_id=secure_id,  # アップロード完了情報を表示するためのHTMLページをレンダリング
+                           mode='upload',
+                           url=request.host_url + 'download/' + secure_id)  # ダウンロードリンクを含む情報を表示
 
 
 @app.route('/download/<secure_id>')
@@ -179,9 +86,8 @@ def download_go(secure_id):
     path=STATIC+'/'+secure_id+'.zip'
 
     # ダウンロードできるようにファイルを送信 --- (*14)
-    return send_file(path,
-                     as_attachment=True,
-                     attachment_filename=secure_id+'.zip')
+    return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
+
 
 
 @app.route('/admin/list')
@@ -234,7 +140,7 @@ def kekka():
     secure_id = fs_data.try_login(id,password)
 
     if not secure_id:
-        return msg('パラメータが不正です')
+        return msg('IDかパスワードが間違っています')
 
     
     return redirect('/download/'+secure_id)
@@ -271,9 +177,12 @@ def filter_datetime(tm):
         time.localtime(tm))
 
 
+
 # フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
+
+
 
