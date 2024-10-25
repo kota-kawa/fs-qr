@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block contents %}
+<div class="content">
+  <h2>
+
+    <!-- タイトル -->
+    {% if mode == 'upload' %}
+    アップロード完了
+    {% else %}
+    ダウンロードできます
+    {% endif %}
+
+  </h2>
+
+
+
+
+  {% if mode == 'upload' %}
+
+
+
+  <div align="center" class="box-noborder">
+    <p>ダウンロード先の情報:</p>
+    <table class="pure-table pure-table-bordered">
+
+      <tr>
+        <th>ID</th>
+        <td>{{ id }}</td>
+      </tr>
+
+      <tr>
+        <th>パスワード</th>
+        <td>{{ password }}</td>
+      </tr>
+
+      <tr>
+        <th>ファイル名</th>
+        <td>{{ secure_id }}.zip</td>
+      </tr>
+
+
+    </table>
+
+    <div align="center">
+      <a>
+        <img src="/static/qrcode/qrcode-{{ secure_id }}.jpg" width="350" height="350">
+      </a>
+    </div>
+
+  </div>
+
+
+  {% else %}
+  <div align="center" class="box-noborder">
+
+    <table class="pure-table pure-table-bordered">
+      <tr>
+        <th>ID</th>
+        <td>{{ id }}</td>
+      </tr>
+
+      <tr>
+        <th>ファイル名</th>
+        <td>{{ secure_id }}.zip</td>
+      </tr>
+
+
+    </table>
+    <p>　</p>
+
+    <p>
+
+
+    <form id="downloadForm" action="{{ url }}" method="POST" class="pure-form">
+      </p>
+      <input class="btn btn-success" type="submit" 　 value="ダウンロード">
+    </form>
+
+    <div id="fileContent"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script>
+      document.getElementById('downloadForm').addEventListener('submit', async function(e) {
+          e.preventDefault();  // フォームのデフォルト送信を防ぐ
+  
+          const secureId = "{{ secure_id }}";  // テンプレートエンジンから渡されたsecure_id
+          const decryptionKey = secureId.split('-')[0];  // secure_idの最初の「-」までをキーとして使用
+  
+          // ZIPファイルをサーバーから取得
+          const response = await fetch(`/download_go/${secureId}`, {
+              method: 'POST'
+          });
+          const encryptedBlob = await response.blob();  // サーバーからのZIPファイルをblobとして取得
+  
+          // ZIPファイルの復号処理
+          const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+          if (decryptedBlob) {
+              // 復号されたZIPファイルをダウンロード
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(decryptedBlob);
+              link.download = `${secureId}.zip`;  // ダウンロード名を設定
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);  // ダウンロード後リンクを削除
+          } else {
+              alert('復号に失敗しました。');
+          }
+      });
+  
+      // AES-GCMでファイルを復号
+      async function decryptFile(encryptedBuffer, key, iv) {
+          const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));  // secure_idから鍵生成
+          const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
+  
+          try {
+              const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, encryptedBuffer);
+              return decryptedBuffer;
+          } catch (error) {
+              console.error('復号エラー:', error);
+              return null;
+          }
+      }
+  
+      // ZIPファイルの復号とダウンロード処理
+      async function decryptAndDownloadZip(encryptedBlob, key) {
+          const zip = await JSZip.loadAsync(encryptedBlob);  // ZIPファイルを読み込み
+          const decryptedZip = new JSZip();
+  
+          for (const fileName in zip.files) {
+              const fileData = await zip.file(fileName).async('arraybuffer');  // 暗号化ファイルをArrayBufferで取得
+              const iv = fileData.slice(0, 12);  // 最初の12バイトはIV
+              const encryptedContent = fileData.slice(12);  // IV以降が暗号化されたデータ
+  
+              const decryptedContent = await decryptFile(encryptedContent, key, iv);  // ファイルを復号
+              if (decryptedContent) {
+                  decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);  // 復号されたファイルをZIPに追加
+              } else {
+                  return null;
+              }
+          }
+  
+          return decryptedZip.generateAsync({ type: 'blob' });  // 復号されたZIPを生成
+      }
+  </script>
+    
+
+
+  </div>
+
+
+  {% endif %}
+
+
+  <p><a href="/">→他のファイルをアップロード</a></p>
+</div>
+{% endblock %}

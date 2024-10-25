@@ -3,12 +3,18 @@
 <div class="content">
     <!-- Form Area -->
     <div id="info">
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked" id="uploadForm">
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked"
+            id="uploadForm">
             <fieldset>
                 <legend>最初にファイルを選んでください。</legend>
-                <div class="fblock">
-                    <label for="upfile">ファイル選択(10MBまで)</label>
-                    <input type="file" name="upfile" id="upfile" multiple="">
+                <!-- New Upload Area -->
+                <div class="upload-area" id="upload-area">
+                    <input type="file" name="upfile" id="fileInput" multiple="">
+
+
+                    <i class="upload-icon">📁</i>
+                    <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
+                    <ul class="file-list" id="fileList"></ul>
                 </div>
 
                 <legend>下記の必要項目を記述してください。</legend>
@@ -48,68 +54,254 @@
     </div>
 </div>
 
-<!-- Custom CSS for Spinner -->
 <style>
-  /* Spinner Styles (same as the provided spinner) */
-  .spinner-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-  }
+    .upload-area {
+        width: 400px;
+        height: 250px;
+        border: 4px dashed #8e44ad;
+        border-radius: 20px;
+        background-color: #fafafa;
+        text-align: center;
+        position: relative;
+        transition: background-color 0.3s ease;
+        /* 画面中央に配置するためのスタイル */
+        margin: 0 auto;
+        /* 水平方向に中央揃え */
+        padding: 20px;
+    }
 
-  .spinner {
-      width: 100px;
-      height: 100px;
-      position: relative;
-      perspective: 800px;
-  }
+    .upload-area.dragover {
+        background-color: #f7e1ff;
+    }
 
-  .cube {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      transform-style: preserve-3d;
-      animation: rotateCube 2s infinite ease-in-out;
-  }
+    .upload-area input[type="file"] {
+        display: none;
+    }
 
-  .cube-face {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      box-sizing: border-box;
-  }
+    .upload-icon {
+        font-size: 50px;
+        color: #8e44ad;
+        margin-top: 10px;
+    }
 
-  /* Colors for each face */
-  .front  { transform: rotateY(0deg) translateZ(50px); background-color: #ff7e5f; }
-  .back   { transform: rotateY(180deg) translateZ(50px); background-color: #feb47b; }
-  .right  { transform: rotateY(90deg) translateZ(50px); background-color: #6a82fb; }
-  .left   { transform: rotateY(-90deg) translateZ(50px); background-color: #fc5c7d; }
-  .top    { transform: rotateX(90deg) translateZ(50px); background-color: #66a6ff; }
-  .bottom { transform: rotateX(-90deg) translateZ(50px); background-color: #f77062; }
+    .upload-text {
+        font-size: 16px;
+        color: #333;
+    }
 
-  @keyframes rotateCube {
-      0%   { transform: rotateX(0deg) rotateY(0deg); }
-      25%  { transform: rotateX(90deg) rotateY(0deg); }
-      50%  { transform: rotateX(90deg) rotateY(90deg); }
-      75%  { transform: rotateX(180deg) rotateY(90deg); }
-      100% { transform: rotateX(180deg) rotateY(180deg); }
-  }
+    .file-list {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        max-height: 100px;
+        overflow-y: auto;
+        list-style: none;
+        padding: 0;
+    }
+
+    .file-list li {
+        margin-bottom: 5px;
+    }
+
+    /* Spinner Styles */
+    .spinner-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .spinner {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        perspective: 800px;
+    }
+
+    .cube {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        animation: rotateCube 2s infinite ease-in-out;
+    }
+
+    .cube-face {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        box-sizing: border-box;
+    }
+
+    .front {
+        transform: rotateY(0deg) translateZ(50px);
+        background-color: #ff7e5f;
+    }
+
+    .back {
+        transform: rotateY(180deg) translateZ(50px);
+        background-color: #feb47b;
+    }
+
+    .right {
+        transform: rotateY(90deg) translateZ(50px);
+        background-color: #6a82fb;
+    }
+
+    .left {
+        transform: rotateY(-90deg) translateZ(50px);
+        background-color: #fc5c7d;
+    }
+
+    .top {
+        transform: rotateX(90deg) translateZ(50px);
+        background-color: #66a6ff;
+    }
+
+    .bottom {
+        transform: rotateX(-90deg) translateZ(50px);
+        background-color: #f77062;
+    }
+
+    @keyframes rotateCube {
+        0% {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+
+        25% {
+            transform: rotateX(90deg) rotateY(0deg);
+        }
+
+        50% {
+            transform: rotateX(90deg) rotateY(90deg);
+        }
+
+        75% {
+            transform: rotateX(180deg) rotateY(90deg);
+        }
+
+        100% {
+            transform: rotateX(180deg) rotateY(180deg);
+        }
+    }
 </style>
 
-
-<!-- JavaScript for Spinner Control -->
+<!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
-    document.getElementById('uploadForm').addEventListener('submit', function (event) {
-        // Show the spinner
-        document.getElementById('spinner-container').style.display = 'flex';
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('fileInput');
+    const fileListDisplay = document.getElementById('fileList');
+    const idInput = document.getElementById('name');
+    const uploadForm = document.getElementById('uploadForm');
+
+    // ドラッグ＆ドロップを有効にするイベント
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
     });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        console.log('Files dropped:', files);  // ドロップされたファイルを確認
+        handleFiles(files);
+    });
+
+    uploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        console.log('Files selected:', files);  // 選択されたファイルを確認
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        fileListDisplay.innerHTML = ''; // リストをクリア
+        Array.from(files).forEach(file => {
+            const li = document.createElement('li');
+            li.textContent = `ファイル名: ${file.name}`;
+            fileListDisplay.appendChild(li);
+        });
+        document.querySelector('.upload-icon').textContent = '✅';
+
+        // ファイルをfileInputにセットする
+        const dataTransfer = new DataTransfer();
+        Array.from(files).forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        fileInput.files = dataTransfer.files; // fileInputにファイルをセット
+    }
+
+
+    // AES-GCMで暗号化
+    async function encryptFile(file, key) {
+        const iv = crypto.getRandomValues(new Uint8Array(12)); // IV (Initial Vector) 12バイト
+        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key)); // IDから鍵生成
+        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+
+        const fileBuffer = await file.arrayBuffer(); // ファイルをバッファに変換
+        const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+
+        return { encryptedBuffer, iv }; // 暗号化されたバッファとIVを返す
+    }
+
+    // ファイルを暗号化してZIPファイルに保存
+    async function encryptAndZipFiles(files, key) {
+        const zip = new JSZip();
+
+        for (const file of files) {
+            const { encryptedBuffer, iv } = await encryptFile(file, key);
+            zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer])); // IVと暗号化されたデータを保存
+        }
+
+        return await zip.generateAsync({ type: 'blob' });
+    }
+
+    // フォーム送信時のイベント
+    uploadForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // デフォルトのフォーム送信を無効化
+        document.getElementById('spinner-container').style.display = 'flex'; // スピナーを表示
+
+        const files = fileInput.files;
+        const id = idInput.value.trim(); // 空白を除去してIDを取得
+
+        if (files.length > 0 && id.length > 0) {  // IDが空でないかチェック
+            try {
+                const zipBlob = await encryptAndZipFiles(files, id); // ファイルを暗号化してZIPにまとめる
+
+                // ZIPファイルをFileとしてinputに挿入
+                const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
+                const dataTransfer = new DataTransfer(); // FileListを操作するためにDataTransferを使う
+                dataTransfer.items.add(zipFile);
+                fileInput.files = dataTransfer.files; // fileInputにZIPファイルをセット
+
+                uploadForm.submit(); // フォームを送信
+            } catch (error) {
+                alert('エラーが発生しました: ' + error.message);
+            } finally {
+                document.getElementById('spinner-container').style.display = 'none'; // スピナーを非表示
+            }
+        } else {
+            alert('ファイルとIDを選択してください。');
+            console.log('Files:', files.length > 0);
+            console.log('ID:', id.length > 0);
+        }
+    });
+
 </script>
 {% endblock %}

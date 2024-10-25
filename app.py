@@ -35,6 +35,8 @@ def index():
     return render_template('index.html')
 
 
+
+
 @app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
 def upload():  # upload関数を定義
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
@@ -59,6 +61,7 @@ def upload():  # upload関数を定義
     return render_template('info.html', id=id, password=password, secure_id=secure_id,  # アップロード完了情報を表示するためのHTMLページをレンダリング
                            mode='upload',
                            url=request.host_url + 'download/' + secure_id)  # ダウンロードリンクを含む情報を表示
+
 
 
 @app.route('/download/<secure_id>')
@@ -170,13 +173,11 @@ def staticfile_cp(fname):
 
 # 日時フォーマットを簡易表示するフィルタ設定 --- (*18)
 
-
 def filter_datetime(tm):
     return time.strftime(
         '%Y/%m/%d %H:%M:%S',
         time.localtime(tm))
-
-
+ 
 
 # フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime
