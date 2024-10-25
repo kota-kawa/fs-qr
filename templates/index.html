@@ -104,7 +104,6 @@
     }
 
     /* Spinner Styles */
-    /* Spinner Styles */
     .spinner-container {
         position: fixed;
         top: 0;
@@ -189,13 +188,17 @@
         border-radius: 5px;
         overflow: hidden;
     }
-
     .progress-bar {
-        width: 0;
-        height: 100%;
-        background-color: #3498db;
-        transition: width 3s ease-in-out;
-    }
+    width: 100%;
+    height: 100%;
+    background-color: #3498db;
+    transform-origin: left; /* 左端を基準に */
+    transform: scaleX(0);   /* 初期状態ではバーが0% */
+    transition: transform 0.2s ease-in-out;
+}
+
+
+
 
     .encrypting .progress-bar {
         width: 100%;
@@ -263,30 +266,28 @@
 
     // 暗号化と進捗表示の関数
     async function encryptAndZipFilesWithProgress(files, key) {
-        const zip = new JSZip();
-        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+    const zip = new JSZip();
+    const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+    const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
 
-        const progressBar = document.querySelector('.progress-bar');
-        const totalFiles = files.length;
-        let completedFiles = 0;
+    const progressBar = document.querySelector('.progress-bar');
 
-        const encryptionPromises = Array.from(files).map(async (file) => {
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const fileBuffer = await file.arrayBuffer();
-            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
-            zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
-
-            // 進捗の更新
-            completedFiles++;
-            const progressPercentage = (completedFiles / totalFiles) * 100;
-            progressBar.style.width = `${progressPercentage}%`; // プログレスバー更新
-            await new Promise(resolve => setTimeout(resolve, 50)); // 適度な遅延を追加してプログレスバーが視覚的に追従
-        });
-
-        await Promise.all(encryptionPromises);
-        return await zip.generateAsync({ type: 'blob' });
+    // 各ファイルを順次処理
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const fileBuffer = await file.arrayBuffer();
+        const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+        zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
     }
+
+    // ZIPファイルの生成と進捗バーの更新
+    return await zip.generateAsync({ type: 'blob' }, (metadata) => {
+        const progressPercentage = metadata.percent.toFixed(2);
+        progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
+    });
+}
+
 
 
 

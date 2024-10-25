@@ -30,9 +30,10 @@ SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
 @app.route('/')
 def index():
-    #fs_data.manage_time()
     # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('index.html')
+
+
 
 
 
