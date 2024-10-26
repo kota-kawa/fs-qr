@@ -14,6 +14,7 @@ import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
 
+
 #.envファイルの読み込み
 load_dotenv()
 
@@ -32,7 +33,6 @@ SAVE_FILE = BASE_DIR + '/static/data/data.json'
 def index():
     # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('index.html')
-
 
 
 

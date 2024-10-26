@@ -9,13 +9,14 @@
                 <legend>最初にファイルを選んでください。</legend>
                 <!-- New Upload Area -->
                 <div class="upload-area" id="upload-area">
-                    <input type="file" name="upfile" id="fileInput" multiple="">
-
-
                     <i class="upload-icon">📁</i>
                     <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
+                    <button type="button" onclick="fileInput.click()" class="upload-button">ファイルを選択</button>
+                    <input type="file" name="upfile" id="fileInput" multiple="">
+                    
                     <ul class="file-list" id="fileList"></ul>
                 </div>
+                
 
                 <legend>下記の必要項目を記述してください。</legend>
                 <div class="fblock">
@@ -40,7 +41,6 @@
     </div>
 </div>
 
-<!-- Spinner Container (Hidden initially) -->
 <!-- Spinner Container (Hidden initially) -->
 <div id="spinner-container" class="spinner-container" style="display:none;">
     <div class="spinner-second-container">
@@ -84,10 +84,61 @@
         margin-top: 10px;
     }
 
-    .upload-text {
-        font-size: 16px;
-        color: #333;
-    }
+    .upload-area {
+    width: 400px;
+    height: 250px;
+    border: 4px dashed #8e44ad;
+    border-radius: 20px;
+    background-color: #fafafa;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-area {
+    width: 400px;
+    height: 250px;
+    border: 4px dashed #8e44ad;
+    border-radius: 20px;
+    background-color: #fafafa;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px; /* テキストとボタンの間に少しのスペースを追加 */
+}
+
+.upload-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #8e44ad;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+    background-color: #732d91;
+}
+
+
+
 
     .file-list {
         margin-top: 10px;
@@ -324,7 +375,7 @@
                 const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
 
                 // テキストを「送信中」に変更
-            document.querySelector('.text').textContent = '送信中...';
+                document.querySelector('.text').textContent = '送信中...';
 
                 // 暗号化したZIPファイルをfileInputに設定
                 const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
