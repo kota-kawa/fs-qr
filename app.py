@@ -36,7 +36,6 @@ def index():
 
 
 
-
 @app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
 def upload():  # upload関数を定義
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成

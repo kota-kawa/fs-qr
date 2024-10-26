@@ -75,7 +75,7 @@
       <div class="spinner-second-container" id="animationContainer">
         <div class="icon lock">🔒</div>
         <div class="icon file">📄</div>
-        <div class="text">復号中...</div>
+        <div class="text" id="statusText">受信中...</div>
         <div class="progress-bar-container">
           <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -103,6 +103,7 @@
         // スピナーを表示
         spinnerContainer.style.display = 'flex';
         container.classList.add('decrypting');
+        document.getElementById('statusText').textContent = '受信中...';
 
         const secureId = "{{ secure_id }}";  // テンプレートエンジンから渡されたsecure_id
         const decryptionKey = secureId.split('-')[0];  // secure_idの最初の「-」までをキーとして使用
@@ -112,6 +113,9 @@
           method: 'POST'
         });
         const encryptedBlob = await response.blob();  // サーバーからのZIPファイルをblobとして取得
+
+        // 受信完了後、テキストを復号中に変更
+        document.getElementById('statusText').textContent = '復号中...';
 
         // ZIPファイルの復号処理（進捗バー更新機能追加）
         const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
