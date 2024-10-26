@@ -13,17 +13,13 @@
                     <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
                     <button type="button" onclick="fileInput.click()" class="upload-button">ファイルを選択</button>
                     <input type="file" name="upfile" id="fileInput" multiple="">
-                    
                     <ul class="file-list" id="fileList"></ul>
                 </div>
-                
-
                 <legend>下記の必要項目を記述してください。</legend>
                 <div class="fblock">
                     <label for="name">ID</label>
                     <input type="text" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
                 </div>
-
                 <input class="btn btn-success" type="submit" value="アップロード">
             </fieldset>
         </form>
@@ -85,57 +81,58 @@
     }
 
     .upload-area {
-    width: 400px;
-    height: 250px;
-    border: 4px dashed #8e44ad;
-    border-radius: 20px;
-    background-color: #fafafa;
-    text-align: center;
-    position: relative;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+        width: 400px;
+        height: 250px;
+        border: 4px dashed #8e44ad;
+        border-radius: 20px;
+        background-color: #fafafa;
+        text-align: center;
+        position: relative;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-.upload-area {
-    width: 400px;
-    height: 250px;
-    border: 4px dashed #8e44ad;
-    border-radius: 20px;
-    background-color: #fafafa;
-    text-align: center;
-    position: relative;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    .upload-area {
+        width: 400px;
+        height: 250px;
+        border: 4px dashed #8e44ad;
+        border-radius: 20px;
+        background-color: #fafafa;
+        text-align: center;
+        position: relative;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-.upload-text {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 8px; /* テキストとボタンの間に少しのスペースを追加 */
-}
+    .upload-text {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 8px;
+        /* テキストとボタンの間に少しのスペースを追加 */
+    }
 
-.upload-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #8e44ad;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    .upload-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #8e44ad;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-.upload-button:hover {
-    background-color: #732d91;
-}
+    .upload-button:hover {
+        background-color: #732d91;
+    }
 
 
 
@@ -345,8 +342,6 @@
 
 
 
-
-
     // 1秒ごとに表示を切り替えるアニメーション
     let iconSwitchInterval;
 
@@ -366,10 +361,8 @@
         event.preventDefault(); // デフォルトのフォーム送信を一時的に無効化
         document.getElementById('spinner-container').style.display = 'flex'; // スピナー表示
         startIconSwitching(); // アイコン切り替え開始
-
         const files = fileInput.files;
         const id = idInput.value.trim(); // 空白を除去してIDを取得
-
         if (files.length > 0 && id.length > 0) { // IDが空でないかチェック
             try {
                 const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
@@ -395,8 +388,5 @@
             alert('ファイルとIDを選択してください。');
         }
     });
-
-
-
 </script>
 {% endblock %}

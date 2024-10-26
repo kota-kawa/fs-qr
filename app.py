@@ -5,15 +5,12 @@ import time
 import qrcode
 import uuid
 import random
-import json
-import zipfile
 from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール --- (*1)
 #ファイルを削除
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-
 
 #.envファイルの読み込み
 load_dotenv()

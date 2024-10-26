@@ -94,12 +94,8 @@
       }, 1000); // 1秒ごとにトグル
 
 
-
-
-
       document.getElementById('downloadForm').addEventListener('submit', async function (e) {
         e.preventDefault();  // フォームのデフォルト送信を防ぐ
-
         // スピナーを表示
         spinnerContainer.style.display = 'flex';
         container.classList.add('decrypting');
