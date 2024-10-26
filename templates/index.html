@@ -188,14 +188,17 @@
         border-radius: 5px;
         overflow: hidden;
     }
+
     .progress-bar {
-    width: 100%;
-    height: 100%;
-    background-color: #3498db;
-    transform-origin: left; /* 左端を基準に */
-    transform: scaleX(0);   /* 初期状態ではバーが0% */
-    transition: transform 0.2s ease-in-out;
-}
+        width: 100%;
+        height: 100%;
+        background-color: #3498db;
+        transform-origin: left;
+        /* 左端を基準に */
+        transform: scaleX(0);
+        /* 初期状態ではバーが0% */
+        transition: transform 0.2s ease-in-out;
+    }
 
 
 
@@ -266,27 +269,27 @@
 
     // 暗号化と進捗表示の関数
     async function encryptAndZipFilesWithProgress(files, key) {
-    const zip = new JSZip();
-    const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-    const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+        const zip = new JSZip();
+        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
 
-    const progressBar = document.querySelector('.progress-bar');
+        const progressBar = document.querySelector('.progress-bar');
 
-    // 各ファイルを順次処理
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const iv = crypto.getRandomValues(new Uint8Array(12));
-        const fileBuffer = await file.arrayBuffer();
-        const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
-        zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
+        // 各ファイルを順次処理
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const fileBuffer = await file.arrayBuffer();
+            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+            zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
+        }
+
+        // ZIPファイルの生成と進捗バーの更新
+        return await zip.generateAsync({ type: 'blob' }, (metadata) => {
+            const progressPercentage = metadata.percent.toFixed(2);
+            progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
+        });
     }
-
-    // ZIPファイルの生成と進捗バーの更新
-    return await zip.generateAsync({ type: 'blob' }, (metadata) => {
-        const progressPercentage = metadata.percent.toFixed(2);
-        progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
-    });
-}
 
 
 
@@ -294,50 +297,53 @@
 
 
     // 1秒ごとに表示を切り替えるアニメーション
-let iconSwitchInterval;
+    let iconSwitchInterval;
 
-function startIconSwitching() {
-    const spinnerContainer = document.querySelector('.spinner-second-container');
-    iconSwitchInterval = setInterval(() => {
-        spinnerContainer.classList.toggle('encrypting');
-    }, 1000); // 1秒ごとに切り替え
-}
-
-function stopIconSwitching() {
-    clearInterval(iconSwitchInterval);
-}
-
-// フォーム送信時のイベント修正
-uploadForm.addEventListener('submit', async function (event) {
-    event.preventDefault(); // デフォルトのフォーム送信を一時的に無効化
-    document.getElementById('spinner-container').style.display = 'flex'; // スピナー表示
-    startIconSwitching(); // アイコン切り替え開始
-
-    const files = fileInput.files;
-    const id = idInput.value.trim(); // 空白を除去してIDを取得
-
-    if (files.length > 0 && id.length > 0) { // IDが空でないかチェック
-        try {
-            const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
-
-            // 暗号化したZIPファイルをfileInputに設定
-            const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(zipFile);
-            fileInput.files = dataTransfer.files; // fileInputにZIPファイルをセット
-
-            uploadForm.submit(); // 暗号化完了後に標準送信
-        } catch (error) {
-            alert('エラーが発生しました: ' + error.message);
-        } finally {
-            document.getElementById('spinner-container').style.display = 'none'; // スピナーを非表示
-            document.querySelector('.progress-bar').style.width = '0%'; // プログレスバーをリセット
-            stopIconSwitching(); // アイコン切り替えを停止
-        }
-    } else {
-        alert('ファイルとIDを選択してください。');
+    function startIconSwitching() {
+        const spinnerContainer = document.querySelector('.spinner-second-container');
+        iconSwitchInterval = setInterval(() => {
+            spinnerContainer.classList.toggle('encrypting');
+        }, 1000); // 1秒ごとに切り替え
     }
-});
+
+    function stopIconSwitching() {
+        clearInterval(iconSwitchInterval);
+    }
+
+    // フォーム送信時のイベント修正
+    uploadForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // デフォルトのフォーム送信を一時的に無効化
+        document.getElementById('spinner-container').style.display = 'flex'; // スピナー表示
+        startIconSwitching(); // アイコン切り替え開始
+
+        const files = fileInput.files;
+        const id = idInput.value.trim(); // 空白を除去してIDを取得
+
+        if (files.length > 0 && id.length > 0) { // IDが空でないかチェック
+            try {
+                const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
+
+                // テキストを「送信中」に変更
+            document.querySelector('.text').textContent = '送信中...';
+
+                // 暗号化したZIPファイルをfileInputに設定
+                const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(zipFile);
+                fileInput.files = dataTransfer.files; // fileInputにZIPファイルをセット
+
+                uploadForm.submit(); // 暗号化完了後に標準送信
+            } catch (error) {
+                alert('エラーが発生しました: ' + error.message);
+            } finally {
+                //document.getElementById('spinner-container').style.display = 'none'; // スピナーを非表示
+                document.querySelector('.progress-bar').style.width = '0%'; // プログレスバーをリセット
+                stopIconSwitching(); // アイコン切り替えを停止
+            }
+        } else {
+            alert('ファイルとIDを選択してください。');
+        }
+    });
 
 
 
