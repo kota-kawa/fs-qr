@@ -15,6 +15,10 @@ from dotenv import load_dotenv
 #.envファイルの読み込み
 load_dotenv()
 
+
+
+
+
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
 
@@ -25,6 +29,10 @@ BASE_DIR = os.path.dirname(__file__)
 QR = BASE_DIR+'/static/qrcode'
 STATIC = BASE_DIR+'/static/upload'
 SAVE_FILE = BASE_DIR + '/static/data/data.json'
+
+
+
+
 
 @app.route('/')
 def index():
@@ -113,6 +121,12 @@ def admin_remove(secure_id):
     fs_data.remove_data(secure_id)
     return redirect('/remove-succes')
 
+
+
+
+
+
+
 @app.route('/all-remove', methods=['POST'])
 def all():
     fs_data.all_remove()
@@ -174,6 +188,11 @@ def filter_datetime(tm):
         '%Y/%m/%d %H:%M:%S',
         time.localtime(tm))
  
+
+
+
+
+
 
 # フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime
