@@ -3,16 +3,7 @@
   margin-right: auto;
   max-width: 768px;
 }
-h1 {
-  background-color:#f4faff;
-  color: white;
-  padding: 10px; margin:0;
-}
-h2 {
-  background-color:#0b850b;
-  color: white;
-  padding: 10px; margin:0;
-}
+
 #info {
   margin: 16px; padding: 8px;
 }
@@ -20,16 +11,8 @@ select {
     width:13em;
 }
 
-.box {
-  border:1px solid silver;
-  padding: 8px; margin: 8px;
-}
-.box-noborder {
-  padding: 8px; margin: 8px;
-}
-p{
-line-height: 1;
-}
+
+
 th { text-align: right; }
 
 

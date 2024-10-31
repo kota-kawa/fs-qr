@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block contents %}
 <div class="content">
-  <h2>
+  <h2 class="text-center bg-success text-white py-3 rounded shadow-sm">
 
     <!-- タイトル -->
     {% if mode == 'upload' %}
@@ -19,272 +19,280 @@
 
 
 
-  <div class="container text-center box-noborder" style="max-width: 500px;">
+  <div class="container text-center " style="max-width: 500px;">
     <p class="fw-bold mb-4">ダウンロード先の情報:</p>
     <table class="table table-bordered table-striped text-start">
-        <tr>
-            <th scope="row" class="text-center">ID</th>
-            <td>{{ id }}</td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">パスワード</th>
-            <td>{{ password }}</td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">ファイル名</th>
-            <td>{{ secure_id }}.zip</td>
-        </tr>
+      <tr>
+        <th scope="row" class="text-center">ID</th>
+        <td>{{ id }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-center">パスワード</th>
+        <td>{{ password }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-center">ファイル名</th>
+        <td>{{ secure_id }}.zip</td>
+      </tr>
     </table>
 
     <div class="text-center mt-4">
-        <a>
-            <img src="/static/qrcode/qrcode-{{ secure_id }}.jpg" class="img-fluid" style="max-width: 200px; height: auto;">
-        </a>
+      <a>
+        <img src="/static/qrcode/qrcode-{{ secure_id }}.jpg" class="img-fluid" style="max-width: 200px; height: auto;">
+      </a>
     </div>
-</div>
+  </div>
 
-
+  <p class="text-center my-3">
+    <a href="/" class="btn btn-outline-success">→他のファイルをアップロード</a>
+  </p>
 
 
   {% else %}
-  <div class="container box-noborder" style="max-width: 400px;">
+  <div class="container" style="max-width: 400px;">
     <table class="table table-bordered table-striped">
-        <tr>
-            <th scope="row" class="text-center">ID</th>
-            <td class="text-start">{{ id }}</td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">ファイル名</th>
-            <td class="text-start">{{ secure_id }}.zip</td>
-        </tr>
+      <tr>
+        <th scope="row" class="text-center">ID</th>
+        <td class="text-start">{{ id }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-center">ファイル名</th>
+        <td class="text-start">{{ secure_id }}.zip</td>
+      </tr>
     </table>
 
     <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4">
-        <button type="submit" class="btn btn-success text-start">ダウンロード</button>
+      <button type="submit" class="btn btn-success text-start">ダウンロード</button>
     </form>
-</div>
-
-
-
-    <div id="fileContent"></div>
-
-    <!-- スピナーをここに挿入 -->
-    <div class="spinner-container" id="spinnerContainer" style="display: none;">
-      <div class="spinner-second-container" id="animationContainer">
-        <div class="icon lock">🔒</div>
-        <div class="icon file">📄</div>
-        <div class="text" id="statusText">受信中...</div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-    <script>
-      const container = document.getElementById('animationContainer');
-      const spinnerContainer = document.getElementById('spinnerContainer');
-      const progressBar = document.getElementById('progressBar');
-
-      // アニメーションを1秒ごとにトグルさせる
-      setInterval(() => {
-        container.classList.toggle('decrypting');
-      }, 1000); // 1秒ごとにトグル
-
-
-      document.getElementById('downloadForm').addEventListener('submit', async function (e) {
-        e.preventDefault();  // フォームのデフォルト送信を防ぐ
-        // スピナーを表示
-        spinnerContainer.style.display = 'flex';
-        container.classList.add('decrypting');
-        document.getElementById('statusText').textContent = '受信中...';
-
-        const secureId = "{{ secure_id }}";  // テンプレートエンジンから渡されたsecure_id
-        const decryptionKey = secureId.split('-')[0];  // secure_idの最初の「-」までをキーとして使用
-
-        // ZIPファイルをサーバーから取得
-        const response = await fetch(`/download_go/${secureId}`, {
-          method: 'POST'
-        });
-        const encryptedBlob = await response.blob();  // サーバーからのZIPファイルをblobとして取得
-
-        // 受信完了後、テキストを復号中に変更
-        document.getElementById('statusText').textContent = '復号中...';
-
-        // ZIPファイルの復号処理（進捗バー更新機能追加）
-        const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
-        if (decryptedBlob) {
-          // 復号されたZIPファイルをダウンロード
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(decryptedBlob);
-          link.download = `${secureId}.zip`;  // ダウンロード名を設定
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);  // ダウンロード後リンクを削除
-        } else {
-          alert('復号に失敗しました。');
-        }
-
-        // スピナーを非表示に戻す
-        spinnerContainer.style.display = 'none';
-        container.classList.remove('decrypting');
-      });
-
-      // AES-GCMでファイルを復号
-      async function decryptFile(encryptedBuffer, key, iv) {
-        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));  // secure_idから鍵生成
-        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
-
-        try {
-          const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, encryptedBuffer);
-          return decryptedBuffer;
-        } catch (error) {
-          console.error('復号エラー:', error);
-          return null;
-        }
-      }
-
-      // ZIPファイルの復号とダウンロード処理
-      async function decryptAndDownloadZip(encryptedBlob, key) {
-        const zip = await JSZip.loadAsync(encryptedBlob);  // ZIPファイルを読み込み
-        const decryptedZip = new JSZip();
-        const totalFiles = Object.keys(zip.files).length;  // 総ファイル数を取得
-        let processedFiles = 0;  // 処理されたファイル数をトラッキング
-
-        for (const fileName in zip.files) {
-          const fileData = await zip.file(fileName).async('arraybuffer');  // 暗号化ファイルをArrayBufferで取得
-          const iv = fileData.slice(0, 12);  // 最初の12バイトはIV
-          const encryptedContent = fileData.slice(12);  // IV以降が暗号化されたデータ
-
-          const decryptedContent = await decryptFile(encryptedContent, key, iv);  // ファイルを復号
-          if (decryptedContent) {
-            decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);  // 復号されたファイルをZIPに追加
-          } else {
-            return null;
-          }
-
-          // プログレスバーの更新
-          processedFiles += 1;
-          const progressPercentage = (processedFiles / totalFiles) * 100;
-          progressBar.style.transform = `scaleX(${1 - (progressPercentage / 100)})`;  // 右から左へ進む
-        }
-
-        return decryptedZip.generateAsync({ type: 'blob' });  // 復号されたZIPを生成
-      }
-
-
-
-
-    </script>
-
-    <style>
-      /* 画面中央にスピナーを配置するためのスタイル */
-      .spinner-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.8);
-        z-index: 9999;
-      }
-
-      .spinner-second-container {
-        position: relative;
-        width: 200px;
-        height: 200px;
-      }
-
-      .icon {
-        font-size: 150px;
-        transition: all 0.8s ease-in-out;
-      }
-
-      .lock {
-        color: #e74c3c;
-        position: absolute;
-        top: 0;
-        left: 0;
-        transform: scale(1);
-      }
-
-      .file {
-        color: #3498db;
-        position: absolute;
-        top: 0;
-        left: 0;
-        transform: scale(0);
-        opacity: 0;
-      }
-
-      .decrypting .lock {
-        transform: scale(1.5) rotate(-360deg);
-        opacity: 0;
-      }
-
-      .decrypting .file {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      .text {
-        position: absolute;
-        bottom: -70px;
-        width: 100%;
-        text-align: center;
-        font-size: 20px;
-        font-weight: bold;
-        background: linear-gradient(90deg, #e74c3c, #3498db, #f1c40f, #9b59b6);
-        background-size: 200%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: colorChange 2s linear infinite;
-      }
-
-      @keyframes colorChange {
-        0% {
-          background-position: 0%;
-        }
-
-        100% {
-          background-position: 200%;
-        }
-      }
-
-      .progress-bar-container {
-        position: absolute;
-        bottom: -30px;
-        width: 100%;
-        height: 10px;
-        background-color: #e74c3c;
-        border-radius: 5px;
-        overflow: hidden;
-      }
-
-      .progress-bar {
-        width: 100%;
-        height: 100%;
-
-        background-color: #ccc;
-        transform-origin: right;
-        /* 右端を基準に */
-        transform: scaleX(1);
-        /* 初期状態ではバーが100% */
-        transition: transform 0.2s ease-in-out;
-        /* 徐々に縮む */
-      }
-    </style>
   </div>
 
 
 
+  <div id="fileContent"></div>
 
-  {% endif %}
+  <!-- スピナーをここに挿入 -->
+  <div class="spinner-container" id="spinnerContainer" style="display: none;">
+    <div class="spinner-second-container" id="animationContainer">
+      <div class="icon lock">🔒</div>
+      <div class="icon file">📄</div>
+      <div class="text" id="statusText">受信中...</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center my-3">
+    <a href="/" class="btn btn-outline-success">→他のファイルをアップロード</a>
+  </p>
 
 
-  <p><a href="/">→他のファイルをアップロード</a></p>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script>
+    const container = document.getElementById('animationContainer');
+    const spinnerContainer = document.getElementById('spinnerContainer');
+    const progressBar = document.getElementById('progressBar');
+
+    // アニメーションを1秒ごとにトグルさせる
+    setInterval(() => {
+      container.classList.toggle('decrypting');
+    }, 1000); // 1秒ごとにトグル
+
+
+    document.getElementById('downloadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();  // フォームのデフォルト送信を防ぐ
+      // スピナーを表示
+      spinnerContainer.style.display = 'flex';
+      container.classList.add('decrypting');
+      document.getElementById('statusText').textContent = '受信中...';
+
+      const secureId = "{{ secure_id }}";  // テンプレートエンジンから渡されたsecure_id
+      const decryptionKey = secureId.split('-')[0];  // secure_idの最初の「-」までをキーとして使用
+
+      // ZIPファイルをサーバーから取得
+      const response = await fetch(`/download_go/${secureId}`, {
+        method: 'POST'
+      });
+      const encryptedBlob = await response.blob();  // サーバーからのZIPファイルをblobとして取得
+
+      // 受信完了後、テキストを復号中に変更
+      document.getElementById('statusText').textContent = '復号中...';
+
+      // ZIPファイルの復号処理（進捗バー更新機能追加）
+      const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+      if (decryptedBlob) {
+        // 復号されたZIPファイルをダウンロード
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(decryptedBlob);
+        link.download = `${secureId}.zip`;  // ダウンロード名を設定
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);  // ダウンロード後リンクを削除
+      } else {
+        alert('復号に失敗しました。');
+      }
+
+      // スピナーを非表示に戻す
+      spinnerContainer.style.display = 'none';
+      container.classList.remove('decrypting');
+    });
+
+    // AES-GCMでファイルを復号
+    async function decryptFile(encryptedBuffer, key, iv) {
+      const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));  // secure_idから鍵生成
+      const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
+
+      try {
+        const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, encryptedBuffer);
+        return decryptedBuffer;
+      } catch (error) {
+        console.error('復号エラー:', error);
+        return null;
+      }
+    }
+
+    // ZIPファイルの復号とダウンロード処理
+    async function decryptAndDownloadZip(encryptedBlob, key) {
+      const zip = await JSZip.loadAsync(encryptedBlob);  // ZIPファイルを読み込み
+      const decryptedZip = new JSZip();
+      const totalFiles = Object.keys(zip.files).length;  // 総ファイル数を取得
+      let processedFiles = 0;  // 処理されたファイル数をトラッキング
+
+      for (const fileName in zip.files) {
+        const fileData = await zip.file(fileName).async('arraybuffer');  // 暗号化ファイルをArrayBufferで取得
+        const iv = fileData.slice(0, 12);  // 最初の12バイトはIV
+        const encryptedContent = fileData.slice(12);  // IV以降が暗号化されたデータ
+
+        const decryptedContent = await decryptFile(encryptedContent, key, iv);  // ファイルを復号
+        if (decryptedContent) {
+          decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);  // 復号されたファイルをZIPに追加
+        } else {
+          return null;
+        }
+
+        // プログレスバーの更新
+        processedFiles += 1;
+        const progressPercentage = (processedFiles / totalFiles) * 100;
+        progressBar.style.transform = `scaleX(${1 - (progressPercentage / 100)})`;  // 右から左へ進む
+      }
+
+      return decryptedZip.generateAsync({ type: 'blob' });  // 復号されたZIPを生成
+    }
+
+
+
+
+  </script>
+
+  <style>
+    /* 画面中央にスピナーを配置するためのスタイル */
+    .spinner-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      z-index: 9999;
+    }
+
+    .spinner-second-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .icon {
+      font-size: 150px;
+      transition: all 0.8s ease-in-out;
+    }
+
+    .lock {
+      color: #e74c3c;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(1);
+    }
+
+    .file {
+      color: #3498db;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .decrypting .lock {
+      transform: scale(1.5) rotate(-360deg);
+      opacity: 0;
+    }
+
+    .decrypting .file {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .text {
+      position: absolute;
+      bottom: -70px;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #e74c3c, #3498db, #f1c40f, #9b59b6);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: colorChange 2s linear infinite;
+    }
+
+    @keyframes colorChange {
+      0% {
+        background-position: 0%;
+      }
+
+      100% {
+        background-position: 200%;
+      }
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      bottom: -30px;
+      width: 100%;
+      height: 10px;
+      background-color: #e74c3c;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 100%;
+
+      background-color: #ccc;
+      transform-origin: right;
+      /* 右端を基準に */
+      transform: scaleX(1);
+      /* 初期状態ではバーが100% */
+      transition: transform 0.2s ease-in-out;
+      /* 徐々に縮む */
+    }
+  </style>
+</div>
+
+
+
+
+{% endif %}
+
+
+
 </div>
 {% endblock %}

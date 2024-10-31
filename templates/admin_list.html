@@ -1,25 +1,29 @@
-{% extends "layout.html" %} {% block contents %}
-<div class="content">
-  <h2>管理ページ</h2>
+{% extends "layout.html" %} 
+{% block contents %}
+<div class="container my-4" style="max-width: 600px;">
+  <h2 class="text-center bg-success text-white py-3 rounded shadow-sm">管理ページ</h2>
 
-　<div style="text-align:center;">
-  <form action="/all-remove" method="POST"
-                  class="pure-form">
-
-		<input class="btn btn-success" type="submit" 　 value="すべて削除" >
-   </form>
-　　</div>
+  <div class="text-center my-3">
+    <form action="/all-remove" method="POST" class="d-inline">
+      <input class="btn btn-danger" type="submit" value="すべて削除">
+    </form>
+  </div>
 
   {% for f in files %}
-    <div style="border: 1px solid silver;
-                padding: 8px; margin: 8px;
-                background-color: #fffff0;">
-      <p>ID - {{ f.id }}<br>
-        <a href="/admin/remove/{{ f.secure_id }}?pw={{ pw }}">削除</a>
-        - <a href="/download/{{ f.secure_id }}">ダウンロード</a></p> 
+  <div class="card my-3 shadow-sm" style="border: 2px solid #a7d6c8;">
+      <div class="card-body p-3">
+        <p class="mb-1">
+          <strong>ID:</strong> {{ f.id }}
+        </p>
+        <div>
+          <a href="/admin/remove/{{ f.secure_id }}?pw={{ pw }}" class="btn btn-outline-danger btn-sm me-2">削除</a>
+          <a href="/download/{{ f.secure_id }}" class="btn btn-outline-primary btn-sm">ダウンロード</a>
+        </div>
+      </div>
     </div>
   {% endfor %}
-  </div>
-  {% endblock %}
+</div>
+{% endblock %}
+
 
 
