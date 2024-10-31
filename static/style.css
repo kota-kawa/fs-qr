@@ -19,9 +19,7 @@ h2 {
 select {
     width:13em;
 }
-.fblock {
-  padding: 0em 0em 1em 2em;
-}
+
 .box {
   border:1px solid silver;
   padding: 8px; margin: 8px;

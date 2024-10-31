@@ -97,6 +97,11 @@ def download_go(secure_id):
 
 
 
+
+
+
+
+
 @app.route('/admin/list')
 def admin_list():
     # マスターパスワードの確認 --- (*15)
