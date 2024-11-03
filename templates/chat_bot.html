@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dialogflow Embedded Demo</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles if needed */
+    .iframe-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+    }
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40%;
+      height: 40%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="row">
+        <!-- Column for explanation -->
+        <div class="col-md-6">
+          <!-- Explanation -->
+          <p>I couldn't connect cs.csis.work. So, I'm using my own server.<br>
+            I felt that the accuracy of this chatbot's responses was not very good.<br>
+            Rather than using an existing service, I think I can create something more convenient by using a python library and creating it myself.</p>
+        </div>
+        <!-- Column for iframe -->
+        <div class="col-md-6">
+          <!-- Responsive iframe container -->
+          <div class="iframe-container">
+            <iframe allow="microphone;" width="350" height="430" src="https://console.dialogflow.com/api-client/demo/embedded/15950355-deb8-4022-b0d2-ddeaa10316d4"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
