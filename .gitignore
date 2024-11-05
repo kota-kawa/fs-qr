@@ -16,7 +16,7 @@
 *.png
 *.zip
 *.pptx
-*ssh*
+*.txt
 
 gitoken.txt
 # OSやIDEの一時ファイルを無視

@@ -33,7 +33,6 @@ SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
 
 
-
 @app.route('/')
 def index():
     # ファイルのアップロードフォームを表示 --- (*3)
@@ -94,8 +93,6 @@ def download_go(secure_id):
 
     # ダウンロードできるようにファイルを送信 --- (*14)
     return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
-
-
 
 
 
