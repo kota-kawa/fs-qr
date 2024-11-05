@@ -1,5 +1,5 @@
 .upload-area {
-  width: 400px;
+  width: 500px;
   height: 250px;
   border: 4px dashed #8e44ad;
   border-radius: 20px;
@@ -12,6 +12,13 @@
   /* 水平方向に中央揃え */
   padding: 20px;
 }
+@media (max-width: 480px) {
+  .upload-area {
+    width: 90%; /* 画面幅に合わせて調整 */
+    height: 200px; /* 高さもスマホ用に少し小さめに */
+    padding: 15px; /* パディングも調整 */
+  }
+}
 
 .upload-area.dragover {
   background-color: #f7e1ff;
@@ -23,41 +30,11 @@
 
 .upload-icon {
   font-size: 50px;
-  color: #8e44ad;
+  /*color: #8e44ad;*/
   margin-top: 10px;
 }
 
-.upload-area {
-  width: 400px;
-  height: 250px;
-  border: 4px dashed #8e44ad;
-  border-radius: 20px;
-  background-color: #fafafa;
-  text-align: center;
-  position: relative;
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
-.upload-area {
-  width: 400px;
-  height: 250px;
-  border: 4px dashed #8e44ad;
-  border-radius: 20px;
-  background-color: #fafafa;
-  text-align: center;
-  position: relative;
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 .upload-text {
   font-size: 16px;
@@ -75,6 +52,18 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .upload-text {
+    font-size: 14px; /* スマホ用に少し小さく */
+    margin-bottom: 6px; /* スペースも調整 */
+  }
+  
+  .upload-button {
+    padding: 8px 16px; /* パディングを調整 */
+    font-size: 14px; /* ボタンの文字サイズも小さめに */
+  }
 }
 
 .upload-button:hover {

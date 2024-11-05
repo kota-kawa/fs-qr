@@ -100,8 +100,6 @@ def download_go(secure_id):
 
 
 
-
-
 @app.route('/admin/list')
 def admin_list():
     # マスターパスワードの確認 --- (*15)
@@ -127,11 +125,6 @@ def admin_remove(secure_id):
     return redirect('/remove-succes')
 
 
-
-
-
-
-
 @app.route('/all-remove', methods=['POST'])
 def all():
     fs_data.all_remove()
@@ -142,10 +135,8 @@ def all():
     return redirect('/remove-succes')
 
 
-
 @app.route('/kensaku')
 def kensaku():
-
     # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('kensaku-form.html')
 
@@ -159,7 +150,6 @@ def kekka():
 
     if not secure_id:
         return msg('IDかパスワードが間違っています')
-
     
     return redirect('/download/'+secure_id)
 
