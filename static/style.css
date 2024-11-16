@@ -106,3 +106,30 @@ th { text-align: right; }
 }
 
 
+/* 検索のデザイン */
+.search-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.search-link img {
+  width: 60px;
+  height: 60px;
+  transition: transform 0.3s ease;
+}
+
+.search-link span {
+  font-family: 'Kaisei Opti', serif;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 45px;
+  margin-left: 10px;
+  color: green;
+  text-decoration: none;
+}
+
+/* ホバー時の拡大 (画像のみ) */
+.search-link:hover img {
+  transform: scale(1.2);
+}

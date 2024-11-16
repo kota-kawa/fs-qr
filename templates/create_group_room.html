@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block contents %}
+<style>
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 上部寄りに配置 */
+    min-height: 100vh;
+    padding-top: 50px; /* 上部の余白を調整 */
+}
+.card {
+    width: 400px;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+.form-label {
+    font-weight: bold;
+}
+.form-control {
+    border-radius: 10px;
+    padding: 10px;
+}
+</style>
+
+<div class="center-wrapper">
+  <div class="card">
+      <h2 class="text-center mb-4">Create a Room</h2>
+      <form method="POST" action="/create_group_room">
+          <div class="mb-3">
+              <label for="roomID" class="form-label">Enter Room ID</label>
+              <input type="text" id="roomID" name="room_id" class="form-control" placeholder="Enter unique room ID" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Room</button>
+      </form>
+  </div>
+</div>
+{% endblock %}

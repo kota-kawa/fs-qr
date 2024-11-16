@@ -1,5 +1,4 @@
-from flask import Flask, redirect, request, jsonify
-from flask import render_template, send_file
+from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint
 import os
 import time
 import qrcode
@@ -11,13 +10,10 @@ import fs_data  # ファイルやデータを管理するモジュール --- (*1
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
+from Group.group_app import group_bp
 
 #.envファイルの読み込み
 load_dotenv()
-
-
-
-
 
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
@@ -30,8 +26,8 @@ QR = BASE_DIR+'/static/qrcode'
 STATIC = BASE_DIR+'/static/upload'
 SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
-
-
+# Blueprintを '/admin' プレフィックスで登録
+app.register_blueprint(group_bp)
 
 @app.route('/')
 def index():
@@ -73,7 +69,6 @@ def download(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
-    
     for i in data:
         id = i["id"]
     # ダウンロードページを表示 --- (*9)
@@ -93,11 +88,6 @@ def download_go(secure_id):
 
     # ダウンロードできるようにファイルを送信 --- (*14)
     return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
-
-
-
-
-
 
 
 @app.route('/admin/list')
@@ -183,11 +173,6 @@ def filter_datetime(tm):
         '%Y/%m/%d %H:%M:%S',
         time.localtime(tm))
  
-
-
-
-
-
 
 # フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime
