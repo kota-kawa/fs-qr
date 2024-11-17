@@ -37,60 +37,54 @@ def manage_time():
     secure_id=None
 
     cursor.execute(
-        "SELECT * FROM fsqr WHERE time < DATE_SUB(now(), INTERVAL 1 DAY)")
+        "SELECT * FROM room_id WHERE time < DATE_SUB(now(), INTERVAL 1 DAY)")
     result = cursor.fetchall()
 
     for s in result:
-        secure_id = s['secure_id']
+        secure_id = s['room_id']
 
     if secure_id != None:
         remove_data(secure_id)
     else:
         return 0
 
-
-def save_file(uid, id,password, secure_id):
-   
+# グループの部屋の作成
+def create_room(id,password, room_id):
     cursor.execute(
-        "INSERT INTO fsqr (time,uuid,id,password,secure_id) VALUES (NOW(),%s,%s,%s,%s)", (uid, id,password,secure_id))
-
+        "INSERT INTO room (time,id,password,room_id) VALUES (NOW(),%s,%s,%s)", (id,password,room_id))
     # 保存を実行
     connection.commit()
 
 
 # ログイン処理
-def try_login(id,password):
+def pich_room_id(id,password):
     # パスワードが検索に引っ掛からなかったときのためにNULLを入れておく
     no = None
-    secure_id=None
+    room_id=None
     cursor.execute(
-        " SELECT * FROM fsqr WHERE id = %s AND password = %s", (id,password))
+        " SELECT * FROM room WHERE id = %s AND password = %s", (id,password))
     result = cursor.fetchall()
 
     # pythonで使えるデータを取得
-    for s in result:
-        secure_id = s['secure_id']
+    for i in result:
+        room_id = i['room_id']
     
-    if secure_id != no:
-        return secure_id
+    if room_id != no:
+        return room_id
     else:
         return False
 
 
-# データベースから任意のIDのデータを取り出す --- (*7)
+# データベースから任意のIDのデータを取り出す
 def get_data(secure_id):
     cursor.execute(
-        " SELECT * FROM fsqr WHERE secure_id = %s ", (secure_id,))
+        " SELECT * FROM room WHERE room_id = %s ", (secure_id,))
     result = cursor.fetchall()
-
-    # 検索に引っ掛からなかったときのためにNULLを入れておく
-    pas = None
-
     # pythonで使えるデータを取得
-    for s in result:
-        secure_id = s['secure_id']
-
-    if secure_id == pas:
+    for i in result:
+        room_id = i['room_id']
+    # 検索に引っ掛からなかったときのためにNULLを入れておく
+    if room_id == None:
         return False
     else:
         return result
@@ -98,19 +92,15 @@ def get_data(secure_id):
 
 
 # 全てのデータを取得する --- (*9)
-
-
 def get_all():
     cursor.execute(
-        " SELECT * FROM fsqr ORDER BY suji DESC")
+        " SELECT * FROM room_id ORDER BY suji DESC")
     result = cursor.fetchall()
 
     return result
 
 
-# アップロードされたファイルとメタ情報の削除 --- (*10)
-
-
+# アップロードされたファイルとメタ情報の削除
 def remove_data(secure_id):
     # ファイルを削除 --- (*11)
     path = STATIC + '/' + secure_id+'.zip'
@@ -119,12 +109,12 @@ def remove_data(secure_id):
     os.remove(second)
     # データを削除
     cursor.execute(
-        " DELETE FROM fsqr WHERE secure_id = %s ", (secure_id,))
+        " DELETE FROM room_id WHERE room_id = %s ", (secure_id,))
     # 保存を実行
     connection.commit()
 
 def all_remove():
     # データを削除
-    cursor.execute(" DELETE FROM fsqr ")
+    cursor.execute(" DELETE FROM room_id ")
     # 保存を実行
     connection.commit()

@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "group_layout.html" %}
 
 {% block contents %}
 <style>
@@ -34,17 +34,13 @@
 
 <div class="center-wrapper">
   <div class="card">
-      <h2 class="text-center mb-4">Search Room</h2>
-      <form method="POST" action="/search_room">
+      <h2 class="text-center mb-4">Create a Room</h2>
+      <form method="POST" action="/create_group_room">
           <div class="mb-3">
-              <label for="roomID" class="form-label">Room ID</label>
-              <input type="text" id="roomID" name="room_id" class="form-control" placeholder="Enter room ID" required>
+              <label for="roomID" class="form-label">Enter Room ID</label>
+              <input type="text" id="roomID" name="id" class="form-control" placeholder="Enter unique room ID" required>
           </div>
-          <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Search Room</button>
+          <button type="submit" class="btn btn-primary">Create Room</button>
       </form>
   </div>
 </div>

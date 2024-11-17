@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "group_layout.html" %}
 
 {% block contents %}
 <style>
@@ -15,7 +15,7 @@
     border: none;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
-    background: white;
+    background: rgb(204, 240, 222);
 }
 .btn-primary {
     width: 100%;
@@ -34,13 +34,17 @@
 
 <div class="center-wrapper">
   <div class="card">
-      <h2 class="text-center mb-4">Create a Room</h2>
-      <form method="POST" action="/create_group_room">
+      <h2 class="text-center mb-4">Search Room</h2>
+      <form method="POST" action="/search_room">
           <div class="mb-3">
-              <label for="roomID" class="form-label">Enter Room ID</label>
-              <input type="text" id="roomID" name="room_id" class="form-control" placeholder="Enter unique room ID" required>
+              <label for="roomID" class="form-label">Room ID</label>
+              <input type="text" id="ID" name="id" class="form-control" placeholder="Enter room ID" required>
           </div>
-          <button type="submit" class="btn btn-primary">Create Room</button>
+          <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Search Room</button>
       </form>
   </div>
 </div>

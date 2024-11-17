@@ -26,6 +26,7 @@ Thumbs.db
 
 static/qrcode
 static/upload
+
 static/data
 /db_init
 # ビルドディレクトリを無視

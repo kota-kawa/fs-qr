@@ -1,7 +1,4 @@
-{% extends "layout.html" %}
-
-
-
+{% extends "group_layout.html" %}
 {% block contents %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
@@ -114,7 +111,32 @@
 </style>
 
 <div class="group-container">
-    <h1 class="text-center mb-4">ファイル提出システム</h1>
+    <h1 class="text-center mb-4">ファイル提出</h1>
+
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-6 col-lg-4">
+            <div class="table-responsive rounded border">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="table-success">
+                        <tr>
+                            <th colspan="2" class="text-uppercase">Room情報</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ID</strong></td>
+                            <td>{{user_id}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Password</strong></td>
+                            <td>{{password}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <div class="upload-area" id="uploadArea">
         <i class="fas fa-cloud-upload-alt"></i>
@@ -132,7 +154,7 @@
         <i class="fas fa-upload"></i> アップロード
     </button>
 
-    <h5>他のユーザーがアップロードしたファイル</h5>
+    <h5>グループメンバーがアップロードしたファイル</h5>
     <div id="otherFileList" class="other-file-list">
         <!-- 他の人のアップロードしたファイルがここに表示されます -->
     </div>
@@ -193,9 +215,9 @@
 
         // 他のユーザーのファイル表示
         function fetchAndDisplayOtherFiles() {
-            var secureId = '{{ secure_id }}'; // Jinja2で埋め込む
+            var roomId = '{{ room_id }}'; // Jinja2で埋め込む
             $.ajax({
-                url: `/check/${secureId}`,
+                url: `/check/${roomId}`,
                 type: 'GET',
                 success: function (files) {
                     if (files.error) {
@@ -211,23 +233,29 @@
 
                         var downloadBtn = $('<button><i class="fas fa-download"></i></button>');
                         downloadBtn.on('click', function () {
-                            window.location.href = '/download/' + file.name;
+                            window.location.href = `/download/${roomId}/${encodedFilename}`
                         });
 
                         var deleteBtn = $('<button><i class="fas fa-trash"></i></button>');
+
+                        const encodedFilename = encodeURIComponent(file.name);
+
                         deleteBtn.on('click', function () {
-                            $.ajax({
-                                url: '/delete/' + file.name,
-                                type: 'DELETE',
-                                success: function () {
-                                    alert('ファイルが削除されました。');
-                                    fileItem.remove();
-                                },
-                                error: function () {
-                                    alert('削除中にエラーが発生しました。');
-                                }
-                            });
+                            if (confirm('本当にこのファイルを削除しますか？')) {
+                                $.ajax({
+                                    url: `/delete/${roomId}/${encodedFilename}`,
+                                    type: 'DELETE',
+                                    success: function () {
+                                        alert('ファイルが削除されました。');
+                                        fileItem.remove();
+                                    },
+                                    error: function () {
+                                        alert('削除中にエラーが発生しました。');
+                                    }
+                                });
+                            }
                         });
+
 
                         actions.append(downloadBtn).append(deleteBtn);
                         fileItem.append(fileName).append(actions);
@@ -253,10 +281,6 @@
 
 
 
-
-
-
-
         // ファイル処理
         function handleFiles(files) {
             for (var i = 0; i < files.length; i++) {
@@ -277,7 +301,7 @@
             }
         }
 
-       
+
 
         uploadBtn.on('click', function () {
             if (filesArray.length === 0) {
@@ -290,7 +314,7 @@
                 formData.append('upfile', file);  // `upfile` キーにファイルを追加
             });
 
-            let uploadType = '{{ secure_id }}'; // Jinja2でサーバーサイドから値を埋め込む
+            let uploadType = '{{ room_id }}'; // Jinja2でサーバーサイドから値を埋め込む
 
             $.ajax({
                 url: `/group_upload/${uploadType}`,
@@ -310,8 +334,9 @@
         });
 
         // すべてダウンロード
+        var roomId = '{{ room_id }}';
         downloadAllBtn.on('click', function () {
-            window.location.href = '/download/all';
+            window.location.href = `/download/all/${roomId}`;
         });
     });
 </script>
