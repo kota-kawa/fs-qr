@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import MySQLdb
+import mysql.connector
 import os
 from dotenv import load_dotenv
 
@@ -15,12 +15,11 @@ db_key = os.getenv("SQL_DB")
 
 # データベース接続
 try:
-    connection = MySQLdb.connect(
+    connection = mysql.connector.connect(
         host=host_key,
         user=user_key,
-        passwd=pw_key,
-        db=db_key,
-        charset='utf8'
+        password=pw_key,
+        database=db_key
     )
     cursor = connection.cursor()
 
@@ -38,12 +37,12 @@ try:
     cursor.execute(create_table_query)
     print("Table 'room' created successfully.")
 
-except MySQLdb.Error as e:
+except mysql.connector.Error as e:
     print("Error creating table: {}".format(e))
 
 finally:
     # 接続を閉じる
     if 'cursor' in locals():
         cursor.close()
-    if 'connection' in locals() and connection.open:
+    if 'connection' in locals() and connection.is_connected():
         connection.close()
