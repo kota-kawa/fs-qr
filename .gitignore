@@ -24,9 +24,11 @@ gitoken.txt
 Thumbs.db
 .vscode/
 
-static/qrcode
-static/upload
-static/group_uploads
+# 中身を無視
+static/qrcode/*
+static/upload/*
+static/group_uploads/*
+
 static/data
 /db_init
 # ビルドディレクトリを無視

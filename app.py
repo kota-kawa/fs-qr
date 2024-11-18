@@ -29,6 +29,8 @@ SAVE_FILE = BASE_DIR + '/static/data/data.json'
 # Blueprintを '/admin' プレフィックスで登録
 app.register_blueprint(group_bp)
 
+
+
 @app.route('/')
 def index():
     # ファイルのアップロードフォームを表示 --- (*3)
