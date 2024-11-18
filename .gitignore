@@ -11,9 +11,7 @@
 *.log
 *.cgi
 *.htaccess
-*.jpg
-*.jpeg
-*.png
+
 *.zip
 *.pptx
 *.txt
@@ -24,10 +22,11 @@ gitoken.txt
 Thumbs.db
 .vscode/
 
-# 中身を無視
-static/qrcode/*
-static/upload/*
-static/group_uploads/*
+
+# .gitkeepは追跡対象にする
+!static/qrcode/.gitkeep
+!static/upload/.gitkeep
+!static/group_uploads/.gitkeep
 
 static/data
 /db_init
