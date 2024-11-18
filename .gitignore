@@ -29,7 +29,7 @@ Thumbs.db
 !static/group_uploads/.gitkeep
 
 static/data
-/db_init
+
 # ビルドディレクトリを無視
 /build/
 __pycache__/
