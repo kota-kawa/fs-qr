@@ -23,12 +23,13 @@ Thumbs.db
 .vscode/
 
 
-# .gitkeepは追跡対象にする
+# .gitkeepのみ追跡対象にする
+static/qrcode/*
 !static/qrcode/.gitkeep
+static/upload/*
 !static/upload/.gitkeep
+static/group_uploads/*
 !static/group_uploads/.gitkeep
-
-static/data
 
 # ビルドディレクトリを無視
 /build/

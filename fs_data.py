@@ -1,12 +1,7 @@
-import time
 import os
-from PIL import Image
-import qrcode
-
+#from PIL import Image
 # MySQLdbのインポート
 import MySQLdb
-import os
-import uuid
 from dotenv import load_dotenv
 
 #.envファイルの読み込み

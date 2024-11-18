@@ -138,7 +138,8 @@
         </div>
     </div>
 
-    <div class="upload-area" id="uploadArea">
+
+    <div class="upload-area" id="upload-area" onclick="fileInput.click()">
         <i class="fas fa-cloud-upload-alt"></i>
         <h4>ここにファイルをドラッグ＆ドロップ</h4>
         <p>またはクリックしてファイルを選択</p>
@@ -166,6 +167,11 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+    uploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+
     $(document).ready(function () {
         var uploadArea = $('#uploadArea');
         var fileInput = $('#fileInput');
