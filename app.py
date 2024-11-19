@@ -15,6 +15,9 @@ from Group.group_app import group_bp
 #.envファイルの読み込み
 load_dotenv()
 
+
+
+
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
 
@@ -28,6 +31,7 @@ SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
 # Blueprintを '/admin' プレフィックスで登録
 app.register_blueprint(group_bp)
+
 
 
 
@@ -175,6 +179,7 @@ def filter_datetime(tm):
         '%Y/%m/%d %H:%M:%S',
         time.localtime(tm))
  
+
 
 # フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime

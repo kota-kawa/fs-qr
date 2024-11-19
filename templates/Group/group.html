@@ -111,7 +111,7 @@
 </style>
 
 <div class="group-container">
-    <h1 class="text-center mb-4">ファイル提出</h1>
+    <h1 class="text-center mb-4">ファイル提出rs</h1>
 
 
     <div class="row justify-content-center mb-3">
@@ -167,13 +167,8 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    uploadArea.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-
     $(document).ready(function () {
-        var uploadArea = $('#uploadArea');
+        var uploadArea = $('#upload-area');
         var fileInput = $('#fileInput');
         var fileList = $('#fileList');
         var otherFileList = $('#otherFileList');
@@ -279,10 +274,9 @@
             setInterval(fetchAndDisplayOtherFiles, 1000); // 1秒ごとにリクエストを送信
         }
 
-        // ページ読み込み時にポーリングを開始
-        $(document).ready(function () {
-            startFilePolling();
-        });
+
+        startFilePolling();
+     
 
 
 
