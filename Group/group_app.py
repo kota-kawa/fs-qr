@@ -201,7 +201,7 @@ def search_room():
     room_id = group_data.pich_room_id(id,password)
     if not room_id:
         return room_msg('IDかパスワードが間違っています')
-    return redirect('/group/'+room_id)
+    return redirect('/group_room/'+room_id)
 
 
 
