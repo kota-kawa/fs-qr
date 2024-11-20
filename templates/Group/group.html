@@ -1,343 +1,95 @@
-{% extends "group_layout.html" %}
-{% block contents %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-    body {
-        background-color: #f4f5f7;
-        font-family: 'Arial', sans-serif;
-    }
-
-    .group-container {
-        max-width: 800px;
-        margin: 20px auto;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-    }
-
-    .upload-area {
-        border: 2px dashed #007bff;
-        border-radius: 10px;
-        padding: 40px;
-        text-align: center;
-        background-color: #f8f9fa;
-        color: #007bff;
-        margin-bottom: 30px;
-        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .upload-area.hover {
-        background-color: #eaf4ff;
-        border-color: #0056b3;
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-        color: #0056b3;
-    }
-
-    .file-list,
-    .other-file-list {
-        max-height: 300px;
-        overflow-y: auto;
-        margin-bottom: 20px;
-    }
-
-    .file-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 15px;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        background-color: #f8f9fa;
-        margin-bottom: 10px;
-        transition: background-color 0.3s;
-    }
-
-    .file-item:hover {
-        background-color: #eaf4ff;
-    }
-
-    .file-name {
-        font-weight: 500;
-        flex-grow: 1;
-    }
-
-    .file-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .file-actions button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        color: #007bff;
-        transition: color 0.3s;
-    }
-
-    .file-actions button:hover {
-        color: #0056b3;
-    }
-
-    .btn-upload,
-    .btn-download-all {
-        display: block;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        margin: 20px auto 0;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .btn-upload {
-        background-color: #28a745;
-    }
-
-    .btn-upload:hover {
-        background-color: #218838;
-    }
-
-    .btn-download-all {
-        background-color: #007bff;
-    }
-
-    .btn-download-all:hover {
-        background-color: #0056b3;
-    }
-</style>
-
-<div class="group-container">
-    <h1 class="text-center mb-4">ファイル提出rs</h1>
-
-
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-6 col-lg-4">
-            <div class="table-responsive rounded border">
-                <table class="table table-bordered text-center mb-0">
-                    <thead class="table-success">
-                        <tr>
-                            <th colspan="2" class="text-uppercase">Room情報</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>ID</strong></td>
-                            <td>{{user_id}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Password</strong></td>
-                            <td>{{password}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グループ管理</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- アイコン用 FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- カスタムCSS -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .bg-custom {
+            background: linear-gradient(135deg, #6B73FF 10%, #000DFF 100%);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .menu-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .menu-card {
+            flex: 1 1 calc(50% - 20px);
+            max-width: 300px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .menu-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #6B73FF;
+        }
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: #333;
+        }
+        .menu-card p {
+            color: #555;
+            font-size: 1rem;
+        }
+        .menu-card a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #6B73FF;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .menu-card a:hover {
+            background-color: #000DFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-custom">
+        <div class="menu-container">
+            <div class="menu-card">
+                <i class="fas fa-users"></i>
+                <h3>グループの作成</h3>
+                <p>新しいグループを作成して管理しましょう。</p>
+                <a href="/create_room">作成する</a>
+            </div>
+            <div class="menu-card">
+                <i class="fas fa-search"></i>
+                <h3>グループの検索</h3>
+                <p>既存のグループを検索して参加しましょう。</p>
+                <a href="/search_room">検索する</a>
             </div>
         </div>
     </div>
 
-
-    <div class="upload-area" id="upload-area" onclick="fileInput.click()">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <h4>ここにファイルをドラッグ＆ドロップ</h4>
-        <p>またはクリックしてファイルを選択</p>
-        <input type="file" id="fileInput" multiple style="display: none;">
-    </div>
-
-    <h5>アップロードされたファイル</h5>
-    <div id="fileList" class="file-list">
-        <!-- 自分がアップロードしたファイルがここに表示されます -->
-    </div>
-
-    <button class="btn btn-success btn-upload" id="uploadBtn">
-        <i class="fas fa-upload"></i> アップロード
-    </button>
-
-    <h5>グループメンバーがアップロードしたファイル</h5>
-    <div id="otherFileList" class="other-file-list">
-        <!-- 他の人のアップロードしたファイルがここに表示されます -->
-    </div>
-
-    <button class="btn btn-primary btn-download-all" id="downloadAllBtn">
-        <i class="fas fa-download"></i> すべてダウンロード
-    </button>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var uploadArea = $('#upload-area');
-        var fileInput = $('#fileInput');
-        var fileList = $('#fileList');
-        var otherFileList = $('#otherFileList');
-        var uploadBtn = $('#uploadBtn');
-        var downloadAllBtn = $('#downloadAllBtn');
-        var filesArray = [];
-
-        // ドラッグオーバー
-        uploadArea.on('dragover', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.addClass('hover');
-        });
-
-        // ドラッグリーブ
-        uploadArea.on('dragleave', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.removeClass('hover');
-        });
-
-        // ドロップ
-        uploadArea.on('drop', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.removeClass('hover');
-            var files = e.originalEvent.dataTransfer.files;
-            handleFiles(files);
-        });
-
-        // クリックでファイル選択
-        uploadArea.on('click', function () {
-            fileInput.click();
-        });
-
-        // ファイル選択後
-        fileInput.on('change', function () {
-            var files = fileInput[0].files;
-            handleFiles(files);
-        });
-
-
-
-
-
-        // 他のユーザーのファイル表示
-        function fetchAndDisplayOtherFiles() {
-            var roomId = '{{ room_id }}'; // Jinja2で埋め込む
-            $.ajax({
-                url: `/check/${roomId}`,
-                type: 'GET',
-                success: function (files) {
-                    if (files.error) {
-                        alert('エラー: ' + files.error);
-                        return;
-                    }
-
-                    otherFileList.empty(); // リストをリセット
-                    files.forEach(function (file) {
-                        var fileItem = $('<div class="file-item"></div>');
-                        var fileName = $('<span class="file-name"></span>').text(file.name);
-                        var actions = $('<div class="file-actions"></div>');
-
-                        var downloadBtn = $('<button><i class="fas fa-download"></i></button>');
-                        downloadBtn.on('click', function () {
-                            window.location.href = `/download/${roomId}/${encodedFilename}`
-                        });
-
-                        var deleteBtn = $('<button><i class="fas fa-trash"></i></button>');
-
-                        const encodedFilename = encodeURIComponent(file.name);
-
-                        deleteBtn.on('click', function () {
-                            if (confirm('本当にこのファイルを削除しますか？')) {
-                                $.ajax({
-                                    url: `/delete/${roomId}/${encodedFilename}`,
-                                    type: 'DELETE',
-                                    success: function () {
-                                        alert('ファイルが削除されました。');
-                                        fileItem.remove();
-                                    },
-                                    error: function () {
-                                        alert('削除中にエラーが発生しました。');
-                                    }
-                                });
-                            }
-                        });
-
-
-                        actions.append(downloadBtn).append(deleteBtn);
-                        fileItem.append(fileName).append(actions);
-                        otherFileList.append(fileItem);
-                    });
-                },
-                error: function () {
-                    alert('他のユーザーのファイル情報を取得できませんでした。');
-                }
-            });
-        }
-
-        // 定期的にファイルリストを更新する関数
-        function startFilePolling() {
-            setInterval(fetchAndDisplayOtherFiles, 1000); // 1秒ごとにリクエストを送信
-        }
-
-
-        startFilePolling();
-     
-
-
-
-
-        // ファイル処理
-        function handleFiles(files) {
-            for (var i = 0; i < files.length; i++) {
-                filesArray.push(files[i]);
-                var fileItem = $('<div class="file-item"></div>');
-                var fileName = $('<span class="file-name"></span>').text(files[i].name);
-                var actions = $('<div class="file-actions"></div>');
-                var deleteBtn = $('<button><i class="fas fa-trash"></i></button>');
-                deleteBtn.on('click', (function (index) {
-                    return function () {
-                        filesArray.splice(index, 1);
-                        $(this).closest('.file-item').remove();
-                    };
-                })(filesArray.length - 1));
-                actions.append(deleteBtn);
-                fileItem.append(fileName).append(actions);
-                fileList.append(fileItem);
-            }
-        }
-
-
-
-        uploadBtn.on('click', function () {
-            if (filesArray.length === 0) {
-                alert('アップロードするファイルがありません。');
-                return;
-            }
-
-            var formData = new FormData();
-            filesArray.forEach(function (file) {
-                formData.append('upfile', file);  // `upfile` キーにファイルを追加
-            });
-
-            let uploadType = '{{ room_id }}'; // Jinja2でサーバーサイドから値を埋め込む
-
-            $.ajax({
-                url: `/group_upload/${uploadType}`,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function () {
-                    alert('ファイルがアップロードされました。');
-                    fileList.empty();
-                    filesArray = [];
-                },
-                error: function () {
-                    alert('アップロード中にエラーが発生しました。');
-                }
-            });
-        });
-
-        // すべてダウンロード
-        var roomId = '{{ room_id }}';
-        downloadAllBtn.on('click', function () {
-            window.location.href = `/download/all/${roomId}`;
-        });
-    });
-</script>
-{% endblock %}
+    <!-- Bootstrap JSと依存関係 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

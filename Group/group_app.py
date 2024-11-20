@@ -10,6 +10,8 @@ from . import group_data
 
 group_bp = Blueprint('group', __name__)
 
+
+
 # 一つ上のディレクトリを取得
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(BASE_DIR)  # 一つ上のディレクトリ
@@ -19,7 +21,11 @@ STATIC_DIR = os.path.join(PARENT_DIR, 'static')  # 一つ上のディレクト�
 UPLOAD_FOLDER = os.path.join(STATIC_DIR, 'group_uploads')
 
 
-@group_bp.route('/group/<room_id>')
+@group_bp.route('/group')
+def group():
+    return render_template('Group/group.html')
+
+@group_bp.route('/group_room/<room_id>')
 def group_list(room_id):
     room_data = group_data.get_data(room_id)
     # id と password を抽出（データが1件の場合）
@@ -27,13 +33,11 @@ def group_list(room_id):
     user_id = record['id']
     password = record['password']
     print(f"ID: {user_id}, Password: {password}")
-    return render_template('Group/group.html', room_id=room_id, user_id=user_id, password=password)
+    return render_template('Group/group_room.html', room_id=room_id, user_id=user_id, password=password)
 
 @group_bp.route('/create_room')
 def create_room():
     return render_template('Group/create_group_room.html')
-
-
 
 
 
@@ -51,7 +55,7 @@ def create_group_room():  # upload関数を定義
     os.makedirs(folder_path, exist_ok=True)  # フォルダーが存在しない場合のみ作成
 
     group_data.create_room(id=id, password=password, room_id=room_id)  # ファイル情報を保存
-    return redirect('/group' + '/' + room_id)
+    return redirect('/group_room' + '/' + room_id)
 
 @group_bp.route('/group_upload/<room_id>', methods=['POST'])
 def group_upload(room_id):
@@ -88,12 +92,6 @@ def group_upload(room_id):
         }), 500
 
     return jsonify({"status": "success", "message": "ファイルが正常にアップロードされました。"})
-
-
-
-
-    # 正常終了メッセージを返す
-    return jsonify({"status": "success", "message": "ファイルが正常にアップロードされました"}), 200
 
 
 
@@ -157,12 +155,6 @@ def download_all_files(room_id):
     except Exception as e:
         return jsonify({"error": f"すべてのファイルのダウンロード中にエラーが発生しました: {str(e)}"}), 500
 
-
-
-
-
-
-
 @group_bp.route('/download/<room_id>/<path:filename>', methods=['GET'])
 def download_file(room_id, filename):
     # URLデコードしてファイル名を安全に扱う
@@ -180,10 +172,6 @@ def download_file(room_id, filename):
             return jsonify({"error": "ファイルが見つかりません。"}), 404
     except Exception as e:
         return jsonify({"error": f"ダウンロード中にエラーが発生しました: {str(e)}"}), 500
-    
-
-
-
 
 @group_bp.route('/delete/<room_id>/<filename>', methods=['DELETE'])
 def delete_file(room_id, filename):
@@ -191,7 +179,6 @@ def delete_file(room_id, filename):
     decoded_filename = urllib.parse.unquote(filename)
     room_folder = os.path.join(UPLOAD_FOLDER, room_id)
     file_path = os.path.join(room_folder, decoded_filename)
-    
     try:
         # ファイルが存在するか確認
         if os.path.exists(file_path):
@@ -203,13 +190,11 @@ def delete_file(room_id, filename):
         return jsonify({"error": f"削除中にエラーが発生しました: {str(e)}"}), 500
 
 
-    
-
-@group_bp.route('/search_room_page')
+@group_bp.route('/search_room')
 def search_room_page():
     return render_template('Group/search_room.html')
 
-@group_bp.route('/search_room', methods=['POST'])
+@group_bp.route('/search_room_process', methods=['POST'])
 def search_room():
     id = request.form.get('id', '')
     password = request.form.get('password', '')
@@ -217,6 +202,7 @@ def search_room():
     if not room_id:
         return room_msg('IDかパスワードが間違っています')
     return redirect('/group/'+room_id)
+
 
 
 

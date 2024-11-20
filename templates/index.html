@@ -1,188 +1,131 @@
-{% extends "layout.html" %}
-{% block contents %}
-<link rel="stylesheet" href="{{staticfile('top_page.css')}}">
-
-<div class="content">
-    <!-- Form Area -->
-    <div id="info">
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked"
-            id="uploadForm">
-            <fieldset>
-                <legend>最初にファイルを選んでください。</legend>
-                <!-- New Upload Area -->
-                <div class="upload-area" id="upload-area">
-                    <i class="upload-icon">📁</i>
-                    <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
-                    <button type="button" onclick="fileInput.click()" class="upload-button">ファイルを選択</button>
-                    <input type="file" name="upfile" id="fileInput" multiple="">
-                    
-                </div>
-                <ul class="file-list" id="fileList"></ul>
-                <legend>下記の必要項目を記述してください。</legend>
-                <div class="mb-3" style="max-width: 200px;">
-                    <label for="name" class="form-label">ID</label>
-                    <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
-                </div>
-                
-                
-                <input class="btn btn-success" type="submit" value="アップロード">
-            </fieldset>
-        </form>
-    </div>
-
-    <!-- Info Box -->
-    <div class="card shadow-sm mb-4 mx-2 custom-card">
-        <div class="card-body">
-            <div class="fw-bold">
-                10MBまでのファイルをIDを設定することで、他の人と共有することができます。<br>
-                他の人がアップロードしたファイルをダウンロードしたいときは、上の方にある検索マークを押して、IDとパスワードを入力してください。<br>
-                (1部アップロードできない種類のファイルもあります。)
-            </div>
-        </div>
-    </div>
-    
-    
-</div>
-
-<!-- Spinner Container (Hidden initially) -->
-<div id="spinner-container" class="spinner-container" style="display:none;">
-    <div class="spinner-second-container">
-        <div class="icon file">📄</div>
-        <div class="icon lock">🔒</div>
-        <div class="text">暗号化中...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-<script>
-    const uploadArea = document.getElementById('upload-area');
-    const fileInput = document.getElementById('fileInput');
-    const fileListDisplay = document.getElementById('fileList');
-    const idInput = document.getElementById('name');
-    const uploadForm = document.getElementById('uploadForm');
-
-    // ドラッグ＆ドロップを有効にするイベント
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        const files = e.dataTransfer.files;
-        console.log('Files dropped:', files);  // ドロップされたファイルを確認
-        handleFiles(files);
-    });
-
-
-    fileInput.addEventListener('change', (e) => {
-        const files = e.target.files;
-        console.log('Files selected:', files);  // 選択されたファイルを確認
-        handleFiles(files);
-    });
-
-    function handleFiles(files) {
-        fileListDisplay.innerHTML = ''; // リストをクリア
-        Array.from(files).forEach(file => {
-            const li = document.createElement('li');
-            li.textContent = `${file.name}`;
-            fileListDisplay.appendChild(li);
-        });
-        document.querySelector('.upload-icon').textContent = '✅';
-
-        // ファイルをfileInputにセットする
-        const dataTransfer = new DataTransfer();
-        Array.from(files).forEach(file => {
-            dataTransfer.items.add(file);
-        });
-        fileInput.files = dataTransfer.files; // fileInputにファイルをセット
-    }
-
-
-    // 暗号化と進捗表示の関数
-    async function encryptAndZipFilesWithProgress(files, key) {
-        const zip = new JSZip();
-        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
-
-        const progressBar = document.querySelector('.progress-bar');
-
-        // 各ファイルを順次処理
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const fileBuffer = await file.arrayBuffer();
-            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
-            zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ファイル共有メニュー</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- アイコン用 FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- カスタムCSS -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #342ae3, #23cf32);
         }
-
-        // ZIPファイルの生成と進捗バーの更新
-        return await zip.generateAsync({ type: 'blob' }, (metadata) => {
-            const progressPercentage = metadata.percent.toFixed(2);
-            progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
-        });
-    }
-
-
-
-
-    // 1秒ごとに表示を切り替えるアニメーション
-    let iconSwitchInterval;
-
-    function startIconSwitching() {
-        const spinnerContainer = document.querySelector('.spinner-second-container');
-        iconSwitchInterval = setInterval(() => {
-            spinnerContainer.classList.toggle('encrypting');
-        }, 1000); // 1秒ごとに切り替え
-    }
-
-    function stopIconSwitching() {
-        clearInterval(iconSwitchInterval);
-    }
-
-    // フォーム送信時のイベント修正
-    uploadForm.addEventListener('submit', async function (event) {
-        event.preventDefault(); // デフォルトのフォーム送信を一時的に無効化
-        document.getElementById('spinner-container').style.display = 'flex'; // スピナー表示
-        startIconSwitching(); // アイコン切り替え開始
-        const files = fileInput.files;
-        const id = idInput.value.trim(); // 空白を除去してIDを取得
-        if (files.length > 0 && id.length > 0) { // IDが空でないかチェック
-            try {
-                const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
-
-                // テキストを「送信中」に変更
-                document.querySelector('.text').textContent = '送信中...';
-
-                // 暗号化したZIPファイルをfileInputに設定
-                const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(zipFile);
-                fileInput.files = dataTransfer.files; // fileInputにZIPファイルをセット
-
-                uploadForm.submit(); // 暗号化完了後に標準送信
-            } catch (error) {
-                alert('エラーが発生しました: ' + error.message);
-            } finally {
-                //document.getElementById('spinner-container').style.display = 'none'; // スピナーを非表示
-                //document.querySelector('.progress-bar').style.width = '0%'; // プログレスバーをリセット
-                stopIconSwitching(); // アイコン切り替えを停止
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+        }
+        .menu-header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .menu-header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .menu-header p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+        .menu-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+        }
+        .menu-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background-color: #F0F8FF;
+        }
+        .menu-item.fs-qr i{
+            font-size: 3rem;
+            color: #4082dd;
+            margin-bottom: 15px;
+        }
+        .menu-item.group i {
+            font-size: 3rem;
+            color: #4aba95;
+            margin-bottom: 15px;
+        }
+        .menu-item h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #333;
+        }
+        @media (max-width: 576px) {
+            .menu-header h1 {
+                font-size: 2.5rem;
             }
-        } else {
-            alert('ファイルとIDを選択してください。');
+            .menu-header p {
+                font-size: 1.2rem;
+            }
+            .menu-item {
+                width: 150px;
+                height: 150px;
+            }
+            .menu-item h3 {
+                font-size: 1.2rem;
+            }
+            .menu-item i {
+                font-size: 2.5rem;
+            }
         }
-    });
-</script>
-{% endblock %}
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-header">
+            <h1>ファイル共有メニュー</h1>
+            <p>利用したいファイル共有方法を選んでください。</p>
+        </div>
+        <ul class="menu-list">
+            <li>
+                <a href="/group" class="menu-item group">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>グループで共有</h3>
+                </a>
+            </li>
+            <li>
+                <a href="/fs-qr" class="menu-item fs-qr">
+                    <i class="fas fa-qrcode"></i>
+                    <h3>QRコード共有</h3>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bootstrap JSと依存関係 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

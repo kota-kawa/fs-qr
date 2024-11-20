@@ -34,13 +34,15 @@ app.register_blueprint(group_bp)
 
 
 
-
 @app.route('/')
 def index():
     # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('index.html')
 
-
+@app.route('/fs-qr')
+def fs_qr():
+    # ファイルのアップロードフォームを表示 --- (*3)
+    return render_template('fs-qr.html')
 
 @app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
 def upload():  # upload関数を定義
