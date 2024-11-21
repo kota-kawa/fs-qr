@@ -8,14 +8,10 @@ WORKDIR /app
 COPY . /app
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt gunicorn
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Add wait-for-it script for database readiness
-COPY wait-for-it.sh /usr/local/bin/wait-for-it
-RUN chmod +x /usr/local/bin/wait-for-it
-
-# Expose port 5000 for Gunicorn app
+# Expose port 5000 for Flask app
 EXPOSE 5000
 
-# Run Gunicorn app when the container launches
-CMD ["/usr/local/bin/wait-for-it", "db:3306", "--", "gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Run Flask app when the container launches
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000", "--reload"]

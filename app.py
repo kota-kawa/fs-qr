@@ -17,7 +17,6 @@ load_dotenv()
 
 
 
-
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
 
@@ -29,10 +28,7 @@ QR = BASE_DIR+'/static/qrcode'
 STATIC = BASE_DIR+'/static/upload'
 SAVE_FILE = BASE_DIR + '/static/data/data.json'
 
-# Blueprintを '/admin' プレフィックスで登録
 app.register_blueprint(group_bp)
-
-
 
 @app.route('/')
 def index():
@@ -43,6 +39,11 @@ def index():
 def fs_qr():
     # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('fs-qr.html')
+
+@app.route('/fs-qr-upload')
+def fs_qr_upload():
+    # ファイルのアップロードフォームを表示 --- (*3)
+    return render_template('fs-qr-upload.html')
 
 @app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
 def upload():  # upload関数を定義
@@ -69,8 +70,6 @@ def upload():  # upload関数を定義
                            mode='upload',
                            url=request.host_url + 'download/' + secure_id)  # ダウンロードリンクを含む情報を表示
 
-
-
 @app.route('/download/<secure_id>')
 def download(secure_id):
     # URLが正しいか判定 --- (*8)
@@ -84,14 +83,12 @@ def download(secure_id):
                            data=data, mode='download',id=id, secure_id=secure_id,
                            url=request.host_url + 'download_go/' + secure_id)
 
-
 @app.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
     # URLが正しいか再び判定 --- (*10)
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
-
     path=STATIC+'/'+secure_id+'.zip'
 
     # ダウンロードできるようにファイルを送信 --- (*14)
