@@ -16,8 +16,7 @@
 *.pptx
 *.txt
 
-Dockerfile
-docker-compose.yml
+
 
 # OSやIDEの一時ファイルを無視
 .DS_Store
