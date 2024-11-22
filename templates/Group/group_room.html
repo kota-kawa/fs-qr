@@ -155,10 +155,11 @@
         <i class="fas fa-upload"></i> アップロード
     </button>
 
-    <h5>グループメンバーがアップロードしたファイル</h5>
+    <h5>グループメンバーがアップロードしたファイル (<span id="fileCount">0</span>)</h5>
     <div id="otherFileList" class="other-file-list">
         <!-- 他の人のアップロードしたファイルがここに表示されます -->
     </div>
+    
 
     <button class="btn btn-primary btn-download-all" id="downloadAllBtn">
         <i class="fas fa-download"></i> すべてダウンロード
@@ -212,8 +213,6 @@
 
 
 
-
-
         // 他のユーザーのファイル表示
         function fetchAndDisplayOtherFiles() {
             var roomId = '{{ room_id }}'; // Jinja2で埋め込む
@@ -227,6 +226,7 @@
                     }
 
                     otherFileList.empty(); // リストをリセット
+                    $('#fileCount').text(files.length); // ファイル数を更新
                     files.forEach(function (file) {
                         var fileItem = $('<div class="file-item"></div>');
                         var fileName = $('<span class="file-name"></span>').text(file.name);
@@ -277,6 +277,7 @@
 
         startFilePolling();
      
+
 
 
 
