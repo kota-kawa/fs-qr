@@ -16,10 +16,11 @@
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
+            box-sizing: border-box; /* サイズ計算を統一 */
         }
         .bg-custom {
             background: linear-gradient(135deg, #dbe72f 10%, #026810 100%);
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,10 +30,12 @@
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            justify-content: center; /* カードを中央揃え */
+            justify-content: center;
+            padding: 10px; /* 画面端にカードが寄らないよう調整 */
+            max-width: 100%; /* 画面幅に収まる */
         }
         .menu-card {
-            flex: 1 1 calc(100% - 40px); /* モバイルでは1列表示 */
+            flex: 1 1 100%; /* モバイルでフル幅 */
             max-width: 300px;
             padding: 20px;
             text-align: center;
@@ -48,7 +51,12 @@
         }
         @media (min-width: 768px) { /* タブレット以上 */
             .menu-card {
-                flex: 1 1 calc(33.333% - 20px); /* 3列表示も可能 */
+                flex: 1 1 calc(33.333% - 20px); /* 3列表示 */
+            }
+        }
+        @media (min-width: 1200px) { /* 大型スクリーン以上 */
+            .menu-card {
+                flex: 1 1 calc(25% - 20px); /* 4列表示 */
             }
         }
         .menu-card:hover {

@@ -8,9 +8,12 @@
     align-items: flex-start; /* 上部寄りに配置 */
     min-height: 100vh;
     padding-top: 50px; /* 上部の余白を調整 */
+    padding-left: 10px; /* 小さい画面での左右余白 */
+    padding-right: 10px;
 }
 .card {
-    width: 400px;
+    width: 100%;
+    max-width: 400px; /* 最大幅を指定 */
     padding: 20px;
     border: none;
     border-radius: 15px;
@@ -29,6 +32,21 @@
 .form-control {
     border-radius: 10px;
     padding: 10px;
+}
+@media (max-width: 576px) {
+    .card {
+        padding: 15px; /* 小さい画面でパディングを減らす */
+    }
+    .btn-primary {
+        font-size: 14px; /* フォントサイズを調整 */
+        padding: 8px;
+    }
+    .form-control {
+        padding: 8px; /* 入力欄のパディングを調整 */
+    }
+    .center-wrapper {
+        padding-top: 20px; /* 上部余白を減らす */
+    }
 }
 </style>
 

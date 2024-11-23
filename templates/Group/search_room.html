@@ -5,12 +5,15 @@
 .center-wrapper {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* 上部寄りに配置 */
+    align-items: flex-start;
     min-height: 100vh;
-    padding-top: 50px; /* 上部の余白を調整 */
+    padding-top: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .card {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
     border: none;
     border-radius: 15px;
@@ -29,6 +32,21 @@
 .form-control {
     border-radius: 10px;
     padding: 10px;
+}
+@media (max-width: 576px) {
+    .center-wrapper {
+        padding-top: 20px;
+    }
+    .card {
+        padding: 15px;
+    }
+    .btn-primary {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .form-control {
+        padding: 8px;
+    }
 }
 </style>
 
