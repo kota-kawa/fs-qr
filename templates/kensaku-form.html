@@ -1,21 +1,73 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="container text-center content my-3" style="max-width: 400px;">
-  <form action="/try_login" method="POST" enctype="multipart/form-data" class="p-4 border rounded-3 shadow-sm">
-      <fieldset>
-          <div class="mb-3">
-              <label for="name" class="form-label">ID</label>
-              <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
-          </div>
-          
-          <div class="mb-3">
-              <label for="pw" class="form-label">パスワード</label>
-              <input type="password" class="form-control" minlength="5" maxlength="10" name="pw" id="pw" placeholder="パスワードを入力" required>
-          </div>
-          
-          <button type="submit" class="btn btn-success w-100">検索</button>
-      </fieldset>
-  </form>
+<style>
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    background: rgb(204, 233, 240);
+}
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+.form-label {
+    font-weight: bold;
+}
+.form-control {
+    border-radius: 10px;
+    padding: 10px;
+}
+@media (max-width: 576px) {
+    .center-wrapper {
+        padding-top: 20px;
+    }
+    .card {
+        padding: 15px;
+    }
+    .btn-primary {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .form-control {
+        padding: 8px;
+    }
+}
+</style>
+
+<div class="center-wrapper">
+  <div class="card">
+      <h2 class="text-center mb-4">ログイン</h2>
+      <form action="/try_login" method="POST" enctype="multipart/form-data">
+          <fieldset>
+              <div class="mb-3">
+                  <label for="name" class="form-label">ID</label>
+                  <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
+              </div>
+              
+              <div class="mb-3">
+                  <label for="pw" class="form-label">パスワード</label>
+                  <input type="password" class="form-control" minlength="5" maxlength="10" name="pw" id="pw" placeholder="パスワードを入力" required>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">検索</button>
+          </fieldset>
+      </form>
+  </div>
 </div>
 
-{% endblock %}   
+{% endblock %}
