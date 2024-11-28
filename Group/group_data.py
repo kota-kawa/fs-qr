@@ -33,20 +33,7 @@ connection = MySQLdb.connect(
 )
 cursor = connection.cursor(MySQLdb.cursors.DictCursor)
 
-def manage_time():
-    secure_id=None
 
-    cursor.execute(
-        "SELECT * FROM room_id WHERE time < DATE_SUB(now(), INTERVAL 1 DAY)")
-    result = cursor.fetchall()
-
-    for s in result:
-        secure_id = s['room_id']
-
-    if secure_id != None:
-        remove_data(secure_id)
-    else:
-        return 0
 
 # グループの部屋の作成
 def create_room(id,password, room_id):

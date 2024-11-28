@@ -30,22 +30,6 @@ cursor = connection.cursor(MySQLdb.cursors.DictCursor)
 
 
 
-def manage_time():
-    secure_id=None
-
-    cursor.execute(
-        "SELECT * FROM fsqr WHERE time < DATE_SUB(now(), INTERVAL 1 DAY)")
-    result = cursor.fetchall()
-
-    for s in result:
-        secure_id = s['secure_id']
-
-    if secure_id != None:
-        remove_data(secure_id)
-    else:
-        return 0
-
-
 def save_file(uid, id,password, secure_id):
    
     cursor.execute(
