@@ -18,16 +18,16 @@ pw_key = os.getenv("SQL_PW")
 db_key = os.getenv("SQL_DB")
 
 BASE_DIR = os.path.dirname(__file__)
-QR = os.path.join(BASE_DIR, 'static/qrcode')
-STATIC = os.path.join(BASE_DIR, 'static/upload')
+QR = BASE_DIR + '/static/qrcode'
+STATIC = BASE_DIR + '/static/upload'
 
-# SQLAlchemyエンジンの作成
+# SQLAlchemyエンジンの作成（接続プール設定を含む）
 engine = create_engine(
     f"mysql+pymysql://{user_key}:{pw_key}@{host_key}/{db_key}?charset=utf8mb4",
-    pool_recycle=280,
-    pool_size=10,
-    max_overflow=5,
-    echo=False  # 本番環境ではデバッグログを無効化
+    pool_recycle=280,  # プール内の接続を280秒後に再接続
+    pool_size=10,      # 最大10個の接続を保持
+    max_overflow=5,    # プールが満杯のとき、さらに5個の接続を作成可能
+    echo=True          # デバッグのためにSQLをログ出力（本番環境ではFalse推奨）
 )
 
 # セッションの設定
@@ -36,34 +36,41 @@ db_session = scoped_session(sessionmaker(bind=engine))
 # データベースクエリの共通実行関数
 def execute_query(query, params=None, fetch=False):
     try:
-        result = db_session.execute(query, params or {})
+        if params:
+            result = db_session.execute(query, params)
+        else:
+            result = db_session.execute(query)
+        
         if fetch:
+            # クエリ結果を辞書形式に変換して返す
             return [row._mapping for row in result]
+        
         db_session.commit()
     except Exception as e:
-        logger.error("Database query failed: %s", e)
+        logger.error(f"Database query failed: {e}")
         db_session.rollback()
         raise
 
-# グループの部屋の作成
-def create_room(id, password, room_id):
+# ファイルを保存
+def save_file(uid, id, password, secure_id):
     query = text("""
-        INSERT INTO room (time, id, password, room_id) VALUES (NOW(), :id, :password, :room_id)
+        INSERT INTO fsqr (time, uuid, id, password, secure_id) 
+        VALUES (NOW(), :uid, :id, :password, :secure_id)
     """)
-    execute_query(query, {"id": id, "password": password, "room_id": room_id})
+    execute_query(query, {"uid": uid, "id": id, "password": password, "secure_id": secure_id})
 
 # ログイン処理
-def pich_room_id(id, password):
+def try_login(id, password):
     query = text("""
-        SELECT room_id FROM room WHERE id = :id AND password = :password
+        SELECT secure_id FROM fsqr WHERE id = :id AND password = :password
     """)
     result = execute_query(query, {"id": id, "password": password}, fetch=True)
-    return result[0]["room_id"] if result else False
+    return result[0]["secure_id"] if result else False
 
 # データベースから任意のIDのデータを取り出す
 def get_data(secure_id):
     query = text("""
-        SELECT * FROM room WHERE room_id = :secure_id
+        SELECT * FROM fsqr WHERE secure_id = :secure_id
     """)
     result = execute_query(query, {"secure_id": secure_id}, fetch=True)
     return result if result else False
@@ -71,41 +78,31 @@ def get_data(secure_id):
 # 全てのデータを取得する
 def get_all():
     query = text("""
-        SELECT * FROM room ORDER BY suji DESC
+        SELECT * FROM fsqr ORDER BY suji DESC
     """)
     return execute_query(query, fetch=True)
 
 # アップロードされたファイルとメタ情報の削除
 def remove_data(secure_id):
-    # パス検証
-    if not secure_id.isalnum():
-        logger.error("Invalid secure_id: %s", secure_id)
-        return
-
     # ファイル削除処理
-    paths = [
-        os.path.join(STATIC, f"{secure_id}.zip"),
-        os.path.join(QR, f"qrcode-{secure_id}.jpg")
-    ]
-    for file_path in paths:
-        try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                logger.info("Deleted file: %s", file_path)
-            else:
-                logger.warning("File not found: %s", file_path)
-        except Exception as e:
-            logger.error("Failed to delete file: %s. Error: %s", file_path, e)
+    path = STATIC + '/' + secure_id + '.zip'
+    second = QR + '/qrcode-' + secure_id + '.jpg'
+    for file_path in [path, second]:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            logger.info(f"Deleted file: {file_path}")
+        else:
+            logger.warning(f"File not found: {file_path}")
 
     # データベースから削除
     query = text("""
-        DELETE FROM room WHERE room_id = :secure_id
+        DELETE FROM fsqr WHERE secure_id = :secure_id
     """)
     execute_query(query, {"secure_id": secure_id})
 
 # 全てのデータを削除
 def all_remove():
     query = text("""
-        DELETE FROM room
+        DELETE FROM fsqr
     """)
     execute_query(query)

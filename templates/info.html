@@ -24,11 +24,11 @@
     <table class="table table-bordered table-striped text-start">
       <tr>
         <th scope="row" class="text-center">ID</th>
-        <td>{{ id }}</td>
+        <td>{{ id | e }}</td>
       </tr>
       <tr>
         <th scope="row" class="text-center">パスワード</th>
-        <td>{{ password }}</td>
+        <td>{{ password | e }}</td>
       </tr>
       <tr>
         <th scope="row" class="text-center">ファイル名</th>
@@ -53,7 +53,7 @@
     <table class="table table-bordered table-striped">
       <tr>
         <th scope="row" class="text-center">ID</th>
-        <td class="text-start">{{ id }}</td>
+        <td class="text-start">{{ id | e }}</td>
       </tr>
       <tr>
         <th scope="row" class="text-center">ファイル名</th>

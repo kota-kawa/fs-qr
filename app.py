@@ -4,18 +4,17 @@ import time
 import qrcode
 import uuid
 import random
+import secrets
 from os.path import basename
-import fs_data  # ファイルやデータを管理するモジュール --- (*1)
-#ファイルを削除
+import fs_data  # ファイルやデータを管理するモジュール
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
 from Group.group_app import group_bp
+from werkzeug.utils import secure_filename
 
-#.envファイルの読み込み
+# .envファイルの読み込み
 load_dotenv()
-
-
 
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
@@ -24,94 +23,108 @@ app = Flask(__name__)
 MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)
-QR = BASE_DIR+'/static/qrcode'
-STATIC = BASE_DIR+'/static/upload'
-SAVE_FILE = BASE_DIR + '/static/data/data.json'
+QR = os.path.join(BASE_DIR, 'static', 'qrcode')
+STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 app.register_blueprint(group_bp)
 
 @app.route('/')
 def index():
-    # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('index.html')
 
 @app.route('/fs-qr')
 def fs_qr():
-    # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('fs-qr.html')
 
 @app.route('/fs-qr-upload')
 def fs_qr_upload():
-    # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('fs-qr-upload.html')
 
-@app.route('/upload', methods=['POST'])  # '/upload' というURLに対してPOSTメソッドを受け付けるルートを定義
-def upload():  # upload関数を定義
-    uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
-    id = request.form.get('name', '名無し')  # フォームから 'name' フィールドを取得し、なければ '名無し' を使う
-    password = str(random.randrange(10**5, 10**6))  # 6桁のランダムな数字を文字列として生成し、パスワードとする
+@app.route('/upload', methods=['POST'])
+def upload():
+    # よりセキュアな乱数の生成
+    uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
+    id = request.form.get('name', '名無し')
+    # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
+    password = str(secrets.randbelow(10**6)).zfill(6)
 
-    secure_id = str(id + '-' + uid)  # 'id' と 'uid' を組み合わせたセキュアIDを作成
+    # secure_idに不必要な文字が混入しないよう明示的に整形
+    # filenameからは別途secure_filenameを利用するためここではidとuidのみ結合
+    secure_id_base = f"{id}-{uid}-"
 
-    upfile = request.files.getlist('upfile', None)  # アップロードされたファイルリストを取得
-    if upfile is None:  # ファイルがアップロードされていなければ
-        return msg('アップロード失敗')  # エラーメッセージを返す
+    upfiles = request.files.getlist('upfile')
+    if not upfiles:
+        return msg('アップロード失敗')
 
-    for file in upfile:  # アップロードされた各ファイルに対して
-        file.save(STATIC + '/' + secure_id + file.filename)  # ファイルを指定フォルダに保存
-        secure_id = (secure_id + file.filename).replace('.zip', '')
+    # ファイルパス生成用リスト
+    uploaded_files = []
 
-    im = qrcode.make('https://fs-qr.net/' + 'download/' + secure_id)  # セキュアIDを含んだURLからQRコードを生成
-    im.save(QR + '/qrcode-' + secure_id + '.jpg')  # QRコード画像を保存
+    for file in upfiles:
+        filename = secure_filename(file.filename)  # ファイル名をサニタイズ
+        if not filename:
+            return msg('不正なファイル名です')
+        
+        save_path = os.path.join(STATIC, secure_id_base + filename)
+        file.save(save_path)
+        uploaded_files.append(filename)
 
-    fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)  # ファイル情報を保存
+    # 最終的なsecure_idは全ファイル名を元にするが、zip処理が前提なら一貫したルールで
+    # '.'の除去などは行わないが、相対パス排除はsecure_filenameに任せている。
+    secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
 
-    return render_template('info.html', id=id, password=password, secure_id=secure_id,  # アップロード完了情報を表示するためのHTMLページをレンダリング
+    # QRコード生成 (外部入力のない内部生成値なので基本問題なし)
+    qr_url = 'https://fs-qr.net/' + 'download/' + secure_id
+    im = qrcode.make(qr_url)
+    qr_path = os.path.join(QR, 'qrcode-' + secure_id + '.jpg')
+    im.save(qr_path)
+
+    fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)
+
+    return render_template('info.html', id=id, password=password, secure_id=secure_id,
                            mode='upload',
-                           url=request.host_url + 'download/' + secure_id)  # ダウンロードリンクを含む情報を表示
+                           url=request.host_url + 'download/' + secure_id)
 
 @app.route('/download/<secure_id>')
 def download(secure_id):
-    # URLが正しいか判定 --- (*8)
+    # URLパラメータをサニタイズ（DBからデータを取得して判定）
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
-    for i in data:
-        id = i["id"]
-    # ダウンロードページを表示 --- (*9)
+    # dataからidを取得
+    id = data[0]["id"] if data else None
+
     return render_template('info.html',
-                           data=data, mode='download',id=id, secure_id=secure_id,
+                           data=data, mode='download', id=id, secure_id=secure_id,
                            url=request.host_url + 'download_go/' + secure_id)
 
 @app.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
-    # URLが正しいか再び判定 --- (*10)
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
-    path=STATIC+'/'+secure_id+'.zip'
+    
+    # パス操作をos.path.joinで実施
+    path = os.path.join(STATIC, secure_id + '.zip')
 
-    # ダウンロードできるようにファイルを送信 --- (*14)
+    # ファイルが存在するかチェック
+    if not os.path.exists(path):
+        return msg('ファイルが存在しません')
+
     return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
-
 
 @app.route('/admin/list')
 def admin_list():
-    # マスターパスワードの確認 --- (*15)
+    # マスターパスワードの確認
     if request.args.get('pw', '') != MASTER_PW:
         return msg('マスターパスワードが違います')
-    # 全データをデータベースから取り出して表示 --- (*16)
     return render_template('admin_list.html',
                            files=fs_data.get_all(), pw=MASTER_PW)
 
-
 @app.route('/admin/remove/<secure_id>')
 def admin_remove(secure_id):
-    # マスターパスワードを確認してファイルとデータを削除 --- (*17)
     if request.args.get('pw', '') != MASTER_PW:
         return msg('マスターパスワードが違います')
 
-    # URLが正しいか再び判定 --- (*10)
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
@@ -119,72 +132,56 @@ def admin_remove(secure_id):
     fs_data.remove_data(secure_id)
     return redirect('/remove-succes')
 
-
 @app.route('/all-remove', methods=['POST'])
 def all():
+    # 全削除時もパス固定で行う(アプリケーション内部で操作)
     fs_data.all_remove()
-    shutil.rmtree('static/upload')
-    shutil.rmtree('static/qrcode')
-    os.mkdir('static/upload')
-    os.mkdir('static/qrcode')
+    shutil.rmtree(os.path.join(BASE_DIR, 'static', 'upload'))
+    shutil.rmtree(os.path.join(BASE_DIR, 'static', 'qrcode'))
+    os.mkdir(os.path.join(BASE_DIR, 'static', 'upload'))
+    os.mkdir(os.path.join(BASE_DIR, 'static', 'qrcode'))
     return redirect('/remove-succes')
-
 
 @app.route('/kensaku')
 def kensaku():
-    # ファイルのアップロードフォームを表示 --- (*3)
     return render_template('kensaku-form.html')
-
 
 @app.route('/try_login', methods=['POST'])
 def kekka():
     id = request.form.get('name', '')
     password = request.form.get('pw', '')
-    
-    secure_id = fs_data.try_login(id,password)
+
+    secure_id = fs_data.try_login(id, password)
 
     if not secure_id:
         return msg('IDかパスワードが間違っています')
-    
-    return redirect('/download/'+secure_id)
 
+    return redirect('/download/' + secure_id)
 
-def msg(s):  # テンプレートを使ってエラー画面を表示
+def msg(s):
     return render_template('error.html', message=s)
 
-
-# 削除した後に表示される画面
 @app.route('/remove-succes')
 def after_remove():
     return render_template('after-remove.html')
 
-
-# --- テンプレートのフィルタなど拡張機能の指定 --- (*12)
-# CSSなど静的ファイルの後ろにバージョンを自動追記 --- (*13)
 @app.context_processor
 def add_staticfile():
     return dict(staticfile=staticfile_cp)
 
-
 def staticfile_cp(fname):
     path = os.path.join(app.root_path, 'static', fname)
-    mtime = str(int(os.stat(path).st_mtime))
-    return '/static/' + fname + '?v=' + str(mtime)
-
-# 日時フォーマットを簡易表示するフィルタ設定 --- (*18)
+    if os.path.exists(path):
+        mtime = str(int(os.stat(path).st_mtime))
+        return '/static/' + fname + '?v=' + str(mtime)
+    return '/static/' + fname
 
 def filter_datetime(tm):
-    return time.strftime(
-        '%Y/%m/%d %H:%M:%S',
-        time.localtime(tm))
- 
+    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(tm))
 
-
-# フィルタをテンプレートエンジンに登録
 app.jinja_env.filters['datetime'] = filter_datetime
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
-
-
-
+    # 本番運用時はdebug=Falseに設定すること。
+    app.run(debug=False, host='0.0.0.0')
+    #app.run(debug=True)

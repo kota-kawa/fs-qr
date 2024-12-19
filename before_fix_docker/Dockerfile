@@ -14,11 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 COPY wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod +x /usr/local/bin/wait-for-it
 
-# Create logs directory and set permissions
-RUN mkdir -p /app/logs && chmod -R 777 /app/logs
-
 # Expose port 5000 for Gunicorn app
 EXPOSE 5000
 
 # Run Gunicorn app when the container launches
+#CMD ["/usr/local/bin/wait-for-it", "db:3306", "--", "gunicorn", "-b", "0.0.0.0:5000", "app:app"]
 CMD ["/usr/local/bin/wait-for-it", "db:3306", "--", "gunicorn", "-b", "0.0.0.0:5000", "--access-logfile", "/app/logs/access.log", "--error-logfile", "/app/logs/error.log", "app:app"]

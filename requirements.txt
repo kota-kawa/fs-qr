@@ -5,3 +5,5 @@ uuid
 apscheduler
 mysqlclient
 Pillow
+sqlalchemy 
+pymysql
