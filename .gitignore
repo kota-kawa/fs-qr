@@ -32,6 +32,10 @@ static/upload/*
 static/group_uploads/*
 !static/group_uploads/.gitkeep
 
+logs/access.log
+logs/error.log
+
+
 # ビルドディレクトリを無視
 /build/
 __pycache__/
