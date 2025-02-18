@@ -26,6 +26,7 @@ engine = create_engine(
     f"mysql+pymysql://{user_key}:{pw_key}@{host_key}/{db_key}?charset=utf8mb4",
     pool_recycle=280,
     pool_size=10,
+    pool_pre_ping=True,
     max_overflow=5,
     echo=False  # 本番環境ではデバッグログを無効化
 )

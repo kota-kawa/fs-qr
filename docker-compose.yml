@@ -1,20 +1,21 @@
+version: '3'
 services:
   web:
     build: .
+    ports:
+      - "5000:5000"
     environment:
       - SQL_USER=LAA1311728
       - SQL_PW=tocer2955
       - SQL_DB=fsqr
-      - SQL_HOST=db
+      - SQL_HOST=db  # MySQLコンテナを指定
+      - FLASK_ENV=development  # 追加
     volumes:
-      - .:/app  # アプリケーションコードのマウント
-      - ./logs:/app/logs  # ホストの ./logs ディレクトリをコンテナ内 /app/logs にマウント
+      - .:/app
+
     depends_on:
       - db
-    ports:
-      - "5000:5000"  # ホストの5000番ポートをDockerのwebサービスにマッピング
-    networks:
-      - app-network
+    command: /bin/sh -c "sleep 10 && flask run --host=0.0.0.0 --port=5000 --reload"
 
   db:
     image: mysql:5.7
@@ -26,12 +27,7 @@ services:
       MYSQL_PASSWORD: tocer2955
     volumes:
       - db_data:/var/lib/mysql
-      - ./db_init:/docker-entrypoint-initdb.d
-    networks:
-      - app-network
+      - ./db_init:/docker-entrypoint-initdb.d  # この行を追加
 
 volumes:
   db_data:
-
-networks:
-  app-network:

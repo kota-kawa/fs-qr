@@ -26,6 +26,7 @@ engine = create_engine(
     f"mysql+pymysql://{user_key}:{pw_key}@{host_key}/{db_key}?charset=utf8mb4",
     pool_recycle=280,  # プール内の接続を280秒後に再接続
     pool_size=10,      # 最大10個の接続を保持
+    pool_pre_ping=True,
     max_overflow=5,    # プールが満杯のとき、さらに5個の接続を作成可能
     echo=False         # デバッグのためにSQLをログ出力（本番環境ではFalse推奨）
 )
