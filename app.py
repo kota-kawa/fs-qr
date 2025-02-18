@@ -183,5 +183,5 @@ app.jinja_env.filters['datetime'] = filter_datetime
 
 if __name__ == '__main__':
     # 本番運用時はdebug=Falseに設定すること。
-    #app.run(debug=False, host='0.0.0.0')
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')
+    #app.run(debug=True)
