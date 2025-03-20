@@ -5,7 +5,8 @@
 <div class="content">
     <!-- Form Area -->
     <div id="info">
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="pure-form pure-form-stacked"
+        <form action="/upload" method="POST" enctype="multipart/form-data"
+            class="pure-form pure-form-stacked"
             id="uploadForm">
             <fieldset>
                 <legend>最初にファイルを選んでください。</legend>
@@ -13,18 +14,20 @@
                 <div class="upload-area" id="upload-area">
                     <i class="upload-icon">📁</i>
                     <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
-                    <button type="button" onclick="fileInput.click()" class="upload-button">ファイルを選択</button>
-                    <input type="file" name="upfile" id="fileInput" multiple="">
-                    
+                    <button type="button" onclick="fileInput.click()"
+                        class="upload-button">ファイルを選択</button>
+                    <input type="file" name="upfile" id="fileInput" multiple>
+
                 </div>
                 <ul class="file-list" id="fileList"></ul>
                 <legend>下記の必要項目を記述してください。</legend>
                 <div class="mb-3" style="max-width: 200px;">
                     <label for="name" class="form-label">ID</label>
-                    <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
+                    <input type="text" class="form-control" minlength="5"
+                        maxlength="10" name="name" id="name" placeholder="IDを入力"
+                        required>
                 </div>
-                
-                
+
                 <input class="btn btn-success" type="submit" value="アップロード">
             </fieldset>
         </form>
@@ -40,8 +43,7 @@
             </div>
         </div>
     </div>
-    
-    
+
 </div>
 
 <!-- Spinner Container (Hidden initially) -->
@@ -56,11 +58,9 @@
     </div>
 </div>
 
-
-
-
 <!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
     const uploadArea = document.getElementById('upload-area');
     const fileInput = document.getElementById('fileInput');
@@ -154,31 +154,57 @@
 
     // フォーム送信時のイベント修正
     uploadForm.addEventListener('submit', async function (event) {
-        event.preventDefault(); // デフォルトのフォーム送信を一時的に無効化
-        document.getElementById('spinner-container').style.display = 'flex'; // スピナー表示
-        startIconSwitching(); // アイコン切り替え開始
-        const files = fileInput.files;
-        const id = idInput.value.trim(); // 空白を除去してIDを取得
-        if (files.length > 0 && id.length > 0) { // IDが空でないかチェック
-            try {
-                const zipBlob = await encryptAndZipFilesWithProgress(files, id); // 暗号化と進捗バー更新
+        event.preventDefault(); // 標準のフォーム送信を止める
 
-                // テキストを「送信中」に変更
+        // スピナーを表示 & アニメーション開始
+        document.getElementById('spinner-container').style.display = 'flex';
+        startIconSwitching();
+
+        const files = fileInput.files;
+        const id = idInput.value.trim();
+
+        if (files.length > 0 && id.length > 0) {
+            try {
+                // (1) 「アップロード中...」を表示
+                document.querySelector('.text').textContent = 'アップロード中...';
+
+                // ★最低1秒は「アップロード中...」が見えるようにする
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // (2) 「暗号化中...」に切り替えて暗号化処理
+                document.querySelector('.text').textContent = '暗号化中...';
+                const zipBlob = await encryptAndZipFilesWithProgress(files, id);
+
+                // (3) 暗号化完了後に「送信中...」へ変更し、サーバーにデータを送信
                 document.querySelector('.text').textContent = '送信中...';
 
-                // 暗号化したZIPファイルをfileInputに設定
                 const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(zipFile);
-                fileInput.files = dataTransfer.files; // fileInputにZIPファイルをセット
+                const formData = new FormData();
+                formData.append('upfile', zipFile);
+                formData.append('name', id);
 
-                uploadForm.submit(); // 暗号化完了後に標準送信
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // JSON からリダイレクト先を取得
+                    const result = await response.json();
+                    if (result.redirect_url) {
+                        // リダイレクト
+                        window.location.href = result.redirect_url;
+                    } else {
+                        alert('アップロードに失敗しました(リダイレクトURLがありません)');
+                    }
+                } else {
+                    alert('アップロードに失敗しました(サーバーエラー)');
+                }
             } catch (error) {
                 alert('エラーが発生しました: ' + error.message);
             } finally {
-                //document.getElementById('spinner-container').style.display = 'none'; // スピナーを非表示
-                //document.querySelector('.progress-bar').style.width = '0%'; // プログレスバーをリセット
-                stopIconSwitching(); // アイコン切り替えを停止
+                // スピナーアニメーション停止
+                stopIconSwitching();
             }
         } else {
             alert('ファイルとIDを選択してください。');

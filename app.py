@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint
+from flask import Flask, request,send_file, jsonify, render_template, redirect, url_for
 import os
 import time
 import qrcode
@@ -80,9 +80,34 @@ def upload():
 
     fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)
 
-    return render_template('info.html', id=id, password=password, secure_id=secure_id,
-                           mode='upload',
-                           url=request.host_url + 'download/' + secure_id)
+        # ここでは JSON でリダイレクト先を返す
+    return jsonify({
+        "redirect_url": url_for('upload_complete', secure_id=secure_id)
+    })
+
+
+
+@app.route('/upload_complete/<secure_id>')
+def upload_complete(secure_id):
+    # DBからアップロード情報を取得
+    data = fs_data.get_data(secure_id)
+    if not data:
+        return render_template('error.html', message='パラメータが不正です')
+
+    # 最初のレコードからIDとパスワードを取得
+    row = data[0]
+    id_val = row["id"]
+    password_val = row["password"]
+
+    # info.html を mode='upload' で表示
+    return render_template(
+        'info.html',
+        id=id_val,
+        password=password_val,
+        secure_id=secure_id,
+        mode='upload',
+        url=request.host_url + 'download/' + secure_id
+    )
 
 @app.route('/download/<secure_id>')
 def download(secure_id):

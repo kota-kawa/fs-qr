@@ -12,12 +12,7 @@
 
   </h2>
 
-
-
-
   {% if mode == 'upload' %}
-
-
 
   <div class="container text-center " style="max-width: 500px;">
     <p class="fw-bold mb-4">ダウンロード先の情報:</p>
@@ -27,11 +22,11 @@
         <td>{{ id | e }}</td>
       </tr>
       <tr>
-        <th scope="row" class="text-center">パスワード</th>
+        <th scope="row" class="text-center" style="white-space: nowrap;">パスワード</th>
         <td>{{ password | e }}</td>
       </tr>
       <tr>
-        <th scope="row" class="text-center">ファイル名</th>
+        <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
         <td>{{ secure_id }}.zip</td>
       </tr>
     </table>
@@ -61,16 +56,17 @@
       </tr>
     </table>
 
-    <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4">
-      <button type="submit" class="btn btn-success text-start">ダウンロード</button>
+    <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4  text-center">
+      <button type="submit" class="btn btn-success">ダウンロード</button>
     </form>
+
   </div>
 
 
-
+  
   <div id="fileContent"></div>
-
-  <!-- スピナーをここに挿入 -->
+  
+  <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
   <div class="spinner-container" id="spinnerContainer" style="display: none;">
     <div class="spinner-second-container" id="animationContainer">
       <div class="icon lock">🔒</div>
@@ -101,84 +97,93 @@
 
 
     document.getElementById('downloadForm').addEventListener('submit', async function (e) {
-      e.preventDefault();  // フォームのデフォルト送信を防ぐ
-      // スピナーを表示
-      spinnerContainer.style.display = 'flex';
-      container.classList.add('decrypting');
-      document.getElementById('statusText').textContent = '受信中...';
+    e.preventDefault(); // ← 従来のsubmitを止めて、JSの処理に切り替える
 
-      const secureId = "{{ secure_id }}";  // テンプレートエンジンから渡されたsecure_id
-      const decryptionKey = secureId.split('-')[0];  // secure_idの最初の「-」までをキーとして使用
+    // スピナーの表示
+    const spinnerContainer = document.getElementById('spinnerContainer');
+    const container = document.getElementById('animationContainer');
+    spinnerContainer.style.display = 'flex';
+    container.classList.add('decrypting');
+    document.getElementById('statusText').textContent = '受信中...';
 
-      // ZIPファイルをサーバーから取得
-      const response = await fetch(`/download_go/${secureId}`, {
-        method: 'POST'
-      });
-      const encryptedBlob = await response.blob();  // サーバーからのZIPファイルをblobとして取得
+    // テンプレートからキーとなる文字列を取得
+    const secureId = "{{ secure_id }}";
+    const decryptionKey = secureId.split('-')[0];
 
-      // 受信完了後、テキストを復号中に変更
-      document.getElementById('statusText').textContent = '復号中...';
-
-      // ZIPファイルの復号処理（進捗バー更新機能追加）
-      const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
-      if (decryptedBlob) {
-        // 復号されたZIPファイルをダウンロード
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(decryptedBlob);
-        link.download = `${secureId}.zip`;  // ダウンロード名を設定
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);  // ダウンロード後リンクを削除
-      } else {
-        alert('復号に失敗しました。');
-      }
-
-      // スピナーを非表示に戻す
-      spinnerContainer.style.display = 'none';
-      container.classList.remove('decrypting');
+    // fetch APIでサーバーからZIPファイルを受信
+    const response = await fetch(`/download_go/${secureId}`, {
+      method: 'POST'
     });
+    const encryptedBlob = await response.blob();
 
-    // AES-GCMでファイルを復号
-    async function decryptFile(encryptedBuffer, key, iv) {
-      const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));  // secure_idから鍵生成
-      const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
+    // 状態を「復号中」に変更
+    document.getElementById('statusText').textContent = '復号中...';
 
-      try {
-        const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, encryptedBuffer);
-        return decryptedBuffer;
-      } catch (error) {
-        console.error('復号エラー:', error);
+    // ZIPを復号してBlob化するカスタム関数（後述）を実行
+    const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+    if (decryptedBlob) {
+      // 復号完了後、自動ダウンロード
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(decryptedBlob);
+      link.download = `${secureId}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert('復号に失敗しました。');
+    }
+
+    // スピナーを非表示に戻す
+    spinnerContainer.style.display = 'none';
+    container.classList.remove('decrypting');
+  });
+
+  // AES-GCMで復号する関数
+  async function decryptFile(encryptedBuffer, key, iv) {
+    const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      keyBuffer,
+      { name: 'AES-GCM' },
+      false,
+      ['decrypt']
+    );
+    try {
+      return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);
+    } catch (error) {
+      console.error('復号エラー:', error);
+      return null;
+    }
+  }
+
+  // ZIPファイル内の各ファイルを復号 → 新たにZIP化 → 最終Blobを返す
+  async function decryptAndDownloadZip(encryptedBlob, key) {
+    const zip = await JSZip.loadAsync(encryptedBlob);
+    const decryptedZip = new JSZip();
+    const totalFiles = Object.keys(zip.files).length;
+    let processedFiles = 0;
+
+    for (const fileName in zip.files) {
+      const fileData = await zip.file(fileName).async('arraybuffer');
+      const iv = fileData.slice(0, 12);
+      const encryptedContent = fileData.slice(12);
+      const decryptedContent = await decryptFile(encryptedContent, key, iv);
+
+      if (decryptedContent) {
+        decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);
+      } else {
         return null;
       }
+
+      // プログレスバーの更新例
+      processedFiles++;
+      const progressPercentage = (processedFiles / totalFiles) * 100;
+      document.getElementById('progressBar').style.transform =
+        `scaleX(${1 - (progressPercentage / 100)})`;
     }
 
-    // ZIPファイルの復号とダウンロード処理
-    async function decryptAndDownloadZip(encryptedBlob, key) {
-      const zip = await JSZip.loadAsync(encryptedBlob);  // ZIPファイルを読み込み
-      const decryptedZip = new JSZip();
-      const totalFiles = Object.keys(zip.files).length;  // 総ファイル数を取得
-      let processedFiles = 0;  // 処理されたファイル数をトラッキング
-
-      for (const fileName in zip.files) {
-        const fileData = await zip.file(fileName).async('arraybuffer');  // 暗号化ファイルをArrayBufferで取得
-        const iv = fileData.slice(0, 12);  // 最初の12バイトはIV
-        const encryptedContent = fileData.slice(12);  // IV以降が暗号化されたデータ
-
-        const decryptedContent = await decryptFile(encryptedContent, key, iv);  // ファイルを復号
-        if (decryptedContent) {
-          decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);  // 復号されたファイルをZIPに追加
-        } else {
-          return null;
-        }
-
-        // プログレスバーの更新
-        processedFiles += 1;
-        const progressPercentage = (processedFiles / totalFiles) * 100;
-        progressBar.style.transform = `scaleX(${1 - (progressPercentage / 100)})`;  // 右から左へ進む
-      }
-
-      return decryptedZip.generateAsync({ type: 'blob' });  // 復号されたZIPを生成
-    }
+    return decryptedZip.generateAsync({ type: 'blob' });
+  }
 
 
 
