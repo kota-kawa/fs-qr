@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ファイル共有メニュー</title>
-    <link rel="icon" href="{{staticfile('favicon3.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- アイコン用 FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- カスタムCSS -->
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ファイル共有メニュー</title>
+        <link rel="icon" href="{{staticfile('favicon3.ico')}}">
+        <link rel="apple-touch-icon" sizes="180x180"
+            href="{{staticfile('apple-touch-icon3.png')}}">
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- アイコン用 FontAwesome -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- カスタムCSS -->
+        <style>
         body, html {
             height: 100%;
             margin: 0;
@@ -104,30 +108,43 @@
             }
         }
     </style>
-</head>
-<body>
-    <div class="menu-container">
-        <div class="menu-header">
-            <h1>ファイル共有メニュー</h1>
-            <p>利用したいファイル共有方法を選んでください。</p>
+    </head>
+    <body>
+        <div class="menu-container">
+            <div class="menu-header">
+                <h1>ファイル共有メニュー</h1>
+                <p>利用したいファイル共有方法を選んでください。</p>
+            </div>
+            <ul class="menu-list">
+                <li>
+                    <a href="/group" class="menu-item group">
+                        <i class="fas fa-users"></i>
+                        <h3>グループで共有</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="/fs-qr" class="menu-item fs-qr">
+                        <i class="fas fa-qrcode"></i>
+                        <h3>QRコード共有</h3>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <ul class="menu-list">
-            <li>
-                <a href="/group" class="menu-item group">
-                    <i class="fas fa-users"></i>
-                    <h3>グループで共有</h3>
-                </a>
-            </li>
-            <li>
-                <a href="/fs-qr" class="menu-item fs-qr">
-                    <i class="fas fa-qrcode"></i>
-                    <h3>QRコード共有</h3>
-                </a>
-            </li>
-        </ul>
-    </div>
 
-    <!-- Bootstrap JSと依存関係 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <!-- Bootstrap JSと依存関係 -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Google tag (gtag.js) -->
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id=G-D26D8ZXKNV"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D26D8ZXKNV');
+        </script>
+
+    </body>
 </html>
