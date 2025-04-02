@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint
+from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, flash
 import uuid
 import random
 import os
@@ -185,3 +185,41 @@ def search_room():
 
 def room_msg(s):
     return render_template('error.html', message=s)
+
+
+# ルーム管理用のルート
+
+@group_bp.route('/manage_rooms', methods=['GET', 'POST'])
+def manage_rooms():
+    management_password = 'ghost3177'  # ここで管理用パスワードを設定
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == management_password:
+            session['management_authenticated'] = True
+        else:
+            flash('パスワードが違います。')
+            return render_template('Group/manage_rooms_login.html')
+    if not session.get('management_authenticated'):
+        return render_template('Group/manage_rooms_login.html')
+    
+    # 認証済みの場合、ルーム一覧を表示
+    rooms = group_data.get_all()
+    return render_template('Group/manage_rooms.html', rooms=rooms)
+
+# ログアウト用のエンドポイント（任意）
+@group_bp.route('/logout_management')
+def logout_management():
+    session.pop('management_authenticated', None)
+    return redirect('/manage_rooms')
+
+@group_bp.route('/delete_room/<room_id>', methods=['POST'])
+def delete_room(room_id):
+    # 指定ルームの削除処理（DB削除と対応ファイルの削除）
+    group_data.remove_data(room_id)
+    return redirect('/manage_rooms')
+
+@group_bp.route('/delete_all_rooms', methods=['POST'])
+def delete_all_rooms():
+    # 全ルームを削除する処理
+    group_data.all_remove()
+    return redirect('/manage_rooms')

@@ -18,8 +18,10 @@ load_dotenv()
 
 # 環境変数の値を取得
 admin_key = os.getenv("ADMIN_KEY")
-
+secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
+app.secret_key = secret_key
+
 MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)

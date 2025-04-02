@@ -1,0 +1,23 @@
+{% extends "group_layout.html" %}
+
+{% block contents %}
+<div class="container mt-4">
+    <h1 class="mb-4">ルーム管理ログイン</h1>
+    <form method="post" action="/manage_rooms">
+        <div class="mb-3">
+            <label for="password" class="form-label">パスワード</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">ログイン</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="alert alert-danger mt-3">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

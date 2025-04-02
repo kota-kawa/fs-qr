@@ -2,6 +2,8 @@ import os
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session, sessionmaker
 from dotenv import load_dotenv
+from werkzeug.utils import secure_filename
+import shutil
 import logging
 
 # ログ設定
@@ -78,27 +80,26 @@ def get_all():
 
 # アップロードされたファイルとメタ情報の削除
 def remove_data(secure_id):
-    # パス検証
-    if not secure_id.isalnum():
-        logger.error("Invalid secure_id: %s", secure_id)
-        return
+    """
+    指定されたルームのデータベースレコードと、
+    関連するアップロードフォルダおよびその他のファイル（ZIPファイル、QRコード画像など）を削除します。
+    """
+    # secure_id の検証は room_id にハイフンなどが含まれることがあるため、ここでは省略
 
-    # ファイル削除処理
-    paths = [
-        os.path.join(STATIC, f"{secure_id}.zip"),
-        os.path.join(QR, f"qrcode-{secure_id}.jpg")
-    ]
-    for file_path in paths:
+    # グループアップロードフォルダのパスを計算（group_app.py と同様の処理）
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    PARENT_DIR = os.path.dirname(BASE_DIR)
+    group_uploads = os.path.join(PARENT_DIR, 'static', 'group_uploads')
+    room_folder = os.path.join(group_uploads, secure_filename(secure_id))
+    
+    # ルームに紐づくアップロードフォルダを削除
+    if os.path.exists(room_folder):
         try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                logger.info("Deleted file: %s", file_path)
-            else:
-                logger.warning("File not found: %s", file_path)
+            shutil.rmtree(room_folder)
         except Exception as e:
-            logger.error("Failed to delete file: %s. Error: %s", file_path, e)
+            logger.error("アップロードフォルダの削除に失敗しました: %s. エラー: %s", room_folder, e)
 
-    # データベースから削除
+    # データベースから該当ルームのレコードを削除
     query = text("""
         DELETE FROM room WHERE room_id = :secure_id
     """)
@@ -106,7 +107,30 @@ def remove_data(secure_id):
 
 # 全てのデータを削除
 def all_remove():
-    query = text("""
-        DELETE FROM room
-    """)
+    # 全ルーム情報を取得（get_all() は全件取得を行います）
+    rooms = get_all()
+    
+    # グループアップロードフォルダのパス（group_app.py と同じパスを想定）
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    PARENT_DIR = os.path.dirname(BASE_DIR)
+    group_uploads = os.path.join(PARENT_DIR, 'static', 'group_uploads')
+
+    for room in rooms:
+        room_id = room.get("room_id")
+        if not room_id:
+            continue
+
+        # ルームに対応するアップロードフォルダの削除
+        room_folder = os.path.join(group_uploads, secure_filename(room_id))
+        if os.path.exists(room_folder):
+            try:
+                shutil.rmtree(room_folder)
+            except Exception as e:
+                logger.error("アップロードフォルダの削除に失敗しました: %s. エラー: %s", room_folder, e)
+    
+    # 最後に、データベースから全ルームのレコードを削除
+    query = text("DELETE FROM room")
     execute_query(query)
+
+
+
