@@ -36,6 +36,7 @@ logs/access.log
 logs/error.log
 
 
+
 # ビルドディレクトリを無視
 /build/
 __pycache__/
