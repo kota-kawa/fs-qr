@@ -6,6 +6,12 @@ import urllib
 import zipfile
 import io
 from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
+
+#　自動削除用のモジュール
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
+
+# 同じパッケージ内の group_data モジュールをインポート
 from . import group_data
 
 group_bp = Blueprint('group', __name__)
@@ -18,14 +24,37 @@ STATIC_DIR = os.path.join(PARENT_DIR, 'static')  # 一つ上のディレクト�
 # アップロード先フォルダ
 UPLOAD_FOLDER = os.path.join(STATIC_DIR, 'group_uploads')
 
-# 安全なディレクトリパスを確認するヘルパー関数
+# ---------------------------
+# 安全なディレクトリパスか確認するヘルパー関数
+# ---------------------------
 def is_safe_path(base_path, target_path):
     return os.path.commonprefix([os.path.abspath(target_path), os.path.abspath(base_path)]) == os.path.abspath(base_path)
 
+# ---------------------------
+# 古いルームを削除する関数
+# ---------------------------
+def delete_expired_rooms():
+    # group_dataモジュール内の関数を呼び出して、古いルームを削除
+    group_data.remove_expired_rooms()
+
+# スケジューラをセットアップ（例：毎日1回実行）
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=delete_expired_rooms, trigger="interval", days=1)
+scheduler.start()
+
+# アプリ終了時にスケジューラをシャットダウンするように登録
+atexit.register(lambda: scheduler.shutdown())
+
+# ---------------------------
+# グループ画面のルート
+# ---------------------------
 @group_bp.route('/group')
 def group():
     return render_template('Group/group.html')
 
+# ---------------------------
+# 特定のルームIDのグループルーム画面を表示するルート
+# ---------------------------
 @group_bp.route('/group_room/<room_id>')
 def group_list(room_id):
     room_data = group_data.get_data(room_id)
@@ -38,12 +67,26 @@ def group_list(room_id):
     print(f"Room ID: {room_id}")
     return render_template('Group/group_room.html', room_id=room_id, user_id=user_id, password=password)
 
+
+# ---------------------------
+# ルーム作成画面のルート
+# ---------------------------
 @group_bp.route('/create_room')
 def create_room():
     return render_template('Group/create_group_room.html')
 
+# ---------------------------
+# 新規グループルームの作成処理（POSTリクエスト）
+# ---------------------------
 @group_bp.route('/create_group_room', methods=['POST'])
 def create_group_room():
+    """
+    フォームからの入力を元に新しいルームを作成する。
+    10文字のランダムなユニークIDと、6桁のランダムなパスワードを生成する。
+    入力されたIDが英数字でなければエラーを返す。
+    作成したルームIDのフォルダをセキュアな方法で生成し、group_dataモジュールにルーム情報を保存する。
+    その後、作成されたルームのページへリダイレクトする。
+    """
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
     id = request.form.get('id', '名無し')  # フォームからIDを取得
     if not id.isalnum():  # IDを安全な文字列のみ許可
@@ -59,8 +102,17 @@ def create_group_room():
     group_data.create_room(id=id, password=password, room_id=room_id)
     return redirect(f'/group_room/{room_id}')
 
+# ---------------------------
+# グループアップロード処理（ファイルアップロード）
+# ---------------------------
 @group_bp.route('/group_upload/<room_id>', methods=['POST'])
 def group_upload(room_id):
+    """
+    指定されたルームIDに対して、アップロードされたファイルを保存する。
+    ルームが存在しなければエラーを返す。
+    アップロードされた各ファイルについて、ファイル名の安全性を確保し、サイズが0バイトのファイルは削除する。
+    エラーが発生したファイルはエラーレスポンスとして返す。
+    """
     room_data = group_data.get_data(room_id)
     if not room_data:
         return jsonify({"error": "無効なルームIDです。"}), 400
@@ -97,8 +149,15 @@ def group_upload(room_id):
 
     return jsonify({"status": "success", "message": "ファイルが正常にアップロードされました。"})
 
+# ---------------------------
+# ルーム内のファイル一覧を取得するルート
+# ---------------------------
 @group_bp.route("/check/<room_id>")
 def list_files(room_id):
+    """
+    指定されたルームIDに対応するフォルダ内の全ファイルの名前をJSON形式で返す。
+    フォルダが存在しなかったり、不正なパスの場合はエラーを返す。
+    """
     target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(target_directory):
         return jsonify({"error": "ルームIDのディレクトリが見つかりません。"}), 404
@@ -112,8 +171,16 @@ def list_files(room_id):
     except Exception as e:
         return jsonify({"error": f"エラー: {str(e)}"}), 500
 
+# ---------------------------
+# ルーム内のすべてのファイルをZIP圧縮してダウンロードするルート
+# ---------------------------
 @group_bp.route('/download/all/<room_id>', methods=['GET'])
 def download_all_files(room_id):
+    """
+    指定されたルームIDのフォルダ内のすべてのファイルをZIPファイルにまとめ、
+    バイトストリームとしてクライアントに送信する。
+    フォルダが存在しなければエラーを返す。
+    """
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(room_folder):
         return jsonify({"error": "指定されたルームIDのファイルが見つかりません。"}), 404
@@ -131,8 +198,15 @@ def download_all_files(room_id):
     except Exception as e:
         return jsonify({"error": f"エラー: {str(e)}"}), 500
 
+# ---------------------------
+# 単一ファイルをダウンロードするルート
+# ---------------------------
 @group_bp.route('/download/<room_id>/<path:filename>', methods=['GET'])
 def download_file(room_id, filename):
+    """
+    指定されたルームIDとファイル名に対して、ファイルを安全な形式に変換した上で、
+    ダウンロードできるように送信する。パスの安全性もチェックする。
+    """
     decoded_filename = secure_filename(urllib.parse.unquote(filename))
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
@@ -148,8 +222,15 @@ def download_file(room_id, filename):
     except Exception as e:
         return jsonify({"error": f"エラー: {str(e)}"}), 500
 
+# ---------------------------
+# ファイルを削除するルート
+# ---------------------------
 @group_bp.route('/delete/<room_id>/<filename>', methods=['DELETE'])
 def delete_file(room_id, filename):
+    """
+    指定されたルームIDとファイル名に対応するファイルを削除する。
+    削除前にパスの安全性を確認し、ファイルが存在しなければエラーを返す。
+    """
     decoded_filename = secure_filename(urllib.parse.unquote(filename))
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
@@ -166,12 +247,23 @@ def delete_file(room_id, filename):
     except Exception as e:
         return jsonify({"error": f"エラー: {str(e)}"}), 500
 
+# ---------------------------
+# ルーム検索画面のルート
+# ---------------------------
 @group_bp.route('/search_room')
 def search_room_page():
     return render_template('Group/search_room.html')
 
+# ---------------------------
+# ルーム検索処理（POSTリクエスト）
+# ---------------------------
 @group_bp.route('/search_room_process', methods=['POST'])
 def search_room():
+    """
+    フォームから送信されたIDとパスワードを用いてルームを検索する。
+    入力値の検証を行い、該当するルームIDが見つかればそのルームページへリダイレクトする。
+    入力値に不正な値がある場合やルームが見つからなかった場合はエラーメッセージを返す。
+    """
     id = request.form.get('id', '').strip()
     password = request.form.get('password', '').strip()
 
@@ -183,12 +275,16 @@ def search_room():
         return room_msg('IDかパスワードが間違っています')
     return redirect(f'/group_room/{room_id}')
 
+# ---------------------------
+# エラーメッセージを表示するための補助関数
+# ---------------------------
 def room_msg(s):
     return render_template('error.html', message=s)
 
 
-# ルーム管理用のルート
-
+# ---------------------------
+# ルーム管理用のルート（ルーム一覧の表示、ルーム削除等）
+# ---------------------------
 @group_bp.route('/manage_rooms', methods=['GET', 'POST'])
 def manage_rooms():
     management_password = 'ghost3177'  # ここで管理用パスワードを設定
@@ -206,18 +302,26 @@ def manage_rooms():
     rooms = group_data.get_all()
     return render_template('Group/manage_rooms.html', rooms=rooms)
 
-# ログアウト用のエンドポイント（任意）
+# ---------------------------
+# 管理者ログアウト用のルート
+# ---------------------------
 @group_bp.route('/logout_management')
 def logout_management():
     session.pop('management_authenticated', None)
     return redirect('/manage_rooms')
 
+# ---------------------------
+# 特定ルームの削除処理
+# ---------------------------
 @group_bp.route('/delete_room/<room_id>', methods=['POST'])
 def delete_room(room_id):
     # 指定ルームの削除処理（DB削除と対応ファイルの削除）
     group_data.remove_data(room_id)
     return redirect('/manage_rooms')
 
+# ---------------------------
+# 全ルームを削除する処理
+# ---------------------------
 @group_bp.route('/delete_all_rooms', methods=['POST'])
 def delete_all_rooms():
     # 全ルームを削除する処理

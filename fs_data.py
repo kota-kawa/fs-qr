@@ -137,3 +137,18 @@ def all_remove():
     except Exception as e:
         logger.error(f"Failed to remove all data: {e}")
         raise
+
+# 1週間以上経過したファイルレコードと関連ファイルを削除する関数
+def remove_expired_files():
+    try:
+        # MySQLのINTERVAL句を使って1週間前より古いレコードを抽出
+        query = text("SELECT secure_id FROM fsqr WHERE time < (NOW() - INTERVAL 7 DAY)")
+        expired_records = execute_query(query, fetch=True)
+        for record in expired_records:
+            secure_id = record.get("secure_id")
+            if secure_id:
+                remove_data(secure_id)
+                logger.info(f"Expired record removed: {secure_id}")
+    except Exception as e:
+        logger.error(f"Failed to remove expired files: {e}")
+

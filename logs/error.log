@@ -607,3 +607,10 @@ ImportError: cannot import name 'db_session' from 'fs_data' (/app/fs_data.py)
 [2025-02-18 08:04:24 +0000] [1] [INFO] Handling signal: term
 [2025-02-18 08:04:24 +0000] [20] [INFO] Worker exiting (pid: 20)
 [2025-02-18 08:04:25 +0000] [1] [INFO] Shutting down: Master
+[2025-04-05 02:26:57 +0000] [1] [INFO] Starting gunicorn 23.0.0
+[2025-04-05 02:26:57 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+[2025-04-05 02:26:57 +0000] [1] [INFO] Using worker: sync
+[2025-04-05 02:26:57 +0000] [20] [INFO] Booting worker with pid: 20
+[2025-04-05 02:30:25 +0000] [1] [INFO] Handling signal: term
+[2025-04-05 02:30:25 +0000] [20] [INFO] Worker exiting (pid: 20)
+[2025-04-05 02:30:25 +0000] [1] [INFO] Shutting down: Master

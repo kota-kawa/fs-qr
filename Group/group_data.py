@@ -134,3 +134,13 @@ def all_remove():
 
 
 
+# 1週間以上経過したルームを削除する関数
+def remove_expired_rooms():
+    # 1週間以上前のルームを取得するクエリ（MySQLの場合）
+    query = text("SELECT room_id FROM room WHERE time < (NOW() - INTERVAL 7 DAY)")
+    expired_rooms = execute_query(query, fetch=True)
+    for room in expired_rooms:
+        room_id = room.get("room_id")
+        if room_id:
+            remove_data(room_id)
+            # ログ出力など必要に応じて追加

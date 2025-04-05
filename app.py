@@ -12,6 +12,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
 from Group.group_app import group_bp
 from werkzeug.utils import secure_filename
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 # .envファイルの読み込み
 load_dotenv()
@@ -29,6 +31,21 @@ QR = os.path.join(BASE_DIR, 'static', 'qrcode')
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 app.register_blueprint(group_bp)
+
+# ---------------------------
+# 古いルームを削除する関数
+# ---------------------------
+def delete_expired_files():
+    fs_data.remove_expired_files()
+
+# スケジューラのセットアップ（毎日1回実行）
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=delete_expired_files, trigger="interval", days=1)
+scheduler.start()
+
+# アプリ終了時にスケジューラをシャットダウンするように登録
+atexit.register(lambda: scheduler.shutdown())
+# ---------------------------
 
 @app.route('/')
 def index():
