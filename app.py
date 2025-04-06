@@ -22,6 +22,7 @@ load_dotenv()
 admin_key = os.getenv("ADMIN_KEY")
 secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 例: 50MBまで許可
 app.secret_key = secret_key
 
 MASTER_PW = admin_key

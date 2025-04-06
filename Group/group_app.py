@@ -6,6 +6,7 @@ import urllib
 import zipfile
 import io
 from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
+from dotenv import load_dotenv
 
 #　自動削除用のモジュール
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -15,6 +16,11 @@ import atexit
 from . import group_data
 
 group_bp = Blueprint('group', __name__)
+
+# .envファイルの読み込み
+load_dotenv()
+
+management_password = os.getenv("MANAGEMENT_PASSWIRD")
 
 # 一つ上のディレクトリを取得
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -287,7 +293,6 @@ def room_msg(s):
 # ---------------------------
 @group_bp.route('/manage_rooms', methods=['GET', 'POST'])
 def manage_rooms():
-    management_password = 'ghost3177'  # ここで管理用パスワードを設定
     if request.method == 'POST':
         password = request.form.get('password')
         if password == management_password:
