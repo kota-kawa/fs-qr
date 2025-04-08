@@ -7,6 +7,8 @@ import random
 import secrets
 from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール
+from fs_data import db_session as fs_db_session
+from Group.group_data import db_session as group_db_session
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
@@ -210,9 +212,19 @@ def msg(s):
 def after_remove():
     return render_template('after-remove.html')
 
+
+
+
 @app.context_processor
 def add_staticfile():
     return dict(staticfile=staticfile_cp)
+
+#　データベースのセッションを正しく削除
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    fs_db_session.remove()
+    group_db_session.remove()
+
 
 def staticfile_cp(fname):
     path = os.path.join(app.root_path, 'static', fname)
