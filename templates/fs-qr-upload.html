@@ -154,45 +154,54 @@
 
     // フォーム送信時のイベント修正
     uploadForm.addEventListener('submit', async function (event) {
-        event.preventDefault(); // 標準のフォーム送信を止める
+    event.preventDefault(); // 標準のフォーム送信を止める
 
-        // スピナーを表示 & アニメーション開始
-        document.getElementById('spinner-container').style.display = 'flex';
-        startIconSwitching();
+    // スピナー表示 & アニメーション開始
+    document.getElementById('spinner-container').style.display = 'flex';
+    startIconSwitching();
 
-        const files = fileInput.files;
-        const id = idInput.value.trim();
+    const files = fileInput.files;
+    const id = idInput.value.trim();
 
-        if (files.length > 0 && id.length > 0) {
-            try {
-                // (1) 「アップロード中...」を表示
-                document.querySelector('.text').textContent = 'アップロード中...';
+    if (files.length > 0 && id.length > 0) {
+        try {
+            // (1)「アップロード中...」を表示 ※最低1秒は表示
+            document.querySelector('.text').textContent = 'アップロード中...';
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-                // ★最低1秒は「アップロード中...」が見えるようにする
-                await new Promise(resolve => setTimeout(resolve, 1000));
+            // (2) 暗号化処理に入る
+            document.querySelector('.text').textContent = '暗号化中...';
+            const zipBlob = await encryptAndZipFilesWithProgress(files, id);
 
-                // (2) 「暗号化中...」に切り替えて暗号化処理
-                document.querySelector('.text').textContent = '暗号化中...';
-                const zipBlob = await encryptAndZipFilesWithProgress(files, id);
+            // 暗号化完了→ 送信開始の前に進捗バーをリセット
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.transform = 'scaleX(0)';
 
-                // (3) 暗号化完了後に「送信中...」へ変更し、サーバーにデータを送信
-                document.querySelector('.text').textContent = '送信中...';
+            // (3) 送信中に切り替え
+            document.querySelector('.text').textContent = '送信中...';
 
-                const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
-                const formData = new FormData();
-                formData.append('upfile', zipFile);
-                formData.append('name', id);
+            // 送信するファイルをFormDataに追加
+            const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
+            const formData = new FormData();
+            formData.append('upfile', zipFile);
+            formData.append('name', id);
 
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
+            // XMLHttpRequest を利用してアップロード進捗を計測
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
 
-                if (response.ok) {
-                    // JSON からリダイレクト先を取得
-                    const result = await response.json();
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    const progressPercentage = (event.loaded / event.total) * 100;
+                    // 送信進捗に合わせてバーを更新
+                    progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const result = JSON.parse(xhr.responseText);
                     if (result.redirect_url) {
-                        // リダイレクト
                         window.location.href = result.redirect_url;
                     } else {
                         alert('アップロードに失敗しました(リダイレクトURLがありません)');
@@ -200,15 +209,26 @@
                 } else {
                     alert('アップロードに失敗しました(サーバーエラー)');
                 }
-            } catch (error) {
-                alert('エラーが発生しました: ' + error.message);
-            } finally {
-                // スピナーアニメーション停止
                 stopIconSwitching();
-            }
-        } else {
-            alert('ファイルとIDを選択してください。');
+            };
+
+            xhr.onerror = function () {
+                alert('送信中にエラーが発生しました');
+                stopIconSwitching();
+            };
+
+            // 送信開始
+            xhr.send(formData);
+
+        } catch (error) {
+            alert('エラーが発生しました: ' + error.message);
+            stopIconSwitching();
         }
-    });
+    } else {
+        alert('ファイルとIDを選択してください。');
+        stopIconSwitching();
+    }
+});
+
 </script>
 {% endblock %}
