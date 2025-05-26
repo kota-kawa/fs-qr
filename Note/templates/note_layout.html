@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{staticfile('style.css')}}">
+  <link rel="icon" href="{{staticfile('note_favicon.ico')}}">
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="{{staticfile('note_apple.png')}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
+        rel="stylesheet">
+  <title>Realtime Note Share</title>
+</head>
+
+<body>
+  <!-- ── Header ───────────────────────── -->
+  <header>
+    <div class="container text-center">
+      <h1 class="mt-3">
+        <a href="/note" target="_self">
+          <img src="{{staticfile('note_logo.png')}}" alt="NoteShare"
+               style="height:100px;width:auto;">
+        </a>
+      </h1>
+    </div>
+  </header>
+
+  <!-- ── Search-link（虫眼鏡）───────────── -->
+  <div class="text-center">
+    <a href="/search_note_room" class="search-link">
+      <img src="{{staticfile('note_search.png')}}" alt="検索" />
+      <span>検索</span>
+    </a>
+  </div>
+
+  <!-- ── Main ──────────────────────────── -->
+  <div id="layout" class="page">
+    <div id="main">
+      <div class="contents">
+        {% block contents %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ────────────────────────── -->
+  <footer class="py-4 bg-dark text-light">
+    <div class="container text-center">
+      <ul class="nav justify-content-center mb-3">
+        <li class="nav-item"><a class="nav-link" href="/">ホーム</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://project-kk.com/">問い合わせ</a></li>
+      </ul>
+      <p><small>&copy;2025 NoteShare, All Rights Reserved.</small></p>
+    </div>
+  </footer>
+</body>
+</html>

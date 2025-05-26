@@ -1,0 +1,29 @@
+{% extends "note_layout.html" %}
+{% block contents %}
+<style>
+.center-wrapper{display:flex;justify-content:center;align-items:flex-start;
+                min-height:100vh;padding-top:50px 15px}
+.card{width:100%;max-width:400px;padding:20px;border:none;border-radius:15px;
+      box-shadow:0 10px 20px rgba(0,0,0,.1);background:rgb(204,233,240)}
+.btn-primary{width:100%;padding:10px;font-size:16px;border-radius:10px}
+</style>
+
+<div class="center-wrapper">
+  <div class="card">
+    <h2 class="text-center mb-4">Search Note Room</h2>
+    <form method="POST" action="/search_note_room_process">
+      <div class="mb-3">
+        <label class="form-label fw-bold">Room&nbsp;ID</label>
+        <input type="text" name="id" class="form-control"
+               minlength="5" maxlength="10" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Password</label>
+        <input type="password" name="password" class="form-control"
+               minlength="5" maxlength="10" required>
+      </div>
+      <button class="btn btn-primary">Search</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

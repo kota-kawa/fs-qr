@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
+
 import os
 import time
 import qrcode
@@ -10,6 +11,9 @@ from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール
 from fs_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
+from Note.note_app   import note_bp
+from Note.note_api     import api_bp           
+
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
@@ -33,7 +37,7 @@ app.config.update(
     SESSION_COOKIE_SECURE=True,    # 常に Secure フラグを付与
     SESSION_COOKIE_SAMESITE='Lax'  # 適切な SameSite ポリシーを設定
 )
-app.secret_key = secret_key
+app.secret_key = secret_key 
 
 MASTER_PW = admin_key
 
@@ -42,7 +46,8 @@ QR = os.path.join(BASE_DIR, 'static', 'qrcode')
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 app.register_blueprint(group_bp)
-
+app.register_blueprint(note_bp)
+app.register_blueprint(api_bp) 
 # ---------------------------
 # 古いルームを削除する関数
 # ---------------------------
@@ -97,6 +102,7 @@ def upload():
         save_path = os.path.join(STATIC, secure_id_base + filename)
         file.save(save_path)
         uploaded_files.append(filename)
+
 
 
 
@@ -252,7 +258,9 @@ def filter_datetime(tm):
 
 app.jinja_env.filters['datetime'] = filter_datetime
 
+
 if __name__ == '__main__':
     # 本番運用時はdebug=Falseに設定すること。
-    app.run(debug=False, host='0.0.0.0')
-    #app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
+    # eventlet WSGI を使う（Flask-SocketIO が自動で patch します）
+

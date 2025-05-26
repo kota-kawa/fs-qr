@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ファイル管理</title>
+    <link rel="icon" href="{{staticfile('favicon.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- アイコン用 FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- カスタムCSS -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box; /* サイズ計算を統一 */
+        }
+        .bg-custom {
+            background: linear-gradient(135deg, #c2bf20 10%, #1aa866 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .menu-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px;
+            max-width: 100%; /* 画面幅に収まる */
+        }
+        .menu-card {
+            flex: 1 1 100%; /* モバイル: フル幅 */
+            max-width: 300px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        @media (min-width: 576px) { /* スマホ以上 */
+            .menu-card {
+                flex: 1 1 calc(50% - 20px); /* 2列表示 */
+            }
+        }
+        @media (min-width: 768px) { /* タブレット以上 */
+            .menu-card {
+                flex: 1 1 calc(33.333% - 20px); /* 3列表示 */
+            }
+        }
+        @media (min-width: 1200px) { /* 大型スクリーン以上 */
+            .menu-card {
+                flex: 1 1 calc(25% - 20px); /* 4列表示 */
+            }
+        }
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .menu-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #95d420;
+        }
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: #333;
+        }
+        .menu-card p {
+            color: #555;
+            font-size: 1rem;
+        }
+        .menu-card a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #95d420;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .menu-card a:hover {
+            background-color: #95d420;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-custom">
+        <div class="menu-container">
+            <div class="menu-card">
+                <i class="fas fa-upload"></i>
+                <h3>ルームを作成</h3>
+                <p>新しいノートルームを作成しましょう。</p>
+                <a href="/create_note_room">作成する</a>
+            </div>
+            <div class="menu-card">
+                <i class="fas fa-search"></i>
+                <h3>ルームを検索</h3>
+                <p>既存ルームへ参加します。</p>
+                <a href="/search_note_room">検索する</a>
+            </div>
+            <div class="menu-card">
+                <i class="fas fa-home"></i>
+                <h3>ホームに戻る</h3>
+                <p>ホーム画面に戻りましょう。</p>
+                <a href="/">戻る</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JSと依存関係 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
