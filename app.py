@@ -98,6 +98,9 @@ def upload():
         file.save(save_path)
         uploaded_files.append(filename)
 
+
+
+
     # 最終的なsecure_idは全ファイル名を元にするが、zip処理が前提なら一貫したルールで
     # '.'の除去などは行わないが、相対パス排除はsecure_filenameに任せている。
     secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')

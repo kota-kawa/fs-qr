@@ -136,7 +136,21 @@
                 </table>
             </div>
         </div>
+
+        <div class="col-md-6 col-lg-4">
+
+    <!-- ここからQRコード表示 -->
+    <div class="text-center mb-4">
+        <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_list', room_id=room_id, _external=True) | urlencode }}"
+            alt="Room QR Code" style="width:150px; height:150px;">
     </div>
+    <!-- ここまでQRコード表示 -->
+        </div>
+
+
+    </div>
+
+
 
 
     <div class="upload-area" id="upload-area" onclick="fileInput.click()">
@@ -159,7 +173,7 @@
     <div id="otherFileList" class="other-file-list">
         <!-- 他の人のアップロードしたファイルがここに表示されます -->
     </div>
-    
+
 
     <button class="btn btn-primary btn-download-all" id="downloadAllBtn">
         <i class="fas fa-download"></i> すべてダウンロード
@@ -276,7 +290,7 @@
 
 
         startFilePolling();
-     
+
 
 
 
