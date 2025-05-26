@@ -13,6 +13,7 @@ from fs_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
 from Note.note_app   import note_bp
 from Note.note_api     import api_bp           
+from Admin.db_admin import db_admin_bp
 
 import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -48,6 +49,7 @@ STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 app.register_blueprint(group_bp)
 app.register_blueprint(note_bp)
 app.register_blueprint(api_bp) 
+app.register_blueprint(db_admin_bp)
 # ---------------------------
 # 古いルームを削除する関数
 # ---------------------------

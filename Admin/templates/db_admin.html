@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DB Dashboard</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body{background:#f5f7fa;font-family:"Segoe UI",sans-serif}
+    .card-hover:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+    table th{white-space:nowrap}
+    footer{font-size:.85rem}
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  {% if not authenticated %}
+  <!-- ── Login ─────────────────────────────── -->
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow card-hover">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">DB&nbsp;Admin&nbsp;Login</h3>
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+            <button class="btn btn-primary w-100">Enter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- ── Dashboard ─────────────────────────── -->
+  <h1 class="text-center mb-5">Database&nbsp;Dashboard</h1>
+
+  <!-- Summary -->
+  <div class="row g-4 mb-5">
+    {% for t in summary %}
+    <div class="col-6 col-lg-3">
+      <div class="card text-center shadow card-hover">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase">{{ t.name }}</h5>
+          <p class="display-6 mb-0">{{ t.count }}</p>
+          <small class="text-muted">rows</small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Recent rows -->
+  {% for tbl, rows in recent.items() %}
+  <h3 class="mt-4">{{ tbl }} <small class="text-muted">latest&nbsp;10</small></h3>
+
+  {% if rows %}
+  <div class="table-responsive shadow-sm mb-5">
+    <table class="table table-striped table-bordered table-sm align-middle">
+      <thead class="table-success">
+        <tr>
+          {% for col in rows[0].keys() %}
+            <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for r in rows %}
+        <tr>
+          {% for v in r.values() %}
+            <td>{{ v }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-muted mb-5">No records found.</p>
+  {% endif %}
+  {% endfor %}
+
+  <p class="text-end">
+    <a href="/db_admin?pw={{ pw }}" class="btn btn-outline-secondary btn-sm">Refresh</a>
+  </p>
+  {% endif %}
+</div>
+
+<footer class="text-center py-3 text-muted">
+  &copy; 2025 DB&nbsp;Dashboard
+</footer>
+
+</body>
+</html>
