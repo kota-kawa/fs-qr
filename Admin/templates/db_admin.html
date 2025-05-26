@@ -17,7 +17,7 @@
 
 <div class="container py-5">
   {% if not authenticated %}
-  <!-- ── Login ─────────────────────────────── -->
+  <!-- ───────── Login ───────── -->
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
       <div class="card shadow card-hover">
@@ -36,10 +36,10 @@
   </div>
 
   {% else %}
-  <!-- ── Dashboard ─────────────────────────── -->
+  <!-- ───────── Dashboard ───────── -->
   <h1 class="text-center mb-5">Database&nbsp;Dashboard</h1>
 
-  <!-- Summary -->
+  <!-- Summary cards -->
   <div class="row g-4 mb-5">
     {% for t in summary %}
     <div class="col-6 col-lg-3">
@@ -58,7 +58,13 @@
   {% for tbl, rows in recent.items() %}
   <h3 class="mt-4">{{ tbl }} <small class="text-muted">latest&nbsp;10</small></h3>
 
-  {% if rows %}
+  {% if rows is none %}
+    <p class="text-danger mb-5">Table not found.</p>
+
+  {% elif rows|length == 0 %}
+    <p class="text-muted mb-5">0 rows.</p>
+
+  {% else %}
   <div class="table-responsive shadow-sm mb-5">
     <table class="table table-striped table-bordered table-sm align-middle">
       <thead class="table-success">
@@ -79,8 +85,6 @@
       </tbody>
     </table>
   </div>
-  {% else %}
-    <p class="text-muted mb-5">No records found.</p>
   {% endif %}
   {% endfor %}
 
