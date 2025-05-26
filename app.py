@@ -1,4 +1,5 @@
-from flask import Flask, request,send_file, jsonify, render_template, redirect, url_for
+from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 import time
 import qrcode
@@ -24,7 +25,14 @@ load_dotenv()
 admin_key = os.getenv("ADMIN_KEY")
 secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 例: 50MBまで許可
+# Chrome の Third-Party Cookie 警告対策
+app.config.update(
+    SESSION_COOKIE_SECURE=True,    # 常に Secure フラグを付与
+    SESSION_COOKIE_SAMESITE='Lax'  # 適切な SameSite ポリシーを設定
+)
 app.secret_key = secret_key
 
 MASTER_PW = admin_key
@@ -95,7 +103,9 @@ def upload():
     secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
 
     # QRコード生成 (外部入力のない内部生成値なので基本問題なし)
-    qr_url = 'https://fs-qr.net/' + 'download/' + secure_id
+    #qr_url = 'https://fs-qr.net/' + 'download/' + secure_id
+    # ProxyFix を入れていれば _external=True で https://… が生成されます
+    qr_url = url_for('download', secure_id=secure_id, _external=True, _scheme='https')
     im = qrcode.make(qr_url)
     qr_path = os.path.join(QR, 'qrcode-' + secure_id + '.jpg')
     im.save(qr_path)
@@ -141,8 +151,9 @@ def download(secure_id):
     id = data[0]["id"] if data else None
 
     return render_template('info.html',
-                           data=data, mode='download', id=id, secure_id=secure_id,
-                           url=request.host_url + 'download_go/' + secure_id)
+            data=data, mode='download', id=id, secure_id=secure_id,
+            # 相対パスで指定すれば、現在の https ページ上で http への送信にはなりません
+            url=url_for('download_go', secure_id=secure_id))
 
 @app.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
