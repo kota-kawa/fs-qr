@@ -43,6 +43,8 @@
             background-color: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex; /* 追加 */
+            flex-direction: column; /* 追加 */
         }
         @media (min-width: 576px) { /* スマホ以上 */
             .menu-card {
@@ -76,6 +78,7 @@
         .menu-card p {
             color: #555;
             font-size: 1rem;
+            flex-grow: 1; /* 追加: この要素が利用可能なスペースを埋めるようにする */
         }
         .menu-card a {
             display: inline-block;

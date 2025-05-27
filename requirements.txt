@@ -8,3 +8,4 @@ Pillow
 sqlalchemy 
 pymysql
 apscheduler
+diff-match-patch

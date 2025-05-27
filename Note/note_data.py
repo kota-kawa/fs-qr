@@ -35,7 +35,7 @@ def execute_query(query, params=None, fetch=False):
     :param query: SQL テキストまたは sqlalchemy.text オブジェクト
     :param params: バインドパラメータ用辞書
     :param fetch: 結果を取得する場合は True
-    :return: fetch=True の場合は結果リスト、それ以外は None
+    :return: fetch=True の場合は結果リスト、それ以外は影響行数
     """
     try:
         stmt = query if hasattr(query, 'bindparams') else text(query)
@@ -46,8 +46,9 @@ def execute_query(query, params=None, fetch=False):
 
         if fetch:
             return [row._mapping for row in result]
-
-        db_session.commit()
+        else: # INSERT, UPDATE, DELETE の場合
+            db_session.commit()
+            return result.rowcount # <--- 変更: 影響行数を返す
     except Exception as e:
         logger.error(f"Database query failed: {e}")
         db_session.rollback()
@@ -131,11 +132,21 @@ fetch_note = get_row
 # ────────────────────────────────────────────
 # コンテンツ保存
 # ────────────────────────────────────────────
-def save_content(room_id, content):
-    execute_query(
-        "UPDATE note_content SET content=:c, updated_at=NOW() WHERE room_id=:r",
-        {"c": content, "r": room_id}
-    )
+def save_content(room_id, content, expected_updated_at_str=None):
+    if expected_updated_at_str:
+        # MySQLのDATETIME型は 'YYYY-MM-DD HH:MM:SS' 形式の文字列と比較可能
+        query = text("""
+            UPDATE note_content
+            SET content=:c, updated_at=NOW()
+            WHERE room_id=:r AND updated_at = :expected_ua
+        """)
+        params = {"c": content, "r": room_id, "expected_ua": expected_updated_at_str}
+        return execute_query(query, params)
+    else:
+        # expected_updated_at_str がない場合は無条件更新（フォールバックまたは特定用途）
+        query = text("UPDATE note_content SET content=:c, updated_at=NOW() WHERE room_id=:r")
+        params = {"c": content, "r": room_id}
+        return execute_query(query, params)
 
 # save_content のエイリアス
 store_content = save_content
