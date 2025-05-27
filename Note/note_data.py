@@ -1,24 +1,62 @@
-import os, logging
+import os
+import logging
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session, sessionmaker
 from dotenv import load_dotenv
 
+# ログ設定
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
+# .env ファイル読み込み
 load_dotenv()
 host = os.getenv("SQL_HOST")
 user = os.getenv("SQL_USER")
 pw   = os.getenv("SQL_PW")
 db   = os.getenv("SQL_DB")
 
+# SQLAlchemy エンジンの作成（接続プール設定を含む）
 engine = create_engine(
     f"mysql+pymysql://{user}:{pw}@{host}/{db}?charset=utf8mb4",
-    pool_recycle=280, pool_size=10, pool_pre_ping=True, max_overflow=5)
+    pool_recycle=280,    # プール内接続を280秒後に再接続
+    pool_size=10,        # 最大10個の接続を保持
+    max_overflow=5,      # プール上限後に追加で5個の接続を許可
+    pool_pre_ping=True,  # 接続前に疎通確認
+    echo=False           # SQL ログ出力（開発時は True、運用時は False）
+)
 
-_session = scoped_session(sessionmaker(bind=engine))
+# セッション設定
+db_session = scoped_session(sessionmaker(bind=engine))
 
-# ────────────────────────────────────────────
+# 共通クエリ実行関数
+def execute_query(query, params=None, fetch=False):
+    """
+    SQL クエリを実行するユーティリティ。
+    :param query: SQL テキストまたは sqlalchemy.text オブジェクト
+    :param params: バインドパラメータ用辞書
+    :param fetch: 結果を取得する場合は True
+    :return: fetch=True の場合は結果リスト、それ以外は None
+    """
+    try:
+        stmt = query if hasattr(query, 'bindparams') else text(query)
+        if params:
+            result = db_session.execute(stmt, params)
+        else:
+            result = db_session.execute(stmt)
+
+        if fetch:
+            return [row._mapping for row in result]
+
+        db_session.commit()
+    except Exception as e:
+        logger.error(f"Database query failed: {e}")
+        db_session.rollback()
+        raise
+
+# note_app.py などから使用するエイリアス関数
+_exec = execute_query
+
+# テーブル定義
 CREATE_NOTE_ROOM = """
 CREATE TABLE IF NOT EXISTS note_room(
   suji INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,47 +75,67 @@ CREATE TABLE IF NOT EXISTS note_content(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
-def _exec(q, params=None, fetch=False):
-    try:
-        res = _session.execute(text(q), params or {})
-        if fetch:
-            return [r._mapping for r in res]
-        _session.commit()
-    except Exception as e:
-        _session.rollback()
-        raise
-
+# テーブル作成チェック
 def _ensure_tables():
-    _exec(CREATE_NOTE_ROOM)
-    _exec(CREATE_NOTE_CONTENT)
-    log.info("note tables checked/created")
+    execute_query(CREATE_NOTE_ROOM)
+    execute_query(CREATE_NOTE_CONTENT)
+    logger.info("note tables checked/created")
 
-_ensure_tables()   # ← ★アプリ import 時に必ず実行★
+# アプリ起動時にテーブルをチェック/作成
+_ensure_tables()
 
 # ────────────────────────────────────────────
+# ノートルーム作成
+# ────────────────────────────────────────────
 def create_room(id_, password, room_id):
-    _exec("""INSERT INTO note_room(time,id,password,room_id)
-             VALUES(NOW(),:i,:p,:r)""",
-          {"i": id_, "p": password, "r": room_id})
+    execute_query(
+        "INSERT INTO note_room(time, id, password, room_id) VALUES(NOW(), :i, :p, :r)",
+        {"i": id_, "p": password, "r": room_id}
+    )
 
+# ────────────────────────────────────────────
+# ID とパスワードで room_id を取得
+# ────────────────────────────────────────────
 def pick_room_id(id_, password):
-    rows = _exec("""SELECT room_id FROM note_room
-                    WHERE id=:i AND password=:p""",
-                 {"i": id_, "p": password}, fetch=True)
+    rows = execute_query(
+        "SELECT room_id FROM note_room WHERE id=:i AND password=:p",
+        {"i": id_, "p": password},
+        fetch=True
+    )
     return rows[0]["room_id"] if rows else False
 
+# エイリアス（タイポ呼び出し対応）
+pich_room_id = pick_room_id
+
+# ────────────────────────────────────────────
+# コンテンツ取得 or 初期レコード作成
+# ────────────────────────────────────────────
 def get_row(room_id):
-    rows = _exec("SELECT * FROM note_content WHERE room_id=:r",
-                 {"r": room_id}, fetch=True)
+    rows = execute_query(
+        "SELECT * FROM note_content WHERE room_id=:r",
+        {"r": room_id},
+        fetch=True
+    )
     if rows:
         return rows[0]
-    # 無ければ空行を作る
-    _exec("INSERT INTO note_content(room_id,content,updated_at)"
-          " VALUES(:r,'',NOW())", {"r": room_id})
+    # レコードがなければ初期レコードを作成
+    execute_query(
+        "INSERT INTO note_content(room_id, content, updated_at) VALUES(:r, '', NOW())",
+        {"r": room_id}
+    )
     return get_row(room_id)
 
+# get_row のエイリアス（他プログラム互換）
+fetch_note = get_row
+
+# ────────────────────────────────────────────
+# コンテンツ保存
+# ────────────────────────────────────────────
 def save_content(room_id, content):
-    _exec("""UPDATE note_content
-             SET content=:c, updated_at=NOW()
-             WHERE room_id=:r""",
-          {"c": content, "r": room_id})
+    execute_query(
+        "UPDATE note_content SET content=:c, updated_at=NOW() WHERE room_id=:r",
+        {"c": content, "r": room_id}
+    )
+
+# save_content のエイリアス
+store_content = save_content
