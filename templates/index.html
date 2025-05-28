@@ -1,202 +1,175 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ファイル共有メニュー</title>
-        <link rel="icon" href="{{staticfile('favicon3.ico')}}">
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="{{staticfile('apple-touch-icon3.png')}}">
-        <!-- Bootstrap CSS -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet">
-        <!-- アイコン用 FontAwesome -->
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <!-- カスタムCSS -->
-        <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #342ae3, #23cf32);
-        }
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 40px;
-        }
-        .menu-header {
-            text-align: center;
-            margin-bottom: 50px;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .menu-header h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            margin: 0;
-        }
-        .menu-header p {
-            font-size: 1.5rem;
-            margin-top: 10px;
-        }
-        .menu-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-        .menu-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
-            color: #333;
-            text-align: center;
-        }
-        .menu-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            background-color: #F0F8FF;
-        }
-        .menu-item.fs-qr i{
-            font-size: 3rem;
-            color: #4082dd;
-            margin-bottom: 15px;
-        }
-        .menu-item.group i {
-            font-size: 3rem;
-            color: #4aba95;
-            margin-bottom: 15px;
-        }
-        .menu-item.note i {
-            font-size: 3rem;
-            color: #64ba4a;
-            margin-bottom: 15px;
-        }
-        .menu-item h3 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: #333;
-        }
-        @media (max-width: 576px) {
-            .menu-container {
-                padding: 20px 15px;
-                min-height: 100vh;
-                box-sizing: border-box;
-            }
-            .menu-header {
-                margin-bottom: 30px;
-            }
-            .menu-header h1 {
-                font-size: 2.0rem;
-            }
-            .menu-header p {
-                font-size: 1.0rem;
-            }
-            .menu-list {
-                gap: 10px;
-                max-width: 100%;
-                justify-content: center;
-            }
-            .menu-item {
-                width: 120px;
-                height: 120px;
-                margin: 0 2px;
-            }
-            .menu-item h3 {
-                font-size: 0.9rem;
-            }
-            .menu-item.fs-qr i,
-            .menu-item.group i,
-            .menu-item.note i {
-                font-size: 1.8rem;
-                margin-bottom: 6px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .menu-container {
-                padding: 15px 10px;
-            }
-            .menu-header h1 {
-                font-size: 1.8rem;
-            }
-            .menu-list {
-                flex-direction: column;
-                align-items: center;
-                gap: 12px;
-            }
-            .menu-item {
-                width: 130px;
-                height: 130px;
-            }
-        }
-        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ファイル共有メニュー</title>
+  <link rel="icon" href="{{staticfile('favicon3.ico')}}">
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="{{staticfile('apple-touch-icon3.png')}}">
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <!-- FontAwesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* リセット */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+    }
 
+    /* グラデーション背景をコンテナに移動 */
+    .menu-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
-     crossorigin="anonymous"></script>
-    </head>
-    
-        <!-- Google tag (gtag.js) -->
-        <script async
-            src="https://www.googletagmanager.com/gtag/js?id=G-D26D8ZXKNV"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+      /* ビューポート以上に伸びてもグラデーションは一度だけ */
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding: 40px 40px calc(40px + env(safe-area-inset-bottom));
 
-            gtag('config', 'G-D26D8ZXKNV');
-        </script>
+      background: linear-gradient(135deg, #342ae3, #23cf32);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
 
-    <body>
-        <div class="menu-container">
-            <div class="menu-header">
-                <h1>ファイル共有メニュー</h1>
-                <p>利用したいファイル共有方法を選んでください。</p>
-            </div>
-            <ul class="menu-list">
-                <li>
-                    <a href="/group" class="menu-item group">
-                        <i class="fas fa-users"></i>
-                        <h3>グループで共有</h3>
-                    </a>
-                </li>
-                <li>
-                    <a href="/fs-qr" class="menu-item fs-qr">
-                        <i class="fas fa-qrcode"></i>
-                        <h3>QRコード共有</h3>
-                    </a>
-                </li>
-                <li>
-                <a href="/note" class="menu-item note">
-                    <i class="fas fa-pencil-alt"></i>
-                    <h3>ノート共有</h3>
-                </a>
-                </li>
+    .menu-header {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .menu-header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 0;
+    }
+    .menu-header p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+    }
 
-            </ul>
-        </div>
+    .menu-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
 
-        <!-- Bootstrap JSと依存関係 -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      color: #333;
+      text-align: center;
+    }
+    .menu-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      background-color: #F0F8FF;
+    }
+    .menu-item.group   i { font-size: 3rem; color: #4aba95; margin-bottom: 15px; }
+    .menu-item.fs-qr   i { font-size: 3rem; color: #4082dd; margin-bottom: 15px; }
+    .menu-item.note    i { font-size: 3rem; color: #64ba4a; margin-bottom: 15px; }
+    .menu-item h3 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: #333;
+    }
 
-    </body>
+    /* スマホ表示時：ボタンを大きく */
+    @media (max-width: 576px) {
+      .menu-container {
+        padding: 20px 15px calc(20px + env(safe-area-inset-bottom));
+      }
+      .menu-header {
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+      .menu-header h1 { font-size: 2rem; }
+      .menu-header p  { font-size: 1rem; }
+      .menu-list      { gap: 10px; }
+      .menu-item      { width: 160px; height: 160px; }
+      .menu-item h3   { font-size: 1.1rem; }
+      .menu-item.group i,
+      .menu-item.fs-qr i,
+      .menu-item.note i {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+    }
+
+    /* より小さいスマホ向け */
+    @media (max-width: 480px) {
+      .menu-container {
+        padding: 15px 10px calc(15px + env(safe-area-inset-bottom));
+      }
+      .menu-header h1 { font-size: 1.8rem; }
+      .menu-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .menu-item    { width: 150px; height: 150px; }
+      .menu-item h3 { font-size: 1rem; }
+      .menu-item.group i,
+      .menu-item.fs-qr i,
+      .menu-item.note i {
+        font-size: 2.3rem;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <div class="menu-header">
+      <h1>ファイル共有メニュー</h1>
+      <p>利用したいファイル共有方法を選んでください。</p>
+    </div>
+    <ul class="menu-list">
+      <li>
+        <a href="/group" class="menu-item group">
+          <i class="fas fa-users"></i>
+          <h3>グループで共有</h3>
+        </a>
+      </li>
+      <li>
+        <a href="/fs-qr" class="menu-item fs-qr">
+          <i class="fas fa-qrcode"></i>
+          <h3>QRコード共有</h3>
+        </a>
+      </li>
+      <li>
+        <a href="/note" class="menu-item note mb-3">
+          <i class="fas fa-pencil-alt"></i>
+          <h3>ノート共有</h3>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+</body>
 </html>
