@@ -1,7 +1,17 @@
 import uuid, random
-from flask import Blueprint, render_template, flash, redirect, request, jsonify
+from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort
 from . import note_data as nd
+from apscheduler.schedulers.background import BackgroundScheduler
 
+# スケジューラ：古いノートルームを毎日自動削除
+scheduler = BackgroundScheduler()
+scheduler.add_job(
+    func=nd.remove_expired_rooms,
+    trigger='interval',
+    days=1,
+    id='remove_expired_note_rooms'
+)
+scheduler.start()
 note_bp = Blueprint('note', __name__, template_folder='templates')
 
 # ルートメニュー
@@ -29,12 +39,19 @@ def create_note_room():
 # ルーム本体
 @note_bp.route('/note_room/<room_id>')
 def note_room(room_id):
-    row = nd.get_row(room_id)
-    if row["updated_at"] is None:
-        return jsonify({'error': 'room not found'}), 404
-    # ID / パスワード取得
-    meta = nd._exec("SELECT id,password FROM note_room WHERE room_id=:r",
-                    {"r":room_id}, fetch=True)[0]
+    # note_room テーブルからユーザー情報を取得して存在チェック
+    rows = nd._exec(
+        "SELECT id, password FROM note_room WHERE room_id = :r",
+        {"r": room_id},
+        fetch=True
+    )
+    if not rows:
+        abort(404)
+    meta = rows[0]
+
+    # note_content テーブルからコンテンツを取得（なければ初期レコード作成）
+    content_row = nd.get_row(room_id)
+
     return render_template('note_room.html',
                            room_id=room_id,
                            user_id=meta["id"],

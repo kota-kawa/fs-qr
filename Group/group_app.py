@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, flash
+from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, abort, flash
 import uuid
 import random
 import os
@@ -63,16 +63,23 @@ def group():
 # ---------------------------
 @group_bp.route('/group_room/<room_id>')
 def group_list(room_id):
+    # まずデータを取得
     room_data = group_data.get_data(room_id)
+    # 見つからなければ 404 を返す
     if not room_data:
-        return jsonify({"error": "指定されたルームIDのデータが見つかりません。"}), 404
+        abort(404)
+    # レコードがあれば通常どおり処理
     record = room_data[0]
     user_id = record.get('id', '不明')
     password = record.get('password', '不明')
-    # センシティブ情報をログ出力しない
+    # センシティブ情報はログに出力しないよう注意
     print(f"Room ID: {room_id}")
-    return render_template('Group/group_room.html', room_id=room_id, user_id=user_id, password=password)
-
+    return render_template(
+        'Group/group_room.html',
+        room_id=room_id,
+        user_id=user_id,
+        password=password
+    )
 
 # ---------------------------
 # ルーム作成画面のルート

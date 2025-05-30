@@ -150,3 +150,29 @@ def save_content(room_id, content, expected_updated_at_str=None):
 
 # save_content のエイリアス
 store_content = save_content
+
+
+# ────────────────────────────────────────────
+# １週間以上経過したノートルームを削除
+# ────────────────────────────────────────────
+def remove_expired_rooms():
+    try:
+        # 7日より古い room_id を取得
+        rows = execute_query(
+            "SELECT room_id FROM note_room WHERE time < (NOW() - INTERVAL 7 DAY)",
+            fetch=True
+        )
+        for r in rows:
+            rid = r["room_id"]
+            # コンテンツとルーム情報を順に削除
+            execute_query(
+                "DELETE FROM note_content WHERE room_id = :r",
+                {"r": rid}
+            )
+            execute_query(
+                "DELETE FROM note_room WHERE room_id = :r",
+                {"r": rid}
+            )
+            logger.info(f"Expired note room removed: {rid}")
+    except Exception as e:
+        logger.error(f"Failed to remove expired note rooms: {e}")

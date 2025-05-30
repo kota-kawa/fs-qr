@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for
+from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for, abort
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
@@ -11,6 +11,7 @@ from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール
 from fs_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
+from Note.note_data import db_session as note_db_session
 from Note.note_app   import note_bp
 from Note.note_api     import api_bp           
 from Admin.db_admin import db_admin_bp
@@ -105,10 +106,6 @@ def upload():
         file.save(save_path)
         uploaded_files.append(filename)
 
-
-
-
-
     # 最終的なsecure_idは全ファイル名を元にするが、zip処理が前提なら一貫したルールで
     # '.'の除去などは行わないが、相対パス排除はsecure_filenameに任せている。
     secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
@@ -128,21 +125,16 @@ def upload():
         "redirect_url": url_for('upload_complete', secure_id=secure_id)
     })
 
-
-
 @app.route('/upload_complete/<secure_id>')
 def upload_complete(secure_id):
-    # DBからアップロード情報を取得
     data = fs_data.get_data(secure_id)
     if not data:
-        return render_template('error.html', message='パラメータが不正です')
-
-    # 最初のレコードからIDとパスワードを取得
+        abort(404)
+    # 存在するなら従来どおり
     row = data[0]
     id_val = row["id"]
     password_val = row["password"]
 
-    # info.html を mode='upload' で表示
     return render_template(
         'info.html',
         id=id_val,
@@ -154,17 +146,19 @@ def upload_complete(secure_id):
 
 @app.route('/download/<secure_id>')
 def download(secure_id):
-    # URLパラメータをサニタイズ（DBからデータを取得して判定）
     data = fs_data.get_data(secure_id)
     if not data:
-        return msg('パラメータが不正です')
-    # dataからidを取得
-    id = data[0]["id"] if data else None
+        abort(404)
+    id_val = data[0]["id"]
 
-    return render_template('info.html',
-            data=data, mode='download', id=id, secure_id=secure_id,
-            # 相対パスで指定すれば、現在の https ページ上で http への送信にはなりません
-            url=url_for('download_go', secure_id=secure_id))
+    return render_template(
+        'info.html',
+        data=data,
+        mode='download',
+        id=id_val,
+        secure_id=secure_id,
+        url=url_for('download_go', secure_id=secure_id)
+    )
 
 @app.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
@@ -234,8 +228,9 @@ def msg(s):
 def after_remove():
     return render_template('after-remove.html')
 
-
-
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 @app.context_processor
 def add_staticfile():
@@ -246,6 +241,7 @@ def add_staticfile():
 def shutdown_session(exception=None):
     fs_db_session.remove()
     group_db_session.remove()
+    note_db_session.remove()
 
 
 def staticfile_cp(fname):
@@ -260,9 +256,6 @@ def filter_datetime(tm):
 
 app.jinja_env.filters['datetime'] = filter_datetime
 
-
 if __name__ == '__main__':
     # 本番運用時はdebug=Falseに設定すること。
     app.run(debug=True, host='0.0.0.0')
-    # eventlet WSGI を使う（Flask-SocketIO が自動で patch します）
-
