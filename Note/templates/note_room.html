@@ -29,84 +29,123 @@
 
   <!-- ── エディタ ─────────────────────────── -->
   <textarea id="editor"
-            placeholder="ここに入力すると 1 秒ごとに同期されます…"></textarea>
+            placeholder="ここに入力すると 1 秒ごとに同期されます…"
+            maxlength="5000"></textarea>
   <p class="text-end mt-2">
     <span id="status" class="badge bg-secondary">Syncing…</span>
   </p>
 </div>
 
-<!-- JS（以前と同じポーリング実装） -->
 <script>
-const room   = "{{ room_id }}";
-const editor = document.getElementById("editor");
-const status = document.getElementById("status");
-let lastStamp="", selfEdit=false;
-let contentAtLastSync = ""; // <--- 追加: 最後に同期した時点のコンテンツ
+  const room   = "{{ room_id }}";
+  const editor = document.getElementById("editor");
+  const status = document.getElementById("status");
+  let lastStamp = "", selfEdit = false;
+  let contentAtLastSync = "";  // <--- 追加: 最後に同期した時点のコンテンツ
 
-/* 初回ロード */
-fetch(`/api/note/${room}`).then(r=>r.json()).then(j=>{
-  editor.value=j.content;
-  contentAtLastSync = j.content; // <--- 追加
-  lastStamp=j.updated_at;
-  status.className="badge bg-success"; status.textContent="Up-to-date";
-});
+  /* 最大文字数（サーバー側と合わせること） */
+  const MAX_LENGTH = 5000;  // 追加: フロント側の最大文字数
 
-/* 入力→POST(300ms) */
-let typTimer;
-editor.addEventListener("input",()=>{
-  clearTimeout(typTimer);
-  typTimer=setTimeout(()=>{
-    selfEdit=true;
-    const currentContent = editor.value;
-    fetch(`/api/note/${room}`,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        content: currentContent,
-        last_known_updated_at: lastStamp,    // <--- 追加
-        original_content: contentAtLastSync  // <--- 追加
-      })})
-      .then(r=>r.json()).then(j=>{
-        if (j.status && (j.status.startsWith("ok") || j.status.startsWith("conflict"))) { // conflictも処理
-          lastStamp=j.updated_at;
-          if (j.content !== undefined && editor.value !== j.content) { // サーバから新しいコンテントが返された場合 (マージ結果や競合時のサーバ最新版)
-             editor.value = j.content;
-          }
-          contentAtLastSync = editor.value; // <--- 更新: POST成功時も更新
-          status.className="badge bg-info"; status.textContent="Saved";
-          if (j.status === "ok_merged") {
-            status.textContent="Saved (Merged)";
-          } else if (j.status === "conflict_merge_failed" || j.status === "conflict_during_merge_save" || j.status === "conflict") {
-            status.className="badge bg-danger"; status.textContent="Conflict, please review";
-          }
-        } else if (j.error) { // 旧エラー処理
-            status.className="badge bg-danger"; status.textContent="Save error";
+  /* 初回ロード */
+  fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
+    editor.value = j.content;
+    contentAtLastSync = j.content;  // <--- 追加
+    lastStamp = j.updated_at;
+    status.className = "badge bg-success";
+    status.textContent = "Up-to-date";
+  });
+
+  /* 入力→POST(300ms) */
+  let typTimer;
+  editor.addEventListener("input", () => {
+    clearTimeout(typTimer);
+    typTimer = setTimeout(() => {
+      const currentContent = editor.value;
+
+      // ─────────────────────────────────────────────────
+      // 追加: フロント側で文字数チェック。超過していたら送信せずにアラートを表示。
+      if (currentContent.length > MAX_LENGTH) {
+        alert(`文字数は最大 ${MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+        // 文字数制限を超えた状態でも入力自体はできてしまうので、
+        // ここで送信を中断し、ユーザーに注意を促すだけに留める。
+        return;
+      }
+      // ─────────────────────────────────────────────────
+
+      selfEdit = true;
+      fetch(`/api/note/${room}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: currentContent,
+          last_known_updated_at: lastStamp,      // <--- 追加
+          original_content: contentAtLastSync   // <--- 追加
+        })
+      })
+      .then(r => {
+        if (!r.ok) {
+          // サーバー側で 400 エラーなどが返ってきた場合、
+          // JSON をパースしてメッセージを表示
+          return r.json().then(err => {
+            throw new Error(err.error || "Save error");
+          });
         }
-        selfEdit=false;
-      }).catch(() => {
-        status.className="badge bg-danger"; status.textContent="Save error (network)";
-        selfEdit=false;
+        return r.json();
+      })
+      .then(j => {
+        if (j.status && (j.status.startsWith("ok") || j.status.startsWith("conflict"))) {
+          lastStamp = j.updated_at;
+          if (j.content !== undefined && editor.value !== j.content) {
+            // サーバーから新しいコンテントが返された場合 (マージ結果や競合時のサーバ最新版)
+            editor.value = j.content;
+          }
+          contentAtLastSync = editor.value;  // <--- 更新: POST成功時も更新
+          status.className = "badge bg-info";
+          status.textContent = "Saved";
+          if (j.status === "ok_merged") {
+            status.textContent = "Saved (Merged)";
+          } else if (j.status === "conflict_merge_failed" || j.status === "conflict_during_merge_save" || j.status === "conflict") {
+            status.className = "badge bg-danger";
+            status.textContent = "Conflict, please review";
+          }
+        } else if (j.error) {
+          status.className = "badge bg-danger";
+          status.textContent = j.error;  // サーバーからのエラーメッセージを表示
+        }
+        selfEdit = false;
+      })
+      .catch(err => {
+        // フェッチ失敗やサーバーエラー発生時
+        status.className = "badge bg-danger";
+        status.textContent = err.message || "Save error (network)";
+        selfEdit = false;
       });
-  },300);
-});
+    }, 300);
+  });
 
-/* 1 秒ポーリング */
-setInterval(()=>{
-  if(selfEdit) return; // 自分編集中はポーリングしない方が良いかも
-  fetch(`/api/note/${room}`).then(r=>r.json()).then(j=>{
-    if(j.updated_at!==lastStamp){
-      if(!selfEdit){ // selfEdit チェックは残すが、マージにより不要になる可能性も
-        editor.value=j.content;
-        status.className="badge bg-warning text-dark";
-        status.textContent="Updated by others";
+  /* 1 秒ポーリング */
+  setInterval(() => {
+    if (selfEdit) return;  // 自分編集中はポーリングしない
+    fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
+      if (j.updated_at !== lastStamp) {
+        if (!selfEdit) {
+          editor.value = j.content;
+          status.className = "badge bg-warning text-dark";
+          status.textContent = "Updated by others";
+        }
+        lastStamp = j.updated_at;
+        contentAtLastSync = j.content;  // <--- 更新: ポーリング時も更新
+      } else {
+        // タイムスタンプが同じでも念のためステータスを更新
+        if (status.textContent === "Syncing…" || status.textContent.includes("error") || status.textContent.includes("Conflict")) {
+          status.className = "badge bg-success";
+          status.textContent = "Up-to-date";
+        }
       }
-      lastStamp=j.updated_at;
-      contentAtLastSync = j.content; // <--- 更新: ポーリング時も更新
-    } else {
-      // タイムスタンプが同じでも念のためステータスを更新
-      if (status.textContent === "Syncing…" || status.textContent.includes("error") || status.textContent.includes("Conflict")) {
-         status.className="badge bg-success"; status.textContent="Up-to-date";
-      }
-    }
-  }).catch(()=>{status.className="badge bg-danger";status.textContent="Sync error";});
-},1000);
+    }).catch(() => {
+      status.className = "badge bg-danger";
+      status.textContent = "Sync error";
+    });
+  }, 1000);
 </script>
 {% endblock %}
