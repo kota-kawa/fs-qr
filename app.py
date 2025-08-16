@@ -1,4 +1,14 @@
-from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for, abort
+from flask import (
+    Flask,
+    request,
+    send_file,
+    send_from_directory,
+    jsonify,
+    render_template,
+    redirect,
+    url_for,
+    abort,
+)
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
@@ -69,6 +79,26 @@ def index():
 @app.route('/fs-qr')
 def fs_qr():
     return render_template('fs-qr.html')
+
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory(app.root_path, 'ads.txt')
 
 @app.route('/fs-qr-upload')
 def fs_qr_upload():

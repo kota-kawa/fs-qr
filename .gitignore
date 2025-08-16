@@ -15,6 +15,7 @@
 *.zip
 *.pptx
 *.txt
+!ads.txt
 
 
 
