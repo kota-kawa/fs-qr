@@ -52,6 +52,8 @@ MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
+# Ensure the upload directory exists to avoid FileNotFoundError
+os.makedirs(STATIC, exist_ok=True)
 
 app.register_blueprint(group_bp)
 app.register_blueprint(note_bp)
