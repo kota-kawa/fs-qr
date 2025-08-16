@@ -18,7 +18,6 @@ pw_key = os.getenv("SQL_PW")
 db_key = os.getenv("SQL_DB")
 
 BASE_DIR = os.path.dirname(__file__)
-QR = os.path.join(BASE_DIR, 'static', 'qrcode')
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 # SQLAlchemyエンジンの作成（接続プール設定を含む）
@@ -108,8 +107,7 @@ def get_all():
 def remove_data(secure_id):
     try:
         paths = [
-            os.path.join(STATIC, f"{secure_id}.zip"),
-            os.path.join(QR, f"qrcode-{secure_id}.jpg")
+            os.path.join(STATIC, f"{secure_id}.zip")
         ]
 
         for file_path in paths:

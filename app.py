@@ -3,17 +3,14 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
 import time
-import qrcode
 import uuid
-import random
 import secrets
-from os.path import basename
 import fs_data  # ファイルやデータを管理するモジュール
 from fs_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
 from Note.note_data import db_session as note_db_session
 from Note.note_app   import note_bp
-from Note.note_api     import api_bp           
+from Note.note_api     import api_bp
 from Admin.db_admin import db_admin_bp
 
 import shutil
@@ -44,7 +41,6 @@ app.secret_key = secret_key
 MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)
-QR = os.path.join(BASE_DIR, 'static', 'qrcode')
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 app.register_blueprint(group_bp)
@@ -110,14 +106,6 @@ def upload():
     # '.'の除去などは行わないが、相対パス排除はsecure_filenameに任せている。
     secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
 
-    # QRコード生成 (外部入力のない内部生成値なので基本問題なし)
-    #qr_url = 'https://fs-qr.net/' + 'download/' + secure_id
-    # ProxyFix を入れていれば _external=True で https://… が生成されます
-    qr_url = url_for('download', secure_id=secure_id, _external=True, _scheme='https')
-    im = qrcode.make(qr_url)
-    qr_path = os.path.join(QR, 'qrcode-' + secure_id + '.jpg')
-    im.save(qr_path)
-
     fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)
 
         # ここでは JSON でリダイレクト先を返す
@@ -141,7 +129,7 @@ def upload_complete(secure_id):
         password=password_val,
         secure_id=secure_id,
         mode='upload',
-        url=request.host_url + 'download/' + secure_id
+        url=url_for('download', secure_id=secure_id, _external=True)
     )
 
 @app.route('/download/<secure_id>')
@@ -200,9 +188,7 @@ def all():
     # 全削除時もパス固定で行う(アプリケーション内部で操作)
     fs_data.all_remove()
     shutil.rmtree(os.path.join(BASE_DIR, 'static', 'upload'))
-    shutil.rmtree(os.path.join(BASE_DIR, 'static', 'qrcode'))
     os.mkdir(os.path.join(BASE_DIR, 'static', 'upload'))
-    os.mkdir(os.path.join(BASE_DIR, 'static', 'qrcode'))
     return redirect('/remove-succes')
 
 @app.route('/kensaku')

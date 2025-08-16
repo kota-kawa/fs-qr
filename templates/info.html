@@ -32,9 +32,8 @@
     </table>
 
     <div class="text-center mt-4">
-      <a>
-        <img src="/static/qrcode/qrcode-{{ secure_id }}.jpg" class="img-fluid" style="max-width: 200px; height: auto;">
-      </a>
+      <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
+           class="img-fluid" style="max-width: 200px; height: auto;" alt="QR">
     </div>
   </div>
 
