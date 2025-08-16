@@ -1,11 +1,11 @@
 import os
 import logging
+import log_config
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session, sessionmaker
 from dotenv import load_dotenv
 
 # ログ設定
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # .env ファイル読み込み
