@@ -95,6 +95,9 @@ def about():
 def contact():
     return render_template('contact.html')
 
+@app.route('/usage')
+def usage():
+    return render_template('usage.html')
 
 @app.route('/ads.txt')
 def ads_txt():
