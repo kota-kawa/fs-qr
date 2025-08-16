@@ -1,11 +1,8 @@
 Flask
 python-dotenv
-qrcode
 uuid
 apscheduler
 mysqlclient
-Pillow
-sqlalchemy 
+sqlalchemy
 pymysql
-apscheduler
 diff-match-patch
