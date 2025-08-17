@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="NoteShareはFS!QRのリアルタイムノート共有サービス。共同編集でノートを共有できます。" />
+  <meta name="keywords" content="ノート共有, リアルタイム編集, コラボレーション, FS QR Note" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:site_name" content="FS!QR Note" />
+  <meta property="og:title" content="FS!QR Note | リアルタイムノート共有" />
+  <meta property="og:description" content="複数人で同時編集できるノート共有サービス。" />
+  <meta property="og:url" content="{{ request.url }}" />
+  <meta property="og:image" content="{{staticfile('note_logo.png')}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FS!QR Note | リアルタイムノート共有" />
+  <meta name="twitter:description" content="リアルタイムでノートを共同編集し共有できます。" />
+  <meta name="twitter:image" content="{{staticfile('note_logo.png')}}" />
+  <link rel="canonical" href="{{ request.url }}" />
   <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{staticfile('style.css')}}">
   <link rel="icon" href="{{staticfile('note_favicon.ico')}}">
@@ -13,6 +28,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
         rel="stylesheet">
   <title>Realtime Note Share</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FS!QR Note",
+    "url": "{{ request.url_root }}note",
+    "description": "FS!QRのリアルタイムノート共有サービス。複数人でノートを共同編集できます。"
+  }
+  </script>
 </head>
 
 <body>

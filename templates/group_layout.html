@@ -1,8 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="GroupはFS!QRのグループ共有サービス。ルームを作成して複数ファイルを簡単に共有できます。" />
+    <meta name="keywords" content="グループ共有, ファイル共有, ルーム作成, FS QR Group" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="FS!QR Group" />
+    <meta property="og:title" content="FS!QR Group | グループでファイル共有" />
+    <meta property="og:description" content="ルームを作成して安全に複数ファイルを共有できるグループサービス。" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{staticfile('group_logo.png')}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FS!QR Group | グループでファイル共有" />
+    <meta name="twitter:description" content="ルームを作成し、グループでファイルを簡単に共有できます。" />
+    <meta name="twitter:image" content="{{staticfile('group_logo.png')}}" />
+    <link rel="canonical" href="{{ request.url }}" />
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
     <link rel="icon" href="{{staticfile('favicon2.ico')}}">
@@ -14,6 +29,16 @@
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
       rel="stylesheet">
     <title>Groupでファイルを共有</title>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FS!QR Group",
+      "url": "{{ request.url_root }}group",
+      "description": "FS!QRのグループ共有サービス。ルームを作成しファイルを共同管理できます。"
+    }
+    </script>
 
  <!--
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
