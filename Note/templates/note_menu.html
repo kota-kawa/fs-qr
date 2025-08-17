@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FS!QR Noteのメニュー。ノートルームの作成や検索を行うページです。" />
+    <meta name="keywords" content="ノート共有, ルーム作成, リアルタイム, FS QR" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="FS!QR Note" />
+    <meta property="og:title" content="ノート共有メニュー | FS!QR" />
+    <meta property="og:description" content="ノートルームの作成や検索ができるメニュー。" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{staticfile('note_logo.png')}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ノート共有メニュー | FS!QR" />
+    <meta name="twitter:description" content="リアルタイムでノートを共有するルームを作成・検索できます。" />
+    <meta name="twitter:image" content="{{staticfile('note_logo.png')}}" />
+    <link rel="canonical" href="{{ request.url }}" />
     <title>ファイル管理</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
@@ -11,6 +26,15 @@
     <!-- アイコン用 FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- カスタムCSS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FS!QR Note",
+      "url": "{{ request.url_root }}note",
+      "description": "FS!QR Noteのメニュー。ノートルームの作成や検索を行うページです。"
+    }
+    </script>
     <style>
         body, html {
             height: 100%;
