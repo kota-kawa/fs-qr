@@ -1,8 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="FS!QRは簡単操作でファイルを共有できる日本語Webサービス。QRコードやグループ、ノート機能でスムーズにデータを送信できます。" />
+    <meta name="keywords" content="ファイル共有, QRコード, グループ共有, ノート共有, FS QR" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="FS!QR" />
+    <meta property="og:title" content="FS!QR 簡単操作でファイルを共有" />
+    <meta property="og:description" content="QRコードやグループ、ノートを使って手軽にファイルを共有できます。" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{staticfile('logo.png')}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FS!QR 簡単操作でファイルを共有" />
+    <meta name="twitter:description" content="QRコードやグループ、ノート機能で素早くデータを送信できます。" />
+    <meta name="twitter:image" content="{{staticfile('logo.png')}}" />
+    <link rel="canonical" href="{{ request.url }}" />
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
@@ -14,6 +29,16 @@
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
       rel="stylesheet">
     <title>FS!QR 簡単操作でファイルを共有</title>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "description": "FS!QRはQRコードやグループ、ノート機能で簡単にファイルを共有できるWebサービスです。"
+    }
+    </script>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
      crossorigin="anonymous"></script>
