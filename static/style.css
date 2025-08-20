@@ -145,3 +145,22 @@ th { text-align: right; }
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Simple footer with text-only links */
+.simple-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.simple-footer a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  margin-bottom: 0.25rem;
+}
+
+.simple-footer a:hover {
+  text-decoration: underline;
+}
