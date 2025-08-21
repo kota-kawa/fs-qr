@@ -134,16 +134,225 @@ th { text-align: right; }
   transform: scale(1.2);
 }
 
-/* central content box styling for about/privacy/contact pages */
+/* Modern design system for info pages */
+:root {
+  --primary-color: rgb(0, 109, 128);
+  --primary-light: rgba(0, 109, 128, 0.1);
+  --primary-gradient: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+  --accent-color: #4f46e5;
+  --text-dark: #1f2937;
+  --text-medium: #6b7280;
+  --text-light: #9ca3af;
+  --bg-light: #f8fafc;
+  --bg-white: #ffffff;
+  --border-light: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Enhanced page wrapper for info pages */
+.info-page {
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+  padding: 2rem 1rem;
+}
+
+/* Modern info box styling */
 .info-box {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+  background: var(--bg-white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.info-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
+}
+
+.info-box-header {
+  background: var(--primary-gradient);
+  color: white;
   padding: 2rem;
-  border: 1px solid #dedede;
-  border-radius: 15px;
-  background-color: #ffffff;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.info-box-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 10px solid var(--primary-color);
+}
+
+.info-box-header h2 {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Kaisei Opti', serif;
+}
+
+.info-box-header .subtitle {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.info-box-content {
+  padding: 3rem 2.5rem;
+  text-align: left;
+  line-height: 1.8;
+  color: var(--text-dark);
+}
+
+.info-box-content h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem 0;
+  padding-left: 1rem;
+  border-left: 4px solid var(--primary-color);
+  font-family: 'Kaisei Opti', serif;
+}
+
+.info-box-content h4 {
+  color: var(--text-dark);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.info-box-content h4::before {
+  content: '▶';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-size: 0.8rem;
+}
+
+.info-box-content p {
+  margin-bottom: 1.25rem;
+  color: var(--text-medium);
+  font-size: 1rem;
+}
+
+.info-box-content ul, .info-box-content ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+  color: var(--text-medium);
+}
+
+.info-box-content li {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.info-box-content li strong {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.info-box-content a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.info-box-content a:hover {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+.info-box-content code {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Contact form styling */
+.contact-form-link {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary-gradient);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  margin-top: 1rem;
+}
+
+.contact-form-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  color: white;
+  text-decoration: none;
+}
+
+.contact-form-link::after {
+  content: '→';
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-form-link:hover::after {
+  transform: translateX(4px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .info-page {
+    padding: 1rem 0.5rem;
+  }
+  
+  .info-box-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .info-box-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .info-box-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .info-box-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .info-box-content h4 {
+    font-size: 1.1rem;
+  }
 }
 
 /* Simple footer with text-only links */

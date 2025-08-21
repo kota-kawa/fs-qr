@@ -1,19 +1,33 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="container my-5">
+<div class="info-page">
   <div class="info-box">
-    <h2 class="mb-4">サイト概要</h2>
-    <p>FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる共有サービスです。</p>
-    <p>提供する主な機能は次の3つです。</p>
-    <ul>
-      <li><strong>ファイル共有</strong>: ファイルをアップロードするとダウンロード用URLとパスワードに加え、スマートフォンで読み取れるQRコードが生成されます。受け取る側はQRコードをスキャンしてURLにアクセスし、パスワードを入力するだけでファイルを取得できます。</li>
-      <li><strong>ノート共有</strong>: ノートルームを作成すると、そのルームにアクセスするためのQRコードが発行されます。QRコードを共有すれば複数人で同じノートをリアルタイムに編集でき、編集内容は自動保存されます。</li>
-      <li><strong>グループ共有</strong>: ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。</li>
-    </ul>
-    <p>いずれの機能でもQRコードとパスワードを利用することで、簡単かつ安全に共有できます。</p>
-    <h3 class="mt-4">運営者情報</h3>
-    <p>運営者: FS!QR運営チーム</p>
-    <p>お問い合わせ: <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/edit?hl=ja" target="_blank" rel="noopener">お問い合わせフォーム</a></p>
+    <div class="info-box-header">
+      <h2>サイト概要</h2>
+      <div class="subtitle">FS!QRについて</div>
+    </div>
+    <div class="info-box-content">
+      <p>FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる革新的な共有サービスです。シンプルな操作で、安全かつ迅速にファイルやデータを共有できます。</p>
+      
+      <h3>🚀 主な機能</h3>
+      <ul>
+        <li><strong>ファイル共有</strong>: ファイルをアップロードするとダウンロード用URLとパスワードに加え、スマートフォンで読み取れるQRコードが生成されます。受け取る側はQRコードをスキャンしてURLにアクセスし、パスワードを入力するだけでファイルを取得できます。</li>
+        <li><strong>ノート共有</strong>: ノートルームを作成すると、そのルームにアクセスするためのQRコードが発行されます。QRコードを共有すれば複数人で同じノートをリアルタイムに編集でき、編集内容は自動保存されます。</li>
+        <li><strong>グループ共有</strong>: ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。</li>
+      </ul>
+      
+      <p>いずれの機能でもQRコードとパスワードを利用することで、簡単かつ安全に共有できます。</p>
+
+      <h3>🔒 セキュリティ</h3>
+      <p>FS!QRは、お客様のデータの安全性を最優先に考えています。すべてのファイルは暗号化されて保存され、一定期間後に自動的に削除されます。また、HTTPSによる通信暗号化により、データの送受信も安全に行われます。</p>
+
+      <h3>📞 運営者情報</h3>
+      <p><strong>運営者:</strong> FS!QR運営チーム</p>
+      <p><strong>お問い合わせ:</strong> ご質問やご意見がございましたら、以下のフォームからお気軽にお問い合わせください。</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/edit?hl=ja" target="_blank" rel="noopener" class="contact-form-link">お問い合わせフォーム</a>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

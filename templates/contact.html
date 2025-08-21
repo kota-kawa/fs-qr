@@ -1,10 +1,44 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="container my-5">
+<div class="info-page">
   <div class="info-box">
-    <h2 class="mb-4">お問い合わせ</h2>
-    <p>ご意見・ご質問などがございましたら、以下のフォームからお問い合わせください。</p>
-    <p><a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/edit?hl=ja" target="_blank" rel="noopener">お問い合わせフォーム</a></p>
+    <div class="info-box-header">
+      <h2>お問い合わせ</h2>
+      <div class="subtitle">ご質問・ご意見をお聞かせください</div>
+    </div>
+    <div class="info-box-content">
+      <p>FS!QRに関するご質問、ご意見、ご要望などがございましたら、お気軽にお問い合わせください。運営チームが迅速に対応いたします。</p>
+
+      <h3>📝 お問い合わせの前に</h3>
+      <p>お問い合わせの前に、以下のページもご確認ください：</p>
+      <ul>
+        <li><a href="/usage">使い方</a> - サービスの基本的な使用方法</li>
+        <li><a href="/articles">解説記事</a> - 詳細な機能説明とFAQ</li>
+        <li><a href="/privacy-policy">プライバシーポリシー</a> - データの取り扱いについて</li>
+      </ul>
+
+      <h3>📧 お問い合わせフォーム</h3>
+      <p>以下のフォームから、お気軽にお問い合わせください。いただいたメッセージは運営チームが確認し、できるだけ早くご返信いたします。</p>
+      
+      <div style="text-align: center; margin: 2rem 0;">
+        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/edit?hl=ja" target="_blank" rel="noopener" class="contact-form-link">お問い合わせフォーム</a>
+      </div>
+
+      <h3>⚡ よくある質問</h3>
+      
+      <h4>ファイルはどのくらいの期間保存されますか？</h4>
+      <p>アップロードされたファイルは暗号化されて一時的に保存され、一定期間後に自動的に削除されます。</p>
+      
+      <h4>パスワードを忘れてしまいました</h4>
+      <p>セキュリティ上の理由により、パスワードの復旧はできません。新しくファイルをアップロードしてください。</p>
+      
+      <h4>大きなファイルをアップロードできますか？</h4>
+      <p>ファイルサイズには制限があります。詳細は<a href="/usage">使い方</a>ページをご確認ください。</p>
+
+      <p style="margin-top: 2rem; text-align: center; color: var(--text-medium);">
+        <small>お問い合わせいただいた内容は、サービスの改善にも活用させていただきます。</small>
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

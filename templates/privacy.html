@@ -1,21 +1,44 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="container my-5">
+<div class="info-page">
   <div class="info-box">
-    <h2 class="mb-4">プライバシーポリシー</h2>
-    <p>当サイトでは、Google などの第三者配信事業者が Cookie を使用して、ユーザーの過去のアクセス情報に基づいて広告を配信しています。</p>
-    <p>これらの Cookie を利用することで、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。</p>
-    <p>ユーザーは <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener">Google 広告設定</a> や <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> のページから、パーソナライズド広告に使用される Cookie を無効にできます。</p>
-    <p>アップロードされたファイルは暗号化された状態で一時的に保存され、一定期間後に自動的に削除されます。ファイルを第三者と共有することはありません。</p>
-    <p>その他、ご不明な点がございましたら <a href="/contact">お問い合わせ</a> ください。</p>
-    <h3 class="mt-5">UGC運用ポリシー</h3>
-    <p>本サービスで公開されるユーザー生成コンテンツ（UGC）は運営が責任をもって管理します。以下の方針を遵守してください。</p>
-    <ul>
-      <li><strong>利用規約</strong>：投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。</li>
-      <li><strong>著作権/削除方針</strong>：著作権侵害の申し立てを受けたコンテンツは、DMCA相当の手続きに基づき迅速に削除します。</li>
-      <li><strong>禁止事項</strong>：違法、暴力的、または不適切な内容の投稿を禁止します。</li>
-      <li><strong>通報/削除フロー</strong>：問題のあるコンテンツを発見した場合は<a href="/contact">お問い合わせ</a>から通報してください。確認後、必要に応じて削除します。</li>
-    </ul>
+    <div class="info-box-header">
+      <h2>プライバシーポリシー</h2>
+      <div class="subtitle">個人情報の取り扱いについて</div>
+    </div>
+    <div class="info-box-content">
+      <p>FS!QRは、ユーザーの皆様の個人情報とプライバシーを保護することを重要な責務と考え、以下のプライバシーポリシーを定めています。</p>
+
+      <h3>📊 広告配信について</h3>
+      <p>当サイトでは、Google などの第三者配信事業者が Cookie を使用して、ユーザーの過去のアクセス情報に基づいて広告を配信しています。</p>
+      <p>これらの Cookie を利用することで、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。</p>
+      <p>ユーザーは <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener">Google 広告設定</a> や <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> のページから、パーソナライズド広告に使用される Cookie を無効にできます。</p>
+
+      <h3>🔐 ファイルデータの取り扱い</h3>
+      <p>アップロードされたファイルは暗号化された状態で一時的に保存され、一定期間後に自動的に削除されます。ファイルを第三者と共有することはありません。</p>
+      <p>すべての通信は HTTPS で暗号化されており、セキュリティの確保に努めています。</p>
+
+      <h3>📋 UGC運用ポリシー</h3>
+      <p>本サービスで公開されるユーザー生成コンテンツ（UGC）は運営が責任をもって管理します。以下の方針を遵守してください。</p>
+      
+      <h4>利用規約</h4>
+      <p>投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。</p>
+      
+      <h4>著作権/削除方針</h4>
+      <p>著作権侵害の申し立てを受けたコンテンツは、DMCA相当の手続きに基づき迅速に削除します。</p>
+      
+      <h4>禁止事項</h4>
+      <p>違法、暴力的、または不適切な内容の投稿を禁止します。</p>
+      
+      <h4>通報/削除フロー</h4>
+      <p>問題のあるコンテンツを発見した場合は<a href="/contact">お問い合わせ</a>から通報してください。確認後、必要に応じて削除します。</p>
+
+      <h3>💬 お問い合わせ</h3>
+      <p>その他、ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/contact" class="contact-form-link">お問い合わせページへ</a>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

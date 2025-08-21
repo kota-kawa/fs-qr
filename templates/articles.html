@@ -3,21 +3,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
   .articles-page {
-    background: linear-gradient(135deg, #4f46e5 10%, #06b6d4 100%);
-    min-height: 100vh;
-    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+    min-height: calc(100vh - 200px);
+    padding: 2rem 1rem;
   }
   .articles-container {
     max-width: 1200px;
     margin: 0 auto;
   }
-  .articles-title {
+  .articles-header {
     text-align: center;
-    color: #ffffff;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-xl);
+  }
+  .articles-title {
     font-size: 3rem;
     font-weight: bold;
-    margin-bottom: 50px;
+    margin: 0 0 1rem 0;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-family: 'Kaisei Opti', serif;
+  }
+  .articles-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
   }
   .articles-grid {
     display: grid;
@@ -26,23 +39,17 @@
     padding: 0;
   }
   .article-card {
-    background-color: #ffffff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--bg-white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
     text-decoration: none;
     color: inherit;
     display: block;
-    border: none;
+    border: 1px solid var(--border-light);
     position: relative;
     overflow: hidden;
-  }
-  .article-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-    text-decoration: none;
-    color: inherit;
   }
   .article-card::before {
     content: '';
@@ -51,37 +58,48 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    background: var(--primary-gradient);
+  }
+  .article-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    text-decoration: none;
+    color: inherit;
   }
   .article-icon {
     font-size: 2.5rem;
-    color: #4f46e5;
-    margin-bottom: 20px;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
     display: block;
   }
   .article-title {
     font-size: 1.4rem;
     font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 15px;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
     line-height: 1.4;
+    font-family: 'Kaisei Opti', serif;
   }
   .article-description {
     font-size: 1rem;
-    color: #6b7280;
+    color: var(--text-medium);
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
   }
   .read-more {
     display: inline-flex;
     align-items: center;
-    color: #4f46e5;
+    color: var(--primary-color);
     font-weight: 500;
     font-size: 0.95rem;
+    transition: all 0.3s ease;
   }
   .read-more i {
     margin-left: 8px;
     transition: transform 0.3s ease;
+  }
+  .article-card:hover .read-more {
+    color: var(--accent-color);
   }
   .article-card:hover .read-more i {
     transform: translateX(5px);
@@ -89,26 +107,35 @@
   
   /* Mobile responsiveness */
   @media (max-width: 768px) {
+    .articles-page {
+      padding: 1rem 0.5rem;
+    }
+    .articles-header {
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+    }
     .articles-title {
       font-size: 2rem;
-      margin-bottom: 30px;
+    }
+    .articles-subtitle {
+      font-size: 1rem;
     }
     .articles-grid {
       grid-template-columns: 1fr;
       gap: 20px;
     }
     .article-card {
-      padding: 25px;
-    }
-    .articles-page {
-      padding: 20px 15px;
+      padding: 1.5rem;
     }
   }
 </style>
 
 <div class="articles-page">
   <div class="articles-container">
-    <h1 class="articles-title">解説記事</h1>
+    <div class="articles-header">
+      <h1 class="articles-title">解説記事</h1>
+      <p class="articles-subtitle">FS!QRをより深く理解するための詳細情報</p>
+    </div>
     <div class="articles-grid">
       {% for art in articles %}
       <a href="{{ art.url }}" class="article-card">
