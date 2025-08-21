@@ -56,7 +56,7 @@ atexit.register(lambda: scheduler.shutdown())
 # ---------------------------
 @group_bp.route('/group')
 def group():
-    return render_template('Group/group.html')
+    return render_template('group.html')
 
 # ---------------------------
 # 特定のルームIDのグループルーム画面を表示するルート
@@ -75,7 +75,7 @@ def group_list(room_id):
     # センシティブ情報はログに出力しないよう注意
     print(f"Room ID: {room_id}")
     return render_template(
-        'Group/group_room.html',
+        'group_room.html',
         room_id=room_id,
         user_id=user_id,
         password=password
@@ -86,7 +86,7 @@ def group_list(room_id):
 # ---------------------------
 @group_bp.route('/create_room')
 def create_room():
-    return render_template('Group/create_group_room.html')
+    return render_template('create_group_room.html')
 
 # ---------------------------
 # 新規グループルームの作成処理（POSTリクエスト）
@@ -265,7 +265,7 @@ def delete_file(room_id, filename):
 # ---------------------------
 @group_bp.route('/search_room')
 def search_room_page():
-    return render_template('Group/search_room.html')
+    return render_template('search_room.html')
 
 # ---------------------------
 # ルーム検索処理（POSTリクエスト）
@@ -306,13 +306,13 @@ def manage_rooms():
             session['management_authenticated'] = True
         else:
             flash('パスワードが違います。')
-            return render_template('Group/manage_rooms_login.html')
+            return render_template('manage_rooms_login.html')
     if not session.get('management_authenticated'):
-        return render_template('Group/manage_rooms_login.html')
+        return render_template('manage_rooms_login.html')
     
     # 認証済みの場合、ルーム一覧を表示
     rooms = group_data.get_all()
-    return render_template('Group/manage_rooms.html', rooms=rooms)
+    return render_template('manage_rooms.html', rooms=rooms)
 
 # ---------------------------
 # 管理者ログアウト用のルート
