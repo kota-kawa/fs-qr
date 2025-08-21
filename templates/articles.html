@@ -112,10 +112,10 @@
     <div class="articles-grid">
       {% for art in articles %}
       <a href="{{ art.url }}" class="article-card">
-        {% if art.url == '/usage' %}
-          <i class="fas fa-play-circle article-icon"></i>
+        {% if art.url == '/fs-qr-concept' %}
+          <i class="fas fa-lightbulb article-icon"></i>
           <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">FS!QRを初めて使う方向けの基本操作ガイドです。アップロードから共有まで段階的に説明します。</p>
+          <p class="article-description">FS!QRの設計思想や技術的な考え方について、開発背景とコンセプトを詳しく解説します。</p>
         {% elif art.url == '/safe-sharing' %}
           <i class="fas fa-shield-alt article-icon"></i>
           <h3 class="article-title">{{ art.title }}</h3>
