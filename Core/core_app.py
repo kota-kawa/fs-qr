@@ -10,6 +10,8 @@ core_bp = Blueprint('core', __name__, template_folder='templates')
 # Base configuration (same as in app.py)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # Parent directory (app.py location)
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
+# Ensure the upload directory exists to avoid FileNotFoundError
+os.makedirs(STATIC, exist_ok=True)
 
 @core_bp.route('/fs-qr')
 def fs_qr():

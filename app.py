@@ -1,20 +1,12 @@
 from flask import (
     Flask,
-    request,
-    send_file,
-    send_from_directory,
-    jsonify,
     render_template,
-    redirect,
-    url_for,
-    abort,
+    send_from_directory,
 )
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
 import time
-import uuid
-import secrets
 import fs_data  # ファイルやデータを管理するモジュール
 from fs_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
@@ -26,12 +18,9 @@ from Admin.admin_app import admin_bp
 from Core.core_app import core_bp
 from Articles.articles_app import articles_bp
 
-import shutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
 from Group.group_app import group_bp
-from werkzeug.utils import secure_filename
-from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 
 # .envファイルの読み込み
@@ -54,9 +43,6 @@ app.secret_key = secret_key
 MASTER_PW = admin_key
 
 BASE_DIR = os.path.dirname(__file__)
-STATIC = os.path.join(BASE_DIR, 'static', 'upload')
-# Ensure the upload directory exists to avoid FileNotFoundError
-os.makedirs(STATIC, exist_ok=True)
 
 app.register_blueprint(group_bp)
 app.register_blueprint(note_bp)
@@ -84,17 +70,13 @@ atexit.register(lambda: scheduler.shutdown())
 def index():
     return render_template('index.html')
 
-
-
 @app.route('/privacy-policy')
 def privacy_policy():
     return render_template('privacy.html')
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
-
 
 @app.route('/contact')
 def contact():
@@ -103,9 +85,6 @@ def contact():
 @app.route('/usage')
 def usage():
     return render_template('usage.html')
-
-
-
 
 @app.route('/ads.txt')
 def ads_txt():
