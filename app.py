@@ -101,6 +101,15 @@ def contact():
 def usage():
     return render_template('usage.html')
 
+@app.route('/articles')
+def articles():
+    articles = [
+        {"title": "FS!QRの基本的な使い方", "url": "/usage"},
+        {"title": "QRコード生成の仕組み", "url": "#"},
+        {"title": "セキュリティ対策の概要", "url": "#"},
+    ]
+    return render_template('articles.html', articles=articles)
+
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory(app.root_path, 'ads.txt')
