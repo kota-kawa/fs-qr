@@ -112,9 +112,13 @@ def encryption():
     return render_template('encryption.html')
 
 
-@app.route('/education-business')
-def education_business():
-    return render_template('education-business.html')
+@app.route('/education')
+def education():
+    return render_template('education.html')
+
+@app.route('/business')
+def business():
+    return render_template('business.html')
 
 
 @app.route('/risk-mitigation')
@@ -127,7 +131,8 @@ def articles():
         {"title": "FS!QRの基本的な使い方", "url": "/usage"},
         {"title": "安全な共有のポイント", "url": "/safe-sharing"},
         {"title": "暗号化の基礎知識", "url": "/encryption"},
-        {"title": "教育・業務での活用例", "url": "/education-business"},
+        {"title": "教育での活用例", "url": "/education"},
+        {"title": "業務での活用例", "url": "/business"},
         {"title": "リスクと対策の考え方", "url": "/risk-mitigation"},
     ]
     return render_template('articles.html', articles=articles)
