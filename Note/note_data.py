@@ -72,7 +72,7 @@ CREATE_NOTE_CONTENT = """
 CREATE TABLE IF NOT EXISTS note_content(
   room_id VARCHAR(255) PRIMARY KEY,
   content LONGTEXT,
-  updated_at DATETIME
+  updated_at DATETIME(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
@@ -80,6 +80,11 @@ CREATE TABLE IF NOT EXISTS note_content(
 def _ensure_tables():
     execute_query(CREATE_NOTE_ROOM)
     execute_query(CREATE_NOTE_CONTENT)
+    # 既存テーブルをマイクロ秒精度に更新
+    try:
+        execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")
+    except Exception:
+        pass
     logger.info("note tables checked/created")
 
 # アプリ起動時にテーブルをチェック/作成
@@ -121,7 +126,7 @@ def get_row(room_id):
         return rows[0]
     # レコードがなければ初期レコードを作成
     execute_query(
-        "INSERT INTO note_content(room_id, content, updated_at) VALUES(:r, '', NOW())",
+        "INSERT INTO note_content(room_id, content, updated_at) VALUES(:r, '', NOW(6))",
         {"r": room_id}
     )
     return get_row(room_id)
@@ -134,17 +139,17 @@ fetch_note = get_row
 # ────────────────────────────────────────────
 def save_content(room_id, content, expected_updated_at_str=None):
     if expected_updated_at_str:
-        # MySQLのDATETIME型は 'YYYY-MM-DD HH:MM:SS' 形式の文字列と比較可能
+        # MySQLのDATETIME(6)型は 'YYYY-MM-DD HH:MM:SS.ffffff' 形式の文字列と比較可能
         query = text("""
             UPDATE note_content
-            SET content=:c, updated_at=NOW()
+            SET content=:c, updated_at=NOW(6)
             WHERE room_id=:r AND updated_at = :expected_ua
         """)
         params = {"c": content, "r": room_id, "expected_ua": expected_updated_at_str}
         return execute_query(query, params)
     else:
         # expected_updated_at_str がない場合は無条件更新（フォールバックまたは特定用途）
-        query = text("UPDATE note_content SET content=:c, updated_at=NOW() WHERE room_id=:r")
+        query = text("UPDATE note_content SET content=:c, updated_at=NOW(6) WHERE room_id=:r")
         params = {"c": content, "r": room_id}
         return execute_query(query, params)
 

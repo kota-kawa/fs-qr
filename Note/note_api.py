@@ -18,7 +18,7 @@ def note_sync(room_id):
             return jsonify({"error": "room not found or not initialized"}), 404
         return jsonify({
             "content": row["content"],
-            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='seconds')
+            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='microseconds')
         })
 
     # POST
@@ -43,7 +43,7 @@ def note_sync(room_id):
         row = nd.get_row(room_id)
         return jsonify({
             "status": "ok_unconditional_fallback",
-            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='seconds'),
+            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='microseconds'),
             "content": row["content"]
         })
 
@@ -54,14 +54,14 @@ def note_sync(room_id):
         row = nd.get_row(room_id)
         return jsonify({
             "status": "ok",
-            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='seconds'),
+            "updated_at": row["updated_at"].isoformat(sep=' ', timespec='microseconds'),
             "content": row["content"]  # 更新後の内容を返す
         })
     else:  # 更新失敗 (競合発生)
         # 2. 競合解決のためマージを試みる
         current_db_row = nd.get_row(room_id)
         server_text = current_db_row["content"]
-        server_timestamp = current_db_row["updated_at"].isoformat(sep=' ', timespec='seconds')
+        server_timestamp = current_db_row["updated_at"].isoformat(sep=' ', timespec='microseconds')
 
         dmp = dmp_module.diff_match_patch()
         # クライアントの変更点からパッチを作成
@@ -77,7 +77,7 @@ def note_sync(room_id):
                 final_row = nd.get_row(room_id)
                 return jsonify({
                     "status": "ok_merged",
-                    "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='seconds'),
+                    "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='microseconds'),
                     "content": final_row["content"]
                 })
             else:
@@ -86,7 +86,7 @@ def note_sync(room_id):
                 return jsonify({
                     "status": "conflict_during_merge_save",
                     "error": "Conflict occurred while saving merged content. Please review.",
-                    "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='seconds'),
+                    "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='microseconds'),
                     "content": final_row["content"]
                 }), 409  # HTTP 409 Conflict
         else:  # パッチ適用失敗 (マージ不可)
@@ -94,6 +94,6 @@ def note_sync(room_id):
             return jsonify({
                 "status": "conflict_merge_failed",
                 "error": "Automatic merge failed. Please review the latest content.",
-                "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='seconds'),
+                "updated_at": final_row["updated_at"].isoformat(sep=' ', timespec='microseconds'),
                 "content": final_row["content"]
             }), 409  # HTTP 409 Conflict
