@@ -1,18 +1,149 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h2 class="card-title mb-4 text-center">解説記事</h2>
-          <ul class="list-group list-group-flush">
-            {% for art in articles %}
-            <li class="list-group-item"><a href="{{ art.url }}">{{ art.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  .articles-page {
+    background: linear-gradient(135deg, #4f46e5 10%, #06b6d4 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .articles-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .articles-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    padding: 0;
+  }
+  .article-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    color: inherit;
+  }
+  .article-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  }
+  .article-icon {
+    font-size: 2.5rem;
+    color: #4f46e5;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .article-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  .article-description {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    color: #4f46e5;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .read-more i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+  }
+  .article-card:hover .read-more i {
+    transform: translateX(5px);
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .articles-title {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    .articles-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .article-card {
+      padding: 25px;
+    }
+    .articles-page {
+      padding: 20px 15px;
+    }
+  }
+</style>
+
+<div class="articles-page">
+  <div class="articles-container">
+    <h1 class="articles-title">解説記事</h1>
+    <div class="articles-grid">
+      {% for art in articles %}
+      <a href="{{ art.url }}" class="article-card">
+        {% if art.url == '/usage' %}
+          <i class="fas fa-play-circle article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">FS!QRを初めて使う方向けの基本操作ガイドです。アップロードから共有まで段階的に説明します。</p>
+        {% elif art.url == '/safe-sharing' %}
+          <i class="fas fa-shield-alt article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ファイル共有を安全に行うためのベストプラクティスとセキュリティのポイントを解説します。</p>
+        {% elif art.url == '/encryption' %}
+          <i class="fas fa-lock article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">FS!QRで使用されている暗号化技術について、わかりやすく基礎から説明します。</p>
+        {% elif art.url == '/education' %}
+          <i class="fas fa-graduation-cap article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">学校や教育機関でFS!QRを効果的に活用するための具体的な事例を紹介します。</p>
+        {% elif art.url == '/business' %}
+          <i class="fas fa-briefcase article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ビジネス現場でFS!QRを活用して業務効率を向上させる方法を実例とともに解説します。</p>
+        {% elif art.url == '/risk-mitigation' %}
+          <i class="fas fa-exclamation-triangle article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ファイル共有におけるリスクを理解し、適切な対策を講じるための考え方を学びます。</p>
+        {% else %}
+          <i class="fas fa-file-alt article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">詳細な解説記事をお読みいただけます。</p>
+        {% endif %}
+        <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+      </a>
+      {% endfor %}
     </div>
   </div>
 </div>
