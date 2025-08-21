@@ -1,0 +1,177 @@
+{% extends "layout.html" %}
+{% block contents %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  .articles-page {
+    background: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+    min-height: calc(100vh - 200px);
+    padding: 2rem 1rem;
+  }
+  .articles-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .articles-header {
+    text-align: center;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-xl);
+  }
+  .articles-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0 0 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-family: 'Kaisei Opti', serif;
+  }
+  .articles-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    padding: 0;
+  }
+  .article-card {
+    background-color: var(--bg-white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
+  }
+  .article-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+  }
+  .article-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    text-decoration: none;
+    color: inherit;
+  }
+  .article-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .article-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    font-family: 'Kaisei Opti', serif;
+  }
+  .article-description {
+    font-size: 1rem;
+    color: var(--text-medium);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+  .read-more i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+  }
+  .article-card:hover .read-more {
+    color: var(--accent-color);
+  }
+  .article-card:hover .read-more i {
+    transform: translateX(5px);
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .articles-page {
+      padding: 1rem 0.5rem;
+    }
+    .articles-header {
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .articles-title {
+      font-size: 2rem;
+    }
+    .articles-subtitle {
+      font-size: 1rem;
+    }
+    .articles-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .article-card {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="articles-page">
+  <div class="articles-container">
+    <div class="articles-header">
+      <h1 class="articles-title">解説記事</h1>
+      <p class="articles-subtitle">FS!QRをより深く理解するための詳細情報</p>
+    </div>
+    <div class="articles-grid">
+      {% for art in articles %}
+      <a href="{{ art.url }}" class="article-card">
+        {% if art.url == '/fs-qr-concept' %}
+          <i class="fas fa-lightbulb article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">FS!QRの設計思想や技術的な考え方について、開発背景とコンセプトを詳しく解説します。</p>
+        {% elif art.url == '/safe-sharing' %}
+          <i class="fas fa-shield-alt article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ファイル共有を安全に行うためのベストプラクティスとセキュリティのポイントを解説します。</p>
+        {% elif art.url == '/encryption' %}
+          <i class="fas fa-lock article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">FS!QRで使用されている暗号化技術について、わかりやすく基礎から説明します。</p>
+        {% elif art.url == '/education' %}
+          <i class="fas fa-graduation-cap article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">学校や教育機関でFS!QRを効果的に活用するための具体的な事例を紹介します。</p>
+        {% elif art.url == '/business' %}
+          <i class="fas fa-briefcase article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ビジネス現場でFS!QRを活用して業務効率を向上させる方法を実例とともに解説します。</p>
+        {% elif art.url == '/risk-mitigation' %}
+          <i class="fas fa-exclamation-triangle article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">ファイル共有におけるリスクを理解し、適切な対策を講じるための考え方を学びます。</p>
+        {% else %}
+          <i class="fas fa-file-alt article-icon"></i>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">詳細な解説記事をお読みいただけます。</p>
+        {% endif %}
+        <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

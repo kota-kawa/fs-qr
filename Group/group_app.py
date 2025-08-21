@@ -15,7 +15,7 @@ import atexit
 # 同じパッケージ内の group_data モジュールをインポート
 from . import group_data
 
-group_bp = Blueprint('group', __name__)
+group_bp = Blueprint('group', __name__, template_folder='templates')
 
 # .envファイルの読み込み
 load_dotenv()
