@@ -125,10 +125,14 @@ def business():
 def risk_mitigation():
     return render_template('risk-mitigation.html')
 
+@app.route('/fs-qr-concept')
+def fs_qr_concept():
+    return render_template('fs-qr-concept.html')
+
 @app.route('/articles')
 def articles():
     articles = [
-        {"title": "FS!QRの基本的な使い方", "url": "/usage"},
+        {"title": "FS!QRの基本的な考え方", "url": "/fs-qr-concept"},
         {"title": "安全な共有のポイント", "url": "/safe-sharing"},
         {"title": "暗号化の基礎知識", "url": "/encryption"},
         {"title": "教育での活用例", "url": "/education"},
