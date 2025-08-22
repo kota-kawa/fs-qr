@@ -1,206 +1,239 @@
 {% extends "note_layout.html" %}
 {% block contents %}
 <style>
-/* Unified Modern Design System */
-.page-container {
+/* Note Form Design System - Distinct from Usage Page */
+.form-page-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, rgba(248, 250, 252, 0.8) 100%);
-    padding: 2rem 1rem;
+    background: linear-gradient(145deg, #1e3a5f 0%, #2563eb 25%, #3b82f6 75%, #60a5fa 100%);
+    padding: 3rem 1rem;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-}
-
-.modern-card {
-    width: 100%;
-    max-width: 440px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    box-shadow: 
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
+    align-items: center;
     position: relative;
-    transition: all 0.3s ease;
 }
 
-.modern-card::before {
+.form-page-container::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.7;
 }
 
-.modern-card:hover {
-    transform: translateY(-2px);
+.note-form-card {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 24px;
     box-shadow: 
-        0 25px 35px -5px rgba(0, 0, 0, 0.15),
-        0 15px 15px -5px rgba(0, 0, 0, 0.06);
-}
-
-.card-header {
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    position: relative;
-}
-
-.card-header::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 10px solid rgb(32, 178, 170);
-}
-
-.card-title {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: 'Kaisei Opti', serif;
-}
-
-.card-body {
-    padding: 2.5rem 2rem 2rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 0.025em;
-}
-
-.form-control {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    background: #f9fafb;
-    transition: all 0.2s ease;
-    color: #1f2937;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: rgb(32, 178, 170);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
-    transform: translateY(-1px);
-}
-
-.btn-modern {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    cursor: pointer;
-    transition: all 0.3s ease;
+        0 20px 40px -8px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(15px);
+    transition: all 0.4s ease;
 }
 
-.btn-modern::before {
+.note-form-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 30px 60px -8px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.note-header {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    border-radius: 24px 24px 0 0;
+}
+
+.note-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: #3b82f6;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.note-icon {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.95;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-title {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+}
+
+.note-form-body {
+    padding: 3.5rem 2.5rem 2.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+.note-form-field {
+    margin-bottom: 2.5rem;
+}
+
+.note-label {
+    display: block;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.note-input {
+    width: 100%;
+    padding: 1.5rem 1.75rem;
+    border: 3px solid #dbeafe;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    background: #f8fafc;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+.note-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 
+        0 0 0 5px rgba(59, 130, 246, 0.15),
+        0 10px 30px -10px rgba(59, 130, 246, 0.4);
+    transform: translateY(-3px) scale(1.02);
+}
+
+.note-input::placeholder {
+    color: #64748b;
+    font-weight: 400;
+}
+
+.note-submit-btn {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 1rem;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.note-submit-btn::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: left 0.7s ease;
 }
 
-.btn-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 109, 128, 0.3);
+.note-submit-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.5);
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
 }
 
-.btn-modern:hover::before {
+.note-submit-btn:hover::before {
     left: 100%;
 }
 
-.btn-modern:active {
-    transform: translateY(0);
+.note-submit-btn:active {
+    transform: translateY(-2px) scale(1.02);
 }
 
 /* Responsive Design */
 @media (max-width: 576px) {
-    .page-container {
-        padding: 1rem 0.75rem;
+    .form-page-container {
+        padding: 2rem 1rem;
     }
     
-    .modern-card {
+    .note-form-card {
         max-width: 100%;
         border-radius: 20px;
     }
     
-    .card-header {
-        padding: 1.5rem 1.25rem;
+    .note-form-card:hover {
+        transform: translateY(-6px) scale(1.01);
     }
     
-    .card-title {
-        font-size: 1.5rem;
+    .note-header {
+        padding: 2rem 1.5rem;
+        border-radius: 20px 20px 0 0;
     }
     
-    .card-body {
-        padding: 2rem 1.5rem 1.75rem;
+    .note-title {
+        font-size: 1.8rem;
     }
     
-    .form-control {
-        padding: 0.875rem 1rem;
+    .note-form-body {
+        padding: 2.5rem 2rem 2rem;
     }
     
-    .btn-modern {
-        padding: 0.875rem 1.25rem;
+    .note-input {
+        padding: 1.25rem 1.5rem;
         font-size: 1rem;
+    }
+    
+    .note-submit-btn {
+        padding: 1.25rem 1.5rem;
+        font-size: 0.95rem;
     }
 }
 </style>
 
-<div class="page-container">
-  <div class="modern-card">
-    <div class="card-header">
-        <h2 class="card-title">Search Note Room</h2>
+<div class="form-page-container">
+  <div class="note-form-card">
+    <div class="note-header">
+        <span class="note-icon">🔍</span>
+        <h2 class="note-title">Search Note Room</h2>
     </div>
-    <div class="card-body">
+    <div class="note-form-body">
         <form method="POST" action="/search_note_room_process">
-          <div class="form-group">
-            <label class="form-label">Room ID</label>
-            <input type="text" name="id" class="form-control"
+          <div class="note-form-field">
+            <label class="note-label">Room ID</label>
+            <input type="text" name="id" class="note-input"
                    minlength="5" maxlength="10" placeholder="Enter room ID" required>
           </div>
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control"
+          <div class="note-form-field">
+            <label class="note-label">Password</label>
+            <input type="password" name="password" class="note-input"
                    minlength="5" maxlength="10" placeholder="Enter password" required>
           </div>
-          <button class="btn-modern">Search</button>
+          <button class="note-submit-btn">Search Room</button>
         </form>
     </div>
   </div>

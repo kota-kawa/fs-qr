@@ -2,204 +2,232 @@
 
 {% block contents %}
 <style>
-/* Unified Modern Design System */
-.page-container {
+/* Group Form Design System - Distinct from Usage Page */
+.form-page-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, rgba(248, 250, 252, 0.8) 100%);
-    padding: 2rem 1rem;
+    background: linear-gradient(145deg, #0a4a52 0%, #134e4a 25%, #155e63 75%, #0d9488 100%);
+    padding: 3rem 1rem;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-}
-
-.modern-card {
-    width: 100%;
-    max-width: 440px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    box-shadow: 
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
+    align-items: center;
     position: relative;
-    transition: all 0.3s ease;
 }
 
-.modern-card::before {
+.form-page-container::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.5;
 }
 
-.modern-card:hover {
-    transform: translateY(-2px);
+.group-form-card {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
     box-shadow: 
-        0 25px 35px -5px rgba(0, 0, 0, 0.15),
-        0 15px 15px -5px rgba(0, 0, 0, 0.06);
-}
-
-.card-header {
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    position: relative;
-}
-
-.card-header::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 10px solid rgb(32, 178, 170);
-}
-
-.card-title {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: 'Kaisei Opti', serif;
-}
-
-.card-body {
-    padding: 2.5rem 2rem 2rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 0.025em;
-}
-
-.form-control {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    background: #f9fafb;
-    transition: all 0.2s ease;
-    color: #1f2937;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: rgb(32, 178, 170);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
-    transform: translateY(-1px);
-}
-
-.btn-modern {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    cursor: pointer;
-    transition: all 0.3s ease;
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
     position: relative;
     overflow: hidden;
+    transform: perspective(1000px) rotateX(2deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.btn-modern::before {
+.group-form-card:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-8px);
+    box-shadow: 
+        0 35px 70px -12px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.group-header {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #5eead4 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.group-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+}
+
+.group-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.9;
+}
+
+.group-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.group-form-body {
+    padding: 3rem 2.5rem 2.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.group-form-field {
+    margin-bottom: 2rem;
+}
+
+.group-label {
+    display: block;
+    font-weight: 600;
+    color: #0f766e;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.group-input {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    border: 2px solid #d1fae5;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    background: #f0fdfa;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #065f46;
+    font-weight: 500;
+}
+
+.group-input:focus {
+    outline: none;
+    border-color: #14b8a6;
+    background: white;
+    box-shadow: 
+        0 0 0 4px rgba(20, 184, 166, 0.1),
+        0 8px 25px -8px rgba(20, 184, 166, 0.3);
+    transform: translateY(-2px);
+}
+
+.group-input::placeholder {
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.group-submit-btn {
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.group-submit-btn::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
 }
 
-.btn-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 109, 128, 0.3);
+.group-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(15, 118, 110, 0.4);
+    background: linear-gradient(135deg, #115e59 0%, #0f766e 100%);
 }
 
-.btn-modern:hover::before {
+.group-submit-btn:hover::before {
     left: 100%;
 }
 
-.btn-modern:active {
-    transform: translateY(0);
+.group-submit-btn:active {
+    transform: translateY(-1px);
 }
 
 /* Responsive Design */
 @media (max-width: 576px) {
-    .page-container {
-        padding: 1rem 0.75rem;
+    .form-page-container {
+        padding: 2rem 1rem;
     }
     
-    .modern-card {
+    .group-form-card {
         max-width: 100%;
-        border-radius: 20px;
+        border-radius: 16px;
+        transform: none;
     }
     
-    .card-header {
-        padding: 1.5rem 1.25rem;
+    .group-form-card:hover {
+        transform: translateY(-4px);
     }
     
-    .card-title {
-        font-size: 1.5rem;
+    .group-header {
+        padding: 2rem 1.5rem;
     }
     
-    .card-body {
-        padding: 2rem 1.5rem 1.75rem;
+    .group-title {
+        font-size: 1.75rem;
     }
     
-    .form-control {
-        padding: 0.875rem 1rem;
+    .group-form-body {
+        padding: 2.5rem 2rem 2rem;
     }
     
-    .btn-modern {
-        padding: 0.875rem 1.25rem;
+    .group-input {
+        padding: 1rem 1.25rem;
         font-size: 1rem;
+    }
+    
+    .group-submit-btn {
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 </style>
 
-<div class="page-container">
-  <div class="modern-card">
-      <div class="card-header">
-          <h2 class="card-title">Search Room</h2>
+<div class="form-page-container">
+  <div class="group-form-card">
+      <div class="group-header">
+          <span class="group-icon">🔍</span>
+          <h2 class="group-title">Search Group Room</h2>
       </div>
-      <div class="card-body">
+      <div class="group-form-body">
           <form method="POST" action="/search_room_process">
-              <div class="form-group">
-                  <label for="roomID" class="form-label">Room ID</label>
-                  <input type="text" id="ID" name="id" class="form-control" placeholder="Enter room ID" required>
+              <div class="group-form-field">
+                  <label for="roomID" class="group-label">Room ID</label>
+                  <input type="text" id="ID" name="id" class="group-input" placeholder="Enter room ID" required>
               </div>
-              <div class="form-group">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+              <div class="group-form-field">
+                  <label for="password" class="group-label">Password</label>
+                  <input type="password" id="password" name="password" class="group-input" placeholder="Enter password" required>
               </div>
-              <button type="submit" class="btn-modern">Search</button>
+              <button type="submit" class="group-submit-btn">Search Room</button>
           </form>
       </div>
   </div>
