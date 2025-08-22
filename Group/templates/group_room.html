@@ -114,16 +114,15 @@
             handleFiles(files);
         });
 
-        // クリックでファイル選択（改善されたイベントハンドリング）
+        // クリックでファイル選択
         uploadArea.on('click', function (e) {
-            // ボタン以外の場所をクリックした場合、またはボタン自体をクリックした場合
-            if (e.target.tagName !== 'BUTTON' || e.target.id === 'uploadFileBtn') {
-                e.preventDefault();
+            // ボタン以外の場所をクリックした場合にファイル選択ダイアログを開く
+            if (e.target.tagName !== 'BUTTON') {
                 fileInput.click();
             }
         });
         
-        // ボタンの直接的なクリックハンドラも追加（確実性のため）
+        // ボタンの直接的なクリックハンドラ
         $('#uploadFileBtn').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
