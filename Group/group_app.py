@@ -20,7 +20,7 @@ group_bp = Blueprint('group', __name__, template_folder='templates')
 # .envファイルの読み込み
 load_dotenv()
 
-management_password = os.getenv("MANAGEMENT_PASSWIRD")
+management_password = os.getenv("MANAGEMENT_PASSWORD")
 
 # 一つ上のディレクトリを取得
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
