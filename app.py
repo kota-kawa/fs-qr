@@ -32,7 +32,7 @@ secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
-app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 例: 50MBまで許可
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MBまで許可
 # Chrome の Third-Party Cookie 警告対策
 app.config.update(
     SESSION_COOKIE_SECURE=True,    # 常に Secure フラグを付与

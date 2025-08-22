@@ -51,6 +51,25 @@ def upload():
     if not upfiles:
         return msg('アップロード失敗')
 
+    # ファイル数制限チェック
+    if len(upfiles) > 10:
+        return msg('ファイル数は最大10個までです')
+
+    # ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
+    total_size = 0
+    MAX_TOTAL_SIZE = 50 * 1024 * 1024  # 50MB
+    
+    for file in upfiles:
+        if file.filename:
+            # ファイルの内容を読んでサイズを計算
+            file.seek(0, 2)  # ファイルの末尾に移動
+            file_size = file.tell()  # 現在位置（=ファイルサイズ）を取得
+            file.seek(0)  # ファイルの先頭に戻す
+            total_size += file_size
+    
+    if total_size > MAX_TOTAL_SIZE:
+        return msg('ファイルの合計サイズは50MBまでです')
+
     # ファイルパス生成用リスト
     uploaded_files = []
 

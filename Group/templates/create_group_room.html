@@ -252,7 +252,7 @@
           <form method="POST" action="/create_group_room">
               <div class="form-group">
                   <label for="roomID" class="form-label">Enter Room ID</label>
-                  <input type="text" id="roomID" name="id" class="form-control" placeholder="Enter unique room ID" required>
+                  <input type="text" id="roomID" name="id" class="form-control" placeholder="Enter unique room ID" minlength="5" maxlength="10" required>
               </div>
               <button type="submit" class="btn-modern">Create Room</button>
           </form>
