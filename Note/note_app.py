@@ -1,4 +1,4 @@
-import uuid, random
+import uuid, random, re
 from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,8 +29,8 @@ def create_note_room_page():
 def create_note_room():
     uid = str(uuid.uuid4())[:10]
     id_ = request.form.get('id', '名無し')
-    if not id_.isalnum():
-        return jsonify({'error': 'IDに無効な文字'}), 400
+    if not re.match(r'^[a-zA-Z0-9]+$', id_):
+        return jsonify({'error': 'IDに無効な文字が含まれています。半角英数字のみ使用してください。'}), 400
     if len(id_) < 5 or len(id_) > 10:
         return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
     pw = str(random.randrange(10**5, 10**6))
@@ -69,7 +69,7 @@ def search_note_room_page():
 def search_note_room():
     id_  = request.form.get('id','').strip()
     pw   = request.form.get('password','').strip()
-    if not id_.isalnum() or not pw.isdigit():
+    if not re.match(r'^[a-zA-Z0-9]+$', id_) or not re.match(r'^[0-9]+$', pw):
         flash("ID またはパスワードが不正です。")
         return redirect('/search_note_room')
     room_id = nd.pich_room_id(id_, pw)

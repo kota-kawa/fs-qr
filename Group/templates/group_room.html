@@ -34,7 +34,7 @@
             <div class="modern-upload-area" id="upload-area">
                 <div class="upload-icon-modern">☁️</div>
                 <p class="upload-text-modern">ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択</p>
-                <button type="button" class="upload-button-modern" onclick="document.getElementById('fileInput').click()">
+                <button type="button" class="upload-button-modern" id="uploadFileBtn">
                     📁 ファイルを選択
                 </button>
                 <input type="file" id="fileInput" multiple style="display: none;">
@@ -114,12 +114,20 @@
             handleFiles(files);
         });
 
-        // クリックでファイル選択
+        // クリックでファイル選択（改善されたイベントハンドリング）
         uploadArea.on('click', function (e) {
-            // ボタンのクリックイベントがuploadAreaのクリックイベントに干渉しないようにする
-            if (e.target.tagName !== 'BUTTON') {
+            // ボタン以外の場所をクリックした場合、またはボタン自体をクリックした場合
+            if (e.target.tagName !== 'BUTTON' || e.target.id === 'uploadFileBtn') {
+                e.preventDefault();
                 fileInput.click();
             }
+        });
+        
+        // ボタンの直接的なクリックハンドラも追加（確実性のため）
+        $('#uploadFileBtn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileInput.click();
         });
 
         // ファイル選択後

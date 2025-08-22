@@ -193,11 +193,17 @@
           <form method="POST" action="/search_room_process">
               <div class="form-group">
                   <label for="roomID" class="form-label">Room ID</label>
-                  <input type="text" id="ID" name="id" class="form-control" placeholder="Enter room ID" required>
+                  <input type="text" id="ID" name="id" class="form-control" 
+                         placeholder="Enter room ID (alphanumeric only)" required 
+                         pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
+                         minlength="5" maxlength="10">
               </div>
               <div class="form-group">
                   <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+                  <input type="password" id="password" name="password" class="form-control" 
+                         placeholder="Enter password (numbers only)" required 
+                         pattern="[0-9]{6}" title="6桁の数字で入力してください" 
+                         minlength="6" maxlength="6">
               </div>
               <button type="submit" class="btn-modern">Search</button>
           </form>
