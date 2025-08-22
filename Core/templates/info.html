@@ -198,7 +198,7 @@
       processedFiles++;
       const progressPercentage = (processedFiles / totalFiles) * 100;
       document.getElementById('progressBar').style.transform =
-        `scaleX(${1 - (progressPercentage / 100)})`;
+        `scaleX(${progressPercentage / 100})`;
     }
 
     return decryptedZip.generateAsync({ type: 'blob' });
@@ -291,7 +291,7 @@
       bottom: -30px;
       width: 100%;
       height: 10px;
-      background-color: #e74c3c;
+      background-color: #ccc;
       border-radius: 5px;
       overflow: hidden;
     }
@@ -299,13 +299,13 @@
     .progress-bar {
       width: 100%;
       height: 100%;
-      background-color: #ccc;
-      transform-origin: right;
-      /* 右端を基準に */
-      transform: scaleX(1);
-      /* 初期状態ではバーが100% */
+      background-color: #3498db;
+      transform-origin: left;
+      /* 左端を基準に */
+      transform: scaleX(0);
+      /* 初期状態ではバーが0% */
       transition: transform 0.2s ease-in-out;
-      /* 徐々に縮む */
+      /* 徐々に伸びる */
     }
   </style>
 {% endblock %}
