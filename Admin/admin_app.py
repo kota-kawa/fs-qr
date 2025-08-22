@@ -35,6 +35,12 @@ def admin_remove(secure_id):
 
 @admin_bp.route('/all-remove', methods=['POST'])
 def all():
+    from app import MASTER_PW
+    # マスターパスワードの確認
+    if request.form.get('pw', '') != MASTER_PW:
+        from Core.core_app import msg
+        return msg('マスターパスワードが違います')
+    
     # 全削除時もパス固定で行う(アプリケーション内部で操作)
     fs_data.all_remove()
     shutil.rmtree(os.path.join(BASE_DIR, 'static', 'upload'))
