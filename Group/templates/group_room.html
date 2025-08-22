@@ -115,8 +115,11 @@
         });
 
         // クリックでファイル選択
-        uploadArea.on('click', function () {
-            fileInput.click();
+        uploadArea.on('click', function (e) {
+            // ボタンのクリックイベントがuploadAreaのクリックイベントに干渉しないようにする
+            if (e.target.tagName !== 'BUTTON') {
+                fileInput.click();
+            }
         });
 
         // ファイル選択後
