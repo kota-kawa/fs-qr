@@ -1,36 +1,42 @@
 {% extends "layout.html" %}
 {% block contents %}
-<link rel="stylesheet" href="{{staticfile('top_page.css')}}">
 
-<div class="content">
-    <!-- Form Area -->
-    <div id="info">
-        <form action="/upload" method="POST" enctype="multipart/form-data"
-            class="pure-form pure-form-stacked"
-            id="uploadForm">
-            <fieldset>
-                <legend>最初にファイルを選んでください。</legend>
-                <!-- New Upload Area -->
-                <div class="upload-area" id="upload-area">
-                    <i class="upload-icon">📁</i>
-                    <p class="upload-text">ここをクリックまたはドラッグして<br>ファイルをアップロード</p>
-                    <button type="button" onclick="fileInput.click()"
-                        class="upload-button">ファイルを選択</button>
-                    <input type="file" name="upfile" id="fileInput" multiple>
-
+<div class="modern-page-container">
+    <div class="modern-content-card">
+        <div class="modern-card-header">
+            <h1>📁 ファイルアップロード</h1>
+        </div>
+        
+        <div class="modern-card-body">
+            <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <!-- Upload Area -->
+                <div class="modern-upload-area" id="upload-area">
+                    <div class="upload-icon-modern">📁</div>
+                    <p class="upload-text-modern">ここをクリックまたはドラッグしてファイルをアップロード</p>
+                    <button type="button" onclick="fileInput.click()" class="upload-button-modern">
+                        ファイルを選択
+                    </button>
+                    <input type="file" name="upfile" id="fileInput" multiple style="display: none;">
                 </div>
-                <ul class="file-list" id="fileList"></ul>
-                <legend>下記の必要項目を記述してください。</legend>
-                <div class="mb-3" style="max-width: 200px;">
-                    <label for="name" class="form-label">ID</label>
-                    <input type="text" class="form-control" minlength="5"
-                        maxlength="10" name="name" id="name" placeholder="IDを入力"
-                        required>
+                
+                <!-- File List -->
+                <div class="modern-file-list" id="fileList" style="display: none;">
                 </div>
 
-                <input class="btn btn-success" type="submit" value="アップロード">
-            </fieldset>
-        </form>
+                <!-- ID Input -->
+                <div class="modern-form-group">
+                    <label for="name" class="modern-form-label">共有用ID（5-10文字）</label>
+                    <input type="text" class="modern-form-input" minlength="5" maxlength="10" 
+                           name="name" id="name" placeholder="共有用のIDを入力してください" required 
+                           style="max-width: 300px;">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="modern-btn modern-btn-success">
+                    🚀 アップロード開始
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- Usage Section -->
@@ -47,7 +53,6 @@
             </p>
         </div>
     </div>
-
 </div>
 
 <!-- Spinner Container (Hidden initially) -->
@@ -63,8 +68,7 @@
 </div>
 
 <!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
     const uploadArea = document.getElementById('upload-area');
     const fileInput = document.getElementById('fileInput');
@@ -86,14 +90,13 @@
         e.preventDefault();
         uploadArea.classList.remove('dragover');
         const files = e.dataTransfer.files;
-        console.log('Files dropped:', files);  // ドロップされたファイルを確認
+        console.log('Files dropped:', files);
         handleFiles(files);
     });
 
-
     fileInput.addEventListener('change', (e) => {
         const files = e.target.files;
-        console.log('Files selected:', files);  // 選択されたファイルを確認
+        console.log('Files selected:', files);
         handleFiles(files);
     });
 
@@ -119,21 +122,46 @@
         }
 
         fileListDisplay.innerHTML = ''; // リストをクリア
-        Array.from(files).forEach(file => {
-            const li = document.createElement('li');
-            li.textContent = `${file.name}`;
-            fileListDisplay.appendChild(li);
+        fileListDisplay.style.display = 'block'; // Show file list
+        
+        Array.from(files).forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'modern-file-item';
+            
+            const fileName = document.createElement('div');
+            fileName.className = 'modern-file-name';
+            fileName.innerHTML = `<span class="modern-file-icon">📄</span>${file.name}`;
+            
+            const fileActions = document.createElement('div');
+            fileActions.className = 'modern-file-actions';
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'modern-file-action-btn delete';
+            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.type = 'button';
+            deleteBtn.onclick = () => {
+                fileItem.remove();
+                if (fileListDisplay.children.length === 0) {
+                    fileListDisplay.style.display = 'none';
+                    document.querySelector('.upload-icon-modern').textContent = '📁';
+                }
+            };
+            
+            fileActions.appendChild(deleteBtn);
+            fileItem.appendChild(fileName);
+            fileItem.appendChild(fileActions);
+            fileListDisplay.appendChild(fileItem);
         });
-        document.querySelector('.upload-icon').textContent = '✅';
+        
+        document.querySelector('.upload-icon-modern').textContent = '✅';
 
         // ファイルをfileInputにセットする
         const dataTransfer = new DataTransfer();
         Array.from(files).forEach(file => {
             dataTransfer.items.add(file);
         });
-        fileInput.files = dataTransfer.files; // fileInputにファイルをセット
+        fileInput.files = dataTransfer.files;
     }
-
 
     // 暗号化と進捗表示の関数
     async function encryptAndZipFilesWithProgress(files, key) {
@@ -158,9 +186,6 @@
             progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
         });
     }
-
-
-
 
     // 1秒ごとに表示を切り替えるアニメーション
     let iconSwitchInterval;
