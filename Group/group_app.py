@@ -163,8 +163,22 @@ def group_upload(room_id):
     for file in uploaded_files:
         if file.filename == '':
             continue
-        file.filename = secure_filename(file.filename)
-        file_path = os.path.join(save_path, file.filename)
+        
+        # Create a safe filename while preserving as much of the original as possible
+        safe_filename = file.filename
+        
+        # Only apply secure_filename if the original contains potentially dangerous characters
+        if any(char in file.filename for char in ['..', '/', '\\', '\0']):
+            safe_filename = secure_filename(file.filename)
+        
+        # If secure_filename results in empty name or just extension, create a safe alternative
+        if not safe_filename or safe_filename.startswith('.'):
+            import time
+            # Keep the extension from original filename
+            _, ext = os.path.splitext(file.filename)
+            safe_filename = f"file_{int(time.time())}{ext}"
+        
+        file_path = os.path.join(save_path, safe_filename)
 
         try:
             file.save(file_path)

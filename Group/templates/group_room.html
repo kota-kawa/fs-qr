@@ -118,7 +118,7 @@
         uploadArea.on('click', function (e) {
             // ボタン以外の場所をクリックした場合にファイル選択ダイアログを開く
             if (e.target.tagName !== 'BUTTON') {
-                fileInput.click();
+                fileInput[0].click();
             }
         });
         
@@ -126,7 +126,7 @@
         $('#uploadFileBtn').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            fileInput.click();
+            fileInput[0].click();
         });
 
         // ファイル選択後
