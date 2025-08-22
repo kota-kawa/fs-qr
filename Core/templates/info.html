@@ -1,68 +1,78 @@
 {% extends "layout.html" %}
 {% block contents %}
-<div class="content">
-  <h2 class="text-center bg-success text-white py-3 rounded shadow-sm">
-
-    <!-- タイトル -->
-    {% if mode == 'upload' %}
-    アップロード完了
-    {% else %}
-    ダウンロードできます
-    {% endif %}
-
-  </h2>
-
-  {% if mode == 'upload' %}
-
-  <div class="container text-center " style="max-width: 500px;">
-    <p class="fw-bold mb-4">ダウンロード先の情報:</p>
-    <table class="table table-bordered table-striped text-start">
-      <tr>
-        <th scope="row" class="text-center">ID</th>
-        <td>{{ id | e }}</td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-center" style="white-space: nowrap;">パスワード</th>
-        <td>{{ password | e }}</td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
-        <td>{{ secure_id }}.zip</td>
-      </tr>
-    </table>
-
-    <div class="text-center mt-4">
-      <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
-           class="img-fluid" style="max-width: 200px; height: auto;" alt="QR">
+<div class="info-page">
+  <div class="info-box">
+    <div class="info-box-header">
+      <h2>
+        <!-- タイトル -->
+        {% if mode == 'upload' %}
+        アップロード完了
+        {% else %}
+        ダウンロードできます
+        {% endif %}
+      </h2>
     </div>
+
+    
+    {% if mode == 'upload' %}
+    <div class="info-box-content">
+      <div class="text-center" style="max-width: 500px; margin: 0 auto;">
+        <h3>ダウンロード先の情報:</h3>
+        <table class="table table-bordered table-striped text-start">
+          <tr>
+            <th scope="row" class="text-center">ID</th>
+            <td>{{ id | e }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-center" style="white-space: nowrap;">パスワード</th>
+            <td>{{ password | e }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
+            <td>{{ secure_id }}.zip</td>
+          </tr>
+        </table>
+
+        <div class="text-center mt-4">
+          <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
+               class="img-fluid" style="max-width: 200px; height: auto; border-radius: 12px; box-shadow: var(--shadow-md);" alt="QR">
+        </div>
+        
+        <div class="text-center mt-4">
+          <a href="/fs-qr-upload" class="modern-btn modern-btn-success">→他のファイルをアップロード</a>
+        </div>
+      </div>
+    </div>
+
+
+    {% else %}
+    <div class="info-box-content">
+      <div class="text-center" style="max-width: 400px; margin: 0 auto;">
+        <table class="table table-bordered table-striped">
+          <tr>
+            <th scope="row" class="text-center">ID</th>
+            <td class="text-start">{{ id | e }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-center">ファイル名</th>
+            <td class="text-start">{{ secure_id }}.zip</td>
+          </tr>
+        </table>
+
+        <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4 text-center">
+          <button type="submit" class="modern-btn modern-btn-success">ダウンロード</button>
+        </form>
+        
+        <div class="text-center mt-4">
+          <a href="/fs-qr-upload" class="modern-btn">→他のファイルをアップロード</a>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
   </div>
 
-  <p class="text-center my-3">
-    <a href="/fs-qr-upload" class="btn btn-outline-success">→他のファイルをアップロード</a>
-  </p>
-
-
-  {% else %}
-  <div class="container" style="max-width: 400px;">
-    <table class="table table-bordered table-striped">
-      <tr>
-        <th scope="row" class="text-center">ID</th>
-        <td class="text-start">{{ id | e }}</td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-center">ファイル名</th>
-        <td class="text-start">{{ secure_id }}.zip</td>
-      </tr>
-    </table>
-
-    <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4  text-center">
-      <button type="submit" class="btn btn-success">ダウンロード</button>
-    </form>
-
-  </div>
-
-
-  
+  <!-- Hidden elements for download functionality -->
   <div id="fileContent"></div>
   
   <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
@@ -77,13 +87,23 @@
     </div>
   </div>
 
-  <p class="text-center my-3">
-    <a href="/fs-qr-upload" class="btn btn-outline-success">→他のファイルをアップロード</a>
-  </p>
+  <!-- Usage Section -->
+  <div class="usage-section">
+    <div class="usage-section-header">
+      <h5>使い方</h5>
+    </div>
+    <div class="usage-section-content">
+      <p>
+        1. 上に表示されたIDとパスワードを共有したい相手に伝えてください。<br>
+        2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するとファイルをダウンロードできます。<br>
+        3. QRコードを読み取ればURLを直接開くことも可能です。<br>
+        ファイルは一定期間後に自動で削除されるため、必要なときに早めにダウンロードしてください。
+      </p>
+    </div>
+  </div>
+</div>
 
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script>
     const container = document.getElementById('animationContainer');
     const spinnerContainer = document.getElementById('spinnerContainer');
@@ -279,7 +299,6 @@
     .progress-bar {
       width: 100%;
       height: 100%;
-
       background-color: #ccc;
       transform-origin: right;
       /* 右端を基準に */
@@ -289,24 +308,4 @@
       /* 徐々に縮む */
     }
   </style>
-</div>
-
-
-
-
-{% endif %}
-
-  <div class="card shadow-sm mt-4 mx-2" style="border:2px solid #aaa; border-radius:15px;">
-    <div class="card-body">
-      <h5 class="card-title">使い方</h5>
-      <p class="card-text">
-        1. 上に表示されたIDとパスワードを共有したい相手に伝えてください。<br>
-        2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するとファイルをダウンロードできます。<br>
-        3. QRコードを読み取ればURLを直接開くことも可能です。<br>
-        ファイルは一定期間後に自動で削除されるため、必要なときに早めにダウンロードしてください。
-      </p>
-    </div>
-  </div>
-
-</div>
 {% endblock %}
