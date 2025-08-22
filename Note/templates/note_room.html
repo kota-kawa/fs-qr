@@ -120,7 +120,18 @@
           lastStamp = j.updated_at;
           if (j.content !== undefined && editor.value !== j.content) {
             // サーバーから新しいコンテントが返された場合 (マージ結果や競合時のサーバ最新版)
+            // カーソル位置を保存
+            const cursorStart = editor.selectionStart;
+            const cursorEnd = editor.selectionEnd;
+            
+            // コンテンツを更新
             editor.value = j.content;
+            
+            // カーソル位置を復元（新しいコンテンツの長さを超えないように調整）
+            const newLength = j.content.length;
+            const adjustedStart = Math.min(cursorStart, newLength);
+            const adjustedEnd = Math.min(cursorEnd, newLength);
+            editor.setSelectionRange(adjustedStart, adjustedEnd);
           }
           contentAtLastSync = editor.value;  // <--- 更新: POST成功時も更新
           status.className = "badge bg-info";
@@ -149,10 +160,36 @@
   /* 1 秒ポーリング */
   setInterval(() => {
     if (selfEdit) return;  // 自分編集中はポーリングしない
+    
+    // ユーザーが現在フォーカスしているかチェック
+    const isEditorFocused = document.activeElement === editor;
+    
     fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
       if (j.updated_at !== lastStamp) {
         if (!selfEdit) {
+          // ユーザーがエディターにフォーカスしている場合、カーソル位置を保存
+          let cursorStart = 0;
+          let cursorEnd = 0;
+          if (isEditorFocused) {
+            cursorStart = editor.selectionStart;
+            cursorEnd = editor.selectionEnd;
+          }
+          
+          // コンテンツを更新
           editor.value = j.content;
+          
+          // ユーザーがフォーカスしていた場合、カーソル位置を復元
+          if (isEditorFocused) {
+            // 新しいコンテンツの長さを超えないようにカーソル位置を調整
+            const newLength = j.content.length;
+            cursorStart = Math.min(cursorStart, newLength);
+            cursorEnd = Math.min(cursorEnd, newLength);
+            
+            // カーソル位置を復元
+            editor.setSelectionRange(cursorStart, cursorEnd);
+            editor.focus(); // フォーカスを維持
+          }
+          
           status.className = "badge bg-warning text-dark";
           status.textContent = "Updated by others";
         }
