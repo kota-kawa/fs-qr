@@ -60,6 +60,8 @@
     <div class="spinner-second-container">
         <div class="icon file">📄</div>
         <div class="icon lock">🔒</div>
+        <div class="icon upload">📤</div>
+        <div class="icon cloud">☁️</div>
         <div class="text">暗号化中...</div>
         <div class="progress-bar-container">
             <div class="progress-bar"></div>
@@ -187,14 +189,14 @@
             const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
             zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
             
-            // 暗号化進捗を表示 (ファイル処理の50%分として計算)
-            const encryptProgress = ((i + 1) / files.length) * 50;
+            // 暗号化進捗を表示 (ファイル処理の25%分として計算)
+            const encryptProgress = ((i + 1) / files.length) * 25;
             progressBar.style.transform = `scaleX(${encryptProgress / 100})`;
         }
 
-        // ZIPファイルの生成と進捗バーの更新 (残りの50%分)
+        // ZIPファイルの生成と進捗バーの更新 (25%～50%の範囲)
         return await zip.generateAsync({ type: 'blob' }, (metadata) => {
-            const zipProgress = 50 + (metadata.percent / 2); // 50%～100%の範囲
+            const zipProgress = 25 + (metadata.percent / 4); // 25%～50%の範囲
             progressBar.style.transform = `scaleX(${zipProgress / 100})`;
         });
     }
@@ -202,11 +204,23 @@
     // 1秒ごとに表示を切り替えるアニメーション
     let iconSwitchInterval;
 
-    function startIconSwitching() {
+    function startEncryptionAnimation() {
         const spinnerContainer = document.querySelector('.spinner-second-container');
         iconSwitchInterval = setInterval(() => {
             spinnerContainer.classList.toggle('encrypting');
         }, 1000); // 1秒ごとに切り替え
+    }
+
+    function startUploadAnimation() {
+        const spinnerContainer = document.querySelector('.spinner-second-container');
+        // 暗号化アニメーションを停止
+        clearInterval(iconSwitchInterval);
+        spinnerContainer.classList.remove('encrypting');
+        
+        // アップロードアニメーションを開始
+        iconSwitchInterval = setInterval(() => {
+            spinnerContainer.classList.toggle('uploading');
+        }, 800); // 少し早めに切り替え
     }
 
     function stopIconSwitching() {
@@ -219,7 +233,7 @@
 
     // スピナー表示 & アニメーション開始
     document.getElementById('spinner-container').style.display = 'flex';
-    startIconSwitching();
+    startEncryptionAnimation();
 
     const files = fileInput.files;
     const id = idInput.value.trim();
@@ -258,12 +272,11 @@
             document.querySelector('.text').textContent = '暗号化中...';
             const zipBlob = await encryptAndZipFilesWithProgress(files, id);
 
-            // 暗号化完了→ 送信開始の前に進捗バーをリセット
-            const progressBar = document.querySelector('.progress-bar');
-            progressBar.style.transform = 'scaleX(0)';
-
-            // (3) 送信中に切り替え
+            // (3) 送信中に切り替え（進捗バーはリセットせず50%の状態から継続）
             document.querySelector('.text').textContent = '送信中...';
+            
+            // アニメーションを暗号化から送信に切り替え
+            startUploadAnimation();
 
             // 送信するファイルをFormDataに追加
             const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
@@ -274,12 +287,14 @@
             // XMLHttpRequest を利用してアップロード進捗を計測
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/upload', true);
+            const progressBar = document.querySelector('.progress-bar');
 
             xhr.upload.onprogress = function (event) {
                 if (event.lengthComputable) {
-                    const progressPercentage = (event.loaded / event.total) * 100;
-                    // 送信進捗に合わせてバーを更新
-                    progressBar.style.transform = `scaleX(${progressPercentage / 100})`;
+                    // 送信進捗を50%から100%の範囲で表示
+                    const uploadProgress = (event.loaded / event.total) * 50; // 0-50%
+                    const totalProgress = 50 + uploadProgress; // 50-100%
+                    progressBar.style.transform = `scaleX(${totalProgress / 100})`;
                 }
             };
 
