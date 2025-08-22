@@ -28,7 +28,17 @@ def upload():
     id = request.form.get('name', '名無し')
     
     # idのサニタイズ（ディレクトリトラバーサル攻撃の防止）
-    id = secure_filename(id) if id else '名無し'
+    # secure_filenameだけでは不十分な場合があるため、追加のサニタイズを実施
+    if id:
+        # まずsecure_filenameでサニタイズ
+        id = secure_filename(id)
+        # さらに .. と / \ を除去
+        id = id.replace('..', '').replace('/', '').replace('\\', '')
+        # 空文字列や危険な文字のみの場合はデフォルト値に
+        if not id or id.isspace():
+            id = '名無し'
+    else:
+        id = '名無し'
     
     # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
     password = str(secrets.randbelow(10**6)).zfill(6)
