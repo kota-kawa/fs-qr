@@ -31,6 +31,8 @@ def create_note_room():
     id_ = request.form.get('id', '名無し')
     if not id_.isalnum():
         return jsonify({'error': 'IDに無効な文字'}), 400
+    if len(id_) < 5 or len(id_) > 10:
+        return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
     pw = str(random.randrange(10**5, 10**6))
     room_id = f"{id_}-{uid}"
     nd.create_room(id_, pw, room_id)

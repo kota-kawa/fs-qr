@@ -104,6 +104,8 @@ def create_group_room():
     id = request.form.get('id', '名無し')  # フォームからIDを取得
     if not id.isalnum():  # IDを安全な文字列のみ許可
         return jsonify({"error": "IDに無効な文字が含まれています。"}), 400
+    if len(id) < 5 or len(id) > 10:  # IDの長さチェック
+        return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
     room_id = f"{id}-{uid}"
     print(f"Room ID Created: {room_id}")
@@ -133,6 +135,25 @@ def group_upload(room_id):
     uploaded_files = request.files.getlist('upfile')
     if not uploaded_files:
         return jsonify({"error": "ファイルがアップロードされていません。"}), 400
+
+    # ファイル数制限チェック
+    if len(uploaded_files) > 10:
+        return jsonify({"error": "ファイル数は最大10個までです。"}), 400
+
+    # ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
+    total_size = 0
+    MAX_TOTAL_SIZE = 50 * 1024 * 1024  # 50MB
+    
+    for file in uploaded_files:
+        if file.filename:
+            # ファイルの内容を読んでサイズを計算
+            file.seek(0, 2)  # ファイルの末尾に移動
+            file_size = file.tell()  # 現在位置（=ファイルサイズ）を取得
+            file.seek(0)  # ファイルの先頭に戻す
+            total_size += file_size
+    
+    if total_size > MAX_TOTAL_SIZE:
+        return jsonify({"error": "ファイルの合計サイズは50MBまでです。"}), 400
 
     error_files = []
     save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
