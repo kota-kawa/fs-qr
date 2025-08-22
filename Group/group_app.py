@@ -137,11 +137,6 @@ def group_upload(room_id):
     if not uploaded_files:
         return jsonify({"error": "ファイルがアップロードされていません。"}), 400
 
-    # Debug: Log the number of files received
-    print(f"DEBUG: Received {len(uploaded_files)} files")
-    for i, file in enumerate(uploaded_files):
-        print(f"DEBUG: File {i}: '{file.filename}', size: {file.content_length if hasattr(file, 'content_length') else 'unknown'}")
-
     # ファイル数制限チェック
     if len(uploaded_files) > 10:
         return jsonify({"error": "ファイル数は最大10個までです。"}), 400
