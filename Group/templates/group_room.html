@@ -1,185 +1,70 @@
 {% extends "group_layout.html" %}
 {% block contents %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-    body {
-        background-color: #f4f5f7;
-        font-family: 'Arial', sans-serif;
-    }
 
-    .group-container {
-        max-width: 800px;
-        margin: 20px auto;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-    }
+<div class="modern-page-container">
+    <div class="modern-content-card">
+        <div class="modern-card-header">
+            <h1>📂 グループファイル共有</h1>
+        </div>
+        
+        <div class="modern-card-body">
+            <!-- Room Info + QR Code -->
+            <div class="room-info-container">
+                <div class="room-info-card">
+                    <div class="room-info-header">Room情報</div>
+                    <div class="room-info-body">
+                        <div class="room-info-row">
+                            <span class="room-info-label">ID</span>
+                            <span class="room-info-value">{{ user_id }}</span>
+                        </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">Password</span>
+                            <span class="room-info-value">{{ password }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="qr-code-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_list', room_id=room_id, _external=True) | urlencode }}"
+                         alt="Room QR Code" style="width: 160px; height: 160px;">
+                </div>
+            </div>
 
-    .upload-area {
-        border: 2px dashed #007bff;
-        border-radius: 10px;
-        padding: 40px;
-        text-align: center;
-        background-color: #f8f9fa;
-        color: #007bff;
-        margin-bottom: 30px;
-        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
-    }
+            <!-- Upload Area -->
+            <div class="modern-upload-area" id="upload-area">
+                <div class="upload-icon-modern">☁️</div>
+                <p class="upload-text-modern">ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択</p>
+                <button type="button" class="upload-button-modern" onclick="fileInput.click()">
+                    📁 ファイルを選択
+                </button>
+                <input type="file" id="fileInput" multiple style="display: none;">
+            </div>
 
-    .upload-area.hover {
-        background-color: #eaf4ff;
-        border-color: #0056b3;
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-        color: #0056b3;
-    }
+            <!-- Uploaded Files List -->
+            <div style="margin: 2rem 0;">
+                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">📤 アップロード待ちファイル</h5>
+                <div id="fileList" class="modern-file-list" style="display: none;">
+                    <!-- 自分がアップロードしたファイルがここに表示されます -->
+                </div>
+                <button class="modern-btn modern-btn-success" id="uploadBtn" style="margin-top: 1rem;">
+                    🚀 アップロード
+                </button>
+            </div>
 
-    .file-list,
-    .other-file-list {
-        max-height: 300px;
-        overflow-y: auto;
-        margin-bottom: 20px;
-    }
-
-    .file-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 15px;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        background-color: #f8f9fa;
-        margin-bottom: 10px;
-        transition: background-color 0.3s;
-    }
-
-    .file-item:hover {
-        background-color: #eaf4ff;
-    }
-
-    .file-name {
-        font-weight: 500;
-        flex-grow: 1;
-    }
-
-    .file-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .file-actions button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        color: #007bff;
-        transition: color 0.3s;
-    }
-
-    .file-actions button:hover {
-        color: #0056b3;
-    }
-
-    .btn-upload,
-    .btn-download-all {
-        display: block;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        margin: 20px auto 0;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .btn-upload {
-        background-color: #28a745;
-    }
-
-    .btn-upload:hover {
-        background-color: #218838;
-    }
-
-    .btn-download-all {
-        background-color: #007bff;
-    }
-
-    .btn-download-all:hover {
-        background-color: #0056b3;
-    }
-</style>
-
-<div class="group-container">
-    <h1 class="text-center mb-4">ファイル提出</h1>
-
-
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="table-responsive rounded border">
-                <table class="table table-bordered text-center mb-0">
-                    <thead class="table-success">
-                        <tr>
-                            <th colspan="2" class="text-uppercase">Room情報</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>ID</strong></td>
-                            <td>{{user_id}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Password</strong></td>
-                            <td>{{password}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Other Users' Files -->
+            <div style="margin: 2rem 0;">
+                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">
+                    📥 グループメンバーのファイル (<span id="fileCount">0</span>)
+                </h5>
+                <div id="otherFileList" class="modern-file-list">
+                    <!-- 他の人のアップロードしたファイルがここに表示されます -->
+                </div>
+                <button class="modern-btn" id="downloadAllBtn" style="margin-top: 1rem;">
+                    📦 すべてダウンロード
+                </button>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-4">
-
-    <!-- ここからQRコード表示 -->
-    <div class="text-center mb-4">
-        <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_list', room_id=room_id, _external=True) | urlencode }}"
-            alt="Room QR Code" style="width:150px; height:150px;">
     </div>
-    <!-- ここまでQRコード表示 -->
-        </div>
-
-
-    </div>
-
-
-
-
-    <div class="upload-area" id="upload-area" onclick="fileInput.click()">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <h4>ここにファイルをドラッグ＆ドロップ</h4>
-        <p>またはクリックしてファイルを選択</p>
-        <input type="file" id="fileInput" multiple style="display: none;">
-    </div>
-
-    <h5>アップロードされたファイル</h5>
-    <div id="fileList" class="file-list">
-        <!-- 自分がアップロードしたファイルがここに表示されます -->
-    </div>
-
-    <button class="btn btn-success btn-upload" id="uploadBtn">
-        <i class="fas fa-upload"></i> アップロード
-    </button>
-
-    <h5>グループメンバーがアップロードしたファイル (<span id="fileCount">0</span>)</h5>
-    <div id="otherFileList" class="other-file-list">
-        <!-- 他の人のアップロードしたファイルがここに表示されます -->
-    </div>
-
-
-    <button class="btn btn-primary btn-download-all" id="downloadAllBtn">
-        <i class="fas fa-download"></i> すべてダウンロード
-    </button>
-</div>
-
 
 <div class="usage-section">
     <div class="usage-section-header">
@@ -210,21 +95,21 @@
         uploadArea.on('dragover', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            uploadArea.addClass('hover');
+            uploadArea.addClass('dragover');
         });
 
         // ドラッグリーブ
         uploadArea.on('dragleave', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            uploadArea.removeClass('hover');
+            uploadArea.removeClass('dragover');
         });
 
         // ドロップ
         uploadArea.on('drop', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            uploadArea.removeClass('hover');
+            uploadArea.removeClass('dragover');
             var files = e.originalEvent.dataTransfer.files;
             handleFiles(files);
         });
@@ -240,8 +125,6 @@
             handleFiles(files);
         });
 
-
-
         // 他のユーザーのファイル表示
         function fetchAndDisplayOtherFiles() {
             var roomId = '{{ room_id }}'; // Jinja2で埋め込む
@@ -256,20 +139,26 @@
 
                     otherFileList.empty(); // リストをリセット
                     $('#fileCount').text(files.length); // ファイル数を更新
+                    
+                    if (files.length === 0) {
+                        otherFileList.html('<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>');
+                        return;
+                    }
+                    
                     files.forEach(function (file) {
-                        var fileItem = $('<div class="file-item"></div>');
-                        var fileName = $('<span class="file-name"></span>').text(file.name);
-                        var actions = $('<div class="file-actions"></div>');
+                        var fileItem = $('<div class="modern-file-item"></div>');
+                        var fileName = $('<div class="modern-file-name"></div>');
+                        fileName.html('<span class="modern-file-icon">📄</span>' + file.name);
+                        
+                        var actions = $('<div class="modern-file-actions"></div>');
 
-                        var downloadBtn = $('<button><i class="fas fa-download"></i></button>');
+                        var downloadBtn = $('<button class="modern-file-action-btn">📥</button>');
+                        const encodedFilename = encodeURIComponent(file.name);
                         downloadBtn.on('click', function () {
-                            window.location.href = `/download/${roomId}/${encodedFilename}`
+                            window.location.href = `/download/${roomId}/${encodedFilename}`;
                         });
 
-                        var deleteBtn = $('<button><i class="fas fa-trash"></i></button>');
-
-                        const encodedFilename = encodeURIComponent(file.name);
-
+                        var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
                         deleteBtn.on('click', function () {
                             if (confirm('本当にこのファイルを削除しますか？')) {
                                 $.ajax({
@@ -278,6 +167,7 @@
                                     success: function () {
                                         alert('ファイルが削除されました。');
                                         fileItem.remove();
+                                        $('#fileCount').text($('#otherFileList .modern-file-item').length);
                                     },
                                     error: function () {
                                         alert('削除中にエラーが発生しました。');
@@ -285,7 +175,6 @@
                                 });
                             }
                         });
-
 
                         actions.append(downloadBtn).append(deleteBtn);
                         fileItem.append(fileName).append(actions);
@@ -303,13 +192,7 @@
             setInterval(fetchAndDisplayOtherFiles, 1000); // 1秒ごとにリクエストを送信
         }
 
-
         startFilePolling();
-
-
-
-
-
 
         // ファイル処理
         function handleFiles(files) {
@@ -343,25 +226,34 @@
                 return;
             }
 
+            fileList.show(); // Show file list
+            
             for (var i = 0; i < files.length; i++) {
                 filesArray.push(files[i]);
-                var fileItem = $('<div class="file-item"></div>');
-                var fileName = $('<span class="file-name"></span>').text(files[i].name);
-                var actions = $('<div class="file-actions"></div>');
-                var deleteBtn = $('<button><i class="fas fa-trash"></i></button>');
+                var fileItem = $('<div class="modern-file-item"></div>');
+                var fileName = $('<div class="modern-file-name"></div>');
+                fileName.html('<span class="modern-file-icon">📄</span>' + files[i].name);
+                
+                var actions = $('<div class="modern-file-actions"></div>');
+                var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
                 deleteBtn.on('click', (function (index) {
                     return function () {
                         filesArray.splice(index, 1);
-                        $(this).closest('.file-item').remove();
+                        $(this).closest('.modern-file-item').remove();
+                        if (filesArray.length === 0) {
+                            fileList.hide();
+                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                        }
                     };
                 })(filesArray.length - 1));
+                
                 actions.append(deleteBtn);
                 fileItem.append(fileName).append(actions);
                 fileList.append(fileItem);
             }
+            
+            document.querySelector('.upload-icon-modern').textContent = '✅';
         }
-
-
 
         uploadBtn.on('click', function () {
             if (filesArray.length === 0) {
@@ -405,14 +297,16 @@
                 success: function (response) {
                     if (response.status === 'success') {
                         alert('ファイルがアップロードされました。');
-                        fileList.empty();
+                        fileList.empty().hide();
                         filesArray = [];
+                        document.querySelector('.upload-icon-modern').textContent = '☁️';
                     } else if (response.status === 'error') {
                         alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
                     } else {
                         alert('ファイルがアップロードされました。');
-                        fileList.empty();
+                        fileList.empty().hide();
                         filesArray = [];
+                        document.querySelector('.upload-icon-modern').textContent = '☁️';
                     }
                 },
                 error: function (xhr) {

@@ -464,3 +464,425 @@ th { text-align: right; }
     padding: 1.5rem 1.75rem;
   }
 }
+
+/* ===============================================
+   Modern Page Container System
+   =============================================== */
+
+.modern-page-container {
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+  padding: 2rem 1rem;
+}
+
+.modern-content-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-white);
+  border-radius: 24px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.modern-content-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
+}
+
+.modern-card-header {
+  background: var(--primary-gradient);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.modern-card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 12px solid rgb(32, 178, 170);
+}
+
+.modern-card-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Kaisei Opti', serif;
+}
+
+.modern-card-body {
+  padding: 3rem 2.5rem;
+}
+
+/* ===============================================
+   Modern Upload Area System
+   =============================================== */
+
+.modern-upload-area {
+  border: 3px dashed var(--primary-color);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(0, 109, 128, 0.02) 0%, rgba(32, 178, 170, 0.05) 100%);
+  text-align: center;
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-upload-area::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 109, 128, 0.03) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modern-upload-area:hover::before,
+.modern-upload-area.dragover::before {
+  opacity: 1;
+}
+
+.modern-upload-area:hover,
+.modern-upload-area.dragover {
+  border-color: rgb(32, 178, 170);
+  background: linear-gradient(135deg, rgba(0, 109, 128, 0.05) 0%, rgba(32, 178, 170, 0.1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 109, 128, 0.15);
+}
+
+.upload-icon-modern {
+  font-size: 4rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.modern-upload-area:hover .upload-icon-modern {
+  transform: scale(1.1);
+}
+
+.upload-text-modern {
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.upload-button-modern {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 109, 128, 0.3);
+}
+
+.upload-button-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 109, 128, 0.4);
+}
+
+/* ===============================================
+   Modern Room Info System
+   =============================================== */
+
+.room-info-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.room-info-card {
+  background: var(--bg-white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.room-info-header {
+  background: var(--primary-gradient);
+  color: white;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.room-info-body {
+  padding: 0;
+}
+
+.room-info-row {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.room-info-row:last-child {
+  border-bottom: none;
+}
+
+.room-info-label {
+  font-weight: 600;
+  color: var(--text-dark);
+  min-width: 100px;
+}
+
+.room-info-value {
+  color: var(--text-medium);
+  font-family: monospace;
+  background: var(--bg-light);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  margin-left: auto;
+  font-size: 0.95rem;
+}
+
+.qr-code-container {
+  background: var(--bg-white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  padding: 1.5rem;
+  text-align: center;
+  width: fit-content;
+}
+
+.qr-code-container img {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===============================================
+   Modern Form Elements
+   =============================================== */
+
+.modern-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.modern-form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.modern-form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--border-light);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--bg-white);
+}
+
+.modern-form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 109, 128, 0.1);
+}
+
+.modern-editor {
+  width: 100%;
+  border: 2px solid var(--primary-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: all 0.3s ease;
+  background: var(--bg-white);
+  min-height: 300px;
+}
+
+.modern-editor:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 109, 128, 0.1);
+}
+
+.modern-btn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 109, 128, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modern-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 109, 128, 0.4);
+}
+
+.modern-btn-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.modern-btn-success:hover {
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+/* ===============================================
+   Modern File List System
+   =============================================== */
+
+.modern-file-list {
+  background: var(--bg-light);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 1rem 0;
+}
+
+.modern-file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.2s ease;
+}
+
+.modern-file-item:last-child {
+  border-bottom: none;
+}
+
+.modern-file-item:hover {
+  background: rgba(0, 109, 128, 0.05);
+}
+
+.modern-file-name {
+  font-weight: 500;
+  color: var(--text-dark);
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modern-file-icon {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.modern-file-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.modern-file-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.modern-file-action-btn:hover {
+  background: var(--border-light);
+  color: var(--text-dark);
+}
+
+.modern-file-action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* ===============================================
+   Responsive Design for Modern Components
+   =============================================== */
+
+@media (max-width: 768px) {
+  .modern-page-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .modern-content-card {
+    border-radius: 16px;
+    margin: 0 0.5rem;
+  }
+  
+  .modern-card-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .modern-card-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .modern-card-body {
+    padding: 2rem 1.5rem;
+  }
+  
+  .room-info-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .qr-code-container {
+    margin: 0 auto;
+  }
+  
+  .modern-upload-area {
+    padding: 2rem 1rem;
+  }
+  
+  .upload-icon-modern {
+    font-size: 3rem;
+  }
+  
+  .upload-text-modern {
+    font-size: 1rem;
+  }
+  
+  .modern-file-item {
+    padding: 0.75rem 1rem;
+  }
+  
+  .modern-file-name {
+    font-size: 0.9rem;
+  }
+}
