@@ -313,6 +313,36 @@
 
         // ファイル処理
         function handleFiles(files) {
+            // ファイル数制限チェック (既存ファイル + 新規ファイル)
+            const MAX_FILES = 10;
+            const totalFiles = filesArray.length + files.length;
+            if (totalFiles > MAX_FILES) {
+                alert(`ファイル数は最大${MAX_FILES}個までです（現在: ${filesArray.length}個、追加しようとしているファイル: ${files.length}個）`);
+                return;
+            }
+
+            // ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
+            const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+            let currentSize = 0;
+            let newFilesSize = 0;
+
+            // 既存ファイルのサイズを計算
+            filesArray.forEach(function(file) {
+                currentSize += file.size;
+            });
+
+            // 新規ファイルのサイズを計算
+            for (var i = 0; i < files.length; i++) {
+                newFilesSize += files[i].size;
+            }
+
+            const totalSize = currentSize + newFilesSize;
+            if (totalSize > MAX_TOTAL_SIZE) {
+                const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+                alert(`ファイルの合計サイズは50MBまでです（現在の合計: ${totalSizeMB}MB）`);
+                return;
+            }
+
             for (var i = 0; i < files.length; i++) {
                 filesArray.push(files[i]);
                 var fileItem = $('<div class="file-item"></div>');
@@ -339,6 +369,26 @@
                 return;
             }
 
+            // アップロード前に再度ファイル制限をチェック
+            const MAX_FILES = 10;
+            const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+
+            if (filesArray.length > MAX_FILES) {
+                alert(`ファイル数は最大${MAX_FILES}個までです`);
+                return;
+            }
+
+            let totalSize = 0;
+            filesArray.forEach(function(file) {
+                totalSize += file.size;
+            });
+
+            if (totalSize > MAX_TOTAL_SIZE) {
+                const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+                alert(`ファイルの合計サイズは50MBまでです（現在: ${sizeMB}MB）`);
+                return;
+            }
+
             var formData = new FormData();
             filesArray.forEach(function (file) {
                 formData.append('upfile', file);  // `upfile` キーにファイルを追加
@@ -352,13 +402,25 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function () {
-                    alert('ファイルがアップロードされました。');
-                    fileList.empty();
-                    filesArray = [];
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert('ファイルがアップロードされました。');
+                        fileList.empty();
+                        filesArray = [];
+                    } else if (response.status === 'error') {
+                        alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
+                    } else {
+                        alert('ファイルがアップロードされました。');
+                        fileList.empty();
+                        filesArray = [];
+                    }
                 },
-                error: function () {
-                    alert('アップロード中にエラーが発生しました。');
+                error: function (xhr) {
+                    var errorMessage = 'アップロード中にエラーが発生しました。';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    }
+                    alert(errorMessage);
                 }
             });
         });
