@@ -1,72 +1,210 @@
 {% extends "layout.html" %}
 {% block contents %}
 <style>
-.center-wrapper {
+/* Unified Modern Design System */
+.page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, rgba(248, 250, 252, 0.8) 100%);
+    padding: 2rem 1rem;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
-    padding-top: 50px;
-    padding-left: 15px;
-    padding-right: 15px;
 }
-.card {
+
+.modern-card {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
-    background: rgb(204, 233, 240);
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
 }
-.btn-primary {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 10px;
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
 }
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 35px -5px rgba(0, 0, 0, 0.15),
+        0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 10px solid rgb(32, 178, 170);
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Kaisei Opti', serif;
+}
+
+.card-body {
+    padding: 2.5rem 2rem 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
 .form-label {
-    font-weight: bold;
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
 }
+
 .form-control {
-    border-radius: 10px;
-    padding: 10px;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+    color: #1f2937;
 }
+
+.form-control:focus {
+    outline: none;
+    border-color: rgb(32, 178, 170);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-modern {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 109, 128, 0.3);
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
 @media (max-width: 576px) {
-    .center-wrapper {
-        padding-top: 20px;
+    .page-container {
+        padding: 1rem 0.75rem;
     }
-    .card {
-        padding: 15px;
+    
+    .modern-card {
+        max-width: 100%;
+        border-radius: 20px;
     }
-    .btn-primary {
-        font-size: 14px;
-        padding: 8px;
+    
+    .card-header {
+        padding: 1.5rem 1.25rem;
     }
+    
+    .card-title {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 2rem 1.5rem 1.75rem;
+    }
+    
     .form-control {
-        padding: 8px;
+        padding: 0.875rem 1rem;
+    }
+    
+    .btn-modern {
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
     }
 }
 </style>
 
-<div class="center-wrapper">
-  <div class="card">
-      <h2 class="text-center mb-4">Search Files</h2>
-      <form action="/try_login" method="POST" enctype="multipart/form-data">
-          <fieldset>
-              <div class="mb-3">
-                  <label for="name" class="form-label">ID</label>
-                  <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
-              </div>
-              
-              <div class="mb-3">
-                  <label for="pw" class="form-label">Password</label>
-                  <input type="password" class="form-control" minlength="5" maxlength="10" name="pw" id="pw" placeholder="パスワードを入力" required>
-              </div>
-              
-              <button type="submit" class="btn btn-primary">Search</button>
-          </fieldset>
-      </form>
+<div class="page-container">
+  <div class="modern-card">
+      <div class="card-header">
+          <h2 class="card-title">Search Files</h2>
+      </div>
+      <div class="card-body">
+          <form action="/try_login" method="POST" enctype="multipart/form-data">
+              <fieldset>
+                  <div class="form-group">
+                      <label for="name" class="form-label">ID</label>
+                      <input type="text" class="form-control" minlength="5" maxlength="10" name="name" id="name" placeholder="IDを入力" required>
+                  </div>
+                  
+                  <div class="form-group">
+                      <label for="pw" class="form-label">Password</label>
+                      <input type="password" class="form-control" minlength="5" maxlength="10" name="pw" id="pw" placeholder="パスワードを入力" required>
+                  </div>
+                  
+                  <button type="submit" class="btn-modern">Search</button>
+              </fieldset>
+          </form>
+      </div>
   </div>
 </div>
 
