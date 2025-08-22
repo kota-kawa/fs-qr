@@ -5,6 +5,7 @@ import os
 import urllib
 import zipfile
 import io
+import re
 from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
 from dotenv import load_dotenv
 
@@ -102,8 +103,8 @@ def create_group_room():
     """
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
     id = request.form.get('id', '名無し')  # フォームからIDを取得
-    if not id.isalnum():  # IDを安全な文字列のみ許可
-        return jsonify({"error": "IDに無効な文字が含まれています。"}), 400
+    if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
+        return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
     if len(id) < 5 or len(id) > 10:  # IDの長さチェック
         return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
@@ -301,7 +302,7 @@ def search_room():
     id = request.form.get('id', '').strip()
     password = request.form.get('password', '').strip()
 
-    if not id.isalnum() or not password.isdigit():  # 入力検証
+    if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):  # 入力検証
         return jsonify({"error": "IDまたはパスワードに不正な値が含まれています。"}), 400
 
     room_id = group_data.pich_room_id(id, password)

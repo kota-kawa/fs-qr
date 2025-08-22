@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, send_file, jsonify, redir
 import os
 import uuid
 import secrets
+import re
 import fs_data
 from werkzeug.utils import secure_filename
 
@@ -27,18 +28,13 @@ def upload():
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
     id = request.form.get('name', '名無し')
     
-    # idのサニタイズ（ディレクトリトラバーサル攻撃の防止）
-    # secure_filenameだけでは不十分な場合があるため、追加のサニタイズを実施
-    if id:
-        # まずsecure_filenameでサニタイズ
-        id = secure_filename(id)
-        # さらに .. と / \ を除去
-        id = id.replace('..', '').replace('/', '').replace('\\', '')
-        # 空文字列や危険な文字のみの場合はデフォルト値に
-        if not id or id.isspace():
-            id = '名無し'
-    else:
-        id = '名無し'
+    # idの検証（半角英数字のみ許可）
+    if not id or not id.replace(' ', '').replace('\t', '').replace('\n', ''):
+        return json_or_msg('IDを入力してください。')
+    if not re.match(r'^[a-zA-Z0-9]+$', id):
+        return json_or_msg('IDに無効な文字が含まれています。半角英数字のみ使用してください。')
+    if len(id) < 5 or len(id) > 10:
+        return json_or_msg('IDは5文字以上10文字以下で入力してください。')
     
     # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
     password = str(secrets.randbelow(10**6)).zfill(6)
@@ -149,8 +145,12 @@ def kensaku():
 
 @core_bp.route('/try_login', methods=['POST'])
 def kekka():
-    id = request.form.get('name', '')
-    password = request.form.get('pw', '')
+    id = request.form.get('name', '').strip()
+    password = request.form.get('pw', '').strip()
+    
+    # 入力検証（半角英数字のみ許可）
+    if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):
+        return msg('IDまたはパスワードに不正な文字が含まれています。')
 
     secure_id = fs_data.try_login(id, password)
 

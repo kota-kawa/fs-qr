@@ -543,6 +543,7 @@ th { text-align: right; }
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .modern-upload-area::before {
