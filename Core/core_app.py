@@ -49,11 +49,11 @@ def upload():
 
     upfiles = request.files.getlist('upfile')
     if not upfiles:
-        return msg('アップロード失敗')
+        return json_or_msg('アップロード失敗')
 
     # ファイル数制限チェック
     if len(upfiles) > 10:
-        return msg('ファイル数は最大10個までです')
+        return json_or_msg('ファイル数は最大10個までです')
 
     # ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
     total_size = 0
@@ -68,7 +68,7 @@ def upload():
             total_size += file_size
     
     if total_size > MAX_TOTAL_SIZE:
-        return msg('ファイルの合計サイズは50MBまでです')
+        return json_or_msg('ファイルの合計サイズは50MBまでです')
 
     # ファイルパス生成用リスト
     uploaded_files = []
@@ -76,7 +76,7 @@ def upload():
     for file in upfiles:
         filename = secure_filename(file.filename)  # ファイル名をサニタイズ
         if not filename:
-            return msg('不正なファイル名です')
+            return json_or_msg('不正なファイル名です')
         
         save_path = os.path.join(STATIC, secure_id_base + filename)
         file.save(save_path)
@@ -165,3 +165,13 @@ def after_remove():
 
 def msg(s):
     return render_template('error.html', message=s)
+
+def json_or_msg(message, status_code=400):
+    """Return JSON error for AJAX requests, HTML for regular requests"""
+    if request.headers.get('Content-Type') == 'application/x-www-form-urlencoded' and \
+       request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({"error": message}), status_code
+    # For multipart/form-data requests from XMLHttpRequest, also return JSON
+    if 'multipart/form-data' in request.headers.get('Content-Type', ''):
+        return jsonify({"error": message}), status_code
+    return msg(message)

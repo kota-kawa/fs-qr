@@ -98,6 +98,26 @@
     });
 
     function handleFiles(files) {
+        // ファイル数制限チェック
+        const MAX_FILES = 10;
+        if (files.length > MAX_FILES) {
+            alert(`ファイル数は最大${MAX_FILES}個までです`);
+            return;
+        }
+
+        // ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
+        const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+        let totalSize = 0;
+        Array.from(files).forEach(file => {
+            totalSize += file.size;
+        });
+        
+        if (totalSize > MAX_TOTAL_SIZE) {
+            const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+            alert(`ファイルの合計サイズは50MBまでです（現在: ${sizeMB}MB）`);
+            return;
+        }
+
         fileListDisplay.innerHTML = ''; // リストをクリア
         Array.from(files).forEach(file => {
             const li = document.createElement('li');
@@ -168,6 +188,30 @@
     const id = idInput.value.trim();
 
     if (files.length > 0 && id.length > 0) {
+        // アップロード前に再度ファイル制限をチェック
+        const MAX_FILES = 10;
+        const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+        
+        if (files.length > MAX_FILES) {
+            alert(`ファイル数は最大${MAX_FILES}個までです`);
+            document.getElementById('spinner-container').style.display = 'none';
+            stopIconSwitching();
+            return;
+        }
+        
+        let totalSize = 0;
+        Array.from(files).forEach(file => {
+            totalSize += file.size;
+        });
+        
+        if (totalSize > MAX_TOTAL_SIZE) {
+            const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+            alert(`ファイルの合計サイズは50MBまでです（現在: ${sizeMB}MB）`);
+            document.getElementById('spinner-container').style.display = 'none';
+            stopIconSwitching();
+            return;
+        }
+        
         try {
             // (1)「アップロード中...」を表示 ※最低1秒は表示
             document.querySelector('.text').textContent = 'アップロード中...';
@@ -211,7 +255,17 @@
                         alert('アップロードに失敗しました(リダイレクトURLがありません)');
                     }
                 } else {
-                    alert('アップロードに失敗しました(サーバーエラー)');
+                    // Handle JSON error responses
+                    try {
+                        const errorResult = JSON.parse(xhr.responseText);
+                        if (errorResult.error) {
+                            alert('エラー: ' + errorResult.error);
+                        } else {
+                            alert('アップロードに失敗しました(サーバーエラー)');
+                        }
+                    } catch (e) {
+                        alert('アップロードに失敗しました(サーバーエラー)');
+                    }
                 }
                 stopIconSwitching();
             };
