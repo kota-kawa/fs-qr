@@ -17,7 +17,7 @@ Flask で作られたファイル共有・ノート共有アプリケーショ�
    SQL_DB=fsqr
    SECRET_KEY=flask_secret
    ADMIN_KEY=admin_password
-   MANAGEMENT_PASSWIRD=management_password
+   MANAGEMENT_PASSWORD=management_password
    ```
 2. Docker と docker-compose が利用できる環境で次を実行します。
    ```bash
