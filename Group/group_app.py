@@ -255,8 +255,19 @@ def download_file(room_id, filename):
     """
     指定されたルームIDとファイル名に対して、ファイルを安全な形式に変換した上で、
     ダウンロードできるように送信する。パスの安全性もチェックする。
+    日本語ファイル名をサポートしつつセキュリティを維持する。
     """
-    decoded_filename = secure_filename(urllib.parse.unquote(filename))
+    # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
+    decoded_filename = urllib.parse.unquote(filename)
+    
+    # 危険な文字列パターンをチェック（パストラバーサル攻撃対策）
+    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ['..', '/', '\\', '\0']):
+        return jsonify({"error": "不正なファイル名が検出されました。"}), 400
+    
+    # ファイル名が空でないことを確認
+    if not decoded_filename.strip():
+        return jsonify({"error": "無効なファイル名です。"}), 400
+    
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 
@@ -265,7 +276,7 @@ def download_file(room_id, filename):
 
     try:
         if os.path.exists(file_path):
-            return send_file(file_path, as_attachment=True)
+            return send_file(file_path, as_attachment=True, download_name=decoded_filename)
         else:
             return jsonify({"error": "ファイルが見つかりません。"}), 404
     except Exception as e:
@@ -279,8 +290,19 @@ def delete_file(room_id, filename):
     """
     指定されたルームIDとファイル名に対応するファイルを削除する。
     削除前にパスの安全性を確認し、ファイルが存在しなければエラーを返す。
+    日本語ファイル名をサポートしつつセキュリティを維持する。
     """
-    decoded_filename = secure_filename(urllib.parse.unquote(filename))
+    # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
+    decoded_filename = urllib.parse.unquote(filename)
+    
+    # 危険な文字列パターンをチェック（パストラバーサル攻撃対策）
+    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ['..', '/', '\\', '\0']):
+        return jsonify({"error": "不正なファイル名が検出されました。"}), 400
+    
+    # ファイル名が空でないことを確認
+    if not decoded_filename.strip():
+        return jsonify({"error": "無効なファイル名です。"}), 400
+    
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 

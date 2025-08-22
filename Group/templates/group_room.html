@@ -49,6 +49,16 @@
                 <button class="modern-btn modern-btn-success" id="uploadBtn" style="margin-top: 1rem;">
                     🚀 アップロード
                 </button>
+                
+                <!-- Upload Progress Bar -->
+                <div id="uploadProgressContainer" style="display: none; margin-top: 1rem; position: relative;">
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: var(--text-dark);">
+                        <span id="uploadProgressText">アップロード中...</span>
+                    </div>
+                    <div class="progress-bar-container" style="position: relative; bottom: auto;">
+                        <div class="progress-bar" id="uploadProgressBar"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- Other Users' Files -->
@@ -297,6 +307,14 @@
             });
 
             let uploadType = '{{ room_id }}'; // Jinja2でサーバーサイドから値を埋め込む
+            
+            // Show progress bar
+            $('#uploadProgressContainer').show();
+            $('#uploadProgressBar').css('transform', 'scaleX(0)');
+            $('#uploadProgressText').text('アップロード中...');
+
+            // Disable upload button during upload
+            uploadBtn.prop('disabled', true).text('アップロード中...');
 
             $.ajax({
                 url: `/group_upload/${uploadType}`,
@@ -304,22 +322,45 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    // Upload progress
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            $('#uploadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                            $('#uploadProgressText').text(`アップロード中... ${Math.round(percentComplete * 100)}%`);
+                        }
+                    }, false);
+                    return xhr;
+                },
                 success: function (response) {
-                    if (response.status === 'success') {
-                        alert('ファイルがアップロードされました。');
-                        fileList.empty().hide();
-                        filesArray = [];
-                        document.querySelector('.upload-icon-modern').textContent = '☁️';
-                    } else if (response.status === 'error') {
-                        alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
-                    } else {
-                        alert('ファイルがアップロードされました。');
-                        fileList.empty().hide();
-                        filesArray = [];
-                        document.querySelector('.upload-icon-modern').textContent = '☁️';
-                    }
+                    $('#uploadProgressBar').css('transform', 'scaleX(1)');
+                    $('#uploadProgressText').text('アップロード完了！');
+                    
+                    setTimeout(function() {
+                        $('#uploadProgressContainer').hide();
+                        uploadBtn.prop('disabled', false).text('🚀 アップロード');
+                        
+                        if (response.status === 'success') {
+                            alert('ファイルがアップロードされました。');
+                            fileList.empty().hide();
+                            filesArray = [];
+                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                        } else if (response.status === 'error') {
+                            alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
+                        } else {
+                            alert('ファイルがアップロードされました。');
+                            fileList.empty().hide();
+                            filesArray = [];
+                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                        }
+                    }, 1000);
                 },
                 error: function (xhr) {
+                    $('#uploadProgressContainer').hide();
+                    uploadBtn.prop('disabled', false).text('🚀 アップロード');
+                    
                     var errorMessage = 'アップロード中にエラーが発生しました。';
                     if (xhr.responseJSON && xhr.responseJSON.error) {
                         errorMessage = xhr.responseJSON.error;
