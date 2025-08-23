@@ -65,9 +65,32 @@
   const status = document.getElementById("status");
   let lastStamp = "", selfEdit = false;
   let contentAtLastSync = "";  // <--- 追加: 最後に同期した時点のコンテンツ
+  let selfEditTimeout = null; // selfEdit フラグのタイムアウト管理
 
   /* 最大文字数（サーバー側と合わせること） */
   const MAX_LENGTH = 5000;  // 追加: フロント側の最大文字数
+  
+  // selfEdit フラグの安全な設定関数
+  function setSelfEdit(value, timeoutMs = 10000) {
+    selfEdit = value;
+    
+    if (selfEditTimeout) {
+      clearTimeout(selfEditTimeout);
+      selfEditTimeout = null;
+    }
+    
+    if (value && timeoutMs > 0) {
+      // selfEdit が長時間 true のままにならないよう安全装置
+      selfEditTimeout = setTimeout(() => {
+        if (selfEdit) {
+          console.warn("selfEdit flag was stuck, resetting");
+          selfEdit = false;
+          status.className = "badge bg-warning";
+          status.textContent = "Connection timeout";
+        }
+      }, timeoutMs);
+    }
+  }
 
   /* 初回ロード */
   fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
@@ -78,134 +101,203 @@
     status.textContent = "Up-to-date";
   });
 
-  /* 入力→POST(300ms) */
+  /* 入力→POST(500ms) - 改善: デバウンス時間を延長してコンフリクト削減 */
   let typTimer;
-  editor.addEventListener("input", () => {
-    clearTimeout(typTimer);
-    typTimer = setTimeout(() => {
-      const currentContent = editor.value;
+  let saveRetryTimer;
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
+  
+  // 保存処理を実行する関数（リトライ機能付き）
+  function performSave(currentContent, isRetry = false) {
+    // 文字数チェック
+    if (currentContent.length > MAX_LENGTH) {
+      alert(`文字数は最大 ${MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+      setSelfEdit(false);
+      return;
+    }
 
-      // ─────────────────────────────────────────────────
-      // 追加: フロント側で文字数チェック。超過していたら送信せずにアラートを表示。
-      if (currentContent.length > MAX_LENGTH) {
-        alert(`文字数は最大 ${MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
-        // 文字数制限を超えた状態でも入力自体はできてしまうので、
-        // ここで送信を中断し、ユーザーに注意を促すだけに留める。
-        return;
+    if (!isRetry) {
+      retryCount = 0;
+      setSelfEdit(true, 15000); // 15秒のタイムアウト設定
+      status.className = "badge bg-secondary";
+      status.textContent = "Saving...";
+    }
+
+    fetch(`/api/note/${room}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: currentContent,
+        last_known_updated_at: lastStamp,
+        original_content: contentAtLastSync
+      })
+    })
+    .then(r => {
+      if (!r.ok) {
+        return r.json().then(err => {
+          throw new Error(err.error || "Save error");
+        });
       }
-      // ─────────────────────────────────────────────────
-
-      selfEdit = true;
-      fetch(`/api/note/${room}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: currentContent,
-          last_known_updated_at: lastStamp,      // <--- 追加
-          original_content: contentAtLastSync   // <--- 追加
-        })
-      })
-      .then(r => {
-        if (!r.ok) {
-          // サーバー側で 400 エラーなどが返ってきた場合、
-          // JSON をパースしてメッセージを表示
-          return r.json().then(err => {
-            throw new Error(err.error || "Save error");
-          });
-        }
-        return r.json();
-      })
-      .then(j => {
-        if (j.status && (j.status.startsWith("ok") || j.status.startsWith("conflict"))) {
-          lastStamp = j.updated_at;
-          if (j.content !== undefined && editor.value !== j.content) {
-            // サーバーから新しいコンテントが返された場合 (マージ結果や競合時のサーバ最新版)
-            // カーソル位置を保存
-            const cursorStart = editor.selectionStart;
-            const cursorEnd = editor.selectionEnd;
-            
-            // コンテンツを更新
-            editor.value = j.content;
-            
-            // カーソル位置を復元（新しいコンテンツの長さを超えないように調整）
+      return r.json();
+    })
+    .then(j => {
+      retryCount = 0; // 成功したらリトライカウントをリセット
+      
+      if (j.status && (j.status.startsWith("ok") || j.status.startsWith("conflict"))) {
+        lastStamp = j.updated_at;
+        if (j.content !== undefined && editor.value !== j.content) {
+          // サーバーから新しいコンテントが返された場合のカーソル位置保持処理
+          const cursorStart = editor.selectionStart;
+          const cursorEnd = editor.selectionEnd;
+          const isEditorFocused = document.activeElement === editor;
+          
+          editor.value = j.content;
+          
+          // エディタにフォーカスがある場合のみカーソル位置を復元
+          if (isEditorFocused) {
             const newLength = j.content.length;
             const adjustedStart = Math.min(cursorStart, newLength);
             const adjustedEnd = Math.min(cursorEnd, newLength);
             editor.setSelectionRange(adjustedStart, adjustedEnd);
           }
-          contentAtLastSync = editor.value;  // <--- 更新: POST成功時も更新
-          status.className = "badge bg-info";
-          status.textContent = "Saved";
-          if (j.status === "ok_merged") {
-            status.textContent = "Saved (Merged)";
-          } else if (j.status === "conflict_merge_failed" || j.status === "conflict_during_merge_save" || j.status === "conflict") {
-            status.className = "badge bg-danger";
-            status.textContent = "Conflict, please review";
-          }
-        } else if (j.error) {
-          status.className = "badge bg-danger";
-          status.textContent = j.error;  // サーバーからのエラーメッセージを表示
         }
-        selfEdit = false;
-      })
-      .catch(err => {
-        // フェッチ失敗やサーバーエラー発生時
+        contentAtLastSync = editor.value;
+        
+        status.className = "badge bg-success";
+        status.textContent = "Saved";
+        if (j.status === "ok_merged") {
+          status.className = "badge bg-info";
+          status.textContent = "Saved (Merged)";
+        } else if (j.status === "conflict_merge_failed" || j.status === "conflict_during_merge_save" || j.status === "conflict") {
+          status.className = "badge bg-warning text-dark";
+          status.textContent = "Conflict resolved";
+        }
+      } else if (j.error) {
         status.className = "badge bg-danger";
-        status.textContent = err.message || "Save error (network)";
-        selfEdit = false;
-      });
-    }, 300);
+        status.textContent = j.error;
+      }
+      setSelfEdit(false);
+    })
+    .catch(err => {
+      // エラー時のリトライ処理
+      if (retryCount < MAX_RETRIES && !err.message.includes("exceeds max length")) {
+        retryCount++;
+        status.className = "badge bg-warning";
+        status.textContent = `Retrying... (${retryCount}/${MAX_RETRIES})`;
+        
+        // 指数バックオフでリトライ
+        const retryDelay = Math.min(1000 * Math.pow(2, retryCount - 1), 5000);
+        saveRetryTimer = setTimeout(() => {
+          performSave(currentContent, true);
+        }, retryDelay);
+      } else {
+        status.className = "badge bg-danger";
+        status.textContent = err.message || "Save failed";
+        setSelfEdit(false);
+      }
+    });
+  }
+
+  editor.addEventListener("input", () => {
+    clearTimeout(typTimer);
+    clearTimeout(saveRetryTimer); // 既存のリトライをキャンセル
+    
+    typTimer = setTimeout(() => {
+      const currentContent = editor.value;
+      performSave(currentContent);
+    }, 500); // 500msに延長
   });
 
-  /* 1 秒ポーリング */
-  setInterval(() => {
-    if (selfEdit) return;  // 自分編集中はポーリングしない
+  /* 適応的ポーリング - アクティブ編集中は頻度を下げる */
+  let lastActivity = Date.now();
+  let pollingInterval = 1000; // 基本ポーリング間隔
+  let lastPollingTime = Date.now();
+  
+  // アクティビティ検出のためのイベントリスナー
+  editor.addEventListener("focus", () => {
+    lastActivity = Date.now();
+  });
+  
+  editor.addEventListener("keydown", () => {
+    lastActivity = Date.now();
+  });
+  
+  function adaptivePolling() {
+    const now = Date.now();
+    const timeSinceActivity = now - lastActivity;
+    const timeSinceLastPoll = now - lastPollingTime;
+    
+    // 最近編集活動があった場合はポーリング頻度を下げる
+    if (timeSinceActivity < 5000) { // 5秒以内に活動があった
+      pollingInterval = 2000; // 2秒間隔
+    } else {
+      pollingInterval = 1000; // 通常の1秒間隔
+    }
+    
+    // ポーリング実行の判定
+    if (timeSinceLastPoll >= pollingInterval) {
+      lastPollingTime = now;
+      performPolling();
+    }
+    
+    // 次回ポーリング予約（100ms間隔でチェック）
+    setTimeout(adaptivePolling, 100);
+  }
+  
+  function performPolling() {
+    if (selfEdit) return; // 自分編集中はポーリングしない
     
     // ユーザーが現在フォーカスしているかチェック
     const isEditorFocused = document.activeElement === editor;
     
-    fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
-      if (j.updated_at !== lastStamp) {
-        if (!selfEdit) {
-          // ユーザーがエディターにフォーカスしている場合、カーソル位置を保存
-          let cursorStart = 0;
-          let cursorEnd = 0;
-          if (isEditorFocused) {
-            cursorStart = editor.selectionStart;
-            cursorEnd = editor.selectionEnd;
-          }
-          
-          // コンテンツを更新
-          editor.value = j.content;
-          
-          // ユーザーがフォーカスしていた場合、カーソル位置を復元
-          if (isEditorFocused) {
-            // 新しいコンテンツの長さを超えないようにカーソル位置を調整
-            const newLength = j.content.length;
-            cursorStart = Math.min(cursorStart, newLength);
-            cursorEnd = Math.min(cursorEnd, newLength);
+    fetch(`/api/note/${room}`)
+      .then(r => r.json())
+      .then(j => {
+        if (j.updated_at !== lastStamp) {
+          if (!selfEdit) {
+            // ユーザーがエディターにフォーカスしている場合、カーソル位置を保存
+            let cursorStart = 0;
+            let cursorEnd = 0;
+            if (isEditorFocused) {
+              cursorStart = editor.selectionStart;
+              cursorEnd = editor.selectionEnd;
+            }
             
-            // カーソル位置を復元
-            editor.setSelectionRange(cursorStart, cursorEnd);
-            editor.focus(); // フォーカスを維持
+            // コンテンツを更新
+            editor.value = j.content;
+            
+            // ユーザーがフォーカスしていた場合、カーソル位置を復元
+            if (isEditorFocused) {
+              // 新しいコンテンツの長さを超えないようにカーソル位置を調整
+              const newLength = j.content.length;
+              cursorStart = Math.min(cursorStart, newLength);
+              cursorEnd = Math.min(cursorEnd, newLength);
+              
+              // カーソル位置を復元
+              editor.setSelectionRange(cursorStart, cursorEnd);
+              editor.focus(); // フォーカスを維持
+            }
+            
+            status.className = "badge bg-warning text-dark";
+            status.textContent = "Updated by others";
           }
-          
-          status.className = "badge bg-warning text-dark";
-          status.textContent = "Updated by others";
+          lastStamp = j.updated_at;
+          contentAtLastSync = j.content;
+        } else {
+          // タイムスタンプが同じでも念のためステータスを更新
+          if (status.textContent === "Syncing…" || status.textContent.includes("error") || status.textContent.includes("Conflict")) {
+            status.className = "badge bg-success";
+            status.textContent = "Up-to-date";
+          }
         }
-        lastStamp = j.updated_at;
-        contentAtLastSync = j.content;  // <--- 更新: ポーリング時も更新
-      } else {
-        // タイムスタンプが同じでも念のためステータスを更新
-        if (status.textContent === "Syncing…" || status.textContent.includes("error") || status.textContent.includes("Conflict")) {
-          status.className = "badge bg-success";
-          status.textContent = "Up-to-date";
-        }
-      }
-    }).catch(() => {
-      status.className = "badge bg-danger";
-      status.textContent = "Sync error";
-    });
-  }, 1000);
+      })
+      .catch(() => {
+        status.className = "badge bg-danger";
+        status.textContent = "Sync error";
+      });
+  }
+  
+  // 適応的ポーリング開始
+  adaptivePolling();
 </script>
 {% endblock %}
