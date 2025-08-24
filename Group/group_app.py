@@ -62,8 +62,13 @@ def group():
 # ---------------------------
 # 特定のルームIDのグループルーム画面を表示するルート
 # ---------------------------
-@group_bp.route('/group_room/<room_id>')
-def group_list(room_id):
+@group_bp.route('/group_room')
+def group_list():
+    # セッションからroom_idを取得
+    room_id = session.get('room_id')
+    if not room_id:
+        abort(404)
+    
     # まずデータを取得
     room_data = group_data.get_data(room_id)
     # 見つからなければ 404 を返す
@@ -116,7 +121,8 @@ def create_group_room():
     os.makedirs(folder_path, exist_ok=True)
 
     group_data.create_room(id=id, password=password, room_id=room_id)
-    return redirect(f'/group_room/{room_id}')
+    session['room_id'] = room_id
+    return redirect('/group_room')
 
 # ---------------------------
 # グループアップロード処理（ファイルアップロード）
@@ -344,7 +350,8 @@ def search_room():
     room_id = group_data.pich_room_id(id, password)
     if not room_id:
         return room_msg('IDかパスワードが間違っています')
-    return redirect(f'/group_room/{room_id}')
+    session['room_id'] = room_id
+    return redirect('/group_room')
 
 # ---------------------------
 # エラーメッセージを表示するための補助関数
