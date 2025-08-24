@@ -1,445 +1,156 @@
 {% extends "note_layout.html" %}
 
 {% block contents %}
-<!-- Show preview of the note sharing service -->
-<div class="modern-page-container">
-    <div class="modern-content-card">
-        <div class="modern-card-header">
-            <h1>📝 リアルタイムノート</h1>
+<div style="padding: 2rem; max-width: 900px; margin: 0 auto;">
+    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 2rem;">
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; padding: 2rem; text-align: center;">
+            <h1 style="margin: 0; font-size: 1.75rem;">📝 リアルタイムノート</h1>
         </div>
         
-        <div class="modern-card-body">
-            <!-- Access Form (replaces Room Info + QR Code) -->
-            <div class="room-info-container">
-                <div class="access-form-container">
-                    <div class="access-form-header">アクセス方法を選択</div>
-                    <div class="tab-buttons">
-                        <button class="tab-button active" onclick="switchTab('join')">ルームに参加</button>
-                        <button class="tab-button" onclick="switchTab('create')">新規ルーム作成</button>
-                    </div>
-
-                    <!-- Join existing room tab -->
-                    <div id="join-tab" class="tab-content active">
-                        <form id="join-form" method="POST" action="/search_note_room_process">
-                            <div class="form-group">
-                                <label for="join-id" class="form-label">Room ID</label>
-                                <input type="text" id="join-id" name="id" class="form-control" 
-                                       placeholder="ルームIDを入力 (半角英数字5-10文字)" required 
-                                       pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                                       minlength="5" maxlength="10">
-                            </div>
-                            <div class="form-group">
-                                <label for="join-password" class="form-label">Password</label>
-                                <input type="password" id="join-password" name="password" class="form-control" 
-                                       placeholder="パスワードを入力 (6桁の数字)" required 
-                                       pattern="[0-9]{6}" title="6桁の数字で入力してください" 
-                                       minlength="6" maxlength="6">
-                            </div>
-                            <button type="submit" class="btn-modern">🔍 ルームに参加</button>
-                        </form>
-                    </div>
-
-                    <!-- Create new room tab -->
-                    <div id="create-tab" class="tab-content">
-                        <form id="create-form" method="POST" action="/create_note_room">
-                            <div class="form-group">
-                                <label for="create-id" class="form-label">Room ID</label>
-                                <input type="text" id="create-id" name="id" class="form-control" 
-                                       placeholder="新しいルームIDを入力 (半角英数字5-10文字)" required 
-                                       pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                                       minlength="5" maxlength="10">
-                            </div>
-                            <button type="submit" class="btn-modern">🚀 ルームを作成</button>
-                        </form>
-                    </div>
+        <!-- Body -->
+        <div style="padding: 2rem;">
+            <!-- Access Form Section -->
+            <div style="background: #f9fafb; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 style="margin-top: 0; color: #374151;">ルームにアクセス</h3>
+                
+                <!-- Tab Buttons -->
+                <div style="display: flex; background: #e5e7eb; border-radius: 8px; margin-bottom: 1rem;">
+                    <button type="button" onclick="switchTab('join')" id="join-btn" style="flex: 1; padding: 0.75rem; background: rgb(163, 230, 53); color: white; border: none; border-radius: 8px 0 0 8px; cursor: pointer; font-weight: 600;">
+                        ルームに参加
+                    </button>
+                    <button type="button" onclick="switchTab('create')" id="create-btn" style="flex: 1; padding: 0.75rem; background: #e5e7eb; color: #6b7280; border: none; border-radius: 0 8px 8px 0; cursor: pointer; font-weight: 600;">
+                        新規ルーム作成
+                    </button>
+                </div>
+                
+                <!-- Join Form -->
+                <div id="join-tab">
+                    <form method="POST" action="/search_note_room_process">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Room ID</label>
+                            <input type="text" name="id" placeholder="ルームIDを入力" required 
+                                   style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Password</label>
+                            <input type="password" name="password" placeholder="6桁の数字" required 
+                                   style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                            🔍 ルームに参加
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Create Form -->
+                <div id="create-tab" style="display: none;">
+                    <form method="POST" action="/create_note_room">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Room ID</label>
+                            <input type="text" name="id" placeholder="新しいルームIDを入力" required 
+                                   style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                            🚀 ルームを作成
+                        </button>
+                    </form>
                 </div>
             </div>
-
-            <!-- Demo Editor (disabled) -->
-            <div class="modern-form-group">
-                <label for="demo-editor" class="modern-form-label">共有ノート（最大5000文字）</label>
-                <textarea id="demo-editor" class="modern-editor demo-disabled"
-                          placeholder="ここに入力すると1秒ごとに同期されます…&#10;&#10;デモテキスト:&#10;このようにメンバー全員がリアルタイムで&#10;同じノートを編集できます。&#10;&#10;・文字を入力すると即座に他のメンバーに同期&#10;・最大5000文字まで入力可能&#10;・編集状況がリアルタイムで表示"
-                          readonly style="height: 30vh; opacity: 0.7; cursor: not-allowed;"></textarea>
+            
+            <!-- Demo Editor -->
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; font-size: 1.1rem;">共有ノート（最大5000文字）</label>
+                <textarea readonly placeholder="ここに入力すると1秒ごとに同期されます…&#10;&#10;デモテキスト:&#10;このようにメンバー全員がリアルタイムで&#10;同じノートを編集できます。&#10;&#10;・文字を入力すると即座に他のメンバーに同期&#10;・最大5000文字まで入力可能&#10;・編集状況がリアルタイムで表示"
+                          style="width: 100%; height: 200px; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; background: #f3f4f6; color: #6b7280; resize: vertical; font-family: monospace; line-height: 1.6;"></textarea>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                    <small style="color: var(--text-medium);">上記のフォームでルームを作成・参加すると編集できます</small>
-                    <span class="badge bg-secondary demo-status" style="padding: 0.5rem 1rem; border-radius: 20px; opacity: 0.7;">Demo Mode</span>
+                    <small style="color: #6b7280;">上記のフォームでルームを作成・参加すると編集できます</small>
+                    <span style="padding: 0.25rem 0.75rem; background: #6c757d; color: white; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">Demo Mode</span>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Usage Section -->
+    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden;">
+        <div style="background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; padding: 1.5rem; text-align: center;">
+            <h5 style="margin: 0;">使い方</h5>
+        </div>
+        <div style="padding: 2rem;">
+            <p style="margin: 0; line-height: 1.6;">
+                このルームではテキストをリアルタイムに共有できます。<br>
+                上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
+                エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
+                最大5000文字まで入力可能です。
+            </p>
+        </div>
+    </div>
+</div>
 
-<div class="usage-section">
-  <div class="usage-section-header">
-    <h5>使い方</h5>
-  </div>
-  <div class="usage-section-content">
-    <p>
-      このルームではテキストをリアルタイムに共有できます。<br>
-      上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
-      エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
-      最大5000文字まで入力可能です。
-    </p>
-  </div>
+<!-- Spinner overlay -->
+<div id="spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 9999;">
+    <div style="text-align: center;">
+        <div style="width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid rgb(163, 230, 53); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
+    </div>
 </div>
 
 <style>
-/* Use existing styles from note_room.html */
-.modern-page-container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, rgba(248, 250, 252, 0.8) 100%);
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.modern-content-card {
-    width: 100%;
-    max-width: 900px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    box-shadow: 
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-    margin-bottom: 2rem;
-}
-
-.modern-content-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-}
-
-.modern-card-header {
-    background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    position: relative;
-}
-
-.modern-card-header h1 {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: 'Kaisei Opti', serif;
-}
-
-.modern-card-body {
-    padding: 2.5rem 2rem 2rem;
-}
-
-.room-info-container {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-.access-form-container {
-    flex: 1;
-    min-width: 300px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 16px;
-    box-shadow: 
-        0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-}
-
-.access-form-header {
-    background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.tab-buttons {
-    display: flex;
-    background: #f3f4f6;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 1rem;
-    background: #f3f4f6;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    color: #6b7280;
-}
-
-.tab-button.active {
-    background: rgb(163, 230, 53);
-    color: white;
-}
-
-.tab-content {
-    display: none;
-    padding: 1.5rem;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 0.025em;
-}
-
-.form-control {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    background: #f9fafb;
-    transition: all 0.2s ease;
-    color: #1f2937;
-    box-sizing: border-box;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: rgb(163, 230, 53);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.1);
-    transform: translateY(-1px);
-}
-
-.btn-modern {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.btn-modern::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.btn-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(132, 204, 22, 0.3);
-}
-
-.btn-modern:hover::before {
-    left: 100%;
-}
-
-.btn-modern:active {
-    transform: translateY(0);
-}
-
-.modern-form-group {
-    margin-bottom: 2rem;
-}
-
-.modern-form-label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-}
-
-.modern-editor {
-    width: 100%;
-    padding: 1.5rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    font-size: 1rem;
-    background: #f9fafb;
-    transition: all 0.2s ease;
-    color: #1f2937;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Source Code Pro', monospace;
-    line-height: 1.6;
-    resize: vertical;
-    min-height: 200px;
-    box-sizing: border-box;
-}
-
-.modern-editor:focus {
-    outline: none;
-    border-color: rgb(163, 230, 53);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.1);
-}
-
-.demo-disabled {
-    background: #f3f4f6 !important;
-    color: #6b7280 !important;
-    cursor: not-allowed !important;
-}
-
-.badge {
-    display: inline-block;
-    padding: 0.35em 0.65em;
-    font-size: 0.75em;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: 0.25rem;
-}
-
-.bg-secondary {
-    background-color: #6c757d;
-    color: white;
-}
-
-.demo-status {
-    opacity: 0.8;
-}
-
-/* State-specific styles */
-.state-hidden {
-    display: none;
-}
-
-.state-processing {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-/* Spinner styles */
-.spinner-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid rgb(163, 230, 53);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-.spinner-text {
-    margin-top: 1rem;
-    color: white;
-    font-size: 1.1rem;
-    text-align: center;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .room-info-container {
-        flex-direction: column;
-    }
-    
-    .modern-page-container {
-        padding: 1rem;
-    }
-    
-    .modern-card-body {
-        padding: 1.5rem 1rem;
-    }
-    
-    .access-form-container {
-        min-width: unset;
-    }
-}
 </style>
-
-<!-- Spinner overlay -->
-<div id="spinner-overlay" class="spinner-container state-hidden">
-    <div style="text-align: center;">
-        <div class="spinner"></div>
-        <div class="spinner-text">処理中...</div>
-    </div>
-</div>
 
 <script>
 function switchTab(tabName) {
-    // Remove active class from all tabs and buttons
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    // Hide all tabs
+    document.getElementById('join-tab').style.display = 'none';
+    document.getElementById('create-tab').style.display = 'none';
     
-    // Add active class to selected tab and button
-    document.querySelector(`button[onclick="switchTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
+    // Reset button styles
+    document.getElementById('join-btn').style.background = '#e5e7eb';
+    document.getElementById('join-btn').style.color = '#6b7280';
+    document.getElementById('create-btn').style.background = '#e5e7eb';
+    document.getElementById('create-btn').style.color = '#6b7280';
+    
+    // Show selected tab and highlight button
+    if (tabName === 'join') {
+        document.getElementById('join-tab').style.display = 'block';
+        document.getElementById('join-btn').style.background = 'rgb(163, 230, 53)';
+        document.getElementById('join-btn').style.color = 'white';
+    } else {
+        document.getElementById('create-tab').style.display = 'block';
+        document.getElementById('create-btn').style.background = 'rgb(163, 230, 53)';
+        document.getElementById('create-btn').style.color = 'white';
+    }
 }
 
-// Form submission handlers
-document.getElementById('join-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showSpinner();
-    this.submit();
-});
-
-document.getElementById('create-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showSpinner();
-    this.submit();
-});
-
 function showSpinner() {
-    document.getElementById('spinner-overlay').classList.remove('state-hidden');
+    document.getElementById('spinner-overlay').style.display = 'flex';
 }
 
 function hideSpinner() {
-    document.getElementById('spinner-overlay').classList.add('state-hidden');
+    document.getElementById('spinner-overlay').style.display = 'none';
 }
+
+// Ensure spinner is hidden on page load
+document.addEventListener('DOMContentLoaded', function() {
+    hideSpinner();
+    
+    // Add form submission handlers
+    document.querySelector('#join-tab form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showSpinner();
+        this.submit();
+    });
+    
+    document.querySelector('#create-tab form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showSpinner();
+        this.submit();
+    });
+});
 
 // Hide spinner if form submission fails (user navigates back)
 window.addEventListener('pageshow', function(event) {
@@ -447,300 +158,5 @@ window.addEventListener('pageshow', function(event) {
         hideSpinner();
     }
 });
-
-// Ensure spinner is hidden on page load
-document.addEventListener('DOMContentLoaded', function() {
-    hideSpinner();
-});
 </script>
-
-{% endblock %}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 0.025em;
-}
-
-.form-control {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    background: #f9fafb;
-    transition: all 0.2s ease;
-    color: #1f2937;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: rgb(163, 230, 53);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.1);
-    transform: translateY(-1px);
-}
-
-.btn-modern {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.btn-modern::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.btn-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(132, 204, 22, 0.3);
-}
-
-.btn-modern:hover::before {
-    left: 100%;
-}
-
-.btn-modern:active {
-    transform: translateY(0);
-}
-
-/* State-specific styles */
-.state-hidden {
-    display: none;
-}
-
-.state-processing {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-/* Spinner styles */
-.spinner-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid rgb(163, 230, 53);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.spinner-text {
-    margin-top: 1rem;
-    color: white;
-    font-size: 1.1rem;
-    text-align: center;
-}
-
-.tab-buttons {
-    display: flex;
-    margin-bottom: 2rem;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #f3f4f6;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 1rem;
-    background: #f3f4f6;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    color: #6b7280;
-}
-
-.tab-button.active {
-    background: rgb(163, 230, 53);
-    color: white;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Responsive Design */
-@media (max-width: 576px) {
-    .page-container {
-        padding: 1rem 0.75rem;
-    }
-    
-    .modern-card {
-        max-width: 100%;
-        border-radius: 20px;
-    }
-    
-    .card-header {
-        padding: 1.5rem 1.25rem;
-    }
-    
-    .card-title {
-        font-size: 1.5rem;
-    }
-    
-    .card-body {
-        padding: 2rem 1.5rem 1.75rem;
-    }
-    
-    .form-control {
-        padding: 0.875rem 1rem;
-    }
-    
-    .btn-modern {
-        padding: 0.875rem 1.25rem;
-        font-size: 1rem;
-    }
-}
-</style>
-
-<div class="page-container">
-    <div class="modern-card">
-        <div class="card-header">
-            <h2 class="card-title">📝 ノートルーム</h2>
-        </div>
-        <div class="card-body">
-            <!-- Tab buttons -->
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="switchTab('join')">ルームに参加</button>
-                <button class="tab-button" onclick="switchTab('create')">新規ルーム作成</button>
-            </div>
-
-            <!-- Join existing room tab -->
-            <div id="join-tab" class="tab-content active">
-                <form id="join-form" method="POST" action="/search_note_room_process">
-                    <div class="form-group">
-                        <label for="join-id" class="form-label">Room ID</label>
-                        <input type="text" id="join-id" name="id" class="form-control" 
-                               placeholder="ルームIDを入力 (半角英数字5-10文字)" required 
-                               pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                               minlength="5" maxlength="10">
-                    </div>
-                    <div class="form-group">
-                        <label for="join-password" class="form-label">Password</label>
-                        <input type="password" id="join-password" name="password" class="form-control" 
-                               placeholder="パスワードを入力 (6桁の数字)" required 
-                               pattern="[0-9]{6}" title="6桁の数字で入力してください" 
-                               minlength="6" maxlength="6">
-                    </div>
-                    <button type="submit" class="btn-modern">🔍 ルームに参加</button>
-                </form>
-            </div>
-
-            <!-- Create new room tab -->
-            <div id="create-tab" class="tab-content">
-                <form id="create-form" method="POST" action="/create_note_room">
-                    <div class="form-group">
-                        <label for="create-id" class="form-label">Room ID</label>
-                        <input type="text" id="create-id" name="id" class="form-control" 
-                               placeholder="新しいルームIDを入力 (半角英数字5-10文字)" required 
-                               pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                               minlength="5" maxlength="10">
-                    </div>
-                    <button type="submit" class="btn-modern">🚀 ルームを作成</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Spinner overlay -->
-<div id="spinner-overlay" class="spinner-container state-hidden">
-    <div style="text-align: center;">
-        <div class="spinner"></div>
-        <div class="spinner-text">処理中...</div>
-    </div>
-</div>
-
-<script>
-function switchTab(tabName) {
-    // Remove active class from all tabs and buttons
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
-    // Add active class to selected tab and button
-    document.querySelector(`button[onclick="switchTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-}
-
-// Form submission handlers
-document.getElementById('join-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showSpinner();
-    this.submit();
-});
-
-document.getElementById('create-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showSpinner();
-    this.submit();
-});
-
-function showSpinner() {
-    document.getElementById('spinner-overlay').classList.remove('state-hidden');
-}
-
-function hideSpinner() {
-    document.getElementById('spinner-overlay').classList.add('state-hidden');
-}
-
-// Hide spinner if form submission fails (user navigates back)
-window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-        hideSpinner();
-    }
-});
-
-// Ensure spinner is hidden on page load
-document.addEventListener('DOMContentLoaded', function() {
-    hideSpinner();
-});
-</script>
-
 {% endblock %}
