@@ -15,7 +15,7 @@ scheduler.start()
 note_bp = Blueprint('note', __name__, template_folder='templates')
 
 # ルートメニュー
-@note_bp.route('/note')
+@note_bp.route('/note_menu')
 def note_menu():
     return render_template('note_menu.html')      # 別途用意済み
 
@@ -37,10 +37,10 @@ def create_note_room():
     room_id = f"{id_}-{uid}"
     nd.create_room(id_, pw, room_id)
     session['room_id'] = room_id
-    return redirect('/note_room')
+    return redirect('/note')
 
 # ルーム本体
-@note_bp.route('/note_room')
+@note_bp.route('/note')
 def note_room():
     # セッションからroom_idを取得
     room_id = session.get('room_id')
@@ -68,21 +68,21 @@ def note_room():
                            password=meta["password"])
 
 # --- 検索ページ表示 -----------------------------------
-@note_bp.route('/search_note_room')
+@note_bp.route('/search_note')
 def search_note_room_page():
     return render_template('search_note_room.html')
 
 # --- 検索処理 -----------------------------------------
-@note_bp.route('/search_note_room_process', methods=['POST'])
+@note_bp.route('/search_note_process', methods=['POST'])
 def search_note_room():
     id_  = request.form.get('id','').strip()
     pw   = request.form.get('password','').strip()
     if not re.match(r'^[a-zA-Z0-9]+$', id_) or not re.match(r'^[0-9]+$', pw):
         flash("ID またはパスワードが不正です。")
-        return redirect('/search_note_room')
+        return redirect('/search_note')
     room_id = nd.pich_room_id(id_, pw)
     if not room_id:
         flash("ID かパスワードが間違っています。")
-        return redirect('/search_note_room')
+        return redirect('/search_note')
     session['room_id'] = room_id
-    return redirect('/note_room')
+    return redirect('/note')
