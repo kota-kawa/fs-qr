@@ -95,6 +95,18 @@
         </div>
     </div>
 
+<!-- Download Progress Spinner -->
+<div class="spinner-container" id="downloadSpinnerContainer" style="display: none;">
+    <div class="spinner-second-container" id="downloadAnimationContainer">
+        <div class="icon file">📄</div>
+        <div class="icon download">📥</div>
+        <div class="text" id="downloadStatusText">ダウンロード中...</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="downloadProgressBar"></div>
+        </div>
+    </div>
+</div>
+
 <div class="usage-section">
     <div class="usage-section-header">
         <h5>使い方</h5>
@@ -215,22 +227,63 @@
                             isDownloading[downloadKey] = true;
                             downloadBtn.prop('disabled', true);
                             
-                            // Create a hidden form for download to handle it better
-                            var form = $('<form>', {
-                                'method': 'GET',
-                                'action': `/download/${roomId}/${encodedFilename}`,
-                                'style': 'display: none;'
-                            });
+                            // Show download progress spinner
+                            $('#downloadSpinnerContainer').show();
+                            $('#downloadAnimationContainer').addClass('downloading');
+                            $('#downloadStatusText').text(`${file.name} をダウンロード中...`);
+                            $('#downloadProgressBar').css('transform', 'scaleX(0)');
                             
-                            $('body').append(form);
-                            form.submit();
-                            form.remove();
+                            // Use XMLHttpRequest for progress tracking
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', `/download/${roomId}/${encodedFilename}`, true);
+                            xhr.responseType = 'blob';
                             
-                            // Re-enable button after a short delay
-                            setTimeout(function() {
+                            xhr.onprogress = function(event) {
+                                if (event.lengthComputable) {
+                                    var percentComplete = event.loaded / event.total;
+                                    $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                                }
+                            };
+                            
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    // Create download link
+                                    var blob = xhr.response;
+                                    var link = document.createElement('a');
+                                    link.href = URL.createObjectURL(blob);
+                                    link.download = file.name;
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                    URL.revokeObjectURL(link.href);
+                                    
+                                    $('#downloadProgressBar').css('transform', 'scaleX(1)');
+                                    $('#downloadStatusText').text('ダウンロード完了！');
+                                    
+                                    setTimeout(function() {
+                                        $('#downloadSpinnerContainer').hide();
+                                        $('#downloadAnimationContainer').removeClass('downloading');
+                                    }, 1000);
+                                } else {
+                                    alert('ダウンロード中にエラーが発生しました。');
+                                    $('#downloadSpinnerContainer').hide();
+                                    $('#downloadAnimationContainer').removeClass('downloading');
+                                }
+                                
+                                // Re-enable button
                                 isDownloading[downloadKey] = false;
                                 downloadBtn.prop('disabled', false);
-                            }, 2000);
+                            };
+                            
+                            xhr.onerror = function() {
+                                alert('ダウンロード中にエラーが発生しました。');
+                                $('#downloadSpinnerContainer').hide();
+                                $('#downloadAnimationContainer').removeClass('downloading');
+                                isDownloading[downloadKey] = false;
+                                downloadBtn.prop('disabled', false);
+                            };
+                            
+                            xhr.send();
                         });
 
                         var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
@@ -439,8 +492,73 @@
 
         // すべてダウンロード
         var roomId = '{{ room_id }}';
+        var isDownloadingAll = false;
+        
         downloadAllBtn.on('click', function () {
-            window.location.href = `/download/all/${roomId}`;
+            if (isDownloadingAll) {
+                return;
+            }
+            
+            isDownloadingAll = true;
+            downloadAllBtn.prop('disabled', true);
+            
+            // Show download progress spinner
+            $('#downloadSpinnerContainer').show();
+            $('#downloadAnimationContainer').addClass('downloading');
+            $('#downloadStatusText').text('全ファイルをダウンロード中...');
+            $('#downloadProgressBar').css('transform', 'scaleX(0)');
+            
+            // Use XMLHttpRequest for progress tracking
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', `/download/all/${roomId}`, true);
+            xhr.responseType = 'blob';
+            
+            xhr.onprogress = function(event) {
+                if (event.lengthComputable) {
+                    var percentComplete = event.loaded / event.total;
+                    $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                }
+            };
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Create download link
+                    var blob = xhr.response;
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${roomId}_files.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                    
+                    $('#downloadProgressBar').css('transform', 'scaleX(1)');
+                    $('#downloadStatusText').text('ダウンロード完了！');
+                    
+                    setTimeout(function() {
+                        $('#downloadSpinnerContainer').hide();
+                        $('#downloadAnimationContainer').removeClass('downloading');
+                    }, 1000);
+                } else {
+                    alert('ダウンロード中にエラーが発生しました。');
+                    $('#downloadSpinnerContainer').hide();
+                    $('#downloadAnimationContainer').removeClass('downloading');
+                }
+                
+                // Re-enable button
+                isDownloadingAll = false;
+                downloadAllBtn.prop('disabled', false);
+            };
+            
+            xhr.onerror = function() {
+                alert('ダウンロード中にエラーが発生しました。');
+                $('#downloadSpinnerContainer').hide();
+                $('#downloadAnimationContainer').removeClass('downloading');
+                isDownloadingAll = false;
+                downloadAllBtn.prop('disabled', false);
+            };
+            
+            xhr.send();
         });
     });
 </script>
