@@ -3,22 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FS!QR Noteのメニュー。ノートルームの作成や検索を行うページです。" />
-    <meta name="keywords" content="ノート共有, ルーム作成, リアルタイム, FS QR" />
+    <meta name="description" content="FS!QR Noteは無料のリアルタイムノート共有サービス。複数人で同時編集できるオンラインノートルームを作成・検索可能。学習、会議、プロジェクト管理に最適な日本語対応のコラボレーションツールです。" />
+    <meta name="keywords" content="ノート共有, ルーム作成, リアルタイム, FS QR, 共同編集, コラボレーション, オンライン会議, プロジェクト管理, 学習支援, 無料ツール, 日本語, 同時編集" />
     <meta name="robots" content="index, follow" />
+    <meta name="author" content="FS!QR">
+    <meta name="language" content="ja">
+    <meta name="theme-color" content="#c2bf20">
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR Note" />
-    <meta property="og:title" content="ノート共有メニュー | FS!QR" />
-    <meta property="og:description" content="ノートルームの作成や検索ができるメニュー。" />
+    <meta property="og:title" content="FS!QR Note | 無料リアルタイムノート共有サービス" />
+    <meta property="og:description" content="複数人で同時編集できるオンラインノート。リアルタイム共同編集で効率的なコラボレーションを実現。" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{staticfile('note_logo.png')}}" />
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FS!QR Note リアルタイムノート共有サービス">
+    
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ノート共有メニュー | FS!QR" />
-    <meta name="twitter:description" content="リアルタイムでノートを共有するルームを作成・検索できます。" />
+    <meta name="twitter:title" content="FS!QR Note | 無料リアルタイムノート共有サービス" />
+    <meta name="twitter:description" content="複数人で同時編集できるオンラインノート。リアルタイム共同編集で効率的なコラボレーション。" />
     <meta name="twitter:image" content="{{staticfile('note_logo.png')}}" />
+    <meta name="twitter:image:alt" content="FS!QR Note サービス">
+    
+    <!-- SEO -->
     <link rel="canonical" href="{{ request.url }}" />
-    <title>ファイル管理</title>
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <title>FS!QR Note | 無料リアルタイムノート共有・共同編集サービス</title>
     <link rel="icon" href="{{staticfile('favicon4.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon4.png')}}">
     <!-- Bootstrap CSS -->
@@ -27,13 +42,77 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <!-- カスタムCSS -->
+    
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR Note",
       "url": "{{ request.url_root }}note",
-      "description": "FS!QR Noteのメニュー。ノートルームの作成や検索を行うページです。"
+      "description": "無料のリアルタイムノート共有サービス。複数人で同時編集できるオンラインノートルームを提供。",
+      "inLanguage": "ja-JP",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}"
+      },
+      "potentialAction": [
+        {
+          "@type": "CreateAction",
+          "name": "ノートルーム作成",
+          "target": "{{ request.url_root }}create_note_room"
+        },
+        {
+          "@type": "SearchAction",
+          "name": "ノートルーム検索",
+          "target": "{{ request.url_root }}search_note"
+        }
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FS!QR Note",
+      "description": "リアルタイムで複数人が同時編集できる無料オンラインノートアプリケーション",
+      "applicationCategory": "WebApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "featureList": [
+        "リアルタイム同時編集",
+        "ノートルーム作成",
+        "共同編集機能",
+        "ルーム検索機能",
+        "自動保存"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "{{ request.url_root }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ノート共有",
+          "item": "{{ request.url_root }}note"
+        }
+      ]
     }
     </script>
     <style>
