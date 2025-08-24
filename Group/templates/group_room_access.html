@@ -1,20 +1,137 @@
 {% extends "group_layout.html" %}
 
 {% block contents %}
+<!-- Show preview of the file sharing service -->
+<div class="modern-page-container">
+    <div class="modern-content-card">
+        <div class="modern-card-header">
+            <h1>📂 グループファイル共有</h1>
+        </div>
+        
+        <div class="modern-card-body">
+            <!-- Access Form (replaces Room Info + QR Code) -->
+            <div class="room-info-container">
+                <div class="access-form-container">
+                    <div class="access-form-header">アクセス方法を選択</div>
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="switchTab('join')">ルームに参加</button>
+                        <button class="tab-button" onclick="switchTab('create')">新規ルーム作成</button>
+                    </div>
+
+                    <!-- Join existing room tab -->
+                    <div id="join-tab" class="tab-content active">
+                        <form id="join-form" method="POST" action="/search_room_process">
+                            <div class="form-group">
+                                <label for="join-id" class="form-label">Room ID</label>
+                                <input type="text" id="join-id" name="id" class="form-control" 
+                                       placeholder="ルームIDを入力 (半角英数字5-10文字)" required 
+                                       pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
+                                       minlength="5" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="join-password" class="form-label">Password</label>
+                                <input type="password" id="join-password" name="password" class="form-control" 
+                                       placeholder="パスワードを入力 (6桁の数字)" required 
+                                       pattern="[0-9]{6}" title="6桁の数字で入力してください" 
+                                       minlength="6" maxlength="6">
+                            </div>
+                            <button type="submit" class="btn-modern">🔍 ルームに参加</button>
+                        </form>
+                    </div>
+
+                    <!-- Create new room tab -->
+                    <div id="create-tab" class="tab-content">
+                        <form id="create-form" method="POST" action="/create_group_room">
+                            <div class="form-group">
+                                <label for="create-id" class="form-label">Room ID</label>
+                                <input type="text" id="create-id" name="id" class="form-control" 
+                                       placeholder="新しいルームIDを入力 (半角英数字5-10文字)" required 
+                                       pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
+                                       minlength="5" maxlength="10">
+                            </div>
+                            <button type="submit" class="btn-modern">🚀 ルームを作成</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Upload Area (disabled) -->
+            <div class="modern-upload-area demo-disabled" id="demo-upload-area">
+                <div class="upload-icon-modern">☁️</div>
+                <p class="upload-text-modern">ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択<br><small style="color: #6b7280;">(上記のフォームでルームを作成・参加すると利用できます)</small></p>
+                <button type="button" class="upload-button-modern demo-disabled" disabled>
+                    📁 ファイルを選択（デモ）
+                </button>
+            </div>
+
+            <!-- Demo Uploaded Files List -->
+            <div style="margin: 2rem 0;">
+                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">📤 アップロード待ちファイル</h5>
+                <div class="modern-file-list demo-disabled">
+                    <div class="demo-file-item">
+                        <span>📄 example-document.pdf</span>
+                        <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
+                    </div>
+                    <div class="demo-file-item">
+                        <span>🖼️ sample-image.jpg</span>
+                        <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
+                    </div>
+                </div>
+                <button class="modern-btn modern-btn-success demo-disabled" disabled>
+                    🚀 アップロード（デモ）
+                </button>
+            </div>
+
+            <!-- Demo Other Users' Files -->
+            <div style="margin: 2rem 0;">
+                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">
+                    📥 グループメンバーのファイル (<span>2</span>)
+                </h5>
+                <div class="modern-file-list demo-disabled">
+                    <div class="demo-file-item">
+                        <span>📋 meeting-notes.txt</span>
+                        <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
+                    </div>
+                    <div class="demo-file-item">
+                        <span>📊 data-report.xlsx</span>
+                        <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
+                    </div>
+                </div>
+                <button class="modern-btn demo-disabled" disabled>
+                    📦 すべてダウンロード（デモ）
+                </button>
+            </div>
+        </div>
+    </div>
+
+<div class="usage-section">
+    <div class="usage-section-header">
+        <h5>使い方</h5>
+    </div>
+    <div class="usage-section-content">
+        <p>
+            このルームではメンバー全員がファイルをアップロード／ダウンロードできます。<br>
+            上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
+            ファイルはドラッグ＆ドロップまたはクリックで追加し、「アップロード」ボタンで送信します。<br>
+            他の人のファイルは下のリストから個別にダウンロードや削除ができます。
+        </p>
+    </div>
+</div>
+
 <style>
-/* Unified Modern Design System */
-.page-container {
+/* Group room styles based on group_room.html */
+.modern-page-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8fafc 0%, rgba(248, 250, 252, 0.8) 100%);
     padding: 2rem 1rem;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
 }
 
-.modern-card {
+.modern-content-card {
     width: 100%;
-    max-width: 440px;
+    max-width: 900px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 24px;
@@ -26,9 +143,10 @@
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease;
+    margin-bottom: 2rem;
 }
 
-.modern-card::before {
+.modern-content-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -38,14 +156,7 @@
     background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
 }
 
-.modern-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 25px 35px -5px rgba(0, 0, 0, 0.15),
-        0 15px 15px -5px rgba(0, 0, 0, 0.06);
-}
-
-.card-header {
+.modern-card-header {
     background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
     color: white;
     padding: 2rem;
@@ -53,20 +164,7 @@
     position: relative;
 }
 
-.card-header::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 10px solid rgb(34, 197, 94);
-}
-
-.card-title {
+.modern-card-header h1 {
     margin: 0;
     font-size: 1.75rem;
     font-weight: 600;
@@ -74,8 +172,67 @@
     font-family: 'Kaisei Opti', serif;
 }
 
-.card-body {
+.modern-card-body {
     padding: 2.5rem 2rem 2rem;
+}
+
+.room-info-container {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.access-form-container {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.access-form-header {
+    background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.tab-buttons {
+    display: flex;
+    background: #f3f4f6;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 1rem;
+    background: #f3f4f6;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #6b7280;
+}
+
+.tab-button.active {
+    background: rgb(34, 197, 94);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 1.5rem;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 .form-group {
@@ -100,6 +257,7 @@
     background: #f9fafb;
     transition: all 0.2s ease;
     color: #1f2937;
+    box-sizing: border-box;
 }
 
 .form-control:focus {
@@ -151,6 +309,105 @@
     transform: translateY(0);
 }
 
+.modern-upload-area {
+    background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+    border: 3px dashed #d1d5db;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.modern-upload-area:hover:not(.demo-disabled) {
+    border-color: rgb(34, 197, 94);
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    transform: translateY(-2px);
+}
+
+.upload-icon-modern {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.upload-text-modern {
+    font-size: 1.2rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.upload-button-modern {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-button-modern:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(22, 101, 52, 0.3);
+}
+
+.modern-file-list {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    min-height: 100px;
+}
+
+.demo-file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modern-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modern-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(22, 101, 52, 0.3);
+}
+
+.modern-btn-success {
+    background: linear-gradient(135deg, rgb(34, 197, 94) 0%, rgb(59, 130, 246) 100%);
+}
+
+.demo-disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.demo-disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 /* State-specific styles */
 .state-hidden {
     display: none;
@@ -196,121 +453,37 @@
     text-align: center;
 }
 
-.tab-buttons {
-    display: flex;
-    margin-bottom: 2rem;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #f3f4f6;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 1rem;
-    background: #f3f4f6;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    color: #6b7280;
-}
-
-.tab-button.active {
-    background: rgb(34, 197, 94);
-    color: white;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
 /* Responsive Design */
-@media (max-width: 576px) {
-    .page-container {
-        padding: 1rem 0.75rem;
+@media (max-width: 768px) {
+    .room-info-container {
+        flex-direction: column;
     }
     
-    .modern-card {
-        max-width: 100%;
-        border-radius: 20px;
+    .modern-page-container {
+        padding: 1rem;
     }
     
-    .card-header {
-        padding: 1.5rem 1.25rem;
+    .modern-card-body {
+        padding: 1.5rem 1rem;
     }
     
-    .card-title {
-        font-size: 1.5rem;
+    .access-form-container {
+        min-width: unset;
     }
     
-    .card-body {
-        padding: 2rem 1.5rem 1.75rem;
+    .modern-upload-area {
+        padding: 2rem 1rem;
     }
     
-    .form-control {
-        padding: 0.875rem 1rem;
-    }
-    
-    .btn-modern {
-        padding: 0.875rem 1.25rem;
+    .upload-text-modern {
         font-size: 1rem;
+    }
+    
+    .upload-icon-modern {
+        font-size: 3rem;
     }
 }
 </style>
-
-<div class="page-container">
-    <div class="modern-card">
-        <div class="card-header">
-            <h2 class="card-title">📂 グループルーム</h2>
-        </div>
-        <div class="card-body">
-            <!-- Tab buttons -->
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="switchTab('join')">ルームに参加</button>
-                <button class="tab-button" onclick="switchTab('create')">新規ルーム作成</button>
-            </div>
-
-            <!-- Join existing room tab -->
-            <div id="join-tab" class="tab-content active">
-                <form id="join-form" method="POST" action="/search_room_process">
-                    <div class="form-group">
-                        <label for="join-id" class="form-label">Room ID</label>
-                        <input type="text" id="join-id" name="id" class="form-control" 
-                               placeholder="ルームIDを入力 (半角英数字5-10文字)" required 
-                               pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                               minlength="5" maxlength="10">
-                    </div>
-                    <div class="form-group">
-                        <label for="join-password" class="form-label">Password</label>
-                        <input type="password" id="join-password" name="password" class="form-control" 
-                               placeholder="パスワードを入力 (6桁の数字)" required 
-                               pattern="[0-9]{6}" title="6桁の数字で入力してください" 
-                               minlength="6" maxlength="6">
-                    </div>
-                    <button type="submit" class="btn-modern">🔍 ルームに参加</button>
-                </form>
-            </div>
-
-            <!-- Create new room tab -->
-            <div id="create-tab" class="tab-content">
-                <form id="create-form" method="POST" action="/create_group_room">
-                    <div class="form-group">
-                        <label for="create-id" class="form-label">Room ID</label>
-                        <input type="text" id="create-id" name="id" class="form-control" 
-                               placeholder="新しいルームIDを入力 (半角英数字5-10文字)" required 
-                               pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください" 
-                               minlength="5" maxlength="10">
-                    </div>
-                    <button type="submit" class="btn-modern">🚀 ルームを作成</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Spinner overlay -->
 <div id="spinner-overlay" class="spinner-container state-hidden">
@@ -357,6 +530,11 @@ window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
         hideSpinner();
     }
+});
+
+// Ensure spinner is hidden on page load
+document.addEventListener('DOMContentLoaded', function() {
+    hideSpinner();
 });
 </script>
 
