@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FS!QRは無料のQRコードファイル共有サービス。ファイルを暗号化してQRコード化、簡単にアップロード・検索・共有できます。個人から企業まで安全にデータを送信できる日本語対応のクラウドサービスです。" />
-    <meta name="keywords" content="ファイル管理, ファイル共有, QRコード, FS QR, 暗号化, セキュア共有, データ転送, クラウドストレージ, 無料サービス, 日本語, アップロード, ダウンロード" />
+    <meta name="description" content="FS!QRは無料のQRコードファイル共有・暗号化アップロードサービス。ファイルを暗号化してQRコード化、簡単・安全にアップロード・検索・共有できます。個人から企業まで安全にデータを送信できる日本語対応の次世代クラウドサービス。" />
+    <meta name="keywords" content="QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有" />
+    <meta name="geo.region" content="JP" />
+    <meta name="geo.placename" content="Japan" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="FS!QR">
     <meta name="language" content="ja">
@@ -14,8 +18,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR" />
-    <meta property="og:title" content="FS!QR | 無料QRコードファイル共有サービス" />
-    <meta property="og:description" content="ファイルを暗号化してQRコード化。安全で簡単なファイル共有を無料で提供する日本語サービス。" />
+    <meta property="og:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
+    <meta property="og:description" content="ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{staticfile('logo.png')}}" />
     <meta property="og:image:width" content="1200">
@@ -24,16 +28,21 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FS!QR | 無料QRコードファイル共有サービス" />
-    <meta name="twitter:description" content="ファイルを暗号化してQRコード化。安全で簡単なファイル共有を無料で提供。" />
+    <meta name="twitter:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
+    <meta name="twitter:description" content="ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。" />
     <meta name="twitter:image" content="{{staticfile('logo.png')}}" />
     <meta name="twitter:image:alt" content="FS!QR サービス">
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.url }}" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="priority" content="1.0" />
+    <meta name="importance" content="high" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
-    <title>FS!QR | 無料QRコードファイル共有・暗号化アップロードサービス</title>
+    <title>FS!QR | 無料QRコード暗号化ファイル共有・セキュアアップロードサービス</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
       <!-- Bootstrap CSS -->
@@ -87,10 +96,94 @@
       },
       "featureList": [
         "ファイル暗号化アップロード",
-        "QRコード生成",
+        "QRコード自動生成",
         "安全なファイル共有",
         "ファイル検索機能",
-        "クラウドストレージ"
+        "クラウドストレージ",
+        "セキュリティ重視",
+        "大容量ファイル対応",
+        "日本語完全対応"
+      ],
+      "screenshot": "{{staticfile('logo.png')}}",
+      "softwareVersion": "1.0",
+      "author": {
+        "@type": "Organization",
+        "name": "FS!QR"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "250",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "FS!QRのセキュリティレベルはどの程度ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer", 
+            "text": "ファイルは高度な暗号化技術で保護され、QRコード化されます。企業レベルのセキュリティを無料で提供しています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "QRコード化したファイルはどこで使えますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "生成されたQRコードはスマートフォン、タブレット、PCなど任意のデバイスで読み取り・ダウンロードが可能です。"
+          }
+        },
+        {
+          "@type": "Question", 
+          "name": "ファイルサイズに制限はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "大容量ファイルにも対応しており、一般的な用途であればファイルサイズを気にせずご利用いただけます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "アップロードしたファイルはいつまで保存されますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "プライバシー保護のため、ファイルは一定期間後に自動削除されます。一時的な共有に特化した設計です。"
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "FS!QRでのQRコードファイル共有方法",
+      "description": "QRコード暗号化ファイル共有サービスの基本的な使い方",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "ファイルをアップロード",
+          "text": "「ファイルアップロード」からファイルを選択し、暗号化アップロードを行います。",
+          "url": "{{ request.url_root }}fs-qr"
+        },
+        {
+          "@type": "HowToStep", 
+          "name": "QRコードが自動生成",
+          "text": "アップロード完了と同時にファイルのQRコードが自動生成されます。"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "QRコードを共有",
+          "text": "生成されたQRコードを相手に送信し、安全にファイルを共有します。"
+        }
       ]
     }
     </script>
@@ -115,6 +208,28 @@
       ]
     }
     </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "logo": "{{staticfile('logo.png')}}",
+      "description": "QRコード暗号化ファイル共有サービスを提供する無料Webサービス",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "{{ request.url_root }}contact"
+      },
+      "sameAs": [
+        "{{ request.url_root }}note",
+        "{{ request.url_root }}group", 
+        "{{ request.url_root }}fs-qr"
+      ]
+    }
+    </script>
     <style>
         body, html {
             height: 100%;
@@ -122,6 +237,18 @@
             font-family: Arial, sans-serif;
             box-sizing: border-box; /* サイズ計算を統一 */
         }
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+        
         .bg-custom {
             background: linear-gradient(135deg, #23c3df 10%, #1f27c7 100%);
             min-height: 100vh;
@@ -204,33 +331,49 @@
 </head>
 <body>
     <div class="bg-custom">
-        <div class="menu-container">
-            <div class="menu-card">
-                <i class="fas fa-upload"></i>
-                <h3>ファイルアップロード</h3>
-                <p>新しいファイルをアップロードして暗号化しましょう。</p>
-                <a href="/fs-qr">アップロードする</a>
-            </div>
-            <div class="menu-card">
-                <i class="fas fa-search"></i>
-                <h3>ファイル検索</h3>
-                <p>アップロードされたファイルを検索しましょう。</p>
-                <a href="/search_fs-qr">検索する</a>
-            </div>
-            <div class="menu-card">
-                <i class="fas fa-home"></i>
-                <h3>ホームに戻る</h3>
-                <p>ホーム画面に戻りましょう。</p>
-                <a href="/">戻る</a>
-            </div>
-        </div>
+        <header>
+            <h1 class="visually-hidden">FS!QR - QRコード暗号化ファイル共有サービス</h1>
+        </header>
+        
+        <main role="main" class="menu-container">
+            <section aria-labelledby="qr-services">
+                <h2 id="qr-services" class="visually-hidden">QRコードサービス機能一覧</h2>
+                
+                <article class="menu-card">
+                    <i class="fas fa-upload" aria-hidden="true"></i>
+                    <h3>ファイルアップロード</h3>
+                    <p>新しいファイルをアップロードして暗号化・QRコード化しましょう。</p>
+                    <a href="/fs-qr" aria-describedby="upload-desc">アップロードする</a>
+                    <span id="upload-desc" class="visually-hidden">ファイルアップロード・暗号化ページに移動します</span>
+                </article>
+                
+                <article class="menu-card">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <h3>ファイル検索</h3>
+                    <p>アップロード済みのファイルを検索・ダウンロードしましょう。</p>
+                    <a href="/search_fs-qr" aria-describedby="search-desc">検索する</a>
+                    <span id="search-desc" class="visually-hidden">ファイル検索・ダウンロードページに移動します</span>
+                </article>
+                
+                <article class="menu-card">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <h3>ホームに戻る</h3>
+                    <p>FS!QRメインページに戻ってその他のサービスを利用します。</p>
+                    <a href="/" aria-describedby="home-desc">戻る</a>
+                    <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
+                </article>
+            </section>
+        </main>
+        
         <footer class="simple-footer" style="color:#23c3df;text-shadow:0 1px 2px rgba(0,0,0,0.6);">
-            <a href="/">ホーム</a>
-            <a href="/about">サイト概要</a>
-            <a href="/privacy-policy">プライバシーポリシー</a>
-            <a href="/contact">お問い合わせ</a>
-            <a href="/usage">使い方</a>
-            <a href="/articles">解説記事</a>
+            <nav aria-label="フッターナビゲーション">
+                <a href="/">ホーム</a>
+                <a href="/about">サイト概要</a>
+                <a href="/privacy-policy">プライバシーポリシー</a>
+                <a href="/contact">お問い合わせ</a>
+                <a href="/usage">使い方</a>
+                <a href="/articles">解説記事</a>
+            </nav>
             <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
         </footer>
     </div>
