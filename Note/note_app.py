@@ -86,3 +86,25 @@ def search_note_room():
         return redirect('/search_note')
     session['room_id'] = room_id
     return redirect('/note')
+
+# ---------------------------
+# QRコード用の直接アクセスルート
+# ---------------------------
+@note_bp.route('/note_direct/<room_id>/<password>')
+def note_direct_access(room_id, password):
+    """
+    QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
+    セッションにroom_idを設定してルームページにリダイレクトする。
+    """
+    # ルームの存在確認とパスワード確認
+    rows = nd._exec(
+        "SELECT id, password FROM note_room WHERE room_id = :r AND password = :p",
+        {"r": room_id, "p": password},
+        fetch=True
+    )
+    if not rows:
+        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています')
+    
+    # セッションに設定してルームにリダイレクト
+    session['room_id'] = room_id
+    return redirect('/note')

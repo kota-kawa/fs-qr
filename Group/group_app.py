@@ -356,6 +356,28 @@ def search_room():
     return redirect('/group')
 
 # ---------------------------
+# QRコード用の直接アクセスルート
+# ---------------------------
+@group_bp.route('/group_direct/<room_id>/<password>')
+def group_direct_access(room_id, password):
+    """
+    QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
+    セッションにroom_idを設定してルームページにリダイレクトする。
+    """
+    # ルームの存在確認
+    room_data = group_data.get_data(room_id)
+    if not room_data:
+        return room_msg('指定されたルームが見つかりません')
+    
+    # パスワード確認
+    if room_data[0]['password'] != password:
+        return room_msg('パスワードが間違っています')
+    
+    # セッションに設定してルームにリダイレクト
+    session['room_id'] = room_id
+    return redirect('/group')
+
+# ---------------------------
 # エラーメッセージを表示するための補助関数
 # ---------------------------
 def room_msg(s):
