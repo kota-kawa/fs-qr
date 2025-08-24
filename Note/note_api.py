@@ -5,6 +5,7 @@ from . import note_data as nd
 import diff_match_patch as dmp_module 
 import time
 import logging
+import re
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -15,8 +16,43 @@ api_bp = Blueprint('note_api', __name__, url_prefix='/api')
 MAX_CONTENT_LENGTH = 5000  # 追加: 最大文字数を5000文字に設定
 MAX_RETRY_ATTEMPTS = 3  # 最大リトライ回数
 
-@api_bp.route('/note/<room_id>', methods=['GET', 'POST'])
+def _validate_room_id(room_id):
+    """
+    Validate room_id format to prevent security issues.
+    Expected format: {id}-{uid}
+    - id: 5-10 alphanumeric characters
+    - uid: 10 alphanumeric characters (UUID substring)
+    """
+    if not room_id or len(room_id) > 50:  # Reasonable length limit
+        return False
+    
+    # Check for dangerous characters
+    dangerous_chars = ['..', '/', '\\', '<', '>', '|', ':', '*', '?', '"']
+    if any(char in room_id for char in dangerous_chars):
+        return False
+    
+    # Basic pattern validation: should contain exactly one hyphen
+    parts = room_id.split('-')
+    if len(parts) != 2:  # Should be exactly id-uid
+        return False
+    
+    # Validate ID part (first part): 5-10 alphanumeric characters
+    id_part = parts[0]
+    if not re.match(r'^[a-zA-Z0-9]{5,10}$', id_part):
+        return False
+    
+    # Validate UID part (second part): should be 10 alphanumeric characters
+    uid_part = parts[1]
+    if not re.match(r'^[a-zA-Z0-9]{10}$', uid_part):
+        return False
+    
+    return True
+
+@api_bp.route('/note/<string:room_id>', methods=['GET', 'POST'])
 def note_sync(room_id):
+    # Validate room_id format for security (reuse Group validation since they have similar format)
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "Invalid room_id format"}), 400
     if request.method == 'GET':
         try:
             row = nd.get_row(room_id)

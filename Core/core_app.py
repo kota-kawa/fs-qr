@@ -89,8 +89,12 @@ def upload():
         "redirect_url": url_for('core.upload_complete', secure_id=secure_id)
     })
 
-@core_bp.route('/upload_complete/<secure_id>')
+@core_bp.route('/upload_complete/<string:secure_id>')
 def upload_complete(secure_id):
+    # Validate secure_id format for security
+    if not _validate_secure_id(secure_id):
+        abort(404)
+    
     data = fs_data.get_data(secure_id)
     if not data:
         abort(404)
@@ -108,8 +112,12 @@ def upload_complete(secure_id):
         url=url_for('core.download', secure_id=secure_id, _external=True)
     )
 
-@core_bp.route('/download/<secure_id>')
+@core_bp.route('/download/<string:secure_id>')
 def download(secure_id):
+    # Validate secure_id format for security
+    if not _validate_secure_id(secure_id):
+        abort(404)
+    
     data = fs_data.get_data(secure_id)
     if not data:
         abort(404)
@@ -124,8 +132,12 @@ def download(secure_id):
         url=url_for('core.download_go', secure_id=secure_id)
     )
 
-@core_bp.route('/download_go/<secure_id>', methods=['POST'])
+@core_bp.route('/download_go/<string:secure_id>', methods=['POST'])
 def download_go(secure_id):
+    # Validate secure_id format for security
+    if not _validate_secure_id(secure_id):
+        return msg('パラメータが不正です')
+    
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
@@ -165,6 +177,48 @@ def after_remove():
 
 def msg(s):
     return render_template('error.html', message=s)
+
+def _validate_secure_id(secure_id):
+    """
+    Validate secure_id format to prevent security issues.
+    Expected format: {id}-{uid}-{filename}
+    - id: 5-10 alphanumeric characters
+    - uid: 10 alphanumeric characters (UUID substring)
+    - filename: secure filename characters (letters, numbers, dots, underscores, hyphens)
+    """
+    if not secure_id or len(secure_id) > 200:  # Reasonable length limit
+        return False
+    
+    # Check for dangerous characters that could lead to path traversal or injection
+    dangerous_chars = ['..', '/', '\\', '<', '>', '|', ':', '*', '?', '"', '\0']
+    if any(char in secure_id for char in dangerous_chars):
+        return False
+    
+    # Basic pattern validation: should contain at least two hyphens for the expected format
+    if secure_id.count('-') < 2:
+        return False
+    
+    # Split on first two hyphens to get id, uid, and filename parts
+    parts = secure_id.split('-', 2)  # Split on first 2 hyphens only
+    if len(parts) != 3:
+        return False
+    
+    id_part, uid_part, filename_part = parts
+    
+    # Validate ID part: 5-10 alphanumeric characters
+    if not re.match(r'^[a-zA-Z0-9]{5,10}$', id_part):
+        return False
+    
+    # Validate UID part: should be 10 alphanumeric characters
+    if not re.match(r'^[a-zA-Z0-9]{10}$', uid_part):
+        return False
+    
+    # Validate filename part: should only contain safe characters (secure_filename result)
+    # Allow letters, numbers, dots, underscores, hyphens
+    if not re.match(r'^[a-zA-Z0-9._-]+$', filename_part):
+        return False
+    
+    return True
 
 def json_or_msg(message, status_code=400):
     """Return JSON error for AJAX requests, HTML for regular requests"""

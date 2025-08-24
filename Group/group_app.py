@@ -37,6 +37,38 @@ UPLOAD_FOLDER = os.path.join(STATIC_DIR, 'group_uploads')
 def is_safe_path(base_path, target_path):
     return os.path.commonprefix([os.path.abspath(target_path), os.path.abspath(base_path)]) == os.path.abspath(base_path)
 
+def _validate_room_id(room_id):
+    """
+    Validate room_id format to prevent security issues.
+    Expected format: {id}-{uid}
+    - id: 5-10 alphanumeric characters
+    - uid: 10 alphanumeric characters (UUID substring)
+    """
+    if not room_id or len(room_id) > 50:  # Reasonable length limit
+        return False
+    
+    # Check for dangerous characters
+    dangerous_chars = ['..', '/', '\\', '<', '>', '|', ':', '*', '?', '"']
+    if any(char in room_id for char in dangerous_chars):
+        return False
+    
+    # Basic pattern validation: should contain exactly one hyphen
+    parts = room_id.split('-')
+    if len(parts) != 2:  # Should be exactly id-uid
+        return False
+    
+    # Validate ID part (first part): 5-10 alphanumeric characters
+    id_part = parts[0]
+    if not re.match(r'^[a-zA-Z0-9]{5,10}$', id_part):
+        return False
+    
+    # Validate UID part (second part): should be 10 alphanumeric characters
+    uid_part = parts[1]
+    if not re.match(r'^[a-zA-Z0-9]{10}$', uid_part):
+        return False
+    
+    return True
+
 # ---------------------------
 # 古いルームを削除する関数
 # ---------------------------
@@ -129,7 +161,7 @@ def create_group_room():
 # ---------------------------
 # グループアップロード処理（ファイルアップロード）
 # ---------------------------
-@group_bp.route('/group_upload/<room_id>', methods=['POST'])
+@group_bp.route('/group_upload/<string:room_id>', methods=['POST'])
 def group_upload(room_id):
     """
     指定されたルームIDに対して、アップロードされたファイルを保存する。
@@ -137,6 +169,10 @@ def group_upload(room_id):
     アップロードされた各ファイルについて、ファイル名の安全性を確保し、サイズが0バイトのファイルは削除する。
     エラーが発生したファイルはエラーレスポンスとして返す。
     """
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "無効なルームIDです。"}), 400
+    
     room_data = group_data.get_data(room_id)
     if not room_data:
         return jsonify({"error": "無効なルームIDです。"}), 400
@@ -209,12 +245,15 @@ def group_upload(room_id):
 # ---------------------------
 # ルーム内のファイル一覧を取得するルート
 # ---------------------------
-@group_bp.route("/check/<room_id>")
+@group_bp.route("/check/<string:room_id>")
 def list_files(room_id):
     """
     指定されたルームIDに対応するフォルダ内の全ファイルの名前をJSON形式で返す。
     フォルダが存在しなかったり、不正なパスの場合はエラーを返す。
     """
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "無効なルームIDです。"}), 400
     target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(target_directory):
         return jsonify({"error": "ルームIDのディレクトリが見つかりません。"}), 404
@@ -231,13 +270,16 @@ def list_files(room_id):
 # ---------------------------
 # ルーム内のすべてのファイルをZIP圧縮してダウンロードするルート
 # ---------------------------
-@group_bp.route('/download/all/<room_id>', methods=['GET'])
+@group_bp.route('/download/all/<string:room_id>', methods=['GET'])
 def download_all_files(room_id):
     """
     指定されたルームIDのフォルダ内のすべてのファイルをZIPファイルにまとめ、
     バイトストリームとしてクライアントに送信する。
     フォルダが存在しなければエラーを返す。
     """
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "無効なルームIDです。"}), 400
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(room_folder):
         return jsonify({"error": "指定されたルームIDのファイルが見つかりません。"}), 404
@@ -258,13 +300,16 @@ def download_all_files(room_id):
 # ---------------------------
 # 単一ファイルをダウンロードするルート
 # ---------------------------
-@group_bp.route('/download/<room_id>/<path:filename>', methods=['GET'])
+@group_bp.route('/download/<string:room_id>/<path:filename>', methods=['GET'])
 def download_file(room_id, filename):
     """
     指定されたルームIDとファイル名に対して、ファイルを安全な形式に変換した上で、
     ダウンロードできるように送信する。パスの安全性もチェックする。
     日本語ファイル名をサポートしつつセキュリティを維持する。
     """
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "無効なルームIDです。"}), 400
     # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
     decoded_filename = urllib.parse.unquote(filename)
     
@@ -293,13 +338,16 @@ def download_file(room_id, filename):
 # ---------------------------
 # ファイルを削除するルート
 # ---------------------------
-@group_bp.route('/delete/<room_id>/<filename>', methods=['DELETE'])
+@group_bp.route('/delete/<string:room_id>/<filename>', methods=['DELETE'])
 def delete_file(room_id, filename):
     """
     指定されたルームIDとファイル名に対応するファイルを削除する。
     削除前にパスの安全性を確認し、ファイルが存在しなければエラーを返す。
     日本語ファイル名をサポートしつつセキュリティを維持する。
     """
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        return jsonify({"error": "無効なルームIDです。"}), 400
     # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
     decoded_filename = urllib.parse.unquote(filename)
     
@@ -392,8 +440,13 @@ def logout_management():
 # ---------------------------
 # 特定ルームの削除処理
 # ---------------------------
-@group_bp.route('/delete_room/<room_id>', methods=['POST'])
+@group_bp.route('/delete_room/<string:room_id>', methods=['POST'])
 def delete_room(room_id):
+    # Validate room_id format for security
+    if not _validate_room_id(room_id):
+        flash("無効なルームIDです。", "error")
+        return redirect('/manage_rooms')
+    
     # 指定ルームの削除処理（DB削除と対応ファイルの削除）
     group_data.remove_data(room_id)
     return redirect('/manage_rooms')

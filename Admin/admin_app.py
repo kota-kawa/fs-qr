@@ -18,12 +18,18 @@ def admin_list():
     return render_template('admin_list.html',
                            files=fs_data.get_all(), pw=MASTER_PW)
 
-@admin_bp.route('/admin/remove/<secure_id>')
+@admin_bp.route('/admin/remove/<string:secure_id>')
 def admin_remove(secure_id):
     from app import MASTER_PW
     if request.args.get('pw', '') != MASTER_PW:
         from Core.core_app import msg
         return msg('マスターパスワードが違います')
+
+    # Import validation function from core_app
+    from Core.core_app import _validate_secure_id
+    if not _validate_secure_id(secure_id):
+        from Core.core_app import msg
+        return msg('パラメータが不正です')
 
     data = fs_data.get_data(secure_id)
     if not data:
