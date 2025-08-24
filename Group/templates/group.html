@@ -3,22 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FS!QR Groupのメニュー。グループを作成・検索してファイルを共有できます。" />
-    <meta name="keywords" content="グループ管理, ファイル共有, ルーム検索, FS QR" />
+    <meta name="description" content="FS!QR Groupは無料のグループファイル共有サービス。ルームを作成して複数人でファイルを安全に共有・管理できます。企業チーム、プロジェクト、学習グループに最適な日本語対応のクラウドサービスです。" />
+    <meta name="keywords" content="グループ管理, ファイル共有, ルーム検索, FS QR, チーム共有, プロジェクト管理, コラボレーション, 企業, チームワーク, クラウドストレージ, 無料サービス, 日本語" />
     <meta name="robots" content="index, follow" />
+    <meta name="author" content="FS!QR">
+    <meta name="language" content="ja">
+    <meta name="theme-color" content="#dbe72f">
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="グループ管理メニュー | FS!QR" />
-    <meta property="og:description" content="グループを作成・検索してファイルを共有するメニュー。" />
+    <meta property="og:title" content="FS!QR Group | 無料グループファイル共有サービス" />
+    <meta property="og:description" content="ルームを作成して複数人でファイルを安全に共有。チームプロジェクトに最適な無料グループ共有サービス。" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{staticfile('group_logo.png')}}" />
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FS!QR Group グループファイル共有サービス">
+    
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="グループ管理メニュー | FS!QR" />
-    <meta name="twitter:description" content="グループルームの作成と検索ができるメニューです。" />
+    <meta name="twitter:title" content="FS!QR Group | 無料グループファイル共有サービス" />
+    <meta name="twitter:description" content="ルームを作成して複数人でファイルを安全に共有。チームプロジェクトに最適な無料サービス。" />
     <meta name="twitter:image" content="{{staticfile('group_logo.png')}}" />
+    <meta name="twitter:image:alt" content="FS!QR Group サービス">
+    
+    <!-- SEO -->
     <link rel="canonical" href="{{ request.url }}" />
-    <title>グループ管理</title>
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <title>FS!QR Group | 無料グループファイル共有・チーム協業サービス</title>
     <link rel="icon" href="{{staticfile('favicon2.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon2.png')}}">
       <!-- Bootstrap CSS -->
@@ -26,13 +41,76 @@
       <!-- アイコン用 FontAwesome -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
       <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
+      
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR Group",
       "url": "{{ request.url_root }}group",
-      "description": "FS!QR Groupのメニュー。グループを作成・検索してファイルを共有できます。"
+      "description": "無料のグループファイル共有サービス。ルームを作成して複数人でファイルを安全に共有・管理。",
+      "inLanguage": "ja-JP",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}"
+      },
+      "potentialAction": [
+        {
+          "@type": "CreateAction",
+          "name": "グループルーム作成",
+          "target": "{{ request.url_root }}create_room"
+        },
+        {
+          "@type": "SearchAction",
+          "name": "グループルーム検索", 
+          "target": "{{ request.url_root }}search_group"
+        }
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FS!QR Group",
+      "description": "グループでファイルを共有・管理できる無料Webアプリケーション",
+      "applicationCategory": "WebApplication", 
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "featureList": [
+        "グループルーム作成",
+        "複数人でのファイル共有",
+        "安全なファイル管理",
+        "ルーム検索機能"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "{{ request.url_root }}"
+        },
+        {
+          "@type": "ListItem", 
+          "position": 2,
+          "name": "グループ共有",
+          "item": "{{ request.url_root }}group"
+        }
+      ]
     }
     </script>
 

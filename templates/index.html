@@ -3,36 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="FS!QRのファイル共有メニュー。QRコード、グループ、ノートを使って簡単にデータを共有できます。">
-  <meta name="keywords" content="ファイル共有, QRコード, グループ共有, ノート共有, FS QR">
+  <meta name="description" content="FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。">
+  <meta name="keywords" content="ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム">
   <meta name="robots" content="index, follow">
+  <meta name="author" content="FS!QR">
+  <meta name="language" content="ja">
+  <meta name="theme-color" content="#342ae3">
+  
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:site_name" content="FS!QR">
-  <meta property="og:title" content="ファイル共有メニュー | FS!QR">
-  <meta property="og:description" content="QRコードやグループ、ノートを使ったシンプルなファイル共有メニュー。">
+  <meta property="og:title" content="FS!QR | 無料で簡単なファイル共有サービス">
+  <meta property="og:description" content="QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。">
   <meta property="og:url" content="{{ request.url }}">
   <meta property="og:image" content="{{staticfile('logo.png')}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="FS!QR ファイル共有サービス">
+  
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ファイル共有メニュー | FS!QR">
-  <meta name="twitter:description" content="QRコードやグループ、ノートで簡単にファイルを共有。">
+  <meta name="twitter:title" content="FS!QR | 無料で簡単なファイル共有サービス">
+  <meta name="twitter:description" content="QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービス。">
   <meta name="twitter:image" content="{{staticfile('logo.png')}}">
+  <meta name="twitter:image:alt" content="FS!QR ファイル共有サービス">
+  
+  <!-- SEO -->
   <link rel="canonical" href="{{ request.url }}">
-  <title>ファイル共有メニュー</title>
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  
+  <title>FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有</title>
   <link rel="icon" href="{{staticfile('favicon3.ico')}}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
+  
   <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
+    
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FS!QR",
+    "alternateName": "エフエスQR",
     "url": "{{ request.url_root }}",
-    "description": "QRコード・グループ・ノートで簡単にファイルを共有できるホームメニュー。"
+    "description": "無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有機能を提供。",
+    "inLanguage": "ja-JP",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ request.url_root }}search_fs-qr?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{staticfile('logo.png')}}"
+      }
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR",
+    "description": "QRコード、グループ、ノートで簡単にファイルを共有できる無料Webアプリケーション",
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "QRコードでのファイル共有",
+      "グループファイル共有",
+      "リアルタイムノート共有",
+      "暗号化によるセキュア転送"
+    ]
   }
   </script>
   <style>
