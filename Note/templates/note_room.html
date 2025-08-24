@@ -1,6 +1,25 @@
 {% extends "note_layout.html" %}
 {% block contents %}
 
+<style>
+/* Override colors for Note room to match create/search pages */
+.modern-card-header {
+  background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%) !important;
+}
+
+.room-info-header {
+  background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%) !important;
+}
+
+.usage-section-header {
+  background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%) !important;
+}
+
+.usage-section-header::after {
+  border-top-color: rgb(163, 230, 53) !important;
+}
+</style>
+
 <div class="modern-page-container">
     <div class="modern-content-card">
         <div class="modern-card-header">
