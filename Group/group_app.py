@@ -55,14 +55,14 @@ atexit.register(lambda: scheduler.shutdown())
 # ---------------------------
 # グループ画面のルート
 # ---------------------------
-@group_bp.route('/group')
+@group_bp.route('/group_menu')
 def group():
     return render_template('group.html')
 
 # ---------------------------
 # 特定のルームIDのグループルーム画面を表示するルート
 # ---------------------------
-@group_bp.route('/group_room')
+@group_bp.route('/group')
 def group_list():
     # セッションからroom_idを取得
     room_id = session.get('room_id')
@@ -124,7 +124,7 @@ def create_group_room():
 
     group_data.create_room(id=id, password=password, room_id=room_id)
     session['room_id'] = room_id
-    return redirect('/group_room')
+    return redirect('/group')
 
 # ---------------------------
 # グループアップロード処理（ファイルアップロード）
@@ -329,14 +329,14 @@ def delete_file(room_id, filename):
 # ---------------------------
 # ルーム検索画面のルート
 # ---------------------------
-@group_bp.route('/search_room')
+@group_bp.route('/search_group')
 def search_room_page():
     return render_template('search_room.html')
 
 # ---------------------------
 # ルーム検索処理（POSTリクエスト）
 # ---------------------------
-@group_bp.route('/search_room_process', methods=['POST'])
+@group_bp.route('/search_group_process', methods=['POST'])
 def search_room():
     """
     フォームから送信されたIDとパスワードを用いてルームを検索する。
@@ -353,7 +353,7 @@ def search_room():
     if not room_id:
         return room_msg('IDかパスワードが間違っています')
     session['room_id'] = room_id
-    return redirect('/group_room')
+    return redirect('/group')
 
 # ---------------------------
 # エラーメッセージを表示するための補助関数

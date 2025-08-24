@@ -14,11 +14,11 @@ STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 # Ensure the upload directory exists to avoid FileNotFoundError
 os.makedirs(STATIC, exist_ok=True)
 
-@core_bp.route('/fs-qr')
+@core_bp.route('/fs-qr_menu')
 def fs_qr():
     return render_template('fs-qr.html')
 
-@core_bp.route('/fs-qr-upload')
+@core_bp.route('/fs-qr')
 def fs_qr_upload():
     return render_template('fs-qr-upload.html')
 
@@ -139,7 +139,7 @@ def download_go(secure_id):
 
     return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
 
-@core_bp.route('/kensaku')
+@core_bp.route('/search_fs-qr')
 def kensaku():
     return render_template('kensaku-form.html')
 
