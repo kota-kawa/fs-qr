@@ -1,5 +1,5 @@
 import uuid, random, re
-from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort
+from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort, session
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -36,11 +36,17 @@ def create_note_room():
     pw = str(random.randrange(10**5, 10**6))
     room_id = f"{id_}-{uid}"
     nd.create_room(id_, pw, room_id)
-    return redirect(f'/note_room/{room_id}')
+    session['room_id'] = room_id
+    return redirect('/note_room')
 
 # ルーム本体
-@note_bp.route('/note_room/<room_id>')
-def note_room(room_id):
+@note_bp.route('/note_room')
+def note_room():
+    # セッションからroom_idを取得
+    room_id = session.get('room_id')
+    if not room_id:
+        abort(404)
+    
     # note_room テーブルからユーザー情報を取得して存在チェック
     rows = nd._exec(
         "SELECT id, password FROM note_room WHERE room_id = :r",
@@ -76,4 +82,5 @@ def search_note_room():
     if not room_id:
         flash("ID かパスワードが間違っています。")
         return redirect('/search_note_room')
-    return redirect(f'/note_room/{room_id}')
+    session['room_id'] = room_id
+    return redirect('/note_room')
