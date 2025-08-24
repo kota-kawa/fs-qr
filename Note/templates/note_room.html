@@ -44,7 +44,7 @@
                 </div>
                 
                 <div class="qr-code-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_room', room_id=room_id, _external=True)|urlencode }}"
+                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_direct_access', room_id=room_id, password=password, _external=True)|urlencode }}"
                          alt="QR Code" style="width: 160px; height: 160px;">
                 </div>
             </div>
