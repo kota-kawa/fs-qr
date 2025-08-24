@@ -140,7 +140,7 @@ def download_go(secure_id):
     return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
 
 @core_bp.route('/search_fs-qr')
-def kensaku():
+def search_fs_qr():
     return render_template('kensaku-form.html')
 
 @core_bp.route('/try_login', methods=['POST'])
