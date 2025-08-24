@@ -165,14 +165,21 @@
         });
 
         // 他のユーザーのファイル表示
+        var fetchRetryCount = 0;
+        var maxRetries = 3;
+        var isDownloading = {}; // Track download states to prevent multiple clicks
+        
         function fetchAndDisplayOtherFiles() {
             var roomId = '{{ room_id }}'; // Jinja2で埋め込む
             $.ajax({
                 url: `/check/${roomId}`,
                 type: 'GET',
+                timeout: 10000, // 10 second timeout
                 success: function (files) {
+                    fetchRetryCount = 0; // Reset retry count on success
+                    
                     if (files.error) {
-                        alert('エラー: ' + files.error);
+                        console.warn('ファイル取得エラー:', files.error);
                         return;
                     }
 
@@ -187,14 +194,43 @@
                     files.forEach(function (file) {
                         var fileItem = $('<div class="modern-file-item"></div>');
                         var fileName = $('<div class="modern-file-name"></div>');
-                        fileName.html('<span class="modern-file-icon">📄</span>' + file.name);
+                        var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
+                        fileName.html('<span class="modern-file-icon">📄</span>').append(fileNameText);
                         
                         var actions = $('<div class="modern-file-actions"></div>');
 
                         var downloadBtn = $('<button class="modern-file-action-btn">📥</button>');
                         const encodedFilename = encodeURIComponent(file.name);
-                        downloadBtn.on('click', function () {
-                            window.location.href = `/download/${roomId}/${encodedFilename}`;
+                        const downloadKey = `${roomId}-${file.name}`;
+                        
+                        downloadBtn.on('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Prevent multiple simultaneous downloads of the same file
+                            if (isDownloading[downloadKey]) {
+                                return;
+                            }
+                            
+                            isDownloading[downloadKey] = true;
+                            downloadBtn.prop('disabled', true);
+                            
+                            // Create a hidden form for download to handle it better
+                            var form = $('<form>', {
+                                'method': 'GET',
+                                'action': `/download/${roomId}/${encodedFilename}`,
+                                'style': 'display: none;'
+                            });
+                            
+                            $('body').append(form);
+                            form.submit();
+                            form.remove();
+                            
+                            // Re-enable button after a short delay
+                            setTimeout(function() {
+                                isDownloading[downloadKey] = false;
+                                downloadBtn.prop('disabled', false);
+                            }, 2000);
                         });
 
                         var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
@@ -220,15 +256,26 @@
                         otherFileList.append(fileItem);
                     });
                 },
-                error: function () {
-                    alert('他のユーザーのファイル情報を取得できませんでした。');
+                error: function (xhr, status, error) {
+                    fetchRetryCount++;
+                    console.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
+                    
+                    // Only show alert after all retries are exhausted
+                    if (fetchRetryCount >= maxRetries) {
+                        console.error('他のユーザーのファイル情報を取得できませんでした。');
+                        fetchRetryCount = 0; // Reset for next cycle
+                    }
+                    // Don't show alert for temporary network issues
                 }
             });
         }
 
         // 定期的にファイルリストを更新する関数
         function startFilePolling() {
-            setInterval(fetchAndDisplayOtherFiles, 1000); // 1秒ごとにリクエストを送信
+            // Initial load
+            fetchAndDisplayOtherFiles();
+            // Slightly longer interval to reduce server load and conflicts
+            setInterval(fetchAndDisplayOtherFiles, 2000); // 2秒ごとにリクエストを送信
         }
 
         startFilePolling();
@@ -271,7 +318,8 @@
                 filesArray.push(files[i]);
                 var fileItem = $('<div class="modern-file-item"></div>');
                 var fileName = $('<div class="modern-file-name"></div>');
-                fileName.html('<span class="modern-file-icon">📄</span>' + files[i].name);
+                var fileNameText = $('<span class="modern-file-name-text"></span>').text(files[i].name);
+                fileName.html('<span class="modern-file-icon">📄</span>').append(fileNameText);
                 
                 var actions = $('<div class="modern-file-actions"></div>');
                 var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
