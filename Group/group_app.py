@@ -67,13 +67,15 @@ def group_list():
     # セッションからroom_idを取得
     room_id = session.get('room_id')
     if not room_id:
-        abort(404)
+        # セッションにroom_idがない場合、参加・作成フォームを表示
+        return render_template('group_room_access.html')
     
     # まずデータを取得
     room_data = group_data.get_data(room_id)
-    # 見つからなければ 404 を返す
+    # 見つからなければ参加・作成フォームを表示
     if not room_data:
-        abort(404)
+        session.pop('room_id', None)  # 無効なroom_idをクリア
+        return render_template('group_room_access.html')
     # レコードがあれば通常どおり処理
     record = room_data[0]
     user_id = record.get('id', '不明')

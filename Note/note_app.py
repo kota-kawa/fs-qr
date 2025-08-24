@@ -45,7 +45,8 @@ def note_room():
     # セッションからroom_idを取得
     room_id = session.get('room_id')
     if not room_id:
-        abort(404)
+        # セッションにroom_idがない場合、参加・作成フォームを表示
+        return render_template('note_room_access.html')
     
     # note_room テーブルからユーザー情報を取得して存在チェック
     rows = nd._exec(
@@ -54,7 +55,8 @@ def note_room():
         fetch=True
     )
     if not rows:
-        abort(404)
+        session.pop('room_id', None)  # 無効なroom_idをクリア
+        return render_template('note_room_access.html')
     meta = rows[0]
 
     # note_content テーブルからコンテンツを取得（なければ初期レコード作成）
