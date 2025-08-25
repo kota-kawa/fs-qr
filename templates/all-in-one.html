@@ -23,13 +23,13 @@
             height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden;
+            overflow-x: hidden; /* Allow vertical scroll, prevent horizontal */
         }
         
         .all-in-one-container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -82,6 +82,7 @@
             display: flex;
             flex-direction: column;
             gap: 0;
+            min-height: 70vh; /* Ensure minimum height for panels */
             overflow: hidden;
         }
         
@@ -129,7 +130,7 @@
             width: 100%;
             border: none;
             flex: 1;
-            min-height: 400px;
+            min-height: 600px;
             background: white;
         }
         
@@ -209,7 +210,17 @@
             }
             
             .service-iframe {
-                min-height: 300px;
+                min-height: 500px;
+            }
+            
+            .resize-handle {
+                height: 24px; /* Larger touch target */
+                background: linear-gradient(90deg, transparent 10%, #dee2e6 10%, #dee2e6 90%, transparent 10%);
+            }
+            
+            .resize-handle::before {
+                font-size: 1.2rem;
+                letter-spacing: 4px;
             }
         }
         
@@ -277,7 +288,9 @@
             </div>
             
             <!-- Resize Handle 1 -->
-            <div class="resize-handle" onmousedown="startResize(event, 'panel-fsqr', 'panel-group')"></div>
+            <div class="resize-handle" 
+                 onmousedown="startResize(event, 'panel-fsqr', 'panel-group')"
+                 ontouchstart="startResize(event, 'panel-fsqr', 'panel-group')"></div>
             
             <!-- Group Service -->
             <div class="service-panel medium" id="panel-group">
@@ -294,7 +307,9 @@
             </div>
             
             <!-- Resize Handle 2 -->
-            <div class="resize-handle" onmousedown="startResize(event, 'panel-group', 'panel-note')"></div>
+            <div class="resize-handle" 
+                 onmousedown="startResize(event, 'panel-group', 'panel-note')"
+                 ontouchstart="startResize(event, 'panel-group', 'panel-note')"></div>
             
             <!-- Note Service -->
             <div class="service-panel medium" id="panel-note">
@@ -311,6 +326,45 @@
             </div>
         </div>
     </div>
+
+    <!-- Usage Section -->
+    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; margin: 1rem 2rem; margin-bottom: 3rem;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; text-align: center;">
+            <h5 style="margin: 0; font-weight: 600;">
+                <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>
+                使い方
+            </h5>
+        </div>
+        <div style="padding: 2rem; line-height: 1.6;">
+            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">🌟 All-in-One ダッシュボードについて</h6>
+            <p style="margin-bottom: 1.5rem; color: #6c757d;">
+                このページでは、FS!QRの3つの主要機能を1つのページで同時に利用できます。各パネルのサイズは自由に調整可能です。
+            </p>
+            
+            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">📱 リサイズ機能の使い方</h6>
+            <ul style="color: #6c757d; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+                <li><strong>デスクトップ:</strong> パネル間の区切り線をドラッグしてサイズを調整</li>
+                <li><strong>スマートフォン:</strong> 区切り線をタップ&ドラッグして調整（より大きなタッチ領域）</li>
+                <li><strong>リセット:</strong> 右上の「レイアウトリセット」ボタンで初期状態に戻す</li>
+            </ul>
+            
+            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">🔧 各サービスの機能</h6>
+            <ul style="color: #6c757d; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+                <li><strong>QRコード共有:</strong> ファイルをアップロードしてQRコードで共有</li>
+                <li><strong>グループファイル共有:</strong> 複数人でファイルを共有するルームを作成</li>
+                <li><strong>リアルタイムノート:</strong> テキストをリアルタイムで共有・編集</li>
+            </ul>
+            
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                <small style="color: #495057;">
+                    <strong>💡 ヒント:</strong> 各パネルは独立して動作します。複数の機能を同時に使用して、効率的に作業を進めましょう。
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extra spacing at bottom -->
+    <div style="height: 4rem;"></div>
 
     <script>
         let isResizing = false;
@@ -329,7 +383,9 @@
             panelA = document.getElementById(panelAId);
             panelB = document.getElementById(panelBId);
             
-            startY = event.clientY;
+            // Handle both mouse and touch events
+            const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
+            startY = clientY;
             startAHeight = panelA.getBoundingClientRect().height;
             startBHeight = panelB.getBoundingClientRect().height;
             
@@ -337,14 +393,21 @@
             document.body.style.cursor = 'ns-resize';
             document.body.style.userSelect = 'none';
             
+            // Add both mouse and touch event listeners
             document.addEventListener('mousemove', handleResize);
             document.addEventListener('mouseup', stopResize);
+            document.addEventListener('touchmove', handleResize, { passive: false });
+            document.addEventListener('touchend', stopResize);
         }
         
         function handleResize(event) {
             if (!isResizing) return;
             
-            const deltaY = event.clientY - startY;
+            event.preventDefault(); // Prevent scrolling on touch
+            
+            // Handle both mouse and touch events
+            const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
+            const deltaY = clientY - startY;
             const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
             const totalAvailableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 16);
             
@@ -377,8 +440,11 @@
             document.body.style.cursor = '';
             document.body.style.userSelect = '';
             
+            // Remove both mouse and touch event listeners
             document.removeEventListener('mousemove', handleResize);
             document.removeEventListener('mouseup', stopResize);
+            document.removeEventListener('touchmove', handleResize);
+            document.removeEventListener('touchend', stopResize);
             
             panelA = null;
             panelB = null;
@@ -397,9 +463,11 @@
             console.log('Iframe loaded:', iframe.src);
         }
         
-        // Prevent context menu on resize handles
+        // Prevent context menu on resize handles and add touch support
         document.querySelectorAll('.resize-handle').forEach(handle => {
             handle.addEventListener('contextmenu', event => event.preventDefault());
+            // Improve touch experience
+            handle.style.touchAction = 'none';
         });
         
         // Initialize
