@@ -371,9 +371,11 @@
         let currentHandle = null;
         let panelA = null;
         let panelB = null;
+        let panelC = null; // Add third panel reference
         let startY = 0;
         let startAHeight = 0;
         let startBHeight = 0;
+        let startCHeight = 0; // Add third panel height tracking
         
         function startResize(event, panelAId, panelBId) {
             event.preventDefault();
@@ -383,11 +385,16 @@
             panelA = document.getElementById(panelAId);
             panelB = document.getElementById(panelBId);
             
+            // Always include all three panels for proportional resizing
+            const allPanels = ['panel-fsqr', 'panel-group', 'panel-note'];
+            panelC = document.getElementById(allPanels.find(id => id !== panelAId && id !== panelBId));
+            
             // Handle both mouse and touch events
             const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
             startY = clientY;
             startAHeight = panelA.getBoundingClientRect().height;
             startBHeight = panelB.getBoundingClientRect().height;
+            startCHeight = panelC.getBoundingClientRect().height;
             
             currentHandle.classList.add('dragging');
             document.body.style.cursor = 'ns-resize';
@@ -408,25 +415,41 @@
             // Handle both mouse and touch events
             const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
             const deltaY = clientY - startY;
-            const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
-            const totalAvailableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 16);
             
-            // Calculate new heights
+            // Calculate new heights for all three panels
             let newAHeight = startAHeight + deltaY;
             let newBHeight = startBHeight - deltaY;
+            let newCHeight = startCHeight; // Third panel maintains its proportion initially
             
-            // Ensure minimum heights
+            // Ensure minimum heights for all panels
             const minHeight = 100;
             newAHeight = Math.max(minHeight, newAHeight);
             newBHeight = Math.max(minHeight, newBHeight);
+            newCHeight = Math.max(minHeight, newCHeight);
+            
+            // If minimum height constraints are violated, adjust proportionally
+            const totalRequestedHeight = newAHeight + newBHeight + newCHeight;
+            const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
+            const availableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 16);
+            
+            // Scale all panels proportionally to fit available space
+            if (totalRequestedHeight > availableHeight) {
+                const scaleFactor = availableHeight / totalRequestedHeight;
+                newAHeight *= scaleFactor;
+                newBHeight *= scaleFactor;
+                newCHeight *= scaleFactor;
+            }
             
             // Calculate flex values based on proportions
-            const totalNewHeight = newAHeight + newBHeight;
+            const totalNewHeight = newAHeight + newBHeight + newCHeight;
             const aFlex = (newAHeight / totalNewHeight) * 12; // Scale to reasonable flex range
             const bFlex = (newBHeight / totalNewHeight) * 12;
+            const cFlex = (newCHeight / totalNewHeight) * 12;
             
+            // Apply flex values to all three panels
             panelA.style.flex = aFlex;
             panelB.style.flex = bFlex;
+            panelC.style.flex = cFlex;
         }
         
         function stopResize() {
@@ -446,8 +469,10 @@
             document.removeEventListener('touchmove', handleResize);
             document.removeEventListener('touchend', stopResize);
             
+            // Clear all panel references
             panelA = null;
             panelB = null;
+            panelC = null;
         }
         
         function resetLayout() {
