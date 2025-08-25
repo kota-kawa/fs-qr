@@ -129,51 +129,61 @@
             width: 100%;
             border: none;
             flex: 1;
-            min-height: 200px;
+            min-height: 400px;
             background: white;
         }
         
         .resize-handle {
-            height: 8px;
-            background: linear-gradient(90deg, transparent 20%, #dee2e6 20%, #dee2e6 80%, transparent 80%);
+            height: 16px;
+            background: linear-gradient(90deg, transparent 15%, #dee2e6 15%, #dee2e6 85%, transparent 15%);
             cursor: ns-resize;
             position: relative;
             margin: 0 0.5rem;
-            border-radius: 4px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .resize-handle:hover {
-            background: linear-gradient(90deg, transparent 15%, #6c757d 15%, #6c757d 85%, transparent 85%);
-            transform: scaleY(1.5);
+            background: linear-gradient(90deg, transparent 10%, #6c757d 10%, #6c757d 90%, transparent 10%);
+            transform: scaleY(1.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         
         .resize-handle::before {
-            content: '⋮⋮⋮';
+            content: '⋮⋮⋮⋮⋮';
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
             color: #6c757d;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            opacity: 0;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            opacity: 0.7;
             transition: opacity 0.3s ease;
         }
         
         .resize-handle:hover::before {
             opacity: 1;
+            color: #495057;
         }
         
         .resize-handle.dragging {
-            background: linear-gradient(90deg, transparent 10%, #007bff 10%, #007bff 90%, transparent 90%);
-            transform: scaleY(2);
+            background: linear-gradient(90deg, transparent 10%, #007bff 10%, #007bff 90%, transparent 10%);
+            transform: scaleY(1.5);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        
+        .resize-handle.dragging::before {
+            color: white;
         }
         
         /* Panel size classes */
         .service-panel.small { flex: 1; }
-        .service-panel.medium { flex: 2; }
-        .service-panel.large { flex: 3; }
+        .service-panel.medium { flex: 3; }
+        .service-panel.large { flex: 5; }
         
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -195,7 +205,11 @@
             }
             
             .resize-handle {
-                height: 12px;
+                height: 20px;
+            }
+            
+            .service-iframe {
+                min-height: 300px;
             }
         }
         
@@ -332,21 +346,21 @@
             
             const deltaY = event.clientY - startY;
             const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
-            const totalAvailableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 8);
+            const totalAvailableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 16);
             
             // Calculate new heights
             let newAHeight = startAHeight + deltaY;
             let newBHeight = startBHeight - deltaY;
             
             // Ensure minimum heights
-            const minHeight = 150;
+            const minHeight = 100;
             newAHeight = Math.max(minHeight, newAHeight);
             newBHeight = Math.max(minHeight, newBHeight);
             
             // Calculate flex values based on proportions
             const totalNewHeight = newAHeight + newBHeight;
-            const aFlex = (newAHeight / totalNewHeight) * 6; // Scale to reasonable flex range
-            const bFlex = (newBHeight / totalNewHeight) * 6;
+            const aFlex = (newAHeight / totalNewHeight) * 12; // Scale to reasonable flex range
+            const bFlex = (newBHeight / totalNewHeight) * 12;
             
             panelA.style.flex = aFlex;
             panelB.style.flex = bFlex;
@@ -373,7 +387,7 @@
         function resetLayout() {
             const panels = document.querySelectorAll('.service-panel');
             panels.forEach(panel => {
-                panel.style.flex = '2';
+                panel.style.flex = '3';
                 panel.className = 'service-panel medium';
             });
         }
