@@ -33,7 +33,6 @@ def create_note_room():
     # IDが空の場合は自動生成
     if not id_:
         import string
-        import random
         chars = string.ascii_letters + string.digits
         id_ = ''.join(random.choice(chars) for _ in range(8))
     
