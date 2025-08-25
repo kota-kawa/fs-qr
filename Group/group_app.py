@@ -114,7 +114,6 @@ def create_group_room():
     # IDが空の場合は自動生成
     if not id:
         import string
-        import random
         chars = string.ascii_letters + string.digits
         id = ''.join(random.choice(chars) for _ in range(8))
     

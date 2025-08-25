@@ -31,7 +31,6 @@ def upload():
     # IDが空の場合は自動生成
     if not id:
         import string
-        import secrets
         chars = string.ascii_letters + string.digits
         id = ''.join(secrets.choice(chars) for _ in range(8))
     
