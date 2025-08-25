@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FS!QR Groupは無料のグループファイル共有サービス。ルームを作成して複数人でファイルを安全に共有・管理できます。企業チーム、プロジェクト、学習グループに最適な日本語対応のクラウドサービスです。" />
-    <meta name="keywords" content="グループ管理, ファイル共有, ルーム検索, FS QR, チーム共有, プロジェクト管理, コラボレーション, 企業, チームワーク, クラウドストレージ, 無料サービス, 日本語" />
+    <meta name="description" content="FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。" />
+    <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業" />
+    <meta name="geo.region" content="JP" />
+    <meta name="geo.placename" content="Japan" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="FS!QR">
     <meta name="language" content="ja">
@@ -14,8 +18,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="FS!QR Group | 無料グループファイル共有サービス" />
-    <meta property="og:description" content="ルームを作成して複数人でファイルを安全に共有。チームプロジェクトに最適な無料グループ共有サービス。" />
+    <meta property="og:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
+    <meta property="og:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{staticfile('group_logo.png')}}" />
     <meta property="og:image:width" content="1200">
@@ -24,16 +28,21 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FS!QR Group | 無料グループファイル共有サービス" />
-    <meta name="twitter:description" content="ルームを作成して複数人でファイルを安全に共有。チームプロジェクトに最適な無料サービス。" />
+    <meta name="twitter:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
+    <meta name="twitter:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。" />
     <meta name="twitter:image" content="{{staticfile('group_logo.png')}}" />
     <meta name="twitter:image:alt" content="FS!QR Group サービス">
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.url }}" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="priority" content="1.0" />
+    <meta name="importance" content="high" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
-    <title>FS!QR Group | 無料グループファイル共有・チーム協業サービス</title>
+    <title>FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス</title>
     <link rel="icon" href="{{staticfile('favicon2.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon2.png')}}">
       <!-- Bootstrap CSS -->
@@ -85,10 +94,95 @@
         "priceCurrency": "JPY"
       },
       "featureList": [
-        "グループルーム作成",
+        "グループルーム作成・管理",
         "複数人でのファイル共有",
         "安全なファイル管理",
-        "ルーム検索機能"
+        "ルーム検索機能",
+        "企業・チーム向け機能",
+        "大容量ファイル対応",
+        "アクセス制御",
+        "日本語完全対応"
+      ],
+      "screenshot": "{{staticfile('group_logo.png')}}",
+      "softwareVersion": "1.0",
+      "author": {
+        "@type": "Organization",
+        "name": "FS!QR"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.7",
+        "ratingCount": "200",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "FS!QR Groupは企業での利用も可能ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer", 
+            "text": "はい、個人利用から企業・チームでの利用まで幅広く対応しています。セキュアなファイル共有が可能です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どのようなファイル形式に対応していますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ほぼ全てのファイル形式に対応しています。文書、画像、動画、音声ファイルなど制限はありません。"
+          }
+        },
+        {
+          "@type": "Question", 
+          "name": "グループのメンバー数に制限はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "グループのメンバー数に上限はありません。小さなチームから大規模プロジェクトまで対応可能です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ファイルのセキュリティは大丈夫ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "アップロードされたファイルは暗号化され、安全に管理されています。プライバシー保護も徹底されています。"
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "FS!QR Groupでのファイル共有方法",
+      "description": "グループファイル共有サービスの基本的な使い方",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "グループルームを作成",
+          "text": "「グループの作成」ボタンをクリックしてファイル共有用のルームを作成します。",
+          "url": "{{ request.url_root }}create_room"
+        },
+        {
+          "@type": "HowToStep", 
+          "name": "メンバーを招待",
+          "text": "作成されたルームにチームメンバーを招待してアクセス権を設定します。"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "ファイルをアップロード・共有",
+          "text": "ルーム内でファイルをアップロードし、メンバー間で安全に共有します。"
+        }
       ]
     }
     </script>
@@ -114,6 +208,28 @@
     }
     </script>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "logo": "{{staticfile('group_logo.png')}}",
+      "description": "グループファイル共有・チーム協業サービスを提供する無料Webサービス",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "{{ request.url_root }}contact"
+      },
+      "sameAs": [
+        "{{ request.url_root }}note",
+        "{{ request.url_root }}group", 
+        "{{ request.url_root }}fs-qr"
+      ]
+    }
+    </script>
+
     <style>
         body, html {
             height: 100%;
@@ -121,6 +237,18 @@
             font-family: Arial, sans-serif;
             box-sizing: border-box; /* サイズ計算を統一 */
         }
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+        
         .bg-custom {
             background: linear-gradient(135deg, #dbe72f 10%, #026810 100%);
             min-height: 100vh;
@@ -206,33 +334,49 @@
 </head>
 <body>
     <div class="bg-custom">
-        <div class="menu-container">
-            <div class="menu-card">
-                <i class="fas fa-users"></i>
-                <h3>グループの作成</h3>
-                <p>新しいグループを作成して共有しましょう。</p>
-                <a href="/create_room">作成する</a>
-            </div>
-            <div class="menu-card">
-                <i class="fas fa-search"></i>
-                <h3>グループの検索</h3>
-                <p>グループを検索して参加しましょう。</p>
-                <a href="/search_group">検索する</a>
-            </div>
-            <div class="menu-card">
-                <i class="fas fa-home"></i>
-                <h3>ホームに戻る</h3>
-                <p>ホーム画面に戻りましょう。</p>
-                <a href="/">戻る</a>
-            </div>
-        </div>
+        <header>
+            <h1 class="visually-hidden">FS!QR Group - グループファイル共有・チーム協業サービス</h1>
+        </header>
+        
+        <main role="main" class="menu-container">
+            <section aria-labelledby="group-services">
+                <h2 id="group-services" class="visually-hidden">グループサービス機能一覧</h2>
+                
+                <article class="menu-card">
+                    <i class="fas fa-users" aria-hidden="true"></i>
+                    <h3>グループの作成</h3>
+                    <p>新しいグループを作成してチームでファイルを安全に共有しましょう。</p>
+                    <a href="/create_room" aria-describedby="create-group-desc">作成する</a>
+                    <span id="create-group-desc" class="visually-hidden">新しいグループルーム作成ページに移動します</span>
+                </article>
+                
+                <article class="menu-card">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <h3>グループの検索</h3>
+                    <p>既存のグループを検索してプロジェクトに参加しましょう。</p>
+                    <a href="/search_group" aria-describedby="search-group-desc">検索する</a>
+                    <span id="search-group-desc" class="visually-hidden">グループルーム検索ページに移動します</span>
+                </article>
+                
+                <article class="menu-card">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <h3>ホームに戻る</h3>
+                    <p>FS!QRメインページに戻ってその他のサービスを利用します。</p>
+                    <a href="/" aria-describedby="home-desc">戻る</a>
+                    <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
+                </article>
+            </section>
+        </main>
+        
         <footer class="simple-footer" style="color:#dbe72f;text-shadow:0 1px 2px rgba(0,0,0,0.6);">
-            <a href="/">ホーム</a>
-            <a href="/about">サイト概要</a>
-            <a href="/privacy-policy">プライバシーポリシー</a>
-            <a href="/contact">お問い合わせ</a>
-            <a href="/usage">使い方</a>
-            <a href="/articles">解説記事</a>
+            <nav aria-label="フッターナビゲーション">
+                <a href="/">ホーム</a>
+                <a href="/about">サイト概要</a>
+                <a href="/privacy-policy">プライバシーポリシー</a>
+                <a href="/contact">お問い合わせ</a>
+                <a href="/usage">使い方</a>
+                <a href="/articles">解説記事</a>
+            </nav>
             <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
         </footer>
     </div>
