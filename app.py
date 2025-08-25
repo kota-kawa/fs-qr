@@ -86,6 +86,10 @@ def contact():
 def usage():
     return render_template('usage.html')
 
+@app.route('/all-in-one')
+def all_in_one():
+    return render_template('all-in-one.html')
+
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory(app.root_path, 'ads.txt')

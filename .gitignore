@@ -17,6 +17,8 @@
 *.txt
 !ads.txt
 
+# Test files
+test_app.py
 
 
 # OSやIDEの一時ファイルを無視

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FS!QR All-in-One - 統合ダッシュボード</title>
+    <link rel="icon" href="{{staticfile('favicon3.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+        
+        .all-in-one-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .header .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow: hidden;
+        }
+        
+        .service-panel {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            margin: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .service-panel:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        
+        .service-header {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .service-header.fs-qr { background: linear-gradient(90deg, #4082dd15 0%, #4082dd25 100%); }
+        .service-header.group { background: linear-gradient(90deg, #4aba9515 0%, #4aba9525 100%); }
+        .service-header.note { background: linear-gradient(90deg, #64ba4a15 0%, #64ba4a25 100%); }
+        
+        .service-header i {
+            font-size: 1.2rem;
+        }
+        
+        .service-header.fs-qr i { color: #4082dd; }
+        .service-header.group i { color: #4aba95; }
+        .service-header.note i { color: #64ba4a; }
+        
+        .service-iframe {
+            width: 100%;
+            border: none;
+            flex: 1;
+            min-height: 200px;
+            background: white;
+        }
+        
+        .resize-handle {
+            height: 8px;
+            background: linear-gradient(90deg, transparent 20%, #dee2e6 20%, #dee2e6 80%, transparent 80%);
+            cursor: ns-resize;
+            position: relative;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .resize-handle:hover {
+            background: linear-gradient(90deg, transparent 15%, #6c757d 15%, #6c757d 85%, transparent 85%);
+            transform: scaleY(1.5);
+        }
+        
+        .resize-handle::before {
+            content: '⋮⋮⋮';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #6c757d;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .resize-handle:hover::before {
+            opacity: 1;
+        }
+        
+        .resize-handle.dragging {
+            background: linear-gradient(90deg, transparent 10%, #007bff 10%, #007bff 90%, transparent 90%);
+            transform: scaleY(2);
+        }
+        
+        /* Panel size classes */
+        .service-panel.small { flex: 1; }
+        .service-panel.medium { flex: 2; }
+        .service-panel.large { flex: 3; }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .service-panel {
+                margin: 0.25rem;
+            }
+            
+            .service-header {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .resize-handle {
+                height: 12px;
+            }
+        }
+        
+        /* Loading states */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .loading::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #dee2e6;
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Smooth panel transitions */
+        .service-panel {
+            transition: flex 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="all-in-one-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-th-large"></i>
+                FS!QR All-in-One Dashboard
+            </h1>
+            <div class="controls">
+                <button class="btn-reset" onclick="resetLayout()">
+                    <i class="fas fa-undo"></i> レイアウトリセット
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- FS-QR Service -->
+            <div class="service-panel medium" id="panel-fsqr">
+                <div class="service-header fs-qr">
+                    <i class="fas fa-qrcode"></i>
+                    <span>QRコード共有サービス</span>
+                </div>
+                <iframe 
+                    src="/fs-qr_menu" 
+                    class="service-iframe" 
+                    id="iframe-fsqr"
+                    onload="handleIframeLoad(this)">
+                </iframe>
+            </div>
+            
+            <!-- Resize Handle 1 -->
+            <div class="resize-handle" onmousedown="startResize(event, 'panel-fsqr', 'panel-group')"></div>
+            
+            <!-- Group Service -->
+            <div class="service-panel medium" id="panel-group">
+                <div class="service-header group">
+                    <i class="fas fa-users"></i>
+                    <span>グループファイル共有</span>
+                </div>
+                <iframe 
+                    src="/group_menu" 
+                    class="service-iframe" 
+                    id="iframe-group"
+                    onload="handleIframeLoad(this)">
+                </iframe>
+            </div>
+            
+            <!-- Resize Handle 2 -->
+            <div class="resize-handle" onmousedown="startResize(event, 'panel-group', 'panel-note')"></div>
+            
+            <!-- Note Service -->
+            <div class="service-panel medium" id="panel-note">
+                <div class="service-header note">
+                    <i class="fas fa-pencil-alt"></i>
+                    <span>リアルタイムノート共有</span>
+                </div>
+                <iframe 
+                    src="/note_menu" 
+                    class="service-iframe" 
+                    id="iframe-note"
+                    onload="handleIframeLoad(this)">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isResizing = false;
+        let currentHandle = null;
+        let panelA = null;
+        let panelB = null;
+        let startY = 0;
+        let startAHeight = 0;
+        let startBHeight = 0;
+        
+        function startResize(event, panelAId, panelBId) {
+            event.preventDefault();
+            isResizing = true;
+            
+            currentHandle = event.target;
+            panelA = document.getElementById(panelAId);
+            panelB = document.getElementById(panelBId);
+            
+            startY = event.clientY;
+            startAHeight = panelA.getBoundingClientRect().height;
+            startBHeight = panelB.getBoundingClientRect().height;
+            
+            currentHandle.classList.add('dragging');
+            document.body.style.cursor = 'ns-resize';
+            document.body.style.userSelect = 'none';
+            
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        }
+        
+        function handleResize(event) {
+            if (!isResizing) return;
+            
+            const deltaY = event.clientY - startY;
+            const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
+            const totalAvailableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 8);
+            
+            // Calculate new heights
+            let newAHeight = startAHeight + deltaY;
+            let newBHeight = startBHeight - deltaY;
+            
+            // Ensure minimum heights
+            const minHeight = 150;
+            newAHeight = Math.max(minHeight, newAHeight);
+            newBHeight = Math.max(minHeight, newBHeight);
+            
+            // Calculate flex values based on proportions
+            const totalNewHeight = newAHeight + newBHeight;
+            const aFlex = (newAHeight / totalNewHeight) * 6; // Scale to reasonable flex range
+            const bFlex = (newBHeight / totalNewHeight) * 6;
+            
+            panelA.style.flex = aFlex;
+            panelB.style.flex = bFlex;
+        }
+        
+        function stopResize() {
+            isResizing = false;
+            
+            if (currentHandle) {
+                currentHandle.classList.remove('dragging');
+                currentHandle = null;
+            }
+            
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+            
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
+            
+            panelA = null;
+            panelB = null;
+        }
+        
+        function resetLayout() {
+            const panels = document.querySelectorAll('.service-panel');
+            panels.forEach(panel => {
+                panel.style.flex = '2';
+                panel.className = 'service-panel medium';
+            });
+        }
+        
+        function handleIframeLoad(iframe) {
+            // Add loading states if needed
+            console.log('Iframe loaded:', iframe.src);
+        }
+        
+        // Prevent context menu on resize handles
+        document.querySelectorAll('.resize-handle').forEach(handle => {
+            handle.addEventListener('contextmenu', event => event.preventDefault());
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('FS!QR All-in-One Dashboard initialized');
+            
+            // Add some breathing animation to the header
+            const header = document.querySelector('.header h1');
+            setInterval(() => {
+                header.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    header.style.transform = 'scale(1)';
+                }, 1000);
+            }, 5000);
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Reset layout on extreme size changes
+            if (window.innerWidth < 768) {
+                resetLayout();
+            }
+        });
+    </script>
+</body>
+</html>
