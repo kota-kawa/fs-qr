@@ -109,11 +109,22 @@ def create_group_room():
     その後、作成されたルームのページへリダイレクトする。
     """
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
-    id = request.form.get('id', '名無し')  # フォームからIDを取得
-    if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
-        return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
-    if len(id) < 5 or len(id) > 10:  # IDの長さチェック
-        return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
+    id = request.form.get('id', '').strip()  # フォームからIDを取得
+    
+    # IDが空の場合は自動生成
+    if not id:
+        import string
+        import random
+        chars = string.ascii_letters + string.digits
+        id = ''.join(random.choice(chars) for _ in range(8))
+    
+    # ID検証（空でない場合のみ）
+    if id:
+        if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
+            return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
+        if len(id) < 5 or len(id) > 10:  # IDの長さチェック
+            return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
+    
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
     room_id = f"{id}-{uid}"
     print(f"Room ID Created: {room_id}")
