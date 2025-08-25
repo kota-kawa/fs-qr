@@ -26,15 +26,21 @@ def fs_qr_upload():
 def upload():
     # よりセキュアな乱数の生成
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
-    id = request.form.get('name', '名無し')
+    id = request.form.get('name', '').strip()
     
-    # idの検証（半角英数字のみ許可）
-    if not id or not id.replace(' ', '').replace('\t', '').replace('\n', ''):
-        return json_or_msg('IDを入力してください。')
-    if not re.match(r'^[a-zA-Z0-9]+$', id):
-        return json_or_msg('IDに無効な文字が含まれています。半角英数字のみ使用してください。')
-    if len(id) < 5 or len(id) > 10:
-        return json_or_msg('IDは5文字以上10文字以下で入力してください。')
+    # IDが空の場合は自動生成
+    if not id:
+        import string
+        import secrets
+        chars = string.ascii_letters + string.digits
+        id = ''.join(secrets.choice(chars) for _ in range(8))
+    
+    # idの検証（空でない場合のみ）
+    if id:
+        if not re.match(r'^[a-zA-Z0-9]+$', id):
+            return json_or_msg('IDに無効な文字が含まれています。半角英数字のみ使用してください。')
+        if len(id) < 5 or len(id) > 10:
+            return json_or_msg('IDは5文字以上10文字以下で入力してください。')
     
     # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
     password = str(secrets.randbelow(10**6)).zfill(6)

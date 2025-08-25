@@ -264,7 +264,7 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 20px;
             max-width: 100%; /* 画面幅に収まる */
         }
         .menu-card {
@@ -272,6 +272,7 @@
             max-width: 300px;
             aspect-ratio: 1 / 1;
             padding: 20px;
+            margin: 10px; /* カード間の余白を確保 */
             text-align: center;
             border-radius: 15px;
             background-color: #ffffff;
@@ -282,17 +283,17 @@
         }
         @media (min-width: 576px) { /* スマホ以上 */
             .menu-card {
-                flex: 1 1 calc(50% - 20px); /* 2列表示 */
+                flex: 1 1 calc(50% - 40px); /* 2列表示、margin考慮 */
             }
         }
         @media (min-width: 768px) { /* タブレット以上 */
             .menu-card {
-                flex: 1 1 calc(33.333% - 20px); /* 3列表示 */
+                flex: 1 1 calc(33.333% - 40px); /* 3列表示、margin考慮 */
             }
         }
         @media (min-width: 1200px) { /* 大型スクリーン以上 */
             .menu-card {
-                flex: 1 1 calc(25% - 20px); /* 4列表示 */
+                flex: 1 1 calc(25% - 40px); /* 4列表示、margin考慮 */
             }
         }
         .menu-card:hover {

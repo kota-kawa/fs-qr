@@ -28,11 +28,22 @@ def create_note_room_page():
 @note_bp.route('/create_note_room', methods=['POST'])
 def create_note_room():
     uid = str(uuid.uuid4())[:10]
-    id_ = request.form.get('id', '名無し')
-    if not re.match(r'^[a-zA-Z0-9]+$', id_):
-        return jsonify({'error': 'IDに無効な文字が含まれています。半角英数字のみ使用してください。'}), 400
-    if len(id_) < 5 or len(id_) > 10:
-        return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
+    id_ = request.form.get('id', '').strip()
+    
+    # IDが空の場合は自動生成
+    if not id_:
+        import string
+        import random
+        chars = string.ascii_letters + string.digits
+        id_ = ''.join(random.choice(chars) for _ in range(8))
+    
+    # ID検証（空でない場合のみ）
+    if id_:
+        if not re.match(r'^[a-zA-Z0-9]+$', id_):
+            return jsonify({'error': 'IDに無効な文字が含まれています。半角英数字のみ使用してください。'}), 400
+        if len(id_) < 5 or len(id_) > 10:
+            return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
+    
     pw = str(random.randrange(10**5, 10**6))
     room_id = f"{id_}-{uid}"
     nd.create_room(id_, pw, room_id)
