@@ -122,22 +122,14 @@ def create_group_room():
     if len(id) < 5 or len(id) > 10:  # IDの長さチェック
         return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     
-    # room_idの重複チェックと自動解決
+    # room_idの重複チェック
     room_id = id
     existing_room = group_data.get_data(room_id)
     
     if existing_room:
         if id_mode == 'auto':
-            # 自動生成モードの場合は新しいIDを生成して解決
-            import string
-            chars = string.ascii_letters + string.digits
-            max_attempts = 10
-            for _ in range(max_attempts):
-                room_id = ''.join(random.choice(chars) for _ in range(8))
-                if not group_data.get_data(room_id):
-                    break
-            else:
-                return jsonify({"error": "利用可能なIDが見つかりませんでした。しばらく待ってから再試行してください。"}), 500
+            # 自動生成モードの場合はフロントエンドに新しいIDの生成を促す
+            return jsonify({"error": "生成されたIDが重複しています。新しいIDで再試行してください。", "retry_auto": True}), 409
         else:
             # 手動入力モードの場合はエラーを返す
             return jsonify({"error": "このIDは既に使用されています。別のIDを使用してください。"}), 409
