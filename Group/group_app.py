@@ -121,15 +121,15 @@ def create_group_room():
     if len(id) < 5 or len(id) > 10:  # IDの長さチェック
         return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     
-    # room_idの重複チェック - ユニークになるまで新しいIDを生成
+    # room_idの重複チェック - 元のIDに接尾辞を追加してユニークにする
     room_id = id
     existing_room = group_data.get_data(room_id)
+    suffix_counter = 2
     while existing_room:
-        # 重複の場合、完全に新しいIDを生成（接尾辞を追加するのではなく）
-        import string
-        chars = string.ascii_letters + string.digits
-        room_id = ''.join(random.choice(chars) for _ in range(8))
+        # 重複の場合、元のIDに数字の接尾辞を追加
+        room_id = f"{id}-{suffix_counter}"
         existing_room = group_data.get_data(room_id)
+        suffix_counter += 1
     
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
     print(f"Room ID Created: {room_id}")
