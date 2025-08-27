@@ -103,29 +103,35 @@ def create_room():
 def create_group_room():
     """
     フォームからの入力を元に新しいルームを作成する。
-    10文字のランダムなユニークIDと、6桁のランダムなパスワードを生成する。
     入力されたIDが英数字でなければエラーを返す。
     作成したルームIDのフォルダをセキュアな方法で生成し、group_dataモジュールにルーム情報を保存する。
     その後、作成されたルームのページへリダイレクトする。
     """
-    uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークIDを生成
     id = request.form.get('id', '').strip()  # フォームからIDを取得
     
-    # IDが空の場合は自動生成
+    # IDが空の場合はフォールバック（JavaScriptが無効な場合など）
     if not id:
         import string
         chars = string.ascii_letters + string.digits
         id = ''.join(random.choice(chars) for _ in range(8))
     
-    # ID検証（空でない場合のみ）
-    if id:
-        if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
-            return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
-        if len(id) < 5 or len(id) > 10:  # IDの長さチェック
-            return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
+    # ID検証
+    if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
+        return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
+    if len(id) < 5 or len(id) > 10:  # IDの長さチェック
+        return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
+    
+    # room_idの重複チェック
+    existing_room = group_data.get_data(id)
+    if existing_room:
+        # 重複の場合、短いランダム文字を追加
+        import string
+        suffix = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(3))
+        room_id = f"{id}-{suffix}"
+    else:
+        room_id = id  # JavaScriptで生成されたIDをそのまま使用
     
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
-    room_id = f"{id}-{uid}"
     print(f"Room ID Created: {room_id}")
 
     # セキュアなパスでフォルダ作成
