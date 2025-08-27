@@ -108,6 +108,7 @@ def create_group_room():
     その後、作成されたルームのページへリダイレクトする。
     """
     id = request.form.get('id', '').strip()  # フォームからIDを取得
+    id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
     
     # IDが空の場合はフォールバック（JavaScriptが無効な場合など）
     if not id:
@@ -121,11 +122,25 @@ def create_group_room():
     if len(id) < 5 or len(id) > 10:  # IDの長さチェック
         return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     
-    # room_idの重複チェック
+    # room_idの重複チェックと自動解決
     room_id = id
     existing_room = group_data.get_data(room_id)
+    
     if existing_room:
-        return jsonify({"error": "このIDは既に使用されています。別のIDを使用してください。"}), 409
+        if id_mode == 'auto':
+            # 自動生成モードの場合は新しいIDを生成して解決
+            import string
+            chars = string.ascii_letters + string.digits
+            max_attempts = 10
+            for _ in range(max_attempts):
+                room_id = ''.join(random.choice(chars) for _ in range(8))
+                if not group_data.get_data(room_id):
+                    break
+            else:
+                return jsonify({"error": "利用可能なIDが見つかりませんでした。しばらく待ってから再試行してください。"}), 500
+        else:
+            # 手動入力モードの場合はエラーを返す
+            return jsonify({"error": "このIDは既に使用されています。別のIDを使用してください。"}), 409
     
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
     print(f"Room ID Created: {room_id}")

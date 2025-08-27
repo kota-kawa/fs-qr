@@ -28,6 +28,7 @@ def create_note_room_page():
 @note_bp.route('/create_note_room', methods=['POST'])
 def create_note_room():
     id_ = request.form.get('id', '').strip()
+    id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
     
     # IDが空の場合はフォールバック（JavaScriptが無効な場合など）
     if not id_:
@@ -41,15 +42,34 @@ def create_note_room():
     if len(id_) < 5 or len(id_) > 10:
         return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
     
-    # room_idの重複チェック
+    # room_idの重複チェックと自動解決
     room_id = id_
     existing_room = nd._exec(
         "SELECT room_id FROM note_room WHERE room_id = :r",
         {"r": room_id},
         fetch=True
     )
+    
     if existing_room:
-        return jsonify({'error': 'このIDは既に使用されています。別のIDを使用してください。'}), 409
+        if id_mode == 'auto':
+            # 自動生成モードの場合は新しいIDを生成して解決
+            import string
+            chars = string.ascii_letters + string.digits
+            max_attempts = 10
+            for _ in range(max_attempts):
+                room_id = ''.join(random.choice(chars) for _ in range(8))
+                existing_check = nd._exec(
+                    "SELECT room_id FROM note_room WHERE room_id = :r",
+                    {"r": room_id},
+                    fetch=True
+                )
+                if not existing_check:
+                    break
+            else:
+                return jsonify({'error': '利用可能なIDが見つかりませんでした。しばらく待ってから再試行してください。'}), 500
+        else:
+            # 手動入力モードの場合はエラーを返す
+            return jsonify({'error': 'このIDは既に使用されています。別のIDを使用してください。'}), 409
     
     pw = str(random.randrange(10**5, 10**6))
     nd.create_room(room_id, pw, room_id)
