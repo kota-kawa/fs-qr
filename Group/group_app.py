@@ -1,5 +1,4 @@
 from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, abort, flash
-import uuid
 import random
 import os
 import urllib
@@ -107,14 +106,17 @@ def create_group_room():
     作成したルームIDのフォルダをセキュアな方法で生成し、group_dataモジュールにルーム情報を保存する。
     その後、作成されたルームのページへリダイレクトする。
     """
-    id = request.form.get('id', '').strip()  # フォームからIDを取得
+    # フォームに複数のidフィールドが存在する場合（自動生成と手動入力の重複など）を考慮
+    id_candidates = request.form.getlist('id')
+    if not id_candidates:
+        json_data = request.get_json(silent=True) or {}
+        id_candidates = [json_data.get('id', '')]
+    id = next((v.strip() for v in id_candidates if v.strip()), '')
     id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
-    
-    # IDが空の場合はフォールバック（JavaScriptが無効な場合など）
+
+    # IDが提供されていない場合はエラーを返す
     if not id:
-        import string
-        chars = string.ascii_letters + string.digits
-        id = ''.join(random.choice(chars) for _ in range(8))
+        return jsonify({"error": "IDが指定されていません。"}), 400
     
     # ID検証
     if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
