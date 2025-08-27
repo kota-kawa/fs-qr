@@ -27,7 +27,12 @@ def create_note_room_page():
 # ルーム作成処理
 @note_bp.route('/create_note_room', methods=['POST'])
 def create_note_room():
-    id_ = request.form.get('id', '').strip()
+    # フォームに複数のidフィールドが存在する場合を考慮して最初の空でない値を使用
+    id_candidates = request.form.getlist('id')
+    if not id_candidates:
+        json_data = request.get_json(silent=True) or {}
+        id_candidates = [json_data.get('id', '')]
+    id_ = next((v.strip() for v in id_candidates if v.strip()), '')
     id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
 
     # IDが提供されていない場合はエラーを返す
