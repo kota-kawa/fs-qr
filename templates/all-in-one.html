@@ -14,6 +14,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --panel-bg: #ffffff;
+            --panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --panel-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.15);
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --danger-color: #f56565;
+            --resize-handle-idle: #cbd5e0;
+            --resize-handle-hover: #4a5568;
+            --resize-handle-active: #667eea;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -23,8 +39,9 @@
             padding: 0;
             height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow-x: hidden; /* Allow vertical scroll, prevent horizontal */
+            background: var(--primary-gradient);
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         
         .all-in-one-container {
@@ -37,23 +54,25 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             color: white;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 1000;
+            position: relative;
         }
         
         .header h1 {
             margin: 0;
             font-size: 1.8rem;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            letter-spacing: -0.025em;
         }
         
         .header .controls {
@@ -62,20 +81,47 @@
             align-items: center;
         }
         
-        .btn-reset {
+        .control-group {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-control {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
         }
         
-        .btn-reset:hover {
+        .btn-control:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-control:active {
+            transform: translateY(0);
+        }
+        
+        .btn-help {
+            background: rgba(72, 187, 120, 0.2);
+            border-color: rgba(72, 187, 120, 0.4);
+        }
+        
+        .btn-help:hover {
+            background: rgba(72, 187, 120, 0.3);
         }
         
         .main-content {
@@ -83,44 +129,145 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            min-height: 70vh; /* Ensure minimum height for panels */
+            min-height: calc(100vh - 80px);
+            padding: 1rem;
             overflow: hidden;
         }
         
         .service-panel {
             display: flex;
             flex-direction: column;
-            background: white;
-            border-radius: 12px;
-            margin: 0.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--panel-bg);
+            border-radius: 16px;
+            margin: 0.25rem;
+            box-shadow: var(--panel-shadow);
+            border: 1px solid var(--border-color);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
         
         .service-panel:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            transform: translateY(-1px);
+            box-shadow: var(--panel-shadow-hover);
+            transform: translateY(-2px);
+        }
+        
+        .service-panel.maximized {
+            position: fixed;
+            top: 80px;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 1000;
+            margin: 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-panel.hidden {
+            display: none;
         }
         
         .service-header {
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
-            border-bottom: 1px solid #dee2e6;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            color: var(--text-primary);
+            position: relative;
+        }
+        
+        .service-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .service-header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .service-title {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-weight: 600;
-            color: #495057;
+            font-size: 1rem;
         }
         
-        .service-header.fs-qr { background: linear-gradient(90deg, #4082dd15 0%, #4082dd25 100%); }
-        .service-header.group { background: linear-gradient(90deg, #4aba9515 0%, #4aba9525 100%); }
-        .service-header.note { background: linear-gradient(90deg, #64ba4a15 0%, #64ba4a25 100%); }
+        .panel-controls {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        
+        .service-panel:hover .panel-controls {
+            opacity: 1;
+        }
+        
+        .panel-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .panel-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+        
+        .panel-btn.maximize { color: var(--success-color); }
+        .panel-btn.minimize { color: var(--warning-color); }
+        .panel-btn.close { color: var(--danger-color); }
+        
+        .loading-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-gradient), transparent);
+            transform: translateX(-100%);
+            animation: loading-shimmer 2s infinite;
+            z-index: 10;
+        }
+        
+        @keyframes loading-shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .service-header.fs-qr { 
+            background: linear-gradient(135deg, #4082dd15 0%, #4082dd25 100%);
+            border-bottom-color: #4082dd30;
+        }
+        .service-header.group { 
+            background: linear-gradient(135deg, #4aba9515 0%, #4aba9525 100%);
+            border-bottom-color: #4aba9530;
+        }
+        .service-header.note { 
+            background: linear-gradient(135deg, #64ba4a15 0%, #64ba4a25 100%);
+            border-bottom-color: #64ba4a30;
+        }
         
         .service-header i {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            opacity: 0.9;
         }
         
         .service-header.fs-qr i { color: #4082dd; }
@@ -131,55 +278,64 @@
             width: 100%;
             border: none;
             flex: 1;
-            min-height: 600px;
-            background: white;
+            min-height: 500px;
+            background: var(--panel-bg);
+            transition: opacity 0.3s ease;
+        }
+        
+        .service-iframe.loading {
+            opacity: 0.7;
         }
         
         .resize-handle {
-            height: 16px;
-            background: linear-gradient(90deg, transparent 15%, #dee2e6 15%, #dee2e6 85%, transparent 15%);
+            height: 20px;
+            background: linear-gradient(90deg, transparent 20%, var(--resize-handle-idle) 20%, var(--resize-handle-idle) 80%, transparent 80%);
             cursor: ns-resize;
             position: relative;
-            margin: 0 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            margin: 0 1rem;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none;
         }
         
         .resize-handle:hover {
-            background: linear-gradient(90deg, transparent 10%, #6c757d 10%, #6c757d 90%, transparent 10%);
-            transform: scaleY(1.2);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            background: linear-gradient(90deg, transparent 15%, var(--resize-handle-hover) 15%, var(--resize-handle-hover) 85%, transparent 15%);
+            transform: scaleY(1.3);
+            height: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .resize-handle::before {
-            content: '⋮⋮⋮⋮⋮';
+            content: '⋯';
             position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: #6c757d;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            color: currentColor;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            transform: rotate(90deg);
         }
         
         .resize-handle:hover::before {
             opacity: 1;
-            color: #495057;
+            color: white;
+            letter-spacing: 12px;
         }
         
         .resize-handle.dragging {
-            background: linear-gradient(90deg, transparent 10%, #007bff 10%, #007bff 90%, transparent 10%);
-            transform: scaleY(1.5);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            background: linear-gradient(90deg, transparent 10%, var(--resize-handle-active) 10%, var(--resize-handle-active) 90%, transparent 10%);
+            transform: scaleY(1.6);
+            height: 28px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
         
         .resize-handle.dragging::before {
             color: white;
+            letter-spacing: 16px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         /* Panel size classes */
@@ -187,73 +343,252 @@
         .service-panel.medium { flex: 3; }
         .service-panel.large { flex: 5; }
         
+        /* Floating Help System */
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .help-overlay.active {
+            display: flex;
+        }
+        
+        .help-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: help-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes help-slide-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .help-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .help-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .help-close:hover {
+            background: #f7fafc;
+            color: var(--text-primary);
+        }
+        
+        .help-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .help-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .help-section ul {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding-left: 1.25rem;
+        }
+        
+        .help-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .help-tip {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            margin-top: 1rem;
+        }
+        
+        .keyboard-shortcuts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .shortcut {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .shortcut-key {
+            background: var(--text-primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .header {
-                padding: 0.75rem 1rem;
+                padding: 1rem;
             }
             
             .header h1 {
                 font-size: 1.5rem;
             }
             
+            .control-group {
+                padding: 0.25rem;
+            }
+            
+            .btn-control {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .main-content {
+                padding: 0.5rem;
+                min-height: calc(100vh - 70px);
+            }
+            
             .service-panel {
-                margin: 0.25rem;
+                margin: 0.125rem;
+                border-radius: 12px;
             }
             
             .service-header {
-                padding: 0.5rem 1rem;
+                padding: 0.75rem 1rem;
                 font-size: 0.9rem;
             }
             
-            .resize-handle {
-                height: 20px;
+            .panel-controls {
+                opacity: 1;
             }
             
-            .service-iframe {
-                min-height: 500px;
+            .panel-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
             }
             
             .resize-handle {
-                height: 24px; /* Larger touch target */
-                background: linear-gradient(90deg, transparent 10%, #dee2e6 10%, #dee2e6 90%, transparent 10%);
+                height: 28px;
+                margin: 0 0.5rem;
+                background: linear-gradient(90deg, transparent 15%, var(--resize-handle-idle) 15%, var(--resize-handle-idle) 85%, transparent 15%);
             }
             
             .resize-handle::before {
-                font-size: 1.2rem;
-                letter-spacing: 4px;
+                font-size: 1.8rem;
+                letter-spacing: 12px;
+            }
+            
+            .service-iframe {
+                min-height: 400px;
+            }
+            
+            .help-content {
+                margin: 1rem;
+                padding: 1.5rem;
+                max-height: 90vh;
+            }
+            
+            .keyboard-shortcuts {
+                grid-template-columns: 1fr;
             }
         }
         
-        /* Loading states */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px;
-            color: #6c757d;
-            font-size: 1.1rem;
-        }
-        
-        .loading::before {
-            content: '';
-            width: 20px;
-            height: 20px;
-            border: 2px solid #dee2e6;
-            border-top: 2px solid #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 0.5rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem;
+            }
+            
+            .header h1 {
+                font-size: 1.3rem;
+                gap: 0.5rem;
+            }
+            
+            .btn-control span {
+                display: none;
+            }
+            
+            .service-header {
+                padding: 0.5rem 0.75rem;
+            }
+            
+            .service-iframe {
+                min-height: 350px;
+            }
+            
+            .help-content {
+                padding: 1rem;
+                border-radius: 16px;
+            }
         }
         
         /* Smooth panel transitions */
         .service-panel {
-            transition: flex 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                       transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                       box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
         }
     </style>
 </head>
@@ -266,9 +601,17 @@
                 FS!QR All-in-One Dashboard
             </h1>
             <div class="controls">
-                <button class="btn-reset" onclick="resetLayout()">
-                    <i class="fas fa-undo"></i> レイアウトリセット
-                </button>
+                <div class="control-group">
+                    <button class="btn-control" onclick="resetLayout()" title="レイアウトリセット">
+                        <i class="fas fa-undo"></i> <span>リセット</span>
+                    </button>
+                    <button class="btn-control" onclick="saveLayout()" title="レイアウト保存">
+                        <i class="fas fa-save"></i> <span>保存</span>
+                    </button>
+                    <button class="btn-control btn-help" onclick="toggleHelp()" title="使い方">
+                        <i class="fas fa-question-circle"></i> <span>ヘルプ</span>
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -276,15 +619,33 @@
         <div class="main-content">
             <!-- FS-QR Service -->
             <div class="service-panel medium" id="panel-fsqr">
+                <div class="loading-indicator" id="loading-fsqr"></div>
                 <div class="service-header fs-qr">
-                    <i class="fas fa-qrcode"></i>
-                    <span>QRコード共有サービス</span>
+                    <div class="service-header-left">
+                        <div class="service-title">
+                            <i class="fas fa-qrcode"></i>
+                            <span>QRコード共有サービス</span>
+                        </div>
+                    </div>
+                    <div class="service-header-right">
+                        <div class="panel-controls">
+                            <button class="panel-btn maximize" onclick="maximizePanel('panel-fsqr')" title="最大化">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="panel-btn minimize" onclick="minimizePanel('panel-fsqr')" title="最小化">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button class="panel-btn close" onclick="hidePanel('panel-fsqr')" title="非表示">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <iframe 
                     src="/fs-qr_menu" 
                     class="service-iframe" 
                     id="iframe-fsqr"
-                    onload="handleIframeLoad(this)">
+                    onload="handleIframeLoad(this, 'loading-fsqr')">
                 </iframe>
             </div>
             
@@ -295,15 +656,33 @@
             
             <!-- Group Service -->
             <div class="service-panel medium" id="panel-group">
+                <div class="loading-indicator" id="loading-group"></div>
                 <div class="service-header group">
-                    <i class="fas fa-users"></i>
-                    <span>グループファイル共有</span>
+                    <div class="service-header-left">
+                        <div class="service-title">
+                            <i class="fas fa-users"></i>
+                            <span>グループファイル共有</span>
+                        </div>
+                    </div>
+                    <div class="service-header-right">
+                        <div class="panel-controls">
+                            <button class="panel-btn maximize" onclick="maximizePanel('panel-group')" title="最大化">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="panel-btn minimize" onclick="minimizePanel('panel-group')" title="最小化">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button class="panel-btn close" onclick="hidePanel('panel-group')" title="非表示">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <iframe 
                     src="/group_menu" 
                     class="service-iframe" 
                     id="iframe-group"
-                    onload="handleIframeLoad(this)">
+                    onload="handleIframeLoad(this, 'loading-group')">
                 </iframe>
             </div>
             
@@ -314,209 +693,632 @@
             
             <!-- Note Service -->
             <div class="service-panel medium" id="panel-note">
+                <div class="loading-indicator" id="loading-note"></div>
                 <div class="service-header note">
-                    <i class="fas fa-pencil-alt"></i>
-                    <span>リアルタイムノート共有</span>
+                    <div class="service-header-left">
+                        <div class="service-title">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>リアルタイムノート共有</span>
+                        </div>
+                    </div>
+                    <div class="service-header-right">
+                        <div class="panel-controls">
+                            <button class="panel-btn maximize" onclick="maximizePanel('panel-note')" title="最大化">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="panel-btn minimize" onclick="minimizePanel('panel-note')" title="最小化">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button class="panel-btn close" onclick="hidePanel('panel-note')" title="非表示">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <iframe 
                     src="/note_menu" 
                     class="service-iframe" 
                     id="iframe-note"
-                    onload="handleIframeLoad(this)">
+                    onload="handleIframeLoad(this, 'loading-note')">
                 </iframe>
             </div>
         </div>
     </div>
 
-    <!-- Usage Section -->
-    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; margin: 1rem 2rem; margin-bottom: 3rem;">
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; text-align: center;">
-            <h5 style="margin: 0; font-weight: 600;">
-                <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>
-                使い方
-            </h5>
-        </div>
-        <div style="padding: 2rem; line-height: 1.6;">
-            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">🌟 All-in-One ダッシュボードについて</h6>
-            <p style="margin-bottom: 1.5rem; color: #6c757d;">
-                このページでは、FS!QRの3つの主要機能を1つのページで同時に利用できます。各パネルのサイズは自由に調整可能です。
-            </p>
+    <!-- Floating Help Overlay -->
+    <div class="help-overlay" id="helpOverlay">
+        <div class="help-content">
+            <div class="help-header">
+                <h2 style="margin: 0; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-info-circle" style="color: #667eea;"></i>
+                    All-in-One ダッシュボード
+                </h2>
+                <button class="help-close" onclick="toggleHelp()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             
-            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">📱 リサイズ機能の使い方</h6>
-            <ul style="color: #6c757d; margin-bottom: 1.5rem; padding-left: 1.5rem;">
-                <li><strong>デスクトップ:</strong> パネル間の区切り線をドラッグしてサイズを調整</li>
-                <li><strong>スマートフォン:</strong> 区切り線をタップ&ドラッグして調整（より大きなタッチ領域）</li>
-                <li><strong>リセット:</strong> 右上の「レイアウトリセット」ボタンで初期状態に戻す</li>
-            </ul>
+            <div class="help-section">
+                <h3><i class="fas fa-star"></i> 基本機能</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6;">
+                    FS!QRの3つの主要機能を1つのページで同時に利用できます。各パネルのサイズは自由に調整でき、設定は自動保存されます。
+                </p>
+            </div>
             
-            <h6 style="color: #495057; margin-bottom: 1rem; font-weight: 600;">🔧 各サービスの機能</h6>
-            <ul style="color: #6c757d; margin-bottom: 1.5rem; padding-left: 1.5rem;">
-                <li><strong>QRコード共有:</strong> ファイルをアップロードしてQRコードで共有</li>
-                <li><strong>グループファイル共有:</strong> 複数人でファイルを共有するルームを作成</li>
-                <li><strong>リアルタイムノート:</strong> テキストをリアルタイムで共有・編集</li>
-            </ul>
+            <div class="help-section">
+                <h3><i class="fas fa-arrows-alt"></i> パネル操作</h3>
+                <ul>
+                    <li><strong>リサイズ:</strong> パネル間の区切り線をドラッグしてサイズを調整</li>
+                    <li><strong>最大化:</strong> パネル右上の<i class="fas fa-expand" style="color: var(--success-color);"></i>ボタンで全画面表示</li>
+                    <li><strong>最小化:</strong> パネル右上の<i class="fas fa-minus" style="color: var(--warning-color);"></i>ボタンで最小サイズに</li>
+                    <li><strong>非表示:</strong> パネル右上の<i class="fas fa-times" style="color: var(--danger-color);"></i>ボタンで一時的に隠す</li>
+                </ul>
+            </div>
             
-            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #007bff;">
-                <small style="color: #495057;">
-                    <strong>💡 ヒント:</strong> 各パネルは独立して動作します。複数の機能を同時に使用して、効率的に作業を進めましょう。
-                </small>
+            <div class="help-section">
+                <h3><i class="fas fa-keyboard"></i> キーボードショートカット</h3>
+                <div class="keyboard-shortcuts">
+                    <div class="shortcut">
+                        <span>ヘルプ表示</span>
+                        <span class="shortcut-key">F1</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>レイアウトリセット</span>
+                        <span class="shortcut-key">Ctrl+R</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>レイアウト保存</span>
+                        <span class="shortcut-key">Ctrl+S</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>パネル1最大化</span>
+                        <span class="shortcut-key">1</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>パネル2最大化</span>
+                        <span class="shortcut-key">2</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>パネル3最大化</span>
+                        <span class="shortcut-key">3</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="help-section">
+                <h3><i class="fas fa-cogs"></i> 各サービスの機能</h3>
+                <ul>
+                    <li><strong>QRコード共有:</strong> ファイルをアップロードしてQRコードで共有</li>
+                    <li><strong>グループファイル共有:</strong> 複数人でファイルを共有するルームを作成</li>
+                    <li><strong>リアルタイムノート:</strong> テキストをリアルタイムで共有・編集</li>
+                </ul>
+            </div>
+            
+            <div class="help-tip">
+                <strong>💡 プロのヒント:</strong> 各パネルは独立して動作するため、複数の機能を同時に使用して効率的に作業を進めることができます。モバイルでも快適に操作できるよう最適化されています。
             </div>
         </div>
-    </div>
-
-    <!-- Extra spacing at bottom -->
-    <div style="height: 4rem;"></div>
+    }
 
     <script>
-        let isResizing = false;
-        let currentHandle = null;
-        let panelA = null;
-        let panelB = null;
-        let panelC = null; // Add third panel reference
-        let startY = 0;
-        let startAHeight = 0;
-        let startBHeight = 0;
-        let startCHeight = 0; // Add third panel height tracking
+        // Enhanced All-in-One Dashboard JavaScript
         
+        // Global state management
+        const DashboardState = {
+            isResizing: false,
+            currentHandle: null,
+            panelA: null,
+            panelB: null,
+            panelC: null,
+            startY: 0,
+            startAHeight: 0,
+            startBHeight: 0,
+            startCHeight: 0,
+            maximizedPanel: null,
+            hiddenPanels: new Set(),
+            settings: {
+                autosave: true,
+                enableAnimations: true,
+                touchSensitivity: 1.2
+            }
+        };
+        
+        // Local storage key for saving layouts
+        const LAYOUT_STORAGE_KEY = 'fsqr-allinone-layout';
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 FS!QR All-in-One Dashboard Enhanced Edition initialized');
+            
+            initializeKeyboardShortcuts();
+            loadSavedLayout();
+            addTouchOptimizations();
+            
+            // Enhanced header animation
+            animateHeaderPeriodically();
+            
+            // Auto-save layout on changes
+            if (DashboardState.settings.autosave) {
+                setInterval(saveLayout, 5000); // Auto-save every 5 seconds
+            }
+        });
+        
+        // Keyboard shortcuts
+        function initializeKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                // Don't trigger shortcuts when typing in inputs
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                
+                switch(e.key) {
+                    case 'F1':
+                        e.preventDefault();
+                        toggleHelp();
+                        break;
+                    case '1':
+                        if (!e.ctrlKey && !e.altKey) maximizePanel('panel-fsqr');
+                        break;
+                    case '2':
+                        if (!e.ctrlKey && !e.altKey) maximizePanel('panel-group');
+                        break;
+                    case '3':
+                        if (!e.ctrlKey && !e.altKey) maximizePanel('panel-note');
+                        break;
+                    case 'r':
+                        if (e.ctrlKey) {
+                            e.preventDefault();
+                            resetLayout();
+                        }
+                        break;
+                    case 's':
+                        if (e.ctrlKey) {
+                            e.preventDefault();
+                            saveLayout();
+                            showNotification('レイアウトを保存しました', 'success');
+                        }
+                        break;
+                    case 'Escape':
+                        if (DashboardState.maximizedPanel) {
+                            restorePanel();
+                        } else {
+                            const helpOverlay = document.getElementById('helpOverlay');
+                            if (helpOverlay.classList.contains('active')) {
+                                toggleHelp();
+                            }
+                        }
+                        break;
+                }
+            });
+        }
+        
+        // Enhanced resize functionality
         function startResize(event, panelAId, panelBId) {
             event.preventDefault();
-            isResizing = true;
+            DashboardState.isResizing = true;
             
-            currentHandle = event.target;
-            panelA = document.getElementById(panelAId);
-            panelB = document.getElementById(panelBId);
+            DashboardState.currentHandle = event.target;
+            DashboardState.panelA = document.getElementById(panelAId);
+            DashboardState.panelB = document.getElementById(panelBId);
             
-            // Always include all three panels for proportional resizing
+            // Find the third panel
             const allPanels = ['panel-fsqr', 'panel-group', 'panel-note'];
-            panelC = document.getElementById(allPanels.find(id => id !== panelAId && id !== panelBId));
+            const panelCId = allPanels.find(id => id !== panelAId && id !== panelBId);
+            DashboardState.panelC = document.getElementById(panelCId);
             
             // Handle both mouse and touch events
             const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
-            startY = clientY;
-            startAHeight = panelA.getBoundingClientRect().height;
-            startBHeight = panelB.getBoundingClientRect().height;
-            startCHeight = panelC.getBoundingClientRect().height;
+            DashboardState.startY = clientY;
+            DashboardState.startAHeight = DashboardState.panelA.getBoundingClientRect().height;
+            DashboardState.startBHeight = DashboardState.panelB.getBoundingClientRect().height;
+            DashboardState.startCHeight = DashboardState.panelC.getBoundingClientRect().height;
             
-            currentHandle.classList.add('dragging');
+            DashboardState.currentHandle.classList.add('dragging');
             document.body.style.cursor = 'ns-resize';
             document.body.style.userSelect = 'none';
             
-            // Add both mouse and touch event listeners
+            // Add event listeners
             document.addEventListener('mousemove', handleResize);
             document.addEventListener('mouseup', stopResize);
             document.addEventListener('touchmove', handleResize, { passive: false });
             document.addEventListener('touchend', stopResize);
+            
+            // Add visual feedback
+            addResizeGuidelines();
         }
         
         function handleResize(event) {
-            if (!isResizing) return;
+            if (!DashboardState.isResizing) return;
             
-            event.preventDefault(); // Prevent scrolling on touch
+            event.preventDefault();
             
-            // Handle both mouse and touch events
+            // Enhanced touch sensitivity for mobile
+            const sensitivity = window.innerWidth <= 768 ? DashboardState.settings.touchSensitivity : 1;
             const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
-            const deltaY = clientY - startY;
+            const deltaY = (clientY - DashboardState.startY) * sensitivity;
             
-            // Calculate new heights for all three panels
-            let newAHeight = startAHeight + deltaY;
-            let newBHeight = startBHeight - deltaY;
-            let newCHeight = startCHeight; // Third panel maintains its proportion initially
+            // Calculate new heights with smoother adjustments
+            let newAHeight = Math.max(80, DashboardState.startAHeight + deltaY);
+            let newBHeight = Math.max(80, DashboardState.startBHeight - deltaY);
+            let newCHeight = Math.max(80, DashboardState.startCHeight);
             
-            // Ensure minimum heights for all panels
-            const minHeight = 100;
-            newAHeight = Math.max(minHeight, newAHeight);
-            newBHeight = Math.max(minHeight, newBHeight);
-            newCHeight = Math.max(minHeight, newCHeight);
-            
-            // If minimum height constraints are violated, adjust proportionally
-            const totalRequestedHeight = newAHeight + newBHeight + newCHeight;
+            // Apply proportional scaling
+            const totalHeight = newAHeight + newBHeight + newCHeight;
             const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
-            const availableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 16);
+            const availableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 20);
             
-            // Scale all panels proportionally to fit available space
-            if (totalRequestedHeight > availableHeight) {
-                const scaleFactor = availableHeight / totalRequestedHeight;
+            if (totalHeight > 0) {
+                const scaleFactor = Math.min(1, availableHeight / totalHeight);
                 newAHeight *= scaleFactor;
                 newBHeight *= scaleFactor;
                 newCHeight *= scaleFactor;
+                
+                // Convert to flex values
+                const totalNewHeight = newAHeight + newBHeight + newCHeight;
+                const aFlex = (newAHeight / totalNewHeight) * 12;
+                const bFlex = (newBHeight / totalNewHeight) * 12;
+                const cFlex = (newCHeight / totalNewHeight) * 12;
+                
+                // Apply with smooth transitions
+                requestAnimationFrame(() => {
+                    DashboardState.panelA.style.flex = aFlex;
+                    DashboardState.panelB.style.flex = bFlex;
+                    DashboardState.panelC.style.flex = cFlex;
+                });
             }
-            
-            // Calculate flex values based on proportions
-            const totalNewHeight = newAHeight + newBHeight + newCHeight;
-            const aFlex = (newAHeight / totalNewHeight) * 12; // Scale to reasonable flex range
-            const bFlex = (newBHeight / totalNewHeight) * 12;
-            const cFlex = (newCHeight / totalNewHeight) * 12;
-            
-            // Apply flex values to all three panels
-            panelA.style.flex = aFlex;
-            panelB.style.flex = bFlex;
-            panelC.style.flex = cFlex;
         }
         
         function stopResize() {
-            isResizing = false;
+            DashboardState.isResizing = false;
             
-            if (currentHandle) {
-                currentHandle.classList.remove('dragging');
-                currentHandle = null;
+            if (DashboardState.currentHandle) {
+                DashboardState.currentHandle.classList.remove('dragging');
+                DashboardState.currentHandle = null;
             }
             
             document.body.style.cursor = '';
             document.body.style.userSelect = '';
             
-            // Remove both mouse and touch event listeners
+            // Remove event listeners
             document.removeEventListener('mousemove', handleResize);
             document.removeEventListener('mouseup', stopResize);
             document.removeEventListener('touchmove', handleResize);
             document.removeEventListener('touchend', stopResize);
             
-            // Clear all panel references
-            panelA = null;
-            panelB = null;
-            panelC = null;
+            // Clean up
+            removeResizeGuidelines();
+            DashboardState.panelA = null;
+            DashboardState.panelB = null;
+            DashboardState.panelC = null;
+            
+            // Auto-save if enabled
+            if (DashboardState.settings.autosave) {
+                setTimeout(saveLayout, 500);
+            }
         }
         
+        // Panel control functions
+        function maximizePanel(panelId) {
+            if (DashboardState.maximizedPanel === panelId) {
+                restorePanel();
+                return;
+            }
+            
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+            
+            // Save current state before maximizing
+            saveCurrentState();
+            
+            // Hide other panels and maximize this one
+            document.querySelectorAll('.service-panel').forEach(p => {
+                if (p.id !== panelId) {
+                    p.style.display = 'none';
+                }
+            });
+            
+            document.querySelectorAll('.resize-handle').forEach(h => {
+                h.style.display = 'none';
+            });
+            
+            panel.classList.add('maximized');
+            DashboardState.maximizedPanel = panelId;
+            
+            // Update maximize button icon
+            const maximizeBtn = panel.querySelector('.panel-btn.maximize i');
+            if (maximizeBtn) {
+                maximizeBtn.className = 'fas fa-compress';
+            }
+            
+            showNotification('パネルを最大化しました (Escで復元)', 'info');
+        }
+        
+        function minimizePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+            
+            panel.style.flex = '0.5';
+            saveLayout();
+            showNotification('パネルを最小化しました', 'info');
+        }
+        
+        function hidePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+            
+            panel.classList.add('hidden');
+            DashboardState.hiddenPanels.add(panelId);
+            
+            // Redistribute space among visible panels
+            redistributePanelSpace();
+            
+            showNotification('パネルを非表示にしました', 'warning');
+        }
+        
+        function restorePanel() {
+            if (!DashboardState.maximizedPanel) return;
+            
+            const panel = document.getElementById(DashboardState.maximizedPanel);
+            if (!panel) return;
+            
+            // Restore all panels
+            document.querySelectorAll('.service-panel').forEach(p => {
+                p.style.display = 'flex';
+                p.classList.remove('maximized');
+            });
+            
+            document.querySelectorAll('.resize-handle').forEach(h => {
+                h.style.display = 'flex';
+            });
+            
+            // Update maximize button icon
+            const maximizeBtn = panel.querySelector('.panel-btn.maximize i');
+            if (maximizeBtn) {
+                maximizeBtn.className = 'fas fa-expand';
+            }
+            
+            DashboardState.maximizedPanel = null;
+            loadSavedLayout(); // Restore previous layout
+            
+            showNotification('パネルを復元しました', 'success');
+        }
+        
+        // Layout management
         function resetLayout() {
-            const panels = document.querySelectorAll('.service-panel');
-            panels.forEach(panel => {
+            // Clear maximized state
+            if (DashboardState.maximizedPanel) {
+                restorePanel();
+            }
+            
+            // Reset all panels
+            document.querySelectorAll('.service-panel').forEach(panel => {
                 panel.style.flex = '3';
                 panel.className = 'service-panel medium';
+                panel.style.display = 'flex';
+            });
+            
+            // Clear hidden panels
+            DashboardState.hiddenPanels.clear();
+            
+            // Reset all maximize button icons
+            document.querySelectorAll('.panel-btn.maximize i').forEach(icon => {
+                icon.className = 'fas fa-expand';
+            });
+            
+            saveLayout();
+            showNotification('レイアウトをリセットしました', 'success');
+        }
+        
+        function saveLayout() {
+            const layout = {
+                panels: {},
+                hiddenPanels: Array.from(DashboardState.hiddenPanels),
+                maximizedPanel: DashboardState.maximizedPanel,
+                timestamp: Date.now()
+            };
+            
+            document.querySelectorAll('.service-panel').forEach(panel => {
+                layout.panels[panel.id] = {
+                    flex: panel.style.flex || '3',
+                    display: panel.style.display || 'flex'
+                };
+            });
+            
+            try {
+                localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify(layout));
+                console.log('💾 Layout saved:', layout);
+            } catch (e) {
+                console.warn('Failed to save layout:', e);
+            }
+        }
+        
+        function loadSavedLayout() {
+            try {
+                const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
+                if (!saved) return;
+                
+                const layout = JSON.parse(saved);
+                console.log('📥 Loading saved layout:', layout);
+                
+                // Apply saved panel states
+                Object.entries(layout.panels || {}).forEach(([panelId, state]) => {
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.style.flex = state.flex;
+                        panel.style.display = state.display;
+                    }
+                });
+                
+                // Restore hidden panels
+                DashboardState.hiddenPanels = new Set(layout.hiddenPanels || []);
+                DashboardState.hiddenPanels.forEach(panelId => {
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.classList.add('hidden');
+                    }
+                });
+                
+                showNotification('保存されたレイアウトを復元しました', 'info');
+            } catch (e) {
+                console.warn('Failed to load saved layout:', e);
+            }
+        }
+        
+        // Enhanced iframe loading
+        function handleIframeLoad(iframe, loadingId) {
+            console.log('📄 Iframe loaded:', iframe.src);
+            
+            // Hide loading indicator
+            const loadingIndicator = document.getElementById(loadingId);
+            if (loadingIndicator) {
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                }, 500);
+            }
+            
+            // Remove loading class
+            iframe.classList.remove('loading');
+            
+            // Add loaded animation
+            iframe.style.animation = 'fadeIn 0.5s ease-in-out';
+        }
+        
+        // Help system
+        function toggleHelp() {
+            const helpOverlay = document.getElementById('helpOverlay');
+            helpOverlay.classList.toggle('active');
+            
+            if (helpOverlay.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+                z-index: 3000;
+                transform: translateX(100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                max-width: 300px;
+                border-left: 4px solid ${type === 'success' ? '#48bb78' : type === 'warning' ? '#ed8936' : type === 'error' ? '#f56565' : '#667eea'};
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Utility functions
+        function addResizeGuidelines() {
+            // Visual feedback during resize
+            document.querySelectorAll('.service-panel').forEach(panel => {
+                panel.style.transition = 'none';
             });
         }
         
-        function handleIframeLoad(iframe) {
-            // Add loading states if needed
-            console.log('Iframe loaded:', iframe.src);
+        function removeResizeGuidelines() {
+            document.querySelectorAll('.service-panel').forEach(panel => {
+                panel.style.transition = '';
+            });
         }
         
-        // Prevent context menu on resize handles and add touch support
-        document.querySelectorAll('.resize-handle').forEach(handle => {
-            handle.addEventListener('contextmenu', event => event.preventDefault());
-            // Improve touch experience
-            handle.style.touchAction = 'none';
-        });
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('FS!QR All-in-One Dashboard initialized');
+        function redistributePanelSpace() {
+            const visiblePanels = document.querySelectorAll('.service-panel:not(.hidden)');
+            const flexValue = 12 / visiblePanels.length;
             
-            // Add some breathing animation to the header
-            const header = document.querySelector('.header h1');
-            setInterval(() => {
-                header.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    header.style.transform = 'scale(1)';
-                }, 1000);
-            }, 5000);
-        });
+            visiblePanels.forEach(panel => {
+                panel.style.flex = flexValue;
+            });
+        }
         
-        // Handle window resize
+        function saveCurrentState() {
+            // Save state before major changes
+            saveLayout();
+        }
+        
+        function addTouchOptimizations() {
+            // Enhance touch experience
+            document.querySelectorAll('.resize-handle').forEach(handle => {
+                handle.addEventListener('contextmenu', e => e.preventDefault());
+                handle.style.touchAction = 'none';
+                
+                // Add touch feedback
+                handle.addEventListener('touchstart', () => {
+                    handle.style.transform = 'scaleY(1.1)';
+                });
+                
+                handle.addEventListener('touchend', () => {
+                    setTimeout(() => {
+                        handle.style.transform = '';
+                    }, 200);
+                });
+            });
+        }
+        
+        function animateHeaderPeriodically() {
+            const header = document.querySelector('.header h1');
+            if (!header) return;
+            
+            setInterval(() => {
+                if (DashboardState.settings.enableAnimations) {
+                    header.style.transform = 'scale(1.02)';
+                    header.style.textShadow = '0 0 20px rgba(255,255,255,0.3)';
+                    setTimeout(() => {
+                        header.style.transform = 'scale(1)';
+                        header.style.textShadow = '';
+                    }, 1000);
+                }
+            }, 10000);
+        }
+        
+        // Window resize handler
         window.addEventListener('resize', () => {
-            // Reset layout on extreme size changes
             if (window.innerWidth < 768) {
-                resetLayout();
+                // Mobile optimization
+                if (DashboardState.maximizedPanel) {
+                    // Keep maximized state on mobile
+                    return;
+                }
+                // Auto-adjust layout for mobile if needed
+                redistributePanelSpace();
             }
         });
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .notification {
+                animation: fadeIn 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
