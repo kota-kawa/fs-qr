@@ -590,6 +590,80 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #a0aec0;
         }
+        
+        /* Enhanced focus states for accessibility */
+        .btn-control:focus,
+        .panel-btn:focus {
+            outline: 2px solid var(--resize-handle-active);
+            outline-offset: 2px;
+        }
+        
+        /* Loading state improvements */
+        .service-iframe {
+            position: relative;
+        }
+        
+        .service-iframe::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .service-iframe.loading::before {
+            opacity: 1;
+        }
+        
+        /* Panel interaction feedback */
+        .service-panel {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .service-panel:hover::before {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+        
+        /* Resize handle pulse animation */
+        @keyframes resize-pulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.1); }
+        }
+        
+        .resize-handle.hint {
+            animation: resize-pulse 2s ease-in-out infinite;
+        }
+        
+        /* Auto-hide panel controls */
+        .panel-controls {
+            transform: translateX(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-panel:hover .panel-controls {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
@@ -833,14 +907,23 @@
             initializeKeyboardShortcuts();
             loadSavedLayout();
             addTouchOptimizations();
+            addIntroAnimation();
             
             // Enhanced header animation
             animateHeaderPeriodically();
+            
+            // Add resize hints on first visit
+            if (!localStorage.getItem(LAYOUT_STORAGE_KEY)) {
+                setTimeout(showResizeHints, 2000);
+            }
             
             // Auto-save layout on changes
             if (DashboardState.settings.autosave) {
                 setInterval(saveLayout, 5000); // Auto-save every 5 seconds
             }
+            
+            // Performance: Preload panel interactions
+            preloadInteractionStates();
         });
         
         // Keyboard shortcuts
@@ -1179,6 +1262,56 @@
             
             // Add loaded animation
             iframe.style.animation = 'fadeIn 0.5s ease-in-out';
+            
+            // Mark iframe as ready
+            iframe.dataset.loaded = 'true';
+        }
+        
+        // New: Intro animation
+        function addIntroAnimation() {
+            const panels = document.querySelectorAll('.service-panel');
+            panels.forEach((panel, index) => {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    panel.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    panel.style.opacity = '1';
+                    panel.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        }
+        
+        // New: Show resize hints for new users
+        function showResizeHints() {
+            const handles = document.querySelectorAll('.resize-handle');
+            handles.forEach(handle => {
+                handle.classList.add('hint');
+                setTimeout(() => {
+                    handle.classList.remove('hint');
+                }, 4000);
+            });
+            
+            showNotification('💡 パネル間の区切り線をドラッグしてサイズを調整できます', 'info');
+        }
+        
+        // New: Preload interaction states
+        function preloadInteractionStates() {
+            // Pre-warm CSS transitions
+            document.querySelectorAll('.service-panel').forEach(panel => {
+                panel.style.willChange = 'transform, box-shadow';
+            });
+            
+            document.querySelectorAll('.resize-handle').forEach(handle => {
+                handle.style.willChange = 'transform, background';
+            });
+            
+            // Clean up after a delay
+            setTimeout(() => {
+                document.querySelectorAll('.service-panel, .resize-handle').forEach(el => {
+                    el.style.willChange = 'auto';
+                });
+            }, 2000);
         }
         
         // Help system
@@ -1317,8 +1450,58 @@
             .notification {
                 animation: fadeIn 0.3s ease-out;
             }
+            
+            /* Easter egg: Konami code sequence */
+            .konami-activated .service-panel {
+                animation: rainbow-border 3s infinite;
+            }
+            
+            @keyframes rainbow-border {
+                0% { border-color: #ff0000; }
+                16% { border-color: #ff8000; }
+                33% { border-color: #ffff00; }
+                50% { border-color: #00ff00; }
+                66% { border-color: #0080ff; }
+                83% { border-color: #8000ff; }
+                100% { border-color: #ff0000; }
+            }
         `;
         document.head.appendChild(style);
+        
+        // Easter egg: Konami code for fun
+        let konamiCode = [];
+        const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konami.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konami.length && konamiCode.every((code, i) => code === konami[i])) {
+                document.body.classList.add('konami-activated');
+                showNotification('🎉 Ultimate Dashboard Mode Activated!', 'success');
+                setTimeout(() => {
+                    document.body.classList.remove('konami-activated');
+                }, 10000);
+                konamiCode = [];
+            }
+        });
+        
+        // Performance monitoring (dev mode)
+        if (localStorage.getItem('fsqr-debug') === 'true') {
+            console.log('🔧 Debug mode enabled');
+            window.DashboardState = DashboardState; // Expose for debugging
+            
+            // Monitor performance
+            let interactionCount = 0;
+            document.addEventListener('click', () => {
+                interactionCount++;
+                if (interactionCount % 10 === 0) {
+                    console.log(`📊 User interactions: ${interactionCount}`);
+                }
+            });
+        }
     </script>
 </body>
 </html>
