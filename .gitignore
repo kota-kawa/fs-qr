@@ -42,4 +42,4 @@ logs/*
 
 # ビルドディレクトリを無視
 /build/
-__pycache__/
+__pycache__/.env
