@@ -41,22 +41,26 @@ def create_note_room():
     if len(id_) < 5 or len(id_) > 10:
         return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
     
-    # room_idの重複チェック
+    # room_idの重複チェック - ユニークになるまで新しいIDを生成
+    room_id = id_
     existing_room = nd._exec(
         "SELECT room_id FROM note_room WHERE room_id = :r",
-        {"r": id_},
+        {"r": room_id},
         fetch=True
     )
-    if existing_room:
-        # 重複の場合、短いランダム文字を追加
+    while existing_room:
+        # 重複の場合、完全に新しいIDを生成（接尾辞を追加するのではなく）
         import string
-        suffix = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(3))
-        room_id = f"{id_}-{suffix}"
-    else:
-        room_id = id_  # JavaScriptで生成されたIDをそのまま使用
+        chars = string.ascii_letters + string.digits
+        room_id = ''.join(random.choice(chars) for _ in range(8))
+        existing_room = nd._exec(
+            "SELECT room_id FROM note_room WHERE room_id = :r",
+            {"r": room_id},
+            fetch=True
+        )
     
     pw = str(random.randrange(10**5, 10**6))
-    nd.create_room(id_, pw, room_id)
+    nd.create_room(room_id, pw, room_id)
     session['room_id'] = room_id
     return redirect('/note')
 

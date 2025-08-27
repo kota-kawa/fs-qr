@@ -121,15 +121,15 @@ def create_group_room():
     if len(id) < 5 or len(id) > 10:  # IDの長さチェック
         return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
     
-    # room_idの重複チェック
-    existing_room = group_data.get_data(id)
-    if existing_room:
-        # 重複の場合、短いランダム文字を追加
+    # room_idの重複チェック - ユニークになるまで新しいIDを生成
+    room_id = id
+    existing_room = group_data.get_data(room_id)
+    while existing_room:
+        # 重複の場合、完全に新しいIDを生成（接尾辞を追加するのではなく）
         import string
-        suffix = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(3))
-        room_id = f"{id}-{suffix}"
-    else:
-        room_id = id  # JavaScriptで生成されたIDをそのまま使用
+        chars = string.ascii_letters + string.digits
+        room_id = ''.join(random.choice(chars) for _ in range(8))
+        existing_room = group_data.get_data(room_id)
     
     password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
     print(f"Room ID Created: {room_id}")
@@ -138,7 +138,7 @@ def create_group_room():
     folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     os.makedirs(folder_path, exist_ok=True)
 
-    group_data.create_room(id=id, password=password, room_id=room_id)
+    group_data.create_room(id=room_id, password=password, room_id=room_id)
     session['room_id'] = room_id
     return redirect('/group')
 
