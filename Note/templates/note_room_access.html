@@ -131,6 +131,7 @@
 </style>
 
 <script>
+// Define functions immediately to make them available for onclick handlers
 function switchTab(tabName) {
     // Hide all tabs
     document.getElementById('join-tab').style.display = 'none';
@@ -261,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
             radio.addEventListener('change', function() {
                 const manualGroup = document.getElementById('manualIdGroup');
                 const autoGroup = document.getElementById('autoIdGroup');
-                const roomIdInput = document.getElementById('roomID');
                 const hiddenIdInput = document.getElementById('hiddenId');
                 
                 if (this.value === 'manual') {
@@ -285,7 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // ID入力欄のリアルタイムバリデーション（手動入力時のみ）
-        const roomIdInput = document.getElementById('roomID');
         if (roomIdInput) {
             roomIdInput.addEventListener('input', function() {
                 const value = this.value;
