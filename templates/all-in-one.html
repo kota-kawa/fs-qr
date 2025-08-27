@@ -288,56 +288,219 @@
         }
         
         .resize-handle {
-            height: 20px;
-            background: linear-gradient(90deg, transparent 20%, var(--resize-handle-idle) 20%, var(--resize-handle-idle) 80%, transparent 80%);
+            height: 32px;  /* Increased from 20px for better accessibility */
+            background: linear-gradient(90deg, transparent 15%, var(--resize-handle-idle) 15%, var(--resize-handle-idle) 85%, transparent 15%);
             cursor: ns-resize;
             position: relative;
             margin: 0 1rem;
-            border-radius: 12px;
+            border-radius: 16px;  /* Increased radius */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
             user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;  /* Important for mobile */
+            z-index: 20;  /* Ensure it's above panels */
         }
         
         .resize-handle:hover {
-            background: linear-gradient(90deg, transparent 15%, var(--resize-handle-hover) 15%, var(--resize-handle-hover) 85%, transparent 15%);
-            transform: scaleY(1.3);
-            height: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(90deg, transparent 10%, var(--resize-handle-hover) 10%, var(--resize-handle-hover) 90%, transparent 10%);
+            transform: scaleY(1.4);  /* More pronounced hover effect */
+            height: 36px;  /* Increased hover height */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
         
         .resize-handle::before {
-            content: '⋯';
+            content: '⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯';
             position: absolute;
-            font-size: 1.5rem;
-            letter-spacing: 8px;
+            font-size: 1.8rem;  /* Increased size */
+            letter-spacing: 12px;  /* Increased spacing */
             color: currentColor;
-            opacity: 0.8;
+            opacity: 0.7;
             transition: all 0.3s ease;
-            transform: rotate(90deg);
+            user-select: none;
+            -webkit-user-select: none;
+            pointer-events: none;
         }
         
         .resize-handle:hover::before {
             opacity: 1;
             color: white;
-            letter-spacing: 12px;
+            letter-spacing: 16px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
         
         .resize-handle.dragging {
-            background: linear-gradient(90deg, transparent 10%, var(--resize-handle-active) 10%, var(--resize-handle-active) 90%, transparent 10%);
-            transform: scaleY(1.6);
-            height: 28px;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(90deg, transparent 5%, var(--resize-handle-active) 5%, var(--resize-handle-active) 95%, transparent 5%);
+            transform: scaleY(1.8);  /* Even more pronounced when dragging */
+            height: 40px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
         }
         
         .resize-handle.dragging::before {
             color: white;
-            letter-spacing: 16px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            opacity: 1;
         }
         
+        /* Usage Instructions Section */
+        .usage-instructions {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .usage-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .usage-header:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .usage-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .usage-header i {
+            color: #667eea;
+        }
+        
+        .usage-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .usage-toggle:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        
+        .usage-content {
+            padding: 1.5rem 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .usage-instructions.collapsed .usage-content {
+            max-height: 0;
+            padding: 0 2rem;
+            opacity: 0;
+        }
+        
+        .usage-instructions.collapsed .usage-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .usage-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .usage-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .usage-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .usage-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .usage-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .usage-text {
+            flex: 1;
+        }
+        
+        .usage-text strong {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .usage-text p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .usage-header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .usage-content {
+                padding: 1rem;
+            }
+            
+            .usage-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .usage-item {
+                padding: 0.75rem;
+            }
+            
+            .usage-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
         /* Panel size classes */
         .service-panel.small { flex: 1; }
         .service-panel.medium { flex: 3; }
@@ -512,14 +675,25 @@
             }
             
             .resize-handle {
-                height: 28px;
-                margin: 0 0.5rem;
-                background: linear-gradient(90deg, transparent 15%, var(--resize-handle-idle) 15%, var(--resize-handle-idle) 85%, transparent 15%);
+                height: 44px;  /* Increased from 28px for better mobile touch target */
+                margin: 0.75rem 0.25rem;  /* More spacing for mobile */
+                background: linear-gradient(90deg, transparent 5%, var(--resize-handle-idle) 5%, var(--resize-handle-idle) 95%, transparent 5%);
+                touch-action: none;  /* Prevent scrolling during drag */
             }
             
             .resize-handle::before {
-                font-size: 1.8rem;
-                letter-spacing: 12px;
+                font-size: 2.2rem;  /* Increased from 1.8rem */
+                letter-spacing: 16px;  /* Increased from 12px */
+                opacity: 0.9;
+            }
+            
+            .resize-handle:hover {
+                height: 48px;
+            }
+            
+            .resize-handle.dragging {
+                height: 52px;
+                background: linear-gradient(90deg, transparent 2%, var(--resize-handle-active) 2%, var(--resize-handle-active) 98%, transparent 2%);
             }
             
             .service-iframe {
@@ -798,6 +972,64 @@
             </div>
         </div>
     </div>
+    
+    <!-- Usage Instructions Section -->
+    <div class="usage-instructions" id="usageInstructions">
+        <div class="usage-header">
+            <h3><i class="fas fa-info-circle"></i> 使い方ガイド</h3>
+            <button class="usage-toggle" onclick="toggleUsageInstructions()" title="使い方を非表示/表示">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+        </div>
+        <div class="usage-content">
+            <div class="usage-row">
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-arrows-alt"></i></div>
+                    <div class="usage-text">
+                        <strong>パネルサイズ調整</strong>
+                        <p>パネル間の点線をドラッグしてサイズを自由に調整できます</p>
+                    </div>
+                </div>
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-expand"></i></div>
+                    <div class="usage-text">
+                        <strong>最大化/最小化</strong>
+                        <p>パネル右上のボタンで全画面表示や最小サイズに変更</p>
+                    </div>
+                </div>
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-eye-slash"></i></div>
+                    <div class="usage-text">
+                        <strong>パネル非表示</strong>
+                        <p>×ボタンでパネルを一時的に隠すことができます</p>
+                    </div>
+                </div>
+            </div>
+            <div class="usage-row">
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-keyboard"></i></div>
+                    <div class="usage-text">
+                        <strong>キーボード操作</strong>
+                        <p>F1: ヘルプ表示 | 1,2,3: パネル最大化 | Ctrl+R: リセット</p>
+                    </div>
+                </div>
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="usage-text">
+                        <strong>モバイル対応</strong>
+                        <p>スマートフォンでもタッチ操作で快適に利用できます</p>
+                    </div>
+                </div>
+                <div class="usage-item">
+                    <div class="usage-icon"><i class="fas fa-save"></i></div>
+                    <div class="usage-text">
+                        <strong>自動保存</strong>
+                        <p>レイアウト設定は自動的に保存され、次回も同じ状態で開きます</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Floating Help Overlay -->
     <div class="help-overlay" id="helpOverlay">
@@ -893,7 +1125,9 @@
             settings: {
                 autosave: true,
                 enableAnimations: true,
-                touchSensitivity: 1.2
+                touchSensitivity: 1.5,  // Increased from 1.2 for better mobile experience
+                resizeThreshold: 50,    // New: minimum panel size
+                maxResizeRange: 0.9     // New: maximum resize range (90% of container)
             }
         };
         
@@ -908,6 +1142,7 @@
             loadSavedLayout();
             addTouchOptimizations();
             addIntroAnimation();
+            initializeUsageInstructions();  // New: Initialize usage instructions
             
             // Enhanced header animation
             animateHeaderPeriodically();
@@ -1013,17 +1248,17 @@
             
             event.preventDefault();
             
-            // Enhanced touch sensitivity for mobile
-            const sensitivity = window.innerWidth <= 768 ? DashboardState.settings.touchSensitivity : 1;
+            // Enhanced touch sensitivity for mobile with wider adjustment range
+            const sensitivity = window.innerWidth <= 768 ? DashboardState.settings.touchSensitivity * 1.5 : 1.2;
             const clientY = event.clientY || (event.touches && event.touches[0].clientY) || 0;
             const deltaY = (clientY - DashboardState.startY) * sensitivity;
             
-            // Calculate new heights with smoother adjustments
-            let newAHeight = Math.max(80, DashboardState.startAHeight + deltaY);
-            let newBHeight = Math.max(80, DashboardState.startBHeight - deltaY);
-            let newCHeight = Math.max(80, DashboardState.startCHeight);
+            // Calculate new heights with wider range and smoother adjustments (minimum reduced from 80 to 50)
+            let newAHeight = Math.max(50, DashboardState.startAHeight + deltaY);
+            let newBHeight = Math.max(50, DashboardState.startBHeight - deltaY);
+            let newCHeight = Math.max(50, DashboardState.startCHeight);
             
-            // Apply proportional scaling
+            // Apply proportional scaling with more flexible constraints
             const totalHeight = newAHeight + newBHeight + newCHeight;
             const containerHeight = document.querySelector('.main-content').getBoundingClientRect().height;
             const availableHeight = containerHeight - (document.querySelectorAll('.resize-handle').length * 20);
@@ -1324,6 +1559,40 @@
             } else {
                 document.body.style.overflow = '';
             }
+        }
+        
+        // Toggle usage instructions
+        function toggleUsageInstructions() {
+            const usageSection = document.getElementById('usageInstructions');
+            const toggleBtn = usageSection.querySelector('.usage-toggle i');
+            
+            usageSection.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = usageSection.classList.contains('collapsed');
+            localStorage.setItem('fsqr-usage-collapsed', isCollapsed.toString());
+            
+            // Update notification
+            if (isCollapsed) {
+                showNotification('使い方ガイドを非表示にしました', 'info');
+            } else {
+                showNotification('使い方ガイドを表示しました', 'info');
+            }
+        }
+        
+        // Initialize usage instructions state
+        function initializeUsageInstructions() {
+            const usageSection = document.getElementById('usageInstructions');
+            const savedState = localStorage.getItem('fsqr-usage-collapsed');
+            
+            // If user has previously collapsed it, keep it collapsed
+            if (savedState === 'true') {
+                usageSection.classList.add('collapsed');
+            }
+            
+            // Make header clickable
+            const usageHeader = usageSection.querySelector('.usage-header');
+            usageHeader.addEventListener('click', toggleUsageInstructions);
         }
         
         // Notification system
