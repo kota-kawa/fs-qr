@@ -1,4 +1,4 @@
-import uuid, random, re
+import random, re
 from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort, session
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,12 +29,10 @@ def create_note_room_page():
 def create_note_room():
     id_ = request.form.get('id', '').strip()
     id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
-    
-    # IDが空の場合はフォールバック（JavaScriptが無効な場合など）
+
+    # IDが提供されていない場合はエラーを返す
     if not id_:
-        import string
-        chars = string.ascii_letters + string.digits
-        id_ = ''.join(random.choice(chars) for _ in range(8))
+        return jsonify({'error': 'IDが指定されていません。'}), 400
     
     # ID検証
     if not re.match(r'^[a-zA-Z0-9]+$', id_):
