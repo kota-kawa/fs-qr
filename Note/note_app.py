@@ -41,23 +41,23 @@ def create_note_room():
     if len(id_) < 5 or len(id_) > 10:
         return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
     
-    # room_idの重複チェック - ユニークになるまで新しいIDを生成
+    # room_idの重複チェック - 元のIDに接尾辞を追加してユニークにする
     room_id = id_
     existing_room = nd._exec(
         "SELECT room_id FROM note_room WHERE room_id = :r",
         {"r": room_id},
         fetch=True
     )
+    suffix_counter = 2
     while existing_room:
-        # 重複の場合、完全に新しいIDを生成（接尾辞を追加するのではなく）
-        import string
-        chars = string.ascii_letters + string.digits
-        room_id = ''.join(random.choice(chars) for _ in range(8))
+        # 重複の場合、元のIDに数字の接尾辞を追加
+        room_id = f"{id_}-{suffix_counter}"
         existing_room = nd._exec(
             "SELECT room_id FROM note_room WHERE room_id = :r",
             {"r": room_id},
             fetch=True
         )
+        suffix_counter += 1
     
     pw = str(random.randrange(10**5, 10**6))
     nd.create_room(room_id, pw, room_id)
