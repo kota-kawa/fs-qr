@@ -88,7 +88,7 @@ def usage():
 
 @app.route('/all-in-one')
 def all_in_one():
-    return render_template('all-in-one.html')
+    return render_template('all-in-one-gpt.html')
 
 @app.route('/ads.txt')
 def ads_txt():

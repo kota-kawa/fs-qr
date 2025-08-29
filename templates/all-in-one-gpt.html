@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>FS!QR All-in-One - 統合ダッシュボード</title>
+    <link rel="icon" href="{{staticfile('favicon3.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
+
+    <!-- ★★★ 追加/変更: アイコン/フォントの読み込み安定化（CDNへ先行接続） -------- -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <!-- ★★★ ここまで ---------------------------------------------------------- -->
+
+    <!-- Bootstrap CSS -->
+    <!-- ★★★ 追加/変更: fetchpriority付与（対応ブラウザで早期取得） --------------- -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" fetchpriority="high">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" fetchpriority="high">
+
+    <style>
+        :root{
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --panel-bg:#ffffff;
+            --panel-shadow:0 8px 32px rgba(0,0,0,.08);
+            --panel-shadow-hover:0 12px 48px rgba(0,0,0,.15);
+            --text-primary:#2d3748;
+            --text-secondary:#718096;
+            --border-color:#e2e8f0;
+            --success:#48bb78;
+            --warning:#ed8936;
+            --danger:#f56565;
+
+            --row-min: 160px;
+            --sash-size: 10px;
+
+            /* 使い方ガイド（常時トグル表示）＆最下余白 */
+            --usage-collapsed-h: 52px;
+            --bottom-safe: 28px;
+        }
+
+        *{ box-sizing: border-box; }
+
+        html, body{ height: 100%; }
+
+        body{
+            margin:0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", Helvetica, Arial, sans-serif;
+            overflow: auto;
+            background: var(--primary-gradient);
+        }
+
+        .all-in-one{
+            min-height: 100%;
+            display: grid;
+            grid-template-rows: auto auto auto; /* header / main / usage */
+            background: rgba(255,255,255,.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding-bottom: var(--bottom-safe);
+        }
+
+        /* Header */
+        .header{
+            background: var(--primary-gradient);
+            color:#fff;
+            padding: .9rem 1.25rem;
+            display:flex; align-items:center; justify-content:space-between;
+            box-shadow: 0 4px 20px rgba(0,0,0,.15);
+            z-index: 5;
+        }
+        .header h1{ margin:0; font-size:1.3rem; letter-spacing:-.01em; display:flex; align-items:center; gap:.6rem; }
+        .header .controls{ display:flex; gap:.5rem; align-items:center; }
+        .btn-control{
+            background: rgba(255,255,255,.2);
+            border: 1px solid rgba(255,255,255,.35);
+            color:#fff;
+            padding:.45rem .65rem;
+            border-radius: .5rem;
+            font-size:.9rem;
+            cursor:pointer;
+            transition: .2s;
+            display:flex; gap:.45rem; align-items:center;
+        }
+        .btn-control:hover{ background: rgba(255,255,255,.3); transform: translateY(-1px); }
+        .btn-help{ background: rgba(72, 187, 120, .22); border-color: rgba(72,187,120,.5); }
+        .btn-help:hover{ background: rgba(72, 187, 120, .33); }
+
+        /* Main grid */
+        .main{
+            min-height: calc(100vh - 56px - var(--usage-h));
+            height: auto;
+            overflow: visible;
+            display: grid;
+            grid-template-rows: 1fr var(--sash-size) 1fr var(--sash-size) 1fr;
+            grid-template-columns: 1fr;
+            padding: 1rem;
+            gap: 1.25rem 0;
+            background: transparent;
+        }
+
+        .panel{
+            min-height: var(--row-min);
+            display: flex;
+            flex-direction: column;
+            background: var(--panel-bg);
+            border:1px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: var(--panel-shadow);
+            overflow: hidden;
+            position: relative;
+            transition: box-shadow .2s ease, transform .2s ease;
+        }
+        .panel:hover{ box-shadow: var(--panel-shadow-hover); }
+
+        /* ★★★ 追加/変更: 最大化時の余白/高さ/ズーム無効化を強制 ------------------ */
+        .panel.maximized{
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .panel.maximized .iframe-wrap{
+            margin: 0 !important;
+            flex: 1 1 auto;
+            height: auto;
+        }
+        /* ▼▼▼ 修正箇所: 最大化中はズームの transform 自体を無効化 ▼▼▼ */
+        .panel.maximized .zoom-container{
+            width: 100% !important;
+            height: 100% !important;
+            transform: none !important;  /* ← これが肝心 */
+            inset: 0;
+        }
+        /* iframe 側も全面フィットを明示（ブラウザ差吸収） */
+        .panel.maximized .service-iframe{
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+        /* ▲▲▲ 修正箇所 ▲▲▲ */
+        /* ★★★ ここまで -------------------------------------------------------- */
+
+        .panel-header{
+            padding: .7rem 1rem;
+            border-bottom:1px solid var(--border-color);
+            display:flex; align-items:center; justify-content:space-between;
+            font-weight:600;
+            background: #fff;
+        }
+
+        .panel-title{ display:flex; gap:.6rem; align-items:center; color: var(--text-primary); }
+        .panel-controls{ display:flex; gap:.35rem; }
+
+        .icon-btn{
+            width: 32px; height:32px; border:none; border-radius:8px; background: transparent;
+            display:grid; place-items:center; cursor:pointer; color: var(--text-secondary);
+            transition:.15s;
+        }
+        .icon-btn:hover{ background: rgba(0,0,0,.07); color: var(--text-primary); transform: scale(1.06); }
+        .icon-btn.max { color: var(--success); }
+        .icon-btn.min { color: var(--warning); }
+        .icon-btn.close { color: var(--danger); }
+
+        /* パネル種別色 */
+        .panel-header.fsqr{ background: linear-gradient(135deg, #4082dd15, #4082dd28); }
+        .panel-header.group{ background: linear-gradient(135deg, #4aba9515, #4aba9528); }
+        .panel-header.note{ background: linear-gradient(135deg, #64ba4a15, #64ba4a28); }
+
+        /* iframe領域 */
+        .iframe-wrap{
+            position: relative;
+            flex: 1 1 auto;
+            overflow: hidden;
+            margin-block: 16px; /* 上下余白 */
+        }
+
+        .service-iframe{
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+            position: relative;
+        }
+
+        /* ズーム */
+        .zoom-container{
+            position:absolute; inset:0;
+            transform-origin: top left;
+        }
+
+        /* ローディングバー */
+        .loading{
+            position:absolute; top:0; left:0; right:0; height:3px;
+            background: linear-gradient(90deg, transparent, rgba(102,126,234,.9), transparent);
+            animation: load 1.8s infinite linear;
+        }
+        @keyframes load{
+            0%{ transform: translateX(-100%) }
+            100%{ transform: translateX(100%) }
+        }
+
+        /* サッシュ */
+        .sash{
+            height: var(--sash-size);
+            cursor: ns-resize;
+            border-radius: 8px;
+            background:
+                linear-gradient(90deg, transparent 10%, #cbd5e0 10%, #cbd5e0 90%, transparent 10%);
+            position: relative;
+            user-select: none;
+            touch-action: none;
+            margin-bottom: 6px;
+        }
+        .sash::before{
+            content: '⋯⋯⋯⋯⋯';
+            position: absolute; inset: 0;
+            font-size: 20px;
+            color: #6b7280;
+            opacity: .75;
+            display:grid; place-items:center;
+            pointer-events:none;
+        }
+        .sash.dragging{
+            background:
+                linear-gradient(90deg, transparent 5%, #667eea 5%, #667eea 95%, transparent 5%);
+            box-shadow: 0 8px 26px rgba(102,126,234,.45);
+        }
+
+        /* 設定ポップ */
+        .settings{
+            position: absolute;
+            top: 50px; right: 10px;
+            width: 280px;
+            background: #fff;
+            border:1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,.18);
+            padding: .8rem;
+            z-index: 3;
+            display: none;
+        }
+        .settings.active{ display: block; }
+        .settings .form-label{ font-size:.85rem; color: var(--text-secondary); }
+        .settings .form-control, .settings .form-select{ font-size:.9rem; }
+        .settings .btn-sm{ font-size: .8rem; }
+
+        /* 使い方パネル（可変高さ） */
+        .usage{
+            --usage-h: 220px;
+            height: var(--usage-h);
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-top:1px solid var(--border-color);
+        }
+        .usage .usage-header{
+            display:flex; align-items:center; justify-content:space-between;
+            padding: .8rem 1.25rem;
+            background: rgba(255,255,255,.85);
+            border-bottom:1px solid var(--border-color);
+            cursor:pointer;
+            position: sticky; bottom: 0;
+            z-index: 1;
+        }
+        .usage .usage-content{ padding: 1rem 1.5rem; }
+
+        .usage.collapsed{
+            --usage-h: var(--usage-collapsed-h);
+            height: var(--usage-collapsed-h);
+            border-top:1px solid var(--border-color);
+        }
+        .usage.collapsed .usage-content{ display: none; }
+        .usage-toggle-icon{ transition: transform .2s ease; }
+        .usage.collapsed .usage-toggle-icon{ transform: rotate(180deg); }
+
+        /* 通知 */
+        .notification{
+            position: fixed; top: 90px; right: 1.2rem;
+            background:#fff; border-left:4px solid #667eea;
+            border-radius:12px; box-shadow:0 10px 36px rgba(0,0,0,.18);
+            padding:.75rem 1rem; z-index: 1000; max-width:320px;
+            transform: translateX(120%); transition: transform .25s ease;
+        }
+        .notification.show{ transform: translateX(0); }
+        .notification.success{ border-left-color: var(--success); }
+        .notification.warning{ border-left-color: var(--warning); }
+        .notification.error{ border-left-color: var(--danger); }
+
+        @media (max-width: 768px){
+            :root{ --row-min: 140px; }
+            .header h1{ font-size: 1.1rem; }
+            .btn-control span{ display:none; }
+        }
+    </style>
+</head>
+<body>
+<div class="all-in-one">
+    <!-- Header -->
+    <header class="header">
+        <h1><i class="fas fa-th-large"></i> FS!QR All-in-One Dashboard</h1>
+        <div class="controls">
+            <button class="btn-control" id="btn-reset"><i class="fas fa-undo"></i><span>リセット</span></button>
+            <button class="btn-control" id="btn-save"><i class="fas fa-save"></i><span>保存</span></button>
+            <button class="btn-control btn-help" id="btn-help"><i class="fas fa-question-circle"></i><span>ヘルプ</span></button>
+            <button class="btn-control" id="btn-usage"><i class="fas fa-chevron-up"></i><span>使い方</span></button>
+        </div>
+    </header>
+
+    <!-- Main (Grid) -->
+    <main class="main" id="mainGrid" aria-label="Resizable panels">
+        <!-- Panel 1: FS-QR -->
+        <section class="panel" id="panel-fsqr" data-panel="fsqr" style="grid-row:1">
+            <div class="panel-header fsqr">
+                <div class="panel-title">
+                    <i class="fas fa-qrcode" style="color:#4082dd"></i>
+                    <span>QRコード共有サービス</span>
+                </div>
+                <div class="panel-controls">
+                    <button class="icon-btn" data-settings="fsqr" title="設定"><i class="fas fa-gear"></i></button>
+                    <button class="icon-btn max" data-max="fsqr" title="最大化"><i class="fas fa-expand"></i></button>
+                    <button class="icon-btn min" data-min="fsqr" title="最小化"><i class="fas fa-minus"></i></button>
+                    <button class="icon-btn close" data-hide="fsqr" title="非表示"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="iframe-wrap">
+                <div class="loading" id="loading-fsqr" hidden></div>
+                <div class="zoom-container" id="zoom-fsqr" style="transform: scale(1);">
+                    <iframe
+                        id="iframe-fsqr"
+                        class="service-iframe"
+                        src="/fs-qr_menu"
+                        title="QRコード共有サービス"
+                        onload="Dashboard.handleLoad('fsqr')"
+                        loading="eager"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="clipboard-read; clipboard-write; encrypted-media; fullscreen; geolocation; microphone; camera; display-capture; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="settings" id="settings-fsqr" aria-label="FSQR settings">
+                <div class="mb-2">
+                    <label class="form-label">URL</label>
+                    <input type="text" class="form-control form-control-sm" id="url-fsqr" value="/fs-qr_menu">
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-primary" onclick="Dashboard.applyUrl('fsqr')">適用</button>
+                        <a class="btn btn-sm btn-outline-secondary" target="_blank" id="open-fsqr" href="/fs-qr_menu">別タブで開く</a>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">高さ（px）</label>
+                    <input type="number" class="form-control form-control-sm" id="height-fsqr" placeholder="例: 420">
+                    <small class="text-muted">空欄ならドラッグ比率を保持</small>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">ズーム</label>
+                    <input type="range" class="form-range" id="zoomrange-fsqr" min="0.6" max="1.4" step="0.05" value="1">
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span>0.6x</span><span id="zoomlabel-fsqr">1.00x</span><span>1.4x</span>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button class="btn btn-sm btn-primary" onclick="Dashboard.applySizeAndZoom('fsqr')">サイズ/ズームを反映</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sash 1 -->
+        <div class="sash" id="sash-1" style="grid-row:2" role="separator" aria-orientation="horizontal" aria-label="Resize panels 1 and 2"></div>
+
+        <!-- Panel 2: Group -->
+        <section class="panel" id="panel-group" data-panel="group" style="grid-row:3">
+            <div class="panel-header group">
+                <div class="panel-title">
+                    <i class="fas fa-users" style="color:#4aba95"></i>
+                    <span>グループファイル共有</span>
+                </div>
+                <div class="panel-controls">
+                    <button class="icon-btn" data-settings="group" title="設定"><i class="fas fa-gear"></i></button>
+                    <button class="icon-btn max" data-max="group" title="最大化"><i class="fas fa-expand"></i></button>
+                    <button class="icon-btn min" data-min="group" title="最小化"><i class="fas fa-minus"></i></button>
+                    <button class="icon-btn close" data-hide="group" title="非表示"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="iframe-wrap">
+                <div class="loading" id="loading-group" hidden></div>
+                <div class="zoom-container" id="zoom-group" style="transform: scale(1);">
+                    <iframe
+                        id="iframe-group"
+                        class="service-iframe"
+                        src="/group_menu"
+                        title="グループファイル共有"
+                        onload="Dashboard.handleLoad('group')"
+                        loading="eager"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="clipboard-read; clipboard-write; encrypted-media; fullscreen; geolocation; microphone; camera; display-capture; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="settings" id="settings-group" aria-label="Group settings">
+                <div class="mb-2">
+                    <label class="form-label">URL</label>
+                    <input type="text" class="form-control form-control-sm" id="url-group" value="/group_menu">
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-primary" onclick="Dashboard.applyUrl('group')">適用</button>
+                        <a class="btn btn-sm btn-outline-secondary" target="_blank" id="open-group" href="/group_menu">別タブで開く</a>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">高さ（px）</label>
+                    <input type="number" class="form-control form-control-sm" id="height-group" placeholder="例: 420">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">ズーム</label>
+                    <input type="range" class="form-range" id="zoomrange-group" min="0.6" max="1.4" step="0.05" value="1">
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span>0.6x</span><span id="zoomlabel-group">1.00x</span><span>1.4x</span>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button class="btn btn-sm btn-primary" onclick="Dashboard.applySizeAndZoom('group')">サイズ/ズームを反映</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sash 2 -->
+        <div class="sash" id="sash-2" style="grid-row:4" role="separator" aria-orientation="horizontal" aria-label="Resize panels 2 and 3"></div>
+
+        <!-- Panel 3: Note -->
+        <section class="panel" id="panel-note" data-panel="note" style="grid-row:5">
+            <div class="panel-header note">
+                <div class="panel-title">
+                    <i class="fas fa-pencil-alt" style="color:#64ba4a"></i>
+                    <span>リアルタイムノート共有</span>
+                </div>
+                <div class="panel-controls">
+                    <button class="icon-btn" data-settings="note" title="設定"><i class="fas fa-gear"></i></button>
+                    <button class="icon-btn max" data-max="note" title="最大化"><i class="fas fa-expand"></i></button>
+                    <button class="icon-btn min" data-min="note" title="最小化"><i class="fas fa-minus"></i></button>
+                    <button class="icon-btn close" data-hide="note" title="非表示"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="iframe-wrap">
+                <div class="loading" id="loading-note" hidden></div>
+                <div class="zoom-container" id="zoom-note" style="transform: scale(1);">
+                    <iframe
+                        id="iframe-note"
+                        class="service-iframe"
+                        src="/note_menu"
+                        title="リアルタイムノート共有"
+                        onload="Dashboard.handleLoad('note')"
+                        loading="eager"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="clipboard-read; clipboard-write; encrypted-media; fullscreen; geolocation; microphone; camera; display-capture; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="settings" id="settings-note" aria-label="Note settings">
+                <div class="mb-2">
+                    <label class="form-label">URL</label>
+                    <input type="text" class="form-control form-control-sm" id="url-note" value="/note_menu">
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-primary" onclick="Dashboard.applyUrl('note')">適用</button>
+                        <a class="btn btn-sm btn-outline-secondary" target="_blank" id="open-note" href="/note_menu">別タブで開く</a>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">高さ（px）</label>
+                    <input type="number" class="form-control form-control-sm" id="height-note" placeholder="例: 420">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">ズーム</label>
+                    <input type="range" class="form-range" id="zoomrange-note" min="0.6" max="1.4" step="0.05" value="1">
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span>0.6x</span><span id="zoomlabel-note">1.00x</span><span>1.4x</span>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button class="btn btn-sm btn-primary" onclick="Dashboard.applySizeAndZoom('note')">サイズ/ズームを反映</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sash 3 (Note vs Usage) -->
+    <div class="sash" id="sash-3" role="separator" aria-orientation="horizontal" aria-label="Resize note and usage"></div>
+
+    <!-- Usage -->
+    <section class="usage" id="usage">
+        <div class="usage-header" id="usage-header">
+            <h3 class="m-0"><i class="fas fa-info-circle"></i> 使い方ガイド</h3>
+            <button class="btn btn-sm btn-outline-secondary" id="usage-toggle" aria-expanded="true">
+                <i class="fas fa-chevron-down usage-toggle-icon" id="usage-toggle-icon"></i>
+            </button>
+        </div>
+        <div class="usage-content" id="usage-content">
+            <ul class="mb-2">
+                <li><strong>ドラッグで高さ変更:</strong> サッシュ（点線バー）を上下にドラッグ</li>
+                <li><strong>最大化/復元:</strong> 右上の <i class="fas fa-expand"></i> / <kbd>Esc</kbd></li>
+                <li><strong>保存/復元:</strong> 右上の保存、または自動復元</li>
+                <li><strong>設定（⚙︎）:</strong> URL差し替え・高さ(px)直指定・ズーム</li>
+            </ul>
+            <div class="small text-muted">ショートカット: F1(ヘルプ) / Ctrl+S(保存) / Ctrl+R(リセット) / 1,2,3(各パネル最大化)</div>
+        </div>
+    </section>
+</div>
+
+<script>
+/* ★★★ 追加/変更: 定数（最小化高さの統一・プリコネ先格納） --------------------- */
+const MINIMIZED_PX = 180;  // 最小化時の統一高さ(px)
+const PRECONNECT_HOSTS = new Set([
+    'cdnjs.cloudflare.com',
+    'cdn.jsdelivr.net',
+    'fonts.googleapis.com',
+    'fonts.gstatic.com'
+]);
+/* ★★★ ここまで -------------------------------------------------------------- */
+
+const Dashboard = (() => {
+    const LS_KEY = 'fsqr-grid-layout-v2';
+
+    // 状態
+    let state = {
+        rowsPx: [],             // [p1, sash, p2, sash, p3]
+        hidden: {},             // {fsqr:false, group:false, note:false}
+        zoom:   {fsqr:1, group:1, note:1},
+        urls:   {fsqr:'/fs-qr_menu', group:'/group_menu', note:'/note_menu'},
+        maximized: null,
+        usageCollapsed: false,
+        usageH: null
+    };
+
+    // ★★★ 追加/変更: 最大化前のレイアウトを保持して確実に復元 -------------------
+    let preMaxSnapshot = { rowsPx: null };
+    /* ★★★ ここまで ----------------------------------------------------------- */
+
+    // 要素参照
+    const grid   = document.getElementById('mainGrid');
+    const sash1  = document.getElementById('sash-1');
+    const sash2  = document.getElementById('sash-2');
+    const sash3  = document.getElementById('sash-3');
+    const usage  = document.getElementById('usage');
+    const usageToggleBtn = document.getElementById('usage-toggle');
+
+    const panels = {
+        fsqr:  document.getElementById('panel-fsqr'),
+        group: document.getElementById('panel-group'),
+        note:  document.getElementById('panel-note')
+    };
+
+    const loadIndicator = {
+        fsqr:  document.getElementById('loading-fsqr'),
+        group: document.getElementById('loading-group'),
+        note:  document.getElementById('loading-note')
+    };
+
+    const zoomWrap = {
+        fsqr:  document.getElementById('zoom-fsqr'),
+        group: document.getElementById('zoom-group'),
+        note:  document.getElementById('zoom-note')
+    };
+
+    const urlInput = {
+        fsqr: document.getElementById('url-fsqr'),
+        group:document.getElementById('url-group'),
+        note: document.getElementById('url-note')
+    };
+
+    const openLink = {
+        fsqr: document.getElementById('open-fsqr'),
+        group:document.getElementById('open-group'),
+        note: document.getElementById('open-note')
+    };
+
+    const zoomRange = {
+        fsqr: document.getElementById('zoomrange-fsqr'),
+        group:document.getElementById('zoomrange-group'),
+        note: document.getElementById('zoomrange-note')
+    };
+
+    const zoomLabel = {
+        fsqr: document.getElementById('zoomlabel-fsqr'),
+        group: document.getElementById('zoomlabel-group'),
+        note:  document.getElementById('zoomlabel-note')
+    };
+
+    // 保存が存在するか（初回なら3倍配置）
+    let hadSavedState = false;
+
+    function init(){
+        updateUsageHeightVar();
+        load();
+
+        if(!hadSavedState){
+            tripleDefaultHeights();
+            save();
+            notify('初期レイアウトを3倍高さで配置しました（ドラッグで再調整可）','info');
+        }
+
+        // 設定/最大化/最小化/非表示
+        document.body.addEventListener('click', e => {
+            const setBtn = e.target.closest('[data-settings]');
+            const maxBtn = e.target.closest('[data-max]');
+            const minBtn = e.target.closest('[data-min]');
+            const hideBtn= e.target.closest('[data-hide]');
+            const settingsBox = e.target.closest('.settings');
+
+            if(setBtn){
+                const key = setBtn.getAttribute('data-settings');
+                toggleSettings(key);
+            } else if (!settingsBox && !e.target.closest('[data-settings]')) {
+                closeAllSettings();
+            }
+
+            if(maxBtn){ maximize(maxBtn.getAttribute('data-max')); }
+            if(minBtn){ minimize(minBtn.getAttribute('data-min')); }
+            if(hideBtn){ hide(hideBtn.getAttribute('data-hide')); }
+        });
+
+        // 上部の操作
+        document.getElementById('btn-reset').addEventListener('click', resetLayout);
+        document.getElementById('btn-save').addEventListener('click', save);
+        document.getElementById('btn-help').addEventListener('click', () => {
+            notify('ヘルプ: 右上⚙︎で設定、サッシュドラッグで高さ変更、Ctrl+S保存、Esc復元。','info');
+        });
+        document.getElementById('btn-usage').addEventListener('click', toggleUsage);
+
+        // 使い方ガイドのトグル（ヘッダー常駐）
+        usageToggleBtn.addEventListener('click', toggleUsage);
+
+        // サッシュのドラッグ（Pointer Events）
+        wireSashPE(sash1, 0, 2);
+        wireSashPE(sash2, 2, 4);
+        wireUsageSashPE(sash3, 4);
+
+        // ズームラベル
+        ['fsqr','group','note'].forEach(k=>{
+            zoomRange[k].addEventListener('input', ()=>{
+                zoomLabel[k].textContent = parseFloat(zoomRange[k].value).toFixed(2)+'x';
+            });
+        });
+
+        // 初期URL分のpreconnect
+        warmPreconnectForIframe('fsqr', state.urls.fsqr);
+        warmPreconnectForIframe('group', state.urls.group);
+        warmPreconnectForIframe('note',  state.urls.note);
+
+        setTimeout(()=>notify('💡 サッシュ（点線バー）をドラッグすると、パネルの高さを自由に変えられます。','info'), 600);
+    }
+
+    /* Pointer Events リサイズ */
+    function wireSashPE(sash, upperIndex, lowerIndex){
+        let dragging = false;
+        let startY = 0;
+        let startRows = [];
+        const minRow = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--row-min')) || 160;
+
+        const onMove = (e) => {
+            if(!dragging) return;
+            const dy = e.clientY - startY;
+
+            let rows = [...startRows];
+            let upH = rows[upperIndex] + dy;
+            let loH = rows[lowerIndex] - dy;
+
+            const upVisible = isVisibleIndex(upperIndex);
+            const loVisible = isVisibleIndex(lowerIndex);
+
+            if(upVisible) upH = Math.max(minRow, upH);
+            if(loVisible) loH = Math.max(minRow, loH);
+
+            rows[upperIndex] = upH;
+            rows[lowerIndex] = loH;
+
+            applyRows(rows);
+        };
+
+        const onUp = (e) => {
+            if(!dragging) return;
+            dragging = false;
+            sash.classList.remove('dragging');
+            try { sash.releasePointerCapture(e.pointerId); } catch(_) {}
+            save();
+        };
+
+        sash.addEventListener('pointerdown', (e)=>{
+            e.preventDefault();
+            dragging = true;
+            try { sash.setPointerCapture(e.pointerId); } catch(_) {}
+            sash.classList.add('dragging');
+            startY = e.clientY;
+            startRows = currentRowsPx();
+        });
+        sash.addEventListener('pointermove', onMove);
+        sash.addEventListener('pointerup', onUp);
+        sash.addEventListener('pointercancel', onUp);
+        sash.addEventListener('contextmenu', e=>e.preventDefault());
+    }
+
+    // Note(下)とUsageの配分
+    function wireUsageSashPE(sash, lowerIndex /*=4*/){
+        let dragging = false;
+        let startY = 0;
+        let startRows = [];
+        let startUsageH = getUsageHeight();
+        const minRow = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--row-min')) || 160;
+        const minUsage = 120;
+
+        const onMove = (e) => {
+            if(!dragging) return;
+            const dy = e.clientY - startY;
+
+            let rows = [...startRows];
+            let loH = rows[lowerIndex] + dy;
+            let usageH = startUsageH - dy;
+
+            if(!usage.classList.contains('collapsed')){
+                usageH = Math.max(minUsage, usageH);
+                setUsageHeight(usageH);
+            }
+            loH = Math.max(minRow, loH);
+
+            rows[lowerIndex] = loH;
+            applyRows(rows);
+        };
+
+        const onUp = (e) => {
+            if(!dragging) return;
+            dragging = false;
+            sash.classList.remove('dragging');
+            try { sash.releasePointerCapture(e.pointerId); } catch(_) {}
+            save();
+        };
+
+        sash.addEventListener('pointerdown', (e)=>{
+            e.preventDefault();
+            dragging = true;
+            try { sash.setPointerCapture(e.pointerId); } catch(_) {}
+            sash.classList.add('dragging');
+            startY = e.clientY;
+            startRows = currentRowsPx();
+            startUsageH = getUsageHeight();
+        });
+        sash.addEventListener('pointermove', onMove);
+        sash.addEventListener('pointerup', onUp);
+        sash.addEventListener('pointercancel', onUp);
+        sash.addEventListener('contextmenu', e=>e.preventDefault());
+    }
+
+    function isVisibleIndex(idx){
+        if(idx===0) return !state.hidden.fsqr;
+        if(idx===2) return !state.hidden.group;
+        if(idx===4) return !state.hidden.note;
+        return true;
+    }
+
+    function currentRowsPx(){
+        const rects = [
+            panels.fsqr.getBoundingClientRect().height,
+            parseFloat(getComputedStyle(sash1).height),
+            panels.group.getBoundingClientRect().height,
+            parseFloat(getComputedStyle(sash2).height),
+            panels.note.getBoundingClientRect().height
+        ];
+        return rects.map(v => Math.max(0, Math.round(v)));
+    }
+
+    function applyRows(rows){
+        state.rowsPx = rows;
+        grid.style.gridTemplateRows = rows.map((v,i)=>{
+            if(i===1 || i===3) return `${Math.max(2, v)}px`;
+            const visible = (i===0 && !state.hidden.fsqr) || (i===2 && !state.hidden.group) || (i===4 && !state.hidden.note);
+            return visible ? `${Math.max(0, v)}px` : `0px`;
+        }).join(' ');
+    }
+
+    function initRows(){
+        const sashH1 = parseFloat(getComputedStyle(sash1).height) || 10;
+        const sashH2 = parseFloat(getComputedStyle(sash2).height) || 10;
+        const paddTop = parseFloat(getComputedStyle(grid).paddingTop) || 0;
+        const paddBot = parseFloat(getComputedStyle(grid).paddingBottom) || 0;
+
+        const viewportH = window.innerHeight;
+        const headerH = document.querySelector('.header').getBoundingClientRect().height;
+        const usageH = getUsageHeight();
+        const available = Math.max(300, viewportH - headerH - usageH - paddTop - paddBot - sashH1 - sashH2);
+
+        const each = Math.max(200, Math.floor(available/3));
+        applyRows([each, sashH1, each, sashH2, each]);
+    }
+
+    function toggleSettings(key){
+        const box = document.getElementById(`settings-${key}`);
+        const visible = box.classList.toggle('active');
+        urlInput[key].value = state.urls[key];
+        openLink[key].href = state.urls[key];
+        zoomRange[key].value = state.zoom[key];
+        zoomLabel[key].textContent = state.zoom[key].toFixed(2)+'x';
+        const idx = key==='fsqr'?0: key==='group'?2:4;
+        const rows = currentRowsPx();
+        const h = rows[idx];
+        const input = document.getElementById(`height-${key}`);
+        if(input) input.value = isFinite(h) ? h : '';
+        if(visible){
+            Object.keys(panels).forEach(k => { if(k!==key) document.getElementById(`settings-${k}`).classList.remove('active'); });
+        }
+    }
+    function closeAllSettings(){
+        Object.keys(panels).forEach(k => document.getElementById(`settings-${k}`).classList.remove('active'));
+    }
+
+    // iframe先へのpreconnectを自動付与
+    function warmPreconnectForIframe(key, urlStr){
+        try{
+            if(!urlStr) return;
+            const a = document.createElement('a');
+            a.href = urlStr;
+            if(!a.protocol.startsWith('http')) return;
+            const origin = a.origin;
+            const host = a.host;
+            if(!host || PRECONNECT_HOSTS.has(host)) return;
+            if(origin !== window.location.origin){
+                const link1 = document.createElement('link');
+                link1.rel = 'preconnect';
+                link1.href = origin;
+                link1.crossOrigin = 'anonymous';
+                document.head.appendChild(link1);
+
+                const link2 = document.createElement('link');
+                link2.rel = 'dns-prefetch';
+                link2.href = '//' + host;
+                document.head.appendChild(link2);
+            }
+        }catch(e){ /* no-op */ }
+    }
+
+    function applyUrl(key){
+        const url = (urlInput[key].value || '').trim() || '/';
+        state.urls[key] = url;
+        document.getElementById(`iframe-${key}`).src = url;
+        warmPreconnectForIframe(key, url);
+        openLink[key].href = url;
+        save();
+        notify('URLを適用しました','success');
+    }
+
+    function applySizeAndZoom(key){
+        const z = parseFloat(zoomRange[key].value) || 1;
+        state.zoom[key] = z;
+        zoomWrap[key].style.transform = `scale(${z})`;
+        zoomWrap[key].style.width = `${100/z}%`;
+        zoomWrap[key].style.height = `${100/z}%`;
+
+        const val = document.getElementById(`height-${key}`).value;
+        if(val){
+            const px = Math.max(50, parseInt(val,10));
+            const rows = currentRowsPx();
+            const idx = key==='fsqr'?0: key==='group'?2:4;
+            rows[idx] = px;
+            applyRows(rows);
+        }
+        save();
+        notify('サイズ/ズームを反映しました','success');
+    }
+
+    function handleLoad(key){
+        loadIndicator[key]?.setAttribute('hidden','');
+    }
+
+    // 最大化（保存抑止・スナップショット復元）
+    function maximize(key){
+        if(state.maximized === key){
+            restore();
+            return;
+        }
+        preMaxSnapshot.rowsPx = (state.rowsPx && state.rowsPx.length === 5) ? [...state.rowsPx] : currentRowsPx();
+
+        state.maximized = key;
+        Object.entries(panels).forEach(([k,el])=>{
+            if(k===key){
+                el.classList.add('maximized');
+            }else{
+                el.style.display = 'none';
+            }
+        });
+        sash1.style.display = 'none';
+        sash2.style.display = 'none';
+        sash3.style.display = 'none';
+
+        /* ★★★ 追加/変更: スクロールは標準 'auto' を使用（例外回避） ------------- */
+        try{ window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); }catch(_){ window.scrollTo(0,0); }
+
+        // ここでは save() しない（非表示行が 0px 保存される事故防止）
+        notify('パネルを最大化しました（同じボタン/Escで復元）','info');
+    }
+
+    function restore(){
+        state.maximized = null;
+
+        Object.values(panels).forEach(el=>{
+            el.classList.remove('maximized');
+            el.style.display = '';
+        });
+        sash1.style.display = '';
+        sash2.style.display = '';
+        sash3.style.display = '';
+
+        if(preMaxSnapshot.rowsPx && preMaxSnapshot.rowsPx.length === 5){
+            applyRows(preMaxSnapshot.rowsPx);
+        }else if(state.rowsPx?.length === 5){
+            applyRows(state.rowsPx);
+        }else{
+            initRows();
+        }
+        preMaxSnapshot.rowsPx = null;
+
+        save();
+        notify('パネルを復元しました','success');
+    }
+
+    // 最小化
+    function minimize(key){
+        const rows = currentRowsPx();
+        const idx = key==='fsqr'?0: key==='group'?2:4;
+        rows[idx] = MINIMIZED_PX;
+        applyRows(rows);
+        save();
+        notify(`パネルを最小化しました（${MINIMIZED_PX}px）`,'info');
+    }
+
+    function hide(key){
+        state.hidden[key] = true;
+        panels[key].style.display = 'none';
+        const rows = currentRowsPx();
+        const idx = key==='fsqr'?0: key==='group'?2:4;
+        rows[idx] = 0;
+        applyRows(rows);
+        save();
+        notify('パネルを非表示にしました','warning');
+    }
+
+    function resetLayout(){
+        Object.values(panels).forEach(p=>{ p.style.display=''; p.classList.remove('maximized'); });
+        sash1.style.display=''; sash2.style.display=''; sash3.style.display='';
+        state.maximized = null;
+        state.hidden = {fsqr:false, group:false, note:false};
+        state.zoom = {fsqr:1, group:1, note:1};
+        ['fsqr','group','note'].forEach(k=>{
+            zoomWrap[k].style.transform = 'scale(1)';
+            zoomWrap[k].style.width = '100%';
+            zoomWrap[k].style.height = '100%';
+        });
+        initRows();
+        state.usageH = null;
+        usage.classList.remove('collapsed');
+        usageToggleBtn.setAttribute('aria-expanded', 'true');
+        updateUsageHeightVar();
+        save();
+        notify('レイアウトをリセットしました','success');
+    }
+
+    function save(){
+        if(state.maximized){ return; }
+        state.rowsPx = currentRowsPx();
+        try{
+            localStorage.setItem(LS_KEY, JSON.stringify(state));
+        }catch(e){
+            console.warn('Failed to save layout:', e);
+        }
+    }
+
+    function load(){
+        try{
+            const raw = localStorage.getItem(LS_KEY);
+            if(raw){
+                hadSavedState = true;
+                const loaded = JSON.parse(raw);
+                Object.assign(state, loaded);
+            }else{
+                hadSavedState = false;
+                state.hidden = {fsqr:false, group:false, note:false};
+            }
+        }catch(e){
+            console.warn('Failed to load layout:', e);
+        }
+
+        Object.entries(state.hidden).forEach(([k,hide])=>{
+            panels[k].style.display = hide ? 'none' : '';
+        });
+
+        if(state.rowsPx?.length === 5){
+            applyRows(state.rowsPx);
+        }else{
+            initRows();
+        }
+
+        Object.entries(state.zoom).forEach(([k,z])=>{
+            zoomWrap[k].style.transform = `scale(${z})`;
+            zoomWrap[k].style.width = `${100/z}%`;
+            zoomWrap[k].style.height = `${100/z}%`;
+        });
+
+        Object.entries(state.urls).forEach(([k,u])=>{
+            const ifr = document.getElementById(`iframe-${k}`);
+            if(ifr && ifr.src !== u) ifr.src = u;
+        });
+
+        if(state.usageCollapsed){
+            usage.classList.add('collapsed');
+            usageToggleBtn.setAttribute('aria-expanded', 'false');
+        }else{
+            usage.classList.remove('collapsed');
+            usageToggleBtn.setAttribute('aria-expanded', 'true');
+        }
+        updateUsageHeightVar();
+
+        notify('保存されたレイアウトを復元しました','info');
+    }
+
+    function toggleUsage(){
+        usage.classList.toggle('collapsed');
+        const collapsed = usage.classList.contains('collapsed');
+        state.usageCollapsed = collapsed;
+        usageToggleBtn.setAttribute('aria-expanded', String(!collapsed));
+        updateUsageHeightVar();
+        save();
+    }
+
+    function updateUsageHeightVar(){
+        let h;
+        if(usage.classList.contains('collapsed')){
+            h = getUsageCollapsedHeight();
+        }else if(typeof state.usageH === 'number' && state.usageH > 0){
+            h = state.usageH;
+        }else{
+            h = document.getElementById('usage-content').scrollHeight + document.getElementById('usage-header').getBoundingClientRect().height || 220;
+        }
+        document.documentElement.style.setProperty('--usage-h', Math.max(0, Math.round(h)) + 'px');
+    }
+
+    function setUsageHeight(px){
+        state.usageH = Math.max(0, Math.round(px));
+        document.documentElement.style.setProperty('--usage-h', state.usageH+'px');
+    }
+
+    function getUsageHeight(){
+        const v = getComputedStyle(document.documentElement).getPropertyValue('--usage-h');
+        const n = parseFloat(v);
+        if(isFinite(n) && n > 0) return n;
+        return 220;
+    }
+
+    function getUsageCollapsedHeight(){
+        const v = getComputedStyle(document.documentElement).getPropertyValue('--usage-collapsed-h');
+        const n = parseFloat(v);
+        return (isFinite(n) && n>0) ? n : 52;
+    }
+
+    // デフォルト3倍で初期配置
+    function tripleDefaultHeights(){
+        const rows = currentRowsPx(); // [p1, sash, p2, sash, p3]
+        const sashH1 = rows[1] || (parseFloat(getComputedStyle(sash1).height) || 10);
+        const sashH2 = rows[3] || (parseFloat(getComputedStyle(sash2).height) || 10);
+        const baseEach = Math.max(200, Math.floor((rows[0] || 300)));
+        const targetEach = Math.min(baseEach * 3, 1200);
+        const newRows = [targetEach, sashH1, targetEach, sashH2, targetEach];
+        applyRows(newRows);
+    }
+
+    function notify(message, type='info'){
+        document.querySelectorAll('.notification').forEach(n=>n.remove());
+        const n = document.createElement('div');
+        n.className = `notification ${type}`;
+        n.textContent = message;
+        document.body.appendChild(n);
+        requestAnimationFrame(()=> n.classList.add('show'));
+        setTimeout(()=>{ n.classList.remove('show'); setTimeout(()=>n.remove(), 250); }, 2600);
+    }
+
+    return {
+        init,
+        handleLoad,
+        applyUrl,
+        applySizeAndZoom,
+    };
+})();
+
+document.addEventListener('DOMContentLoaded', Dashboard.init);
+</script>
+</body>
+</html>
