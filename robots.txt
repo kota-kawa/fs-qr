@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and management pages
+Disallow: /admin/
+Disallow: /manage_rooms
+Disallow: /delete_room/
+Disallow: /delete_all_rooms
+Disallow: /all-remove
+
+# Disallow dynamic download/upload pages
+Disallow: /download/
+Disallow: /upload/
+Disallow: /upload_complete/
+Disallow: /group_upload/
+Disallow: /group_direct/
+Disallow: /note_direct/
+
+# Allow search engines to crawl public content
+Allow: /search_fs-qr
+Allow: /search_group
+Allow: /search_note
+
+# Sitemap location
+Sitemap: https://fs-qr.com/sitemap.xml

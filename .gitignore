@@ -16,6 +16,7 @@
 *.pptx
 *.txt
 !ads.txt
+!robots.txt
 
 # Test files
 test_app.py
