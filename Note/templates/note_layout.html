@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。" />
-  <meta name="keywords" content="リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習" />
+  <meta name="description" content="{% block meta_description %}FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習{% endblock %}" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="FS!QR" />
   <meta name="language" content="ja" />
@@ -18,8 +18,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ja_JP" />
   <meta property="og:site_name" content="FS!QR Note" />
-  <meta property="og:title" content="FS!QR Note | 無料リアルタイム同時編集ノートサービス" />
-  <meta property="og:description" content="複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。" />
+  <meta property="og:title" content="{% block og_title %}FS!QR Note | 無料リアルタイム同時編集ノートサービス{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。{% endblock %}" />
   <meta property="og:url" content="{{ request.url }}" />
   <meta property="og:image" content="{{staticfile('note_logo.png')}}" />
   <meta property="og:image:width" content="1200" />
@@ -28,8 +28,8 @@
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="FS!QR Note | 無料リアルタイム同時編集ノートサービス" />
-  <meta name="twitter:description" content="複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。" />
+  <meta name="twitter:title" content="{% block twitter_title %}FS!QR Note | 無料リアルタイム同時編集ノートサービス{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。{% endblock %}" />
   <meta name="twitter:image" content="{{staticfile('note_logo.png')}}" />
   <meta name="twitter:image:alt" content="FS!QR Note サービス" />
   
@@ -53,7 +53,7 @@
   <!-- Google 広告用のコード -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
      crossorigin="anonymous"></script>
-  <title>FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス</title>
+  <title>{% block page_title %}FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス{% endblock %}</title>
   
   <!-- Structured Data -->
   <script type="application/ld+json">
