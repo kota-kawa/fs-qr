@@ -94,6 +94,14 @@ def all_in_one():
 def ads_txt():
     return send_from_directory(app.root_path, 'ads.txt')
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(app.root_path, 'sitemap.xml')
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory(app.root_path, 'robots.txt')
+
 
 
 @app.errorhandler(404)
