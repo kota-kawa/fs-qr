@@ -3,6 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。" />
+    <meta name="keywords" content="ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="FS!QR" />
+    <meta name="language" content="ja" />
+    <meta name="geo.region" content="JP" />
+    <meta name="geo.placename" content="Japan" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="theme-color" content="#342ae3" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="FS!QR" />
+    <meta property="og:title" content="FS!QR | 無料で簡単なファイル共有サービス" />
+    <meta property="og:description" content="QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{staticfile('logo.png')}}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FS!QR ファイル共有サービス" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FS!QR | 無料で簡単なファイル共有サービス" />
+    <meta name="twitter:description" content="QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービス。" />
+    <meta name="twitter:image" content="{{staticfile('logo.png')}}" />
+    <meta name="twitter:image:alt" content="FS!QR ファイル共有サービス" />
+    
+    <!-- SEO -->
+    <link rel="canonical" href="{{ request.url }}" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="priority" content="1.0" />
+    <meta name="importance" content="high" />
+    
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
@@ -10,13 +46,42 @@
       href="{{staticfile('apple-touch-icon.png')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
       rel="stylesheet">
     <!-- Google 広告用のコード -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
      crossorigin="anonymous"></script>
-    <title>FS!QR</title>
+    <title>FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FS!QR",
+      "alternateName": "エフエスQR",
+      "url": "{{ request.url_root }}",
+      "description": "無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有機能を提供。",
+      "inLanguage": "ja-JP",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.url_root }}search_fs-qr?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{staticfile('logo.png')}}"
+        }
+      }
+    }
+    </script>
 
      {% block extra_head %}{% endblock %}
 
