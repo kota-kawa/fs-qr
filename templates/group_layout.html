@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。" />
-    <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業" />
+    <meta name="description" content="{% block meta_description %}FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業{% endblock %}" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="FS!QR" />
     <meta name="language" content="ja" />
@@ -18,8 +18,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
-    <meta property="og:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。" />
+    <meta property="og:title" content="{% block og_title %}FS!QR Group | 無料グループファイル共有・チーム協業サービス{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。{% endblock %}" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{staticfile('group_logo.png')}}" />
     <meta property="og:image:width" content="1200" />
@@ -28,8 +28,8 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
-    <meta name="twitter:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。" />
+    <meta name="twitter:title" content="{% block twitter_title %}FS!QR Group | 無料グループファイル共有・チーム協業サービス{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。{% endblock %}" />
     <meta name="twitter:image" content="{{staticfile('group_logo.png')}}" />
     <meta name="twitter:image:alt" content="FS!QR Group サービス" />
     
@@ -54,7 +54,7 @@
     <!-- Google 広告用のコード -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557554518872474"
      crossorigin="anonymous"></script>
-    <title>FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス</title>
+    <title>{% block page_title %}FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス{% endblock %}</title>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
