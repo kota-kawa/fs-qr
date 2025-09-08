@@ -105,7 +105,7 @@
   const MAX_LENGTH = 5000;  // 追加: フロント側の最大文字数
   
   // selfEdit フラグの安全な設定関数
-  function setSelfEdit(value, timeoutMs = 10000) {
+  function setSelfEdit(value, timeoutMs = 8000) {
     selfEdit = value;
     
     if (selfEditTimeout) {
@@ -124,6 +124,33 @@
         }
       }, timeoutMs);
     }
+  }
+
+  // カーソル位置が安全に復元できるかチェックする関数
+  function isCursorSafeToRestore(oldContent, newContent, cursorStart, cursorEnd) {
+    // 基本的な安全チェック
+    if (cursorStart < 0 || cursorEnd < 0 || cursorStart > cursorEnd) {
+      return false;
+    }
+    
+    // コンテンツの長さが大幅に変わった場合は復元しない
+    const lengthDiff = Math.abs(newContent.length - oldContent.length);
+    const relativeDiff = lengthDiff / Math.max(oldContent.length, 1);
+    if (relativeDiff > 0.3) { // 30%以上の変化は復元しない
+      return false;
+    }
+    
+    // カーソル周辺のコンテンツが変更されているかチェック
+    const contextRange = 50; // カーソル前後50文字の範囲をチェック
+    const contextStart = Math.max(0, cursorStart - contextRange);
+    const contextEnd = Math.min(oldContent.length, cursorEnd + contextRange);
+    
+    const oldContext = oldContent.substring(contextStart, contextEnd);
+    const newContextEnd = Math.min(newContent.length, contextEnd);
+    const newContext = newContent.substring(contextStart, newContextEnd);
+    
+    // コンテキストが大幅に変更されている場合は復元しない
+    return oldContext === newContext || lengthDiff < 10;
   }
 
   /* 初回ロード */
@@ -150,9 +177,15 @@
       return;
     }
 
+    // 変更がない場合は保存をスキップ
+    if (currentContent === contentAtLastSync) {
+      setSelfEdit(false);
+      return;
+    }
+
     if (!isRetry) {
       retryCount = 0;
-      setSelfEdit(true, 15000); // 15秒のタイムアウト設定
+      setSelfEdit(true, 12000); // 12秒のタイムアウト設定（短縮）
       status.className = "badge bg-secondary";
       status.textContent = "Saving...";
     }
@@ -180,15 +213,16 @@
       if (j.status && (j.status.startsWith("ok") || j.status.startsWith("conflict"))) {
         lastStamp = j.updated_at;
         if (j.content !== undefined && editor.value !== j.content) {
-          // サーバーから新しいコンテントが返された場合のカーソル位置保持処理
+          // サーバーから新しいコンテントが返された場合の改善されたカーソル位置保持処理
           const cursorStart = editor.selectionStart;
           const cursorEnd = editor.selectionEnd;
           const isEditorFocused = document.activeElement === editor;
+          const oldContent = editor.value;
           
           editor.value = j.content;
           
-          // エディタにフォーカスがある場合のみカーソル位置を復元
-          if (isEditorFocused) {
+          // エディタにフォーカスがあり、カーソル位置が安全に復元できる場合のみ復元
+          if (isEditorFocused && isCursorSafeToRestore(oldContent, j.content, cursorStart, cursorEnd)) {
             const newLength = j.content.length;
             const adjustedStart = Math.min(cursorStart, newLength);
             const adjustedEnd = Math.min(cursorEnd, newLength);
@@ -239,12 +273,12 @@
     typTimer = setTimeout(() => {
       const currentContent = editor.value;
       performSave(currentContent);
-    }, 500); // 500msに延長
+    }, 800); // デバウンス時間を800msに延長（競合を更に削減）
   });
 
   /* 適応的ポーリング - アクティブ編集中は頻度を下げる */
   let lastActivity = Date.now();
-  let pollingInterval = 1000; // 基本ポーリング間隔
+  let pollingInterval = 1500; // 基本ポーリング間隔を少し長く
   let lastPollingTime = Date.now();
   
   // アクティビティ検出のためのイベントリスナー
@@ -256,16 +290,23 @@
     lastActivity = Date.now();
   });
   
+  // マウスクリックもアクティビティとして検出
+  editor.addEventListener("click", () => {
+    lastActivity = Date.now();
+  });
+  
   function adaptivePolling() {
     const now = Date.now();
     const timeSinceActivity = now - lastActivity;
     const timeSinceLastPoll = now - lastPollingTime;
     
     // 最近編集活動があった場合はポーリング頻度を下げる
-    if (timeSinceActivity < 5000) { // 5秒以内に活動があった
+    if (timeSinceActivity < 7000) { // 7秒以内に活動があった（延長）
+      pollingInterval = 3000; // 3秒間隔に延長
+    } else if (timeSinceActivity < 15000) { // 15秒以内
       pollingInterval = 2000; // 2秒間隔
     } else {
-      pollingInterval = 1000; // 通常の1秒間隔
+      pollingInterval = 1500; // 通常の1.5秒間隔
     }
     
     // ポーリング実行の判定
@@ -274,8 +315,8 @@
       performPolling();
     }
     
-    // 次回ポーリング予約（100ms間隔でチェック）
-    setTimeout(adaptivePolling, 100);
+    // 次回ポーリング予約（150ms間隔でチェック、負荷軽減）
+    setTimeout(adaptivePolling, 150);
   }
   
   function performPolling() {
@@ -292,6 +333,8 @@
             // ユーザーがエディターにフォーカスしている場合、カーソル位置を保存
             let cursorStart = 0;
             let cursorEnd = 0;
+            const oldContent = editor.value;
+            
             if (isEditorFocused) {
               cursorStart = editor.selectionStart;
               cursorEnd = editor.selectionEnd;
@@ -300,8 +343,8 @@
             // コンテンツを更新
             editor.value = j.content;
             
-            // ユーザーがフォーカスしていた場合、カーソル位置を復元
-            if (isEditorFocused) {
+            // ユーザーがフォーカスしていて、安全に復元できる場合のみカーソル位置を復元
+            if (isEditorFocused && isCursorSafeToRestore(oldContent, j.content, cursorStart, cursorEnd)) {
               // 新しいコンテンツの長さを超えないようにカーソル位置を調整
               const newLength = j.content.length;
               cursorStart = Math.min(cursorStart, newLength);
