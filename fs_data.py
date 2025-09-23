@@ -51,13 +51,20 @@ def execute_query(query, params=None, fetch=False):
         raise
 
 # ファイルを保存
-def save_file(uid, id, password, secure_id):
+def save_file(uid, id, password, secure_id, file_type='multiple', original_filename=None):
     try:
         query = text("""
-            INSERT INTO fsqr (time, uuid, id, password, secure_id) 
-            VALUES (NOW(), :uid, :id, :password, :secure_id)
+            INSERT INTO fsqr (time, uuid, id, password, secure_id, file_type, original_filename) 
+            VALUES (NOW(), :uid, :id, :password, :secure_id, :file_type, :original_filename)
         """)
-        execute_query(query, {"uid": uid, "id": id, "password": password, "secure_id": secure_id})
+        execute_query(query, {
+            "uid": uid, 
+            "id": id, 
+            "password": password, 
+            "secure_id": secure_id, 
+            "file_type": file_type,
+            "original_filename": original_filename
+        })
         logger.info("File saved successfully.")
     except Exception as e:
         logger.error(f"Failed to save file: {e}")
@@ -106,9 +113,21 @@ def get_all():
 # アップロードされたファイルとメタ情報の削除
 def remove_data(secure_id):
     try:
-        paths = [
-            os.path.join(STATIC, f"{secure_id}.zip")
-        ]
+        # まずデータベースからファイル情報を取得
+        data = get_data(secure_id)
+        file_type = 'multiple'  # デフォルト値
+        if data:
+            file_type = data[0].get('file_type', 'multiple')
+        
+        # ファイルタイプに応じて削除するファイルを決定
+        if file_type == 'single':
+            paths = [
+                os.path.join(STATIC, f"{secure_id}.enc")
+            ]
+        else:
+            paths = [
+                os.path.join(STATIC, f"{secure_id}.zip")
+            ]
 
         for file_path in paths:
             if os.path.exists(file_path):

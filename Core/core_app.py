@@ -27,6 +27,8 @@ def upload():
     # よりセキュアな乱数の生成
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
     id = request.form.get('name', '').strip()
+    file_type = request.form.get('file_type', 'multiple')  # single or multiple
+    original_filename = request.form.get('original_filename', '')
     
     # IDが空の場合は自動生成
     if not id:
@@ -79,15 +81,34 @@ def upload():
         if not filename:
             return json_or_msg('不正なファイル名です')
         
-        save_path = os.path.join(STATIC, secure_id_base + filename)
+        # ファイルタイプに応じて保存
+        if file_type == 'single':
+            # 単一ファイルの場合は.enc拡張子で保存
+            save_path = os.path.join(STATIC, secure_id_base + filename)
+        else:
+            # 複数ファイルの場合は従来通り
+            save_path = os.path.join(STATIC, secure_id_base + filename)
+        
         file.save(save_path)
         uploaded_files.append(filename)
 
-    # 最終的なsecure_idは全ファイル名を元にするが、zip処理が前提なら一貫したルールで
-    # '.'の除去などは行わないが、相対パス排除はsecure_filenameに任せている。
-    secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
+    # 最終的なsecure_idの生成
+    if file_type == 'single':
+        # 単一ファイルの場合は.encを除去
+        secure_id = (secure_id_base + uploaded_files[-1]).replace('.enc', '')
+    else:
+        # 複数ファイルの場合は.zipを除去
+        secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
 
-    fs_data.save_file(uid=uid, id=id, password=password, secure_id=secure_id)
+    # データベースに保存（ファイルタイプと元のファイル名も含める）
+    fs_data.save_file(
+        uid=uid, 
+        id=id, 
+        password=password, 
+        secure_id=secure_id, 
+        file_type=file_type,
+        original_filename=original_filename
+    )
 
         # ここでは JSON でリダイレクト先を返す
     return jsonify({
@@ -135,14 +156,30 @@ def download_go(secure_id):
     if not data:
         return msg('パラメータが不正です')
     
-    # パス操作をos.path.joinで実施
-    path = os.path.join(STATIC, secure_id + '.zip')
+    # ファイルタイプを取得（デフォルトは複数ファイル）
+    file_type = data[0].get('file_type', 'multiple')
+    original_filename = data[0].get('original_filename', '')
+    
+    # ファイルタイプに応じてパスを決定
+    if file_type == 'single':
+        path = os.path.join(STATIC, secure_id + '.enc')
+        download_name = original_filename if original_filename else secure_id + '.enc'
+        mimetype = 'application/octet-stream'
+    else:
+        path = os.path.join(STATIC, secure_id + '.zip')
+        download_name = secure_id + '.zip'
+        mimetype = 'application/zip'
 
     # ファイルが存在するかチェック
     if not os.path.exists(path):
         return msg('ファイルが存在しません')
 
-    return send_file(path, download_name=secure_id+'.zip', as_attachment=False)
+    # ファイルタイプをヘッダーに追加して送信
+    response = send_file(path, download_name=download_name, as_attachment=False, mimetype=mimetype)
+    response.headers['X-File-Type'] = file_type
+    if original_filename:
+        response.headers['X-Original-Filename'] = original_filename
+    return response
 
 @core_bp.route('/search_fs-qr')
 def search_fs_qr():
