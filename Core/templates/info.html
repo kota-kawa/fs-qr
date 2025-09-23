@@ -152,22 +152,37 @@
     const secureId = "{{ secure_id }}";
     const decryptionKey = secureId.split('-')[0];
 
-    // fetch APIでサーバーからZIPファイルを受信
+    // fetch APIでサーバーからファイルを受信
     const response = await fetch(`/download_go/${secureId}`, {
       method: 'POST'
     });
     const encryptedBlob = await response.blob();
+    
+    // レスポンスヘッダーからファイルタイプを取得
+    const fileType = response.headers.get('X-File-Type') || 'multiple';
+    const originalFilename = response.headers.get('X-Original-Filename') || '';
 
     // 状態を「復号中」に変更
     document.getElementById('statusText').textContent = '復号中...';
 
-    // ZIPを復号してBlob化するカスタム関数（後述）を実行
-    const decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+    let decryptedBlob;
+    let downloadFilename;
+
+    if (fileType === 'single') {
+      // 単一ファイルの復号処理
+      decryptedBlob = await decryptSingleFile(encryptedBlob, decryptionKey);
+      downloadFilename = originalFilename || `${secureId}_decrypted`;
+    } else {
+      // 複数ファイル（ZIP）の復号処理
+      decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+      downloadFilename = `${secureId}.zip`;
+    }
+
     if (decryptedBlob) {
       // 復号完了後、自動ダウンロード
       const link = document.createElement('a');
       link.href = URL.createObjectURL(decryptedBlob);
-      link.download = `${secureId}.zip`;
+      link.download = downloadFilename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -194,6 +209,25 @@
       return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);
     } catch (error) {
       console.error('復号エラー:', error);
+      return null;
+    }
+  }
+
+  // 単一ファイルの復号処理
+  async function decryptSingleFile(encryptedBlob, key) {
+    try {
+      const arrayBuffer = await encryptedBlob.arrayBuffer();
+      const iv = arrayBuffer.slice(0, 12);  // 最初の12バイトはIV
+      const encryptedContent = arrayBuffer.slice(12);  // 残りが暗号化されたデータ
+      
+      const decryptedContent = await decryptFile(encryptedContent, key, iv);
+      
+      if (decryptedContent) {
+        return new Blob([decryptedContent]);
+      }
+      return null;
+    } catch (error) {
+      console.error('単一ファイル復号エラー:', error);
       return null;
     }
   }

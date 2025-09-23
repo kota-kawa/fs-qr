@@ -271,13 +271,32 @@
         fileInput.files = dataTransfer.files;
     }
 
-    // 暗号化と進捗表示の関数
+    // 暗号化と進捗表示の関数（単一ファイルと複数ファイルに対応）
     async function encryptAndZipFilesWithProgress(files, key) {
-        const zip = new JSZip();
         const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
         const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
-
         const progressBar = document.querySelector('.progress-bar');
+
+        // 単一ファイルの場合は暗号化のみ
+        if (files.length === 1) {
+            const file = files[0];
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const fileBuffer = await file.arrayBuffer();
+            
+            // 暗号化進捗を25%まで表示
+            progressBar.style.transform = `scaleX(0.25)`;
+            
+            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+            
+            // 暗号化完了で50%まで進捗
+            progressBar.style.transform = `scaleX(0.5)`;
+            
+            // IVと暗号化データを結合したBlobを返す
+            return new Blob([iv, encryptedBuffer]);
+        }
+
+        // 複数ファイルの場合は従来のZIP化処理
+        const zip = new JSZip();
 
         // 各ファイルを順次処理し、暗号化進捗を表示
         for (let i = 0; i < files.length; i++) {
@@ -370,7 +389,7 @@
 
             // (2) 暗号化処理に入る
             document.querySelector('.text').textContent = '暗号化中...';
-            const zipBlob = await encryptAndZipFilesWithProgress(files, id);
+            const encryptedBlob = await encryptAndZipFilesWithProgress(files, id);
 
             // (3) 送信中に切り替え（進捗バーはリセットせず50%の状態から継続）
             document.querySelector('.text').textContent = '送信中...';
@@ -379,10 +398,21 @@
             startUploadAnimation();
 
             // 送信するファイルをFormDataに追加
-            const zipFile = new File([zipBlob], 'encrypted_files.zip', { type: 'application/zip' });
+            // 単一ファイルか複数ファイルかで処理を分岐
             const formData = new FormData();
-            formData.append('upfile', zipFile);
+            if (files.length === 1) {
+                // 単一ファイルの場合は.encファイルとして送信
+                const encryptedFile = new File([encryptedBlob], `${files[0].name}.enc`, { type: 'application/octet-stream' });
+                formData.append('upfile', encryptedFile);
+                formData.append('file_type', 'single'); // ファイルタイプを明示
+            } else {
+                // 複数ファイルの場合はZIPファイルとして送信
+                const zipFile = new File([encryptedBlob], 'encrypted_files.zip', { type: 'application/zip' });
+                formData.append('upfile', zipFile);
+                formData.append('file_type', 'multiple'); // ファイルタイプを明示
+            }
             formData.append('name', id);
+            formData.append('original_filename', files[0].name); // 元のファイル名を保存
 
             // XMLHttpRequest を利用してアップロード進捗を計測
             const xhr = new XMLHttpRequest();
