@@ -93,10 +93,13 @@ _ensure_tables()
 # ────────────────────────────────────────────
 # ノートルーム作成
 # ────────────────────────────────────────────
-def create_room(id_, password, room_id):
+def create_room(id_, password, room_id, retention_days=7):
     execute_query(
-        "INSERT INTO note_room(time, id, password, room_id) VALUES(NOW(), :i, :p, :r)",
-        {"i": id_, "p": password, "r": room_id}
+        """
+        INSERT INTO note_room(time, id, password, room_id, retention_days)
+        VALUES(NOW(), :i, :p, :r, :retention)
+        """,
+        {"i": id_, "p": password, "r": room_id, "retention": retention_days}
     )
 
 # ────────────────────────────────────────────
@@ -178,7 +181,11 @@ def remove_expired_rooms():
     try:
         # 7日より古い room_id を取得
         rows = execute_query(
-            "SELECT room_id FROM note_room WHERE time < (NOW() - INTERVAL 7 DAY)",
+            """
+            SELECT room_id
+            FROM note_room
+            WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
+            """,
             fetch=True
         )
         for r in rows:

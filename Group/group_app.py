@@ -111,13 +111,25 @@ def create_group_room():
     作成したルームIDのフォルダをセキュアな方法で生成し、group_dataモジュールにルーム情報を保存する。
     その後、作成されたルームのページへリダイレクトする。
     """
+    json_data = request.get_json(silent=True) or {}
+
     # フォームに複数のidフィールドが存在する場合（自動生成と手動入力の重複など）を考慮
     id_candidates = request.form.getlist('id')
     if not id_candidates:
-        json_data = request.get_json(silent=True) or {}
         id_candidates = [json_data.get('id', '')]
     id = next((v.strip() for v in id_candidates if v.strip()), '')
-    id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
+    id_mode = request.form.get('idMode') or json_data.get('idMode', 'auto')  # ID生成モードを取得
+
+    retention_value = request.form.get('retention_days')
+    if retention_value is None:
+        retention_value = json_data.get('retention_days', 7)
+    try:
+        retention_days = int(retention_value)
+    except (TypeError, ValueError):
+        retention_days = 7
+
+    if retention_days not in (1, 7, 30):
+        retention_days = 7
 
     # IDが提供されていない場合はエラーを返す
     if not id:
@@ -148,7 +160,7 @@ def create_group_room():
     folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     os.makedirs(folder_path, exist_ok=True)
 
-    group_data.create_room(id=room_id, password=password, room_id=room_id)
+    group_data.create_room(id=room_id, password=password, room_id=room_id, retention_days=retention_days)
     return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------

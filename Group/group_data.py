@@ -49,11 +49,20 @@ def execute_query(query, params=None, fetch=False):
         raise
 
 # グループの部屋の作成
-def create_room(id, password, room_id):
+def create_room(id, password, room_id, retention_days=7):
     query = text("""
-        INSERT INTO room (time, id, password, room_id) VALUES (NOW(), :id, :password, :room_id)
+        INSERT INTO room (time, id, password, room_id, retention_days)
+        VALUES (NOW(), :id, :password, :room_id, :retention_days)
     """)
-    execute_query(query, {"id": id, "password": password, "room_id": room_id})
+    execute_query(
+        query,
+        {
+            "id": id,
+            "password": password,
+            "room_id": room_id,
+            "retention_days": retention_days,
+        },
+    )
 
 # ログイン処理
 def pich_room_id(id, password):
@@ -137,7 +146,13 @@ def all_remove():
 # 1週間以上経過したルームを削除する関数
 def remove_expired_rooms():
     # 1週間以上前のルームを取得するクエリ（MySQLの場合）
-    query = text("SELECT room_id FROM room WHERE time < (NOW() - INTERVAL 7 DAY)")
+    query = text(
+        """
+        SELECT room_id
+        FROM room
+        WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
+    """
+    )
     expired_rooms = execute_query(query, fetch=True)
     for room in expired_rooms:
         room_id = room.get("room_id")

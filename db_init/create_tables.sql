@@ -14,7 +14,8 @@ CREATE TABLE room (
     time DATETIME NOT NULL,               -- レコードの挿入時間
     id VARCHAR(255) NOT NULL,             -- ユーザーID
     password VARCHAR(255) NOT NULL,       -- パスワード
-    room_id VARCHAR(255) NOT NULL         -- 部屋ID
+    room_id VARCHAR(255) NOT NULL,        -- 部屋ID
+    retention_days INT NOT NULL DEFAULT 7 -- 自動削除までの日数
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -28,7 +29,8 @@ CREATE TABLE note_room (
     time DATETIME NOT NULL,
     id VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    room_id VARCHAR(255) NOT NULL
+    room_id VARCHAR(255) NOT NULL,
+    retention_days INT NOT NULL DEFAULT 7
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 各ルームに 1 行だけ、最新ノート本文を保持
