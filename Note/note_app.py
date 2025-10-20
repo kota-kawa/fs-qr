@@ -36,13 +36,25 @@ def create_note_room_page():
 # ルーム作成処理
 @note_bp.route('/create_note_room', methods=['POST'])
 def create_note_room():
+    json_data = request.get_json(silent=True) or {}
+
     # フォームに複数のidフィールドが存在する場合を考慮して最初の空でない値を使用
     id_candidates = request.form.getlist('id')
     if not id_candidates:
-        json_data = request.get_json(silent=True) or {}
         id_candidates = [json_data.get('id', '')]
     id_ = next((v.strip() for v in id_candidates if v.strip()), '')
-    id_mode = request.form.get('idMode', 'auto')  # ID生成モードを取得
+    id_mode = request.form.get('idMode') or json_data.get('idMode', 'auto')  # ID生成モードを取得
+
+    retention_value = request.form.get('retention_days')
+    if retention_value is None:
+        retention_value = json_data.get('retention_days', 7)
+    try:
+        retention_days = int(retention_value)
+    except (TypeError, ValueError):
+        retention_days = 7
+
+    if retention_days not in (1, 7, 30):
+        retention_days = 7
 
     # IDが提供されていない場合はエラーを返す
     if not id_:
@@ -71,7 +83,7 @@ def create_note_room():
             return jsonify({'error': 'このIDは既に使用されています。別のIDを使用してください。'}), 409
     
     pw = str(random.randrange(10**5, 10**6))
-    nd.create_room(room_id, pw, room_id)
+    nd.create_room(room_id, pw, room_id, retention_days=retention_days)
     return redirect(url_for('note.note_room', room_id=room_id, password=pw))
 
 # ルームアクセスページ

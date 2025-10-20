@@ -20,6 +20,7 @@
                 <th>ルームID</th>
                 <th>ID</th>
                 <th>パスワード</th>
+                <th>自動削除</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -29,6 +30,7 @@
                 <td>{{ room.room_id }}</td>
                 <td>{{ room.id }}</td>
                 <td>{{ room.password }}</td>
+                <td>{{ room.retention_days }}日</td>
                 <td>
                     <form method="post" action="/delete_room/{{ room.room_id }}" onsubmit="return confirm('このルームを削除しますか？');">
                         <button type="submit" class="btn btn-sm btn-danger">削除</button>
@@ -37,7 +39,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="4" class="text-center">ルームがありません</td>
+                <td colspan="5" class="text-center">ルームがありません</td>
             </tr>
             {% endfor %}
         </tbody>
