@@ -1,5 +1,7 @@
 import os
 
+import fs_data
+
 from flask import (
     Blueprint,
     abort,
