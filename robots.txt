@@ -15,6 +15,9 @@ Disallow: /upload_complete/
 Disallow: /group_upload/
 Disallow: /group_direct/
 Disallow: /note_direct/
+Disallow: /group/
+Disallow: /note/
+Disallow: /fs-qr/
 
 # Allow search engines to crawl public content
 Allow: /search_fs-qr

@@ -100,6 +100,20 @@ def create_room(id_, password, room_id):
     )
 
 # ────────────────────────────────────────────
+# ルームメタ情報取得
+# ────────────────────────────────────────────
+def get_room_meta(room_id, password=None):
+    if password is None:
+        query = "SELECT id, password FROM note_room WHERE room_id=:r"
+        params = {"r": room_id}
+    else:
+        query = "SELECT id, password FROM note_room WHERE room_id=:r AND password=:p"
+        params = {"r": room_id, "p": password}
+
+    rows = execute_query(query, params, fetch=True)
+    return rows[0] if rows else None
+
+# ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
 def pick_room_id(id_, password):

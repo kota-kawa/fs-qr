@@ -15,8 +15,12 @@ api_bp = Blueprint('note_api', __name__, url_prefix='/api')
 MAX_CONTENT_LENGTH = 5000  # 追加: 最大文字数を5000文字に設定
 MAX_RETRY_ATTEMPTS = 3  # 最大リトライ回数
 
-@api_bp.route('/note/<room_id>', methods=['GET', 'POST'])
-def note_sync(room_id):
+@api_bp.route('/note/<room_id>/<password>', methods=['GET', 'POST'])
+def note_sync(room_id, password):
+    meta = nd.get_room_meta(room_id, password=password)
+    if not meta:
+        return jsonify({"error": "room not found or password mismatch"}), 404
+
     if request.method == 'GET':
         try:
             row = nd.get_row(room_id)

@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, abort, flash
+from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, abort, flash, url_for
 import random
 import os
 import urllib
@@ -59,28 +59,33 @@ def group():
     return render_template('group.html')
 
 # ---------------------------
+# ルーム情報を検証するヘルパー
+# ---------------------------
+def _get_room_if_valid(room_id, password):
+    room_data = group_data.get_data(room_id)
+    if not room_data:
+        return None
+    record = room_data[0]
+    if record.get('password') != password:
+        return None
+    return record
+
+
+# ---------------------------
 # 特定のルームIDのグループルーム画面を表示するルート
 # ---------------------------
 @group_bp.route('/group')
 def group_list():
-    # セッションからroom_idを取得
-    room_id = session.get('room_id')
-    if not room_id:
-        # セッションにroom_idがない場合、参加・作成フォームを表示
-        return render_template('group_room_access.html')
-    
-    # まずデータを取得
-    room_data = group_data.get_data(room_id)
-    # 見つからなければ参加・作成フォームを表示
-    if not room_data:
-        session.pop('room_id', None)  # 無効なroom_idをクリア
-        return render_template('group_room_access.html')
-    # レコードがあれば通常どおり処理
-    record = room_data[0]
+    return render_template('group_room_access.html')
+
+
+@group_bp.route('/group/<room_id>/<password>')
+def group_room(room_id, password):
+    record = _get_room_if_valid(room_id, password)
+    if not record:
+        return room_msg('指定されたルームが見つからないか、パスワードが違います')
+
     user_id = record.get('id', '不明')
-    password = record.get('password', '不明')
-    # センシティブ情報はログに出力しないよう注意
-    print(f"Room ID: {room_id}")
     return render_template(
         'group_room.html',
         room_id=room_id,
@@ -144,23 +149,22 @@ def create_group_room():
     os.makedirs(folder_path, exist_ok=True)
 
     group_data.create_room(id=room_id, password=password, room_id=room_id)
-    session['room_id'] = room_id
-    return redirect('/group')
+    return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------
 # グループアップロード処理（ファイルアップロード）
 # ---------------------------
-@group_bp.route('/group_upload/<room_id>', methods=['POST'])
-def group_upload(room_id):
+@group_bp.route('/group_upload/<room_id>/<password>', methods=['POST'])
+def group_upload(room_id, password):
     """
     指定されたルームIDに対して、アップロードされたファイルを保存する。
     ルームが存在しなければエラーを返す。
     アップロードされた各ファイルについて、ファイル名の安全性を確保し、サイズが0バイトのファイルは削除する。
     エラーが発生したファイルはエラーレスポンスとして返す。
     """
-    room_data = group_data.get_data(room_id)
-    if not room_data:
-        return jsonify({"error": "無効なルームIDです。"}), 400
+    record = _get_room_if_valid(room_id, password)
+    if not record:
+        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 400
 
     uploaded_files = request.files.getlist('upfile')
     if not uploaded_files:
@@ -230,12 +234,15 @@ def group_upload(room_id):
 # ---------------------------
 # ルーム内のファイル一覧を取得するルート
 # ---------------------------
-@group_bp.route("/check/<room_id>")
-def list_files(room_id):
+@group_bp.route("/check/<room_id>/<password>")
+def list_files(room_id, password):
     """
     指定されたルームIDに対応するフォルダ内の全ファイルの名前をJSON形式で返す。
     フォルダが存在しなかったり、不正なパスの場合はエラーを返す。
     """
+    if not _get_room_if_valid(room_id, password):
+        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+
     target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(target_directory):
         return jsonify({"error": "ルームIDのディレクトリが見つかりません。"}), 404
@@ -252,13 +259,16 @@ def list_files(room_id):
 # ---------------------------
 # ルーム内のすべてのファイルをZIP圧縮してダウンロードするルート
 # ---------------------------
-@group_bp.route('/download/all/<room_id>', methods=['GET'])
-def download_all_files(room_id):
+@group_bp.route('/download/all/<room_id>/<password>', methods=['GET'])
+def download_all_files(room_id, password):
     """
     指定されたルームIDのフォルダ内のすべてのファイルをZIPファイルにまとめ、
     バイトストリームとしてクライアントに送信する。
     フォルダが存在しなければエラーを返す。
     """
+    if not _get_room_if_valid(room_id, password):
+        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(room_folder):
         return jsonify({"error": "指定されたルームIDのファイルが見つかりません。"}), 404
@@ -279,8 +289,8 @@ def download_all_files(room_id):
 # ---------------------------
 # 単一ファイルをダウンロードするルート
 # ---------------------------
-@group_bp.route('/download/<room_id>/<path:filename>', methods=['GET'])
-def download_file(room_id, filename):
+@group_bp.route('/download/<room_id>/<password>/<path:filename>', methods=['GET'])
+def download_file(room_id, password, filename):
     """
     指定されたルームIDとファイル名に対して、ファイルを安全な形式に変換した上で、
     ダウンロードできるように送信する。パスの安全性もチェックする。
@@ -297,6 +307,9 @@ def download_file(room_id, filename):
     if not decoded_filename.strip():
         return jsonify({"error": "無効なファイル名です。"}), 400
     
+    if not _get_room_if_valid(room_id, password):
+        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 
@@ -314,8 +327,8 @@ def download_file(room_id, filename):
 # ---------------------------
 # ファイルを削除するルート
 # ---------------------------
-@group_bp.route('/delete/<room_id>/<filename>', methods=['DELETE'])
-def delete_file(room_id, filename):
+@group_bp.route('/delete/<room_id>/<password>/<filename>', methods=['DELETE'])
+def delete_file(room_id, password, filename):
     """
     指定されたルームIDとファイル名に対応するファイルを削除する。
     削除前にパスの安全性を確認し、ファイルが存在しなければエラーを返す。
@@ -332,6 +345,9 @@ def delete_file(room_id, filename):
     if not decoded_filename.strip():
         return jsonify({"error": "無効なファイル名です。"}), 400
     
+    if not _get_room_if_valid(room_id, password):
+        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 
@@ -373,8 +389,7 @@ def search_room():
     room_id = group_data.pich_room_id(id, password)
     if not room_id:
         return room_msg('IDかパスワードが間違っています')
-    session['room_id'] = room_id
-    return redirect('/group')
+    return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------
 # QRコード用の直接アクセスルート
@@ -383,20 +398,13 @@ def search_room():
 def group_direct_access(room_id, password):
     """
     QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
-    セッションにroom_idを設定してルームページにリダイレクトする。
+    対応するルームページへリダイレクトする。
     """
-    # ルームの存在確認
-    room_data = group_data.get_data(room_id)
-    if not room_data:
+    record = _get_room_if_valid(room_id, password)
+    if not record:
         return room_msg('指定されたルームが見つかりません')
-    
-    # パスワード確認
-    if room_data[0]['password'] != password:
-        return room_msg('パスワードが間違っています')
-    
-    # セッションに設定してルームにリダイレクト
-    session['room_id'] = room_id
-    return redirect('/group')
+
+    return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------
 # エラーメッセージを表示するための補助関数

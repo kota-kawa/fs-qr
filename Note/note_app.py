@@ -1,5 +1,5 @@
 import random, re
-from flask import Blueprint, render_template, flash, redirect, request, jsonify, abort, session
+from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -13,6 +13,15 @@ scheduler.add_job(
 )
 scheduler.start()
 note_bp = Blueprint('note', __name__, template_folder='templates')
+
+# ルーム情報取得ヘルパー
+def _get_room_if_valid(room_id, password):
+    meta = nd.get_room_meta(room_id, password=password)
+    if not meta:
+        return None
+    # コンテンツが存在しない場合は初期化
+    nd.get_row(room_id)
+    return meta
 
 # ルートメニュー
 @note_bp.route('/note_menu')
@@ -63,36 +72,25 @@ def create_note_room():
     
     pw = str(random.randrange(10**5, 10**6))
     nd.create_room(room_id, pw, room_id)
-    session['room_id'] = room_id
-    return redirect('/note')
+    return redirect(url_for('note.note_room', room_id=room_id, password=pw))
+
+# ルームアクセスページ
+@note_bp.route('/note')
+def note_room_access():
+    return render_template('note_room_access.html')
+
 
 # ルーム本体
-@note_bp.route('/note')
-def note_room():
-    # セッションからroom_idを取得
-    room_id = session.get('room_id')
-    if not room_id:
-        # セッションにroom_idがない場合、参加・作成フォームを表示
-        return render_template('note_room_access.html')
-    
-    # note_room テーブルからユーザー情報を取得して存在チェック
-    rows = nd._exec(
-        "SELECT id, password FROM note_room WHERE room_id = :r",
-        {"r": room_id},
-        fetch=True
-    )
-    if not rows:
-        session.pop('room_id', None)  # 無効なroom_idをクリア
-        return render_template('note_room_access.html')
-    meta = rows[0]
-
-    # note_content テーブルからコンテンツを取得（なければ初期レコード作成）
-    content_row = nd.get_row(room_id)
+@note_bp.route('/note/<room_id>/<password>')
+def note_room(room_id, password):
+    meta = _get_room_if_valid(room_id, password)
+    if not meta:
+        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています')
 
     return render_template('note_room.html',
                            room_id=room_id,
                            user_id=meta["id"],
-                           password=meta["password"])
+                           password=password)
 
 # --- 検索ページ表示 -----------------------------------
 @note_bp.route('/search_note')
@@ -111,8 +109,7 @@ def search_note_room():
     if not room_id:
         flash("ID かパスワードが間違っています。")
         return redirect('/search_note')
-    session['room_id'] = room_id
-    return redirect('/note')
+    return redirect(url_for('note.note_room', room_id=room_id, password=pw))
 
 # ---------------------------
 # QRコード用の直接アクセスルート
@@ -121,17 +118,10 @@ def search_note_room():
 def note_direct_access(room_id, password):
     """
     QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
-    セッションにroom_idを設定してルームページにリダイレクトする。
+    対応するルームURLにリダイレクトする。
     """
-    # ルームの存在確認とパスワード確認
-    rows = nd._exec(
-        "SELECT id, password FROM note_room WHERE room_id = :r AND password = :p",
-        {"r": room_id, "p": password},
-        fetch=True
-    )
-    if not rows:
+    meta = _get_room_if_valid(room_id, password)
+    if not meta:
         return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています')
-    
-    # セッションに設定してルームにリダイレクト
-    session['room_id'] = room_id
-    return redirect('/note')
+
+    return redirect(url_for('note.note_room', room_id=room_id, password=password))

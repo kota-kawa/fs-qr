@@ -14,6 +14,15 @@ STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 # Ensure the upload directory exists to avoid FileNotFoundError
 os.makedirs(STATIC, exist_ok=True)
 
+
+def _get_room_by_credentials(room_id, password):
+    data = fs_data.get_data_by_credentials(room_id, password)
+    if not data:
+        return None, None
+    record = data[0]
+    return record.get('secure_id'), record
+
+
 @core_bp.route('/fs-qr_menu')
 def fs_qr():
     return render_template('fs-qr.html')
@@ -125,13 +134,15 @@ def upload_complete(secure_id):
     id_val = row["id"]
     password_val = row["password"]
 
+    share_url = url_for('core.fs_qr_room', room_id=id_val, password=password_val, _external=True)
+
     return render_template(
         'info.html',
         id=id_val,
         password=password_val,
         secure_id=secure_id,
         mode='upload',
-        url=url_for('core.download', secure_id=secure_id, _external=True)
+        url=share_url
     )
 
 @core_bp.route('/download/<secure_id>')
@@ -139,28 +150,47 @@ def download(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
         abort(404)
-    id_val = data[0]["id"]
+    row = data[0]
+    return redirect(url_for('core.fs_qr_room', room_id=row["id"], password=row["password"]))
+
+
+@core_bp.route('/fs-qr/<room_id>/<password>')
+def fs_qr_room(room_id, password):
+    secure_id, record = _get_room_by_credentials(room_id, password)
+    if not secure_id:
+        return msg('IDかパスワードが間違っています')
 
     return render_template(
         'info.html',
-        data=data,
         mode='download',
-        id=id_val,
+        id=record['id'],
+        password=record['password'],
         secure_id=secure_id,
-        url=url_for('core.download_go', secure_id=secure_id)
+        url=url_for('core.fs_qr_download', room_id=room_id, password=password)
     )
+
 
 @core_bp.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
+    return _send_file_response(secure_id)
+
+
+@core_bp.route('/fs-qr/<room_id>/<password>/download', methods=['POST'])
+def fs_qr_download(room_id, password):
+    secure_id, _ = _get_room_by_credentials(room_id, password)
+    if not secure_id:
+        return msg('IDかパスワードが間違っています')
+    return _send_file_response(secure_id)
+
+
+def _send_file_response(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
         return msg('パラメータが不正です')
-    
-    # ファイルタイプを取得（デフォルトは複数ファイル）
+
     file_type = data[0].get('file_type', 'multiple')
     original_filename = data[0].get('original_filename', '')
-    
-    # ファイルタイプに応じてパスを決定
+
     if file_type == 'single':
         path = os.path.join(STATIC, secure_id + '.enc')
         download_name = original_filename if original_filename else secure_id + '.enc'
@@ -170,16 +200,15 @@ def download_go(secure_id):
         download_name = secure_id + '.zip'
         mimetype = 'application/zip'
 
-    # ファイルが存在するかチェック
     if not os.path.exists(path):
         return msg('ファイルが存在しません')
 
-    # ファイルタイプをヘッダーに追加して送信
     response = send_file(path, download_name=download_name, as_attachment=False, mimetype=mimetype)
     response.headers['X-File-Type'] = file_type
     if original_filename:
         response.headers['X-Original-Filename'] = original_filename
     return response
+
 
 @core_bp.route('/search_fs-qr')
 def search_fs_qr():
@@ -199,7 +228,7 @@ def kekka():
     if not secure_id:
         return msg('IDかパスワードが間違っています')
 
-    return redirect(url_for('core.download', secure_id=secure_id))
+    return redirect(url_for('core.fs_qr_room', room_id=id, password=password))
 
 @core_bp.route('/remove-succes')
 def after_remove():
