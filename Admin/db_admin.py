@@ -86,7 +86,9 @@ def dashboard():
 
     pw = request.args.get("pw", "")
     if pw != ADMIN_DB_PW:
-        return render_template("db_admin.html", authenticated=False)
+        # pw が未定義のままだとテンプレート側で JSON 化時にエラーとなるため、
+        # 未認証時も空文字を渡しておく。
+        return render_template("db_admin.html", authenticated=False, pw="")
 
     # 件数サマリ
     summary = [
