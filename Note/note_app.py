@@ -2,6 +2,14 @@ import random, re
 from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
+from rate_limit import (
+    SCOPE_NOTE,
+    check_rate_limit,
+    get_block_message,
+    get_client_ip,
+    register_failure,
+    register_success,
+)
 
 # スケジューラ：古いノートルームを毎日自動削除
 scheduler = BackgroundScheduler()
@@ -95,9 +103,19 @@ def note_room_access():
 # ルーム本体
 @note_bp.route('/note/<room_id>/<password>')
 def note_room(room_id, password):
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    if not allowed:
+        return render_template('error.html', message=get_block_message(block_label)), 429
+
     meta = _get_room_if_valid(room_id, password)
     if not meta:
-        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています')
+        _, block_label = register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            return render_template('error.html', message=get_block_message(block_label)), 429
+        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています'), 404
+
+    register_success(SCOPE_NOTE, ip)
 
     return render_template('note_room.html',
                            room_id=room_id,
@@ -114,13 +132,27 @@ def search_note_room_page():
 def search_note_room():
     id_  = request.form.get('id','').strip()
     pw   = request.form.get('password','').strip()
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    if not allowed:
+        flash(get_block_message(block_label))
+        return redirect('/search_note')
     if not re.match(r'^[a-zA-Z0-9]+$', id_) or not re.match(r'^[0-9]+$', pw):
-        flash("ID またはパスワードが不正です。")
+        _, block_label = register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            flash(get_block_message(block_label))
+        else:
+            flash("ID またはパスワードが不正です。")
         return redirect('/search_note')
     room_id = nd.pich_room_id(id_, pw)
     if not room_id:
-        flash("ID かパスワードが間違っています。")
+        _, block_label = register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            flash(get_block_message(block_label))
+        else:
+            flash("ID かパスワードが間違っています。")
         return redirect('/search_note')
+    register_success(SCOPE_NOTE, ip)
     return redirect(url_for('note.note_room', room_id=room_id, password=pw))
 
 # ---------------------------
@@ -132,8 +164,18 @@ def note_direct_access(room_id, password):
     QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
     対応するルームURLにリダイレクトする。
     """
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    if not allowed:
+        return render_template('error.html', message=get_block_message(block_label)), 429
+
     meta = _get_room_if_valid(room_id, password)
     if not meta:
-        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています')
+        _, block_label = register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            return render_template('error.html', message=get_block_message(block_label)), 429
+        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています'), 404
+
+    register_success(SCOPE_NOTE, ip)
 
     return redirect(url_for('note.note_room', room_id=room_id, password=password))

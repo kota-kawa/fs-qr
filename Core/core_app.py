@@ -5,6 +5,14 @@ import secrets
 import re
 import fs_data
 from werkzeug.utils import secure_filename
+from rate_limit import (
+    SCOPE_QR,
+    check_rate_limit,
+    get_block_message,
+    get_client_ip,
+    register_failure,
+    register_success,
+)
 
 core_bp = Blueprint('core', __name__, template_folder='templates')
 
@@ -156,9 +164,19 @@ def download(secure_id):
 
 @core_bp.route('/fs-qr/<room_id>/<password>')
 def fs_qr_room(room_id, password):
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
+    if not allowed:
+        return msg(get_block_message(block_label), 429)
+
     secure_id, record = _get_room_by_credentials(room_id, password)
     if not secure_id:
-        return msg('IDかパスワードが間違っています')
+        _, block_label = register_failure(SCOPE_QR, ip)
+        if block_label:
+            return msg(get_block_message(block_label), 429)
+        return msg('IDかパスワードが間違っています', 404)
+
+    register_success(SCOPE_QR, ip)
 
     return render_template(
         'info.html',
@@ -218,15 +236,28 @@ def search_fs_qr():
 def kekka():
     id = request.form.get('name', '').strip()
     password = request.form.get('pw', '').strip()
-    
+
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
+    if not allowed:
+        return msg(get_block_message(block_label), 429)
+
     # 入力検証（半角英数字のみ許可）
     if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):
+        _, block_label = register_failure(SCOPE_QR, ip)
+        if block_label:
+            return msg(get_block_message(block_label), 429)
         return msg('IDまたはパスワードに不正な文字が含まれています。')
 
     secure_id = fs_data.try_login(id, password)
 
     if not secure_id:
+        _, block_label = register_failure(SCOPE_QR, ip)
+        if block_label:
+            return msg(get_block_message(block_label), 429)
         return msg('IDかパスワードが間違っています')
+
+    register_success(SCOPE_QR, ip)
 
     return redirect(url_for('core.fs_qr_room', room_id=id, password=password))
 
@@ -234,8 +265,8 @@ def kekka():
 def after_remove():
     return render_template('after-remove.html')
 
-def msg(s):
-    return render_template('error.html', message=s)
+def msg(s, status_code=200):
+    return render_template('error.html', message=s), status_code
 
 def json_or_msg(message, status_code=400):
     """Return JSON error for AJAX requests, HTML for regular requests"""
@@ -245,4 +276,4 @@ def json_or_msg(message, status_code=400):
     # For multipart/form-data requests from XMLHttpRequest, also return JSON
     if 'multipart/form-data' in request.headers.get('Content-Type', ''):
         return jsonify({"error": message}), status_code
-    return msg(message)
+    return msg(message, status_code)

@@ -7,6 +7,14 @@ import io
 import re
 from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
 from dotenv import load_dotenv
+from rate_limit import (
+    SCOPE_GROUP,
+    check_rate_limit,
+    get_block_message,
+    get_client_ip,
+    register_failure,
+    register_success,
+)
 
 #　自動削除用のモジュール
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -81,9 +89,19 @@ def group_list():
 
 @group_bp.route('/group/<room_id>/<password>')
 def group_room(room_id, password):
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    if not allowed:
+        return room_msg(get_block_message(block_label), status_code=429)
+
     record = _get_room_if_valid(room_id, password)
     if not record:
-        return room_msg('指定されたルームが見つからないか、パスワードが違います')
+        _, block_label = register_failure(SCOPE_GROUP, ip)
+        if block_label:
+            return room_msg(get_block_message(block_label), status_code=429)
+        return room_msg('指定されたルームが見つからないか、パスワードが違います', status_code=404)
+
+    register_success(SCOPE_GROUP, ip)
 
     user_id = record.get('id', '不明')
     return render_template(
@@ -395,12 +413,24 @@ def search_room():
     id = request.form.get('id', '').strip()
     password = request.form.get('password', '').strip()
 
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    if not allowed:
+        return _group_block_response(block_label)
+
     if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):  # 入力検証
+        _, block_label = register_failure(SCOPE_GROUP, ip)
+        if block_label:
+            return _group_block_response(block_label)
         return jsonify({"error": "IDまたはパスワードに不正な値が含まれています。"}), 400
 
     room_id = group_data.pich_room_id(id, password)
     if not room_id:
-        return room_msg('IDかパスワードが間違っています')
+        _, block_label = register_failure(SCOPE_GROUP, ip)
+        if block_label:
+            return _group_block_response(block_label)
+        return room_msg('IDかパスワードが間違っています', status_code=404)
+    register_success(SCOPE_GROUP, ip)
     return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------
@@ -412,17 +442,34 @@ def group_direct_access(room_id, password):
     QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
     対応するルームページへリダイレクトする。
     """
+    ip = get_client_ip()
+    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    if not allowed:
+        return room_msg(get_block_message(block_label), status_code=429)
+
     record = _get_room_if_valid(room_id, password)
     if not record:
-        return room_msg('指定されたルームが見つかりません')
+        _, block_label = register_failure(SCOPE_GROUP, ip)
+        if block_label:
+            return room_msg(get_block_message(block_label), status_code=429)
+        return room_msg('指定されたルームが見つかりません', status_code=404)
+
+    register_success(SCOPE_GROUP, ip)
 
     return redirect(url_for('group.group_room', room_id=room_id, password=password))
 
 # ---------------------------
 # エラーメッセージを表示するための補助関数
 # ---------------------------
-def room_msg(s):
-    return render_template('error.html', message=s)
+def room_msg(s, status_code=200):
+    return render_template('error.html', message=s), status_code
+
+
+def _group_block_response(block_label):
+    message = get_block_message(block_label)
+    if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({"error": message}), 429
+    return room_msg(message, status_code=429)
 
 
 # ---------------------------
