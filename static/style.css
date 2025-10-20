@@ -413,6 +413,11 @@ th { text-align: right; }
   --retention-text: #78350f;
 }
 
+.retention-select-wrapper--citrus .retention-select-arrow {
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+  box-shadow: 0 12px 26px -14px rgba(217, 119, 6, 0.6);
+}
+
 @media (max-width: 576px) {
   .retention-select-wrapper {
     max-width: 100%;
@@ -752,7 +757,7 @@ th { text-align: right; }
   border-radius: 24px;
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--border-light);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
@@ -763,6 +768,7 @@ th { text-align: right; }
   left: 0;
   right: 0;
   height: 4px;
+  border-radius: inherit;
   background: var(--primary-gradient);
 }
 
