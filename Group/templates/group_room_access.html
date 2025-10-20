@@ -15,52 +15,6 @@
 {% block twitter_description %}チームファイル共有ルームへアクセス。グループルーム作成と参加の両方が可能で、複数人で安全にファイルを共有・管理できます。{% endblock %}
 
 {% block contents %}
-<style>
-    .retention-select-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .retention-select {
-        width: 100%;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border: 2px solid #d1d5db;
-        border-radius: 12px;
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.08) 100%), #ffffff;
-        padding: 0.85rem 1rem;
-        padding-right: 3rem;
-        font-size: 1rem;
-        color: #1f2937;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    }
-
-    .retention-select:focus {
-        outline: none;
-        border-color: rgb(34, 197, 94);
-        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
-        transform: translateY(-1px);
-    }
-
-    .retention-select-arrow {
-        position: absolute;
-        right: 1rem;
-        pointer-events: none;
-        color: rgb(22, 101, 52);
-        font-size: 0.95rem;
-        display: inline-flex;
-        align-items: center;
-    }
-
-    .retention-select-hint {
-        display: block;
-        margin-top: 0.35rem;
-        color: #6b7280;
-        font-size: 0.85rem;
-    }
-</style>
 <div style="padding: 2rem; max-width: 900px; margin: 0 auto;">
     <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 2rem;">
         <!-- Header -->
@@ -141,13 +95,17 @@
 
                         <div style="margin-bottom: 1.25rem;">
                             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;" for="retention">自動削除までの期間</label>
-                            <div class="retention-select-wrapper">
+                            <div class="retention-select-wrapper retention-select-wrapper--emerald">
                                 <select id="retention" name="retention_days" class="retention-select">
                                     <option value="1">1日</option>
                                     <option value="7" selected>7日 (デフォルト)</option>
                                     <option value="30">30日 (約1か月)</option>
                                 </select>
-                                <span class="retention-select-arrow" aria-hidden="true">▾</span>
+                                <span class="retention-select-arrow" aria-hidden="true">
+                                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
                             </div>
                             <small class="retention-select-hint">選択した保存期間の経過後、自動で安全に削除されます。</small>
                         </div>

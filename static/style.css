@@ -159,6 +159,121 @@ th { text-align: right; }
   padding: 2rem 1rem;
 }
 
+/* Elegant retention select controls */
+.retention-select-wrapper {
+  --retention-accent: #2563eb;
+  --retention-accent-soft: rgba(37, 99, 235, 0.16);
+  --retention-accent-strong: rgba(37, 99, 235, 0.3);
+  --retention-text: #0f172a;
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  padding: 2px;
+  border-radius: 18px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.94), rgba(241, 245, 249, 0.78));
+  box-shadow: 0 16px 32px -22px rgba(15, 23, 42, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.retention-select-wrapper:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px -20px rgba(15, 23, 42, 0.55);
+}
+
+.retention-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), var(--retention-accent-soft));
+  padding: 0.95rem 3.5rem 0.95rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--retention-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 2px rgba(15, 23, 42, 0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.retention-select:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 24px -16px var(--retention-accent-strong);
+}
+
+.retention-select:focus {
+  outline: none;
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 7px var(--retention-accent-soft);
+}
+
+.retention-select option {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.retention-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--retention-accent), rgba(255, 255, 255, 0.25));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 10px 22px -14px var(--retention-accent-strong);
+}
+
+.retention-select-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.retention-select-hint {
+  display: block;
+  margin-top: 0.6rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+}
+
+.retention-select-wrapper--azure {
+  --retention-accent: #2563eb;
+  --retention-accent-soft: rgba(37, 99, 235, 0.18);
+  --retention-accent-strong: rgba(37, 99, 235, 0.4);
+}
+
+.retention-select-wrapper--emerald {
+  --retention-accent: #16a34a;
+  --retention-accent-soft: rgba(22, 163, 74, 0.2);
+  --retention-accent-strong: rgba(16, 185, 129, 0.42);
+}
+
+.retention-select-wrapper--citrus {
+  --retention-accent: #f59e0b;
+  --retention-accent-soft: rgba(245, 158, 11, 0.24);
+  --retention-accent-strong: rgba(217, 119, 6, 0.45);
+  --retention-text: #78350f;
+}
+
+@media (max-width: 576px) {
+  .retention-select-wrapper {
+    max-width: 100%;
+  }
+
+  .retention-select {
+    font-size: 0.95rem;
+    padding: 0.85rem 3.25rem 0.85rem 1rem;
+  }
+}
+
 /* Modern info box styling */
 .info-box {
   max-width: 900px;
