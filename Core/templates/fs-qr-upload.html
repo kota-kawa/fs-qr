@@ -30,50 +30,8 @@
   border-top-color: #1f27c7 !important;
 }
 
-.modern-select-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+.retention-select-wrapper--azure {
   max-width: 300px;
-}
-
-.modern-select {
-  width: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(35, 195, 223, 0.08) 0%, rgba(31, 39, 199, 0.08) 100%), #ffffff;
-  padding: 0.85rem 1rem;
-  padding-right: 3rem;
-  font-size: 1rem;
-  color: #1f2937;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.modern-select:focus {
-  outline: none;
-  border-color: #23c3df;
-  box-shadow: 0 0 0 4px rgba(35, 195, 223, 0.18);
-  transform: translateY(-1px);
-}
-
-.modern-select-arrow {
-  position: absolute;
-  right: 1rem;
-  pointer-events: none;
-  color: #1f27c7;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-}
-
-.modern-select-hint {
-  display: block;
-  margin-top: 0.35rem;
-  color: #6b7280;
-  font-size: 0.85rem;
 }
 </style>
 
@@ -133,15 +91,19 @@
 
                 <div class="modern-form-group">
                     <label class="modern-form-label" for="retention">自動削除までの期間</label>
-                    <div class="modern-select-wrapper">
-                        <select id="retention" name="retention_days" class="modern-select">
+                    <div class="retention-select-wrapper retention-select-wrapper--azure">
+                        <select id="retention" name="retention_days" class="retention-select">
                             <option value="1">1日</option>
                             <option value="7" selected>7日 (デフォルト)</option>
                             <option value="30">30日 (約1か月)</option>
                         </select>
-                        <span class="modern-select-arrow" aria-hidden="true">▾</span>
+                        <span class="retention-select-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
                     </div>
-                    <small class="modern-select-hint">保存期間を選択すると、その日数後に自動で削除されます。</small>
+                    <small class="retention-select-hint">保存期間を選択すると、その日数後に自動で削除されます。</small>
                 </div>
 
                 <!-- Submit Button -->
