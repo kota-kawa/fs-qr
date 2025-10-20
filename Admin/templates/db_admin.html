@@ -11,6 +11,7 @@
     body{background:#f5f7fa;font-family:"Segoe UI",sans-serif}
     .card-hover:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
     table th{white-space:nowrap}
+    .clickable-row{cursor:pointer}
     footer{font-size:.85rem}
   </style>
 </head>
@@ -59,6 +60,10 @@
   {% for tbl, rows in recent.items() %}
   <h3 class="mt-4">{{ tbl }} <small class="text-muted">latest&nbsp;10</small></h3>
 
+  {% if tbl == 'fsqr' %}
+    <p class="text-muted">行をクリックするとファイル情報を表示します。</p>
+  {% endif %}
+
   {% if rows is none %}
     <p class="text-danger mb-5">Table not found.</p>
 
@@ -76,10 +81,12 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
+        {% set columns = rows[0].keys() %}
+        {% set is_fsqr = tbl == 'fsqr' and ('secure_id' in rows[0]) %}
         {% for r in rows %}
-        <tr>
-          {% for v in r.values() %}
-            <td>{{ v }}</td>
+        <tr {% if is_fsqr %}class="clickable-row" data-secure-id="{{ r['secure_id'] }}"{% endif %}>
+          {% for col in columns %}
+            <td>{{ r[col] }}</td>
           {% endfor %}
         </tr>
         {% endfor %}
@@ -90,14 +97,158 @@
   {% endfor %}
 
   <p class="text-end">
-    <a href="/db_admin?pw={{ pw }}" class="btn btn-outline-secondary btn-sm">Refresh</a>
+    <a href="/admin?pw={{ pw }}" class="btn btn-outline-secondary btn-sm">Refresh</a>
   </p>
   {% endif %}
+</div>
+
+<!-- File detail modal -->
+<div class="modal fade" id="fileModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="fileModalLabel">ファイル情報</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="fileModalAlert" class="alert alert-danger d-none" role="alert"></div>
+        <dl class="row mb-0" id="fileMeta">
+          <dt class="col-sm-3">Secure&nbsp;ID</dt>
+          <dd class="col-sm-9" data-field="secure_id">-</dd>
+          <dt class="col-sm-3">Room&nbsp;ID</dt>
+          <dd class="col-sm-9" data-field="id">-</dd>
+          <dt class="col-sm-3">Password</dt>
+          <dd class="col-sm-9" data-field="password">-</dd>
+          <dt class="col-sm-3">ファイルタイプ</dt>
+          <dd class="col-sm-9" data-field="file_type">-</dd>
+          <dt class="col-sm-3">登録日時</dt>
+          <dd class="col-sm-9" data-field="created_at">-</dd>
+          <dt class="col-sm-3">オリジナル名</dt>
+          <dd class="col-sm-9" data-field="original_filename">-</dd>
+        </dl>
+        <hr>
+        <h6>保存ファイル</h6>
+        <ul class="list-group" id="fileList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">閉じる</button>
+        <a id="fileDownloadBtn" class="btn btn-primary disabled" role="button" aria-disabled="true">ダウンロード</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer class="text-center py-3 text-muted">
   &copy; 2025 DB&nbsp;Dashboard
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const adminPw = {{ pw | tojson }};
+  const modalElement = document.getElementById('fileModal');
+  const modalInstance = modalElement ? new bootstrap.Modal(modalElement) : null;
+  const alertBox = document.getElementById('fileModalAlert');
+  const downloadBtn = document.getElementById('fileDownloadBtn');
+  const metaContainer = document.getElementById('fileMeta');
+  const fileList = document.getElementById('fileList');
+
+  function setAlert(message) {
+    if (!alertBox) return;
+    if (message) {
+      alertBox.textContent = message;
+      alertBox.classList.remove('d-none');
+    } else {
+      alertBox.textContent = '';
+      alertBox.classList.add('d-none');
+    }
+  }
+
+  function formatBytes(size) {
+    if (!size || size <= 0) return '0 B';
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const exponent = Math.min(Math.floor(Math.log(size) / Math.log(1024)), units.length - 1);
+    const value = size / Math.pow(1024, exponent);
+    return `${value.toFixed(value < 10 && exponent > 0 ? 1 : 0)} ${units[exponent]}`;
+  }
+
+  function updateMeta(data) {
+    if (!metaContainer) return;
+    metaContainer.querySelectorAll('[data-field]').forEach((node) => {
+      const field = node.getAttribute('data-field');
+      let value = data[field];
+      if (value === null || value === undefined || value === '') {
+        value = '-';
+      }
+      node.textContent = value;
+    });
+  }
+
+  function updateFiles(files) {
+    if (!fileList) return;
+    fileList.innerHTML = '';
+    if (!files || files.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'list-group-item text-muted';
+      li.textContent = '保存ファイルが見つかりません。';
+      fileList.appendChild(li);
+      downloadBtn.classList.add('disabled');
+      downloadBtn.setAttribute('aria-disabled', 'true');
+      downloadBtn.removeAttribute('href');
+      return;
+    }
+
+    files.forEach((file) => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = file.display_name || file.stored_name;
+      const sizeSpan = document.createElement('span');
+      sizeSpan.className = 'badge bg-secondary rounded-pill';
+      sizeSpan.textContent = formatBytes(file.size);
+      li.appendChild(nameSpan);
+      li.appendChild(sizeSpan);
+      fileList.appendChild(li);
+    });
+
+    downloadBtn.classList.remove('disabled');
+    downloadBtn.removeAttribute('aria-disabled');
+  }
+
+  function handleRowClick(event) {
+    const row = event.currentTarget;
+    const secureId = row.getAttribute('data-secure-id');
+    if (!secureId || !modalInstance) return;
+
+    setAlert('');
+    updateMeta({});
+    updateFiles([]);
+    downloadBtn.removeAttribute('href');
+    downloadBtn.classList.add('disabled');
+    downloadBtn.setAttribute('aria-disabled', 'true');
+
+    modalInstance.show();
+
+    fetch(`/admin/file/${encodeURIComponent(secureId)}?pw=${encodeURIComponent(adminPw)}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status === 404 ? 'データが存在しません。' : 'ファイル情報の取得に失敗しました。');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        updateMeta(data);
+        updateFiles(data.files);
+        downloadBtn.href = `/admin/file/${encodeURIComponent(secureId)}/download?pw=${encodeURIComponent(adminPw)}`;
+      })
+      .catch((error) => {
+        setAlert(error.message);
+      });
+  }
+
+  document.querySelectorAll('tr.clickable-row').forEach((row) => {
+    row.addEventListener('click', handleRowClick);
+  });
+</script>
 
 </body>
 </html>
