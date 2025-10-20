@@ -62,6 +62,8 @@
 
   {% if tbl == 'fsqr' %}
     <p class="text-muted">行をクリックするとファイル情報を表示します。</p>
+  {% elif tbl == 'room' %}
+    <p class="text-muted">行をクリックするとルームのファイル一覧を表示します。</p>
   {% endif %}
 
   {% if rows is none %}
@@ -83,8 +85,15 @@
       <tbody class="table-group-divider">
         {% set columns = rows[0].keys() %}
         {% set is_fsqr = tbl == 'fsqr' and ('secure_id' in rows[0]) %}
+        {% set is_room = tbl == 'room' and ('room_id' in rows[0]) %}
         {% for r in rows %}
-        <tr {% if is_fsqr %}class="clickable-row" data-secure-id="{{ r['secure_id'] }}"{% endif %}>
+        <tr
+          {% if is_fsqr %}
+            class="clickable-row" data-type="fsqr" data-identifier="{{ r['secure_id'] }}"
+          {% elif is_room %}
+            class="clickable-row" data-type="room" data-identifier="{{ r['room_id'] }}"
+          {% endif %}
+        >
           {% for col in columns %}
             <td>{{ r[col] }}</td>
           {% endfor %}
@@ -112,20 +121,7 @@
       </div>
       <div class="modal-body">
         <div id="fileModalAlert" class="alert alert-danger d-none" role="alert"></div>
-        <dl class="row mb-0" id="fileMeta">
-          <dt class="col-sm-3">Secure&nbsp;ID</dt>
-          <dd class="col-sm-9" data-field="secure_id">-</dd>
-          <dt class="col-sm-3">Room&nbsp;ID</dt>
-          <dd class="col-sm-9" data-field="id">-</dd>
-          <dt class="col-sm-3">Password</dt>
-          <dd class="col-sm-9" data-field="password">-</dd>
-          <dt class="col-sm-3">ファイルタイプ</dt>
-          <dd class="col-sm-9" data-field="file_type">-</dd>
-          <dt class="col-sm-3">登録日時</dt>
-          <dd class="col-sm-9" data-field="created_at">-</dd>
-          <dt class="col-sm-3">オリジナル名</dt>
-          <dd class="col-sm-9" data-field="original_filename">-</dd>
-        </dl>
+        <dl class="row mb-0" id="fileMeta"></dl>
         <hr>
         <h6>保存ファイル</h6>
         <ul class="list-group" id="fileList"></ul>
@@ -151,6 +147,10 @@
   const downloadBtn = document.getElementById('fileDownloadBtn');
   const metaContainer = document.getElementById('fileMeta');
   const fileList = document.getElementById('fileList');
+  const modalTitle = document.getElementById('fileModalLabel');
+
+  let currentType = null;
+  let currentIdentifier = null;
 
   function setAlert(message) {
     if (!alertBox) return;
@@ -171,37 +171,73 @@
     return `${value.toFixed(value < 10 && exponent > 0 ? 1 : 0)} ${units[exponent]}`;
   }
 
-  function updateMeta(data) {
+  function resetDownloadButton() {
+    if (!downloadBtn) return;
+    downloadBtn.classList.add('disabled');
+    downloadBtn.setAttribute('aria-disabled', 'true');
+    downloadBtn.removeAttribute('href');
+    downloadBtn.textContent = 'ダウンロード';
+  }
+
+  function buildMetaRows(type, data) {
+    if (type === 'room') {
+      return [
+        { label: 'Room ID', value: data.room_id },
+        { label: 'ID', value: data.id },
+        { label: 'Password', value: data.password },
+        { label: '自動削除まで', value: data.retention_days != null ? `${data.retention_days}日` : null },
+        { label: '登録日時', value: data.created_at },
+      ];
+    }
+
+    return [
+      { label: 'Secure ID', value: data.secure_id },
+      { label: 'Room ID', value: data.id },
+      { label: 'Password', value: data.password },
+      { label: 'ファイルタイプ', value: data.file_type },
+      { label: '登録日時', value: data.created_at },
+      { label: 'オリジナル名', value: data.original_filename },
+    ];
+  }
+
+  function updateMeta(data, type) {
     if (!metaContainer) return;
-    metaContainer.querySelectorAll('[data-field]').forEach((node) => {
-      const field = node.getAttribute('data-field');
-      let value = data[field];
-      if (value === null || value === undefined || value === '') {
-        value = '-';
-      }
-      node.textContent = value;
+    metaContainer.innerHTML = '';
+    const rows = buildMetaRows(type, data || {});
+    rows.forEach((item) => {
+      const dt = document.createElement('dt');
+      dt.className = 'col-sm-3';
+      dt.textContent = item.label;
+
+      const dd = document.createElement('dd');
+      dd.className = 'col-sm-9';
+      const value = item.value;
+      dd.textContent = value === undefined || value === null || value === '' ? '-' : value;
+
+      metaContainer.appendChild(dt);
+      metaContainer.appendChild(dd);
     });
   }
 
-  function updateFiles(files) {
-    if (!fileList) return;
+  function updateFiles(files, type) {
+    if (!fileList) return false;
     fileList.innerHTML = '';
+
     if (!files || files.length === 0) {
       const li = document.createElement('li');
       li.className = 'list-group-item text-muted';
-      li.textContent = '保存ファイルが見つかりません。';
+      li.textContent = type === 'room'
+        ? 'ルーム内のファイルが見つかりません。'
+        : '保存ファイルが見つかりません。';
       fileList.appendChild(li);
-      downloadBtn.classList.add('disabled');
-      downloadBtn.setAttribute('aria-disabled', 'true');
-      downloadBtn.removeAttribute('href');
-      return;
+      return false;
     }
 
     files.forEach((file) => {
       const li = document.createElement('li');
       li.className = 'list-group-item d-flex justify-content-between align-items-center';
       const nameSpan = document.createElement('span');
-      nameSpan.textContent = file.display_name || file.stored_name;
+      nameSpan.textContent = file.display_name || file.name || file.stored_name || '-';
       const sizeSpan = document.createElement('span');
       sizeSpan.className = 'badge bg-secondary rounded-pill';
       sizeSpan.textContent = formatBytes(file.size);
@@ -210,25 +246,41 @@
       fileList.appendChild(li);
     });
 
-    downloadBtn.classList.remove('disabled');
-    downloadBtn.removeAttribute('aria-disabled');
+    return true;
   }
 
   function handleRowClick(event) {
+    if (!modalInstance) return;
     const row = event.currentTarget;
-    const secureId = row.getAttribute('data-secure-id');
-    if (!secureId || !modalInstance) return;
+    const type = row.getAttribute('data-type');
+    const identifier = row.getAttribute('data-identifier');
+    if (!type || !identifier) return;
+
+    currentType = type;
+    currentIdentifier = identifier;
 
     setAlert('');
-    updateMeta({});
-    updateFiles([]);
-    downloadBtn.removeAttribute('href');
-    downloadBtn.classList.add('disabled');
-    downloadBtn.setAttribute('aria-disabled', 'true');
+    updateMeta({}, type);
+    if (fileList) {
+      fileList.innerHTML = '';
+      const loadingItem = document.createElement('li');
+      loadingItem.className = 'list-group-item text-muted';
+      loadingItem.textContent = '読み込み中...';
+      fileList.appendChild(loadingItem);
+    }
+    resetDownloadButton();
+
+    if (modalTitle) {
+      modalTitle.textContent = type === 'room' ? 'ルーム情報' : 'ファイル情報';
+    }
 
     modalInstance.show();
 
-    fetch(`/admin/file/${encodeURIComponent(secureId)}?pw=${encodeURIComponent(adminPw)}`)
+    const detailPath = type === 'room'
+      ? `/admin/room/${encodeURIComponent(identifier)}?pw=${encodeURIComponent(adminPw)}`
+      : `/admin/file/${encodeURIComponent(identifier)}?pw=${encodeURIComponent(adminPw)}`;
+
+    fetch(detailPath)
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.status === 404 ? 'データが存在しません。' : 'ファイル情報の取得に失敗しました。');
@@ -236,12 +288,23 @@
         return response.json();
       })
       .then((data) => {
-        updateMeta(data);
-        updateFiles(data.files);
-        downloadBtn.href = `/admin/file/${encodeURIComponent(secureId)}/download?pw=${encodeURIComponent(adminPw)}`;
+        updateMeta(data, type);
+        const hasFiles = updateFiles(data.files, type);
+        if (hasFiles && downloadBtn) {
+          const downloadPath = type === 'room'
+            ? `/admin/room/${encodeURIComponent(identifier)}/download?pw=${encodeURIComponent(adminPw)}`
+            : `/admin/file/${encodeURIComponent(identifier)}/download?pw=${encodeURIComponent(adminPw)}`;
+          downloadBtn.href = downloadPath;
+          downloadBtn.classList.remove('disabled');
+          downloadBtn.removeAttribute('aria-disabled');
+          downloadBtn.textContent = type === 'room' ? 'ZIPをダウンロード' : 'ダウンロード';
+        } else {
+          resetDownloadButton();
+        }
       })
       .catch((error) => {
         setAlert(error.message);
+        resetDownloadButton();
       });
   }
 

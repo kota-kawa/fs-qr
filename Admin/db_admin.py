@@ -1,4 +1,6 @@
+import io
 import os
+import zipfile
 
 import fs_data
 
@@ -13,14 +15,18 @@ from flask import (
     url_for,
 )
 from sqlalchemy import text
+from werkzeug.utils import secure_filename
+
 from fs_data          import db_session as fs_db
 from Group.group_data import db_session as grp_db
+from Group            import group_data
 
 # ────────────────────────────────────────────
 ADMIN_DB_PW = "kkawagoe"       # ハードコーディング
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "static", "upload")
+GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
 
 db_admin_bp = Blueprint(
     "db_admin",
@@ -77,6 +83,44 @@ def _resolve_file_path(record):
 
     path = os.path.join(UPLOAD_DIR, filename)
     return path, filename, display_name, mimetype
+
+
+def _get_room_record(room_id):
+    data = group_data.get_data(room_id)
+    if not data:
+        return None
+    return data[0]
+
+
+def _get_room_folder(room_id):
+    if not room_id:
+        return None
+    folder_name = secure_filename(str(room_id))
+    if not folder_name:
+        return None
+    return os.path.join(GROUP_UPLOAD_DIR, folder_name)
+
+
+def _collect_room_files(room_id):
+    folder = _get_room_folder(room_id)
+    if not folder or not os.path.isdir(folder):
+        return []
+
+    files = []
+    try:
+        for name in os.listdir(folder):
+            file_path = os.path.join(folder, name)
+            if os.path.isfile(file_path):
+                files.append({
+                    "stored_name": name,
+                    "display_name": name,
+                    "size": os.path.getsize(file_path),
+                })
+    except OSError:
+        return []
+
+    files.sort(key=lambda item: item["display_name"].lower())
+    return files
 
 
 @db_admin_bp.route("/", methods=["GET", "POST"])
@@ -171,5 +215,69 @@ def file_download(secure_id):
         path,
         download_name=display_name,
         mimetype=mimetype,
+        as_attachment=True,
+    )
+
+
+@db_admin_bp.route("/room/<room_id>")
+def room_detail(room_id):
+    pw = request.args.get("pw", "")
+    if pw != ADMIN_DB_PW:
+        return jsonify({"error": "forbidden"}), 403
+
+    record = _get_room_record(room_id)
+    if not record:
+        return jsonify({"error": "not_found"}), 404
+
+    created_at = record.get("time")
+    if hasattr(created_at, "isoformat"):
+        created_at = created_at.isoformat(sep=" ")
+
+    files = _collect_room_files(record.get("room_id"))
+
+    payload = {
+        "room_id": record.get("room_id"),
+        "id": record.get("id"),
+        "password": record.get("password"),
+        "retention_days": record.get("retention_days"),
+        "created_at": created_at,
+        "files": files,
+    }
+
+    return jsonify(payload)
+
+
+@db_admin_bp.route("/room/<room_id>/download")
+def room_download(room_id):
+    pw = request.args.get("pw", "")
+    if pw != ADMIN_DB_PW:
+        abort(403)
+
+    record = _get_room_record(room_id)
+    if not record:
+        abort(404)
+
+    folder = _get_room_folder(record.get("room_id"))
+    if not folder or not os.path.isdir(folder):
+        abort(404)
+
+    file_entries = _collect_room_files(record.get("room_id"))
+    if not file_entries:
+        abort(404)
+
+    archive = io.BytesIO()
+    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for entry in file_entries:
+            file_path = os.path.join(folder, entry["stored_name"])
+            zipf.write(file_path, arcname=entry["display_name"])
+
+    archive.seek(0)
+
+    download_name = secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
+
+    return send_file(
+        archive,
+        mimetype="application/zip",
+        download_name=download_name,
         as_attachment=True,
     )
