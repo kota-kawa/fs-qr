@@ -42,18 +42,28 @@
 }
 
 .copy-url-button {
-  padding: 0.35rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
   border-radius: 999px;
   border: none;
   background: linear-gradient(135deg, #1f27c7 0%, #23c3df 100%);
   color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.copy-url-button:hover {
+.copy-url-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+.copy-url-button:hover,
+.copy-url-button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 10px 15px -8px rgba(31, 39, 199, 0.5);
 }
@@ -99,7 +109,19 @@
             <td>
               <div class="share-url-wrapper">
                 <a id="shareRoomUrl" class="share-url-link" href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a>
-                <button type="button" class="copy-url-button" data-copy-target="shareRoomUrl">コピー</button>
+                <button
+                  type="button"
+                  class="copy-url-button"
+                  data-copy-target="shareRoomUrl"
+                  data-default-label="URLをコピー"
+                  data-copied-label="コピー済み"
+                  aria-label="URLをコピー"
+                  title="URLをコピー"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
+                  </svg>
+                </button>
               </div>
             </td>
           </tr>
@@ -196,15 +218,24 @@
           }
 
           const text = target.textContent.trim();
-          const originalLabel = button.textContent;
+          const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
+          const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
+          if (!button.hasAttribute('aria-label')) {
+            button.setAttribute('aria-label', defaultLabel);
+          }
+          if (!button.hasAttribute('title')) {
+            button.setAttribute('title', defaultLabel);
+          }
 
           try {
             await copyTextToClipboard(text);
             button.classList.add('copied');
-            button.textContent = 'コピー済み';
+            button.setAttribute('aria-label', copiedLabel);
+            button.setAttribute('title', copiedLabel);
             setTimeout(() => {
               button.classList.remove('copied');
-              button.textContent = originalLabel;
+              button.setAttribute('aria-label', defaultLabel);
+              button.setAttribute('title', defaultLabel);
             }, 2000);
           } catch (error) {
             alert('コピーに失敗しました。URLを選択して手動でコピーしてください。');
