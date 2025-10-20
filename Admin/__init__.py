@@ -7,7 +7,7 @@ from Group.group_data   import db_session as grp_db
 # ── ハードコーディングされた管理パスワード ──────────────
 ADMIN_DB_PW = "kkawagoe"
 
-db_admin_bp = Blueprint("db_admin", __name__, url_prefix="/db_admin")
+db_admin_bp = Blueprint("db_admin", __name__, url_prefix="/admin")
 
 # ─────────────────────────────────────────────────────────
 @db_admin_bp.route("/", methods=["GET", "POST"])
