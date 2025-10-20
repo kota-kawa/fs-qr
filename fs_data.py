@@ -87,6 +87,18 @@ def try_login(id, password):
         logger.error(f"Login attempt failed: {e}")
         raise
 
+# 資格情報でデータを取得
+def get_data_by_credentials(id, password):
+    try:
+        query = text("""
+            SELECT * FROM fsqr WHERE id = :id AND password = :password
+        """)
+        result = execute_query(query, {"id": id, "password": password}, fetch=True)
+        return result if result else False
+    except Exception as e:
+        logger.error(f"Failed to fetch data by credentials: {e}")
+        raise
+
 # データベースから任意のIDのデータを取り出す
 def get_data(secure_id):
     try:

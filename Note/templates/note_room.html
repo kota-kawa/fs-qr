@@ -55,11 +55,19 @@
                             <span class="room-info-label">Password</span>
                             <span class="room-info-value">{{ password }}</span>
                         </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">URL</span>
+                            <span class="room-info-value" style="word-break: break-all;">
+                                <a href="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener">
+                                    {{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}
+                                </a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="qr-code-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_direct_access', room_id=room_id, password=password, _external=True)|urlencode }}"
+                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_room', room_id=room_id, password=password, _external=True)|urlencode }}"
                          alt="QR Code" style="width: 160px; height: 160px;">
                 </div>
             </div>
@@ -86,7 +94,7 @@
   <div class="usage-section-content">
     <p>
       このルームではテキストをリアルタイムに共有できます。<br>
-      上記のIDとパスワード、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
+      上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
       エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
       最大5000文字まで入力可能です。
     </p>
@@ -95,6 +103,7 @@
 
 <script>
   const room   = "{{ room_id }}";
+  const roomPassword = "{{ password }}";
   const editor = document.getElementById("editor");
   const status = document.getElementById("status");
   let lastStamp = "", selfEdit = false;
@@ -154,7 +163,7 @@
   }
 
   /* 初回ロード */
-  fetch(`/api/note/${room}`).then(r => r.json()).then(j => {
+  fetch(`/api/note/${room}/${roomPassword}`).then(r => r.json()).then(j => {
     editor.value = j.content;
     contentAtLastSync = j.content;  // <--- 追加
     lastStamp = j.updated_at;
@@ -190,7 +199,7 @@
       status.textContent = "Saving...";
     }
 
-    fetch(`/api/note/${room}`, {
+    fetch(`/api/note/${room}/${roomPassword}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -325,7 +334,7 @@
     // ユーザーが現在フォーカスしているかチェック
     const isEditorFocused = document.activeElement === editor;
     
-    fetch(`/api/note/${room}`)
+    fetch(`/api/note/${room}/${roomPassword}`)
       .then(r => r.json())
       .then(j => {
         if (j.updated_at !== lastStamp) {

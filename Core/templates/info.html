@@ -51,6 +51,10 @@
             <td>{{ password | e }}</td>
           </tr>
           <tr>
+            <th scope="row" class="text-center" style="white-space: nowrap;">共有リンク</th>
+            <td style="word-break: break-all;"><a href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a></td>
+          </tr>
+          <tr>
             <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
             <td>{{ secure_id }}.zip</td>
           </tr>
@@ -80,6 +84,12 @@
             <th scope="row" class="text-center">ファイル名</th>
             <td class="text-start">{{ secure_id }}.zip</td>
           </tr>
+          {% if password %}
+          <tr>
+            <th scope="row" class="text-center">Password</th>
+            <td class="text-start">{{ password | e }}</td>
+          </tr>
+          {% endif %}
         </table>
 
         <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4 text-center">
@@ -117,8 +127,8 @@
     </div>
     <div class="usage-section-content">
       <p>
-        1. 上に表示されたIDとパスワードを共有したい相手に伝えてください。<br>
-        2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するとファイルをダウンロードできます。<br>
+        1. 上に表示されたIDとパスワード、共有リンクを共有したい相手に伝えてください。<br>
+        2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するか、共有リンクを開くだけでファイルをダウンロードできます。<br>
         3. QRコードを読み取ればURLを直接開くことも可能です。<br>
         ファイルは一定期間後に自動で削除されるため、必要なときに早めにダウンロードしてください。
       </p>
@@ -138,7 +148,12 @@
     }, 1000); // 1秒ごとにトグル
 
 
-    document.getElementById('downloadForm').addEventListener('submit', async function (e) {
+    const downloadForm = document.getElementById('downloadForm');
+    if (!downloadForm) {
+      return;
+    }
+
+    downloadForm.addEventListener('submit', async function (e) {
     e.preventDefault(); // ← 従来のsubmitを止めて、JSの処理に切り替える
 
     // スピナーの表示
@@ -153,7 +168,7 @@
     const decryptionKey = secureId.split('-')[0];
 
     // fetch APIでサーバーからファイルを受信
-    const response = await fetch(`/download_go/${secureId}`, {
+    const response = await fetch(this.action, {
       method: 'POST'
     });
     const encryptedBlob = await response.blob();

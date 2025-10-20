@@ -55,11 +55,19 @@
                             <span class="room-info-label">Password</span>
                             <span class="room-info-value">{{ password }}</span>
                         </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">URL</span>
+                            <span class="room-info-value" style="word-break: break-all;">
+                                <a href="{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener">
+                                    {{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}
+                                </a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="qr-code-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_direct_access', room_id=room_id, password=password, _external=True) | urlencode }}"
+                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_room', room_id=room_id, password=password, _external=True) | urlencode }}"
                          alt="Room QR Code" style="width: 160px; height: 160px;">
                 </div>
             </div>
@@ -130,7 +138,7 @@
         <p>
             このルームではメンバー全員がファイルをアップロード／ダウンロードできます。<br>
             ファイルはドラッグ＆ドロップまたはクリックで追加し、「アップロード」ボタンで送信します。<br>
-            共有したい相手には上記のIDとパスワード、またはQRコードを渡してください。<br>
+            共有したい相手には上記のIDとパスワード、URL、またはQRコードを渡してください。<br>
             他の人のファイルは下のリストから個別にダウンロードや削除ができます。
         </p>
     </div>
@@ -192,14 +200,15 @@
         });
 
         // 他のユーザーのファイル表示
+        const roomId = '{{ room_id }}';
+        const roomPassword = '{{ password }}';
         var fetchRetryCount = 0;
         var maxRetries = 3;
         var isDownloading = {}; // Track download states to prevent multiple clicks
-        
+
         function fetchAndDisplayOtherFiles() {
-            var roomId = '{{ room_id }}'; // Jinja2で埋め込む
             $.ajax({
-                url: `/check/${roomId}`,
+                url: `/check/${roomId}/${roomPassword}`,
                 type: 'GET',
                 timeout: 10000, // 10 second timeout
                 success: function (files) {
@@ -250,7 +259,7 @@
                             
                             // Use XMLHttpRequest for progress tracking
                             var xhr = new XMLHttpRequest();
-                            xhr.open('GET', `/download/${roomId}/${encodedFilename}`, true);
+                            xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
                             xhr.responseType = 'blob';
                             
                             xhr.onprogress = function(event) {
@@ -305,7 +314,7 @@
                         deleteBtn.on('click', function () {
                             if (confirm('本当にこのファイルを削除しますか？')) {
                                 $.ajax({
-                                    url: `/delete/${roomId}/${encodedFilename}`,
+                                    url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
                                     type: 'DELETE',
                                     success: function () {
                                         alert('ファイルが削除されました。');
@@ -441,8 +450,6 @@
                 formData.append('upfile', file);  // `upfile` キーにファイルを追加
             });
 
-            let uploadType = '{{ room_id }}'; // Jinja2でサーバーサイドから値を埋め込む
-            
             // Show progress bar
             $('#uploadProgressContainer').show();
             $('#uploadProgressBar').css('transform', 'scaleX(0)');
@@ -452,7 +459,7 @@
             uploadBtn.prop('disabled', true).text('アップロード中...');
 
             $.ajax({
-                url: `/group_upload/${uploadType}`,
+                url: `/group_upload/${roomId}/${roomPassword}`,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -506,7 +513,6 @@
         });
 
         // すべてダウンロード
-        var roomId = '{{ room_id }}';
         var isDownloadingAll = false;
         
         downloadAllBtn.on('click', function () {
@@ -525,7 +531,7 @@
             
             // Use XMLHttpRequest for progress tracking
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', `/download/all/${roomId}`, true);
+            xhr.open('GET', `/download/all/${roomId}/${roomPassword}`, true);
             xhr.responseType = 'blob';
             
             xhr.onprogress = function(event) {
