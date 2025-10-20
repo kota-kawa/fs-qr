@@ -43,14 +43,14 @@ def upload():
     if not id:
         import string
         chars = string.ascii_letters + string.digits
-        id = ''.join(secrets.choice(chars) for _ in range(8))
+        id = ''.join(secrets.choice(chars) for _ in range(6))
     
     # idの検証（空でない場合のみ）
     if id:
         if not re.match(r'^[a-zA-Z0-9]+$', id):
             return json_or_msg('IDに無効な文字が含まれています。半角英数字のみ使用してください。')
-        if len(id) < 5 or len(id) > 10:
-            return json_or_msg('IDは5文字以上10文字以下で入力してください。')
+        if len(id) != 6:
+            return json_or_msg('IDは6文字の半角英数字で入力してください。')
     
     # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
     password = str(secrets.randbelow(10**6)).zfill(6)

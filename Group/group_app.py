@@ -126,8 +126,8 @@ def create_group_room():
     # ID検証
     if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
         return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
-    if len(id) < 5 or len(id) > 10:  # IDの長さチェック
-        return jsonify({"error": "IDは5文字以上10文字以下で入力してください。"}), 400
+    if len(id) != 6:  # IDの長さチェック
+        return jsonify({"error": "IDは6文字の半角英数字で入力してください。"}), 400
     
     # room_idの重複チェック
     room_id = id
