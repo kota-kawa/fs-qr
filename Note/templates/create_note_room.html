@@ -116,6 +116,51 @@
     color: #1f2937;
 }
 
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.select-control {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(132, 204, 22, 0.08) 0%, rgba(163, 230, 53, 0.08) 100%), #ffffff;
+    padding: 0.85rem 1.25rem;
+    padding-right: 3rem;
+    font-size: 1rem;
+    color: #1f2937;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.select-control:focus {
+    outline: none;
+    border-color: rgb(132, 204, 22);
+    box-shadow: 0 0 0 4px rgba(132, 204, 22, 0.18);
+    transform: translateY(-1px);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
+    color: rgb(101, 163, 13);
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.select-hint {
+    display: block;
+    margin-top: 0.35rem;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
 .form-control:focus {
     outline: none;
     border-color: rgb(163, 230, 53);
@@ -297,11 +342,15 @@
 
               <div class="form-group">
                   <label class="form-label" for="retention">自動削除までの期間</label>
-                  <select id="retention" name="retention_days" class="form-control">
-                      <option value="1">1日</option>
-                      <option value="7" selected>7日 (デフォルト)</option>
-                      <option value="30">30日 (約1か月)</option>
-                  </select>
+                  <div class="select-wrapper">
+                      <select id="retention" name="retention_days" class="select-control">
+                          <option value="1">1日</option>
+                          <option value="7" selected>7日 (デフォルト)</option>
+                          <option value="30">30日 (約1か月)</option>
+                      </select>
+                      <span class="select-arrow" aria-hidden="true">▾</span>
+                  </div>
+                  <small class="select-hint">チームの運用に合わせて保存期間を柔軟に設定できます。</small>
               </div>
 
               <button type="submit" class="btn-modern">Create Room</button>

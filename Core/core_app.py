@@ -46,6 +46,15 @@ def upload():
     id = request.form.get('name', '').strip()
     file_type = request.form.get('file_type', 'multiple')  # single or multiple
     original_filename = request.form.get('original_filename', '')
+
+    retention_value = request.form.get('retention_days', '').strip()
+    try:
+        retention_days = int(retention_value) if retention_value else 7
+    except ValueError:
+        retention_days = 7
+
+    if retention_days not in (1, 7, 30):
+        retention_days = 7
     
     # IDが空の場合は自動生成
     if not id:
@@ -119,15 +128,16 @@ def upload():
 
     # データベースに保存（ファイルタイプと元のファイル名も含める）
     fs_data.save_file(
-        uid=uid, 
-        id=id, 
-        password=password, 
-        secure_id=secure_id, 
+        uid=uid,
+        id=id,
+        password=password,
+        secure_id=secure_id,
         file_type=file_type,
-        original_filename=original_filename
+        original_filename=original_filename,
+        retention_days=retention_days
     )
 
-        # ここでは JSON でリダイレクト先を返す
+    # ここでは JSON でリダイレクト先を返す
     return jsonify({
         "redirect_url": url_for('core.upload_complete', secure_id=secure_id)
     })
@@ -150,7 +160,8 @@ def upload_complete(secure_id):
         password=password_val,
         secure_id=secure_id,
         mode='upload',
-        url=share_url
+        url=share_url,
+        retention_days=row.get('retention_days', 7)
     )
 
 @core_bp.route('/download/<secure_id>')
@@ -184,7 +195,8 @@ def fs_qr_room(room_id, password):
         id=record['id'],
         password=record['password'],
         secure_id=secure_id,
-        url=url_for('core.fs_qr_download', room_id=room_id, password=password)
+        url=url_for('core.fs_qr_download', room_id=room_id, password=password),
+        retention_days=record.get('retention_days', 7)
     )
 
 
@@ -276,4 +288,6 @@ def json_or_msg(message, status_code=400):
     # For multipart/form-data requests from XMLHttpRequest, also return JSON
     if 'multipart/form-data' in request.headers.get('Content-Type', ''):
         return jsonify({"error": message}), status_code
-    return msg(message, status_code)
+
+    return msg(message)
+

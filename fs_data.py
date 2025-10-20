@@ -51,19 +51,20 @@ def execute_query(query, params=None, fetch=False):
         raise
 
 # ファイルを保存
-def save_file(uid, id, password, secure_id, file_type='multiple', original_filename=None):
+def save_file(uid, id, password, secure_id, file_type='multiple', original_filename=None, retention_days=7):
     try:
         query = text("""
-            INSERT INTO fsqr (time, uuid, id, password, secure_id, file_type, original_filename) 
-            VALUES (NOW(), :uid, :id, :password, :secure_id, :file_type, :original_filename)
+            INSERT INTO fsqr (time, uuid, id, password, secure_id, file_type, original_filename, retention_days)
+            VALUES (NOW(), :uid, :id, :password, :secure_id, :file_type, :original_filename, :retention_days)
         """)
         execute_query(query, {
-            "uid": uid, 
-            "id": id, 
-            "password": password, 
-            "secure_id": secure_id, 
+            "uid": uid,
+            "id": id,
+            "password": password,
+            "secure_id": secure_id,
             "file_type": file_type,
-            "original_filename": original_filename
+            "original_filename": original_filename,
+            "retention_days": retention_days
         })
         logger.info("File saved successfully.")
     except Exception as e:
@@ -170,8 +171,13 @@ def all_remove():
 # 1週間以上経過したファイルレコードと関連ファイルを削除する関数
 def remove_expired_files():
     try:
-        # MySQLのINTERVAL句を使って1週間前より古いレコードを抽出
-        query = text("SELECT secure_id FROM fsqr WHERE time < (NOW() - INTERVAL 7 DAY)")
+        query = text(
+            """
+            SELECT secure_id
+            FROM fsqr
+            WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
+            """
+        )
         expired_records = execute_query(query, fetch=True)
         for record in expired_records:
             secure_id = record.get("secure_id")
