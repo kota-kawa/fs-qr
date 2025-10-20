@@ -70,10 +70,10 @@
 
                 <!-- Manual ID Input -->
                 <div class="modern-form-group" id="manualIdGroup" style="display: none;">
-                    <label for="name" class="modern-form-label">共有用ID（5-10文字）</label>
-                    <input type="text" class="modern-form-input" minlength="5" maxlength="10" 
-                           name="name" id="name" placeholder="共有用のIDを入力してください（半角英数字のみ）"
-                           pattern="[a-zA-Z0-9]{5,10}" title="5-10文字の半角英数字で入力してください"
+                    <label for="name" class="modern-form-label">共有用ID（6文字）</label>
+                    <input type="text" class="modern-form-input" minlength="6" maxlength="6"
+                           name="name" id="name" placeholder="共有用のIDを入力してください（半角英数字6文字）"
+                           pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
                            style="max-width: 300px;">
                 </div>
 
@@ -134,9 +134,9 @@
 
     // ID生成関数
     function generateRandomId() {
-        const chars = '0123456789';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 6; i++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return result;
@@ -473,18 +473,18 @@
 // ID入力欄の リアルタイム バリデーション
 idInput.addEventListener('input', function() {
     const value = this.value;
-    const isValid = /^[a-zA-Z0-9]{0,10}$/.test(value);
-    
-    if (!isValid) {
-        this.setCustomValidity('半角英数字のみ使用してください');
-        this.style.borderColor = '#ef4444';
-    } else if (value.length < 5 && value.length > 0) {
-        this.setCustomValidity('5文字以上入力してください');
-        this.style.borderColor = '#f59e0b';
-    } else {
-        this.setCustomValidity('');
-        this.style.borderColor = value.length >= 5 ? '#10b981' : '#e5e7eb';
-    }
+                const isValid = /^[a-zA-Z0-9]{0,6}$/.test(value);
+
+                if (!isValid) {
+                    this.setCustomValidity('半角英数字のみ使用してください');
+                    this.style.borderColor = '#ef4444';
+                } else if (value.length < 6 && value.length > 0) {
+                    this.setCustomValidity('6文字すべて入力してください');
+                    this.style.borderColor = '#f59e0b';
+                } else {
+                    this.setCustomValidity('');
+                    this.style.borderColor = value.length === 6 ? '#10b981' : '#e5e7eb';
+                }
 });
 
 </script>

@@ -51,8 +51,8 @@ def create_note_room():
     # ID検証
     if not re.match(r'^[a-zA-Z0-9]+$', id_):
         return jsonify({'error': 'IDに無効な文字が含まれています。半角英数字のみ使用してください。'}), 400
-    if len(id_) < 5 or len(id_) > 10:
-        return jsonify({'error': 'IDは5文字以上10文字以下で入力してください'}), 400
+    if len(id_) != 6:
+        return jsonify({'error': 'IDは6文字の半角英数字で入力してください'}), 400
     
     # room_idの重複チェック
     room_id = id_
