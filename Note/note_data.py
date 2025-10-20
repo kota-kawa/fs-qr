@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS note_room(
   time DATETIME NOT NULL,
   id VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  room_id VARCHAR(255) NOT NULL
+  room_id VARCHAR(255) NOT NULL,
+  retention_days INT NOT NULL DEFAULT 7
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
@@ -107,10 +108,13 @@ def create_room(id_, password, room_id, retention_days=7):
 # ────────────────────────────────────────────
 def get_room_meta(room_id, password=None):
     if password is None:
-        query = "SELECT id, password FROM note_room WHERE room_id=:r"
+        query = "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
         params = {"r": room_id}
     else:
-        query = "SELECT id, password FROM note_room WHERE room_id=:r AND password=:p"
+        query = (
+            "SELECT id, password, time, retention_days "
+            "FROM note_room WHERE room_id=:r AND password=:p"
+        )
         params = {"r": room_id, "p": password}
 
     rows = execute_query(query, params, fetch=True)

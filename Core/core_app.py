@@ -3,6 +3,7 @@ import os
 import uuid
 import secrets
 import re
+from datetime import timedelta
 import fs_data
 from werkzeug.utils import secure_filename
 from rate_limit import (
@@ -29,6 +30,18 @@ def _get_room_by_credentials(room_id, password):
         return None, None
     record = data[0]
     return record.get('secure_id'), record
+
+
+def _calculate_deletion_context(record):
+    retention_days = record.get('retention_days', 7)
+    created_at = record.get('time')
+    deletion_date = None
+    if created_at:
+        try:
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+        except Exception:
+            deletion_date = None
+    return retention_days, deletion_date
 
 
 @core_bp.route('/fs-qr_menu')
@@ -153,6 +166,7 @@ def upload_complete(secure_id):
     password_val = row["password"]
 
     share_url = url_for('core.fs_qr_room', room_id=id_val, password=password_val, _external=True)
+    retention_days, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
         'info.html',
@@ -161,7 +175,8 @@ def upload_complete(secure_id):
         secure_id=secure_id,
         mode='upload',
         url=share_url,
-        retention_days=row.get('retention_days', 7)
+        retention_days=retention_days,
+        deletion_date=deletion_date
     )
 
 @core_bp.route('/download/<secure_id>')
@@ -189,6 +204,8 @@ def fs_qr_room(room_id, password):
 
     register_success(SCOPE_QR, ip)
 
+    retention_days, deletion_date = _calculate_deletion_context(record)
+
     return render_template(
         'info.html',
         mode='download',
@@ -196,7 +213,8 @@ def fs_qr_room(room_id, password):
         password=record['password'],
         secure_id=secure_id,
         url=url_for('core.fs_qr_download', room_id=room_id, password=password),
-        retention_days=record.get('retention_days', 7)
+        retention_days=retention_days,
+        deletion_date=deletion_date
     )
 
 
