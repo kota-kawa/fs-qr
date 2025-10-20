@@ -6,7 +6,8 @@ CREATE TABLE fsqr (
     password VARCHAR(255) NOT NULL,       -- パスワード
     secure_id VARCHAR(255) NOT NULL,      -- ファイルのセキュアID
     file_type VARCHAR(20) DEFAULT 'multiple', -- ファイルタイプ: single or multiple
-    original_filename VARCHAR(255) DEFAULT NULL -- 単一ファイルの元のファイル名
+    original_filename VARCHAR(255) DEFAULT NULL, -- 単一ファイルの元のファイル名
+    retention_days INT NOT NULL DEFAULT 7 -- 自動削除までの日数
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE room (

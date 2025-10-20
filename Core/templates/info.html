@@ -129,6 +129,13 @@
             <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
             <td>{{ secure_id }}.zip</td>
           </tr>
+          <tr>
+            <th scope="row" class="text-center" style="white-space: nowrap;">自動削除まで</th>
+            <td>
+              {{ retention_days }}日後
+              <small class="text-muted d-block">選択した期間を過ぎると安全に削除されます。</small>
+            </td>
+          </tr>
         </table>
 
         <div class="text-center mt-4">
@@ -161,6 +168,10 @@
             <td class="text-start">{{ password | e }}</td>
           </tr>
           {% endif %}
+          <tr>
+            <th scope="row" class="text-center">自動削除まで</th>
+            <td class="text-start">{{ retention_days }}日後に削除予定</td>
+          </tr>
         </table>
 
         <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4 text-center">
