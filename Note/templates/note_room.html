@@ -130,6 +130,16 @@
                                 </button>
                             </span>
                         </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">削除予定日</span>
+                            <span class="room-info-value">
+                                {% if deletion_date %}
+                                    {{ deletion_date }} （{{ retention_days }}日後）
+                                {% else %}
+                                    {{ retention_days }}日後に自動削除
+                                {% endif %}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 

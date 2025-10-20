@@ -1,4 +1,5 @@
 import random, re
+from datetime import timedelta
 from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
 from . import note_data as nd
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -117,10 +118,21 @@ def note_room(room_id, password):
 
     register_success(SCOPE_NOTE, ip)
 
+    retention_days = meta.get("retention_days", 7)
+    created_at = meta.get("time")
+    deletion_date = None
+    if created_at:
+        try:
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+        except Exception:
+            deletion_date = None
+
     return render_template('note_room.html',
                            room_id=room_id,
                            user_id=meta["id"],
-                           password=password)
+                           password=password,
+                           retention_days=retention_days,
+                           deletion_date=deletion_date)
 
 # --- 検索ページ表示 -----------------------------------
 @note_bp.route('/search_note')

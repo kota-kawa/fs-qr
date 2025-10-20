@@ -5,6 +5,7 @@ import urllib
 import zipfile
 import io
 import re
+from datetime import timedelta
 from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
 from dotenv import load_dotenv
 from rate_limit import (
@@ -104,11 +105,22 @@ def group_room(room_id, password):
     register_success(SCOPE_GROUP, ip)
 
     user_id = record.get('id', '不明')
+    retention_days = record.get('retention_days', 7)
+    created_at = record.get('time')
+    deletion_date = None
+    if created_at:
+        try:
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+        except Exception:
+            deletion_date = None
+
     return render_template(
         'group_room.html',
         room_id=room_id,
         user_id=user_id,
-        password=password
+        password=password,
+        retention_days=retention_days,
+        deletion_date=deletion_date
     )
 
 # ---------------------------

@@ -136,6 +136,16 @@
               <small class="text-muted d-block">選択した期間を過ぎると安全に削除されます。</small>
             </td>
           </tr>
+          <tr>
+            <th scope="row" class="text-center" style="white-space: nowrap;">削除予定日</th>
+            <td>
+              {% if deletion_date %}
+                {{ deletion_date }}
+              {% else %}
+                {{ retention_days }}日後に自動削除予定
+              {% endif %}
+            </td>
+          </tr>
         </table>
 
         <div class="text-center mt-4">
@@ -171,6 +181,16 @@
           <tr>
             <th scope="row" class="text-center">自動削除まで</th>
             <td class="text-start">{{ retention_days }}日後に削除予定</td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-center">削除予定日</th>
+            <td class="text-start">
+              {% if deletion_date %}
+                {{ deletion_date }}
+              {% else %}
+                {{ retention_days }}日後に自動削除予定
+              {% endif %}
+            </td>
           </tr>
         </table>
 
