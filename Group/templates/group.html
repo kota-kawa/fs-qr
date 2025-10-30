@@ -231,6 +231,11 @@
     </script>
 
     <style>
+        :root {
+            --accent-color: #0e7a29;
+            --accent-hover: #34a73a;
+            --accent-soft: rgba(14, 122, 41, 0.08);
+        }
         body, html {
             height: 100%;
             margin: 0;
@@ -257,15 +262,25 @@
             align-items: center;
             padding: 20px;
         }
-        .menu-container {
+        main {
             flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .menu-container {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
             padding: 20px; /* 画面端にカードが寄らないよう調整 */
-            max-width: 100%; /* 画面幅に収まる */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
         .menu-card {
             flex: 1 1 100%; /* モバイルでフル幅 */
@@ -306,7 +321,7 @@
         .menu-card i {
             font-size: 2.5rem;
             margin-bottom: 15px;
-            color: #0e7a29;
+            color: var(--accent-color);
         }
         .menu-card h3 {
             font-size: 1.5rem;
@@ -323,13 +338,166 @@
             margin-top: 10px;
             text-decoration: none;
             color: #ffffff;
-            background-color: #0e7a29;
+            background-color: var(--accent-color);
             padding: 10px 20px;
             border-radius: 8px;
             transition: background-color 0.2s ease;
         }
         .menu-card a:hover {
-            background-color: #34a73a;
+            background-color: var(--accent-hover);
+        }
+        .content-section {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            padding: 30px;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--accent-color);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+        .rating-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .rating-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .rating-stars {
+            color: #f4b400;
+            font-size: 1.5rem;
+        }
+        .rating-count {
+            color: #555;
+            font-size: 1rem;
+        }
+        .review-list {
+            display: grid;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .review-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        .review-item {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(14, 122, 41, 0.1);
+            border-left: 5px solid var(--accent-color);
+        }
+        .reviewer {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222;
+        }
+        .review-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .review-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        .faq-list {
+            display: grid;
+            gap: 16px;
+        }
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 10px rgba(14, 122, 41, 0.1);
+            border-left: 5px solid var(--accent-color);
+        }
+        .faq-item summary {
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item summary::after {
+            content: "＋";
+            float: right;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .faq-item[open] summary::after {
+            content: "－";
+        }
+        .faq-item p {
+            margin-top: 12px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .howto-steps {
+            list-style: none;
+            counter-reset: step;
+            display: grid;
+            gap: 16px;
+            padding: 0;
+            margin: 0;
+        }
+        .howto-step {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(14, 122, 41, 0.12);
+            border-left: 5px solid var(--accent-color);
+            position: relative;
+        }
+        .howto-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            top: -18px;
+            left: 16px;
+            background-color: var(--accent-color);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(14, 122, 41, 0.25);
+        }
+        .howto-step h3 {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            color: #222;
+        }
+        .howto-step p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .content-section + .content-section {
+            margin-top: 0;
+        }
+        @media (max-width: 575.98px) {
+            .content-section {
+                padding: 24px;
+            }
+            .rating-score {
+                font-size: 2.1rem;
+            }
         }
     </style>
 </head>
@@ -339,8 +507,8 @@
             <h1 class="visually-hidden">FS!QR Group - グループファイル共有・チーム協業サービス</h1>
         </header>
         
-        <main role="main" class="menu-container">
-            <section aria-labelledby="group-services">
+        <main role="main">
+            <section class="menu-container" aria-labelledby="group-services">
                 <h2 id="group-services" class="visually-hidden">グループサービス機能一覧</h2>
                 
                 <article class="menu-card">
@@ -366,6 +534,75 @@
                     <a href="/" aria-describedby="home-desc">戻る</a>
                     <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
                 </article>
+            </section>
+            <section class="content-section" aria-labelledby="group-reviews">
+                <h2 id="group-reviews" class="section-title">ユーザーレビュー</h2>
+                <div class="rating-summary" role="img" aria-label="平均評価 4.7 / 5">
+                    <span class="rating-score">4.7</span>
+                    <span class="rating-stars" aria-hidden="true">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </span>
+                    <span class="rating-count">200件のレビュー</span>
+                </div>
+                <div class="review-list">
+                    <article class="review-item">
+                        <div class="reviewer">田中 美咲（マーケティングチームリーダー）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 8か月</div>
+                        <p class="review-text">複数のプロジェクトでフォルダを分けて管理できるので、社内の資料共有がとてもスムーズになりました。アクセス権限の設定が簡単なのも助かっています。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">佐藤 達也（スタートアップCEO）</div>
+                        <div class="review-meta">★★★★☆ · 利用期間 5か月</div>
+                        <p class="review-text">リモートワークのメンバーと安全にファイルをやり取りできています。UIがシンプルで誰でも迷わず使える点が魅力です。モバイルアプリがあればさらに嬉しいです。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">山本 菜月（大学ゼミ代表）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 1年</div>
+                        <p class="review-text">ゼミメンバーでレポートや資料を共有するのに活用中。容量制限を気にせずアップロードできるので、動画や音声データもまとめて管理できて便利です。</p>
+                    </article>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="group-faq">
+                <h2 id="group-faq" class="section-title">よくある質問</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>無料プランでもデータは安全に保護されますか？</summary>
+                        <p>はい。通信はすべて暗号化され、ファイルはサーバー側でも暗号化した状態で保存されます。アクセスログも自動記録されるため、チームでの利用でも安心です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>外部パートナーを一時的に招待できますか？</summary>
+                        <p>グループルームごとにアクセスキーを発行できるので、取引先や外部講師などを期間限定で招待できます。不要になったアクセスキーはすぐに無効化可能です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>アップロードできるファイルサイズに制限はありますか？</summary>
+                        <p>1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>サポートは日本語で受けられますか？</summary>
+                        <p>メールフォームからお問い合わせいただければ、平日24時間以内に日本語でサポートスタッフがご返信します。</p>
+                    </details>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="group-howto">
+                <h2 id="group-howto" class="section-title">FS!QR Groupの使い方</h2>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>グループルームを作成する</h3>
+                        <p>「グループの作成」を選択し、ルーム名と共有したいメンバーの情報を登録します。アクセスキーは自動生成されます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>メンバーにアクセスキーを共有</h3>
+                        <p>招待したいメンバーにアクセスキーを送信します。メンバーはキーを入力するだけでルームに参加できます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>ファイルをアップロードして共同作業</h3>
+                        <p>フォルダを作成し、ファイルをアップロード。コメント機能でタスクのやり取りや進捗共有もできます。</p>
+                    </li>
+                </ol>
             </section>
         </main>
         

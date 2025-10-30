@@ -231,6 +231,11 @@
     }
     </script>
     <style>
+        :root {
+            --accent-color: #95d420;
+            --accent-hover: #7eb41b;
+            --accent-soft: rgba(149, 212, 32, 0.1);
+        }
         body, html {
             height: 100%;
             margin: 0;
@@ -258,15 +263,25 @@
             align-items: center;
             padding: 20px;
         }
-        .menu-container {
+        main {
             flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .menu-container {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
             padding: 20px;
-            max-width: 100%; /* 画面幅に収まる */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
         .menu-card {
             flex: 1 1 100%; /* モバイル: フル幅 */
@@ -307,7 +322,7 @@
         .menu-card i {
             font-size: 2.5rem;
             margin-bottom: 15px;
-            color: #95d420;
+            color: var(--accent-color);
         }
         .menu-card h3 {
             font-size: 1.5rem;
@@ -324,13 +339,166 @@
             margin-top: 10px;
             text-decoration: none;
             color: #ffffff;
-            background-color: #95d420;
+            background-color: var(--accent-color);
             padding: 10px 20px;
             border-radius: 8px;
             transition: background-color 0.2s ease;
         }
         .menu-card a:hover {
-            background-color: #95d420;
+            background-color: var(--accent-hover);
+        }
+        .content-section {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            padding: 30px;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--accent-color);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+        .rating-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .rating-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .rating-stars {
+            color: #f4b400;
+            font-size: 1.5rem;
+        }
+        .rating-count {
+            color: #555;
+            font-size: 1rem;
+        }
+        .review-list {
+            display: grid;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .review-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        .review-item {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(149, 212, 32, 0.16);
+            border-left: 5px solid var(--accent-color);
+        }
+        .reviewer {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222;
+        }
+        .review-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .review-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        .faq-list {
+            display: grid;
+            gap: 16px;
+        }
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 10px rgba(149, 212, 32, 0.16);
+            border-left: 5px solid var(--accent-color);
+        }
+        .faq-item summary {
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item summary::after {
+            content: "＋";
+            float: right;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .faq-item[open] summary::after {
+            content: "－";
+        }
+        .faq-item p {
+            margin-top: 12px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .howto-steps {
+            list-style: none;
+            counter-reset: step;
+            display: grid;
+            gap: 16px;
+            padding: 0;
+            margin: 0;
+        }
+        .howto-step {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(149, 212, 32, 0.18);
+            border-left: 5px solid var(--accent-color);
+            position: relative;
+        }
+        .howto-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            top: -18px;
+            left: 16px;
+            background-color: var(--accent-color);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(149, 212, 32, 0.25);
+        }
+        .howto-step h3 {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            color: #222;
+        }
+        .howto-step p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .content-section + .content-section {
+            margin-top: 0;
+        }
+        @media (max-width: 575.98px) {
+            .content-section {
+                padding: 24px;
+            }
+            .rating-score {
+                font-size: 2.1rem;
+            }
         }
     </style>
 </head>
@@ -340,8 +508,8 @@
             <h1 class="visually-hidden">FS!QR Note - リアルタイム同時編集ノートサービス</h1>
         </header>
         
-        <main role="main" class="menu-container">
-            <section aria-labelledby="note-services">
+        <main role="main">
+            <section class="menu-container" aria-labelledby="note-services">
                 <h2 id="note-services" class="visually-hidden">ノートサービス機能一覧</h2>
                 
                 <article class="menu-card">
@@ -367,6 +535,75 @@
                     <a href="/" aria-describedby="home-desc">戻る</a>
                     <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
                 </article>
+            </section>
+            <section class="content-section" aria-labelledby="note-reviews">
+                <h2 id="note-reviews" class="section-title">ユーザーレビュー</h2>
+                <div class="rating-summary" role="img" aria-label="平均評価 4.8 / 5">
+                    <span class="rating-score">4.8</span>
+                    <span class="rating-stars" aria-hidden="true">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </span>
+                    <span class="rating-count">150件のレビュー</span>
+                </div>
+                <div class="review-list">
+                    <article class="review-item">
+                        <div class="reviewer">高橋 遼（プロジェクトマネージャー）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 6か月</div>
+                        <p class="review-text">会議メモをリアルタイムで共有できるので、議事録の共有が驚くほど早くなりました。コメント機能で宿題も整理できて助かっています。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">中村 亜美（大学院生）</div>
+                        <div class="review-meta">★★★★☆ · 利用期間 9か月</div>
+                        <p class="review-text">ゼミの共同研究で活用しています。図表の貼り付けもスムーズで、授業中にまとめたノートをそのまま共有できるのが便利です。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">井上 翔太（カスタマーサポート）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 1年</div>
+                        <p class="review-text">シフトごとの引き継ぎメモに利用中。自動保存と履歴があるので、誰がどこを更新したかすぐ分かり、チーム全体の抜け漏れが減りました。</p>
+                    </article>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="note-faq">
+                <h2 id="note-faq" class="section-title">よくある質問</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>ノートに画像やリンクを貼り付けられますか？</summary>
+                        <p>はい。ドラッグ＆ドロップで画像を挿入でき、URLを貼ると自動的にリンク化されます。書式設定ツールバーもご利用いただけます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>編集履歴はどのくらい保存されますか？</summary>
+                        <p>変更履歴は30日間保存され、いつでも過去の版を確認・復元できます。重要なノートはPDFでエクスポートすることも可能です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>ゲストユーザーも共同編集に参加できますか？</summary>
+                        <p>アクセスキーを共有すれば、アカウントを持たないゲストユーザーでもノートに参加できます。必要に応じて閲覧専用モードに切り替えられます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>モバイル端末からでも編集できますか？</summary>
+                        <p>レスポンシブ対応なのでスマートフォンやタブレットからも快適に編集できます。編集内容は即時に同期されます。</p>
+                    </details>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="note-howto">
+                <h2 id="note-howto" class="section-title">FS!QR Noteの使い方</h2>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>ノートルームを作成する</h3>
+                        <p>「ルームを作成」を押してタイトルと概要を入力すると、共同編集用のルームがすぐに作成されます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>メンバーにアクセスキーを共有</h3>
+                        <p>自動生成されたアクセスキーをチームメンバーに共有し、リアルタイム編集に招待します。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>共同編集を開始する</h3>
+                        <p>複数人で同時に編集しながらコメントを残し、完了したら履歴やPDF出力で成果を保存しましょう。</p>
+                    </li>
+                </ol>
             </section>
         </main>
         
