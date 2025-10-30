@@ -24,6 +24,12 @@ STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 os.makedirs(STATIC, exist_ok=True)
 
 
+def _canonical_redirect():
+    if request.query_string:
+        return redirect(request.base_url, code=301)
+    return None
+
+
 def _get_room_by_credentials(room_id, password):
     data = fs_data.get_data_by_credentials(room_id, password)
     if not data:
@@ -46,10 +52,16 @@ def _calculate_deletion_context(record):
 
 @core_bp.route('/fs-qr_menu')
 def fs_qr():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('fs-qr.html')
 
 @core_bp.route('/fs-qr')
 def fs_qr_upload():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('fs-qr-upload.html')
 
 @core_bp.route('/upload', methods=['POST'])

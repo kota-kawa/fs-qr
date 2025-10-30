@@ -1,6 +1,8 @@
 from flask import (
     Flask,
+    redirect,
     render_template,
+    request,
     send_from_directory,
 )
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -66,28 +68,52 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 # ---------------------------
 
+def _canonical_redirect():
+    if request.query_string:
+        return redirect(request.base_url, code=301)
+    return None
+
+
 @app.route('/')
 def index():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('index.html')
 
 @app.route('/privacy-policy')
 def privacy_policy():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('privacy.html')
 
 @app.route('/about')
 def about():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('about.html')
 
 @app.route('/contact')
 def contact():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('contact.html')
 
 @app.route('/usage')
 def usage():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('usage.html')
 
 @app.route('/all-in-one')
 def all_in_one():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('all-in-one-gpt.html')
 
 @app.route('/ads.txt')

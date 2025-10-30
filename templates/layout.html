@@ -20,7 +20,7 @@
     <meta property="og:site_name" content="FS!QR" />
     <meta property="og:title" content="{% block og_title %}FS!QR | 無料で簡単なファイル共有サービス{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。{% endblock %}" />
-    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:url" content="{{ request.base_url }}" />
     <meta property="og:image" content="{{staticfile('logo.png')}}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -34,7 +34,7 @@
     <meta name="twitter:image:alt" content="FS!QR ファイル共有サービス" />
     
     <!-- SEO -->
-    <link rel="canonical" href="{{ request.url }}" />
+    <link rel="canonical" href="{{ request.base_url }}" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />

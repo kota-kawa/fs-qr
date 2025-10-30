@@ -1,9 +1,18 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, request
 
 articles_bp = Blueprint('articles', __name__, template_folder='templates')
 
+def _canonical_redirect():
+    if request.query_string:
+        return redirect(request.base_url, code=301)
+    return None
+
+
 @articles_bp.route('/articles')
 def articles():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     articles = [
         {"title": "FS!QRの基本的な考え方", "url": "/fs-qr-concept"},
         {"title": "安全な共有のポイント", "url": "/safe-sharing"},
