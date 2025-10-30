@@ -1,5 +1,8 @@
 {% extends "group_layout.html" %}
 
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+
 {% block page_title %}グループルーム {{ room_id }} | FS!QR Group - チームファイル共有{% endblock %}
 
 {% block meta_description %}FS!QR Groupのチームファイル共有ルーム。複数人で安全にファイルをアップロード・ダウンロード・管理。リアルタイムでファイルを共有できる協業ツール。{% endblock %}

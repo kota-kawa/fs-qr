@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="{% block meta_description %}FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。{% endblock %}" />
   <meta name="keywords" content="{% block meta_keywords %}リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習{% endblock %}" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
   <meta name="author" content="FS!QR" />
   <meta name="language" content="ja" />
   <meta name="geo.region" content="JP" />
@@ -35,7 +35,7 @@
   
   <!-- SEO -->
   <link rel="canonical" href="{{ request.base_url }}" />
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}" />
   <meta name="priority" content="1.0" />
   <meta name="importance" content="high" />
   
