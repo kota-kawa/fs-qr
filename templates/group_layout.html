@@ -112,30 +112,29 @@
 
      {% block extra_head %}{% endblock %}
   </head>
-
-      <!-- Google アナリティクス用のコード -->
-      <script async
-          src="https://www.googletagmanager.com/gtag/js?id=G-D26D8ZXKNV"></script>
-      <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-D26D8ZXKNV');
-      </script>
-
-  <header>
-    <div class="container text-center">
-      <h1 class="mt-3"><a href="/group_menu" target="_self"><img
-            style="height: 100px; width: auto;"
-            src="{{staticfile('group_logo.png')}}"
-            alt="Group">
-        </a>
-      </h1>
-    </div>
-  </header>
-
   <body>
+    <!-- Google アナリティクス用のコード -->
+    <script async
+        src="https://www.googletagmanager.com/gtag/js?id=G-D26D8ZXKNV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D26D8ZXKNV');
+    </script>
+
+    <header>
+      <div class="container text-center">
+        <h1 class="mt-3"><a href="/group_menu" target="_self"><img
+              style="height: 100px; width: auto;"
+              src="{{staticfile('group_logo.png')}}"
+              alt="Group">
+          </a>
+        </h1>
+      </div>
+    </header>
+
     <div class="text-center">
       <a href="/search_group" class="search-link">
         <img src="{{staticfile('kensaku.png')}}" alt="検索アイコン" />
