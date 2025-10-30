@@ -231,6 +231,11 @@
     }
     </script>
     <style>
+        :root {
+            --accent-color: #202cd4;
+            --accent-hover: #000dff;
+            --accent-soft: rgba(32, 44, 212, 0.12);
+        }
         body, html {
             height: 100%;
             margin: 0;
@@ -257,15 +262,25 @@
             align-items: center;
             padding: 20px;
         }
-        .menu-container {
+        main {
             flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .menu-container {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
             padding: 20px;
-            max-width: 100%; /* 画面幅に収まる */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
         .menu-card {
             flex: 1 1 100%; /* モバイル: フル幅 */
@@ -303,7 +318,7 @@
         .menu-card i {
             font-size: 2.5rem;
             margin-bottom: 15px;
-            color: #202cd4;
+            color: var(--accent-color);
         }
         .menu-card h3 {
             font-size: 1.5rem;
@@ -320,13 +335,166 @@
             margin-top: 10px;
             text-decoration: none;
             color: #ffffff;
-            background-color: #202cd4;
+            background-color: var(--accent-color);
             padding: 10px 20px;
             border-radius: 8px;
             transition: background-color 0.2s ease;
         }
         .menu-card a:hover {
-            background-color: #000DFF;
+            background-color: var(--accent-hover);
+        }
+        .content-section {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            padding: 30px;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--accent-color);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+        .rating-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .rating-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .rating-stars {
+            color: #f4b400;
+            font-size: 1.5rem;
+        }
+        .rating-count {
+            color: #555;
+            font-size: 1rem;
+        }
+        .review-list {
+            display: grid;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .review-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        .review-item {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(32, 44, 212, 0.18);
+            border-left: 5px solid var(--accent-color);
+        }
+        .reviewer {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222;
+        }
+        .review-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .review-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        .faq-list {
+            display: grid;
+            gap: 16px;
+        }
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 10px rgba(32, 44, 212, 0.18);
+            border-left: 5px solid var(--accent-color);
+        }
+        .faq-item summary {
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item summary::after {
+            content: "＋";
+            float: right;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .faq-item[open] summary::after {
+            content: "－";
+        }
+        .faq-item p {
+            margin-top: 12px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .howto-steps {
+            list-style: none;
+            counter-reset: step;
+            display: grid;
+            gap: 16px;
+            padding: 0;
+            margin: 0;
+        }
+        .howto-step {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(32, 44, 212, 0.2);
+            border-left: 5px solid var(--accent-color);
+            position: relative;
+        }
+        .howto-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            top: -18px;
+            left: 16px;
+            background-color: var(--accent-color);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(32, 44, 212, 0.25);
+        }
+        .howto-step h3 {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            color: #222;
+        }
+        .howto-step p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .content-section + .content-section {
+            margin-top: 0;
+        }
+        @media (max-width: 575.98px) {
+            .content-section {
+                padding: 24px;
+            }
+            .rating-score {
+                font-size: 2.1rem;
+            }
         }
     </style>
 </head>
@@ -336,8 +504,8 @@
             <h1 class="visually-hidden">FS!QR - QRコード暗号化ファイル共有サービス</h1>
         </header>
         
-        <main role="main" class="menu-container">
-            <section aria-labelledby="qr-services">
+        <main role="main">
+            <section class="menu-container" aria-labelledby="qr-services">
                 <h2 id="qr-services" class="visually-hidden">QRコードサービス機能一覧</h2>
                 
                 <article class="menu-card">
@@ -363,6 +531,75 @@
                     <a href="/" aria-describedby="home-desc">戻る</a>
                     <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
                 </article>
+            </section>
+            <section class="content-section" aria-labelledby="fsqr-reviews">
+                <h2 id="fsqr-reviews" class="section-title">ユーザーレビュー</h2>
+                <div class="rating-summary" role="img" aria-label="平均評価 4.9 / 5">
+                    <span class="rating-score">4.9</span>
+                    <span class="rating-stars" aria-hidden="true">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </span>
+                    <span class="rating-count">250件のレビュー</span>
+                </div>
+                <div class="review-list">
+                    <article class="review-item">
+                        <div class="reviewer">小林 直人（ITコンサルタント）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 10か月</div>
+                        <p class="review-text">顧客とのファイル共有で高いセキュリティを求められる案件に利用しています。パスワード共有よりも安全で、QRコード提示だけで済むのが好評です。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">大島 由香（法務部門）</div>
+                        <div class="review-meta">★★★★☆ · 利用期間 7か月</div>
+                        <p class="review-text">社外と契約書をやり取りする際に使用中。暗号化とダウンロード履歴が確認できるので、監査にも対応できる体制が整いました。</p>
+                    </article>
+                    <article class="review-item">
+                        <div class="reviewer">石井 智也（映像クリエイター）</div>
+                        <div class="review-meta">★★★★★ · 利用期間 1年</div>
+                        <p class="review-text">大容量の動画データもスムーズに共有できます。QRコードを現場で読み取ってもらえるので、撮影後すぐに素材を渡せるようになりました。</p>
+                    </article>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="fsqr-faq">
+                <h2 id="fsqr-faq" class="section-title">よくある質問</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>QRコードの有効期限は設定できますか？</summary>
+                        <p>アップロード時に自動で7日間の有効期限が設定されます。必要に応じて管理画面から短縮・延長が可能です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>暗号化の方式は何を使っていますか？</summary>
+                        <p>AES-256によるエンドツーエンド暗号化を採用しています。サーバー上でも暗号化状態で保持されるため、運営側でも内容は確認できません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>QRコードは何回でもダウンロードできますか？</summary>
+                        <p>有効期限内であれば回数無制限でダウンロードできます。ダウンロード履歴はダッシュボードから確認可能です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>共有相手にアカウントは必要ですか？</summary>
+                        <p>いいえ。QRコードを読み取ればどなたでもファイルを受け取れます。追加でPINコードを設定することもでき、セキュリティを強化できます。</p>
+                    </details>
+                </div>
+            </section>
+            <section class="content-section" aria-labelledby="fsqr-howto">
+                <h2 id="fsqr-howto" class="section-title">FS!QRの使い方</h2>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>ファイルをアップロードする</h3>
+                        <p>「ファイルアップロード」を選択し、共有したいファイルを追加します。自動的に暗号化とQRコード生成が始まります。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>共有方法を選択する</h3>
+                        <p>生成されたQRコードやダウンロードリンクをメールやチャットで共有します。必要に応じてPINコードや有効期限を変更しましょう。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>ダウンロード状況を確認する</h3>
+                        <p>ダッシュボードでダウンロード履歴やアクセス元を確認し、安全なファイル配布を継続できます。</p>
+                    </li>
+                </ol>
             </section>
         </main>
         
