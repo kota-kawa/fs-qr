@@ -61,10 +61,21 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 # ---------------------------
+# クエリのない正規URLへリダイレクト
+# ---------------------------
+def _canonical_redirect():
+    if request.query_string:
+        return redirect(request.base_url, code=301)
+    return None
+
+# ---------------------------
 # グループ画面のルート
 # ---------------------------
 @group_bp.route('/group_menu')
 def group():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('group.html')
 
 # ---------------------------
@@ -85,6 +96,9 @@ def _get_room_if_valid(room_id, password):
 # ---------------------------
 @group_bp.route('/group')
 def group_list():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('group_room_access.html')
 
 

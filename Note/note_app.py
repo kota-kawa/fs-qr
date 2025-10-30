@@ -23,6 +23,12 @@ scheduler.add_job(
 scheduler.start()
 note_bp = Blueprint('note', __name__, template_folder='templates')
 
+# クエリのない正規URLへリダイレクト
+def _canonical_redirect():
+    if request.query_string:
+        return redirect(request.base_url, code=301)
+    return None
+
 # ルーム情報取得ヘルパー
 def _get_room_if_valid(room_id, password):
     meta = nd.get_room_meta(room_id, password=password)
@@ -35,6 +41,9 @@ def _get_room_if_valid(room_id, password):
 # ルートメニュー
 @note_bp.route('/note_menu')
 def note_menu():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('note_menu.html')      # 別途用意済み
 
 # ルーム作成フォーム
@@ -98,6 +107,9 @@ def create_note_room():
 # ルームアクセスページ
 @note_bp.route('/note')
 def note_room_access():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
     return render_template('note_room_access.html')
 
 
