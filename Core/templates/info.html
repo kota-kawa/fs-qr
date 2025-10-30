@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+
 {% block page_title %}ファイル情報 | FS!QR - アップロード完了{% endblock %}
 
 {% block meta_description %}FS!QRファイルアップロード完了。QRコードとダウンロードリンクが生成されました。ファイルを安全に共有・管理できます。{% endblock %}

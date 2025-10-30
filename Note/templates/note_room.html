@@ -1,5 +1,8 @@
 {% extends "note_layout.html" %}
 
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+
 {% block page_title %}ノートルーム {{ room_id }} | FS!QR Note - リアルタイム共同編集{% endblock %}
 
 {% block meta_description %}FS!QR Noteのリアルタイム共同編集ノートルーム。複数人でオンラインノートを同時編集・共有。リアルタイムでテキストが同期される協業ノートツール。{% endblock %}

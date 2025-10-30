@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="{% block meta_description %}FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業{% endblock %}" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
     <meta name="author" content="FS!QR" />
     <meta name="language" content="ja" />
     <meta name="geo.region" content="JP" />
@@ -35,7 +35,7 @@
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.base_url }}" />
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}" />
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
     
