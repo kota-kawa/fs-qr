@@ -152,6 +152,48 @@ th { text-align: right; }
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* Icon utilities */
+.svg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.svg-icon svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.svg-icon--lg svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.svg-icon--xl svg {
+  width: 2em;
+  height: 2em;
+}
+
+.svg-icon--xxl svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.svg-icon--spinner svg {
+  width: 150px;
+  height: 150px;
+}
+
+.svg-icon--with-text {
+  margin-right: 0.5rem;
+}
+
+.svg-icon--with-text:last-child {
+  margin-right: 0;
+}
+
 /* Enhanced page wrapper for info pages */
 .info-page {
   min-height: calc(100vh - 200px);
@@ -903,7 +945,9 @@ th { text-align: right; }
 }
 
 .upload-icon-modern {
-  font-size: 4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--primary-color);
   margin-bottom: 1rem;
   transition: transform 0.3s ease;
@@ -1148,7 +1192,6 @@ th { text-align: right; }
 
 .modern-file-icon {
   color: var(--primary-color);
-  font-size: 1.2rem;
 }
 
 .modern-file-actions {
@@ -1157,10 +1200,12 @@ th { text-align: right; }
 }
 
 .modern-file-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: var(--text-medium);
-  font-size: 1.1rem;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 6px;
@@ -1258,6 +1303,9 @@ th { text-align: right; }
 
 .spinner-container .icon {
   font-size: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.8s ease-in-out;
 }
 

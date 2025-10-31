@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "macros/icons.html" import icon %}
 
 {% block page_title %}FS!QR お問い合わせ | ご質問・ご意見をお聞かせください{% endblock %}
 
@@ -22,7 +23,7 @@
     <div class="info-box-content">
       <p>FS!QRに関するご質問、ご意見、ご要望などがございましたら、お気軽にお問い合わせください。運営チームが迅速に対応いたします。</p>
 
-      <h3>📝 お問い合わせの前に</h3>
+      <h3>{{ icon('pencil_square', with_text=True) }}お問い合わせの前に</h3>
       <p>お問い合わせの前に、以下のページもご確認ください：</p>
       <ul>
         <li><a href="/usage">使い方</a> - サービスの基本的な使用方法</li>
@@ -30,14 +31,14 @@
         <li><a href="/privacy-policy">プライバシーポリシー</a> - データの取り扱いについて</li>
       </ul>
 
-      <h3>📧 お問い合わせフォーム</h3>
+      <h3>{{ icon('envelope', with_text=True) }}お問い合わせフォーム</h3>
       <p>以下のフォームから、お気軽にお問い合わせください。いただいたメッセージは運営チームが確認し、できるだけ早くご返信いたします。</p>
       
       <div style="text-align: center; margin: 2rem 0;">
         <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/edit?hl=ja" target="_blank" rel="noopener" class="contact-form-link">お問い合わせフォーム</a>
       </div>
 
-      <h3>⚡ よくある質問</h3>
+      <h3>{{ icon('bolt', with_text=True) }}よくある質問</h3>
       
       <h4>ファイルはどのくらいの期間保存されますか？</h4>
       <p>アップロードされたファイルは暗号化されて一時的に保存され、一定期間後に自動的に削除されます。</p>

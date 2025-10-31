@@ -1,3 +1,4 @@
+{% from "macros/icons.html" import icon %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -35,7 +36,7 @@
           <div class="card-body py-5">
             <h1 class="display-1 fw-bold text-primary">404</h1>
             <p class="fs-3">
-              <span class="emoji-bounce">😿</span>
+              {{ icon('face_frown', size='xl', extra_classes='emoji-bounce text-warning') }}
               おっと…ページが見つかりません
             </p>
             <p class="lead text-secondary mb-4">

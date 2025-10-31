@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% import "macros/icons.html" as icons %}
 
 {% block meta_robots %}noindex, nofollow{% endblock %}
 {% block meta_googlebot %}noindex, nofollow{% endblock %}
@@ -282,8 +283,8 @@
   <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
   <div class="spinner-container" id="spinnerContainer" style="display: none;">
     <div class="spinner-second-container" id="animationContainer">
-      <div class="icon lock">🔒</div>
-      <div class="icon file">📄</div>
+      <div class="icon lock">{{ icons.icon('lock', extra_classes='svg-icon--spinner') }}</div>
+      <div class="icon file">{{ icons.icon('document', extra_classes='svg-icon--spinner') }}</div>
       <div class="text" id="statusText">受信中...</div>
       <div class="progress-bar-container">
         <div class="progress-bar" id="progressBar"></div>

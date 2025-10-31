@@ -111,10 +111,16 @@
 }
 
 .file-list li::before {
-  content: "📄";
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
   margin-right: 10px;
-  font-size: 18px;
-  color: #8e44ad;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27%25238e44ad%27%3E%3Cpath%20d%3D%27M5.625%201.5c-1.036%200-1.875.84-1.875%201.875v17.25c0%201.035.84%201.875%201.875%201.875h12.75c1.035%200%201.875-.84%201.875-1.875V12.75A3.75%203.75%200%200%200%2016.5%209h-1.875a1.875%201.875%200%200%201-1.875-1.875V5.25A3.75%203.75%200%200%200%209%201.5H5.625Z%27/%3E%3Cpath%20d%3D%27M12.971%201.816A5.23%205.23%200%200%201%2014.25%205.25v1.875c0%20.207.168.375.375.375H16.5a5.23%205.23%200%200%201%203.434%201.279%209.768%209.768%200%200%200-6.963-6.963Z%27/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .custom-card {
