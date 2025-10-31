@@ -50,8 +50,8 @@
     left: 0;
     right: 0;
     height: 4px;
-    border-top-left-radius: var(--card-radius);
-    border-top-right-radius: var(--card-radius);
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
@@ -70,13 +70,13 @@
     padding: 2rem;
     text-align: center;
     position: relative;
-    border-top-left-radius: var(--card-radius);
-    border-top-right-radius: var(--card-radius);
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
 }
 
 .modern-card > .card-header {
-    border-top-left-radius: var(--card-radius);
-    border-top-right-radius: var(--card-radius);
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
 }
 
 .card-header::after {

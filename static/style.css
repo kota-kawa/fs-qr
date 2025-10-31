@@ -539,10 +539,11 @@ th { text-align: right; }
 
 /* Modern info box styling */
 .info-box {
+  --info-card-radius: 20px;
   max-width: 900px;
   margin: 0 auto;
   background: var(--bg-white);
-  border-radius: 20px;
+  border-radius: var(--info-card-radius);
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--border-light);
   overflow: hidden;
@@ -557,6 +558,8 @@ th { text-align: right; }
   right: 0;
   height: 4px;
   background: var(--primary-gradient);
+  border-top-left-radius: var(--info-card-radius);
+  border-top-right-radius: var(--info-card-radius);
 }
 
 .info-box-header {
@@ -565,6 +568,8 @@ th { text-align: right; }
   padding: 2rem;
   text-align: center;
   position: relative;
+  border-top-left-radius: var(--info-card-radius);
+  border-top-right-radius: var(--info-card-radius);
 }
 
 .info-box-header::after {
@@ -711,7 +716,12 @@ th { text-align: right; }
   .info-page {
     padding: 1rem 0.5rem;
   }
-  
+
+  .info-box {
+    --info-card-radius: 16px;
+    border-radius: var(--info-card-radius);
+  }
+
   .info-box-header {
     padding: 1.5rem 1rem;
   }
@@ -758,10 +768,11 @@ th { text-align: right; }
 
 /* Modern usage card styling for room pages */
 .usage-section {
+  --usage-card-radius: 20px;
   max-width: 900px;
   margin: 2rem auto;
   background: var(--bg-white);
-  border-radius: 20px;
+  border-radius: var(--usage-card-radius);
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--border-light);
   overflow: hidden;
@@ -776,6 +787,8 @@ th { text-align: right; }
   right: 0;
   height: 4px;
   background: var(--primary-gradient);
+  border-top-left-radius: var(--usage-card-radius);
+  border-top-right-radius: var(--usage-card-radius);
 }
 
 .usage-section-header {
@@ -784,6 +797,8 @@ th { text-align: right; }
   padding: 1.5rem 2rem;
   text-align: center;
   position: relative;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .usage-section-header::after {
@@ -827,7 +842,8 @@ th { text-align: right; }
 @media (max-width: 768px) {
   .usage-section {
     margin: 1rem;
-    border-radius: 15px;
+    --usage-card-radius: 15px;
+    border-radius: var(--usage-card-radius);
   }
   
   .usage-section-header {
@@ -881,6 +897,8 @@ th { text-align: right; }
   padding: 2rem;
   text-align: center;
   position: relative;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .modern-card-header::after {
@@ -1015,6 +1033,8 @@ th { text-align: right; }
   text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .room-info-body {

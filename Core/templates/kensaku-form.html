@@ -30,11 +30,12 @@
 }
 
 .modern-card {
+    --card-radius: 24px;
     width: 100%;
     max-width: 440px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border-radius: 24px;
+    border-radius: var(--card-radius);
     box-shadow: 
         0 20px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04),
@@ -53,6 +54,8 @@
     right: 0;
     height: 4px;
     background: linear-gradient(135deg, rgb(59, 130, 246) 0%, rgb(147, 197, 253) 100%);
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
 }
 
 .modern-card:hover {
@@ -68,6 +71,8 @@
     padding: 2rem;
     text-align: center;
     position: relative;
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
 }
 
 .card-header::after {
@@ -175,7 +180,8 @@
     
     .modern-card {
         max-width: 100%;
-        border-radius: 20px;
+        --card-radius: 20px;
+        border-radius: var(--card-radius);
     }
     
     .card-header {
