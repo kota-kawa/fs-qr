@@ -784,6 +784,8 @@ th { text-align: right; }
   padding: 1.5rem 2rem;
   text-align: center;
   position: relative;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .usage-section-header::after {
@@ -881,6 +883,8 @@ th { text-align: right; }
   padding: 2rem;
   text-align: center;
   position: relative;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .modern-card-header::after {
@@ -1015,6 +1019,8 @@ th { text-align: right; }
   text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .room-info-body {
