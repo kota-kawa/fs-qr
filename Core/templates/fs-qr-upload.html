@@ -19,15 +19,13 @@
 <style>
 /* Override colors for FS-QR upload to match fs-qr menu page */
 .modern-card-header {
-  background: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%) !important;
+  --modern-card-header-gradient: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%);
+  --modern-card-header-accent: #1f27c7;
 }
 
-.usage-section-header {
-  background: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%) !important;
-}
-
-.usage-section-header::after {
-  border-top-color: #1f27c7 !important;
+.usage-section {
+  --usage-header-gradient: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%);
+  --usage-header-accent: #1f27c7;
 }
 
 .retention-select-wrapper--azure {
