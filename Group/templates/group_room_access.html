@@ -1,4 +1,5 @@
 {% extends "group_layout.html" %}
+{% import "macros/icons.html" as icons %}
 
 {% block meta_robots %}noindex, nofollow{% endblock %}
 {% block meta_googlebot %}noindex, nofollow{% endblock %}
@@ -22,7 +23,7 @@
     <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible; margin-bottom: 2rem;">
         <!-- Header -->
         <div style="background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; padding: 2rem; text-align: center;">
-            <h1 style="margin: 0; font-size: 1.75rem;">📂 グループファイル共有</h1>
+            <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('folder', size='xl', with_text=True) }}グループファイル共有</h1>
         </div>
         
         <!-- Body -->
@@ -34,7 +35,7 @@
                 <!-- Tab Buttons -->
                 <div style="display: flex; background: #e5e7eb; border-radius: 8px; margin-bottom: 1rem;">
                     <button type="button" onclick="switchTab('join')" id="join-btn" style="flex: 1; padding: 0.75rem; background: rgb(34, 197, 94); color: white; border: none; border-radius: 8px 0 0 8px; cursor: pointer; font-weight: 600;">
-                        ルームに参加
+                        {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                     </button>
                     <button type="button" onclick="switchTab('create')" id="create-btn" style="flex: 1; padding: 0.75rem; background: #e5e7eb; color: #6b7280; border: none; border-radius: 0 8px 8px 0; cursor: pointer; font-weight: 600;">
                         新規ルーム作成
@@ -55,7 +56,7 @@
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
                         <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            🔍 ルームに参加
+                            {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                         </button>
                     </form>
                 </div>
@@ -114,7 +115,7 @@
                         </div>
 
                         <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            🚀 ルームを作成
+                            {{ icons.icon('rocket', size='lg', with_text=True) }}ルームを作成
                         </button>
                     </form>
                 </div>
@@ -122,48 +123,48 @@
             
             <!-- Demo Upload Area -->
             <div style="background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); border: 3px dashed #d1d5db; border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 2rem; opacity: 0.7;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">☁️</div>
+                <div style="font-size: 3rem; margin-bottom: 1rem;">{{ icons.icon('cloud', size='xxl') }}</div>
                 <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 1rem; line-height: 1.6;">
                     ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択<br>
                     <small style="color: #9ca3af;">(上記のフォームでルームを作成・参加すると利用できます)</small>
                 </p>
                 <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
-                    📁 ファイルを選択（デモ）
+                    {{ icons.icon('folder', size='lg', with_text=True) }}ファイルを選択（デモ）
                 </button>
             </div>
             
             <!-- Demo File Lists -->
             <div style="margin-bottom: 2rem;">
-                <h5 style="color: #374151; margin-bottom: 1rem;">📤 アップロード待ちファイル</h5>
+                <h5 style="color: #374151; margin-bottom: 1rem;">{{ icons.icon('arrow_up', size='lg', with_text=True) }}アップロード待ちファイル</h5>
                 <div style="background: #f9fafb; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                        <span>📄 example-document.pdf</span>
+                        <span>{{ icons.icon('document', with_text=True) }}example-document.pdf</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                        <span>🖼️ sample-image.jpg</span>
+                        <span>{{ icons.icon('photo', with_text=True) }}sample-image.jpg</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
                     </div>
                 </div>
                 <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
-                    🚀 アップロード（デモ）
+                    {{ icons.icon('rocket', size='lg', with_text=True) }}アップロード（デモ）
                 </button>
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
-                <h5 style="color: #374151; margin-bottom: 1rem;">📥 グループメンバーのファイル (2)</h5>
+                <h5 style="color: #374151; margin-bottom: 1rem;">{{ icons.icon('arrow_down', size='lg', with_text=True) }}グループメンバーのファイル (2)</h5>
                 <div style="background: #f9fafb; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                        <span>📋 meeting-notes.txt</span>
+                        <span>{{ icons.icon('clipboard', with_text=True) }}meeting-notes.txt</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                        <span>📊 data-report.xlsx</span>
+                        <span>{{ icons.icon('chart', with_text=True) }}data-report.xlsx</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
                     </div>
                 </div>
                 <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
-                    📦 すべてダウンロード（デモ）
+                    {{ icons.icon('archive_box', size='lg', with_text=True) }}すべてダウンロード（デモ）
                 </button>
             </div>
         </div>

@@ -38,16 +38,34 @@
 <div class="modern-page-container">
     <div class="modern-content-card">
         <div class="modern-card-header">
-            <h1>📁 ファイルアップロード</h1>
+            <h1>
+                <span class="svg-icon svg-icon--xl svg-icon--with-text" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z"/>
+                    </svg>
+                </span>
+                ファイルアップロード
+            </h1>
         </div>
         
         <div class="modern-card-body">
             <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
                 <!-- Upload Area -->
                 <div class="modern-upload-area" id="upload-area">
-                    <div class="upload-icon-modern">📁</div>
+                    <div class="upload-icon-modern">
+                        <span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                    </div>
                     <p class="upload-text-modern">ここをクリックまたはドラッグしてファイルをアップロード</p>
                     <button type="button" onclick="fileInput.click()" class="upload-button-modern">
+                        <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
                         ファイルを選択
                     </button>
                     <input type="file" name="upfile" id="fileInput" multiple style="display: none;">
@@ -107,8 +125,14 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="modern-btn modern-btn-success">
-                    🚀 アップロード開始
+                <button type="submit" class="modern-btn modern-btn-success" id="startUploadBtn">
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                            <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                        </svg>
+                    </span>
+                    アップロード開始
                 </button>
             </form>
         </div>
@@ -133,10 +157,35 @@
 <!-- Spinner Container (Hidden initially) -->
 <div id="spinner-container" class="spinner-container" style="display:none;">
     <div class="spinner-second-container">
-        <div class="icon file">📄</div>
-        <div class="icon lock">🔒</div>
-        <div class="icon upload">📤</div>
-        <div class="icon cloud">☁️</div>
+        <div class="icon file">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                    <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                </svg>
+            </span>
+        </div>
+        <div class="icon lock">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+        </div>
+        <div class="icon upload">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+        </div>
+        <div class="icon cloud">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+        </div>
         <div class="text">暗号化中...</div>
         <div class="progress-bar-container">
             <div class="progress-bar"></div>
@@ -152,6 +201,50 @@
     const fileListDisplay = document.getElementById('fileList');
     const idInput = document.getElementById('name');
     const uploadForm = document.getElementById('uploadForm');
+    const startUploadBtn = document.getElementById('startUploadBtn');
+
+    const ICONS = Object.freeze({
+        file: `<span class="modern-file-icon svg-icon svg-icon--lg" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                        <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                    </svg>
+                </span>`,
+        trash: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>`,
+        cloudUpload: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                               <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd"/>
+                           </svg>
+                       </span>`,
+        check: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>`,
+        rocket: `<span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                        <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                    </svg>
+                </span>`
+    });
+
+    const uploadIconElement = document.querySelector('.upload-icon-modern');
+    const setUploadIcon = (name) => {
+        if (uploadIconElement && ICONS[name]) {
+            uploadIconElement.innerHTML = ICONS[name];
+        }
+    };
+
+    const uploadButtonLabel = `${ICONS.rocket} アップロード開始`;
+    if (startUploadBtn) {
+        startUploadBtn.innerHTML = uploadButtonLabel;
+    }
+    setUploadIcon('cloudUpload');
 
     // ID生成関数
     function generateRandomId() {
@@ -256,23 +349,25 @@
         Array.from(files).forEach((file, index) => {
             const fileItem = document.createElement('div');
             fileItem.className = 'modern-file-item';
-            
+
             const fileName = document.createElement('div');
             fileName.className = 'modern-file-name';
-            fileName.innerHTML = `<span class="modern-file-icon">📄</span>${file.name}`;
-            
+            fileName.innerHTML = `${ICONS.file}<span class="modern-file-name-text">${file.name}</span>`;
+
             const fileActions = document.createElement('div');
             fileActions.className = 'modern-file-actions';
-            
+
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'modern-file-action-btn delete';
-            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.innerHTML = ICONS.trash;
             deleteBtn.type = 'button';
+            deleteBtn.setAttribute('aria-label', '削除');
+            deleteBtn.setAttribute('title', '削除');
             deleteBtn.onclick = () => {
                 fileItem.remove();
                 if (fileListDisplay.children.length === 0) {
                     fileListDisplay.style.display = 'none';
-                    document.querySelector('.upload-icon-modern').textContent = '📁';
+                    setUploadIcon('cloudUpload');
                 }
             };
             
@@ -282,7 +377,7 @@
             fileListDisplay.appendChild(fileItem);
         });
         
-        document.querySelector('.upload-icon-modern').textContent = '✅';
+        setUploadIcon('check');
 
         // ファイルをfileInputにセットする
         const dataTransfer = new DataTransfer();

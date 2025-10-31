@@ -95,7 +95,14 @@
 <div class="modern-page-container">
     <div class="modern-content-card">
         <div class="modern-card-header">
-            <h1>📂 グループファイル共有</h1>
+            <h1>
+                <span class="svg-icon svg-icon--xl svg-icon--with-text" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z"/>
+                    </svg>
+                </span>
+                グループファイル共有
+            </h1>
         </div>
         
         <div class="modern-card-body">
@@ -154,22 +161,46 @@
 
             <!-- Upload Area -->
             <div class="modern-upload-area" id="upload-area">
-                <div class="upload-icon-modern">☁️</div>
+                <div class="upload-icon-modern">
+                    <span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                </div>
                 <p class="upload-text-modern">ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択</p>
                 <button type="button" class="upload-button-modern" id="uploadFileBtn">
-                    📁 ファイルを選択
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    ファイルを選択
                 </button>
                 <input type="file" id="fileInput" multiple style="display: none;">
             </div>
 
             <!-- Uploaded Files List -->
             <div style="margin: 2rem 0;">
-                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">📤 アップロード待ちファイル</h5>
+                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    アップロード待ちファイル
+                </h5>
                 <div id="fileList" class="modern-file-list" style="display: none;">
                     <!-- 自分がアップロードしたファイルがここに表示されます -->
                 </div>
                 <button class="modern-btn modern-btn-success" id="uploadBtn" style="margin-top: 1rem;">
-                    🚀 アップロード
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                            <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                        </svg>
+                    </span>
+                    アップロード
                 </button>
                 
                 <!-- Upload Progress Bar -->
@@ -186,13 +217,24 @@
             <!-- Other Users' Files -->
             <div style="margin: 2rem 0;">
                 <h5 style="color: var(--text-dark); margin-bottom: 1rem;">
-                    📥 グループメンバーのファイル (<span id="fileCount">0</span>)
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    グループメンバーのファイル (<span id="fileCount">0</span>)
                 </h5>
                 <div id="otherFileList" class="modern-file-list">
                     <!-- 他の人のアップロードしたファイルがここに表示されます -->
                 </div>
                 <button class="modern-btn" id="downloadAllBtn" style="margin-top: 1rem;">
-                    📦 すべてダウンロード
+                    <span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z"/>
+                            <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087ZM12 10.5a.75.75 0 0 1 .75.75v4.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06l1.72 1.72v-4.94a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    すべてダウンロード
                 </button>
             </div>
         </div>
@@ -201,8 +243,21 @@
 <!-- Download Progress Spinner -->
 <div class="spinner-container" id="downloadSpinnerContainer" style="display: none;">
     <div class="spinner-second-container" id="downloadAnimationContainer">
-        <div class="icon file">📄</div>
-        <div class="icon download">📥</div>
+        <div class="icon file">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                    <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                </svg>
+            </span>
+        </div>
+        <div class="icon download">
+            <span class="svg-icon svg-icon--spinner" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+        </div>
         <div class="text" id="downloadStatusText">ダウンロード中...</div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="downloadProgressBar"></div>
@@ -300,6 +355,51 @@
         var downloadAllBtn = $('#downloadAllBtn');
         var filesArray = [];
 
+        const ICONS = Object.freeze({
+            file: `<span class="modern-file-icon svg-icon svg-icon--lg" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                            <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                        </svg>
+                    </span>`,
+            download: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>`,
+            trash: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            cloud: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            check: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            rocket: `<span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                              <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                          </svg>
+                      </span>`
+        });
+
+        const uploadButtonLabel = `${ICONS.rocket} アップロード`;
+        const uploadIconElement = document.querySelector('.upload-icon-modern');
+        const setUploadIcon = (name) => {
+            if (uploadIconElement && ICONS[name]) {
+                uploadIconElement.innerHTML = ICONS[name];
+            }
+        };
+
+        uploadBtn.html(uploadButtonLabel);
+
         // ドラッグオーバー
         uploadArea.on('dragover', function (e) {
             e.preventDefault();
@@ -376,11 +476,14 @@
                         var fileItem = $('<div class="modern-file-item"></div>');
                         var fileName = $('<div class="modern-file-name"></div>');
                         var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
-                        fileName.html('<span class="modern-file-icon">📄</span>').append(fileNameText);
-                        
+                        fileName.html(ICONS.file).append(fileNameText);
+
                         var actions = $('<div class="modern-file-actions"></div>');
 
-                        var downloadBtn = $('<button class="modern-file-action-btn">📥</button>');
+                        var downloadBtn = $('<button class="modern-file-action-btn"></button>')
+                            .html(ICONS.download)
+                            .attr('aria-label', 'ダウンロード')
+                            .attr('title', 'ダウンロード');
                         const encodedFilename = encodeURIComponent(file.name);
                         const downloadKey = `${roomId}-${file.name}`;
                         
@@ -455,7 +558,10 @@
                             xhr.send();
                         });
 
-                        var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
+                        var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
+                            .html(ICONS.trash)
+                            .attr('aria-label', '削除')
+                            .attr('title', '削除');
                         deleteBtn.on('click', function () {
                             if (confirm('本当にこのファイルを削除しますか？')) {
                                 $.ajax({
@@ -541,17 +647,20 @@
                 var fileItem = $('<div class="modern-file-item"></div>');
                 var fileName = $('<div class="modern-file-name"></div>');
                 var fileNameText = $('<span class="modern-file-name-text"></span>').text(files[i].name);
-                fileName.html('<span class="modern-file-icon">📄</span>').append(fileNameText);
-                
+                fileName.html(ICONS.file).append(fileNameText);
+
                 var actions = $('<div class="modern-file-actions"></div>');
-                var deleteBtn = $('<button class="modern-file-action-btn delete">🗑️</button>');
+                var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
+                    .html(ICONS.trash)
+                    .attr('aria-label', '削除')
+                    .attr('title', '削除');
                 deleteBtn.on('click', (function (index) {
                     return function () {
                         filesArray.splice(index, 1);
                         $(this).closest('.modern-file-item').remove();
                         if (filesArray.length === 0) {
                             fileList.hide();
-                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                            setUploadIcon('cloud');
                         }
                     };
                 })(filesArray.length - 1));
@@ -561,7 +670,7 @@
                 fileList.append(fileItem);
             }
             
-            document.querySelector('.upload-icon-modern').textContent = '✅';
+            setUploadIcon('check');
         }
 
         uploadBtn.on('click', function () {
@@ -627,27 +736,27 @@
                     
                     setTimeout(function() {
                         $('#uploadProgressContainer').hide();
-                        uploadBtn.prop('disabled', false).text('🚀 アップロード');
-                        
+                        uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+
                         if (response.status === 'success') {
                             alert('ファイルがアップロードされました。');
                             fileList.empty().hide();
                             filesArray = [];
-                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                            setUploadIcon('cloud');
                         } else if (response.status === 'error') {
                             alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
                         } else {
                             alert('ファイルがアップロードされました。');
                             fileList.empty().hide();
                             filesArray = [];
-                            document.querySelector('.upload-icon-modern').textContent = '☁️';
+                            setUploadIcon('cloud');
                         }
                     }, 1000);
                 },
                 error: function (xhr) {
                     $('#uploadProgressContainer').hide();
-                    uploadBtn.prop('disabled', false).text('🚀 アップロード');
-                    
+                    uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+
                     var errorMessage = 'アップロード中にエラーが発生しました。';
                     if (xhr.responseJSON && xhr.responseJSON.error) {
                         errorMessage = xhr.responseJSON.error;

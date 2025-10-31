@@ -1,4 +1,5 @@
 {% extends "note_layout.html" %}
+{% import "macros/icons.html" as icons %}
 
 {% block meta_robots %}noindex, nofollow{% endblock %}
 {% block meta_googlebot %}noindex, nofollow{% endblock %}
@@ -22,7 +23,7 @@
     <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible; margin-bottom: 2rem;">
         <!-- Header -->
         <div style="background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; padding: 2rem; text-align: center;">
-            <h1 style="margin: 0; font-size: 1.75rem;">📝 リアルタイムノート</h1>
+            <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('document_text', size='xl', with_text=True) }}リアルタイムノート</h1>
         </div>
         
         <!-- Body -->
@@ -54,8 +55,8 @@
                             <input type="password" name="password" placeholder="6桁の数字" required 
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
-                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            🔍 ルームに参加
+                    <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                            {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                         </button>
                     </form>
                 </div>
@@ -114,7 +115,7 @@
                         </div>
 
                         <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            🚀 ルームを作成
+                            {{ icons.icon('rocket', size='lg', with_text=True) }}ルームを作成
                         </button>
                     </form>
                 </div>
