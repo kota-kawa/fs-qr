@@ -27,11 +27,12 @@
 }
 
 .modern-card {
+    --card-radius: 24px;
     width: 100%;
     max-width: 440px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border-radius: 24px;
+    border-radius: var(--card-radius);
     box-shadow: 
         0 20px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04),
@@ -66,8 +67,13 @@
     padding: 2rem;
     text-align: center;
     position: relative;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
+    border-top-left-radius: var(--card-radius);
+    border-top-right-radius: var(--card-radius);
+}
+
+.modern-card > .card-header {
+    border-top-left-radius: var(--card-radius);
+    border-top-right-radius: var(--card-radius);
 }
 
 .card-header::after {
@@ -173,10 +179,11 @@
     .page-container {
         padding: 1rem 0.75rem;
     }
-    
+
     .modern-card {
         max-width: 100%;
-        border-radius: 20px;
+        --card-radius: 20px;
+        border-radius: var(--card-radius);
     }
     
     .card-header {
