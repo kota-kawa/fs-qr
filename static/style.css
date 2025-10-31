@@ -903,7 +903,7 @@ th { text-align: right; }
   border-radius: var(--modern-card-radius);
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--border-light);
-  overflow: visible;
+  overflow: hidden;
   position: relative;
 }
 
