@@ -90,6 +90,17 @@
 .copy-url-button.copied {
   background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
 }
+
+.upload-status-message {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: rgb(22, 101, 52);
+  display: none;
+}
+
+.upload-status-message.is-error {
+  color: #dc2626;
+}
 </style>
 
 <div class="modern-page-container">
@@ -212,6 +223,7 @@
                         <div class="progress-bar" id="uploadProgressBar"></div>
                     </div>
                 </div>
+                <div id="uploadStatusMessage" class="upload-status-message" role="status" aria-live="polite"></div>
             </div>
 
             <!-- Other Users' Files -->
@@ -353,6 +365,7 @@
         var otherFileList = $('#otherFileList');
         var uploadBtn = $('#uploadBtn');
         var downloadAllBtn = $('#downloadAllBtn');
+        var uploadStatusMessage = $('#uploadStatusMessage');
         var filesArray = [];
 
         const ICONS = Object.freeze({
@@ -708,6 +721,7 @@
             $('#uploadProgressContainer').show();
             $('#uploadProgressBar').css('transform', 'scaleX(0)');
             $('#uploadProgressText').text('アップロード中...');
+            uploadStatusMessage.removeClass('is-error').hide().text('');
 
             // Disable upload button during upload
             uploadBtn.prop('disabled', true).text('アップロード中...');
@@ -733,23 +747,37 @@
                 success: function (response) {
                     $('#uploadProgressBar').css('transform', 'scaleX(1)');
                     $('#uploadProgressText').text('アップロード完了！');
-                    
+
                     setTimeout(function() {
                         $('#uploadProgressContainer').hide();
                         uploadBtn.prop('disabled', false).html(uploadButtonLabel);
 
+                        var statusMessage = '';
+                        var isError = false;
                         if (response.status === 'success') {
-                            alert('ファイルがアップロードされました。');
+                            statusMessage = 'ファイルのアップロードが完了しました。';
                             fileList.empty().hide();
                             filesArray = [];
                             setUploadIcon('cloud');
                         } else if (response.status === 'error') {
-                            alert('エラー: ' + response.message + '\n対象ファイル: ' + response.files.join(', '));
+                            isError = true;
+                            var errorDetails = response.message || 'アップロード中にエラーが発生しました。';
+                            if (Array.isArray(response.files) && response.files.length > 0) {
+                                errorDetails += '（対象ファイル: ' + response.files.join(', ') + '）';
+                            }
+                            statusMessage = errorDetails;
                         } else {
-                            alert('ファイルがアップロードされました。');
+                            statusMessage = 'ファイルのアップロードが完了しました。';
                             fileList.empty().hide();
                             filesArray = [];
                             setUploadIcon('cloud');
+                        }
+
+                        if (statusMessage) {
+                            uploadStatusMessage
+                                .toggleClass('is-error', isError)
+                                .text(statusMessage)
+                                .fadeIn();
                         }
                     }, 1000);
                 },
@@ -761,7 +789,10 @@
                     if (xhr.responseJSON && xhr.responseJSON.error) {
                         errorMessage = xhr.responseJSON.error;
                     }
-                    alert(errorMessage);
+                    uploadStatusMessage
+                        .addClass('is-error')
+                        .text(errorMessage)
+                        .fadeIn();
                 }
             });
         });
