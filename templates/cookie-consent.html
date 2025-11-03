@@ -1,33 +1,103 @@
 <div class="cookie-consent-overlay" id="cookieConsent" aria-hidden="true">
-  <div class="cookie-consent-dialog" role="dialog" aria-labelledby="cookieConsentTitle" aria-describedby="cookieConsentDescription">
-    <h2 id="cookieConsentTitle">Cookieの利用について</h2>
-    <p id="cookieConsentDescription">
-      FS!QRでは、サービスの利用状況を把握し、より良い体験を提供するためにCookieを使用しています。
-      「同意する」をクリックすると、Cookieの利用に同意したものとみなされます。
-    </p>
-    <div class="cookie-consent-actions">
-      <button
-        type="button"
-        class="cookie-consent-button cookie-consent-button--primary"
-        data-cookie-consent="accept"
-        data-cookie-consent-focus
-      >
-        同意する
-      </button>
-      <button
-        type="button"
-        class="cookie-consent-button cookie-consent-button--secondary"
-        data-cookie-consent="reject"
-      >
-        拒否
-      </button>
-      <a
-        class="cookie-consent-button cookie-consent-button--ghost"
-        href="/privacy-policy#cookie-consent-settings"
-        role="button"
-      >
-        設定をカスタマイズ
-      </a>
+  <div
+    class="cookie-consent-dialog"
+    role="dialog"
+    aria-labelledby="cookieConsentTitle"
+    aria-describedby="cookieConsentDescription"
+  >
+    <div class="cookie-consent-header">
+      <div class="cookie-consent-icon" aria-hidden="true">🍪</div>
+      <div class="cookie-consent-headings">
+        <h2 id="cookieConsentTitle">Cookieの利用について</h2>
+        <p id="cookieConsentDescription">
+          FS!QRでは、サービスの利用状況を把握し、より良い体験を提供するためにCookieを使用しています。
+          「同意する」をクリックすると、Cookieの利用に同意したものとみなされます。
+        </p>
+      </div>
+    </div>
+
+    <div class="cookie-consent-view" data-cookie-consent-view="summary" aria-live="polite">
+      <p class="cookie-consent-subtext">
+        必須Cookieは常に有効で、サービスの提供に不可欠です。その他のCookieについては、以下から設定を変更できます。
+      </p>
+      <div class="cookie-consent-actions">
+        <button
+          type="button"
+          class="cookie-consent-button cookie-consent-button--primary"
+          data-cookie-consent="accept"
+          data-cookie-consent-focus
+        >
+          同意する
+        </button>
+        <button
+          type="button"
+          class="cookie-consent-button cookie-consent-button--secondary"
+          data-cookie-consent="reject"
+        >
+          拒否
+        </button>
+        <button
+          type="button"
+          class="cookie-consent-button cookie-consent-button--ghost"
+          data-cookie-consent="customize"
+        >
+          設定をカスタマイズ
+        </button>
+      </div>
+      <a class="cookie-consent-policy-link" href="/privacy-policy">プライバシーポリシーを見る</a>
+    </div>
+
+    <div
+      class="cookie-consent-view cookie-consent-view--settings"
+      data-cookie-consent-view="settings"
+      aria-live="polite"
+      hidden
+    >
+      <p class="cookie-consent-subtext">
+        カテゴリごとにCookieの利用を設定できます。必須Cookieは基本的な機能のため、常に有効となります。
+      </p>
+      <div class="cookie-consent-settings">
+        <div class="cookie-consent-setting">
+          <div>
+            <h3>必須Cookie</h3>
+            <p>サイトの基本的な機能を提供するために必要で、無効にすることはできません。</p>
+          </div>
+          <span class="cookie-consent-setting-state">常に有効</span>
+        </div>
+        <div class="cookie-consent-setting">
+          <div>
+            <h3>分析Cookie</h3>
+            <p>サイトの利用状況を把握し、サービス改善に役立てるためのデータを収集します。</p>
+          </div>
+          <label class="cookie-consent-toggle">
+            <input
+              type="checkbox"
+              data-cookie-consent-toggle="analytics"
+              aria-label="分析Cookieの許可"
+              data-cookie-consent-settings-focus
+            />
+            <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
+          </label>
+        </div>
+        <div class="cookie-consent-setting">
+          <div>
+            <h3>マーケティングCookie</h3>
+            <p>適切な広告やお知らせを表示するために使用されます。</p>
+          </div>
+          <label class="cookie-consent-toggle">
+            <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="マーケティングCookieの許可" />
+            <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
+          </label>
+        </div>
+      </div>
+      <div class="cookie-consent-actions cookie-consent-actions--settings">
+        <button type="button" class="cookie-consent-button cookie-consent-button--primary" data-cookie-consent="save">
+          保存して閉じる
+        </button>
+        <button type="button" class="cookie-consent-button cookie-consent-button--ghost" data-cookie-consent="back">
+          戻る
+        </button>
+      </div>
       <a class="cookie-consent-policy-link" href="/privacy-policy">プライバシーポリシーを見る</a>
     </div>
   </div>
