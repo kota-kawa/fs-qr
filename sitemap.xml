@@ -3,35 +3,42 @@
   <!-- Main Pages -->
   <url>
     <loc>https://fs-qr.com/</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/about</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/contact</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/usage</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/privacy-policy</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://fs-qr.com/site-operator</loc>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -39,21 +46,21 @@
   <!-- Core Features -->
   <url>
     <loc>https://fs-qr.com/fs-qr_menu</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/fs-qr</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/search_fs-qr</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -61,28 +68,28 @@
   <!-- Group Features -->
   <url>
     <loc>https://fs-qr.com/group_menu</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/group</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/create_room</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/search_group</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -90,28 +97,28 @@
   <!-- Note Features -->
   <url>
     <loc>https://fs-qr.com/note_menu</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/create_note_room</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/note</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/search_note</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -119,57 +126,57 @@
   <!-- Articles -->
   <url>
     <loc>https://fs-qr.com/articles</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/fs-qr-concept</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/safe-sharing</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/encryption</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/education</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/business</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://fs-qr.com/risk-mitigation</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <!-- Special Features -->
   <url>
     <loc>https://fs-qr.com/all-in-one</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

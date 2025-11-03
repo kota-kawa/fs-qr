@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="{% block meta_description %}FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, ファイル送信, オンラインストレージ, ファイル転送, QRコード生成, セキュアファイル共有, ビジネスファイル共有, 大学ファイル共有, 教育ファイル共有{% endblock %}" />
     <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
     <meta name="author" content="FS!QR" />
     <meta name="language" content="ja" />
@@ -49,6 +49,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
     <link
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
       rel="stylesheet">
@@ -57,7 +59,7 @@
      crossorigin="anonymous"></script>
     <title>{% block page_title %}FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有{% endblock %}</title>
     
-    <!-- Structured Data -->
+    <!-- Structured Data - WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -78,9 +80,52 @@
         "url": "{{ request.url_root }}",
         "logo": {
           "@type": "ImageObject",
-          "url": "{{staticfile('logo.png')}}"
+          "url": "{{staticfile('logo.png')}}",
+          "width": 1200,
+          "height": 630
+        },
+        "sameAs": [
+          "{{ request.url_root }}"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Support",
+          "url": "{{ request.url_root }}contact"
         }
       }
+    }
+    </script>
+    
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "logo": "{{staticfile('logo.png')}}",
+      "description": "無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有機能を提供。",
+      "foundingDate": "2024",
+      "slogan": "簡単・安全・無料のファイル共有サービス",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "url": "{{ request.url_root }}contact"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "{{ request.url_root }}"
+      }]
     }
     </script>
 
@@ -101,17 +146,17 @@
 
     <header>
       <div class="container text-center">
-        <h1 class="mt-3"><a href="/fs-qr_menu" target="_self"><img
+        <h1 class="mt-3"><a href="/fs-qr_menu" target="_self" aria-label="FS!QRホームへ戻る"><img
               style="height: 100px; width: auto;" src="{{staticfile('logo.png')}}"
-              alt="FS ! QR">
+              alt="FS!QR ロゴ - 無料ファイル共有サービス">
           </a>
         </h1>
       </div>
     </header>
 
     <div class="text-center">
-      <a href="/search_fs-qr" class="search-link">
-        <img src="{{staticfile('kensaku2.png')}}" alt="検索アイコン" />
+      <a href="/search_fs-qr" class="search-link" aria-label="ファイル検索">
+        <img src="{{staticfile('kensaku2.png')}}" alt="検索アイコン - ファイル検索機能" />
         <span>検索</span>
       </a>
     </div>
@@ -127,14 +172,16 @@
       </div>
     </div>
 
-    <footer class="simple-footer">
-      <a href="/">ホーム</a>
-      <a href="/about">サイト概要</a>
-      <a href="/privacy-policy">プライバシーポリシー</a>
-      <a href="/contact">お問い合わせ</a>
-      <a href="/usage">使い方</a>
-      <a href="/site-operator">サイト運営者情報</a>
-      <a href="/articles">解説記事</a>
+    <footer class="simple-footer" role="contentinfo" aria-label="サイトフッター">
+      <nav aria-label="フッターナビゲーション">
+        <a href="/" aria-label="ホームページへ">ホーム</a>
+        <a href="/about" aria-label="サイト概要ページへ">サイト概要</a>
+        <a href="/privacy-policy" aria-label="プライバシーポリシーへ">プライバシーポリシー</a>
+        <a href="/contact" aria-label="お問い合わせフォームへ">お問い合わせ</a>
+        <a href="/usage" aria-label="使い方ガイドへ">使い方</a>
+        <a href="/site-operator" aria-label="サイト運営者情報へ">サイト運営者情報</a>
+        <a href="/articles" aria-label="解説記事一覧へ">解説記事</a>
+      </nav>
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>
 

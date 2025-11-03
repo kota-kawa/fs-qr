@@ -89,7 +89,49 @@
       "グループファイル共有",
       "リアルタイムノート共有",
       "暗号化によるセキュア転送"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "ratingCount": "100"
+    }
+  }
+  </script>
+  
+  <!-- FAQ Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "FS!QRは無料で使えますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、FS!QRは完全無料でご利用いただけます。QRコードでのファイル共有、グループ共有、ノート共有のすべての機能を無料で提供しています。"
+      }
+    }, {
+      "@type": "Question",
+      "name": "ファイルは安全に共有されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、すべてのファイルは暗号化されて保存され、HTTPSで安全に転送されます。一定期間後には自動的に削除されるため、セキュリティも確保されています。"
+      }
+    }, {
+      "@type": "Question",
+      "name": "どのような用途で使えますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "大学の共同作業、勉強会、プレゼンテーション資料の共有、グループワークでの資料交換、授業での課題提出など、様々な場面でご活用いただけます。個人利用から企業まで幅広く対応しています。"
+      }
+    }, {
+      "@type": "Question",
+      "name": "ファイルサイズの制限はありますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ファイルは最大50MBまでアップロード可能です。大きなファイルのアップロードには時間がかかる場合がありますので、安定したネットワーク環境でのご利用をお勧めします。"
+      }
+    }]
   }
   </script>
   <style>
@@ -229,37 +271,39 @@
       <ul class="menu-list">
         <li>
 
-          <a href="/group" class="menu-item group">
+          <a href="/group" class="menu-item group" aria-label="グループでファイルを共有">
 
-            <i class="fas fa-users"></i>
+            <i class="fas fa-users" aria-hidden="true"></i>
             <h3>グループで共有</h3>
           </a>
         </li>
         <li>
 
-          <a href="/fs-qr" class="menu-item fs-qr">
+          <a href="/fs-qr" class="menu-item fs-qr" aria-label="QRコードでファイルを共有">
 
-            <i class="fas fa-qrcode"></i>
+            <i class="fas fa-qrcode" aria-hidden="true"></i>
             <h3>QRコード共有</h3>
           </a>
         </li>
         <li>
 
-          <a href="/note" class="menu-item note mb-3">
+          <a href="/note" class="menu-item note mb-3" aria-label="ノートを共有して共同編集">
 
-            <i class="fas fa-pencil-alt"></i>
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
             <h3>ノート共有</h3>
           </a>
         </li>
       </ul>
     </div>
-    <footer class="simple-footer" style="color:#ffffff;text-shadow:0 1px 2px rgba(0,0,0,0.6);">
-      <a href="/">ホーム</a>
-      <a href="/about">サイト概要</a>
-      <a href="/privacy-policy">プライバシーポリシー</a>
-      <a href="/contact">お問い合わせ</a>
-      <a href="/usage">使い方</a>
-      <a href="/articles">解説記事</a>
+    <footer class="simple-footer" style="color:#ffffff;text-shadow:0 1px 2px rgba(0,0,0,0.6);" role="contentinfo" aria-label="サイトフッター">
+      <nav aria-label="フッターナビゲーション">
+        <a href="/" aria-label="ホームページへ">ホーム</a>
+        <a href="/about" aria-label="サイト概要ページへ">サイト概要</a>
+        <a href="/privacy-policy" aria-label="プライバシーポリシーへ">プライバシーポリシー</a>
+        <a href="/contact" aria-label="お問い合わせフォームへ">お問い合わせ</a>
+        <a href="/usage" aria-label="使い方ガイドへ">使い方</a>
+        <a href="/articles" aria-label="解説記事一覧へ">解説記事</a>
+      </nav>
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>
   </div>

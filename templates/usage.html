@@ -13,6 +13,41 @@
 {% block twitter_title %}FS!QR 使い方 | QRコードファイル共有の基本的な使用方法{% endblock %}
 {% block twitter_description %}FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。{% endblock %}
 
+{% block extra_head %}
+<!-- HowTo Structured Data for QR Code File Sharing -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "QRコードでファイル共有する方法",
+  "description": "FS!QRを使ってQRコードで簡単にファイルを共有する手順",
+  "image": "{{staticfile('logo.png')}}",
+  "totalTime": "PT2M",
+  "step": [{
+    "@type": "HowToStep",
+    "name": "ファイルをアップロード",
+    "text": "/fs-qrにアクセスし、共有したいファイルを選択してアップロードします。",
+    "position": 1
+  }, {
+    "@type": "HowToStep",
+    "name": "QRコードを取得",
+    "text": "アップロード完了後、ダウンロード用URLとパスワード、そしてアクセス用のQRコードが表示されます。",
+    "position": 2
+  }, {
+    "@type": "HowToStep",
+    "name": "QRコードを共有",
+    "text": "受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。",
+    "position": 3
+  }, {
+    "@type": "HowToStep",
+    "name": "ファイルをダウンロード",
+    "text": "画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。",
+    "position": 4
+  }]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="info-page">
   <div class="info-box">
