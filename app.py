@@ -109,6 +109,13 @@ def usage():
         return canonical
     return render_template('usage.html')
 
+@app.route('/site-operator')
+def site_operator():
+    canonical = _canonical_redirect()
+    if canonical:
+        return canonical
+    return render_template('site_operator.html')
+
 @app.route('/all-in-one')
 def all_in_one():
     canonical = _canonical_redirect()
