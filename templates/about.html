@@ -13,6 +13,30 @@
 {% block twitter_title %}FS!QR サイト概要 | 無料QRコードファイル共有サービスについて{% endblock %}
 {% block twitter_description %}FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる革新的な無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をセキュアに提供します。{% endblock %}
 
+{% block extra_head %}
+<!-- AboutPage Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "FS!QR サイト概要",
+  "description": "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる革新的な共有サービスです。",
+  "url": "{{ request.base_url }}",
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "FS!QR",
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    }
+  }
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="info-page">
   <div class="info-box">

@@ -12,6 +12,53 @@
 {% block twitter_title %}解説記事 | FS!QRファイル共有ガイド・活用方法{% endblock %}
 {% block twitter_description %}FS!QRファイル共有サービスの詳しい解説記事一覧。安全な共有方法、暗号化技術、業務活用例、教育現場での利用方法、セキュリティ対策など、実用的な情報を幅広く提供します。{% endblock %}
 
+{% block extra_head %}
+<!-- CollectionPage Structured Data for Articles -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "FS!QR 解説記事",
+  "description": "FS!QRファイル共有サービスの詳しい解説記事一覧。安全な共有方法、暗号化技術、業務活用例、教育現場での利用方法など。",
+  "url": "{{ request.base_url }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [{
+      "@type": "Article",
+      "position": 1,
+      "name": "FS!QRのコンセプト",
+      "url": "{{ request.url_root }}fs-qr-concept"
+    }, {
+      "@type": "Article",
+      "position": 2,
+      "name": "安全な共有方法",
+      "url": "{{ request.url_root }}safe-sharing"
+    }, {
+      "@type": "Article",
+      "position": 3,
+      "name": "暗号化技術",
+      "url": "{{ request.url_root }}encryption"
+    }, {
+      "@type": "Article",
+      "position": 4,
+      "name": "教育現場での活用",
+      "url": "{{ request.url_root }}education"
+    }, {
+      "@type": "Article",
+      "position": 5,
+      "name": "ビジネス活用",
+      "url": "{{ request.url_root }}business"
+    }, {
+      "@type": "Article",
+      "position": 6,
+      "name": "リスク軽減策",
+      "url": "{{ request.url_root }}risk-mitigation"
+    }]
+  }
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>

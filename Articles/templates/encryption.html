@@ -12,6 +12,38 @@
 {% block twitter_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 {% block twitter_description %}暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。{% endblock %}
 
+{% block extra_head %}
+<!-- Article Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "暗号化の基礎知識 - FS!QRデータ保護技術解説",
+  "description": "暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など。",
+  "author": {
+    "@type": "Organization",
+    "name": "FS!QR"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FS!QR",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{staticfile('logo.png')}}"
+    }
+  },
+  "datePublished": "2024-08-31",
+  "dateModified": "2025-11-03",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.base_url }}"
+  },
+  "articleSection": "セキュリティ技術",
+  "keywords": ["暗号化", "データ保護", "HTTPS", "共通鍵暗号", "公開鍵暗号", "セキュリティ"]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="container my-5">
   <div class="info-box">

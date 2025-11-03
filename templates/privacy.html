@@ -13,6 +13,23 @@
 {% block twitter_title %}FS!QR プライバシーポリシー | 個人情報の取り扱いについて{% endblock %}
 {% block twitter_description %}FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。{% endblock %}
 
+{% block extra_head %}
+<!-- WebPage Structured Data for Privacy Policy -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "FS!QR プライバシーポリシー",
+  "description": "FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信について。",
+  "url": "{{ request.base_url }}",
+  "mainEntity": {
+    "@type": "PrivacyPolicy",
+    "name": "FS!QR プライバシーポリシー"
+  }
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="info-page">
   <div class="info-box">
