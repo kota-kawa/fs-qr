@@ -41,6 +41,7 @@
     
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180"
       href="{{staticfile('apple-touch-icon.png')}}">
@@ -136,6 +137,9 @@
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>
 
+    {% include 'cookie-consent.html' %}
+
     <script src="{{staticfile('retention-select.js')}}" defer></script>
+    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
   </body>
 </html>
