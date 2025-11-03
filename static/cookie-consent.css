@@ -47,14 +47,45 @@
 }
 
 .cookie-consent-button {
-  background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
-  color: #ffffff;
   cursor: pointer;
   font-weight: 600;
   padding: 0.75rem 1.75rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+
+.cookie-consent-button--primary {
+  background: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+  color: #ffffff;
+}
+
+.cookie-consent-button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(32, 178, 170, 0.35);
+}
+
+.cookie-consent-button--secondary {
+  background: #ffffff;
+  color: rgb(0, 109, 128);
+  border-color: rgba(0, 109, 128, 0.2);
+}
+
+.cookie-consent-button--secondary:hover {
+  background: rgba(32, 178, 170, 0.1);
+}
+
+.cookie-consent-button--ghost {
+  background: transparent;
+  color: rgb(0, 109, 128);
+}
+
+.cookie-consent-button--ghost:hover {
+  background: rgba(32, 178, 170, 0.08);
 }
 
 .cookie-consent-button:focus-visible {
@@ -62,14 +93,13 @@
   outline-offset: 3px;
 }
 
-.cookie-consent-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(32, 178, 170, 0.35);
-}
-
 .cookie-consent-policy-link {
   color: rgb(0, 109, 128);
   font-weight: 600;
+  text-decoration: none;
+}
+
+.cookie-consent-policy-link:hover {
   text-decoration: underline;
 }
 

@@ -2,9 +2,9 @@
   const CONSENT_COOKIE_NAME = 'fsqr_cookie_consent';
   const CONSENT_DURATION_DAYS = 365;
 
-  function setConsentCookie() {
+  function setConsentCookie(value = 'accepted') {
     const expires = new Date(Date.now() + CONSENT_DURATION_DAYS * 24 * 60 * 60 * 1000);
-    const cookieValue = `${CONSENT_COOKIE_NAME}=1; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+    const cookieValue = `${CONSENT_COOKIE_NAME}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
     document.cookie = cookieValue;
   }
 
@@ -40,11 +40,20 @@
     }
 
     function acceptConsent() {
-      setConsentCookie();
+      setConsentCookie('accepted');
       hideOverlay(overlay);
     }
 
     acceptButton.addEventListener('click', acceptConsent);
+
+    const rejectButton = overlay.querySelector('[data-cookie-consent="reject"]');
+
+    if (rejectButton) {
+      rejectButton.addEventListener('click', function () {
+        setConsentCookie('rejected');
+        hideOverlay(overlay);
+      });
+    }
 
     showOverlay(overlay);
   });
