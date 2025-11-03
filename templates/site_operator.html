@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block page_title %}サイト運営者情報 | FS!QR{% endblock %}
+
+{% block meta_description %}FS!QRのサイト運営者「北水 緑」のプロフィールと運営への想いをご紹介します。{% endblock %}
+{% block meta_keywords %}サイト運営者情報, 北水 緑, FS!QR{% endblock %}
+
+{% block og_title %}サイト運営者情報 | FS!QR{% endblock %}
+{% block og_description %}FS!QRを支えるサイト運営者「北水 緑」のプロフィールをご覧ください。{% endblock %}
+
+{% block twitter_title %}サイト運営者情報 | FS!QR{% endblock %}
+{% block twitter_description %}FS!QRの運営者「北水 緑」の想いや活動を紹介します。{% endblock %}
+
+{% block contents %}
+<div class="info-page operator-page">
+  <div class="info-box">
+    <div class="info-box-header">
+      <h2>サイト運営者情報</h2>
+      <div class="subtitle">FS!QRを支える人</div>
+    </div>
+    <div class="info-box-content">
+      <div class="operator-profile">
+        <img src="{{ staticfile('marimo.webp') }}" alt="北水 緑のプロフィール画像" class="operator-avatar">
+        <div class="operator-details">
+          <p class="operator-name">北水 緑</p>
+          <p class="operator-description">神奈川県在住の情報系大学生として、日々最新の技術やセキュリティ、UI/UXについて研究しています。好きなことは、便利で安全に使えるウェブサービスを自分の手で形にすること。そして多くの人が安心してデータを扱えるようにすることです。</p>
+          <p class="operator-description">FS!QRでは、安心して使えるファイル共有を軸に、学生だからこそ気付ける細かな利便性や学びをサイトへ反映しながら運営を続けています。</p>
+        </div>
+      </div>
+      <div class="operator-values">
+        <h3>{{ icon('target', with_text=True) }}大切にしていること</h3>
+        <ul>
+          <li>シンプルで直感的な操作性と、どなたでも扱いやすいデザイン。</li>
+          <li>学んだ知識を活かした堅牢なセキュリティ対策と継続的な改善。</li>
+          <li>利用者の声を積極的に取り入れ、安心して使えるサービスへ磨き上げる姿勢。</li>
+        </ul>
+      </div>
+      <div class="operator-message">
+        <h3>{{ icon('message-circle', with_text=True) }}メッセージ</h3>
+        <p>「日々の学びを活かして、誰もが安全にデータを共有できる環境を提供したい。」そんな想いからFS!QRを運営しています。これからも利用者の皆さまに寄り添いながら、より便利で信頼できるサービスへと成長させていきます。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
