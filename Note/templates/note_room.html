@@ -160,10 +160,10 @@
 
             <!-- Editor -->
             <div class="modern-form-group">
-                <label for="editor" class="modern-form-label">共有ノート（最大5000文字）</label>
+                <label for="editor" class="modern-form-label">共有ノート（最大10000文字）</label>
                 <textarea id="editor" class="modern-editor"
                           placeholder="ここに入力すると1秒ごとに同期されます…"
-                          maxlength="5000" style="height: 60vh;"></textarea>
+                          maxlength="10000" style="height: 60vh;"></textarea>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
                     <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;">Syncing…</span>
@@ -182,7 +182,7 @@
       このルームではテキストをリアルタイムに共有できます。<br>
       上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
       エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
-      最大5000文字まで入力可能です。
+      最大10000文字まで入力可能です。
     </p>
   </div>
 </div>
@@ -262,7 +262,7 @@
   let selfEditTimeout = null; // selfEdit フラグのタイムアウト管理
 
   /* 最大文字数（サーバー側と合わせること） */
-  const MAX_LENGTH = 5000;  // 追加: フロント側の最大文字数
+  const MAX_LENGTH = 10000;  // 追加: フロント側の最大文字数
   
   // selfEdit フラグの安全な設定関数
   function setSelfEdit(value, timeoutMs = 8000) {

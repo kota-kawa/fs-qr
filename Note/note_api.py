@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 api_bp = Blueprint('note_api', __name__, url_prefix='/api')
 
 # ここで最大文字数を定義（必要に応じて変更してください）
-MAX_CONTENT_LENGTH = 5000  # 追加: 最大文字数を5000文字に設定
+MAX_CONTENT_LENGTH = 10000  # 追加: 最大文字数を10000文字に設定
 MAX_RETRY_ATTEMPTS = 3  # 最大リトライ回数
 
 @api_bp.route('/note/<room_id>/<password>', methods=['GET', 'POST'])
