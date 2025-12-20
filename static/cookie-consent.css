@@ -251,6 +251,11 @@
   outline-offset: 3px;
 }
 
+.cookie-consent-policy-link-small {
+  font-size: 0.8em;
+  color: #6b7280;
+}
+
 @media (max-width: 640px) {
   .cookie-consent-dialog {
     padding: 2rem 1.5rem;
