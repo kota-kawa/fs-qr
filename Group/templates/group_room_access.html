@@ -48,11 +48,13 @@
                         <div style="margin-bottom: 1rem;">
                             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Room ID</label>
                             <input type="text" name="id" placeholder="ルームIDを入力" required 
+                                   minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
                         <div style="margin-bottom: 1rem;">
                             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Password</label>
                             <input type="password" name="password" placeholder="6桁の数字" required 
+                                   minlength="6" maxlength="6" pattern="[0-9]{6}" title="6桁の数字で入力してください"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
                         <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">

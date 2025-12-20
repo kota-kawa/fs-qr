@@ -10,7 +10,7 @@
     <form method="post" action="/manage_rooms" class="text-center">
         <div class="mb-3">
             <label for="password" class="form-label">パスワード</label>
-            <input type="password" class="form-control" name="password" id="password" required style="max-width: 300px; margin: 0 auto;">
+            <input type="password" class="form-control" name="password" id="password" required minlength="1" maxlength="128" style="max-width: 300px; margin: 0 auto;">
         </div>
         <button type="submit" class="btn btn-primary">ログイン</button>
     </form>
