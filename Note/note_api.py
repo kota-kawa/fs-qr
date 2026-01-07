@@ -13,7 +13,12 @@ router = APIRouter(prefix="/api")
 
 @router.api_route("/note/{room_id}/{password}", methods=["GET", "POST"], name="note.note_sync")
 async def note_sync(request: Request, room_id: str, password: str):
-    meta = await nd.get_room_meta(room_id, password=password)
+    meta = await nd.get_room_meta_direct(room_id, password=password)
+    if not meta:
+        fallback_room_id = await nd.pick_room_id_direct(room_id, password)
+        if fallback_room_id:
+            room_id = fallback_room_id
+            meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
         return JSONResponse({"error": "room not found or password mismatch"}, status_code=404)
 

@@ -54,22 +54,30 @@ async def create_room(id, password, room_id, retention_days=7):
     )
 
 # ログイン処理
-@cache_data(ttl=60)
-async def pich_room_id(id, password):
+async def pich_room_id_direct(id, password):
     query = text("""
         SELECT room_id FROM room WHERE id = :id AND password = :password
     """)
     result = await execute_query(query, {"id": id, "password": password}, fetch=True)
     return result[0]["room_id"] if result else False
 
-# データベースから任意のIDのデータを取り出す
+
 @cache_data(ttl=60)
-async def get_data(secure_id):
+async def pich_room_id(id, password):
+    return await pich_room_id_direct(id, password)
+
+# データベースから任意のIDのデータを取り出す
+async def get_data_direct(secure_id):
     query = text("""
         SELECT * FROM room WHERE room_id = :secure_id
     """)
     result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
     return result if result else False
+
+
+@cache_data(ttl=60)
+async def get_data(secure_id):
+    return await get_data_direct(secure_id)
 
 # 全てのデータを取得する
 @cache_data(ttl=300)

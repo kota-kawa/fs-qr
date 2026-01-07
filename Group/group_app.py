@@ -57,7 +57,7 @@ async def group(request: Request):
 
 
 async def _get_room_if_valid(room_id, password):
-    room_data = await group_data.get_data(room_id)
+    room_data = await group_data.get_data_direct(room_id)
     if not room_data:
         return None
     record = room_data[0]
@@ -83,6 +83,16 @@ async def group_room(request: Request, room_id: str, password: str):
 
     record = await _get_room_if_valid(room_id, password)
     if not record:
+        try:
+            from Note import note_data as note_data
+            meta = await note_data.get_room_meta_direct(room_id, password=password)
+            if meta:
+                return RedirectResponse(
+                    build_url(request, "note.note_room", room_id=room_id, password=password),
+                    status_code=302,
+                )
+        except Exception:
+            pass
         _, block_label = await register_failure(SCOPE_GROUP, ip)
         if block_label:
             return room_msg(request, get_block_message(block_label), status_code=429)

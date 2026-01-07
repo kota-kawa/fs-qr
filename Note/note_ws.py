@@ -29,7 +29,12 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
         await websocket.close(code=1008)
         return
 
-    meta = await nd.get_room_meta(room_id, password=password)
+    meta = await nd.get_room_meta_direct(room_id, password=password)
+    if not meta:
+        fallback_room_id = await nd.pick_room_id_direct(room_id, password)
+        if fallback_room_id:
+            room_id = fallback_room_id
+            meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:

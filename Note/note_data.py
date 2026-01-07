@@ -92,8 +92,7 @@ async def create_room(id_, password, room_id, retention_days=7):
 # ────────────────────────────────────────────
 # ルームメタ情報取得
 # ────────────────────────────────────────────
-@cache_data(ttl=60)
-async def get_room_meta(room_id, password=None):
+async def get_room_meta_direct(room_id, password=None):
     if password is None:
         query = "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
         params = {"r": room_id}
@@ -107,17 +106,26 @@ async def get_room_meta(room_id, password=None):
     rows = await execute_query(query, params, fetch=True)
     return rows[0] if rows else None
 
+
+@cache_data(ttl=60)
+async def get_room_meta(room_id, password=None):
+    return await get_room_meta_direct(room_id, password=password)
+
 # ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
-@cache_data(ttl=60)
-async def pick_room_id(id_, password):
+async def pick_room_id_direct(id_, password):
     rows = await execute_query(
         "SELECT room_id FROM note_room WHERE id=:i AND password=:p",
         {"i": id_, "p": password},
-        fetch=True
+        fetch=True,
     )
     return rows[0]["room_id"] if rows else False
+
+
+@cache_data(ttl=60)
+async def pick_room_id(id_, password):
+    return await pick_room_id_direct(id_, password)
 
 # エイリアス（タイポ呼び出し対応）
 pich_room_id = pick_room_id
