@@ -76,10 +76,18 @@ def flash_message(request: Request, message: str) -> None:
     request.session["_flashes"] = messages
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 def render_template(request: Request, template_name: str, **context: Any):
     payload = {"request": TemplateRequestProxy(request)}
     payload.update(context)
-    return templates.TemplateResponse(template_name, payload)
+    try:
+        return templates.TemplateResponse(template_name, payload)
+    except Exception as e:
+        logger.exception(f"Error rendering template {template_name}: {e}")
+        raise e
 
 
 def build_url(request: Request, name: str, **params: Any) -> str:

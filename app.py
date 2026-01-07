@@ -3,6 +3,8 @@ import logging
 import os
 import redis.asyncio as redis
 
+import log_config  # Initialize logging configuration
+
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -39,10 +41,10 @@ app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
     SessionMiddleware,
-    store=RedisStore(redis.from_url(REDIS_URL)),
-    secret_key=SECRET_KEY or "change-me",
-    same_site="lax",
-    https_only=True,
+    store=RedisStore(REDIS_URL),
+    # secret_key=SECRET_KEY or "change-me",
+    # same_site="lax",
+    # https_only=True,
 )
 
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")

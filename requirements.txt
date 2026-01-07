@@ -14,3 +14,4 @@ aiomysql
 diff-match-patch
 redis
 starsessions
+websockets

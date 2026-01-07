@@ -487,7 +487,11 @@
       }
     });
 
-    ws.addEventListener("close", () => {
+    ws.addEventListener("close", (event) => {
+      console.warn("WebSocket closed:", event.code, event.reason);
+      if (event.code === 1006) {
+         console.error("WebSocket connection failed abruptly. Check server logs or network.");
+      }
       scheduleReconnect();
     });
 
