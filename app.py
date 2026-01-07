@@ -9,10 +9,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
 import time
-from FSQR import fsqr_data as fs_data  # ファイルやデータを管理するモジュール
-from FSQR.fsqr_data import db_session as fs_db_session
-from Group.group_data import db_session as group_db_session
-from Note.note_data import db_session as note_db_session
+from database import db_session
 from Note.note_app   import note_bp
 from Note.note_api     import api_bp
 from Admin.db_admin import db_admin_bp
@@ -20,10 +17,8 @@ from Admin.admin_app import admin_bp
 from FSQR.fsqr_app import fsqr_bp
 from Articles.articles_app import articles_bp
 
-from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
 from Group.group_app import group_bp
-import atexit
 
 # .envファイルの読み込み
 load_dotenv()
@@ -53,21 +48,6 @@ app.register_blueprint(db_admin_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(fsqr_bp)
 app.register_blueprint(articles_bp)
-# ---------------------------
-# 古いルームを削除する関数
-# ---------------------------
-def delete_expired_files():
-    fs_data.remove_expired_files()
-
-# スケジューラのセットアップ（毎日1回実行）
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=delete_expired_files, trigger="interval", days=1)
-scheduler.start()
-
-# アプリ終了時にスケジューラをシャットダウンするように登録
-atexit.register(lambda: scheduler.shutdown())
-# ---------------------------
-
 def _canonical_redirect():
     if request.query_string:
         return redirect(request.base_url, code=301)
@@ -148,9 +128,7 @@ def add_staticfile():
 #　データベースのセッションを正しく削除
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    fs_db_session.remove()
-    group_db_session.remove()
-    note_db_session.remove()
+    db_session.remove()
 
 
 def staticfile_cp(fname):

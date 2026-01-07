@@ -17,9 +17,11 @@ from flask import (
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
 
-from FSQR.fsqr_data          import db_session as fs_db
-from Group.group_data import db_session as grp_db
+from database import db_session
 from Group            import group_data
+
+fs_db = db_session
+grp_db = db_session
 
 # ────────────────────────────────────────────
 ADMIN_DB_PW = "kkawagoe"       # ハードコーディング

@@ -18,8 +18,6 @@ from rate_limit import (
 )
 
 #　自動削除用のモジュール
-from apscheduler.schedulers.background import BackgroundScheduler
-import atexit
 
 # 同じパッケージ内の group_data モジュールをインポート
 from . import group_data
@@ -44,21 +42,6 @@ UPLOAD_FOLDER = os.path.join(STATIC_DIR, 'group_uploads')
 # ---------------------------
 def is_safe_path(base_path, target_path):
     return os.path.commonprefix([os.path.abspath(target_path), os.path.abspath(base_path)]) == os.path.abspath(base_path)
-
-# ---------------------------
-# 古いルームを削除する関数
-# ---------------------------
-def delete_expired_rooms():
-    # group_dataモジュール内の関数を呼び出して、古いルームを削除
-    group_data.remove_expired_rooms()
-
-# スケジューラをセットアップ（例：毎日1回実行）
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=delete_expired_rooms, trigger="interval", days=1)
-scheduler.start()
-
-# アプリ終了時にスケジューラをシャットダウンするように登録
-atexit.register(lambda: scheduler.shutdown())
 
 # ---------------------------
 # クエリのない正規URLへリダイレクト

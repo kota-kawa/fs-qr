@@ -1,32 +1,11 @@
-import os
 import logging
 import log_config
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import scoped_session, sessionmaker
-from dotenv import load_dotenv
+from sqlalchemy import text
+from database import db_session
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
-# .env ファイル読み込み
-load_dotenv()
-host = os.getenv("SQL_HOST")
-user = os.getenv("SQL_USER")
-pw   = os.getenv("SQL_PW")
-db   = os.getenv("SQL_DB")
-
-# SQLAlchemy エンジンの作成（接続プール設定を含む）
-engine = create_engine(
-    f"mysql+pymysql://{user}:{pw}@{host}/{db}?charset=utf8mb4",
-    pool_recycle=280,    # プール内接続を280秒後に再接続
-    pool_size=10,        # 最大10個の接続を保持
-    max_overflow=5,      # プール上限後に追加で5個の接続を許可
-    pool_pre_ping=True,  # 接続前に疎通確認
-    echo=False           # SQL ログ出力（開発時は True、運用時は False）
-)
-
-# セッション設定
-db_session = scoped_session(sessionmaker(bind=engine))
 
 # 共通クエリ実行関数
 def execute_query(query, params=None, fetch=False):

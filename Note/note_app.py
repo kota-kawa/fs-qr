@@ -2,7 +2,6 @@ import random, re
 from datetime import timedelta
 from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
 from . import note_data as nd
-from apscheduler.schedulers.background import BackgroundScheduler
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -12,15 +11,6 @@ from rate_limit import (
     register_success,
 )
 
-# スケジューラ：古いノートルームを毎日自動削除
-scheduler = BackgroundScheduler()
-scheduler.add_job(
-    func=nd.remove_expired_rooms,
-    trigger='interval',
-    days=1,
-    id='remove_expired_note_rooms'
-)
-scheduler.start()
 note_bp = Blueprint('note', __name__, template_folder='templates')
 
 # クエリのない正規URLへリダイレクト

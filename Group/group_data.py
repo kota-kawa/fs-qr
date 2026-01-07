@@ -2,39 +2,16 @@ import os
 import shutil
 import logging
 import log_config
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import scoped_session, sessionmaker
-from dotenv import load_dotenv
+from sqlalchemy import text
 from werkzeug.utils import secure_filename
+from database import db_session
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
-# .envファイルの読み込み
-load_dotenv()
-
-# 環境変数の値を取得
-host_key = os.getenv("SQL_HOST")
-user_key = os.getenv("SQL_USER")
-pw_key = os.getenv("SQL_PW")
-db_key = os.getenv("SQL_DB")
-
 BASE_DIR = os.path.dirname(__file__)
 QR = os.path.join(BASE_DIR, 'static/qrcode')
 STATIC = os.path.join(BASE_DIR, 'static/upload')
-
-# SQLAlchemyエンジンの作成
-engine = create_engine(
-    f"mysql+pymysql://{user_key}:{pw_key}@{host_key}/{db_key}?charset=utf8mb4",
-    pool_recycle=280,
-    pool_size=10,
-    pool_pre_ping=True,
-    max_overflow=5,
-    echo=False  # 本番環境ではデバッグログを無効化
-)
-
-# セッションの設定
-db_session = scoped_session(sessionmaker(bind=engine))
 
 # データベースクエリの共通実行関数
 def execute_query(query, params=None, fetch=False):

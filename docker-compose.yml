@@ -16,6 +16,27 @@ services:
     networks:
       - app-network
 
+  scheduler:
+    build: .
+    environment:
+      - SQL_USER=${SQL_USER}
+      - SQL_PW=${SQL_PW}
+      - SQL_DB=${SQL_DB}
+      - SQL_HOST=${SQL_HOST}
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    command:
+      - /usr/local/bin/wait-for-it
+      - db:3306
+      - --
+      - python
+      - scheduler.py
+    networks:
+      - app-network
+
   db:
     image: mysql:5.7
     restart: always
