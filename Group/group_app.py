@@ -294,7 +294,7 @@ async def download_all_files(request: Request, room_id: str, password: str):
         return JSONResponse({"error": f"エラー: {str(e)}"}, status_code=500)
 
 
-@router.get("/download/{room_id}/{password}/{path:filename}", name="group.download_file")
+@router.get("/download/{room_id}/{password}/{filename:path}", name="group.download_file")
 async def download_file(request: Request, room_id: str, password: str, filename: str):
     decoded_filename = urllib.parse.unquote(filename)
 
