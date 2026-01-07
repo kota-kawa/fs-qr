@@ -1,11 +1,13 @@
 import asyncio
 import logging
 import os
+import redis.asyncio as redis
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from starlette.middleware.sessions import SessionMiddleware
+from starsessions import SessionMiddleware
+from starsessions.stores.redis import RedisStore
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 
 try:
@@ -15,7 +17,7 @@ except ImportError:  # pragma: no cover - fallback for older Starlette
 
 from database import db_session
 from Note import note_data
-from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY
+from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
 from web import render_template
 
 from Group.group_app import router as group_router
@@ -37,6 +39,7 @@ app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
     SessionMiddleware,
+    store=RedisStore(redis.from_url(REDIS_URL)),
     secret_key=SECRET_KEY or "change-me",
     same_site="lax",
     https_only=True,

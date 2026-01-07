@@ -13,4 +13,4 @@ pymysql
 aiomysql
 diff-match-patch
 redis
-redis
+starsessions
