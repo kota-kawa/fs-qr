@@ -12,3 +12,4 @@ sqlalchemy
 pymysql
 aiomysql
 diff-match-patch
+redis

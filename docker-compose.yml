@@ -6,11 +6,13 @@ services:
       - SQL_PW=${SQL_PW}
       - SQL_DB=${SQL_DB}
       - SQL_HOST=${SQL_HOST}
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app  # アプリケーションコードのマウント
       - ./logs:/app/logs  # ホストの ./logs ディレクトリをコンテナ内 /app/logs にマウント
     depends_on:
       - db
+      - redis
     ports:
       - "5000:5000"  # ホストの5000番ポートをDockerのwebサービスにマッピング
     networks:
@@ -48,6 +50,12 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./db_init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    restart: always
     networks:
       - app-network
 

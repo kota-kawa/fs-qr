@@ -19,6 +19,9 @@ from web import render_template
 from Group.group_app import router as group_router
 from Note.note_app import router as note_router
 from Note.note_api import router as note_api_router
+from Note.note_realtime import shutdown as note_realtime_shutdown
+from Note.note_realtime import startup as note_realtime_startup
+from Note.note_ws import router as note_ws_router
 from Admin.db_admin import router as db_admin_router
 from Admin.admin_app import router as admin_router
 from FSQR.fsqr_app import router as fsqr_router
@@ -50,7 +53,13 @@ async def db_session_middleware(request: Request, call_next):
 @app.on_event("startup")
 async def startup():
     await note_data.ensure_tables()
+    await note_realtime_startup()
     await db_session.remove()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await note_realtime_shutdown()
 
 
 @app.exception_handler(StarletteHTTPException)
@@ -69,6 +78,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 app.include_router(group_router)
 app.include_router(note_router)
 app.include_router(note_api_router)
+app.include_router(note_ws_router)
 app.include_router(db_admin_router)
 app.include_router(admin_router)
 app.include_router(fsqr_router)
