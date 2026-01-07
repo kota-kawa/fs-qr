@@ -56,8 +56,8 @@ async def group(request: Request):
     return render_template(request, "group.html")
 
 
-def _get_room_if_valid(room_id, password):
-    room_data = group_data.get_data(room_id)
+async def _get_room_if_valid(room_id, password):
+    room_data = await group_data.get_data(room_id)
     if not room_data:
         return None
     record = room_data[0]
@@ -81,7 +81,7 @@ async def group_room(request: Request, room_id: str, password: str):
     if not allowed:
         return room_msg(request, get_block_message(block_label), status_code=429)
 
-    record = _get_room_if_valid(room_id, password)
+    record = await _get_room_if_valid(room_id, password)
     if not record:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
@@ -157,7 +157,7 @@ async def create_group_room(request: Request):
         return JSONResponse({"error": "IDは6文字の半角英数字で入力してください。"}, status_code=400)
 
     room_id = id_val
-    existing_room = group_data.get_data(room_id)
+    existing_room = await group_data.get_data(room_id)
 
     if existing_room:
         if id_mode == "auto":
@@ -172,7 +172,7 @@ async def create_group_room(request: Request):
     folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     os.makedirs(folder_path, exist_ok=True)
 
-    group_data.create_room(id=room_id, password=password, room_id=room_id, retention_days=retention_days)
+    await group_data.create_room(id=room_id, password=password, room_id=room_id, retention_days=retention_days)
     return RedirectResponse(
         build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302
     )
@@ -185,7 +185,7 @@ async def group_upload(
     password: str,
     upfile: Optional[list[UploadFile]] = File(None),
 ):
-    record = _get_room_if_valid(room_id, password)
+    record = await _get_room_if_valid(room_id, password)
     if not record:
         return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=400)
 
@@ -249,7 +249,7 @@ async def group_upload(
 
 @router.get("/check/{room_id}/{password}", name="group.list_files")
 async def list_files(request: Request, room_id: str, password: str):
-    if not _get_room_if_valid(room_id, password):
+    if not await _get_room_if_valid(room_id, password):
         return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
@@ -272,7 +272,7 @@ async def list_files(request: Request, room_id: str, password: str):
 
 @router.get("/download/all/{room_id}/{password}", name="group.download_all_files")
 async def download_all_files(request: Request, room_id: str, password: str):
-    if not _get_room_if_valid(room_id, password):
+    if not await _get_room_if_valid(room_id, password):
         return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
@@ -304,7 +304,7 @@ async def download_file(request: Request, room_id: str, password: str, filename:
     if not decoded_filename.strip():
         return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
 
-    if not _get_room_if_valid(room_id, password):
+    if not await _get_room_if_valid(room_id, password):
         return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
@@ -331,7 +331,7 @@ async def delete_file(request: Request, room_id: str, password: str, filename: s
     if not decoded_filename.strip():
         return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
 
-    if not _get_room_if_valid(room_id, password):
+    if not await _get_room_if_valid(room_id, password):
         return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
@@ -371,7 +371,7 @@ async def search_room(request: Request):
             return _group_block_response(request, block_label)
         return JSONResponse({"error": "IDまたはパスワードに不正な値が含まれています。"}, status_code=400)
 
-    room_id = group_data.pich_room_id(id_val, password)
+    room_id = await group_data.pich_room_id(id_val, password)
     if not room_id:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
@@ -388,7 +388,7 @@ async def group_direct_access(request: Request, room_id: str, password: str):
     if not allowed:
         return room_msg(request, get_block_message(block_label), status_code=429)
 
-    record = _get_room_if_valid(room_id, password)
+    record = await _get_room_if_valid(room_id, password)
     if not record:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
@@ -415,7 +415,7 @@ async def manage_rooms(request: Request):
     if not request.session.get("management_authenticated"):
         return render_template(request, "manage_rooms_login.html")
 
-    rooms = group_data.get_all()
+    rooms = await group_data.get_all()
     return render_template(request, "manage_rooms.html", rooms=rooms)
 
 
@@ -427,13 +427,13 @@ async def logout_management(request: Request):
 
 @router.post("/delete_room/{room_id}", name="group.delete_room")
 async def delete_room(request: Request, room_id: str):
-    group_data.remove_data(room_id)
+    await group_data.remove_data(room_id)
     return RedirectResponse("/manage_rooms", status_code=302)
 
 
 @router.post("/delete_all_rooms", name="group.delete_all_rooms")
 async def delete_all_rooms(request: Request):
-    group_data.all_remove()
+    await group_data.all_remove()
     return RedirectResponse("/manage_rooms", status_code=302)
 
 

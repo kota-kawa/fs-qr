@@ -14,24 +14,24 @@ QR = os.path.join(BASE_DIR, 'static/qrcode')
 STATIC = os.path.join(BASE_DIR, 'static/upload')
 
 # データベースクエリの共通実行関数
-def execute_query(query, params=None, fetch=False):
+async def execute_query(query, params=None, fetch=False):
     try:
-        result = db_session.execute(query, params or {})
+        result = await db_session.execute(query, params or {})
         if fetch:
-            return [row._mapping for row in result]
-        db_session.commit()
+            return result.mappings().all()
+        await db_session.commit()
     except Exception as e:
         logger.error("Database query failed: %s", e)
-        db_session.rollback()
+        await db_session.rollback()
         raise
 
 # グループの部屋の作成
-def create_room(id, password, room_id, retention_days=7):
+async def create_room(id, password, room_id, retention_days=7):
     query = text("""
         INSERT INTO room (time, id, password, room_id, retention_days)
         VALUES (NOW(), :id, :password, :room_id, :retention_days)
     """)
-    execute_query(
+    await execute_query(
         query,
         {
             "id": id,
@@ -42,30 +42,30 @@ def create_room(id, password, room_id, retention_days=7):
     )
 
 # ログイン処理
-def pich_room_id(id, password):
+async def pich_room_id(id, password):
     query = text("""
         SELECT room_id FROM room WHERE id = :id AND password = :password
     """)
-    result = execute_query(query, {"id": id, "password": password}, fetch=True)
+    result = await execute_query(query, {"id": id, "password": password}, fetch=True)
     return result[0]["room_id"] if result else False
 
 # データベースから任意のIDのデータを取り出す
-def get_data(secure_id):
+async def get_data(secure_id):
     query = text("""
         SELECT * FROM room WHERE room_id = :secure_id
     """)
-    result = execute_query(query, {"secure_id": secure_id}, fetch=True)
+    result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
     return result if result else False
 
 # 全てのデータを取得する
-def get_all():
+async def get_all():
     query = text("""
         SELECT * FROM room ORDER BY suji DESC
     """)
-    return execute_query(query, fetch=True)
+    return await execute_query(query, fetch=True)
 
 # アップロードされたファイルとメタ情報の削除
-def remove_data(secure_id):
+async def remove_data(secure_id):
     """
     指定されたルームのデータベースレコードと、
     関連するアップロードフォルダおよびその他のファイル（ZIPファイル、QRコード画像など）を削除します。
@@ -89,12 +89,12 @@ def remove_data(secure_id):
     query = text("""
         DELETE FROM room WHERE room_id = :secure_id
     """)
-    execute_query(query, {"secure_id": secure_id})
+    await execute_query(query, {"secure_id": secure_id})
 
 # 全てのデータを削除
-def all_remove():
+async def all_remove():
     # 全ルーム情報を取得（get_all() は全件取得を行います）
-    rooms = get_all()
+    rooms = await get_all()
     
     # グループアップロードフォルダのパス（group_app.py と同じパスを想定）
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -116,12 +116,12 @@ def all_remove():
     
     # 最後に、データベースから全ルームのレコードを削除
     query = text("DELETE FROM room")
-    execute_query(query)
+    await execute_query(query)
 
 
 
 # 1週間以上経過したルームを削除する関数
-def remove_expired_rooms():
+async def remove_expired_rooms():
     # 1週間以上前のルームを取得するクエリ（MySQLの場合）
     query = text(
         """
@@ -130,9 +130,9 @@ def remove_expired_rooms():
         WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
     """
     )
-    expired_rooms = execute_query(query, fetch=True)
+    expired_rooms = await execute_query(query, fetch=True)
     for room in expired_rooms:
         room_id = room.get("room_id")
         if room_id:
-            remove_data(room_id)
+            await remove_data(room_id)
             # ログ出力など必要に応じて追加

@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 # 共通クエリ実行関数
-def execute_query(query, params=None, fetch=False):
+async def execute_query(query, params=None, fetch=False):
     """
     SQL クエリを実行するユーティリティ。
     :param query: SQL テキストまたは sqlalchemy.text オブジェクト
@@ -19,18 +19,18 @@ def execute_query(query, params=None, fetch=False):
     try:
         stmt = query if hasattr(query, 'bindparams') else text(query)
         if params:
-            result = db_session.execute(stmt, params)
+            result = await db_session.execute(stmt, params)
         else:
-            result = db_session.execute(stmt)
+            result = await db_session.execute(stmt)
 
         if fetch:
-            return [row._mapping for row in result]
+            return result.mappings().all()
         else: # INSERT, UPDATE, DELETE の場合
-            db_session.commit()
+            await db_session.commit()
             return result.rowcount # <--- 変更: 影響行数を返す
     except Exception as e:
         logger.error(f"Database query failed: {e}")
-        db_session.rollback()
+        await db_session.rollback()
         raise
 
 # note_app.py などから使用するエイリアス関数
@@ -57,24 +57,21 @@ CREATE TABLE IF NOT EXISTS note_content(
 """
 
 # テーブル作成チェック
-def _ensure_tables():
-    execute_query(CREATE_NOTE_ROOM)
-    execute_query(CREATE_NOTE_CONTENT)
+async def ensure_tables():
+    await execute_query(CREATE_NOTE_ROOM)
+    await execute_query(CREATE_NOTE_CONTENT)
     # 既存テーブルをマイクロ秒精度に更新
     try:
-        execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")
+        await execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")
     except Exception:
         pass
     logger.info("note tables checked/created")
 
-# アプリ起動時にテーブルをチェック/作成
-_ensure_tables()
-
 # ────────────────────────────────────────────
 # ノートルーム作成
 # ────────────────────────────────────────────
-def create_room(id_, password, room_id, retention_days=7):
-    execute_query(
+async def create_room(id_, password, room_id, retention_days=7):
+    await execute_query(
         """
         INSERT INTO note_room(time, id, password, room_id, retention_days)
         VALUES(NOW(), :i, :p, :r, :retention)
@@ -85,7 +82,7 @@ def create_room(id_, password, room_id, retention_days=7):
 # ────────────────────────────────────────────
 # ルームメタ情報取得
 # ────────────────────────────────────────────
-def get_room_meta(room_id, password=None):
+async def get_room_meta(room_id, password=None):
     if password is None:
         query = "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
         params = {"r": room_id}
@@ -96,14 +93,14 @@ def get_room_meta(room_id, password=None):
         )
         params = {"r": room_id, "p": password}
 
-    rows = execute_query(query, params, fetch=True)
+    rows = await execute_query(query, params, fetch=True)
     return rows[0] if rows else None
 
 # ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
-def pick_room_id(id_, password):
-    rows = execute_query(
+async def pick_room_id(id_, password):
+    rows = await execute_query(
         "SELECT room_id FROM note_room WHERE id=:i AND password=:p",
         {"i": id_, "p": password},
         fetch=True
@@ -116,8 +113,8 @@ pich_room_id = pick_room_id
 # ────────────────────────────────────────────
 # コンテンツ取得 or 初期レコード作成
 # ────────────────────────────────────────────
-def get_row(room_id):
-    rows = execute_query(
+async def get_row(room_id):
+    rows = await execute_query(
         "SELECT * FROM note_content WHERE room_id=:r",
         {"r": room_id},
         fetch=True
@@ -125,11 +122,11 @@ def get_row(room_id):
     if rows:
         return rows[0]
     # レコードがなければ初期レコードを作成
-    execute_query(
+    await execute_query(
         "INSERT INTO note_content(room_id, content, updated_at) VALUES(:r, '', NOW(6))",
         {"r": room_id}
     )
-    return get_row(room_id)
+    return await get_row(room_id)
 
 # get_row のエイリアス（他プログラム互換）
 fetch_note = get_row
@@ -137,7 +134,7 @@ fetch_note = get_row
 # ────────────────────────────────────────────
 # コンテンツ保存
 # ────────────────────────────────────────────
-def save_content(room_id, content, expected_updated_at_str=None):
+async def save_content(room_id, content, expected_updated_at_str=None):
     if expected_updated_at_str:
         # MySQLのDATETIME(6)型は 'YYYY-MM-DD HH:MM:SS.ffffff' 形式の文字列と比較可能
         query = text("""
@@ -146,12 +143,12 @@ def save_content(room_id, content, expected_updated_at_str=None):
             WHERE room_id=:r AND updated_at = :expected_ua
         """)
         params = {"c": content, "r": room_id, "expected_ua": expected_updated_at_str}
-        return execute_query(query, params)
+        return await execute_query(query, params)
     else:
         # expected_updated_at_str がない場合は無条件更新（フォールバックまたは特定用途）
         query = text("UPDATE note_content SET content=:c, updated_at=NOW(6) WHERE room_id=:r")
         params = {"c": content, "r": room_id}
-        return execute_query(query, params)
+        return await execute_query(query, params)
 
 # save_content のエイリアス
 store_content = save_content
@@ -160,10 +157,10 @@ store_content = save_content
 # ────────────────────────────────────────────
 # １週間以上経過したノートルームを削除
 # ────────────────────────────────────────────
-def remove_expired_rooms():
+async def remove_expired_rooms():
     try:
         # 7日より古い room_id を取得
-        rows = execute_query(
+        rows = await execute_query(
             """
             SELECT room_id
             FROM note_room
@@ -174,11 +171,11 @@ def remove_expired_rooms():
         for r in rows:
             rid = r["room_id"]
             # コンテンツとルーム情報を順に削除
-            execute_query(
+            await execute_query(
                 "DELETE FROM note_content WHERE room_id = :r",
                 {"r": rid}
             )
-            execute_query(
+            await execute_query(
                 "DELETE FROM note_room WHERE room_id = :r",
                 {"r": rid}
             )

@@ -25,29 +25,32 @@ GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
 router = APIRouter(prefix="/admin")
 
 
-def table_exists(sess, table_name):
+async def table_exists(sess, table_name):
     q = """
         SELECT COUNT(*) FROM information_schema.tables
         WHERE table_schema = DATABASE() AND table_name = :t
     """
-    return bool(sess.execute(text(q), {"t": table_name}).scalar())
+    result = await sess.execute(text(q), {"t": table_name})
+    return bool(result.scalar())
 
 
-def safe_count(sess, table):
-    if not table_exists(sess, table):
+async def safe_count(sess, table):
+    if not await table_exists(sess, table):
         return 0
-    return sess.execute(text(f"SELECT COUNT(*) FROM {table}")).scalar()
+    result = await sess.execute(text(f"SELECT COUNT(*) FROM {table}"))
+    return result.scalar()
 
 
-def safe_recent(sess, table, time_col, limit=10):
-    if not table_exists(sess, table):
+async def safe_recent(sess, table, time_col, limit=10):
+    if not await table_exists(sess, table):
         return None
     q = f"SELECT * FROM {table} ORDER BY {time_col} DESC LIMIT {limit}"
-    return sess.execute(text(q)).mappings().all()
+    result = await sess.execute(text(q))
+    return result.mappings().all()
 
 
-def _get_record(secure_id):
-    data = fs_data.get_data(secure_id)
+async def _get_record(secure_id):
+    data = await fs_data.get_data(secure_id)
     if not data:
         return None
     return data[0]
@@ -70,8 +73,8 @@ def _resolve_file_path(record):
     return path, filename, display_name, mimetype
 
 
-def _get_room_record(room_id):
-    data = group_data.get_data(room_id)
+async def _get_room_record(room_id):
+    data = await group_data.get_data(room_id)
     if not data:
         return None
     return data[0]
@@ -125,17 +128,17 @@ async def dashboard(request: Request):
         return render_template(request, "db_admin.html", authenticated=False, pw="")
 
     summary = [
-        {"name": "fsqr", "count": safe_count(fs_db, "fsqr")},
-        {"name": "room", "count": safe_count(grp_db, "room")},
-        {"name": "note_room", "count": safe_count(grp_db, "note_room")},
-        {"name": "note_content", "count": safe_count(grp_db, "note_content")},
+        {"name": "fsqr", "count": await safe_count(fs_db, "fsqr")},
+        {"name": "room", "count": await safe_count(grp_db, "room")},
+        {"name": "note_room", "count": await safe_count(grp_db, "note_room")},
+        {"name": "note_content", "count": await safe_count(grp_db, "note_content")},
     ]
 
     recent_rows = {
-        "fsqr": safe_recent(fs_db, "fsqr", "time"),
-        "room": safe_recent(grp_db, "room", "time"),
-        "note_room": safe_recent(grp_db, "note_room", "time"),
-        "note_content": safe_recent(grp_db, "note_content", "updated_at"),
+        "fsqr": await safe_recent(fs_db, "fsqr", "time"),
+        "room": await safe_recent(grp_db, "room", "time"),
+        "note_room": await safe_recent(grp_db, "note_room", "time"),
+        "note_content": await safe_recent(grp_db, "note_content", "updated_at"),
     }
 
     return render_template(
@@ -148,7 +151,7 @@ async def file_detail(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
         return JSONResponse({"error": "forbidden"}, status_code=403)
 
-    record = _get_record(secure_id)
+    record = await _get_record(secure_id)
     if not record:
         return JSONResponse({"error": "not_found"}, status_code=404)
 
@@ -178,7 +181,7 @@ async def file_download(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
         raise HTTPException(status_code=403)
 
-    record = _get_record(secure_id)
+    record = await _get_record(secure_id)
     if not record:
         raise HTTPException(status_code=404)
 
@@ -195,7 +198,7 @@ async def room_detail(request: Request, room_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
         return JSONResponse({"error": "forbidden"}, status_code=403)
 
-    record = _get_room_record(room_id)
+    record = await _get_room_record(room_id)
     if not record:
         return JSONResponse({"error": "not_found"}, status_code=404)
 
@@ -222,7 +225,7 @@ async def room_download(request: Request, room_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
         raise HTTPException(status_code=403)
 
-    record = _get_room_record(room_id)
+    record = await _get_room_record(room_id)
     if not record:
         raise HTTPException(status_code=404)
 

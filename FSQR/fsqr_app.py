@@ -37,8 +37,8 @@ def _canonical_redirect(request: Request):
     return None
 
 
-def _get_room_by_credentials(room_id, password):
-    data = fs_data.get_data_by_credentials(room_id, password)
+async def _get_room_by_credentials(room_id, password):
+    data = await fs_data.get_data_by_credentials(room_id, password)
     if not data:
         return None, None
     record = data[0]
@@ -149,7 +149,7 @@ async def upload(
     else:
         secure_id = (secure_id_base + uploaded_files[-1]).replace(".zip", "")
 
-    fs_data.save_file(
+    await fs_data.save_file(
         uid=uid,
         id=id_val,
         password=password,
@@ -164,7 +164,7 @@ async def upload(
 
 @router.get("/upload_complete/{secure_id}", name="fsqr.upload_complete")
 async def upload_complete(request: Request, secure_id: str):
-    data = fs_data.get_data(secure_id)
+    data = await fs_data.get_data(secure_id)
     if not data:
         raise HTTPException(status_code=404)
 
@@ -196,7 +196,7 @@ async def upload_complete(request: Request, secure_id: str):
 
 @router.get("/download/{secure_id}", name="fsqr.download")
 async def download(request: Request, secure_id: str):
-    data = fs_data.get_data(secure_id)
+    data = await fs_data.get_data(secure_id)
     if not data:
         raise HTTPException(status_code=404)
     row = data[0]
@@ -213,7 +213,7 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
     if not allowed:
         return msg(request, get_block_message(block_label), 429)
 
-    secure_id, record = _get_room_by_credentials(room_id, password)
+    secure_id, record = await _get_room_by_credentials(room_id, password)
     if not secure_id:
         _, block_label = register_failure(SCOPE_QR, ip)
         if block_label:
@@ -239,19 +239,19 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
 
 @router.post("/download_go/{secure_id}", name="fsqr.download_go")
 async def download_go(request: Request, secure_id: str):
-    return _send_file_response(request, secure_id)
+    return await _send_file_response(request, secure_id)
 
 
 @router.post("/fs-qr/{room_id}/{password}/download", name="fsqr.fs_qr_download")
 async def fs_qr_download(request: Request, room_id: str, password: str):
-    secure_id, _ = _get_room_by_credentials(room_id, password)
+    secure_id, _ = await _get_room_by_credentials(room_id, password)
     if not secure_id:
         return msg(request, "IDかパスワードが間違っています")
-    return _send_file_response(request, secure_id)
+    return await _send_file_response(request, secure_id)
 
 
-def _send_file_response(request: Request, secure_id: str):
-    data = fs_data.get_data(secure_id)
+async def _send_file_response(request: Request, secure_id: str):
+    data = await fs_data.get_data(secure_id)
     if not data:
         return msg(request, "パラメータが不正です")
 
@@ -300,7 +300,7 @@ async def kekka(request: Request):
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDまたはパスワードに不正な文字が含まれています。")
 
-    secure_id = fs_data.try_login(id_val, password)
+    secure_id = await fs_data.try_login(id_val, password)
 
     if not secure_id:
         _, block_label = register_failure(SCOPE_QR, ip)

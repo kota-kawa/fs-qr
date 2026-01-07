@@ -26,11 +26,11 @@ def _canonical_redirect(request: Request):
     return None
 
 
-def _get_room_if_valid(room_id, password):
-    meta = nd.get_room_meta(room_id, password=password)
+async def _get_room_if_valid(room_id, password):
+    meta = await nd.get_room_meta(room_id, password=password)
     if not meta:
         return None
-    nd.get_row(room_id)
+    await nd.get_row(room_id)
     return meta
 
 
@@ -88,7 +88,7 @@ async def create_note_room(request: Request):
         return JSONResponse({"error": "IDは6文字の半角英数字で入力してください"}, status_code=400)
 
     room_id = id_val
-    existing_room = nd._exec(
+    existing_room = await nd._exec(
         "SELECT room_id FROM note_room WHERE room_id = :r",
         {"r": room_id},
         fetch=True,
@@ -103,7 +103,7 @@ async def create_note_room(request: Request):
         return JSONResponse({"error": "このIDは既に使用されています。別のIDを使用してください。"}, status_code=409)
 
     pw = str(random.randrange(10**5, 10**6))
-    nd.create_room(room_id, pw, room_id, retention_days=retention_days)
+    await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
     return RedirectResponse(
         build_url(request, "note.note_room", room_id=room_id, password=pw),
         status_code=302,
@@ -127,7 +127,7 @@ async def note_room(request: Request, room_id: str, password: str):
         response.status_code = 429
         return response
 
-    meta = _get_room_if_valid(room_id, password)
+    meta = await _get_room_if_valid(room_id, password)
     if not meta:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
@@ -185,7 +185,7 @@ async def search_note_room(request: Request):
         else:
             flash_message(request, "ID またはパスワードが不正です。")
         return RedirectResponse("/search_note", status_code=302)
-    room_id = nd.pich_room_id(id_val, pw)
+    room_id = await nd.pich_room_id(id_val, pw)
     if not room_id:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
@@ -209,7 +209,7 @@ async def note_direct_access(request: Request, room_id: str, password: str):
         response.status_code = 429
         return response
 
-    meta = _get_room_if_valid(room_id, password)
+    meta = await _get_room_if_valid(room_id, password)
     if not meta:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:

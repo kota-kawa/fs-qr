@@ -10,4 +10,5 @@ apscheduler
 mysqlclient
 sqlalchemy
 pymysql
+aiomysql
 diff-match-patch

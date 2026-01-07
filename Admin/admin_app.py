@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 async def admin_list(request: Request, pw: str = ""):
     if pw != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")
-    return render_template(request, "admin_list.html", files=fs_data.get_all(), pw=ADMIN_KEY)
+    return render_template(request, "admin_list.html", files=await fs_data.get_all(), pw=ADMIN_KEY)
 
 
 @router.get("/admin/remove/{secure_id}", name="admin.admin_remove")
@@ -26,11 +26,11 @@ async def admin_remove(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")
 
-    data = fs_data.get_data(secure_id)
+    data = await fs_data.get_data(secure_id)
     if not data:
         return msg(request, "パラメータが不正です")
 
-    fs_data.remove_data(secure_id)
+    await fs_data.remove_data(secure_id)
     return RedirectResponse("/remove-succes", status_code=302)
 
 
@@ -40,7 +40,7 @@ async def all_remove(request: Request):
     if form.get("pw", "") != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")
 
-    fs_data.all_remove()
+    await fs_data.all_remove()
     shutil.rmtree(os.path.join(BASE_DIR, "static", "upload"))
     os.mkdir(os.path.join(BASE_DIR, "static", "upload"))
     return RedirectResponse("/remove-succes", status_code=302)

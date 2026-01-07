@@ -12,6 +12,7 @@ except ImportError:  # pragma: no cover - fallback for older Starlette
     from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from database import db_session
+from Note import note_data
 from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY
 from web import render_template
 
@@ -43,7 +44,13 @@ async def db_session_middleware(request: Request, call_next):
         response = await call_next(request)
         return response
     finally:
-        db_session.remove()
+        await db_session.remove()
+
+
+@app.on_event("startup")
+async def startup():
+    await note_data.ensure_tables()
+    await db_session.remove()
 
 
 @app.exception_handler(StarletteHTTPException)

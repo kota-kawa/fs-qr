@@ -17,13 +17,13 @@ MAX_RETRY_ATTEMPTS = 3
 
 @router.api_route("/note/{room_id}/{password}", methods=["GET", "POST"], name="note.note_sync")
 async def note_sync(request: Request, room_id: str, password: str):
-    meta = nd.get_room_meta(room_id, password=password)
+    meta = await nd.get_room_meta(room_id, password=password)
     if not meta:
         return JSONResponse({"error": "room not found or password mismatch"}, status_code=404)
 
     if request.method == "GET":
         try:
-            row = nd.get_row(room_id)
+            row = await nd.get_row(room_id)
             if row["updated_at"] is None:
                 return JSONResponse({"error": "room not found or not initialized"}, status_code=404)
             return JSONResponse(
@@ -56,8 +56,8 @@ async def note_sync(request: Request, room_id: str, password: str):
 
         if client_last_known_updated_at is None or client_original_content is None:
             logger.warning("Missing required parameters for room %s, using fallback", room_id)
-            nd.save_content(room_id, client_content)
-            row = nd.get_row(room_id)
+            await nd.save_content(room_id, client_content)
+            row = await nd.get_row(room_id)
             return JSONResponse(
                 {
                     "status": "ok_unconditional_fallback",
@@ -68,10 +68,10 @@ async def note_sync(request: Request, room_id: str, password: str):
 
         for attempt in range(MAX_RETRY_ATTEMPTS):
             try:
-                rowcount = nd.save_content(room_id, client_content, client_last_known_updated_at)
+                rowcount = await nd.save_content(room_id, client_content, client_last_known_updated_at)
 
                 if rowcount > 0:
-                    row = nd.get_row(room_id)
+                    row = await nd.get_row(room_id)
                     return JSONResponse(
                         {
                             "status": "ok",
@@ -80,14 +80,14 @@ async def note_sync(request: Request, room_id: str, password: str):
                         }
                     )
 
-                merge_result = attempt_merge(room_id, client_content, client_original_content)
+                merge_result = await attempt_merge(room_id, client_content, client_original_content)
                 if merge_result:
                     return merge_result
 
                 if attempt < MAX_RETRY_ATTEMPTS - 1:
                     await asyncio.sleep(0.1 * (attempt + 1))
                     continue
-                final_row = nd.get_row(room_id)
+                final_row = await nd.get_row(room_id)
                 return JSONResponse(
                     {
                         "status": "conflict_max_retries",
@@ -108,9 +108,9 @@ async def note_sync(request: Request, room_id: str, password: str):
         return JSONResponse({"error": "Internal server error"}, status_code=500)
 
 
-def attempt_merge(room_id, client_content, client_original_content):
+async def attempt_merge(room_id, client_content, client_original_content):
     try:
-        current_db_row = nd.get_row(room_id)
+        current_db_row = await nd.get_row(room_id)
         server_text = current_db_row["content"]
         server_timestamp = current_db_row["updated_at"].isoformat(sep=" ", timespec="microseconds")
 
@@ -119,9 +119,9 @@ def attempt_merge(room_id, client_content, client_original_content):
         merged_text, patch_results = dmp.patch_apply(patches, server_text)
 
         if all(patch_results):
-            merged_rowcount = nd.save_content(room_id, merged_text, server_timestamp)
+            merged_rowcount = await nd.save_content(room_id, merged_text, server_timestamp)
             if merged_rowcount > 0:
-                final_row = nd.get_row(room_id)
+                final_row = await nd.get_row(room_id)
                 return JSONResponse(
                     {
                         "status": "ok_merged",
@@ -132,7 +132,7 @@ def attempt_merge(room_id, client_content, client_original_content):
             logger.warning("Merge conflict during save for room %s", room_id)
             return None
 
-        final_row = nd.get_row(room_id)
+        final_row = await nd.get_row(room_id)
         return JSONResponse(
             {
                 "status": "conflict_merge_failed",
