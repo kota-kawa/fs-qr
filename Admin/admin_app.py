@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, send_from_directory, abort
 import os
 import shutil
-import fs_data
+from FSQR import fsqr_data as fs_data
 
 admin_bp = Blueprint('admin', __name__, template_folder='templates')
 
@@ -13,7 +13,7 @@ def admin_list():
     from app import MASTER_PW
     # マスターパスワードの確認
     if request.args.get('pw', '') != MASTER_PW:
-        from Core.core_app import msg
+        from FSQR.fsqr_app import msg
         return msg('マスターパスワードが違います')
     return render_template('admin_list.html',
                            files=fs_data.get_all(), pw=MASTER_PW)
@@ -22,12 +22,12 @@ def admin_list():
 def admin_remove(secure_id):
     from app import MASTER_PW
     if request.args.get('pw', '') != MASTER_PW:
-        from Core.core_app import msg
+        from FSQR.fsqr_app import msg
         return msg('マスターパスワードが違います')
 
     data = fs_data.get_data(secure_id)
     if not data:
-        from Core.core_app import msg
+        from FSQR.fsqr_app import msg
         return msg('パラメータが不正です')
 
     fs_data.remove_data(secure_id)
@@ -38,7 +38,7 @@ def all():
     from app import MASTER_PW
     # マスターパスワードの確認
     if request.form.get('pw', '') != MASTER_PW:
-        from Core.core_app import msg
+        from FSQR.fsqr_app import msg
         return msg('マスターパスワードが違います')
     
     # 全削除時もパス固定で行う(アプリケーション内部で操作)

@@ -1,7 +1,7 @@
 # Admin/db_admin.py
 from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import text
-from fs_data            import db_session as fs_db
+from FSQR.fsqr_data            import db_session as fs_db
 from Group.group_data   import db_session as grp_db
 
 # ── ハードコーディングされた管理パスワード ──────────────

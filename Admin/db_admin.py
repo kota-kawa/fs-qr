@@ -2,7 +2,7 @@ import io
 import os
 import zipfile
 
-import fs_data
+from FSQR import fsqr_data as fs_data
 
 from flask import (
     Blueprint,
@@ -17,7 +17,7 @@ from flask import (
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
 
-from fs_data          import db_session as fs_db
+from FSQR.fsqr_data          import db_session as fs_db
 from Group.group_data import db_session as grp_db
 from Group            import group_data
 

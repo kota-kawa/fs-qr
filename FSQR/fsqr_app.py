@@ -4,7 +4,7 @@ import uuid
 import secrets
 import re
 from datetime import timedelta
-import fs_data
+from . import fsqr_data as fs_data
 from werkzeug.utils import secure_filename
 from rate_limit import (
     SCOPE_QR,
@@ -15,7 +15,7 @@ from rate_limit import (
     register_success,
 )
 
-core_bp = Blueprint('core', __name__, template_folder='templates')
+fsqr_bp = Blueprint('fsqr', __name__, template_folder='templates')
 
 # Base configuration (same as in app.py)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # Parent directory (app.py location)
@@ -50,21 +50,21 @@ def _calculate_deletion_context(record):
     return retention_days, deletion_date
 
 
-@core_bp.route('/fs-qr_menu')
+@fsqr_bp.route('/fs-qr_menu')
 def fs_qr():
     canonical = _canonical_redirect()
     if canonical:
         return canonical
     return render_template('fs-qr.html')
 
-@core_bp.route('/fs-qr')
+@fsqr_bp.route('/fs-qr')
 def fs_qr_upload():
     canonical = _canonical_redirect()
     if canonical:
         return canonical
     return render_template('fs-qr-upload.html')
 
-@core_bp.route('/upload', methods=['POST'])
+@fsqr_bp.route('/upload', methods=['POST'])
 def upload():
     # よりセキュアな乱数の生成
     uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
@@ -164,10 +164,10 @@ def upload():
 
     # ここでは JSON でリダイレクト先を返す
     return jsonify({
-        "redirect_url": url_for('core.upload_complete', secure_id=secure_id)
+        "redirect_url": url_for('fsqr.upload_complete', secure_id=secure_id)
     })
 
-@core_bp.route('/upload_complete/<secure_id>')
+@fsqr_bp.route('/upload_complete/<secure_id>')
 def upload_complete(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
@@ -177,7 +177,7 @@ def upload_complete(secure_id):
     id_val = row["id"]
     password_val = row["password"]
 
-    share_url = url_for('core.fs_qr_room', room_id=id_val, password=password_val, _external=True)
+    share_url = url_for('fsqr.fs_qr_room', room_id=id_val, password=password_val, _external=True)
     retention_days, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
@@ -191,16 +191,16 @@ def upload_complete(secure_id):
         deletion_date=deletion_date
     )
 
-@core_bp.route('/download/<secure_id>')
+@fsqr_bp.route('/download/<secure_id>')
 def download(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
         abort(404)
     row = data[0]
-    return redirect(url_for('core.fs_qr_room', room_id=row["id"], password=row["password"]))
+    return redirect(url_for('fsqr.fs_qr_room', room_id=row["id"], password=row["password"]))
 
 
-@core_bp.route('/fs-qr/<room_id>/<password>')
+@fsqr_bp.route('/fs-qr/<room_id>/<password>')
 def fs_qr_room(room_id, password):
     ip = get_client_ip()
     allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
@@ -224,18 +224,18 @@ def fs_qr_room(room_id, password):
         id=record['id'],
         password=record['password'],
         secure_id=secure_id,
-        url=url_for('core.fs_qr_download', room_id=room_id, password=password),
+        url=url_for('fsqr.fs_qr_download', room_id=room_id, password=password),
         retention_days=retention_days,
         deletion_date=deletion_date
     )
 
 
-@core_bp.route('/download_go/<secure_id>', methods=['POST'])
+@fsqr_bp.route('/download_go/<secure_id>', methods=['POST'])
 def download_go(secure_id):
     return _send_file_response(secure_id)
 
 
-@core_bp.route('/fs-qr/<room_id>/<password>/download', methods=['POST'])
+@fsqr_bp.route('/fs-qr/<room_id>/<password>/download', methods=['POST'])
 def fs_qr_download(room_id, password):
     secure_id, _ = _get_room_by_credentials(room_id, password)
     if not secure_id:
@@ -270,11 +270,11 @@ def _send_file_response(secure_id):
     return response
 
 
-@core_bp.route('/search_fs-qr')
+@fsqr_bp.route('/search_fs-qr')
 def search_fs_qr():
     return render_template('kensaku-form.html')
 
-@core_bp.route('/try_login', methods=['POST'])
+@fsqr_bp.route('/try_login', methods=['POST'])
 def kekka():
     id = request.form.get('name', '').strip()
     password = request.form.get('pw', '').strip()
@@ -301,9 +301,9 @@ def kekka():
 
     register_success(SCOPE_QR, ip)
 
-    return redirect(url_for('core.fs_qr_room', room_id=id, password=password))
+    return redirect(url_for('fsqr.fs_qr_room', room_id=id, password=password))
 
-@core_bp.route('/remove-succes')
+@fsqr_bp.route('/remove-succes')
 def after_remove():
     return render_template('after-remove.html')
 
@@ -320,4 +320,3 @@ def json_or_msg(message, status_code=400):
         return jsonify({"error": message}), status_code
 
     return msg(message)
-

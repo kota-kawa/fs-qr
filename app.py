@@ -9,15 +9,15 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 import os
 import time
-import fs_data  # ファイルやデータを管理するモジュール
-from fs_data import db_session as fs_db_session
+from FSQR import fsqr_data as fs_data  # ファイルやデータを管理するモジュール
+from FSQR.fsqr_data import db_session as fs_db_session
 from Group.group_data import db_session as group_db_session
 from Note.note_data import db_session as note_db_session
 from Note.note_app   import note_bp
 from Note.note_api     import api_bp
 from Admin.db_admin import db_admin_bp
 from Admin.admin_app import admin_bp
-from Core.core_app import core_bp
+from FSQR.fsqr_app import fsqr_bp
 from Articles.articles_app import articles_bp
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -51,7 +51,7 @@ app.register_blueprint(note_bp)
 app.register_blueprint(api_bp) 
 app.register_blueprint(db_admin_bp)
 app.register_blueprint(admin_bp)
-app.register_blueprint(core_bp)
+app.register_blueprint(fsqr_bp)
 app.register_blueprint(articles_bp)
 # ---------------------------
 # 古いルームを削除する関数

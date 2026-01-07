@@ -17,7 +17,7 @@ user_key = os.getenv("SQL_USER")
 pw_key = os.getenv("SQL_PW")
 db_key = os.getenv("SQL_DB")
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 # SQLAlchemyエンジンの作成（接続プール設定を含む）
