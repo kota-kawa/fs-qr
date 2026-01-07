@@ -10,8 +10,8 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 for Flask app
+# Expose port 5000 for FastAPI app
 EXPOSE 5000
 
-# Run Flask app when the container launches
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000", "--reload"]
+# Run FastAPI app when the container launches
+CMD ["uvicorn", "app:app", "--host=0.0.0.0", "--port=5000", "--reload"]

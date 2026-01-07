@@ -110,11 +110,10 @@ def get_block_message(label: Optional[str]) -> str:
     return "一定回数以上の失敗があったため、この機能へのアクセスを制限しています。時間をおいて再度お試しください。"
 
 
-def get_client_ip() -> str:
-    from flask import request
-
+def get_client_ip(request) -> str:
     forwarded = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
     if forwarded:
         return forwarded
-    return request.remote_addr or "unknown"
-
+    if getattr(request, "client", None) and request.client:
+        return request.client.host
+    return "unknown"

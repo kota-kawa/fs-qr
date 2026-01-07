@@ -1,6 +1,6 @@
 # FS-QR
 
-Flask で作られたファイル共有・ノート共有アプリケーションです。QR コードでファイルを渡したり、グループでファイルを共有したり、リアルタイムでノートを編集することができます。
+FastAPI で作られたファイル共有・ノート共有アプリケーションです。QR コードでファイルを渡したり、グループでファイルを共有したり、リアルタイムでノートを編集することができます。
 
 ## 主な機能
 - **QR 共有**: `/fs-qr` でファイルをアップロードするとダウンロード用 QR コードが生成されます。
@@ -15,18 +15,22 @@ Flask で作られたファイル共有・ノート共有アプリケーショ�
    SQL_USER=your_db_user
    SQL_PW=your_db_password
    SQL_DB=fsqr
-   SECRET_KEY=flask_secret
+   SECRET_KEY=fastapi_secret
    ADMIN_KEY=admin_password
-   MANAGEMENT_PASSWIRD=management_password
+   MANAGEMENT_PASSWORD=management_password
    ```
 2. Docker と docker-compose が利用できる環境で次を実行します。
    ```bash
    docker-compose up --build
    ```
+   またはローカルで起動する場合は次を実行します。
+   ```bash
+   uvicorn app:app --reload --host 0.0.0.0 --port 5000
+   ```
 3. ブラウザで `http://localhost:5000` にアクセスするとメニュー画面が表示されます。
 
 ## ディレクトリ構成
-- `app.py` – メインアプリケーション
+- `app.py` – メインアプリケーション（FastAPI）
 - `Group/` – グループ共有機能
 - `Note/` – ノート共有機能
 - `db_init/` – MySQL 初期化用 SQL

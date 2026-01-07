@@ -9,13 +9,12 @@ services:
       - SQL_PW=tocer2955
       - SQL_DB=fsqr
       - SQL_HOST=db  # MySQLコンテナを指定
-      - FLASK_ENV=development  # 追加
     volumes:
       - .:/app
 
     depends_on:
       - db
-    command: /bin/sh -c "sleep 10 && flask run --host=0.0.0.0 --port=5000 --reload"
+    command: /bin/sh -c "sleep 10 && uvicorn app:app --host 0.0.0.0 --port=5000 --reload"
 
   db:
     image: mysql:5.7

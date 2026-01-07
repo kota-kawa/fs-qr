@@ -1,4 +1,9 @@
-Flask
+fastapi
+uvicorn
+jinja2
+python-multipart
+werkzeug
+itsdangerous
 python-dotenv
 uuid
 apscheduler

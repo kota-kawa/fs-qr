@@ -1,148 +1,152 @@
-from flask import (
-    Flask,
-    redirect,
-    render_template,
-    request,
-    send_from_directory,
-)
-from werkzeug.middleware.proxy_fix import ProxyFix
-
 import os
-import time
+
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import FileResponse, JSONResponse, RedirectResponse
+
+try:
+    from starlette.middleware.proxy_headers import ProxyHeadersMiddleware
+except ImportError:  # pragma: no cover - fallback for older Starlette
+    from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
+
 from database import db_session
-from Note.note_app   import note_bp
-from Note.note_api     import api_bp
-from Admin.db_admin import db_admin_bp
-from Admin.admin_app import admin_bp
-from FSQR.fsqr_app import fsqr_bp
-from Articles.articles_app import articles_bp
+from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY
+from web import render_template
 
-from dotenv import load_dotenv
-from Group.group_app import group_bp
+from Group.group_app import router as group_router
+from Note.note_app import router as note_router
+from Note.note_api import router as note_api_router
+from Admin.db_admin import router as db_admin_router
+from Admin.admin_app import router as admin_router
+from FSQR.fsqr_app import router as fsqr_router
+from Articles.articles_app import router as articles_router
 
-# .envファイルの読み込み
-load_dotenv()
+MASTER_PW = ADMIN_KEY
 
-# 環境変数の値を取得
-admin_key = os.getenv("ADMIN_KEY")
-secret_key = os.getenv("SECRET_KEY")
-app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
-
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MBまで許可
-# Chrome の Third-Party Cookie 警告対策
-app.config.update(
-    SESSION_COOKIE_SECURE=True,    # 常に Secure フラグを付与
-    SESSION_COOKIE_SAMESITE='Lax'  # 適切な SameSite ポリシーを設定
+app = FastAPI()
+app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SECRET_KEY or "change-me",
+    same_site="lax",
+    https_only=True,
 )
-app.secret_key = secret_key 
 
-MASTER_PW = admin_key
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
-BASE_DIR = os.path.dirname(__file__)
 
-app.register_blueprint(group_bp)
-app.register_blueprint(note_bp)
-app.register_blueprint(api_bp) 
-app.register_blueprint(db_admin_bp)
-app.register_blueprint(admin_bp)
-app.register_blueprint(fsqr_bp)
-app.register_blueprint(articles_bp)
-def _canonical_redirect():
-    if request.query_string:
-        return redirect(request.base_url, code=301)
+@app.middleware("http")
+async def db_session_middleware(request: Request, call_next):
+    try:
+        response = await call_next(request)
+        return response
+    finally:
+        db_session.remove()
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 404:
+        accept = request.headers.get("accept", "")
+        if request.url.path.startswith("/api") or "application/json" in accept:
+            return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+        if "text/html" in accept or "*/*" in accept:
+            response = render_template(request, "404.html")
+            response.status_code = 404
+            return response
+    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+
+
+app.include_router(group_router)
+app.include_router(note_router)
+app.include_router(note_api_router)
+app.include_router(db_admin_router)
+app.include_router(admin_router)
+app.include_router(fsqr_router)
+app.include_router(articles_router)
+
+
+def _canonical_redirect(request: Request):
+    if request.url.query:
+        url = request.url.replace(query="")
+        return RedirectResponse(str(url), status_code=301)
     return None
 
 
-@app.route('/')
-def index():
-    canonical = _canonical_redirect()
+@app.get("/", name="index")
+async def index(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('index.html')
+    return render_template(request, "index.html")
 
-@app.route('/privacy-policy')
-def privacy_policy():
-    canonical = _canonical_redirect()
+
+@app.get("/privacy-policy", name="privacy_policy")
+async def privacy_policy(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('privacy.html')
+    return render_template(request, "privacy.html")
 
-@app.route('/about')
-def about():
-    canonical = _canonical_redirect()
+
+@app.get("/about", name="about")
+async def about(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('about.html')
+    return render_template(request, "about.html")
 
-@app.route('/contact')
-def contact():
-    canonical = _canonical_redirect()
+
+@app.get("/contact", name="contact")
+async def contact(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('contact.html')
+    return render_template(request, "contact.html")
 
-@app.route('/usage')
-def usage():
-    canonical = _canonical_redirect()
+
+@app.get("/usage", name="usage")
+async def usage(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('usage.html')
+    return render_template(request, "usage.html")
 
-@app.route('/site-operator')
-def site_operator():
-    canonical = _canonical_redirect()
+
+@app.get("/site-operator", name="site_operator")
+async def site_operator(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('site_operator.html')
+    return render_template(request, "site_operator.html")
 
-@app.route('/all-in-one')
-def all_in_one():
-    canonical = _canonical_redirect()
+
+@app.get("/all-in-one", name="all_in_one")
+async def all_in_one(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('all-in-one-gpt.html')
-
-@app.route('/ads.txt')
-def ads_txt():
-    return send_from_directory(app.root_path, 'ads.txt')
-
-@app.route('/sitemap.xml')
-def sitemap():
-    return send_from_directory(app.root_path, 'sitemap.xml')
-
-@app.route('/robots.txt')
-def robots():
-    return send_from_directory(app.root_path, 'robots.txt')
+    return render_template(request, "all-in-one-gpt.html")
 
 
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
-
-@app.context_processor
-def add_staticfile():
-    return dict(staticfile=staticfile_cp)
-
-#　データベースのセッションを正しく削除
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
+@app.get("/ads.txt", name="ads_txt")
+async def ads_txt():
+    return FileResponse(os.path.join(BASE_DIR, "ads.txt"))
 
 
-def staticfile_cp(fname):
-    path = os.path.join(app.root_path, 'static', fname)
-    if os.path.exists(path):
-        mtime = str(int(os.stat(path).st_mtime))
-        return '/static/' + fname + '?v=' + str(mtime)
-    return '/static/' + fname
+@app.get("/sitemap.xml", name="sitemap")
+async def sitemap():
+    return FileResponse(os.path.join(BASE_DIR, "sitemap.xml"))
 
-def filter_datetime(tm):
-    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(tm))
 
-app.jinja_env.filters['datetime'] = filter_datetime
+@app.get("/robots.txt", name="robots")
+async def robots():
+    return FileResponse(os.path.join(BASE_DIR, "robots.txt"))
 
-if __name__ == '__main__':
-    # 本番運用時はdebug=Falseに設定すること。
-    app.run(debug=True, host='0.0.0.0')
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)

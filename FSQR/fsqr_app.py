@@ -1,11 +1,15 @@
-from flask import Blueprint, render_template, request, send_file, jsonify, redirect, url_for, abort
 import os
-import uuid
-import secrets
 import re
+import secrets
+import uuid
 from datetime import timedelta
-from . import fsqr_data as fs_data
+import shutil
+from typing import List, Optional
+
+from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
+from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 from werkzeug.utils import secure_filename
+
 from rate_limit import (
     SCOPE_QR,
     check_rate_limit,
@@ -14,19 +18,22 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from web import build_url, render_template
+from . import fsqr_data as fs_data
 
-fsqr_bp = Blueprint('fsqr', __name__, template_folder='templates')
+router = APIRouter()
 
 # Base configuration (same as in app.py)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # Parent directory (app.py location)
-STATIC = os.path.join(BASE_DIR, 'static', 'upload')
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC = os.path.join(BASE_DIR, "static", "upload")
 # Ensure the upload directory exists to avoid FileNotFoundError
 os.makedirs(STATIC, exist_ok=True)
 
 
-def _canonical_redirect():
-    if request.query_string:
-        return redirect(request.base_url, code=301)
+def _canonical_redirect(request: Request):
+    if request.url.query:
+        url = request.url.replace(query="")
+        return RedirectResponse(str(url), status_code=301)
     return None
 
 
@@ -35,288 +42,299 @@ def _get_room_by_credentials(room_id, password):
     if not data:
         return None, None
     record = data[0]
-    return record.get('secure_id'), record
+    return record.get("secure_id"), record
 
 
 def _calculate_deletion_context(record):
-    retention_days = record.get('retention_days', 7)
-    created_at = record.get('time')
+    retention_days = record.get("retention_days", 7)
+    created_at = record.get("time")
     deletion_date = None
     if created_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
     return retention_days, deletion_date
 
 
-@fsqr_bp.route('/fs-qr_menu')
-def fs_qr():
-    canonical = _canonical_redirect()
+@router.get("/fs-qr_menu", name="fsqr.fs_qr")
+async def fs_qr(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('fs-qr.html')
+    return render_template(request, "fs-qr.html")
 
-@fsqr_bp.route('/fs-qr')
-def fs_qr_upload():
-    canonical = _canonical_redirect()
+
+@router.get("/fs-qr", name="fsqr.fs_qr_upload")
+async def fs_qr_upload(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('fs-qr-upload.html')
+    return render_template(request, "fs-qr-upload.html")
 
-@fsqr_bp.route('/upload', methods=['POST'])
-def upload():
-    # よりセキュアな乱数の生成
-    uid = str(uuid.uuid4())[:10]  # ランダムな10文字のユニークID
-    id = request.form.get('name', '').strip()
-    file_type = request.form.get('file_type', 'multiple')  # single or multiple
-    original_filename = request.form.get('original_filename', '')
 
-    retention_value = request.form.get('retention_days', '').strip()
+@router.post("/upload", name="fsqr.upload")
+async def upload(
+    request: Request,
+    name: str = Form(""),
+    file_type: str = Form("multiple"),
+    original_filename: str = Form(""),
+    retention_days: str = Form(""),
+    upfile: Optional[List[UploadFile]] = File(None),
+):
+    uid = str(uuid.uuid4())[:10]
+    id_val = name.strip()
+    file_type = file_type or "multiple"
+    original_filename = original_filename or ""
+
+    retention_value = (retention_days or "").strip()
     try:
-        retention_days = int(retention_value) if retention_value else 7
+        retention_days_int = int(retention_value) if retention_value else 7
     except ValueError:
-        retention_days = 7
+        retention_days_int = 7
 
-    if retention_days not in (1, 7, 30):
-        retention_days = 7
-    
-    # IDが空の場合は自動生成
-    if not id:
+    if retention_days_int not in (1, 7, 30):
+        retention_days_int = 7
+
+    if not id_val:
         import string
+
         chars = string.ascii_letters + string.digits
-        id = ''.join(secrets.choice(chars) for _ in range(6))
-    
-    # idの検証（空でない場合のみ）
-    if id:
-        if not re.match(r'^[a-zA-Z0-9]+$', id):
-            return json_or_msg('IDに無効な文字が含まれています。半角英数字のみ使用してください。')
-        if len(id) != 6:
-            return json_or_msg('IDは6文字の半角英数字で入力してください。')
-    
-    # 6桁のパスワードをsecretsで生成（数字のみの場合はsecrets.randbelow等）
+        id_val = "".join(secrets.choice(chars) for _ in range(6))
+
+    if id_val:
+        if not re.match(r"^[a-zA-Z0-9]+$", id_val):
+            return json_or_msg(request, "IDに無効な文字が含まれています。半角英数字のみ使用してください。")
+        if len(id_val) != 6:
+            return json_or_msg(request, "IDは6文字の半角英数字で入力してください。")
+
     password = str(secrets.randbelow(10**6)).zfill(6)
 
-    # secure_idに不必要な文字が混入しないよう明示的に整形
-    # filenameからは別途secure_filenameを利用するためここではidとuidのみ結合
-    secure_id_base = f"{id}-{uid}-"
+    secure_id_base = f"{id_val}-{uid}-"
 
-    upfiles = request.files.getlist('upfile')
-    if not upfiles:
-        return json_or_msg('アップロード失敗')
+    if not upfile:
+        return json_or_msg(request, "アップロード失敗")
 
-    # ファイル数制限チェック
-    if len(upfiles) > 10:
-        return json_or_msg('ファイル数は最大10個までです')
+    if len(upfile) > 10:
+        return json_or_msg(request, "ファイル数は最大10個までです")
 
-    # ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
     total_size = 0
-    MAX_TOTAL_SIZE = 50 * 1024 * 1024  # 50MB
-    
-    for file in upfiles:
-        if file.filename:
-            # ファイルの内容を読んでサイズを計算
-            file.seek(0, 2)  # ファイルの末尾に移動
-            file_size = file.tell()  # 現在位置（=ファイルサイズ）を取得
-            file.seek(0)  # ファイルの先頭に戻す
-            total_size += file_size
-    
-    if total_size > MAX_TOTAL_SIZE:
-        return json_or_msg('ファイルの合計サイズは50MBまでです')
+    max_total_size = 50 * 1024 * 1024
 
-    # ファイルパス生成用リスト
+    for file in upfile:
+        if file.filename:
+            file.file.seek(0, os.SEEK_END)
+            file_size = file.file.tell()
+            file.file.seek(0)
+            total_size += file_size
+
+    if total_size > max_total_size:
+        return json_or_msg(request, "ファイルの合計サイズは50MBまでです")
+
     uploaded_files = []
 
-    for file in upfiles:
-        filename = secure_filename(file.filename)  # ファイル名をサニタイズ
+    for file in upfile:
+        filename = secure_filename(file.filename or "")
         if not filename:
-            return json_or_msg('不正なファイル名です')
-        
-        # ファイルタイプに応じて保存
-        if file_type == 'single':
-            # 単一ファイルの場合は.enc拡張子で保存
-            save_path = os.path.join(STATIC, secure_id_base + filename)
-        else:
-            # 複数ファイルの場合は従来通り
-            save_path = os.path.join(STATIC, secure_id_base + filename)
-        
-        file.save(save_path)
+            return json_or_msg(request, "不正なファイル名です")
+
+        save_path = os.path.join(STATIC, secure_id_base + filename)
+
+        with open(save_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
         uploaded_files.append(filename)
 
-    # 最終的なsecure_idの生成
-    if file_type == 'single':
-        # 単一ファイルの場合は.encを除去
-        secure_id = (secure_id_base + uploaded_files[-1]).replace('.enc', '')
+    if file_type == "single":
+        secure_id = (secure_id_base + uploaded_files[-1]).replace(".enc", "")
     else:
-        # 複数ファイルの場合は.zipを除去
-        secure_id = (secure_id_base + uploaded_files[-1]).replace('.zip', '')
+        secure_id = (secure_id_base + uploaded_files[-1]).replace(".zip", "")
 
-    # データベースに保存（ファイルタイプと元のファイル名も含める）
     fs_data.save_file(
         uid=uid,
-        id=id,
+        id=id_val,
         password=password,
         secure_id=secure_id,
         file_type=file_type,
         original_filename=original_filename,
-        retention_days=retention_days
+        retention_days=retention_days_int,
     )
 
-    # ここでは JSON でリダイレクト先を返す
-    return jsonify({
-        "redirect_url": url_for('fsqr.upload_complete', secure_id=secure_id)
-    })
+    return JSONResponse({"redirect_url": build_url(request, "fsqr.upload_complete", secure_id=secure_id)})
 
-@fsqr_bp.route('/upload_complete/<secure_id>')
-def upload_complete(secure_id):
+
+@router.get("/upload_complete/{secure_id}", name="fsqr.upload_complete")
+async def upload_complete(request: Request, secure_id: str):
     data = fs_data.get_data(secure_id)
     if not data:
-        abort(404)
-    # 存在するなら従来どおり
+        raise HTTPException(status_code=404)
+
     row = data[0]
     id_val = row["id"]
     password_val = row["password"]
 
-    share_url = url_for('fsqr.fs_qr_room', room_id=id_val, password=password_val, _external=True)
+    share_url = build_url(
+        request,
+        "fsqr.fs_qr_room",
+        room_id=id_val,
+        password=password_val,
+        _external=True,
+    )
     retention_days, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
-        'info.html',
+        request,
+        "info.html",
         id=id_val,
         password=password_val,
         secure_id=secure_id,
-        mode='upload',
+        mode="upload",
         url=share_url,
         retention_days=retention_days,
-        deletion_date=deletion_date
+        deletion_date=deletion_date,
     )
 
-@fsqr_bp.route('/download/<secure_id>')
-def download(secure_id):
+
+@router.get("/download/{secure_id}", name="fsqr.download")
+async def download(request: Request, secure_id: str):
     data = fs_data.get_data(secure_id)
     if not data:
-        abort(404)
+        raise HTTPException(status_code=404)
     row = data[0]
-    return redirect(url_for('fsqr.fs_qr_room', room_id=row["id"], password=row["password"]))
+    return RedirectResponse(
+        build_url(request, "fsqr.fs_qr_room", room_id=row["id"], password=row["password"]),
+        status_code=302,
+    )
 
 
-@fsqr_bp.route('/fs-qr/<room_id>/<password>')
-def fs_qr_room(room_id, password):
-    ip = get_client_ip()
+@router.get("/fs-qr/{room_id}/{password}", name="fsqr.fs_qr_room")
+async def fs_qr_room(request: Request, room_id: str, password: str):
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
     if not allowed:
-        return msg(get_block_message(block_label), 429)
+        return msg(request, get_block_message(block_label), 429)
 
     secure_id, record = _get_room_by_credentials(room_id, password)
     if not secure_id:
         _, block_label = register_failure(SCOPE_QR, ip)
         if block_label:
-            return msg(get_block_message(block_label), 429)
-        return msg('IDかパスワードが間違っています', 404)
+            return msg(request, get_block_message(block_label), 429)
+        return msg(request, "IDかパスワードが間違っています", 404)
 
     register_success(SCOPE_QR, ip)
 
     retention_days, deletion_date = _calculate_deletion_context(record)
 
     return render_template(
-        'info.html',
-        mode='download',
-        id=record['id'],
-        password=record['password'],
+        request,
+        "info.html",
+        mode="download",
+        id=record["id"],
+        password=record["password"],
         secure_id=secure_id,
-        url=url_for('fsqr.fs_qr_download', room_id=room_id, password=password),
+        url=build_url(request, "fsqr.fs_qr_download", room_id=room_id, password=password),
         retention_days=retention_days,
-        deletion_date=deletion_date
+        deletion_date=deletion_date,
     )
 
 
-@fsqr_bp.route('/download_go/<secure_id>', methods=['POST'])
-def download_go(secure_id):
-    return _send_file_response(secure_id)
+@router.post("/download_go/{secure_id}", name="fsqr.download_go")
+async def download_go(request: Request, secure_id: str):
+    return _send_file_response(request, secure_id)
 
 
-@fsqr_bp.route('/fs-qr/<room_id>/<password>/download', methods=['POST'])
-def fs_qr_download(room_id, password):
+@router.post("/fs-qr/{room_id}/{password}/download", name="fsqr.fs_qr_download")
+async def fs_qr_download(request: Request, room_id: str, password: str):
     secure_id, _ = _get_room_by_credentials(room_id, password)
     if not secure_id:
-        return msg('IDかパスワードが間違っています')
-    return _send_file_response(secure_id)
+        return msg(request, "IDかパスワードが間違っています")
+    return _send_file_response(request, secure_id)
 
 
-def _send_file_response(secure_id):
+def _send_file_response(request: Request, secure_id: str):
     data = fs_data.get_data(secure_id)
     if not data:
-        return msg('パラメータが不正です')
+        return msg(request, "パラメータが不正です")
 
-    file_type = data[0].get('file_type', 'multiple')
-    original_filename = data[0].get('original_filename', '')
+    file_type = data[0].get("file_type", "multiple")
+    original_filename = data[0].get("original_filename", "")
 
-    if file_type == 'single':
-        path = os.path.join(STATIC, secure_id + '.enc')
-        download_name = original_filename if original_filename else secure_id + '.enc'
-        mimetype = 'application/octet-stream'
+    if file_type == "single":
+        path = os.path.join(STATIC, secure_id + ".enc")
+        download_name = original_filename if original_filename else secure_id + ".enc"
+        mimetype = "application/octet-stream"
     else:
-        path = os.path.join(STATIC, secure_id + '.zip')
-        download_name = secure_id + '.zip'
-        mimetype = 'application/zip'
+        path = os.path.join(STATIC, secure_id + ".zip")
+        download_name = secure_id + ".zip"
+        mimetype = "application/zip"
 
     if not os.path.exists(path):
-        return msg('ファイルが存在しません')
+        return msg(request, "ファイルが存在しません")
 
-    response = send_file(path, download_name=download_name, as_attachment=False, mimetype=mimetype)
-    response.headers['X-File-Type'] = file_type
+    response = FileResponse(path, media_type=mimetype)
+    response.headers["Content-Disposition"] = f"inline; filename=\"{download_name}\""
+    response.headers["X-File-Type"] = file_type
     if original_filename:
-        response.headers['X-Original-Filename'] = original_filename
+        response.headers["X-Original-Filename"] = original_filename
     return response
 
 
-@fsqr_bp.route('/search_fs-qr')
-def search_fs_qr():
-    return render_template('kensaku-form.html')
+@router.get("/search_fs-qr", name="fsqr.search_fs_qr")
+async def search_fs_qr(request: Request):
+    return render_template(request, "kensaku-form.html")
 
-@fsqr_bp.route('/try_login', methods=['POST'])
-def kekka():
-    id = request.form.get('name', '').strip()
-    password = request.form.get('pw', '').strip()
 
-    ip = get_client_ip()
+@router.post("/try_login", name="fsqr.kekka")
+async def kekka(request: Request):
+    form = await request.form()
+    id_val = (form.get("name") or "").strip()
+    password = (form.get("pw") or "").strip()
+
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
     if not allowed:
-        return msg(get_block_message(block_label), 429)
+        return msg(request, get_block_message(block_label), 429)
 
-    # 入力検証（半角英数字のみ許可）
-    if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):
+    if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", password):
         _, block_label = register_failure(SCOPE_QR, ip)
         if block_label:
-            return msg(get_block_message(block_label), 429)
-        return msg('IDまたはパスワードに不正な文字が含まれています。')
+            return msg(request, get_block_message(block_label), 429)
+        return msg(request, "IDまたはパスワードに不正な文字が含まれています。")
 
-    secure_id = fs_data.try_login(id, password)
+    secure_id = fs_data.try_login(id_val, password)
 
     if not secure_id:
         _, block_label = register_failure(SCOPE_QR, ip)
         if block_label:
-            return msg(get_block_message(block_label), 429)
-        return msg('IDかパスワードが間違っています')
+            return msg(request, get_block_message(block_label), 429)
+        return msg(request, "IDかパスワードが間違っています")
 
     register_success(SCOPE_QR, ip)
 
-    return redirect(url_for('fsqr.fs_qr_room', room_id=id, password=password))
+    return RedirectResponse(
+        build_url(request, "fsqr.fs_qr_room", room_id=id_val, password=password),
+        status_code=302,
+    )
 
-@fsqr_bp.route('/remove-succes')
-def after_remove():
-    return render_template('after-remove.html')
 
-def msg(s, status_code=200):
-    return render_template('error.html', message=s), status_code
+@router.get("/remove-succes", name="fsqr.after_remove")
+async def after_remove(request: Request):
+    return render_template(request, "after-remove.html")
 
-def json_or_msg(message, status_code=400):
-    """Return JSON error for AJAX requests, HTML for regular requests"""
-    if request.headers.get('Content-Type') == 'application/x-www-form-urlencoded' and \
-       request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify({"error": message}), status_code
-    # For multipart/form-data requests from XMLHttpRequest, also return JSON
-    if 'multipart/form-data' in request.headers.get('Content-Type', ''):
-        return jsonify({"error": message}), status_code
 
-    return msg(message)
+def msg(request: Request, message: str, status_code: int = 200):
+    response = render_template(request, "error.html", message=message)
+    response.status_code = status_code
+    return response
+
+
+def json_or_msg(request: Request, message: str, status_code: int = 400):
+    content_type = request.headers.get("content-type", "")
+    if (
+        content_type == "application/x-www-form-urlencoded"
+        and request.headers.get("x-requested-with") == "XMLHttpRequest"
+    ):
+        return JSONResponse({"error": message}, status_code=status_code)
+    if "multipart/form-data" in content_type:
+        return JSONResponse({"error": message}, status_code=status_code)
+
+    return msg(request, message, status_code=status_code)

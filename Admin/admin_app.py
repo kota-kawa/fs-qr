@@ -1,48 +1,46 @@
-from flask import Blueprint, render_template, request, redirect, send_from_directory, abort
 import os
 import shutil
+
+from fastapi import APIRouter, Request
+from starlette.responses import RedirectResponse
+
 from FSQR import fsqr_data as fs_data
+from FSQR.fsqr_app import msg
+from settings import ADMIN_KEY
+from web import render_template
 
-admin_bp = Blueprint('admin', __name__, template_folder='templates')
+router = APIRouter()
 
-# Base configuration
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # Parent directory (app.py location)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-@admin_bp.route('/admin/list')
-def admin_list():
-    from app import MASTER_PW
-    # マスターパスワードの確認
-    if request.args.get('pw', '') != MASTER_PW:
-        from FSQR.fsqr_app import msg
-        return msg('マスターパスワードが違います')
-    return render_template('admin_list.html',
-                           files=fs_data.get_all(), pw=MASTER_PW)
 
-@admin_bp.route('/admin/remove/<secure_id>')
-def admin_remove(secure_id):
-    from app import MASTER_PW
-    if request.args.get('pw', '') != MASTER_PW:
-        from FSQR.fsqr_app import msg
-        return msg('マスターパスワードが違います')
+@router.get("/admin/list", name="admin.admin_list")
+async def admin_list(request: Request, pw: str = ""):
+    if pw != ADMIN_KEY:
+        return msg(request, "マスターパスワードが違います")
+    return render_template(request, "admin_list.html", files=fs_data.get_all(), pw=ADMIN_KEY)
+
+
+@router.get("/admin/remove/{secure_id}", name="admin.admin_remove")
+async def admin_remove(request: Request, secure_id: str, pw: str = ""):
+    if pw != ADMIN_KEY:
+        return msg(request, "マスターパスワードが違います")
 
     data = fs_data.get_data(secure_id)
     if not data:
-        from FSQR.fsqr_app import msg
-        return msg('パラメータが不正です')
+        return msg(request, "パラメータが不正です")
 
     fs_data.remove_data(secure_id)
-    return redirect('/remove-succes')
+    return RedirectResponse("/remove-succes", status_code=302)
 
-@admin_bp.route('/all-remove', methods=['POST'])
-def all():
-    from app import MASTER_PW
-    # マスターパスワードの確認
-    if request.form.get('pw', '') != MASTER_PW:
-        from FSQR.fsqr_app import msg
-        return msg('マスターパスワードが違います')
-    
-    # 全削除時もパス固定で行う(アプリケーション内部で操作)
+
+@router.post("/all-remove", name="admin.all")
+async def all_remove(request: Request):
+    form = await request.form()
+    if form.get("pw", "") != ADMIN_KEY:
+        return msg(request, "マスターパスワードが違います")
+
     fs_data.all_remove()
-    shutil.rmtree(os.path.join(BASE_DIR, 'static', 'upload'))
-    os.mkdir(os.path.join(BASE_DIR, 'static', 'upload'))
-    return redirect('/remove-succes')
+    shutil.rmtree(os.path.join(BASE_DIR, "static", "upload"))
+    os.mkdir(os.path.join(BASE_DIR, "static", "upload"))
+    return RedirectResponse("/remove-succes", status_code=302)

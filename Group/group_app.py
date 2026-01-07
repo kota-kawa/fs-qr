@@ -1,13 +1,17 @@
-from flask import Flask, redirect, request, jsonify, render_template, send_file, Blueprint, session, abort, flash, url_for
-import random
+import io
 import os
+import random
+import re
+import shutil
 import urllib
 import zipfile
-import io
-import re
 from datetime import timedelta
-from werkzeug.utils import secure_filename  # ファイル名を安全に扱うために追加
-from dotenv import load_dotenv
+from typing import Optional
+
+from fastapi import APIRouter, File, Request, UploadFile
+from starlette.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
+from werkzeug.utils import secure_filename
+
 from rate_limit import (
     SCOPE_GROUP,
     check_rate_limit,
@@ -16,140 +20,126 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-
-#　自動削除用のモジュール
-
-# 同じパッケージ内の group_data モジュールをインポート
+from web import build_url, flash_message, render_template
 from . import group_data
 
-group_bp = Blueprint('group', __name__, template_folder='templates')
+router = APIRouter()
 
 # .envファイルの読み込み
-load_dotenv()
-
-management_password = os.getenv("MANAGEMENT_PASSWORD")
+from settings import MANAGEMENT_PASSWORD as management_password
 
 # 一つ上のディレクトリを取得
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PARENT_DIR = os.path.dirname(BASE_DIR)  # 一つ上のディレクトリ
-STATIC_DIR = os.path.join(PARENT_DIR, 'static')  # 一つ上のディレクトリの static フォルダ
+PARENT_DIR = os.path.dirname(BASE_DIR)
+STATIC_DIR = os.path.join(PARENT_DIR, "static")
 
 # アップロード先フォルダ
-UPLOAD_FOLDER = os.path.join(STATIC_DIR, 'group_uploads')
+UPLOAD_FOLDER = os.path.join(STATIC_DIR, "group_uploads")
 
-# ---------------------------
-# 安全なディレクトリパスか確認するヘルパー関数
-# ---------------------------
+
 def is_safe_path(base_path, target_path):
     return os.path.commonprefix([os.path.abspath(target_path), os.path.abspath(base_path)]) == os.path.abspath(base_path)
 
-# ---------------------------
-# クエリのない正規URLへリダイレクト
-# ---------------------------
-def _canonical_redirect():
-    if request.query_string:
-        return redirect(request.base_url, code=301)
+
+def _canonical_redirect(request: Request):
+    if request.url.query:
+        url = request.url.replace(query="")
+        return RedirectResponse(str(url), status_code=301)
     return None
 
-# ---------------------------
-# グループ画面のルート
-# ---------------------------
-@group_bp.route('/group_menu')
-def group():
-    canonical = _canonical_redirect()
+
+@router.get("/group_menu", name="group.group")
+async def group(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('group.html')
+    return render_template(request, "group.html")
 
-# ---------------------------
-# ルーム情報を検証するヘルパー
-# ---------------------------
+
 def _get_room_if_valid(room_id, password):
     room_data = group_data.get_data(room_id)
     if not room_data:
         return None
     record = room_data[0]
-    if record.get('password') != password:
+    if record.get("password") != password:
         return None
     return record
 
 
-# ---------------------------
-# 特定のルームIDのグループルーム画面を表示するルート
-# ---------------------------
-@group_bp.route('/group')
-def group_list():
-    canonical = _canonical_redirect()
+@router.get("/group", name="group.group_list")
+async def group_list(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('group_room_access.html')
+    return render_template(request, "group_room_access.html")
 
 
-@group_bp.route('/group/<room_id>/<password>')
-def group_room(room_id, password):
-    ip = get_client_ip()
+@router.get("/group/{room_id}/{password}", name="group.group_room")
+async def group_room(request: Request, room_id: str, password: str):
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
-        return room_msg(get_block_message(block_label), status_code=429)
+        return room_msg(request, get_block_message(block_label), status_code=429)
 
     record = _get_room_if_valid(room_id, password)
     if not record:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
-            return room_msg(get_block_message(block_label), status_code=429)
-        return room_msg('指定されたルームが見つからないか、パスワードが違います', status_code=404)
+            return room_msg(request, get_block_message(block_label), status_code=429)
+        return room_msg(request, "指定されたルームが見つからないか、パスワードが違います", status_code=404)
 
     register_success(SCOPE_GROUP, ip)
 
-    user_id = record.get('id', '不明')
-    retention_days = record.get('retention_days', 7)
-    created_at = record.get('time')
+    user_id = record.get("id", "不明")
+    retention_days = record.get("retention_days", 7)
+    created_at = record.get("time")
     deletion_date = None
     if created_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
 
     return render_template(
-        'group_room.html',
+        request,
+        "group_room.html",
         room_id=room_id,
         user_id=user_id,
         password=password,
         retention_days=retention_days,
-        deletion_date=deletion_date
+        deletion_date=deletion_date,
     )
 
-# ---------------------------
-# ルーム作成画面のルート
-# ---------------------------
-@group_bp.route('/create_room')
-def create_room():
-    return render_template('create_group_room.html')
 
-# ---------------------------
-# 新規グループルームの作成処理（POSTリクエスト）
-# ---------------------------
-@group_bp.route('/create_group_room', methods=['POST'])
-def create_group_room():
-    """
-    フォームからの入力を元に新しいルームを作成する。
-    入力されたIDが英数字でなければエラーを返す。
-    作成したルームIDのフォルダをセキュアな方法で生成し、group_dataモジュールにルーム情報を保存する。
-    その後、作成されたルームのページへリダイレクトする。
-    """
-    json_data = request.get_json(silent=True) or {}
+@router.get("/create_room", name="group.create_room")
+async def create_room(request: Request):
+    return render_template(request, "create_group_room.html")
 
-    # フォームに複数のidフィールドが存在する場合（自動生成と手動入力の重複など）を考慮
-    id_candidates = request.form.getlist('id')
+
+@router.post("/create_group_room", name="group.create_group_room")
+async def create_group_room(request: Request):
+    json_data = {}
+    form_data = {}
+    content_type = request.headers.get("content-type", "")
+    if "application/json" in content_type:
+        try:
+            json_data = await request.json() or {}
+        except Exception:
+            json_data = {}
+    else:
+        form_data = await request.form()
+
+    id_candidates = []
+    if form_data and hasattr(form_data, "getlist"):
+        id_candidates = form_data.getlist("id")
     if not id_candidates:
-        id_candidates = [json_data.get('id', '')]
-    id = next((v.strip() for v in id_candidates if v.strip()), '')
-    id_mode = request.form.get('idMode') or json_data.get('idMode', 'auto')  # ID生成モードを取得
+        id_candidates = [json_data.get("id", "")]
+    id_val = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
+    id_mode = (form_data.get("idMode") if form_data else None) or json_data.get("idMode", "auto")
 
-    retention_value = request.form.get('retention_days')
+    retention_value = form_data.get("retention_days") if form_data else None
     if retention_value is None:
-        retention_value = json_data.get('retention_days', 7)
+        retention_value = json_data.get("retention_days", 7)
     try:
         retention_days = int(retention_value)
     except (TypeError, ValueError):
@@ -158,370 +148,304 @@ def create_group_room():
     if retention_days not in (1, 7, 30):
         retention_days = 7
 
-    # IDが提供されていない場合はエラーを返す
-    if not id:
-        return jsonify({"error": "IDが指定されていません。"}), 400
-    
-    # ID検証
-    if not re.match(r'^[a-zA-Z0-9]+$', id):  # IDを半角英数字のみ許可
-        return jsonify({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}), 400
-    if len(id) != 6:  # IDの長さチェック
-        return jsonify({"error": "IDは6文字の半角英数字で入力してください。"}), 400
-    
-    # room_idの重複チェック
-    room_id = id
-    existing_room = group_data.get_data(room_id)
-    
-    if existing_room:
-        if id_mode == 'auto':
-            # 自動生成モードの場合はフロントエンドに新しいIDの生成を促す
-            return jsonify({"error": "生成されたIDが重複しています。新しいIDで再試行してください。", "retry_auto": True}), 409
-        else:
-            # 手動入力モードの場合はエラーを返す
-            return jsonify({"error": "このIDは既に使用されています。別のIDを使用してください。"}), 409
-    
-    password = str(random.randrange(10**5, 10**6))  # 6桁のランダムパスワード
-    print(f"Room ID Created: {room_id}")
+    if not id_val:
+        return JSONResponse({"error": "IDが指定されていません。"}, status_code=400)
 
-    # セキュアなパスでフォルダ作成
+    if not re.match(r"^[a-zA-Z0-9]+$", id_val):
+        return JSONResponse({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}, status_code=400)
+    if len(id_val) != 6:
+        return JSONResponse({"error": "IDは6文字の半角英数字で入力してください。"}, status_code=400)
+
+    room_id = id_val
+    existing_room = group_data.get_data(room_id)
+
+    if existing_room:
+        if id_mode == "auto":
+            return JSONResponse(
+                {"error": "生成されたIDが重複しています。新しいIDで再試行してください。", "retry_auto": True},
+                status_code=409,
+            )
+        return JSONResponse({"error": "このIDは既に使用されています。別のIDを使用してください。"}, status_code=409)
+
+    password = str(random.randrange(10**5, 10**6))
+
     folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     os.makedirs(folder_path, exist_ok=True)
 
     group_data.create_room(id=room_id, password=password, room_id=room_id, retention_days=retention_days)
-    return redirect(url_for('group.group_room', room_id=room_id, password=password))
+    return RedirectResponse(
+        build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302
+    )
 
-# ---------------------------
-# グループアップロード処理（ファイルアップロード）
-# ---------------------------
-@group_bp.route('/group_upload/<room_id>/<password>', methods=['POST'])
-def group_upload(room_id, password):
-    """
-    指定されたルームIDに対して、アップロードされたファイルを保存する。
-    ルームが存在しなければエラーを返す。
-    アップロードされた各ファイルについて、ファイル名の安全性を確保し、サイズが0バイトのファイルは削除する。
-    エラーが発生したファイルはエラーレスポンスとして返す。
-    """
+
+@router.post("/group_upload/{room_id}/{password}", name="group.group_upload")
+async def group_upload(
+    request: Request,
+    room_id: str,
+    password: str,
+    upfile: Optional[list[UploadFile]] = File(None),
+):
     record = _get_room_if_valid(room_id, password)
     if not record:
-        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 400
+        return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=400)
 
-    uploaded_files = request.files.getlist('upfile')
-    if not uploaded_files:
-        return jsonify({"error": "ファイルがアップロードされていません。"}), 400
+    if not upfile:
+        return JSONResponse({"error": "ファイルがアップロードされていません。"}, status_code=400)
 
-    # ファイル数制限チェック
-    if len(uploaded_files) > 10:
-        return jsonify({"error": "ファイル数は最大10個までです。"}), 400
+    if len(upfile) > 10:
+        return JSONResponse({"error": "ファイル数は最大10個までです。"}, status_code=400)
 
-    # ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
     total_size = 0
-    MAX_TOTAL_SIZE = 50 * 1024 * 1024  # 50MB
-    
-    for file in uploaded_files:
+    max_total_size = 50 * 1024 * 1024
+
+    for file in upfile:
         if file.filename:
-            # ファイルの内容を読んでサイズを計算
-            file.seek(0, 2)  # ファイルの末尾に移動
-            file_size = file.tell()  # 現在位置（=ファイルサイズ）を取得
-            file.seek(0)  # ファイルの先頭に戻す
+            file.file.seek(0, os.SEEK_END)
+            file_size = file.file.tell()
+            file.file.seek(0)
             total_size += file_size
-    
-    if total_size > MAX_TOTAL_SIZE:
-        return jsonify({"error": "ファイルの合計サイズは50MBまでです。"}), 400
+
+    if total_size > max_total_size:
+        return JSONResponse({"error": "ファイルの合計サイズは50MBまでです。"}, status_code=400)
 
     error_files = []
     save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     os.makedirs(save_path, exist_ok=True)
 
-    for file in uploaded_files:
-        if file.filename == '':
+    for file in upfile:
+        if file.filename == "":
             continue
-        
-        # Create a safe filename while preserving as much of the original as possible
+
         safe_filename = file.filename
-        
-        # Only apply secure_filename if the original contains potentially dangerous characters
-        if any(char in file.filename for char in ['..', '/', '\\', '\0']):
+
+        if any(char in file.filename for char in ["..", "/", "\\", "\0"]):
             safe_filename = secure_filename(file.filename)
-        
-        # If secure_filename results in empty name or just extension, create a safe alternative
-        if not safe_filename or safe_filename.startswith('.'):
+
+        if not safe_filename or safe_filename.startswith("."):
             import time
-            # Keep the extension from original filename
+
             _, ext = os.path.splitext(file.filename)
             safe_filename = f"file_{int(time.time())}{ext}"
-        
+
         file_path = os.path.join(save_path, safe_filename)
 
         try:
-            file.save(file_path)
-            # ファイルサイズチェック
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
             if os.path.getsize(file_path) == 0:
                 error_files.append(file.filename)
                 os.remove(file_path)
-        except Exception as e:
+        except Exception:
             error_files.append(file.filename)
 
     if error_files:
-        return jsonify({
-            "status": "error",
-            "message": "以下のファイルが保存できませんでした。",
-            "files": error_files
-        }), 500
+        return JSONResponse(
+            {"status": "error", "message": "以下のファイルが保存できませんでした。", "files": error_files},
+            status_code=500,
+        )
 
-    return jsonify({"status": "success", "message": "ファイルが正常にアップロードされました。"})
+    return JSONResponse({"status": "success", "message": "ファイルが正常にアップロードされました。"})
 
-# ---------------------------
-# ルーム内のファイル一覧を取得するルート
-# ---------------------------
-@group_bp.route("/check/<room_id>/<password>")
-def list_files(room_id, password):
-    """
-    指定されたルームIDに対応するフォルダ内の全ファイルの名前をJSON形式で返す。
-    フォルダが存在しなかったり、不正なパスの場合はエラーを返す。
-    """
+
+@router.get("/check/{room_id}/{password}", name="group.list_files")
+async def list_files(request: Request, room_id: str, password: str):
     if not _get_room_if_valid(room_id, password):
-        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+        return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(target_directory):
-        return jsonify({"error": "ルームIDのディレクトリが見つかりません。"}), 404
+        return JSONResponse({"error": "ルームIDのディレクトリが見つかりません。"}, status_code=404)
 
     if not is_safe_path(UPLOAD_FOLDER, target_directory):
-        return jsonify({"error": "不正なパスが検出されました。"}), 400
+        return JSONResponse({"error": "不正なパスが検出されました。"}, status_code=400)
 
     try:
-        files = [{"name": file_name} for file_name in os.listdir(target_directory) if os.path.isfile(os.path.join(target_directory, file_name))]
-        return jsonify(files)
+        files = [
+            {"name": file_name}
+            for file_name in os.listdir(target_directory)
+            if os.path.isfile(os.path.join(target_directory, file_name))
+        ]
+        return JSONResponse(files)
     except Exception as e:
-        return jsonify({"error": f"エラー: {str(e)}"}), 500
+        return JSONResponse({"error": f"エラー: {str(e)}"}, status_code=500)
 
-# ---------------------------
-# ルーム内のすべてのファイルをZIP圧縮してダウンロードするルート
-# ---------------------------
-@group_bp.route('/download/all/<room_id>/<password>', methods=['GET'])
-def download_all_files(room_id, password):
-    """
-    指定されたルームIDのフォルダ内のすべてのファイルをZIPファイルにまとめ、
-    バイトストリームとしてクライアントに送信する。
-    フォルダが存在しなければエラーを返す。
-    """
+
+@router.get("/download/all/{room_id}/{password}", name="group.download_all_files")
+async def download_all_files(request: Request, room_id: str, password: str):
     if not _get_room_if_valid(room_id, password):
-        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+        return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     if not os.path.exists(room_folder):
-        return jsonify({"error": "指定されたルームIDのファイルが見つかりません。"}), 404
+        return JSONResponse({"error": "指定されたルームIDのファイルが見つかりません。"}, status_code=404)
 
     try:
         zip_stream = io.BytesIO()
-        with zipfile.ZipFile(zip_stream, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        with zipfile.ZipFile(zip_stream, "w", zipfile.ZIP_DEFLATED) as zipf:
             for filename in os.listdir(room_folder):
                 file_path = os.path.join(room_folder, filename)
                 if os.path.isfile(file_path) and is_safe_path(room_folder, file_path):
-                    with open(file_path, 'rb') as f:
+                    with open(file_path, "rb") as f:
                         zipf.writestr(filename, f.read())
         zip_stream.seek(0)
-        return send_file(zip_stream, mimetype='application/zip', as_attachment=True, download_name=f'{room_id}_files.zip')
+        headers = {"Content-Disposition": f"attachment; filename={room_id}_files.zip"}
+        return StreamingResponse(zip_stream, media_type="application/zip", headers=headers)
     except Exception as e:
-        return jsonify({"error": f"エラー: {str(e)}"}), 500
+        return JSONResponse({"error": f"エラー: {str(e)}"}, status_code=500)
 
-# ---------------------------
-# 単一ファイルをダウンロードするルート
-# ---------------------------
-@group_bp.route('/download/<room_id>/<password>/<path:filename>', methods=['GET'])
-def download_file(room_id, password, filename):
-    """
-    指定されたルームIDとファイル名に対して、ファイルを安全な形式に変換した上で、
-    ダウンロードできるように送信する。パスの安全性もチェックする。
-    日本語ファイル名をサポートしつつセキュリティを維持する。
-    """
-    # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
+
+@router.get("/download/{room_id}/{password}/{path:filename}", name="group.download_file")
+async def download_file(request: Request, room_id: str, password: str, filename: str):
     decoded_filename = urllib.parse.unquote(filename)
-    
-    # 危険な文字列パターンをチェック（パストラバーサル攻撃対策）
-    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ['..', '/', '\\', '\0']):
-        return jsonify({"error": "不正なファイル名が検出されました。"}), 400
-    
-    # ファイル名が空でないことを確認
+
+    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ["..", "/", "\\", "\0"]):
+        return JSONResponse({"error": "不正なファイル名が検出されました。"}, status_code=400)
+
     if not decoded_filename.strip():
-        return jsonify({"error": "無効なファイル名です。"}), 400
-    
+        return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
+
     if not _get_room_if_valid(room_id, password):
-        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+        return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 
     if not is_safe_path(room_folder, file_path):
-        return jsonify({"error": "不正なパスが検出されました。"}), 400
+        return JSONResponse({"error": "不正なパスが検出されました。"}, status_code=400)
 
     try:
         if os.path.exists(file_path):
-            return send_file(file_path, as_attachment=True, download_name=decoded_filename)
-        else:
-            return jsonify({"error": "ファイルが見つかりません。"}), 404
+            return FileResponse(file_path, filename=decoded_filename)
+        return JSONResponse({"error": "ファイルが見つかりません。"}, status_code=404)
     except Exception as e:
-        return jsonify({"error": f"エラー: {str(e)}"}), 500
+        return JSONResponse({"error": f"エラー: {str(e)}"}, status_code=500)
 
-# ---------------------------
-# ファイルを削除するルート
-# ---------------------------
-@group_bp.route('/delete/<room_id>/<password>/<filename>', methods=['DELETE'])
-def delete_file(room_id, password, filename):
-    """
-    指定されたルームIDとファイル名に対応するファイルを削除する。
-    削除前にパスの安全性を確認し、ファイルが存在しなければエラーを返す。
-    日本語ファイル名をサポートしつつセキュリティを維持する。
-    """
-    # URLデコードのみ実行、secure_filenameは使わずに手動でセキュリティチェック
+
+@router.delete("/delete/{room_id}/{password}/{filename}", name="group.delete_file")
+async def delete_file(request: Request, room_id: str, password: str, filename: str):
     decoded_filename = urllib.parse.unquote(filename)
-    
-    # 危険な文字列パターンをチェック（パストラバーサル攻撃対策）
-    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ['..', '/', '\\', '\0']):
-        return jsonify({"error": "不正なファイル名が検出されました。"}), 400
-    
-    # ファイル名が空でないことを確認
+
+    if any(dangerous_pattern in decoded_filename for dangerous_pattern in ["..", "/", "\\", "\0"]):
+        return JSONResponse({"error": "不正なファイル名が検出されました。"}, status_code=400)
+
     if not decoded_filename.strip():
-        return jsonify({"error": "無効なファイル名です。"}), 400
-    
+        return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
+
     if not _get_room_if_valid(room_id, password):
-        return jsonify({"error": "ルームが見つからないか、パスワードが間違っています。"}), 404
+        return JSONResponse({"error": "ルームが見つからないか、パスワードが間違っています。"}, status_code=404)
 
     room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
     file_path = os.path.join(room_folder, decoded_filename)
 
     if not is_safe_path(room_folder, file_path):
-        return jsonify({"error": "不正なパスが検出されました。"}), 400
+        return JSONResponse({"error": "不正なパスが検出されました。"}, status_code=400)
 
     try:
         if os.path.exists(file_path):
             os.remove(file_path)
-            return jsonify({"message": "ファイルが削除されました。"}), 200
-        else:
-            return jsonify({"error": "ファイルが見つかりません。"}), 404
+            return JSONResponse({"message": "ファイルが削除されました。"}, status_code=200)
+        return JSONResponse({"error": "ファイルが見つかりません。"}, status_code=404)
     except Exception as e:
-        return jsonify({"error": f"エラー: {str(e)}"}), 500
+        return JSONResponse({"error": f"エラー: {str(e)}"}, status_code=500)
 
-# ---------------------------
-# ルーム検索画面のルート
-# ---------------------------
-@group_bp.route('/search_group')
-def search_room_page():
-    return render_template('search_room.html')
 
-# ---------------------------
-# ルーム検索処理（POSTリクエスト）
-# ---------------------------
-@group_bp.route('/search_group_process', methods=['POST'])
-def search_room():
-    """
-    フォームから送信されたIDとパスワードを用いてルームを検索する。
-    入力値の検証を行い、該当するルームIDが見つかればそのルームページへリダイレクトする。
-    入力値に不正な値がある場合やルームが見つからなかった場合はエラーメッセージを返す。
-    """
-    id = request.form.get('id', '').strip()
-    password = request.form.get('password', '').strip()
+@router.get("/search_group", name="group.search_room_page")
+async def search_room_page(request: Request):
+    return render_template(request, "search_room.html")
 
-    ip = get_client_ip()
+
+@router.post("/search_group_process", name="group.search_room")
+async def search_room(request: Request):
+    form = await request.form()
+    id_val = (form.get("id") or "").strip()
+    password = (form.get("password") or "").strip()
+
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
-        return _group_block_response(block_label)
+        return _group_block_response(request, block_label)
 
-    if not re.match(r'^[a-zA-Z0-9]+$', id) or not re.match(r'^[0-9]+$', password):  # 入力検証
+    if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", password):
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
-            return _group_block_response(block_label)
-        return jsonify({"error": "IDまたはパスワードに不正な値が含まれています。"}), 400
+            return _group_block_response(request, block_label)
+        return JSONResponse({"error": "IDまたはパスワードに不正な値が含まれています。"}, status_code=400)
 
-    room_id = group_data.pich_room_id(id, password)
+    room_id = group_data.pich_room_id(id_val, password)
     if not room_id:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
-            return _group_block_response(block_label)
-        return room_msg('IDかパスワードが間違っています', status_code=404)
+            return _group_block_response(request, block_label)
+        return room_msg(request, "IDかパスワードが間違っています", status_code=404)
     register_success(SCOPE_GROUP, ip)
-    return redirect(url_for('group.group_room', room_id=room_id, password=password))
+    return RedirectResponse(build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302)
 
-# ---------------------------
-# QRコード用の直接アクセスルート
-# ---------------------------
-@group_bp.route('/group_direct/<room_id>/<password>')
-def group_direct_access(room_id, password):
-    """
-    QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
-    対応するルームページへリダイレクトする。
-    """
-    ip = get_client_ip()
+
+@router.get("/group_direct/{room_id}/{password}", name="group.group_direct_access")
+async def group_direct_access(request: Request, room_id: str, password: str):
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
-        return room_msg(get_block_message(block_label), status_code=429)
+        return room_msg(request, get_block_message(block_label), status_code=429)
 
     record = _get_room_if_valid(room_id, password)
     if not record:
         _, block_label = register_failure(SCOPE_GROUP, ip)
         if block_label:
-            return room_msg(get_block_message(block_label), status_code=429)
-        return room_msg('指定されたルームが見つかりません', status_code=404)
+            return room_msg(request, get_block_message(block_label), status_code=429)
+        return room_msg(request, "指定されたルームが見つかりません", status_code=404)
 
     register_success(SCOPE_GROUP, ip)
 
-    return redirect(url_for('group.group_room', room_id=room_id, password=password))
-
-# ---------------------------
-# エラーメッセージを表示するための補助関数
-# ---------------------------
-def room_msg(s, status_code=200):
-    return render_template('error.html', message=s), status_code
+    return RedirectResponse(build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302)
 
 
-def _group_block_response(block_label):
-    message = get_block_message(block_label)
-    if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify({"error": message}), 429
-    return room_msg(message, status_code=429)
-
-
-# ---------------------------
-# ルーム管理用のルート（ルーム一覧の表示、ルーム削除等）
-# ---------------------------
-@group_bp.route('/manage_rooms', methods=['GET', 'POST'])
-def manage_rooms():
-    if request.method == 'POST':
-        password = request.form.get('password')
+@router.get("/manage_rooms", name="group.manage_rooms")
+@router.post("/manage_rooms", name="group.manage_rooms_post")
+async def manage_rooms(request: Request):
+    if request.method == "POST":
+        form = await request.form()
+        password = form.get("password")
         if password == management_password:
-            session['management_authenticated'] = True
+            request.session["management_authenticated"] = True
         else:
-            flash('パスワードが違います。')
-            return render_template('manage_rooms_login.html')
-    if not session.get('management_authenticated'):
-        return render_template('manage_rooms_login.html')
-    
-    # 認証済みの場合、ルーム一覧を表示
+            flash_message(request, "パスワードが違います。")
+            return render_template(request, "manage_rooms_login.html")
+
+    if not request.session.get("management_authenticated"):
+        return render_template(request, "manage_rooms_login.html")
+
     rooms = group_data.get_all()
-    return render_template('manage_rooms.html', rooms=rooms)
+    return render_template(request, "manage_rooms.html", rooms=rooms)
 
-# ---------------------------
-# 管理者ログアウト用のルート
-# ---------------------------
-@group_bp.route('/logout_management')
-def logout_management():
-    session.pop('management_authenticated', None)
-    return redirect('/manage_rooms')
 
-# ---------------------------
-# 特定ルームの削除処理
-# ---------------------------
-@group_bp.route('/delete_room/<room_id>', methods=['POST'])
-def delete_room(room_id):
-    # 指定ルームの削除処理（DB削除と対応ファイルの削除）
+@router.get("/logout_management", name="group.logout_management")
+async def logout_management(request: Request):
+    request.session.pop("management_authenticated", None)
+    return RedirectResponse("/manage_rooms", status_code=302)
+
+
+@router.post("/delete_room/{room_id}", name="group.delete_room")
+async def delete_room(request: Request, room_id: str):
     group_data.remove_data(room_id)
-    return redirect('/manage_rooms')
+    return RedirectResponse("/manage_rooms", status_code=302)
 
-# ---------------------------
-# 全ルームを削除する処理
-# ---------------------------
-@group_bp.route('/delete_all_rooms', methods=['POST'])
-def delete_all_rooms():
-    # 全ルームを削除する処理
+
+@router.post("/delete_all_rooms", name="group.delete_all_rooms")
+async def delete_all_rooms(request: Request):
     group_data.all_remove()
-    return redirect('/manage_rooms')
+    return RedirectResponse("/manage_rooms", status_code=302)
+
+
+def room_msg(request: Request, message: str, status_code: int = 200):
+    response = render_template(request, "error.html", message=message)
+    response.status_code = status_code
+    return response
+
+
+def _group_block_response(request: Request, block_label):
+    message = get_block_message(block_label)
+    content_type = request.headers.get("content-type", "")
+    if content_type.startswith("application/json") or request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return JSONResponse({"error": message}, status_code=429)
+    return room_msg(request, message, status_code=429)

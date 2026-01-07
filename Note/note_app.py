@@ -1,7 +1,10 @@
-import random, re
+import random
+import re
 from datetime import timedelta
-from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
-from . import note_data as nd
+
+from fastapi import APIRouter, Request
+from starlette.responses import JSONResponse, RedirectResponse
+
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -10,52 +13,64 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from web import build_url, flash_message, render_template
+from . import note_data as nd
 
-note_bp = Blueprint('note', __name__, template_folder='templates')
+router = APIRouter()
 
-# クエリのない正規URLへリダイレクト
-def _canonical_redirect():
-    if request.query_string:
-        return redirect(request.base_url, code=301)
+
+def _canonical_redirect(request: Request):
+    if request.url.query:
+        url = request.url.replace(query="")
+        return RedirectResponse(str(url), status_code=301)
     return None
 
-# ルーム情報取得ヘルパー
+
 def _get_room_if_valid(room_id, password):
     meta = nd.get_room_meta(room_id, password=password)
     if not meta:
         return None
-    # コンテンツが存在しない場合は初期化
     nd.get_row(room_id)
     return meta
 
-# ルートメニュー
-@note_bp.route('/note_menu')
-def note_menu():
-    canonical = _canonical_redirect()
+
+@router.get("/note_menu", name="note.note_menu")
+async def note_menu(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('note_menu.html')      # 別途用意済み
+    return render_template(request, "note_menu.html")
 
-# ルーム作成フォーム
-@note_bp.route('/create_note_room')
-def create_note_room_page():
-    return render_template('create_note_room.html')
 
-# ルーム作成処理
-@note_bp.route('/create_note_room', methods=['POST'])
-def create_note_room():
-    json_data = request.get_json(silent=True) or {}
+@router.get("/create_note_room", name="note.create_note_room_page")
+async def create_note_room_page(request: Request):
+    return render_template(request, "create_note_room.html")
 
-    # フォームに複数のidフィールドが存在する場合を考慮して最初の空でない値を使用
-    id_candidates = request.form.getlist('id')
+
+@router.post("/create_note_room", name="note.create_note_room")
+async def create_note_room(request: Request):
+    json_data = {}
+    form_data = {}
+    content_type = request.headers.get("content-type", "")
+    if "application/json" in content_type:
+        try:
+            json_data = await request.json() or {}
+        except Exception:
+            json_data = {}
+    else:
+        form_data = await request.form()
+
+    id_candidates = []
+    if form_data and hasattr(form_data, "getlist"):
+        id_candidates = form_data.getlist("id")
     if not id_candidates:
-        id_candidates = [json_data.get('id', '')]
-    id_ = next((v.strip() for v in id_candidates if v.strip()), '')
-    id_mode = request.form.get('idMode') or json_data.get('idMode', 'auto')  # ID生成モードを取得
+        id_candidates = [json_data.get("id", "")]
+    id_val = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
+    id_mode = (form_data.get("idMode") if form_data else None) or json_data.get("idMode", "auto")
 
-    retention_value = request.form.get('retention_days')
+    retention_value = form_data.get("retention_days") if form_data else None
     if retention_value is None:
-        retention_value = json_data.get('retention_days', 7)
+        retention_value = json_data.get("retention_days", 7)
     try:
         retention_days = int(retention_value)
     except (TypeError, ValueError):
@@ -64,59 +79,66 @@ def create_note_room():
     if retention_days not in (1, 7, 30):
         retention_days = 7
 
-    # IDが提供されていない場合はエラーを返す
-    if not id_:
-        return jsonify({'error': 'IDが指定されていません。'}), 400
-    
-    # ID検証
-    if not re.match(r'^[a-zA-Z0-9]+$', id_):
-        return jsonify({'error': 'IDに無効な文字が含まれています。半角英数字のみ使用してください。'}), 400
-    if len(id_) != 6:
-        return jsonify({'error': 'IDは6文字の半角英数字で入力してください'}), 400
-    
-    # room_idの重複チェック
-    room_id = id_
+    if not id_val:
+        return JSONResponse({"error": "IDが指定されていません。"}, status_code=400)
+
+    if not re.match(r"^[a-zA-Z0-9]+$", id_val):
+        return JSONResponse({"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"}, status_code=400)
+    if len(id_val) != 6:
+        return JSONResponse({"error": "IDは6文字の半角英数字で入力してください"}, status_code=400)
+
+    room_id = id_val
     existing_room = nd._exec(
         "SELECT room_id FROM note_room WHERE room_id = :r",
         {"r": room_id},
-        fetch=True
+        fetch=True,
     )
-    
+
     if existing_room:
-        if id_mode == 'auto':
-            # 自動生成モードの場合はフロントエンドに新しいIDの生成を促す
-            return jsonify({'error': '生成されたIDが重複しています。新しいIDで再試行してください。', 'retry_auto': True}), 409
-        else:
-            # 手動入力モードの場合はエラーを返す
-            return jsonify({'error': 'このIDは既に使用されています。別のIDを使用してください。'}), 409
-    
+        if id_mode == "auto":
+            return JSONResponse(
+                {"error": "生成されたIDが重複しています。新しいIDで再試行してください。", "retry_auto": True},
+                status_code=409,
+            )
+        return JSONResponse({"error": "このIDは既に使用されています。別のIDを使用してください。"}, status_code=409)
+
     pw = str(random.randrange(10**5, 10**6))
     nd.create_room(room_id, pw, room_id, retention_days=retention_days)
-    return redirect(url_for('note.note_room', room_id=room_id, password=pw))
+    return RedirectResponse(
+        build_url(request, "note.note_room", room_id=room_id, password=pw),
+        status_code=302,
+    )
 
-# ルームアクセスページ
-@note_bp.route('/note')
-def note_room_access():
-    canonical = _canonical_redirect()
+
+@router.get("/note", name="note.note_room_access")
+async def note_room_access(request: Request):
+    canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template('note_room_access.html')
+    return render_template(request, "note_room_access.html")
 
 
-# ルーム本体
-@note_bp.route('/note/<room_id>/<password>')
-def note_room(room_id, password):
-    ip = get_client_ip()
+@router.get("/note/{room_id}/{password}", name="note.note_room")
+async def note_room(request: Request, room_id: str, password: str):
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        return render_template('error.html', message=get_block_message(block_label)), 429
+        response = render_template(request, "error.html", message=get_block_message(block_label))
+        response.status_code = 429
+        return response
 
     meta = _get_room_if_valid(room_id, password)
     if not meta:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
-            return render_template('error.html', message=get_block_message(block_label)), 429
-        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています'), 404
+            response = render_template(request, "error.html", message=get_block_message(block_label))
+            response.status_code = 429
+            return response
+        response = render_template(
+            request, "error.html", message="指定されたルームが見つからないか、パスワードが間違っています"
+        )
+        response.status_code = 404
+        return response
 
     register_success(SCOPE_NOTE, ip)
 
@@ -125,71 +147,84 @@ def note_room(room_id, password):
     deletion_date = None
     if created_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime('%Y-%m-%d %H:%M')
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
 
-    return render_template('note_room.html',
-                           room_id=room_id,
-                           user_id=meta["id"],
-                           password=password,
-                           retention_days=retention_days,
-                           deletion_date=deletion_date)
+    return render_template(
+        request,
+        "note_room.html",
+        room_id=room_id,
+        user_id=meta["id"],
+        password=password,
+        retention_days=retention_days,
+        deletion_date=deletion_date,
+    )
 
-# --- 検索ページ表示 -----------------------------------
-@note_bp.route('/search_note')
-def search_note_room_page():
-    return render_template('search_note_room.html')
 
-# --- 検索処理 -----------------------------------------
-@note_bp.route('/search_note_process', methods=['POST'])
-def search_note_room():
-    id_  = request.form.get('id','').strip()
-    pw   = request.form.get('password','').strip()
-    ip = get_client_ip()
+@router.get("/search_note", name="note.search_note_room_page")
+async def search_note_room_page(request: Request):
+    return render_template(request, "search_note_room.html")
+
+
+@router.post("/search_note_process", name="note.search_note_room")
+async def search_note_room(request: Request):
+    form = await request.form()
+    id_val = (form.get("id") or "").strip()
+    pw = (form.get("password") or "").strip()
+
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        flash(get_block_message(block_label))
-        return redirect('/search_note')
-    if not re.match(r'^[a-zA-Z0-9]+$', id_) or not re.match(r'^[0-9]+$', pw):
+        flash_message(request, get_block_message(block_label))
+        return RedirectResponse("/search_note", status_code=302)
+    if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", pw):
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
-            flash(get_block_message(block_label))
+            flash_message(request, get_block_message(block_label))
         else:
-            flash("ID またはパスワードが不正です。")
-        return redirect('/search_note')
-    room_id = nd.pich_room_id(id_, pw)
+            flash_message(request, "ID またはパスワードが不正です。")
+        return RedirectResponse("/search_note", status_code=302)
+    room_id = nd.pich_room_id(id_val, pw)
     if not room_id:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
-            flash(get_block_message(block_label))
+            flash_message(request, get_block_message(block_label))
         else:
-            flash("ID かパスワードが間違っています。")
-        return redirect('/search_note')
+            flash_message(request, "ID かパスワードが間違っています。")
+        return RedirectResponse("/search_note", status_code=302)
     register_success(SCOPE_NOTE, ip)
-    return redirect(url_for('note.note_room', room_id=room_id, password=pw))
+    return RedirectResponse(
+        build_url(request, "note.note_room", room_id=room_id, password=pw),
+        status_code=302,
+    )
 
-# ---------------------------
-# QRコード用の直接アクセスルート
-# ---------------------------
-@note_bp.route('/note_direct/<room_id>/<password>')
-def note_direct_access(room_id, password):
-    """
-    QRコード用の直接アクセス。room_idとpasswordでルームの存在を確認し、
-    対応するルームURLにリダイレクトする。
-    """
-    ip = get_client_ip()
+
+@router.get("/note_direct/{room_id}/{password}", name="note.note_direct_access")
+async def note_direct_access(request: Request, room_id: str, password: str):
+    ip = get_client_ip(request)
     allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        return render_template('error.html', message=get_block_message(block_label)), 429
+        response = render_template(request, "error.html", message=get_block_message(block_label))
+        response.status_code = 429
+        return response
 
     meta = _get_room_if_valid(room_id, password)
     if not meta:
         _, block_label = register_failure(SCOPE_NOTE, ip)
         if block_label:
-            return render_template('error.html', message=get_block_message(block_label)), 429
-        return render_template('error.html', message='指定されたルームが見つからないか、パスワードが間違っています'), 404
+            response = render_template(request, "error.html", message=get_block_message(block_label))
+            response.status_code = 429
+            return response
+        response = render_template(
+            request, "error.html", message="指定されたルームが見つからないか、パスワードが間違っています"
+        )
+        response.status_code = 404
+        return response
 
     register_success(SCOPE_NOTE, ip)
 
-    return redirect(url_for('note.note_room', room_id=room_id, password=password))
+    return RedirectResponse(
+        build_url(request, "note.note_room", room_id=room_id, password=password),
+        status_code=302,
+    )

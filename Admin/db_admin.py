@@ -1,68 +1,51 @@
 import io
 import os
+import urllib.parse
 import zipfile
 
-from FSQR import fsqr_data as fs_data
-
-from flask import (
-    Blueprint,
-    abort,
-    jsonify,
-    redirect,
-    render_template,
-    request,
-    send_file,
-    url_for,
-)
+from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import text
+from starlette.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
 from werkzeug.utils import secure_filename
 
 from database import db_session
-from Group            import group_data
+from FSQR import fsqr_data as fs_data
+from Group import group_data
+from web import build_url, render_template
 
 fs_db = db_session
 grp_db = db_session
 
-# ────────────────────────────────────────────
-ADMIN_DB_PW = "kkawagoe"       # ハードコーディング
+ADMIN_DB_PW = "kkawagoe"
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "static", "upload")
 GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
 
-db_admin_bp = Blueprint(
-    "db_admin",
-    __name__,
-    url_prefix="/admin",
-    template_folder="templates"       # Admin/templates を使用
-)
+router = APIRouter(prefix="/admin")
 
-# ────────────────────────────────────────────
+
 def table_exists(sess, table_name):
-    """指定テーブルが現在の DB に存在するか"""
     q = """
         SELECT COUNT(*) FROM information_schema.tables
         WHERE table_schema = DATABASE() AND table_name = :t
     """
     return bool(sess.execute(text(q), {"t": table_name}).scalar())
 
+
 def safe_count(sess, table):
-    """テーブルが無ければ 0 行、あれば行数を返す"""
     if not table_exists(sess, table):
         return 0
     return sess.execute(text(f"SELECT COUNT(*) FROM {table}")).scalar()
 
+
 def safe_recent(sess, table, time_col, limit=10):
-    """
-    テーブルが無ければ None （存在しない印）
-    テーブルがあるが 0 行なら [] （空リスト）
-    """
     if not table_exists(sess, table):
         return None
     q = f"SELECT * FROM {table} ORDER BY {time_col} DESC LIMIT {limit}"
     return sess.execute(text(q)).mappings().all()
 
-# ────────────────────────────────────────────
+
 def _get_record(secure_id):
     data = fs_data.get_data(secure_id)
     if not data:
@@ -113,11 +96,13 @@ def _collect_room_files(room_id):
         for name in os.listdir(folder):
             file_path = os.path.join(folder, name)
             if os.path.isfile(file_path):
-                files.append({
-                    "stored_name": name,
-                    "display_name": name,
-                    "size": os.path.getsize(file_path),
-                })
+                files.append(
+                    {
+                        "stored_name": name,
+                        "display_name": name,
+                        "size": os.path.getsize(file_path),
+                    }
+                )
     except OSError:
         return []
 
@@ -125,62 +110,52 @@ def _collect_room_files(room_id):
     return files
 
 
-@db_admin_bp.route("/", methods=["GET", "POST"])
-def dashboard():
-    # パスワード POST → GET に付け替え
+@router.get("/", name="db_admin.dashboard")
+@router.post("/", name="db_admin.dashboard_post")
+async def dashboard(request: Request):
     if request.method == "POST":
-        return redirect(url_for(".dashboard",
-                                pw=request.form.get("password", "")))
+        form = await request.form()
+        target = build_url(request, "db_admin.dashboard")
+        pw = form.get("password", "")
+        encoded_pw = urllib.parse.quote_plus(pw)
+        return RedirectResponse(f"{target}?pw={encoded_pw}", status_code=302)
 
-    pw = request.args.get("pw", "")
+    pw = request.query_params.get("pw", "")
     if pw != ADMIN_DB_PW:
-        # pw が未定義のままだとテンプレート側で JSON 化時にエラーとなるため、
-        # 未認証時も空文字を渡しておく。
-        return render_template("db_admin.html", authenticated=False, pw="")
+        return render_template(request, "db_admin.html", authenticated=False, pw="")
 
-    # 件数サマリ
     summary = [
-        {"name": "fsqr",         "count": safe_count(fs_db,  "fsqr")},
-        {"name": "room",         "count": safe_count(grp_db, "room")},
-        {"name": "note_room",    "count": safe_count(grp_db, "note_room")},
+        {"name": "fsqr", "count": safe_count(fs_db, "fsqr")},
+        {"name": "room", "count": safe_count(grp_db, "room")},
+        {"name": "note_room", "count": safe_count(grp_db, "note_room")},
         {"name": "note_content", "count": safe_count(grp_db, "note_content")},
     ]
 
-    # 直近レコード
     recent_rows = {
-        "fsqr":         safe_recent(fs_db,  "fsqr",         "time"),
-        "room":         safe_recent(grp_db, "room",         "time"),
-        "note_room":    safe_recent(grp_db, "note_room",    "time"),
+        "fsqr": safe_recent(fs_db, "fsqr", "time"),
+        "room": safe_recent(grp_db, "room", "time"),
+        "note_room": safe_recent(grp_db, "note_room", "time"),
         "note_content": safe_recent(grp_db, "note_content", "updated_at"),
     }
 
     return render_template(
-        "db_admin.html",
-        authenticated=True,
-        summary=summary,
-        recent=recent_rows,
-        pw=ADMIN_DB_PW
+        request, "db_admin.html", authenticated=True, summary=summary, recent=recent_rows, pw=ADMIN_DB_PW
     )
 
 
-@db_admin_bp.route("/file/<secure_id>")
-def file_detail(secure_id):
-    pw = request.args.get("pw", "")
+@router.get("/file/{secure_id}", name="db_admin.file_detail")
+async def file_detail(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        return jsonify({"error": "forbidden"}), 403
+        return JSONResponse({"error": "forbidden"}, status_code=403)
 
     record = _get_record(secure_id)
     if not record:
-        return jsonify({"error": "not_found"}), 404
+        return JSONResponse({"error": "not_found"}, status_code=404)
 
     path, stored_name, display_name, _ = _resolve_file_path(record)
     files = []
     if os.path.exists(path):
-        files.append({
-            "stored_name": stored_name,
-            "display_name": display_name,
-            "size": os.path.getsize(path)
-        })
+        files.append({"stored_name": stored_name, "display_name": display_name, "size": os.path.getsize(path)})
 
     created_at = record.get("time")
     if hasattr(created_at, "isoformat"):
@@ -195,41 +170,34 @@ def file_detail(secure_id):
         "created_at": created_at,
         "files": files,
     }
-    return jsonify(payload)
+    return JSONResponse(payload)
 
 
-@db_admin_bp.route("/file/<secure_id>/download")
-def file_download(secure_id):
-    pw = request.args.get("pw", "")
+@router.get("/file/{secure_id}/download", name="db_admin.file_download")
+async def file_download(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        abort(403)
+        raise HTTPException(status_code=403)
 
     record = _get_record(secure_id)
     if not record:
-        abort(404)
+        raise HTTPException(status_code=404)
 
-    path, stored_name, display_name, mimetype = _resolve_file_path(record)
+    path, _, display_name, mimetype = _resolve_file_path(record)
 
     if not os.path.exists(path):
-        abort(404)
+        raise HTTPException(status_code=404)
 
-    return send_file(
-        path,
-        download_name=display_name,
-        mimetype=mimetype,
-        as_attachment=True,
-    )
+    return FileResponse(path, filename=display_name, media_type=mimetype)
 
 
-@db_admin_bp.route("/room/<room_id>")
-def room_detail(room_id):
-    pw = request.args.get("pw", "")
+@router.get("/room/{room_id}", name="db_admin.room_detail")
+async def room_detail(request: Request, room_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        return jsonify({"error": "forbidden"}), 403
+        return JSONResponse({"error": "forbidden"}, status_code=403)
 
     record = _get_room_record(room_id)
     if not record:
-        return jsonify({"error": "not_found"}), 404
+        return JSONResponse({"error": "not_found"}, status_code=404)
 
     created_at = record.get("time")
     if hasattr(created_at, "isoformat"):
@@ -246,26 +214,25 @@ def room_detail(room_id):
         "files": files,
     }
 
-    return jsonify(payload)
+    return JSONResponse(payload)
 
 
-@db_admin_bp.route("/room/<room_id>/download")
-def room_download(room_id):
-    pw = request.args.get("pw", "")
+@router.get("/room/{room_id}/download", name="db_admin.room_download")
+async def room_download(request: Request, room_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        abort(403)
+        raise HTTPException(status_code=403)
 
     record = _get_room_record(room_id)
     if not record:
-        abort(404)
+        raise HTTPException(status_code=404)
 
     folder = _get_room_folder(record.get("room_id"))
     if not folder or not os.path.isdir(folder):
-        abort(404)
+        raise HTTPException(status_code=404)
 
     file_entries = _collect_room_files(record.get("room_id"))
     if not file_entries:
-        abort(404)
+        raise HTTPException(status_code=404)
 
     archive = io.BytesIO()
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zipf:
@@ -276,10 +243,5 @@ def room_download(room_id):
     archive.seek(0)
 
     download_name = secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
-
-    return send_file(
-        archive,
-        mimetype="application/zip",
-        download_name=download_name,
-        as_attachment=True,
-    )
+    headers = {"Content-Disposition": f"attachment; filename={download_name}"}
+    return StreamingResponse(archive, media_type="application/zip", headers=headers)
