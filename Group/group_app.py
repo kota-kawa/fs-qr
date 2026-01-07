@@ -77,18 +77,18 @@ async def group_list(request: Request):
 @router.get("/group/{room_id}/{password}", name="group.group_room")
 async def group_room(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
         return room_msg(request, get_block_message(block_label), status_code=429)
 
     record = await _get_room_if_valid(room_id, password)
     if not record:
-        _, block_label = register_failure(SCOPE_GROUP, ip)
+        _, block_label = await register_failure(SCOPE_GROUP, ip)
         if block_label:
             return room_msg(request, get_block_message(block_label), status_code=429)
         return room_msg(request, "指定されたルームが見つからないか、パスワードが違います", status_code=404)
 
-    register_success(SCOPE_GROUP, ip)
+    await register_success(SCOPE_GROUP, ip)
 
     user_id = record.get("id", "不明")
     retention_days = record.get("retention_days", 7)
@@ -225,7 +225,7 @@ async def group_upload(
             import time
 
             _, ext = os.path.splitext(file.filename)
-            safe_filename = f"file_{int(time.time())}{ext}"
+            safe_filename = f"file_{{int(time.time())}}{ext}"
 
         file_path = os.path.join(save_path, safe_filename)
 
@@ -361,41 +361,41 @@ async def search_room(request: Request):
     password = (form.get("password") or "").strip()
 
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
         return _group_block_response(request, block_label)
 
     if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", password):
-        _, block_label = register_failure(SCOPE_GROUP, ip)
+        _, block_label = await register_failure(SCOPE_GROUP, ip)
         if block_label:
             return _group_block_response(request, block_label)
         return JSONResponse({"error": "IDまたはパスワードに不正な値が含まれています。"}, status_code=400)
 
     room_id = await group_data.pich_room_id(id_val, password)
     if not room_id:
-        _, block_label = register_failure(SCOPE_GROUP, ip)
+        _, block_label = await register_failure(SCOPE_GROUP, ip)
         if block_label:
             return _group_block_response(request, block_label)
         return room_msg(request, "IDかパスワードが間違っています", status_code=404)
-    register_success(SCOPE_GROUP, ip)
+    await register_success(SCOPE_GROUP, ip)
     return RedirectResponse(build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302)
 
 
 @router.get("/group_direct/{room_id}/{password}", name="group.group_direct_access")
 async def group_direct_access(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_GROUP, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_GROUP, ip)
     if not allowed:
         return room_msg(request, get_block_message(block_label), status_code=429)
 
     record = await _get_room_if_valid(room_id, password)
     if not record:
-        _, block_label = register_failure(SCOPE_GROUP, ip)
+        _, block_label = await register_failure(SCOPE_GROUP, ip)
         if block_label:
             return room_msg(request, get_block_message(block_label), status_code=429)
         return room_msg(request, "指定されたルームが見つかりません", status_code=404)
 
-    register_success(SCOPE_GROUP, ip)
+    await register_success(SCOPE_GROUP, ip)
 
     return RedirectResponse(build_url(request, "group.group_room", room_id=room_id, password=password), status_code=302)
 
@@ -409,7 +409,7 @@ async def manage_rooms(request: Request):
         if password == management_password:
             request.session["management_authenticated"] = True
         else:
-            flash_message(request, "パスワードが違います。")
+            flash_message(request, "パスワードが違います。 সন")
             return render_template(request, "manage_rooms_login.html")
 
     if not request.session.get("management_authenticated"):

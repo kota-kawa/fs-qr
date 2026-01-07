@@ -1,9 +1,15 @@
-"""Simple in-memory IP based rate limiting for authentication-like endpoints."""
+"""Redis-based rate limiting for authentication-like endpoints."""
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timedelta
-from threading import Lock
-from typing import Dict, Optional, Tuple
+from typing import Optional, Tuple
+
+import redis.asyncio as redis
+
+from settings import REDIS_URL
+
+logger = logging.getLogger(__name__)
 
 THRESHOLDS = (
     (50, timedelta(days=1), "1日"),
@@ -14,92 +20,88 @@ SCOPE_QR = "qr"
 SCOPE_NOTE = "note"
 SCOPE_GROUP = "group"
 
-
-class _AttemptState:
-    __slots__ = ("count", "block_until", "block_label")
-
-    def __init__(self) -> None:
-        self.count: int = 0
-        self.block_until: Optional[datetime] = None
-        self.block_label: Optional[str] = None
+_redis_client: Optional[redis.Redis] = None
 
 
-_attempts: Dict[str, Dict[str, _AttemptState]] = {}
-_lock = Lock()
+def get_redis_client() -> redis.Redis:
+    global _redis_client
+    if _redis_client is None:
+        # decode_responses=True so we get strings instead of bytes
+        _redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+    return _redis_client
 
 
-def _get_state(scope: str, ip: str) -> _AttemptState:
-    scope_bucket = _attempts.setdefault(scope, {})
-    state = scope_bucket.get(ip)
-    if state is None:
-        state = _AttemptState()
-        scope_bucket[ip] = state
-    return state
-
-
-def _reset_state(scope: str, ip: str, state: _AttemptState) -> None:
-    state.count = 0
-    state.block_until = None
-    state.block_label = None
-    scope_bucket = _attempts.get(scope)
-    if scope_bucket is not None:
-        scope_bucket[ip] = state
-        if not state.count and state.block_until is None:
-            # Keep dictionary from growing unbounded
-            # by removing entries that are completely reset.
-            scope_bucket.pop(ip, None)
-
-
-def check_rate_limit(scope: str, ip: str) -> Tuple[bool, Optional[datetime], Optional[str]]:
+async def check_rate_limit(scope: str, ip: str) -> Tuple[bool, Optional[datetime], Optional[str]]:
     """Check whether the given IP is currently blocked for the scope."""
-    now = datetime.utcnow()
-    with _lock:
-        scope_bucket = _attempts.get(scope)
-        if not scope_bucket:
-            return True, None, None
-        state = scope_bucket.get(ip)
-        if state is None:
-            return True, None, None
-        block_until = state.block_until
-        if block_until and now < block_until:
-            return False, block_until, state.block_label
-        if block_until and now >= block_until:
-            _reset_state(scope, ip, state)
+    r = get_redis_client()
+    block_key = f"rate_limit:{scope}:{ip}:block"
+
+    try:
+        block_label = await r.get(block_key)
+        if block_label:
+            ttl = await r.ttl(block_key)
+            # ttl: -2 (missing), -1 (no expiry), >=0 (seconds)
+            if ttl > 0:
+                block_until = datetime.utcnow() + timedelta(seconds=ttl)
+                return False, block_until, block_label
+    except Exception as e:
+        logger.error(f"Redis error in check_rate_limit: {e}")
+        # Fail open if Redis is down? Or blocked?
+        # Let's assume fail open to avoid service disruption, but log error.
+        return True, None, None
+
     return True, None, None
 
 
-def register_failure(scope: str, ip: str) -> Tuple[Optional[datetime], Optional[str]]:
+async def register_failure(scope: str, ip: str) -> Tuple[Optional[datetime], Optional[str]]:
     """Record a failed attempt. Returns block information when a block is active."""
-    now = datetime.utcnow()
-    with _lock:
-        state = _get_state(scope, ip)
-        block_until = state.block_until
-        if block_until and now < block_until:
-            return block_until, state.block_label
-        if block_until and now >= block_until:
-            _reset_state(scope, ip, state)
-            state = _get_state(scope, ip)
-        state.count += 1
+    r = get_redis_client()
+    count_key = f"rate_limit:{scope}:{ip}:count"
+    block_key = f"rate_limit:{scope}:{ip}:block"
+
+    try:
+        # Check if already blocked
+        block_label = await r.get(block_key)
+        if block_label:
+            ttl = await r.ttl(block_key)
+            if ttl > 0:
+                return datetime.utcnow() + timedelta(seconds=ttl), block_label
+
+        # Increment count
+        count = await r.incr(count_key)
+        
+        # Set a long expiry for the count itself so it doesn't leak forever
+        # (Only set it on first increment to avoid resetting TTL constantly, 
+        # though incr doesn't change TTL, so we check if count==1 or just ttl check)
+        if count == 1:
+            # Keep count for 30 days max if inactive
+            await r.expire(count_key, 30 * 86400)
+
+        now = datetime.utcnow()
         for threshold, duration, label in THRESHOLDS:
-            if state.count >= threshold:
-                state.block_until = now + duration
-                state.block_label = label
-                return state.block_until, state.block_label
-        state.block_until = None
-        state.block_label = None
+            if count >= threshold:
+                # Block!
+                await r.set(block_key, label, ex=duration)
+                # Reset count so users start fresh after block expires
+                await r.delete(count_key)
+                return now + duration, label
+
+    except Exception as e:
+        logger.error(f"Redis error in register_failure: {e}")
         return None, None
 
+    return None, None
 
-def register_success(scope: str, ip: str) -> None:
+
+async def register_success(scope: str, ip: str) -> None:
     """Reset counters after a successful attempt."""
-    with _lock:
-        scope_bucket = _attempts.get(scope)
-        if not scope_bucket:
-            return
-        state = scope_bucket.get(ip)
-        if not state:
-            return
-        _reset_state(scope, ip, state)
+    r = get_redis_client()
+    count_key = f"rate_limit:{scope}:{ip}:count"
+    block_key = f"rate_limit:{scope}:{ip}:block"
+    try:
+        await r.delete(count_key, block_key)
+    except Exception as e:
+        logger.error(f"Redis error in register_success: {e}")
 
 
 def get_block_message(label: Optional[str]) -> str:

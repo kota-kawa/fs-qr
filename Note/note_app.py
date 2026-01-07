@@ -121,7 +121,7 @@ async def note_room_access(request: Request):
 @router.get("/note/{room_id}/{password}", name="note.note_room")
 async def note_room(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
         response = render_template(request, "error.html", message=get_block_message(block_label))
         response.status_code = 429
@@ -129,7 +129,7 @@ async def note_room(request: Request, room_id: str, password: str):
 
     meta = await _get_room_if_valid(room_id, password)
     if not meta:
-        _, block_label = register_failure(SCOPE_NOTE, ip)
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             response = render_template(request, "error.html", message=get_block_message(block_label))
             response.status_code = 429
@@ -140,7 +140,7 @@ async def note_room(request: Request, room_id: str, password: str):
         response.status_code = 404
         return response
 
-    register_success(SCOPE_NOTE, ip)
+    await register_success(SCOPE_NOTE, ip)
 
     retention_days = meta.get("retention_days", 7)
     created_at = meta.get("time")
@@ -174,12 +174,12 @@ async def search_note_room(request: Request):
     pw = (form.get("password") or "").strip()
 
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
         flash_message(request, get_block_message(block_label))
         return RedirectResponse("/search_note", status_code=302)
     if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", pw):
-        _, block_label = register_failure(SCOPE_NOTE, ip)
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             flash_message(request, get_block_message(block_label))
         else:
@@ -187,13 +187,13 @@ async def search_note_room(request: Request):
         return RedirectResponse("/search_note", status_code=302)
     room_id = await nd.pich_room_id(id_val, pw)
     if not room_id:
-        _, block_label = register_failure(SCOPE_NOTE, ip)
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             flash_message(request, get_block_message(block_label))
         else:
             flash_message(request, "ID かパスワードが間違っています。")
         return RedirectResponse("/search_note", status_code=302)
-    register_success(SCOPE_NOTE, ip)
+    await register_success(SCOPE_NOTE, ip)
     return RedirectResponse(
         build_url(request, "note.note_room", room_id=room_id, password=pw),
         status_code=302,
@@ -203,7 +203,7 @@ async def search_note_room(request: Request):
 @router.get("/note_direct/{room_id}/{password}", name="note.note_direct_access")
 async def note_direct_access(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
         response = render_template(request, "error.html", message=get_block_message(block_label))
         response.status_code = 429
@@ -211,7 +211,7 @@ async def note_direct_access(request: Request, room_id: str, password: str):
 
     meta = await _get_room_if_valid(room_id, password)
     if not meta:
-        _, block_label = register_failure(SCOPE_NOTE, ip)
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             response = render_template(request, "error.html", message=get_block_message(block_label))
             response.status_code = 429
@@ -222,7 +222,7 @@ async def note_direct_access(request: Request, room_id: str, password: str):
         response.status_code = 404
         return response
 
-    register_success(SCOPE_NOTE, ip)
+    await register_success(SCOPE_NOTE, ip)
 
     return RedirectResponse(
         build_url(request, "note.note_room", room_id=room_id, password=password),

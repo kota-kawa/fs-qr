@@ -24,21 +24,21 @@ def _ws_client_ip(websocket: WebSocket) -> str:
 @router.websocket("/ws/note/{room_id}/{password}")
 async def note_ws(websocket: WebSocket, room_id: str, password: str):
     ip = _ws_client_ip(websocket)
-    allowed, _, block_label = check_rate_limit(SCOPE_NOTE, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
         await websocket.close(code=1008)
         return
 
     meta = await nd.get_room_meta(room_id, password=password)
     if not meta:
-        _, block_label = register_failure(SCOPE_NOTE, ip)
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             await websocket.accept()
             await websocket.send_json({"type": "error", "error": get_block_message(block_label)})
         await websocket.close(code=1008)
         return
 
-    register_success(SCOPE_NOTE, ip)
+    await register_success(SCOPE_NOTE, ip)
 
     await hub.connect(room_id, websocket)
     try:

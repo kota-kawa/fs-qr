@@ -209,18 +209,18 @@ async def download(request: Request, secure_id: str):
 @router.get("/fs-qr/{room_id}/{password}", name="fsqr.fs_qr_room")
 async def fs_qr_room(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
     if not allowed:
         return msg(request, get_block_message(block_label), 429)
 
     secure_id, record = await _get_room_by_credentials(room_id, password)
     if not secure_id:
-        _, block_label = register_failure(SCOPE_QR, ip)
+        _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDかパスワードが間違っています", 404)
 
-    register_success(SCOPE_QR, ip)
+    await register_success(SCOPE_QR, ip)
 
     retention_days, deletion_date = _calculate_deletion_context(record)
 
@@ -290,12 +290,12 @@ async def kekka(request: Request):
     password = (form.get("pw") or "").strip()
 
     ip = get_client_ip(request)
-    allowed, _, block_label = check_rate_limit(SCOPE_QR, ip)
+    allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
     if not allowed:
         return msg(request, get_block_message(block_label), 429)
 
     if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", password):
-        _, block_label = register_failure(SCOPE_QR, ip)
+        _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDまたはパスワードに不正な文字が含まれています。")
@@ -303,12 +303,12 @@ async def kekka(request: Request):
     secure_id = await fs_data.try_login(id_val, password)
 
     if not secure_id:
-        _, block_label = register_failure(SCOPE_QR, ip)
+        _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDかパスワードが間違っています")
 
-    register_success(SCOPE_QR, ip)
+    await register_success(SCOPE_QR, ip)
 
     return RedirectResponse(
         build_url(request, "fsqr.fs_qr_room", room_id=id_val, password=password),
