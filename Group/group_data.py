@@ -6,6 +6,7 @@ import log_config
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
 from database import db_session, is_retryable_db_error, reset_db_connection
+from cache_utils import cache_data
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -53,6 +54,7 @@ async def create_room(id, password, room_id, retention_days=7):
     )
 
 # ログイン処理
+@cache_data(ttl=60)
 async def pich_room_id(id, password):
     query = text("""
         SELECT room_id FROM room WHERE id = :id AND password = :password
@@ -61,6 +63,7 @@ async def pich_room_id(id, password):
     return result[0]["room_id"] if result else False
 
 # データベースから任意のIDのデータを取り出す
+@cache_data(ttl=60)
 async def get_data(secure_id):
     query = text("""
         SELECT * FROM room WHERE room_id = :secure_id
@@ -69,6 +72,7 @@ async def get_data(secure_id):
     return result if result else False
 
 # 全てのデータを取得する
+@cache_data(ttl=300)
 async def get_all():
     query = text("""
         SELECT * FROM room ORDER BY suji DESC

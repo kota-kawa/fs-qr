@@ -4,6 +4,7 @@ from sqlalchemy import text
 import logging
 import log_config
 from database import db_session, is_retryable_db_error, reset_db_connection
+from cache_utils import cache_data
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -60,6 +61,7 @@ async def save_file(uid, id, password, secure_id, file_type='multiple', original
         raise
 
 # ログイン処理
+@cache_data(ttl=60)
 async def try_login(id, password):
     try:
         query = text("""
@@ -77,6 +79,7 @@ async def try_login(id, password):
         raise
 
 # 資格情報でデータを取得
+@cache_data(ttl=60)
 async def get_data_by_credentials(id, password):
     try:
         query = text("""
@@ -89,6 +92,7 @@ async def get_data_by_credentials(id, password):
         raise
 
 # データベースから任意のIDのデータを取り出す
+@cache_data(ttl=60)
 async def get_data(secure_id):
     try:
         query = text("""
@@ -101,6 +105,7 @@ async def get_data(secure_id):
         raise
 
 # 全てのデータを取得する
+@cache_data(ttl=300)
 async def get_all():
     try:
         query = text("""

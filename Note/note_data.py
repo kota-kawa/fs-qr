@@ -3,6 +3,7 @@ import logging
 import log_config
 from sqlalchemy import text
 from database import db_session, is_retryable_db_error, reset_db_connection
+from cache_utils import cache_data
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -91,6 +92,7 @@ async def create_room(id_, password, room_id, retention_days=7):
 # ────────────────────────────────────────────
 # ルームメタ情報取得
 # ────────────────────────────────────────────
+@cache_data(ttl=60)
 async def get_room_meta(room_id, password=None):
     if password is None:
         query = "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
@@ -108,6 +110,7 @@ async def get_room_meta(room_id, password=None):
 # ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
+@cache_data(ttl=60)
 async def pick_room_id(id_, password):
     rows = await execute_query(
         "SELECT room_id FROM note_room WHERE id=:i AND password=:p",

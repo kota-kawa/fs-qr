@@ -25,6 +25,7 @@ services:
       - SQL_PW=${SQL_PW}
       - SQL_DB=${SQL_DB}
       - SQL_HOST=${SQL_HOST}
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
       - ./logs:/app/logs
