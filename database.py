@@ -3,6 +3,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import async_scoped_session, async_sessionmaker, create_async_engine
+from sqlalchemy.exc import DBAPIError, OperationalError
 
 load_dotenv()
 
@@ -26,3 +27,36 @@ db_session = async_scoped_session(async_session_factory, scopefunc=asyncio.curre
 
 async def remove_db_session():
     await db_session.remove()
+
+
+def is_retryable_db_error(exc) -> bool:
+    if isinstance(exc, DBAPIError) and getattr(exc, "connection_invalidated", False):
+        return True
+    if isinstance(exc, OperationalError):
+        return True
+    orig = getattr(exc, "orig", None)
+    if orig and getattr(orig, "args", None):
+        code = orig.args[0]
+        if code in (2006, 2013, 2014, 2055):
+            return True
+    message = str(exc).lower()
+    return (
+        "lost connection" in message
+        or "server has gone away" in message
+        or "connection reset by peer" in message
+    )
+
+
+async def reset_db_connection():
+    try:
+        await db_session.rollback()
+    except Exception:
+        pass
+    try:
+        await db_session.remove()
+    except Exception:
+        pass
+    try:
+        await engine.dispose()
+    except Exception:
+        pass

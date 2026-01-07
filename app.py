@@ -1,3 +1,5 @@
+import asyncio
+import logging
 import os
 
 from fastapi import FastAPI, Request
@@ -29,6 +31,8 @@ from Articles.articles_app import router as articles_router
 
 MASTER_PW = ADMIN_KEY
 
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
@@ -52,7 +56,18 @@ async def db_session_middleware(request: Request, call_next):
 
 @app.on_event("startup")
 async def startup():
-    await note_data.ensure_tables()
+    ready = False
+    for attempt in range(5):
+        try:
+            await note_data.ensure_tables()
+            ready = True
+            break
+        except Exception as exc:
+            wait_s = min(1.0 * (2**attempt), 10.0)
+            logger.warning("Database not ready, retrying startup (%s/5): %s", attempt + 1, exc)
+            await asyncio.sleep(wait_s)
+    if not ready:
+        logger.error("Database startup checks failed after retries; continuing without bootstrap.")
     await note_realtime_startup()
     await db_session.remove()
 

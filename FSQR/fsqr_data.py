@@ -1,8 +1,9 @@
+import asyncio
 import os
 from sqlalchemy import text
 import logging
 import log_config
-from database import db_session
+from database import db_session, is_retryable_db_error, reset_db_connection
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -11,21 +12,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC = os.path.join(BASE_DIR, 'static', 'upload')
 
 # データベースクエリの共通実行関数
-async def execute_query(query, params=None, fetch=False):
-    try:
-        if params:
-            result = await db_session.execute(query, params)
-        else:
-            result = await db_session.execute(query)
+async def execute_query(query, params=None, fetch=False, retries=2):
+    for attempt in range(retries + 1):
+        try:
+            if params:
+                result = await db_session.execute(query, params)
+            else:
+                result = await db_session.execute(query)
 
-        if fetch:
-            return result.mappings().all()
+            if fetch:
+                return result.mappings().all()
 
-        await db_session.commit()
-    except Exception as e:
-        logger.error(f"Database query failed: {e}")
-        await db_session.rollback()
-        raise
+            await db_session.commit()
+            return None
+        except Exception as e:
+            if is_retryable_db_error(e) and attempt < retries:
+                logger.warning("Database connection lost, retrying (%s/%s)", attempt + 1, retries)
+                await reset_db_connection()
+                await asyncio.sleep(0.5 * (2**attempt))
+                continue
+            logger.error("Database query failed: %s", e)
+            try:
+                await db_session.rollback()
+            except Exception:
+                pass
+            raise
 
 # ファイルを保存
 async def save_file(uid, id, password, secure_id, file_type='multiple', original_filename=None, retention_days=7):

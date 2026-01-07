@@ -1,14 +1,15 @@
+import asyncio
 import logging
 import log_config
 from sqlalchemy import text
-from database import db_session
+from database import db_session, is_retryable_db_error, reset_db_connection
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
 
 # 共通クエリ実行関数
-async def execute_query(query, params=None, fetch=False):
+async def execute_query(query, params=None, fetch=False, retries=2):
     """
     SQL クエリを実行するユーティリティ。
     :param query: SQL テキストまたは sqlalchemy.text オブジェクト
@@ -16,22 +17,30 @@ async def execute_query(query, params=None, fetch=False):
     :param fetch: 結果を取得する場合は True
     :return: fetch=True の場合は結果リスト、それ以外は影響行数
     """
-    try:
-        stmt = query if hasattr(query, 'bindparams') else text(query)
-        if params:
-            result = await db_session.execute(stmt, params)
-        else:
-            result = await db_session.execute(stmt)
+    stmt = query if hasattr(query, "bindparams") else text(query)
+    for attempt in range(retries + 1):
+        try:
+            if params:
+                result = await db_session.execute(stmt, params)
+            else:
+                result = await db_session.execute(stmt)
 
-        if fetch:
-            return result.mappings().all()
-        else: # INSERT, UPDATE, DELETE の場合
+            if fetch:
+                return result.mappings().all()
             await db_session.commit()
-            return result.rowcount # <--- 変更: 影響行数を返す
-    except Exception as e:
-        logger.error(f"Database query failed: {e}")
-        await db_session.rollback()
-        raise
+            return result.rowcount
+        except Exception as e:
+            if is_retryable_db_error(e) and attempt < retries:
+                logger.warning("Database connection lost, retrying (%s/%s)", attempt + 1, retries)
+                await reset_db_connection()
+                await asyncio.sleep(0.5 * (2**attempt))
+                continue
+            logger.error("Database query failed: %s", e)
+            try:
+                await db_session.rollback()
+            except Exception:
+                pass
+            raise
 
 # note_app.py などから使用するエイリアス関数
 _exec = execute_query
