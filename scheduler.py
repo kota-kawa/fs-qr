@@ -9,7 +9,7 @@ from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 import log_config
-from database import db_session
+from database import db_session, reset_db_connection
 from FSQR import fsqr_data
 from Group import group_data
 from Note import note_data
@@ -46,7 +46,10 @@ async def _remove_expired_fsqr_async():
     try:
         await fsqr_data.remove_expired_files()
     finally:
-        await db_session.remove()
+    try:
+        await fsqr_data.remove_expired_files()
+    finally:
+        await reset_db_connection()
 
 
 @exclusive_job
@@ -58,7 +61,7 @@ async def _remove_expired_group_rooms_async():
     try:
         await group_data.remove_expired_rooms()
     finally:
-        await db_session.remove()
+        await reset_db_connection()
 
 
 @exclusive_job
@@ -70,7 +73,85 @@ async def _remove_expired_note_rooms_async():
     try:
         await note_data.remove_expired_rooms()
     finally:
-        await db_session.remove()
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_fsqr():
+    asyncio.run(_remove_expired_fsqr_async())
+
+
+async def _remove_expired_group_rooms_async():
+    try:
+        await group_data.remove_expired_rooms()
+    finally:
+    try:
+        await fsqr_data.remove_expired_files()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_fsqr():
+    asyncio.run(_remove_expired_fsqr_async())
+
+
+async def _remove_expired_group_rooms_async():
+    try:
+        await group_data.remove_expired_rooms()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_group_rooms():
+    asyncio.run(_remove_expired_group_rooms_async())
+
+
+async def _remove_expired_note_rooms_async():
+    try:
+        await note_data.remove_expired_rooms()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_group_rooms():
+    asyncio.run(_remove_expired_group_rooms_async())
+
+
+async def _remove_expired_note_rooms_async():
+    try:
+        await note_data.remove_expired_rooms()
+    finally:
+    try:
+        await fsqr_data.remove_expired_files()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_fsqr():
+    asyncio.run(_remove_expired_fsqr_async())
+
+
+async def _remove_expired_group_rooms_async():
+    try:
+        await group_data.remove_expired_rooms()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def _remove_expired_group_rooms():
+    asyncio.run(_remove_expired_group_rooms_async())
+
+
+async def _remove_expired_note_rooms_async():
+    try:
+        await note_data.remove_expired_rooms()
+    finally:
+        await reset_db_connection()
 
 
 @exclusive_job

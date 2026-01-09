@@ -2,6 +2,7 @@ import logging
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
+from database import remove_db_session
 from rate_limit import SCOPE_NOTE, check_rate_limit, get_block_message, register_failure, register_success
 from . import note_data as nd
 from .note_realtime import hub, publish_room_update
@@ -55,6 +56,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 "updated_at": row["updated_at"].isoformat(sep=" ", timespec="microseconds"),
             }
         )
+        await remove_db_session()
 
         while True:
             message = await websocket.receive_json()
@@ -74,6 +76,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
             except Exception as exc:
                 logger.error("Critical error in note_ws for room %s: %s", room_id, exc)
                 await websocket.send_json({"type": "error", "error": "Internal server error"})
+                await remove_db_session()
                 continue
 
             payload_with_type = {"type": "ack", **payload}
@@ -88,9 +91,12 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 }
                 await hub.broadcast(room_id, update_payload, exclude=websocket)
                 await publish_room_update(room_id, update_payload)
+            
+            await remove_db_session()
     except WebSocketDisconnect:
         pass
     except Exception as exc:
         logger.error("Unexpected websocket error in room %s: %s", room_id, exc)
     finally:
         await hub.disconnect(room_id, websocket)
+        await remove_db_session()
