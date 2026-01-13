@@ -1,3 +1,5 @@
+[🇺🇸 English](README_en.md)
+
 # 📂 FS-QR (File Sharing & QR) 🚀
 
 こんにちは！ FS-QR へようこそ！👋
