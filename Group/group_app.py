@@ -206,7 +206,7 @@ async def group_upload(
         return JSONResponse({"error": "ファイル数は最大10個までです。"}, status_code=400)
 
     total_size = 0
-    max_total_size = 50 * 1024 * 1024
+    max_total_size = 500 * 1024 * 1024
 
     for file in upfile:
         if file.filename:
@@ -216,7 +216,7 @@ async def group_upload(
             total_size += file_size
 
     if total_size > max_total_size:
-        return JSONResponse({"error": "ファイルの合計サイズは50MBまでです。"}, status_code=400)
+        return JSONResponse({"error": "ファイルの合計サイズは500MBまでです。"}, status_code=400)
 
     error_files = []
     save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))

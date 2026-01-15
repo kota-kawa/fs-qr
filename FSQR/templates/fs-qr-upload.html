@@ -351,8 +351,8 @@
             return;
         }
 
-        // ファイルサイズ制限チェック (50MB = 50 * 1024 * 1024 bytes)
-        const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+        // ファイルサイズ制限チェック (500MB = 500 * 1024 * 1024 bytes)
+        const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
         let totalSize = 0;
         Array.from(files).forEach(file => {
             totalSize += file.size;
@@ -360,7 +360,7 @@
         
         if (totalSize > MAX_TOTAL_SIZE) {
             const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-            alert(`ファイルの合計サイズは50MBまでです（現在: ${sizeMB}MB）`);
+            alert(`ファイルの合計サイズは500MBまでです（現在: ${sizeMB}MB）`);
             return;
         }
 
@@ -497,7 +497,7 @@
     if (files.length > 0 && id.length > 0) {
         // アップロード前に再度ファイル制限をチェック
         const MAX_FILES = 10;
-        const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
+        const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
         
         if (files.length > MAX_FILES) {
             alert(`ファイル数は最大${MAX_FILES}個までです`);
@@ -513,7 +513,7 @@
         
         if (totalSize > MAX_TOTAL_SIZE) {
             const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-            alert(`ファイルの合計サイズは50MBまでです（現在: ${sizeMB}MB）`);
+            alert(`ファイルの合計サイズは500MBまでです（現在: ${sizeMB}MB）`);
             document.getElementById('spinner-container').style.display = 'none';
             stopIconSwitching();
             return;

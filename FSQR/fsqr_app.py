@@ -119,7 +119,7 @@ async def upload(
         return json_or_msg(request, "ファイル数は最大10個までです")
 
     total_size = 0
-    max_total_size = 50 * 1024 * 1024
+    max_total_size = 500 * 1024 * 1024
 
     for file in upfile:
         if file.filename:
@@ -129,7 +129,7 @@ async def upload(
             total_size += file_size
 
     if total_size > max_total_size:
-        return json_or_msg(request, "ファイルの合計サイズは50MBまでです")
+        return json_or_msg(request, "ファイルの合計サイズは500MBまでです")
 
     uploaded_files = []
 
