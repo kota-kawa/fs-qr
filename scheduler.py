@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import os
 from functools import wraps
 from urllib.parse import urlparse
 
@@ -8,8 +7,8 @@ import redis
 from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-import log_config
-from database import db_session, reset_db_connection
+import log_config  # noqa: F401  (configure logging)
+from database import reset_db_connection
 from FSQR import fsqr_data
 from Group import group_data
 from Note import note_data
@@ -28,17 +27,17 @@ def exclusive_job(func):
         # Lock expires in 1 hour
         lock = r_lock.lock(lock_name, timeout=3600, blocking=False)
         acquired = lock.acquire()
-        if acquired:
+        if not acquired:
+            logger.info("Could not acquire lock for %s, skipping execution.", func.__name__)
+            return None
+        try:
+            logger.info("Acquired lock for %s, running job.", func.__name__)
+            return func(*args, **kwargs)
+        finally:
             try:
-                logger.info(f"Acquired lock for {func.__name__}, running job.")
-                return func(*args, **kwargs)
-            finally:
-                try:
-                    lock.release()
-                except redis.LockError:
-                    pass  # Lock might have expired or been released
-        else:
-            logger.info(f"Could not acquire lock for {func.__name__}, skipping execution.")
+                lock.release()
+            except redis.LockError:
+                pass  # Lock might have expired or been released
     return wrapper
 
 
@@ -46,14 +45,11 @@ async def _remove_expired_fsqr_async():
     try:
         await fsqr_data.remove_expired_files()
     finally:
-    try:
-        await fsqr_data.remove_expired_files()
-    finally:
         await reset_db_connection()
 
 
 @exclusive_job
-def _remove_expired_fsqr():
+def remove_expired_fsqr():
     asyncio.run(_remove_expired_fsqr_async())
 
 
@@ -65,7 +61,7 @@ async def _remove_expired_group_rooms_async():
 
 
 @exclusive_job
-def _remove_expired_group_rooms():
+def remove_expired_group_rooms():
     asyncio.run(_remove_expired_group_rooms_async())
 
 
@@ -77,85 +73,7 @@ async def _remove_expired_note_rooms_async():
 
 
 @exclusive_job
-def _remove_expired_fsqr():
-    asyncio.run(_remove_expired_fsqr_async())
-
-
-async def _remove_expired_group_rooms_async():
-    try:
-        await group_data.remove_expired_rooms()
-    finally:
-    try:
-        await fsqr_data.remove_expired_files()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_fsqr():
-    asyncio.run(_remove_expired_fsqr_async())
-
-
-async def _remove_expired_group_rooms_async():
-    try:
-        await group_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_group_rooms():
-    asyncio.run(_remove_expired_group_rooms_async())
-
-
-async def _remove_expired_note_rooms_async():
-    try:
-        await note_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_group_rooms():
-    asyncio.run(_remove_expired_group_rooms_async())
-
-
-async def _remove_expired_note_rooms_async():
-    try:
-        await note_data.remove_expired_rooms()
-    finally:
-    try:
-        await fsqr_data.remove_expired_files()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_fsqr():
-    asyncio.run(_remove_expired_fsqr_async())
-
-
-async def _remove_expired_group_rooms_async():
-    try:
-        await group_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_group_rooms():
-    asyncio.run(_remove_expired_group_rooms_async())
-
-
-async def _remove_expired_note_rooms_async():
-    try:
-        await note_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
-
-
-@exclusive_job
-def _remove_expired_note_rooms():
+def remove_expired_note_rooms():
     asyncio.run(_remove_expired_note_rooms_async())
 
 
@@ -163,37 +81,37 @@ def run_scheduler():
     # Parse REDIS_URL for RedisJobStore
     url = urlparse(REDIS_URL)
     jobstores = {
-        'default': RedisJobStore(
+        "default": RedisJobStore(
             host=url.hostname,
             port=url.port,
-            db=int(url.path.strip('/')) if url.path else 0,
-            password=url.password
+            db=int(url.path.strip("/")) if url.path else 0,
+            password=url.password,
         )
     }
 
     scheduler = BlockingScheduler(jobstores=jobstores)
-    
+
     # Use replace_existing=True to update job definition if it exists
     scheduler.add_job(
-        _remove_expired_fsqr, 
-        trigger="interval", 
-        days=1, 
+        remove_expired_fsqr,
+        trigger="interval",
+        days=1,
         id="remove_expired_fsqr",
-        replace_existing=True
+        replace_existing=True,
     )
     scheduler.add_job(
-        _remove_expired_group_rooms,
+        remove_expired_group_rooms,
         trigger="interval",
         days=1,
         id="remove_expired_group_rooms",
-        replace_existing=True
+        replace_existing=True,
     )
     scheduler.add_job(
-        _remove_expired_note_rooms,
+        remove_expired_note_rooms,
         trigger="interval",
         days=1,
         id="remove_expired_note_rooms",
-        replace_existing=True
+        replace_existing=True,
     )
 
     logger.info("scheduler started with RedisJobStore and Exclusive Locking")

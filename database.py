@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import async_scoped_session, async_sessionmaker, create_async_engine
-from sqlalchemy.exc import DBAPIError, OperationalError
+from sqlalchemy.exc import DBAPIError, OperationalError, TimeoutError as SATimeoutError
 
 load_dotenv()
 
@@ -18,6 +18,7 @@ engine = create_async_engine(
     pool_size=10,
     pool_pre_ping=True,
     max_overflow=5,
+    pool_timeout=10,
     echo=False,
 )
 
@@ -33,6 +34,8 @@ def is_retryable_db_error(exc) -> bool:
     if isinstance(exc, DBAPIError) and getattr(exc, "connection_invalidated", False):
         return True
     if isinstance(exc, OperationalError):
+        return True
+    if isinstance(exc, SATimeoutError):
         return True
     orig = getattr(exc, "orig", None)
     if orig and getattr(orig, "args", None):

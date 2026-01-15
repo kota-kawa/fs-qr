@@ -21,7 +21,13 @@ async def execute_query(query, params=None, fetch=False, retries=2):
         try:
             result = await db_session.execute(query, params or {})
             if fetch:
-                return result.mappings().all()
+                rows = result.mappings().all()
+                # Release connection early for read-only queries
+                try:
+                    await db_session.rollback()
+                except Exception:
+                    pass
+                return rows
             await db_session.commit()
             return None
         except Exception as e:

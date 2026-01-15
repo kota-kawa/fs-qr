@@ -31,14 +31,24 @@ async def table_exists(sess, table_name):
         WHERE table_schema = DATABASE() AND table_name = :t
     """
     result = await sess.execute(text(q), {"t": table_name})
-    return bool(result.scalar())
+    exists = bool(result.scalar())
+    try:
+        await sess.rollback()
+    except Exception:
+        pass
+    return exists
 
 
 async def safe_count(sess, table):
     if not await table_exists(sess, table):
         return 0
     result = await sess.execute(text(f"SELECT COUNT(*) FROM {table}"))
-    return result.scalar()
+    count = result.scalar()
+    try:
+        await sess.rollback()
+    except Exception:
+        pass
+    return count
 
 
 async def safe_recent(sess, table, time_col, limit=10):
@@ -46,7 +56,12 @@ async def safe_recent(sess, table, time_col, limit=10):
         return None
     q = f"SELECT * FROM {table} ORDER BY {time_col} DESC LIMIT {limit}"
     result = await sess.execute(text(q))
-    return result.mappings().all()
+    rows = result.mappings().all()
+    try:
+        await sess.rollback()
+    except Exception:
+        pass
+    return rows
 
 
 async def _get_record(secure_id):
