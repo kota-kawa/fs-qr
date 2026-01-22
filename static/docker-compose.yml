@@ -5,9 +5,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - SQL_USER=LAA1311728
-      - SQL_PW=tocer2955
-      - SQL_DB=fsqr
+      - SQL_USER=${SQL_USER}
+      - SQL_PW=${SQL_PW}
+      - SQL_DB=${SQL_DB}
       - SQL_HOST=db  # MySQLコンテナを指定
     volumes:
       - .:/app
@@ -20,10 +20,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: tocer2955
-      MYSQL_DATABASE: fsqr
-      MYSQL_USER: LAA1311728
-      MYSQL_PASSWORD: tocer2955
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${SQL_DB}
+      MYSQL_USER: ${SQL_USER}
+      MYSQL_PASSWORD: ${SQL_PW}
     volumes:
       - db_data:/var/lib/mysql
       - ./db_init:/docker-entrypoint-initdb.d  # この行を追加
