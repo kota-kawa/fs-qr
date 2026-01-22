@@ -42,9 +42,9 @@ app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
     SessionMiddleware,
     store=RedisStore(REDIS_URL),
-    # secret_key=SECRET_KEY or "change-me",
-    # same_site="lax",
-    # https_only=True,
+    secret_key=SECRET_KEY,
+    same_site="lax",
+    https_only=True,
 )
 
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")

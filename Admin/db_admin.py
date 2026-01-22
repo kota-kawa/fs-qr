@@ -12,11 +12,12 @@ from database import db_session
 from FSQR import fsqr_data as fs_data
 from Group import group_data
 from web import build_url, render_template
+from settings import DB_ADMIN_PASSWORD
 
 fs_db = db_session
 grp_db = db_session
 
-ADMIN_DB_PW = "kkawagoe"
+ADMIN_DB_PW = DB_ADMIN_PASSWORD
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "static", "upload")
