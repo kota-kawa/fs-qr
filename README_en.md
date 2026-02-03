@@ -65,7 +65,7 @@ That's it! 🎉
 ---
 
 ## 📜 License
-This project is released under the **MIT License**.
+This project is released under the **Apache License 2.0**.
 See the `LICENSE` file for details.
 
-Copyright (c) 2026 **Kota Kawagoe**
+Copyright 2026 **Kota Kawagoe**

@@ -52,7 +52,7 @@ docker-compose up --build
 4. Open the note page → show real-time updates.
 
 ## 📜 License
-Released under the **MIT License**. See `LICENSE` for details.
+Released under the **Apache License 2.0**. See `LICENSE` for details.
 
 ---
 
@@ -113,6 +113,6 @@ docker-compose up --build
 4. ノートページでリアルタイム更新を確認。
 
 ## 📜 ライセンス
-**MIT License** にて公開しています。詳細は `LICENSE` を参照してください。
+**Apache License 2.0** にて公開しています。詳細は `LICENSE` を参照してください。
 
 </details>
