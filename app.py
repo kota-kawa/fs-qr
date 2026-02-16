@@ -1,4 +1,5 @@
 import asyncio
+import inspect
 import logging
 import os
 import redis.asyncio as redis
@@ -39,13 +40,28 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
-app.add_middleware(
-    SessionMiddleware,
-    store=RedisStore(REDIS_URL),
-    secret_key=SECRET_KEY,
-    same_site="lax",
-    https_only=True,
-)
+
+
+def _build_session_middleware_kwargs():
+    # starsessions has breaking changes across versions, so pass only supported kwargs.
+    params = inspect.signature(SessionMiddleware.__init__).parameters
+    kwargs = {"store": RedisStore(REDIS_URL)}
+
+    if "secret_key" in params:
+        kwargs["secret_key"] = SECRET_KEY
+    if "same_site" in params:
+        kwargs["same_site"] = "lax"
+    elif "cookie_same_site" in params:
+        kwargs["cookie_same_site"] = "lax"
+    if "https_only" in params:
+        kwargs["https_only"] = True
+    elif "cookie_https_only" in params:
+        kwargs["cookie_https_only"] = True
+
+    return kwargs
+
+
+app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 

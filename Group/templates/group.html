@@ -286,7 +286,6 @@
         .menu-card {
             flex: 1 1 100%; /* モバイルでフル幅 */
             max-width: 300px;
-            width: 100%;
             aspect-ratio: 1 / 1;
             padding: 20px;
             margin: 10px; /* カード間の余白を確保 */
@@ -297,8 +296,6 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex; /* 追加 */
             flex-direction: column; /* 追加 */
-            justify-content: space-between; /* 追加: コンテンツ間の余白を均等に */
-            overflow: hidden; /* 追加: コンテンツのはみ出しを防止 */
         }
         @media (min-width: 576px) { /* スマホ以上 */
             .menu-card {
@@ -332,7 +329,7 @@
         .menu-card p {
             color: #555;
             font-size: 1rem;
-            flex-grow: 0; /* 高さを固定してカードを正方形に保つ */
+            flex-grow: 1; /* 追加: この要素が利用可能なスペースを埋めるようにする */
         }
         .menu-card a {
             display: inline-block;
