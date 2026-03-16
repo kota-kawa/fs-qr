@@ -107,14 +107,29 @@
 .cookie-consent-actions-sub {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   margin-top: 0.9rem;
   flex-wrap: wrap;
 }
 
-.cookie-consent-actions--settings {
-  justify-content: flex-end;
-  margin-top: 0.5rem;
+/* ─── Settings footer (プライバシーリンク + ボタン群) ── */
+.cookie-consent-settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.07);
+  flex-wrap: wrap;
+}
+
+.cookie-consent-settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 /* ─── Buttons ─────────────────────────────────────── */
@@ -407,14 +422,20 @@
   }
 
   .cookie-consent-actions-sub {
-    justify-content: center;
+    justify-content: space-between;
   }
 
-  .cookie-consent-actions--settings {
-    flex-wrap: wrap;
+  .cookie-consent-settings-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
   }
 
-  .cookie-consent-actions--settings .cookie-consent-button {
+  .cookie-consent-settings-actions {
+    width: 100%;
+  }
+
+  .cookie-consent-settings-actions .cookie-consent-button {
     flex: 1;
   }
 }
