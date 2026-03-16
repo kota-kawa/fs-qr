@@ -14,7 +14,6 @@ concurrency:
 
 env:
   PYTHON_VERSION: "3.11"
-  DEPLOY_BRANCH: "main"
 
 jobs:
   test:
@@ -53,7 +52,7 @@ jobs:
     name: Deploy preflight (main push)
     runs-on: ubuntu-latest
     needs: [test]
-    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', env.DEPLOY_BRANCH)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     outputs:
       ready: ${{ steps.check.outputs.ready }}
 
@@ -86,10 +85,10 @@ jobs:
     name: Deploy (main push)
     runs-on: ubuntu-latest
     needs: [test, deploy-preflight]
-    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', env.DEPLOY_BRANCH) && needs.deploy-preflight.outputs.ready == 'true'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.deploy-preflight.outputs.ready == 'true'
     timeout-minutes: 15
     env:
-      DEPLOY_BRANCH: ${{ env.DEPLOY_BRANCH }}
+      DEPLOY_BRANCH: "main"
       DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
 
     steps:
