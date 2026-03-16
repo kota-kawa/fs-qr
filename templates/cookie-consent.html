@@ -10,9 +10,9 @@
       <div class="cookie-consent-headings">
         <h2 id="cookieConsentTitle">Cookieの利用について</h2>
         <p id="cookieConsentDescription">
-          FS!QRでは、サービスの利用状況を把握し、より良い体験を提供するためにCookieを使用しています。
-          「OK」をクリックすると、必須Cookieの利用に同意したものとみなされます。
-          その他のCookieについては、「カスタマイズ」から設定を変更できます。
+          FS!QRでは、より良い体験を提供するためにCookieを使用しています。
+          「同意する」をクリックすると、Cookieの利用に同意したものとみなされます。
+          個別に設定したい場合は「設定をカスタマイズ」をご利用ください。
         </p>
       </div>
     </div>
@@ -28,17 +28,26 @@
           data-cookie-consent="accept"
           data-cookie-consent-focus
         >
-          OK
+          同意する
         </button>
         <button
           type="button"
-          class="cookie-consent-button cookie-consent-button--ghost"
-          data-cookie-consent="customize"
+          class="cookie-consent-button cookie-consent-button--outline"
+          data-cookie-consent="reject"
         >
-          カスタマイズ
+          拒否する
         </button>
       </div>
-      <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシーを見る</a>
+      <div class="cookie-consent-actions-sub">
+        <button
+          type="button"
+          class="cookie-consent-link-button"
+          data-cookie-consent="customize"
+        >
+          設定をカスタマイズ
+        </button>
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシー</a>
+      </div>
     </div>
 
     <div
@@ -92,7 +101,9 @@
           戻る
         </button>
       </div>
-      <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシーを見る</a>
+      <div class="cookie-consent-actions-sub">
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシー</a>
+      </div>
     </div>
   </div>
 </div>
