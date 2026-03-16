@@ -69,12 +69,12 @@ docker-compose up --build
 - `SERVER_USER`: SSH login user
 - `SERVER_SSH_KEY`: private key for the deploy user
 - `SERVER_PORT`: optional SSH port (defaults to `22`)
-- `DEPLAY_PATH` (or `DEPLOY_PATH`): absolute path to the `fs-qr` checkout on the server
+- `DEPLOY_PATH`: absolute path to the `fs-qr` checkout on the server
 
 ### Server-side prerequisites
 - The server must already have Docker and the Docker Compose plugin installed.
-- The repository must already be cloned at the path set in `DEPLAY_PATH`.
-- A production `.env` must already exist at `DEPLAY_PATH/.env`. The workflow intentionally fails if it is missing.
+- The repository must already be cloned at the path set in `DEPLOY_PATH`.
+- A production `.env` must already exist at `DEPLOY_PATH/.env`. The workflow intentionally fails if it is missing.
 
 ## 📜 License
 Released under the **Apache License 2.0**. See `LICENSE` for details.
@@ -155,12 +155,12 @@ docker-compose up --build
 - `SERVER_USER`: SSHログインユーザー
 - `SERVER_SSH_KEY`: デプロイ用秘密鍵
 - `SERVER_PORT`: SSHポート（未設定時は `22`）
-- `DEPLAY_PATH`（または `DEPLOY_PATH`）: サーバー上の `fs-qr` の絶対パス
+- `DEPLOY_PATH`: サーバー上の `fs-qr` の絶対パス
 
 ### サーバー側の前提
 - Docker と Docker Compose plugin がインストール済みであること
-- `DEPLAY_PATH` に設定したパスへリポジトリが clone 済みであること
-- `DEPLAY_PATH/.env` に本番用の環境変数が用意されていること
+- `DEPLOY_PATH` に設定したパスへリポジトリが clone 済みであること
+- `DEPLOY_PATH/.env` に本番用の環境変数が用意されていること
 
 ## 📜 ライセンス
 **Apache License 2.0** にて公開しています。詳細は `LICENSE` を参照してください。

@@ -80,12 +80,12 @@ That's it! 🎉
 - `SERVER_USER`: SSH login user
 - `SERVER_SSH_KEY`: private key for the deploy user
 - `SERVER_PORT`: optional SSH port (defaults to `22`)
-- `DEPLAY_PATH` (or `DEPLOY_PATH`): absolute path to the `fs-qr` checkout on the server
+- `DEPLOY_PATH`: absolute path to the `fs-qr` checkout on the server
 
 ### Server prerequisites
 - Docker and the Docker Compose plugin must already be installed.
-- The repository must already be cloned at the path set in `DEPLAY_PATH`.
-- A production `.env` must already exist at `DEPLAY_PATH/.env`. The workflow fails intentionally if it is missing.
+- The repository must already be cloned at the path set in `DEPLOY_PATH`.
+- A production `.env` must already exist at `DEPLOY_PATH/.env`. The workflow fails intentionally if it is missing.
 
 ---
 
