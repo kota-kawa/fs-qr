@@ -1,6 +1,7 @@
-import sys
+import asyncio
 import os
-from unittest.mock import MagicMock, AsyncMock, patch
+import sys
+from unittest.mock import AsyncMock, MagicMock, patch
 
 # プロジェクトルートをsys.pathに追加
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -29,6 +30,8 @@ class MockSessionMiddleware:
         self.app = app
 
     async def __call__(self, scope, receive, send):
+        if scope["type"] in {"http", "websocket"}:
+            scope.setdefault("session", {})
         await self.app(scope, receive, send)
 
 mock_starsessions.SessionMiddleware = MockSessionMiddleware
@@ -47,7 +50,23 @@ sys.modules["database"] = mock_database
 
 # これ以降のインポートでは、databaseモジュールは上記のモックが使われる
 import pytest
-from starlette.testclient import TestClient
+import httpx
+
+
+class SimpleASGITestClient:
+    def __init__(self, app):
+        self.app = app
+
+    async def _request(self, method: str, path: str, **kwargs):
+        transport = httpx.ASGITransport(app=self.app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+            return await client.request(method, path, **kwargs)
+
+    def request(self, method: str, path: str, **kwargs):
+        return asyncio.run(self._request(method, path, **kwargs))
+
+    def get(self, path: str, **kwargs):
+        return self.request("GET", path, **kwargs)
 
 @pytest.fixture(scope="module")
 def test_client():
@@ -63,6 +82,9 @@ def test_client():
         
         # appのインポートはモック設定後に行う
         from app import app
-        
-        with TestClient(app) as client:
-            yield client
+
+        asyncio.run(app.router.startup())
+        try:
+            yield SimpleASGITestClient(app)
+        finally:
+            asyncio.run(app.router.shutdown())
