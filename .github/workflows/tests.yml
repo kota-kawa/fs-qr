@@ -56,7 +56,7 @@ jobs:
     timeout-minutes: 15
     env:
       DEPLOY_BRANCH: "main"
-      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
+      DEPLOY_PATH: ${{ secrets.DEPLAY_PATH || secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
 
     steps:
       - name: Check deployment secrets
@@ -96,7 +96,7 @@ jobs:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
+          DEPLOY_PATH: ${{ secrets.DEPLAY_PATH || secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
           DEPLOY_BRANCH: ${{ env.DEPLOY_BRANCH }}
         run: |
           set -euo pipefail
