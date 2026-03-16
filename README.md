@@ -59,8 +59,9 @@ docker-compose up --build
 4. Open the note page → show real-time updates.
 
 ## CI/CD & Auto Deploy
-- GitHub Actions runs `pytest` on every push, pull request, and manual dispatch.
-- The deploy job runs only on pushes to `main` after the test job succeeds.
+- GitHub Actions runs `pytest` and a Docker image build on every push, pull request, and manual dispatch.
+- The deploy job runs only on pushes to `main` after the CI job succeeds.
+- If deployment secrets are not configured yet, the deploy phase is skipped so regular CI stays green.
 - Deployment connects over SSH, updates the server checkout, rebuilds with `docker compose up -d --build`, and rolls back to the previous Git commit if deployment fails.
 
 ### Required GitHub Secrets
@@ -144,8 +145,9 @@ docker-compose up --build
 4. ノートページでリアルタイム更新を確認。
 
 ## CI/CD と自動デプロイ
-- GitHub Actions で全 push・PR・手動実行時に `pytest` を実行します。
-- `main` への push 時のみ、テスト成功後に SSH 経由で本番デプロイを行います。
+- GitHub Actions で全 push・PR・手動実行時に `pytest` と Docker イメージ build を実行します。
+- `main` への push 時のみ、CI 成功後に SSH 経由で本番デプロイを行います。
+- デプロイ用 secrets が未設定の間は deploy を skip するため、通常の CI は失敗しません。
 - デプロイではサーバー上の checkout を更新し、`docker compose up -d --build` を実行し、失敗時は直前コミットへロールバックします。
 
 ### 必要な GitHub Secrets
