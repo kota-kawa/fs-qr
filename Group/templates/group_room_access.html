@@ -19,25 +19,33 @@
 {% block twitter_description %}チームファイル共有ルームへアクセス。グループルーム作成と参加の両方が可能で、複数人で安全にファイルを共有・管理できます。{% endblock %}
 
 {% block contents %}
-<div style="padding: 2rem; max-width: 900px; margin: 0 auto;">
-    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible; margin-bottom: 2rem;">
+<style>
+:root {
+    --glossy-theme-gradient: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 55%, rgb(74, 222, 128) 100%);
+    --glossy-shadow: rgba(22, 101, 52, 0.24);
+    --glossy-shadow-strong: rgba(22, 101, 52, 0.34);
+}
+</style>
+
+<div class="glossy-room-shell">
+    <div class="glossy-room-card">
         <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; padding: 2rem; text-align: center; border-radius: 20px 20px 0 0;">
+        <div class="glossy-room-header">
             <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('folder', size='xl', with_text=True) }}グループファイル共有</h1>
         </div>
         
         <!-- Body -->
-        <div style="padding: 2rem;">
+        <div class="glossy-room-body">
             <!-- Access Form Section -->
-            <div style="background: #f9fafb; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+            <div class="glossy-surface" style="padding: 1.5rem; margin-bottom: 2rem;">
                 <h3 style="margin-top: 0; color: #374151;">ルームにアクセス</h3>
                 
                 <!-- Tab Buttons -->
-                <div style="display: flex; background: #e5e7eb; border-radius: 8px; margin-bottom: 1rem;">
-                    <button type="button" onclick="switchTab('join')" id="join-btn" style="flex: 1; padding: 0.75rem; background: rgb(34, 197, 94); color: white; border: none; border-radius: 8px 0 0 8px; cursor: pointer; font-weight: 600;">
+                <div class="glossy-tab-track" style="display: flex; border-radius: 10px; margin-bottom: 1rem;">
+                    <button type="button" onclick="switchTab('join')" id="join-btn" class="glossy-action-btn" style="flex: 1; padding: 0.75rem; color: white; border: none; border-radius: 10px 0 0 10px; cursor: pointer; font-weight: 600;">
                         {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                     </button>
-                    <button type="button" onclick="switchTab('create')" id="create-btn" style="flex: 1; padding: 0.75rem; background: #e5e7eb; color: #6b7280; border: none; border-radius: 0 8px 8px 0; cursor: pointer; font-weight: 600;">
+                    <button type="button" onclick="switchTab('create')" id="create-btn" class="glossy-muted-btn" style="flex: 1; padding: 0.75rem; color: #6b7280; border: none; border-radius: 0 10px 10px 0; cursor: pointer; font-weight: 600;">
                         新規ルーム作成
                     </button>
                 </div>
@@ -57,7 +65,7 @@
                                    minlength="6" maxlength="6" pattern="[0-9]{6}" title="6桁の数字で入力してください"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
-                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                        <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                         </button>
                     </form>
@@ -116,7 +124,7 @@
                             <small class="retention-select-hint">選択した保存期間の経過後、自動で安全に削除されます。</small>
                         </div>
 
-                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                        <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('rocket', size='lg', with_text=True) }}ルームを作成
                         </button>
                     </form>
@@ -124,13 +132,13 @@
             </div>
             
             <!-- Demo Upload Area -->
-            <div style="background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); border: 3px dashed #d1d5db; border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 2rem; opacity: 0.7;">
+            <div class="glossy-demo-panel" style="border: 3px dashed rgba(34, 197, 94, 0.28); padding: 2rem; text-align: center; margin-bottom: 2rem; opacity: 0.82;">
                 <div style="font-size: 3rem; margin-bottom: 1rem;">{{ icons.icon('cloud', size='xxl') }}</div>
                 <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 1rem; line-height: 1.6;">
                     ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択<br>
                     <small style="color: #9ca3af;">(上記のフォームでルームを作成・参加すると利用できます)</small>
                 </p>
-                <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
+                <button disabled class="glossy-muted-btn" style="padding: 0.75rem 1.5rem; color: #6b7280; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
                     {{ icons.icon('folder', size='lg', with_text=True) }}ファイルを選択（デモ）
                 </button>
             </div>
@@ -138,34 +146,34 @@
             <!-- Demo File Lists -->
             <div style="margin-bottom: 2rem;">
                 <h5 style="color: #374151; margin-bottom: 1rem;">{{ icons.icon('arrow_up', size='lg', with_text=True) }}アップロード待ちファイル</h5>
-                <div style="background: #f9fafb; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <div class="glossy-demo-panel" style="padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
+                    <div class="glossy-demo-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 10px; margin-bottom: 0.5rem;">
                         <span>{{ icons.icon('document', with_text=True) }}example-document.pdf</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                    <div class="glossy-demo-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 10px;">
                         <span>{{ icons.icon('photo', with_text=True) }}sample-image.jpg</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">待機中</span>
                     </div>
                 </div>
-                <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
+                <button disabled class="glossy-muted-btn" style="padding: 0.75rem 1.5rem; color: #6b7280; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
                     {{ icons.icon('rocket', size='lg', with_text=True) }}アップロード（デモ）
                 </button>
             </div>
 
             <div style="margin-bottom: 1rem;">
                 <h5 style="color: #374151; margin-bottom: 1rem;">{{ icons.icon('arrow_down', size='lg', with_text=True) }}グループメンバーのファイル (2)</h5>
-                <div style="background: #f9fafb; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <div class="glossy-demo-panel" style="padding: 1rem; margin-bottom: 1rem; min-height: 80px;">
+                    <div class="glossy-demo-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 10px; margin-bottom: 0.5rem;">
                         <span>{{ icons.icon('clipboard', with_text=True) }}meeting-notes.txt</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                    <div class="glossy-demo-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 10px;">
                         <span>{{ icons.icon('chart', with_text=True) }}data-report.xlsx</span>
                         <span style="color: #6b7280; font-size: 0.9rem;">デモファイル</span>
                     </div>
                 </div>
-                <button disabled style="padding: 0.75rem 1.5rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
+                <button disabled class="glossy-muted-btn" style="padding: 0.75rem 1.5rem; color: #6b7280; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: not-allowed;">
                     {{ icons.icon('archive_box', size='lg', with_text=True) }}すべてダウンロード（デモ）
                 </button>
             </div>
@@ -173,11 +181,11 @@
     </div>
     
     <!-- Usage Section -->
-    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible;">
-        <div style="background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%); color: white; padding: 1.5rem; text-align: center; border-radius: 20px 20px 0 0;">
+    <div class="glossy-usage-card">
+        <div class="glossy-usage-header">
             <h5 style="margin: 0;">使い方</h5>
         </div>
-        <div style="padding: 2rem;">
+        <div class="glossy-usage-body">
             <p style="margin: 0; line-height: 1.6;">
                 このルームではメンバー全員がファイルをアップロード／ダウンロードできます。<br>
                 上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
@@ -189,9 +197,9 @@
 </div>
 
 <!-- Spinner overlay -->
-<div id="spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 9999;">
+<div id="spinner-overlay" class="glossy-spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: 9999;">
     <div style="text-align: center;">
-        <div style="width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid rgb(34, 197, 94); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(34, 197, 94); border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
     </div>
 </div>
@@ -211,19 +219,19 @@ function switchTab(tabName) {
     document.getElementById('create-tab').style.display = 'none';
     
     // Reset button styles
-    document.getElementById('join-btn').style.background = '#e5e7eb';
+    document.getElementById('join-btn').style.background = 'linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%)';
     document.getElementById('join-btn').style.color = '#6b7280';
-    document.getElementById('create-btn').style.background = '#e5e7eb';
+    document.getElementById('create-btn').style.background = 'linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%)';
     document.getElementById('create-btn').style.color = '#6b7280';
     
     // Show selected tab and highlight button
     if (tabName === 'join') {
         document.getElementById('join-tab').style.display = 'block';
-        document.getElementById('join-btn').style.background = 'rgb(34, 197, 94)';
+        document.getElementById('join-btn').style.background = 'linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 55%, rgb(74, 222, 128) 100%)';
         document.getElementById('join-btn').style.color = 'white';
     } else {
         document.getElementById('create-tab').style.display = 'block';
-        document.getElementById('create-btn').style.background = 'rgb(34, 197, 94)';
+        document.getElementById('create-btn').style.background = 'linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 55%, rgb(74, 222, 128) 100%)';
         document.getElementById('create-btn').style.color = 'white';
     }
 }

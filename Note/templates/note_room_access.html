@@ -19,25 +19,33 @@
 {% block twitter_description %}リアルタイム共同編集ノートへアクセス。ルーム作成と参加の両方が可能で、複数人でリアルタイムにノートを編集・共有できます。{% endblock %}
 
 {% block contents %}
-<div style="padding: 2rem; max-width: 900px; margin: 0 auto;">
-    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible; margin-bottom: 2rem;">
+<style>
+:root {
+    --glossy-theme-gradient: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 55%, rgb(217, 249, 157) 100%);
+    --glossy-shadow: rgba(101, 163, 13, 0.24);
+    --glossy-shadow-strong: rgba(101, 163, 13, 0.34);
+}
+</style>
+
+<div class="glossy-room-shell">
+    <div class="glossy-room-card">
         <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; padding: 2rem; text-align: center; border-radius: 20px 20px 0 0;">
+        <div class="glossy-room-header">
             <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('document_text', size='xl', with_text=True) }}リアルタイムノート</h1>
         </div>
         
         <!-- Body -->
-        <div style="padding: 2rem;">
+        <div class="glossy-room-body">
             <!-- Access Form Section -->
-            <div style="background: #f9fafb; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+            <div class="glossy-surface" style="padding: 1.5rem; margin-bottom: 2rem;">
                 <h3 style="margin-top: 0; color: #374151;">ルームにアクセス</h3>
                 
                 <!-- Tab Buttons -->
-                <div style="display: flex; background: #e5e7eb; border-radius: 8px; margin-bottom: 1rem;">
-                    <button type="button" onclick="switchTab('join')" id="join-btn" style="flex: 1; padding: 0.75rem; background: rgb(163, 230, 53); color: white; border: none; border-radius: 8px 0 0 8px; cursor: pointer; font-weight: 600;">
+                <div class="glossy-tab-track" style="display: flex; border-radius: 10px; margin-bottom: 1rem;">
+                    <button type="button" onclick="switchTab('join')" id="join-btn" class="glossy-action-btn" style="flex: 1; padding: 0.75rem; color: white; border: none; border-radius: 10px 0 0 10px; cursor: pointer; font-weight: 600;">
                         ルームに参加
                     </button>
-                    <button type="button" onclick="switchTab('create')" id="create-btn" style="flex: 1; padding: 0.75rem; background: #e5e7eb; color: #6b7280; border: none; border-radius: 0 8px 8px 0; cursor: pointer; font-weight: 600;">
+                    <button type="button" onclick="switchTab('create')" id="create-btn" class="glossy-muted-btn" style="flex: 1; padding: 0.75rem; color: #6b7280; border: none; border-radius: 0 10px 10px 0; cursor: pointer; font-weight: 600;">
                         新規ルーム作成
                     </button>
                 </div>
@@ -57,7 +65,7 @@
                                    minlength="6" maxlength="6" pattern="[0-9]{6}" title="6桁の数字で入力してください"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
-                    <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                    <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
                         </button>
                     </form>
@@ -116,7 +124,7 @@
                             <small class="retention-select-hint">終了予定日をあらかじめ決めると、ノートも安全に管理できます。</small>
                         </div>
 
-                        <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                        <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('rocket', size='lg', with_text=True) }}ルームを作成
                         </button>
                     </form>
@@ -130,21 +138,21 @@
                 すると1秒ごとに同期されます…&#10;&#10;デモテキスト:&#10;このようにメンバー全員がリアルタイムで&#
                 10;同じノートを編集できます。&#10;&#10;・文字を入力すると即座に他のメンバーに同期&#10;・最大10000
                 文字まで入力可能&#10;・編集状況がリアルタイムで表示"
-                          style="width: 100%; height: 200px; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; background: #f3f4f6; color: #6b7280; resize: vertical; font-family: monospace; line-height: 1.6;"></textarea>
+                          style="width: 100%; height: 200px; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.78); border-radius: 14px; font-size: 1rem; background: linear-gradient(155deg, rgba(243, 244, 246, 0.92) 0%, rgba(255, 255, 255, 0.78) 100%); color: #6b7280; resize: vertical; font-family: monospace; line-height: 1.6; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 10px 20px rgba(15, 23, 42, 0.08);"></textarea>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <small style="color: #6b7280;">上記のフォームでルームを作成・参加すると編集できます</small>
-                    <span style="padding: 0.25rem 0.75rem; background: #6c757d; color: white; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">Demo Mode</span>
+                    <span style="padding: 0.25rem 0.75rem; background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%); color: white; border-radius: 999px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);">Demo Mode</span>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Usage Section -->
-    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: visible;">
-        <div style="background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%); color: white; padding: 1.5rem; text-align: center; border-radius: 20px 20px 0 0;">
+    <div class="glossy-usage-card">
+        <div class="glossy-usage-header">
             <h5 style="margin: 0;">使い方</h5>
         </div>
-        <div style="padding: 2rem;">
+        <div class="glossy-usage-body">
             <p style="margin: 0; line-height: 1.6;">
                 このルームではテキストをリアルタイムに共有できます。<br>
                 上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
@@ -156,9 +164,9 @@
 </div>
 
 <!-- Spinner overlay -->
-<div id="spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 9999;">
+<div id="spinner-overlay" class="glossy-spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: 9999;">
     <div style="text-align: center;">
-        <div style="width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid rgb(163, 230, 53); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(163, 230, 53); border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
     </div>
 </div>
@@ -178,19 +186,19 @@ function switchTab(tabName) {
     document.getElementById('create-tab').style.display = 'none';
     
     // Reset button styles
-    document.getElementById('join-btn').style.background = '#e5e7eb';
+    document.getElementById('join-btn').style.background = 'linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%)';
     document.getElementById('join-btn').style.color = '#6b7280';
-    document.getElementById('create-btn').style.background = '#e5e7eb';
+    document.getElementById('create-btn').style.background = 'linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%)';
     document.getElementById('create-btn').style.color = '#6b7280';
     
     // Show selected tab and highlight button
     if (tabName === 'join') {
         document.getElementById('join-tab').style.display = 'block';
-        document.getElementById('join-btn').style.background = 'rgb(163, 230, 53)';
+        document.getElementById('join-btn').style.background = 'linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 55%, rgb(217, 249, 157) 100%)';
         document.getElementById('join-btn').style.color = 'white';
     } else {
         document.getElementById('create-tab').style.display = 'block';
-        document.getElementById('create-btn').style.background = 'rgb(163, 230, 53)';
+        document.getElementById('create-btn').style.background = 'linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 55%, rgb(217, 249, 157) 100%)';
         document.getElementById('create-btn').style.color = 'white';
     }
 }
