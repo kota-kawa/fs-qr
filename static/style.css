@@ -125,8 +125,16 @@ th { text-align: right; }
   font-size: 45px;
   line-height: 45px;
   margin-left: 10px;
-  color: rgb(0, 109, 128);
+  color: #23c3df;
   text-decoration: none;
+}
+
+.group-section .search-link span {
+  color: #0e7a29;
+}
+
+.note-section .search-link span {
+  color: #95d420;
 }
 
 /* ホバー時の拡大 (画像のみ) */
