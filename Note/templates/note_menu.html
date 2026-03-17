@@ -233,280 +233,36 @@
     </script>
     <style>
         :root {
-            --accent-color: #95d420;
-            --accent-hover: #7eb41b;
-            --accent-soft: rgba(149, 212, 32, 0.1);
-        }
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            box-sizing: border-box; /* サイズ計算を統一 */
-        }
-        
-        .visually-hidden {
-            position: absolute !important;
-            width: 1px !important;
-            height: 1px !important;
-            padding: 0 !important;
-            margin: -1px !important;
-            overflow: hidden !important;
-            clip: rect(0, 0, 0, 0) !important;
-            white-space: nowrap !important;
-            border: 0 !important;
-        }
-        
-        .bg-custom {
-            background: linear-gradient(135deg, #c2bf20 10%, #1aa866 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        main {
-            flex: 1;
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-        .menu-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: stretch;
-            padding: 20px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 20px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-        }
-        .menu-card {
-            flex: 1 1 100%; /* モバイル: フル幅 */
-            max-width: 300px;
-            aspect-ratio: 1 / 1;
-            padding: 20px;
-            margin: 10px; /* カード間の余白を確保 */
-            text-align: center;
-            border-radius: 15px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex; /* 追加 */
-            flex-direction: column; /* 追加 */
-        }
-        @media (min-width: 576px) { /* スマホ以上 */
-            .menu-card {
-                flex: 1 1 calc(50% - 40px); /* 2列表示、margin考慮 */
-            }
-        }
-        @media (min-width: 768px) { /* タブレット以上 */
-            .menu-card {
-                flex: 1 1 calc(33.333% - 40px); /* 3列表示、margin考慮 */
-            }
-        }
-        @media (min-width: 1200px) { /* 大型スクリーン以上 */
-            .menu-card {
-                flex: 1 1 calc(25% - 40px); /* 4列表示、margin考慮 */
-            }
-        }
-        .menu-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-        }
-        .menu-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-        .menu-card h3 {
-            font-size: 1.5rem;
-            margin: 10px 0;
-            color: #333;
-        }
-        .menu-card p {
-            color: #555;
-            font-size: 1rem;
-            flex-grow: 1; /* 追加: この要素が利用可能なスペースを埋めるようにする */
-        }
-        .menu-card a {
-            display: inline-block;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #ffffff;
-            background-color: var(--accent-color);
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
-        }
-        .menu-card a:hover {
-            background-color: var(--accent-hover);
-        }
-        .content-section {
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 20px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-            padding: 30px;
-        }
-        .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 25px;
-            text-align: center;
-            color: var(--accent-color);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-        }
-        .rating-summary {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            color: #333;
-        }
-        .rating-score {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-        .rating-stars {
-            color: #f4b400;
-            font-size: 1.5rem;
-        }
-        .rating-count {
-            color: #555;
-            font-size: 1rem;
-        }
-        .review-list {
-            display: grid;
-            gap: 20px;
-        }
-        @media (min-width: 768px) {
-            .review-list {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-        .review-item {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(149, 212, 32, 0.16);
-            border-left: 5px solid var(--accent-color);
-        }
-        .reviewer {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #222;
-        }
-        .review-meta {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 12px;
-        }
-        .review-text {
-            color: #333;
-            line-height: 1.6;
-        }
-        .faq-list {
-            display: grid;
-            gap: 16px;
-        }
-        .faq-item {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 18px 20px;
-            box-shadow: 0 4px 10px rgba(149, 212, 32, 0.16);
-            border-left: 5px solid var(--accent-color);
-        }
-        .faq-item summary {
-            font-weight: 600;
-            color: #222;
-            cursor: pointer;
-        }
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-        .faq-item summary::after {
-            content: "＋";
-            float: right;
-            font-weight: 600;
-            color: var(--accent-color);
-        }
-        .faq-item[open] summary::after {
-            content: "－";
-        }
-        .faq-item p {
-            margin-top: 12px;
-            color: #333;
-            line-height: 1.6;
-        }
-        .howto-steps {
-            list-style: none;
-            counter-reset: step;
-            display: grid;
-            gap: 16px;
-            padding: 0;
-            margin: 0;
-        }
-        .howto-step {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(149, 212, 32, 0.18);
-            border-left: 5px solid var(--accent-color);
-            position: relative;
-        }
-        .howto-step::before {
-            counter-increment: step;
-            content: counter(step);
-            position: absolute;
-            top: -18px;
-            left: 16px;
-            background-color: var(--accent-color);
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            box-shadow: 0 4px 10px rgba(149, 212, 32, 0.25);
-        }
-        .howto-step h3 {
-            margin-top: 8px;
-            margin-bottom: 8px;
-            font-size: 1.2rem;
-            color: #222;
-        }
-        .howto-step p {
-            margin: 0;
-            color: #333;
-            line-height: 1.6;
-        }
-        .content-section + .content-section {
-            margin-top: 0;
-        }
-        @media (max-width: 575.98px) {
-            .content-section {
-                padding: 24px;
-            }
-            .rating-score {
-                font-size: 2.1rem;
-            }
+            --service-accent: #7cae1c;
+            --service-accent-strong: #5f8614;
+            --service-accent-soft: rgba(149, 212, 32, 0.18);
+            --service-accent-shadow: rgba(95, 134, 20, 0.22);
+            --service-bg-start: #c2bf20;
+            --service-bg-end: #1aa866;
+            --service-glow-1: rgba(245, 249, 172, 0.34);
+            --service-glow-2: rgba(116, 226, 154, 0.26);
         }
     </style>
 </head>
-<body>
-    <div class="bg-custom">
-        <header>
-            <h1 class="visually-hidden">FS!QR Note - リアルタイム同時編集ノートサービス</h1>
+<body class="service-menu-page">
+    <div class="service-shell">
+        <header class="service-hero">
+            <div>
+                <span class="service-hero__eyebrow">FS!QR Note</span>
+                <h1 class="service-hero__title">リアルタイム共同編集ノート</h1>
+                <p class="service-hero__description">ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。</p>
+                <ul class="service-hero__tags" aria-label="FS!QR Noteの特長">
+                    <li class="service-hero__tag">同時編集</li>
+                    <li class="service-hero__tag">自動保存</li>
+                    <li class="service-hero__tag">URL共有で参加</li>
+                </ul>
+            </div>
+            <div class="service-hero__panel" aria-hidden="true">
+                <i class="fas fa-pen"></i>
+            </div>
         </header>
         
-        <main role="main">
+        <main class="service-main" role="main">
             <section class="menu-container" aria-labelledby="note-services">
                 <h2 id="note-services" class="visually-hidden">ノートサービス機能一覧</h2>
                 
@@ -574,7 +330,7 @@
             </section>
         </main>
         
-        <footer class="simple-footer" style="color:#95d420;text-shadow:0 1px 2px rgba(0,0,0,0.6);">
+        <footer class="simple-footer service-footer">
             <nav aria-label="フッターナビゲーション">
                 <a href="/">ホーム</a>
                 <a href="/about">サイト概要</a>
