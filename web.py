@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 from typing import Any, Dict, Iterable
@@ -75,8 +76,6 @@ def flash_message(request: Request, message: str) -> None:
     messages.append(message)
     request.session["_flashes"] = messages
 
-
-import logging
 
 logger = logging.getLogger(__name__)
 

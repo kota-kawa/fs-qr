@@ -2,9 +2,7 @@ import asyncio
 import inspect
 import logging
 import os
-import redis.asyncio as redis
-
-import log_config  # Initialize logging configuration
+import log_config  # Initialize logging configuration  # noqa: F401
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles

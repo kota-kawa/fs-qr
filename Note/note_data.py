@@ -1,6 +1,6 @@
 import asyncio
 import logging
-import log_config
+import log_config  # noqa: F401
 from sqlalchemy import text
 from database import db_session, is_retryable_db_error, reset_db_connection
 from cache_utils import cache_data

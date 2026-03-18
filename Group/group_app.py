@@ -20,13 +20,11 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from settings import MANAGEMENT_PASSWORD as management_password
 from web import build_url, flash_message, render_template
 from . import group_data
 
 router = APIRouter()
-
-# .envファイルの読み込み
-from settings import MANAGEMENT_PASSWORD as management_password
 
 # 一つ上のディレクトリを取得
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -235,7 +233,7 @@ async def group_upload(
             import time
 
             _, ext = os.path.splitext(file.filename)
-            safe_filename = f"file_{{int(time.time())}}{ext}"
+            safe_filename = f"file_{int(time.time())}{ext}"
 
         file_path = os.path.join(save_path, safe_filename)
 

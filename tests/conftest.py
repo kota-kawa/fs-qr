@@ -49,8 +49,8 @@ sys.modules["diff_match_patch"] = mock_dmp
 sys.modules["database"] = mock_database
 
 # これ以降のインポートでは、databaseモジュールは上記のモックが使われる
-import pytest
-import httpx
+import pytest  # noqa: E402
+import httpx  # noqa: E402
 
 
 class SimpleASGITestClient:
@@ -82,9 +82,9 @@ def test_client():
     with patch("Note.note_data.ensure_tables", new_callable=AsyncMock), \
          patch("Note.note_realtime.startup", new_callable=AsyncMock), \
          patch("Note.note_realtime.shutdown", new_callable=AsyncMock), \
-         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock) as mock_get_room, \
-         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock) as mock_fsqr_get, \
-         patch("Group.group_data.get_data_direct", new_callable=AsyncMock) as mock_group_get:
+         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock), \
+         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock), \
+         patch("Group.group_data.get_data_direct", new_callable=AsyncMock):
         
         # appのインポートはモック設定後に行う
         from app import app
