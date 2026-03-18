@@ -68,6 +68,12 @@ class SimpleASGITestClient:
     def get(self, path: str, **kwargs):
         return self.request("GET", path, **kwargs)
 
+    def post(self, path: str, **kwargs):
+        return self.request("POST", path, **kwargs)
+
+    def delete(self, path: str, **kwargs):
+        return self.request("DELETE", path, **kwargs)
+
 @pytest.fixture(scope="module")
 def test_client():
     # さらに細かい部分のモックが必要な場合はここでpatchする
