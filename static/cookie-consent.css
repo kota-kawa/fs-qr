@@ -176,16 +176,6 @@
   border-color: rgba(71, 85, 105, 0.4);
 }
 
-.cookie-consent-button--secondary {
-  background: #f1f5f9;
-  color: #334155;
-  border-color: transparent;
-}
-
-.cookie-consent-button--secondary:hover {
-  background: #e2e8f0;
-}
-
 .cookie-consent-button--ghost {
   background: transparent;
   color: #0284c7;
