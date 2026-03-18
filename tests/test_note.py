@@ -23,6 +23,7 @@ def test_search_note_page(test_client: TestClient):
 
 # --- create_note_room バリデーション (manual モード) ---
 
+
 def test_create_note_room_empty_id_manual(test_client: TestClient):
     """manual モードで ID が空の場合は 400 JSON エラーを返す"""
     response = test_client.post(
@@ -54,6 +55,7 @@ def test_create_note_room_wrong_length(test_client: TestClient):
 
 
 # --- search_note_process バリデーション ---
+
 
 def test_search_note_invalid_id_chars(test_client: TestClient):
     """ID に無効な文字があると /search_note にリダイレクトする"""

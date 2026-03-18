@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 # Initialize Redis client
 redis_client = redis.from_url(REDIS_URL, decode_responses=True)
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, (datetime, date)):
@@ -22,11 +23,13 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 def cache_data(ttl=60, key_prefix=""):
     """
     Decorator to cache the result of an async function in Redis.
     It handles SQLAlchemy RowMapping conversion to dict for serialization.
     """
+
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
@@ -58,19 +61,21 @@ def cache_data(ttl=60, key_prefix=""):
                 if result is not None:
                     if isinstance(result, list):
                         # List of rows
-                        to_cache = [dict(r) if hasattr(r, 'keys') else r for r in result]
-                    elif hasattr(result, 'keys'):
-                         # Single row
+                        to_cache = [
+                            dict(r) if hasattr(r, "keys") else r for r in result
+                        ]
+                    elif hasattr(result, "keys"):
+                        # Single row
                         to_cache = dict(result)
-                    
+
                     await redis_client.setex(
-                        cache_key,
-                        ttl,
-                        json.dumps(to_cache, cls=CustomJSONEncoder)
+                        cache_key, ttl, json.dumps(to_cache, cls=CustomJSONEncoder)
                     )
             except Exception as e:
                 logger.warning(f"Cache set error: {e}")
 
             return result
+
         return wrapper
+
     return decorator

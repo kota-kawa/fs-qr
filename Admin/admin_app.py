@@ -18,7 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 async def admin_list(request: Request, pw: str = ""):
     if pw != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")
-    return render_template(request, "admin_list.html", files=await fs_data.get_all(), pw=ADMIN_KEY)
+    return render_template(
+        request, "admin_list.html", files=await fs_data.get_all(), pw=ADMIN_KEY
+    )
 
 
 @router.get("/admin/remove/{secure_id}", name="admin.admin_remove")

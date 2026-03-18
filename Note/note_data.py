@@ -38,7 +38,9 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             return result.rowcount
         except Exception as e:
             if is_retryable_db_error(e) and attempt < retries:
-                logger.warning("Database connection lost, retrying (%s/%s)", attempt + 1, retries)
+                logger.warning(
+                    "Database connection lost, retrying (%s/%s)", attempt + 1, retries
+                )
                 await reset_db_connection()
                 await asyncio.sleep(0.5 * (2**attempt))
                 continue
@@ -48,6 +50,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             except Exception:
                 pass
             raise
+
 
 # note_app.py などから使用するエイリアス関数
 _exec = execute_query
@@ -72,6 +75,7 @@ CREATE TABLE IF NOT EXISTS note_content(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
+
 # テーブル作成チェック
 async def ensure_tables():
     await execute_query(CREATE_NOTE_ROOM)
@@ -83,6 +87,7 @@ async def ensure_tables():
         pass
     logger.info("note tables checked/created")
 
+
 # ────────────────────────────────────────────
 # ノートルーム作成
 # ────────────────────────────────────────────
@@ -92,15 +97,18 @@ async def create_room(id_, password, room_id, retention_days=7):
         INSERT INTO note_room(time, id, password, room_id, retention_days)
         VALUES(NOW(), :i, :p, :r, :retention)
         """,
-        {"i": id_, "p": password, "r": room_id, "retention": retention_days}
+        {"i": id_, "p": password, "r": room_id, "retention": retention_days},
     )
+
 
 # ────────────────────────────────────────────
 # ルームメタ情報取得
 # ────────────────────────────────────────────
 async def get_room_meta_direct(room_id, password=None):
     if password is None:
-        query = "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
+        query = (
+            "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
+        )
         params = {"r": room_id}
     else:
         query = (
@@ -116,6 +124,7 @@ async def get_room_meta_direct(room_id, password=None):
 @cache_data(ttl=60)
 async def get_room_meta(room_id, password=None):
     return await get_room_meta_direct(room_id, password=password)
+
 
 # ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
@@ -133,29 +142,31 @@ async def pick_room_id_direct(id_, password):
 async def pick_room_id(id_, password):
     return await pick_room_id_direct(id_, password)
 
+
 # エイリアス（タイポ呼び出し対応）
 pich_room_id = pick_room_id
+
 
 # ────────────────────────────────────────────
 # コンテンツ取得 or 初期レコード作成
 # ────────────────────────────────────────────
 async def get_row(room_id):
     rows = await execute_query(
-        "SELECT * FROM note_content WHERE room_id=:r",
-        {"r": room_id},
-        fetch=True
+        "SELECT * FROM note_content WHERE room_id=:r", {"r": room_id}, fetch=True
     )
     if rows:
         return rows[0]
     # レコードがなければ初期レコードを作成
     await execute_query(
         "INSERT INTO note_content(room_id, content, updated_at) VALUES(:r, '', NOW(6))",
-        {"r": room_id}
+        {"r": room_id},
     )
     return await get_row(room_id)
 
+
 # get_row のエイリアス（他プログラム互換）
 fetch_note = get_row
+
 
 # ────────────────────────────────────────────
 # コンテンツ保存
@@ -172,9 +183,12 @@ async def save_content(room_id, content, expected_updated_at_str=None):
         return await execute_query(query, params)
     else:
         # expected_updated_at_str がない場合は無条件更新（フォールバックまたは特定用途）
-        query = text("UPDATE note_content SET content=:c, updated_at=NOW(6) WHERE room_id=:r")
+        query = text(
+            "UPDATE note_content SET content=:c, updated_at=NOW(6) WHERE room_id=:r"
+        )
         params = {"c": content, "r": room_id}
         return await execute_query(query, params)
+
 
 # save_content のエイリアス
 store_content = save_content
@@ -192,19 +206,15 @@ async def remove_expired_rooms():
             FROM note_room
             WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
             """,
-            fetch=True
+            fetch=True,
         )
         for r in rows:
             rid = r["room_id"]
             # コンテンツとルーム情報を順に削除
             await execute_query(
-                "DELETE FROM note_content WHERE room_id = :r",
-                {"r": rid}
+                "DELETE FROM note_content WHERE room_id = :r", {"r": rid}
             )
-            await execute_query(
-                "DELETE FROM note_room WHERE room_id = :r",
-                {"r": rid}
-            )
+            await execute_query("DELETE FROM note_room WHERE room_id = :r", {"r": rid})
             logger.info(f"Expired note room removed: {rid}")
     except Exception as e:
         logger.error(f"Failed to remove expired note rooms: {e}")

@@ -5,7 +5,12 @@ import zipfile
 
 from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import text
-from starlette.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
+from starlette.responses import (
+    FileResponse,
+    JSONResponse,
+    RedirectResponse,
+    StreamingResponse,
+)
 from werkzeug.utils import secure_filename
 
 from database import db_session
@@ -158,7 +163,12 @@ async def dashboard(request: Request):
     }
 
     return render_template(
-        request, "db_admin.html", authenticated=True, summary=summary, recent=recent_rows, pw=ADMIN_DB_PW
+        request,
+        "db_admin.html",
+        authenticated=True,
+        summary=summary,
+        recent=recent_rows,
+        pw=ADMIN_DB_PW,
     )
 
 
@@ -174,7 +184,13 @@ async def file_detail(request: Request, secure_id: str, pw: str = ""):
     path, stored_name, display_name, _ = _resolve_file_path(record)
     files = []
     if os.path.exists(path):
-        files.append({"stored_name": stored_name, "display_name": display_name, "size": os.path.getsize(path)})
+        files.append(
+            {
+                "stored_name": stored_name,
+                "display_name": display_name,
+                "size": os.path.getsize(path),
+            }
+        )
 
     created_at = record.get("time")
     if hasattr(created_at, "isoformat"):
@@ -261,6 +277,8 @@ async def room_download(request: Request, room_id: str, pw: str = ""):
 
     archive.seek(0)
 
-    download_name = secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
+    download_name = (
+        secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
+    )
     headers = {"Content-Disposition": f"attachment; filename={download_name}"}
     return StreamingResponse(archive, media_type="application/zip", headers=headers)

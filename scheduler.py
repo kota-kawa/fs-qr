@@ -28,7 +28,9 @@ def exclusive_job(func):
         lock = r_lock.lock(lock_name, timeout=3600, blocking=False)
         acquired = lock.acquire()
         if not acquired:
-            logger.info("Could not acquire lock for %s, skipping execution.", func.__name__)
+            logger.info(
+                "Could not acquire lock for %s, skipping execution.", func.__name__
+            )
             return None
         try:
             logger.info("Acquired lock for %s, running job.", func.__name__)
@@ -38,6 +40,7 @@ def exclusive_job(func):
                 lock.release()
             except redis.LockError:
                 pass  # Lock might have expired or been released
+
     return wrapper
 
 

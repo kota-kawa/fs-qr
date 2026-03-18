@@ -2,7 +2,11 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import async_scoped_session, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    async_scoped_session,
+    async_sessionmaker,
+    create_async_engine,
+)
 from sqlalchemy.exc import DBAPIError, OperationalError, TimeoutError as SATimeoutError
 
 load_dotenv()

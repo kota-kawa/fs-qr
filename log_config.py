@@ -31,4 +31,6 @@ if not root_logger.handlers:
     if error_handler is not None:
         root_logger.addHandler(error_handler)
     else:
-        root_logger.warning("File logging is disabled because %s is not writable.", LOG_FILE)
+        root_logger.warning(
+            "File logging is disabled because %s is not writable.", LOG_FILE
+        )

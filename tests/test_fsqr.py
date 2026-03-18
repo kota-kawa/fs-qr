@@ -26,6 +26,7 @@ def test_remove_succes_page(test_client: TestClient):
 
 # --- アップロードバリデーション ---
 
+
 def test_upload_no_file(test_client: TestClient):
     """ファイルなしでアップロードすると 400 を返す"""
     response = test_client.post("/upload", data={"name": "", "file_type": "multiple"})
@@ -57,12 +58,15 @@ def test_upload_wrong_id_length(test_client: TestClient):
 def test_upload_too_many_files(test_client: TestClient):
     """ファイル数が 10 を超えると 400 JSON エラーを返す"""
     files = [("upfile", (f"file{i}.txt", b"x", "text/plain")) for i in range(11)]
-    response = test_client.post("/upload", files=files, data={"name": "", "file_type": "multiple"})
+    response = test_client.post(
+        "/upload", files=files, data={"name": "", "file_type": "multiple"}
+    )
     assert response.status_code == 400
     assert "error" in response.json()
 
 
 # --- try_login バリデーション ---
+
 
 def test_try_login_invalid_id_chars(test_client: TestClient):
     """ID に無効な文字を含む場合はエラーページを返す"""
@@ -79,6 +83,7 @@ def test_try_login_invalid_pw_chars(test_client: TestClient):
 
 
 # --- upload_complete / download の 404 ---
+
 
 def test_upload_complete_not_found(test_client: TestClient):
     """存在しない secure_id へのアクセスは 404 を返す"""

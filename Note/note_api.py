@@ -11,7 +11,9 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api")
 
 
-@router.api_route("/note/{room_id}/{password}", methods=["GET", "POST"], name="note.note_sync")
+@router.api_route(
+    "/note/{room_id}/{password}", methods=["GET", "POST"], name="note.note_sync"
+)
 async def note_sync(request: Request, room_id: str, password: str):
     meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
@@ -20,17 +22,23 @@ async def note_sync(request: Request, room_id: str, password: str):
             room_id = fallback_room_id
             meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
-        return JSONResponse({"error": "room not found or password mismatch"}, status_code=404)
+        return JSONResponse(
+            {"error": "room not found or password mismatch"}, status_code=404
+        )
 
     if request.method == "GET":
         try:
             row = await nd.get_row(room_id)
             if row["updated_at"] is None:
-                return JSONResponse({"error": "room not found or not initialized"}, status_code=404)
+                return JSONResponse(
+                    {"error": "room not found or not initialized"}, status_code=404
+                )
             return JSONResponse(
                 {
                     "content": row["content"],
-                    "updated_at": row["updated_at"].isoformat(sep=" ", timespec="microseconds"),
+                    "updated_at": row["updated_at"].isoformat(
+                        sep=" ", timespec="microseconds"
+                    ),
                 }
             )
         except Exception as e:

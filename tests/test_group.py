@@ -23,6 +23,7 @@ def test_search_group_page(test_client: TestClient):
 
 # --- create_group_room バリデーション ---
 
+
 def test_create_group_room_empty_id(test_client: TestClient):
     """ID が空の場合は 400 JSON エラーを返す"""
     response = test_client.post(
@@ -55,6 +56,7 @@ def test_create_group_room_wrong_length(test_client: TestClient):
 
 # --- search_group_process バリデーション ---
 
+
 def test_search_group_invalid_id_chars(test_client: TestClient):
     """ID に無効な文字があると 400 JSON エラーを返す"""
     response = test_client.post(
@@ -77,14 +79,15 @@ def test_search_group_invalid_password_chars(test_client: TestClient):
 
 # --- group ファイル操作: 不正パス ---
 
+
 def test_download_file_dotdot_filename(test_client: TestClient):
-    """".." を含むファイル名の download は 400 を返す"""
+    """ ".." を含むファイル名の download は 400 を返す"""
     # "..malicious.txt" は URL 正規化の対象にならず、アプリ層でブロックされる
     response = test_client.get("/download/roomid/000000/..malicious.txt")
     assert response.status_code == 400
 
 
 def test_delete_file_dotdot_filename(test_client: TestClient):
-    """".." を含むファイル名の delete は 400 を返す"""
+    """ ".." を含むファイル名の delete は 400 を返す"""
     response = test_client.delete("/delete/roomid/000000/..malicious.txt")
     assert response.status_code == 400

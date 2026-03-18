@@ -87,7 +87,9 @@ async def create_note_room(request: Request):
     if not id_candidates:
         id_candidates = [json_data.get("id", "")]
     id_val = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
-    id_mode = (form_data.get("idMode") if form_data else None) or json_data.get("idMode", "auto")
+    id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
+        "idMode", "auto"
+    )
 
     retention_value = form_data.get("retention_days") if form_data else None
     if retention_value is None:
@@ -109,15 +111,22 @@ async def create_note_room(request: Request):
         if not _is_valid_room_id(id_val):
             if not re.match(r"^[a-zA-Z0-9]+$", id_val):
                 return JSONResponse(
-                    {"error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"},
+                    {
+                        "error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
+                    },
                     status_code=400,
                 )
-            return JSONResponse({"error": "IDは6文字の半角英数字で入力してください"}, status_code=400)
+            return JSONResponse(
+                {"error": "IDは6文字の半角英数字で入力してください"}, status_code=400
+            )
 
     if id_mode == "auto":
         if id_val and await _room_id_exists(id_val):
             return JSONResponse(
-                {"error": "生成されたIDが重複しています。新しいIDで再試行してください。", "retry_auto": True},
+                {
+                    "error": "生成されたIDが重複しています。新しいIDで再試行してください。",
+                    "retry_auto": True,
+                },
                 status_code=409,
             )
         if not id_val:
@@ -129,13 +138,18 @@ async def create_note_room(request: Request):
                     break
             if not generated:
                 return JSONResponse(
-                    {"error": "自動生成IDの作成に失敗しました。時間をおいて再試行してください。"},
+                    {
+                        "error": "自動生成IDの作成に失敗しました。時間をおいて再試行してください。"
+                    },
                     status_code=500,
                 )
             id_val = generated
     else:
         if await _room_id_exists(id_val):
-            return JSONResponse({"error": "このIDは既に使用されています。別のIDを使用してください。"}, status_code=409)
+            return JSONResponse(
+                {"error": "このIDは既に使用されています。別のIDを使用してください。"},
+                status_code=409,
+            )
 
     room_id = id_val
 
@@ -166,7 +180,9 @@ async def note_room(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        response = render_template(request, "error.html", message=get_block_message(block_label))
+        response = render_template(
+            request, "error.html", message=get_block_message(block_label)
+        )
         response.status_code = 429
         return response
 
@@ -176,16 +192,25 @@ async def note_room(request: Request, room_id: str, password: str):
         if fallback_room_id:
             await register_success(SCOPE_NOTE, ip)
             return RedirectResponse(
-                build_url(request, "note.note_room", room_id=fallback_room_id, password=password),
+                build_url(
+                    request,
+                    "note.note_room",
+                    room_id=fallback_room_id,
+                    password=password,
+                ),
                 status_code=302,
             )
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
-            response = render_template(request, "error.html", message=get_block_message(block_label))
+            response = render_template(
+                request, "error.html", message=get_block_message(block_label)
+            )
             response.status_code = 429
             return response
         response = render_template(
-            request, "error.html", message="指定されたルームが見つからないか、パスワードが間違っています"
+            request,
+            "error.html",
+            message="指定されたルームが見つからないか、パスワードが間違っています",
         )
         response.status_code = 404
         return response
@@ -197,7 +222,9 @@ async def note_room(request: Request, room_id: str, password: str):
     deletion_date = None
     if created_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime("%Y-%m-%d %H:%M")
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
+                "%Y-%m-%d %H:%M"
+            )
         except Exception:
             deletion_date = None
 
@@ -255,7 +282,9 @@ async def note_direct_access(request: Request, room_id: str, password: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        response = render_template(request, "error.html", message=get_block_message(block_label))
+        response = render_template(
+            request, "error.html", message=get_block_message(block_label)
+        )
         response.status_code = 429
         return response
 
@@ -265,16 +294,25 @@ async def note_direct_access(request: Request, room_id: str, password: str):
         if fallback_room_id:
             await register_success(SCOPE_NOTE, ip)
             return RedirectResponse(
-                build_url(request, "note.note_room", room_id=fallback_room_id, password=password),
+                build_url(
+                    request,
+                    "note.note_room",
+                    room_id=fallback_room_id,
+                    password=password,
+                ),
                 status_code=302,
             )
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
-            response = render_template(request, "error.html", message=get_block_message(block_label))
+            response = render_template(
+                request, "error.html", message=get_block_message(block_label)
+            )
             response.status_code = 429
             return response
         response = render_template(
-            request, "error.html", message="指定されたルームが見つからないか、パスワードが間違っています"
+            request,
+            "error.html",
+            message="指定されたルームが見つからないか、パスワードが間違っています",
         )
         response.status_code = 404
         return response

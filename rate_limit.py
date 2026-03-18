@@ -1,4 +1,5 @@
 """Redis-based rate limiting for authentication-like endpoints."""
+
 from __future__ import annotations
 
 import logging
@@ -31,7 +32,9 @@ def get_redis_client() -> redis.Redis:
     return _redis_client
 
 
-async def check_rate_limit(scope: str, ip: str) -> Tuple[bool, Optional[datetime], Optional[str]]:
+async def check_rate_limit(
+    scope: str, ip: str
+) -> Tuple[bool, Optional[datetime], Optional[str]]:
     """Check whether the given IP is currently blocked for the scope."""
     r = get_redis_client()
     block_key = f"rate_limit:{scope}:{ip}:block"
@@ -53,7 +56,9 @@ async def check_rate_limit(scope: str, ip: str) -> Tuple[bool, Optional[datetime
     return True, None, None
 
 
-async def register_failure(scope: str, ip: str) -> Tuple[Optional[datetime], Optional[str]]:
+async def register_failure(
+    scope: str, ip: str
+) -> Tuple[Optional[datetime], Optional[str]]:
     """Record a failed attempt. Returns block information when a block is active."""
     r = get_redis_client()
     count_key = f"rate_limit:{scope}:{ip}:count"
@@ -69,9 +74,9 @@ async def register_failure(scope: str, ip: str) -> Tuple[Optional[datetime], Opt
 
         # Increment count
         count = await r.incr(count_key)
-        
+
         # Set a long expiry for the count itself so it doesn't leak forever
-        # (Only set it on first increment to avoid resetting TTL constantly, 
+        # (Only set it on first increment to avoid resetting TTL constantly,
         # though incr doesn't change TTL, so we check if count==1 or just ttl check)
         if count == 1:
             # Keep count for 30 days max if inactive

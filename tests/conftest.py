@@ -24,6 +24,7 @@ sys.modules["redis.asyncio"] = mock_redis_asyncio
 mock_starsessions = MagicMock()
 sys.modules["starsessions"] = mock_starsessions
 
+
 # SessionMiddleware が ASGI アプリとして正しく振る舞うようにする
 class MockSessionMiddleware:
     def __init__(self, app, **kwargs):
@@ -33,6 +34,7 @@ class MockSessionMiddleware:
         if scope["type"] in {"http", "websocket"}:
             scope.setdefault("session", {})
         await self.app(scope, receive, send)
+
 
 mock_starsessions.SessionMiddleware = MockSessionMiddleware
 
@@ -59,7 +61,9 @@ class SimpleASGITestClient:
 
     async def _request(self, method: str, path: str, **kwargs):
         transport = httpx.ASGITransport(app=self.app)
-        async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://testserver"
+        ) as client:
             return await client.request(method, path, **kwargs)
 
     def request(self, method: str, path: str, **kwargs):
@@ -74,18 +78,20 @@ class SimpleASGITestClient:
     def delete(self, path: str, **kwargs):
         return self.request("DELETE", path, **kwargs)
 
+
 @pytest.fixture(scope="module")
 def test_client():
     # さらに細かい部分のモックが必要な場合はここでpatchする
     # Note.note_dataなどがDBにアクセスするのを防ぐ
-    
-    with patch("Note.note_data.ensure_tables", new_callable=AsyncMock), \
-         patch("Note.note_realtime.startup", new_callable=AsyncMock), \
-         patch("Note.note_realtime.shutdown", new_callable=AsyncMock), \
-         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock), \
-         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock), \
-         patch("Group.group_data.get_data_direct", new_callable=AsyncMock):
-        
+
+    with (
+        patch("Note.note_data.ensure_tables", new_callable=AsyncMock),
+        patch("Note.note_realtime.startup", new_callable=AsyncMock),
+        patch("Note.note_realtime.shutdown", new_callable=AsyncMock),
+        patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock),
+        patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock),
+        patch("Group.group_data.get_data_direct", new_callable=AsyncMock),
+    ):
         # appのインポートはモック設定後に行う
         from app import app
 

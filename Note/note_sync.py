@@ -12,10 +12,14 @@ MAX_RETRY_ATTEMPTS = 3
 
 
 def _format_updated_at(updated_at):
-    return updated_at.isoformat(sep=" ", timespec="microseconds") if updated_at else None
+    return (
+        updated_at.isoformat(sep=" ", timespec="microseconds") if updated_at else None
+    )
 
 
-async def sync_note_content(room_id, client_content, client_last_known_updated_at, client_original_content):
+async def sync_note_content(
+    room_id, client_content, client_last_known_updated_at, client_original_content
+):
     if len(client_content) > MAX_CONTENT_LENGTH:
         return (
             {
@@ -27,7 +31,9 @@ async def sync_note_content(room_id, client_content, client_last_known_updated_a
         )
 
     if client_last_known_updated_at is None or client_original_content is None:
-        logger.warning("Missing required parameters for room %s, using fallback", room_id)
+        logger.warning(
+            "Missing required parameters for room %s, using fallback", room_id
+        )
         await nd.save_content(room_id, client_content)
         row = await nd.get_row(room_id)
         return (
@@ -42,7 +48,9 @@ async def sync_note_content(room_id, client_content, client_last_known_updated_a
 
     for attempt in range(MAX_RETRY_ATTEMPTS):
         try:
-            rowcount = await nd.save_content(room_id, client_content, client_last_known_updated_at)
+            rowcount = await nd.save_content(
+                room_id, client_content, client_last_known_updated_at
+            )
 
             if rowcount > 0:
                 row = await nd.get_row(room_id)
@@ -56,7 +64,9 @@ async def sync_note_content(room_id, client_content, client_last_known_updated_a
                     True,
                 )
 
-            merge_payload = await attempt_merge(room_id, client_content, client_original_content)
+            merge_payload = await attempt_merge(
+                room_id, client_content, client_original_content
+            )
             if merge_payload:
                 payload, http_status, changed = merge_payload
                 return payload, http_status, changed
@@ -77,7 +87,9 @@ async def sync_note_content(room_id, client_content, client_last_known_updated_a
             )
 
         except Exception as e:
-            logger.error("Error in sync attempt %s for room %s: %s", attempt + 1, room_id, e)
+            logger.error(
+                "Error in sync attempt %s for room %s: %s", attempt + 1, room_id, e
+            )
             if attempt == MAX_RETRY_ATTEMPTS - 1:
                 raise
 
@@ -95,7 +107,9 @@ async def attempt_merge(room_id, client_content, client_original_content):
         merged_text, patch_results = dmp.patch_apply(patches, server_text)
 
         if all(patch_results):
-            merged_rowcount = await nd.save_content(room_id, merged_text, server_timestamp)
+            merged_rowcount = await nd.save_content(
+                room_id, merged_text, server_timestamp
+            )
             if merged_rowcount > 0:
                 final_row = await nd.get_row(room_id)
                 return (

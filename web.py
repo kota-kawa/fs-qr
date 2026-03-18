@@ -79,6 +79,7 @@ def flash_message(request: Request, message: str) -> None:
 
 logger = logging.getLogger(__name__)
 
+
 def render_template(request: Request, template_name: str, **context: Any):
     payload = {"request": TemplateRequestProxy(request)}
     payload.update(context)

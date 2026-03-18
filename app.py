@@ -61,7 +61,9 @@ def _build_session_middleware_kwargs():
 
 app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+app.mount(
+    "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"
+)
 
 
 @app.middleware("http")
@@ -83,10 +85,14 @@ async def startup():
             break
         except Exception as exc:
             wait_s = min(1.0 * (2**attempt), 10.0)
-            logger.warning("Database not ready, retrying startup (%s/5): %s", attempt + 1, exc)
+            logger.warning(
+                "Database not ready, retrying startup (%s/5): %s", attempt + 1, exc
+            )
             await asyncio.sleep(wait_s)
     if not ready:
-        logger.error("Database startup checks failed after retries; continuing without bootstrap.")
+        logger.error(
+            "Database startup checks failed after retries; continuing without bootstrap."
+        )
     await note_realtime_startup()
     await db_session.remove()
 

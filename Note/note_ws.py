@@ -3,7 +3,13 @@ import logging
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from database import remove_db_session
-from rate_limit import SCOPE_NOTE, check_rate_limit, get_block_message, register_failure, register_success
+from rate_limit import (
+    SCOPE_NOTE,
+    check_rate_limit,
+    get_block_message,
+    register_failure,
+    register_success,
+)
 from . import note_data as nd
 from .note_realtime import hub, publish_room_update
 from .note_sync import sync_note_content
@@ -40,7 +46,9 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             await websocket.accept()
-            await websocket.send_json({"type": "error", "error": get_block_message(block_label)})
+            await websocket.send_json(
+                {"type": "error", "error": get_block_message(block_label)}
+            )
         await websocket.close(code=1008)
         return
 
@@ -53,7 +61,9 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
             {
                 "type": "init",
                 "content": row["content"],
-                "updated_at": row["updated_at"].isoformat(sep=" ", timespec="microseconds"),
+                "updated_at": row["updated_at"].isoformat(
+                    sep=" ", timespec="microseconds"
+                ),
             }
         )
         await remove_db_session()
@@ -75,7 +85,9 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 )
             except Exception as exc:
                 logger.error("Critical error in note_ws for room %s: %s", room_id, exc)
-                await websocket.send_json({"type": "error", "error": "Internal server error"})
+                await websocket.send_json(
+                    {"type": "error", "error": "Internal server error"}
+                )
                 await remove_db_session()
                 continue
 
@@ -91,7 +103,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 }
                 await hub.broadcast(room_id, update_payload, exclude=websocket)
                 await publish_room_update(room_id, update_payload)
-            
+
             await remove_db_session()
     except WebSocketDisconnect:
         pass

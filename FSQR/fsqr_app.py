@@ -51,7 +51,9 @@ def _calculate_deletion_context(record):
     deletion_date = None
     if created_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime("%Y-%m-%d %H:%M")
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
+                "%Y-%m-%d %H:%M"
+            )
         except Exception:
             deletion_date = None
     return retention_days, deletion_date
@@ -104,7 +106,10 @@ async def upload(
 
     if id_val:
         if not re.match(r"^[a-zA-Z0-9]+$", id_val):
-            return json_or_msg(request, "IDに無効な文字が含まれています。半角英数字のみ使用してください。")
+            return json_or_msg(
+                request,
+                "IDに無効な文字が含まれています。半角英数字のみ使用してください。",
+            )
         if len(id_val) != 6:
             return json_or_msg(request, "IDは6文字の半角英数字で入力してください。")
 
@@ -159,7 +164,13 @@ async def upload(
         retention_days=retention_days_int,
     )
 
-    return JSONResponse({"redirect_url": build_url(request, "fsqr.upload_complete", secure_id=secure_id)})
+    return JSONResponse(
+        {
+            "redirect_url": build_url(
+                request, "fsqr.upload_complete", secure_id=secure_id
+            )
+        }
+    )
 
 
 @router.get("/upload_complete/{secure_id}", name="fsqr.upload_complete")
@@ -201,7 +212,9 @@ async def download(request: Request, secure_id: str):
         raise HTTPException(status_code=404)
     row = data[0]
     return RedirectResponse(
-        build_url(request, "fsqr.fs_qr_room", room_id=row["id"], password=row["password"]),
+        build_url(
+            request, "fsqr.fs_qr_room", room_id=row["id"], password=row["password"]
+        ),
         status_code=302,
     )
 
@@ -231,7 +244,9 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
         id=record["id"],
         password=record["password"],
         secure_id=secure_id,
-        url=build_url(request, "fsqr.fs_qr_download", room_id=room_id, password=password),
+        url=build_url(
+            request, "fsqr.fs_qr_download", room_id=room_id, password=password
+        ),
         retention_days=retention_days,
         deletion_date=deletion_date,
     )
@@ -271,7 +286,7 @@ async def _send_file_response(request: Request, secure_id: str):
         return msg(request, "ファイルが存在しません")
 
     response = FileResponse(path, media_type=mimetype)
-    response.headers["Content-Disposition"] = f"inline; filename=\"{download_name}\""
+    response.headers["Content-Disposition"] = f'inline; filename="{download_name}"'
     response.headers["X-File-Type"] = file_type
     if original_filename:
         response.headers["X-Original-Filename"] = original_filename

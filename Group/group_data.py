@@ -12,8 +12,9 @@ from cache_utils import cache_data
 logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(__file__)
-QR = os.path.join(BASE_DIR, 'static/qrcode')
-STATIC = os.path.join(BASE_DIR, 'static/upload')
+QR = os.path.join(BASE_DIR, "static/qrcode")
+STATIC = os.path.join(BASE_DIR, "static/upload")
+
 
 # データベースクエリの共通実行関数
 async def execute_query(query, params=None, fetch=False, retries=2):
@@ -32,7 +33,9 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             return None
         except Exception as e:
             if is_retryable_db_error(e) and attempt < retries:
-                logger.warning("Database connection lost, retrying (%s/%s)", attempt + 1, retries)
+                logger.warning(
+                    "Database connection lost, retrying (%s/%s)", attempt + 1, retries
+                )
                 await reset_db_connection()
                 await asyncio.sleep(0.5 * (2**attempt))
                 continue
@@ -42,6 +45,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             except Exception:
                 pass
             raise
+
 
 # グループの部屋の作成
 async def create_room(id, password, room_id, retention_days=7):
@@ -59,6 +63,7 @@ async def create_room(id, password, room_id, retention_days=7):
         },
     )
 
+
 # ログイン処理
 async def pich_room_id_direct(id, password):
     query = text("""
@@ -71,6 +76,7 @@ async def pich_room_id_direct(id, password):
 @cache_data(ttl=60)
 async def pich_room_id(id, password):
     return await pich_room_id_direct(id, password)
+
 
 # データベースから任意のIDのデータを取り出す
 async def get_data_direct(secure_id):
@@ -85,6 +91,7 @@ async def get_data_direct(secure_id):
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
+
 # 全てのデータを取得する
 @cache_data(ttl=300)
 async def get_all():
@@ -92,6 +99,7 @@ async def get_all():
         SELECT * FROM room ORDER BY suji DESC
     """)
     return await execute_query(query, fetch=True)
+
 
 # アップロードされたファイルとメタ情報の削除
 async def remove_data(secure_id):
@@ -104,15 +112,19 @@ async def remove_data(secure_id):
     # グループアップロードフォルダのパスを計算（group_app.py と同様の処理）
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     PARENT_DIR = os.path.dirname(BASE_DIR)
-    group_uploads = os.path.join(PARENT_DIR, 'static', 'group_uploads')
+    group_uploads = os.path.join(PARENT_DIR, "static", "group_uploads")
     room_folder = os.path.join(group_uploads, secure_filename(secure_id))
-    
+
     # ルームに紐づくアップロードフォルダを削除
     if os.path.exists(room_folder):
         try:
             shutil.rmtree(room_folder)
         except Exception as e:
-            logger.error("アップロードフォルダの削除に失敗しました: %s. エラー: %s", room_folder, e)
+            logger.error(
+                "アップロードフォルダの削除に失敗しました: %s. エラー: %s",
+                room_folder,
+                e,
+            )
 
     # データベースから該当ルームのレコードを削除
     query = text("""
@@ -120,15 +132,16 @@ async def remove_data(secure_id):
     """)
     await execute_query(query, {"secure_id": secure_id})
 
+
 # 全てのデータを削除
 async def all_remove():
     # 全ルーム情報を取得（get_all() は全件取得を行います）
     rooms = await get_all()
-    
+
     # グループアップロードフォルダのパス（group_app.py と同じパスを想定）
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     PARENT_DIR = os.path.dirname(BASE_DIR)
-    group_uploads = os.path.join(PARENT_DIR, 'static', 'group_uploads')
+    group_uploads = os.path.join(PARENT_DIR, "static", "group_uploads")
 
     for room in rooms:
         room_id = room.get("room_id")
@@ -141,12 +154,15 @@ async def all_remove():
             try:
                 shutil.rmtree(room_folder)
             except Exception as e:
-                logger.error("アップロードフォルダの削除に失敗しました: %s. エラー: %s", room_folder, e)
-    
+                logger.error(
+                    "アップロードフォルダの削除に失敗しました: %s. エラー: %s",
+                    room_folder,
+                    e,
+                )
+
     # 最後に、データベースから全ルームのレコードを削除
     query = text("DELETE FROM room")
     await execute_query(query)
-
 
 
 # 1週間以上経過したルームを削除する関数
