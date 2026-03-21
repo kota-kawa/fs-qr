@@ -214,6 +214,7 @@
       </div>
       <div class="card-body">
           <form method="POST" action="/search_group_process">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <div class="form-group">
                   <label for="roomID" class="form-label">ルームID</label>
                   <input type="text" id="ID" name="id" class="form-control"

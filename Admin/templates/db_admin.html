@@ -26,6 +26,7 @@
         <div class="card-body">
           <h3 class="card-title text-center mb-4">DB&nbsp;Admin&nbsp;Login</h3>
           <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-3">
               <label class="form-label fw-bold">Password</label>
               <input type="password" name="password" class="form-control" required minlength="1" maxlength="128">

@@ -267,6 +267,7 @@ footer,
         
         <div class="modern-card-body">
             <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <!-- Upload Area -->
                 <div class="modern-upload-area" id="upload-area">
                     <div class="upload-icon-modern">

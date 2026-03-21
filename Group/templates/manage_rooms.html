@@ -10,6 +10,7 @@
 
     <!-- すべて削除ボタン -->
     <form method="post" action="/delete_all_rooms" onsubmit="return confirm('本当にすべてのルームを削除しますか？');" class="text-center">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button type="submit" class="btn btn-danger mb-3">すべて削除</button>
     </form>
 
@@ -33,6 +34,7 @@
                 <td>{{ room.retention_days }}日</td>
                 <td>
                     <form method="post" action="/delete_room/{{ room.room_id }}" onsubmit="return confirm('このルームを削除しますか？');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="btn btn-sm btn-danger">削除</button>
                     </form>
                 </td>

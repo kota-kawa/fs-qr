@@ -473,6 +473,14 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+    // CSRF token for all AJAX requests
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+        }
+    });
+
     $(document).ready(function () {
         var uploadArea = $('#upload-area');
         var fileInput = $('#fileInput');

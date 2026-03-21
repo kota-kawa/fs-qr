@@ -11,6 +11,7 @@
     <h2 class="h4 fw-bold mb-0">管理ページ</h2>
     <form action="/all-remove" method="POST" class="d-inline" onsubmit="return confirm('本当にすべて削除しますか？');">
       <input type="hidden" name="pw" value="{{ pw }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <button class="btn btn-danger btn-sm rounded-pill px-3" type="submit">
         {{ icon('trash', size='sm', with_text=True) }} すべて削除
       </button>

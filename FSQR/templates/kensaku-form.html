@@ -214,6 +214,7 @@
       </div>
       <div class="card-body">
           <form action="/try_login" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <fieldset>
                   <div class="form-group">
                       <label for="name" class="form-label">ルームID</label>

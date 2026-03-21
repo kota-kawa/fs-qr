@@ -110,8 +110,19 @@ templates.env.filters["datetime"] = _filter_datetime
 # Provide a safe urlencode filter even if not present.
 templates.env.filters.setdefault("urlencode", _filter_urlencode)
 
+@pass_context
+def csrf_token(context: Dict[str, Any]) -> str:
+    from csrf import generate_csrf_token
+
+    request: Request = context.get("request")
+    if request is None:
+        return ""
+    return generate_csrf_token(request)
+
+
 templates.env.globals.update(
     staticfile=staticfile,
     url_for=url_for,
     get_flashed_messages=get_flashed_messages,
+    csrf_token=csrf_token,
 )

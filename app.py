@@ -16,6 +16,7 @@ try:
 except ImportError:  # pragma: no cover - fallback for older Starlette
     from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
+from csrf import csrf_error_response, validate_csrf
 from database import db_session
 from Note import note_data
 from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
@@ -64,6 +65,14 @@ app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"
 )
+
+
+@app.middleware("http")
+async def csrf_middleware(request: Request, call_next):
+    error = await validate_csrf(request)
+    if error:
+        return csrf_error_response(request, error)
+    return await call_next(request)
 
 
 @app.middleware("http")

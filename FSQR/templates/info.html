@@ -398,6 +398,7 @@
         </table>
 
         <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4 text-center">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button type="submit" class="modern-btn modern-btn-success">ダウンロード</button>
         </form>
         
@@ -583,8 +584,10 @@
     const decryptionKey = secureId.split('-')[0];
 
     // fetch APIでサーバーからファイルを受信
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const response = await fetch(this.action, {
-      method: 'POST'
+      method: 'POST',
+      headers: { 'X-CSRF-Token': csrfToken }
     });
     const encryptedBlob = await response.blob();
     

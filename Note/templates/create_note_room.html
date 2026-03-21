@@ -312,6 +312,7 @@
       </div>
       <div class="card-body">
           <form method="POST" action="/create_note_room">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <!-- ID入力方式選択 -->
               <div class="form-group">
                   <label class="form-label">ルームID設定方式</label>
