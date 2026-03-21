@@ -10,6 +10,8 @@ import secrets
 from fastapi import Request
 from starlette.responses import JSONResponse
 
+from session_utils import session_get, session_set
+
 logger = logging.getLogger(__name__)
 
 CSRF_SESSION_KEY = "_csrf_token"
@@ -28,10 +30,13 @@ UNSAFE_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
 
 def generate_csrf_token(request: Request) -> str:
     """Return the existing CSRF token or create a new one in the session."""
-    token = request.session.get(CSRF_SESSION_KEY)
+    accessible, token = session_get(request, CSRF_SESSION_KEY)
+    if not accessible:
+        raise RuntimeError("Failed to access session for CSRF token generation")
     if not token:
         token = secrets.token_hex(TOKEN_LENGTH)
-        request.session[CSRF_SESSION_KEY] = token
+        if not session_set(request, CSRF_SESSION_KEY, token):
+            raise RuntimeError("Failed to persist CSRF token in session")
     return token
 
 
@@ -75,10 +80,8 @@ async def validate_csrf(request: Request) -> str | None:
     if _is_exempt(request.url.path):
         return None
 
-    try:
-        session_token = request.session.get(CSRF_SESSION_KEY)
-    except Exception:
-        logger.warning("Failed to access session for CSRF validation")
+    accessible, session_token = session_get(request, CSRF_SESSION_KEY)
+    if not accessible:
         return "セッションにアクセスできません。ページを再読み込みしてください。"
 
     if not session_token:

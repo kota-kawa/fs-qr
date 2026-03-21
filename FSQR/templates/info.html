@@ -587,6 +587,7 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const response = await fetch(this.action, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'X-CSRF-Token': csrfToken }
     });
     const encryptedBlob = await response.blob();

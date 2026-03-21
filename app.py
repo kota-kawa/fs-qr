@@ -8,6 +8,11 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starsessions import SessionMiddleware
+
+try:
+    from starsessions import SessionAutoloadMiddleware
+except ImportError:  # pragma: no cover - compatibility with older starsessions
+    SessionAutoloadMiddleware = None
 from starsessions.stores.redis import RedisStore
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 
@@ -61,6 +66,8 @@ def _build_session_middleware_kwargs():
 
 
 app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
+if inspect.isclass(SessionAutoloadMiddleware):
+    app.add_middleware(SessionAutoloadMiddleware)
 
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"

@@ -10,6 +10,7 @@ from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 from starlette.responses import HTMLResponse
 
+from session_utils import session_get, session_pop, session_set
 from settings import BASE_DIR
 
 TEMPLATE_DIRS = [
@@ -25,6 +26,8 @@ TEMPLATE_DIRS = [
 TEMPLATE_DIRS = [path for path in TEMPLATE_DIRS if os.path.isdir(path)]
 
 templates = Jinja2Templates(directory=TEMPLATE_DIRS)
+
+logger = logging.getLogger(__name__)
 
 
 class TemplateRequestProxy:
@@ -65,9 +68,8 @@ def get_flashed_messages(context: Dict[str, Any]) -> Iterable[str]:
     request: Request = context.get("request")
     if request is None:
         return []
-    try:
-        messages = request.session.pop("_flashes", [])
-    except Exception:
+    accessible, messages = session_pop(request, "_flashes", [])
+    if not accessible:
         return []
     if not isinstance(messages, list):
         return []
@@ -75,17 +77,15 @@ def get_flashed_messages(context: Dict[str, Any]) -> Iterable[str]:
 
 
 def flash_message(request: Request, message: str) -> None:
-    try:
-        messages = request.session.get("_flashes")
-        if not isinstance(messages, list):
-            messages = []
-        messages.append(message)
-        request.session["_flashes"] = messages
-    except Exception:
+    accessible, messages = session_get(request, "_flashes")
+    if not accessible:
         logger.warning("Failed to flash message (session may be unavailable)")
-
-
-logger = logging.getLogger(__name__)
+        return
+    if not isinstance(messages, list):
+        messages = []
+    messages.append(message)
+    if not session_set(request, "_flashes", messages):
+        logger.warning("Failed to flash message (session may be unavailable)")
 
 
 def render_template(request: Request, template_name: str, **context: Any):

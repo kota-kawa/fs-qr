@@ -25,6 +25,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from session_utils import session_get, session_pop, session_set
 from settings import MANAGEMENT_PASSWORD as management_password
 from web import build_url, flash_message, render_template
 from . import group_data
@@ -38,6 +39,7 @@ STATIC_DIR = os.path.join(PARENT_DIR, "static")
 
 # アップロード先フォルダ
 UPLOAD_FOLDER = os.path.join(STATIC_DIR, "group_uploads")
+SESSION_ACCESS_ERROR = "セッションにアクセスできません。ページを再読み込みしてください。"
 
 
 def is_safe_path(base_path, target_path):
@@ -504,12 +506,19 @@ async def manage_rooms(request: Request):
         form = await request.form()
         password = form.get("password")
         if password == management_password:
-            request.session["management_authenticated"] = True
+            if not session_set(request, "management_authenticated", True):
+                return room_msg(request, SESSION_ACCESS_ERROR, status_code=503)
         else:
             flash_message(request, "パスワードが違います。 সন")
             return render_template(request, "manage_rooms_login.html")
 
-    if not request.session.get("management_authenticated"):
+    accessible, is_authenticated = session_get(
+        request, "management_authenticated", False
+    )
+    if not accessible:
+        return room_msg(request, SESSION_ACCESS_ERROR, status_code=503)
+
+    if not is_authenticated:
         return render_template(request, "manage_rooms_login.html")
 
     rooms = await group_data.get_all()
@@ -518,7 +527,9 @@ async def manage_rooms(request: Request):
 
 @router.get("/logout_management", name="group.logout_management")
 async def logout_management(request: Request):
-    request.session.pop("management_authenticated", None)
+    accessible, _ = session_pop(request, "management_authenticated", None)
+    if not accessible:
+        return room_msg(request, SESSION_ACCESS_ERROR, status_code=503)
     return RedirectResponse("/manage_rooms", status_code=302)
 
 

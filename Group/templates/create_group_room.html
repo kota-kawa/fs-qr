@@ -484,6 +484,7 @@
         
         fetch(form.action, {
             method: 'POST',
+            credentials: 'same-origin',
             body: formData
         })
         .then(response => {
@@ -505,6 +506,7 @@
                         
                         return fetch(form.action, {
                             method: 'POST',
+                            credentials: 'same-origin',
                             body: newFormData
                         });
                     } else {

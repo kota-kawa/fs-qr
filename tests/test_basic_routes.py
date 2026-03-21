@@ -60,9 +60,6 @@ def test_pages_render_when_session_raises(test_client: TestClient):
         def __setitem__(self, key, value):
             raise RuntimeError("Redis connection refused")
 
-    def _inject_broken_session(scope, receive, send):
-        scope["session"] = BrokenSession()
-
     original_call = test_client.app.__class__.__call__
 
     async def patched_call(self, scope, receive, send):
@@ -78,9 +75,44 @@ def test_pages_render_when_session_raises(test_client: TestClient):
         response = test_client.get("/search_note")
         assert response.status_code == 200
 
+        response = test_client.get("/group")
+        assert response.status_code == 200
+
         # Home page (extends layout.html which uses csrf_token())
         response = test_client.get("/")
         assert response.status_code == 200
+
+
+def test_session_autoload_middleware_is_registered(test_client: TestClient):
+    middleware_names = [
+        middleware.cls.__name__ for middleware in test_client.app.user_middleware
+    ]
+    assert "MockSessionAutoloadMiddleware" in middleware_names
+
+
+def test_manage_rooms_returns_error_when_session_raises(test_client: TestClient):
+    class BrokenSession(dict):
+        def get(self, key, default=None):
+            raise RuntimeError("Redis connection refused")
+
+        def __setitem__(self, key, value):
+            raise RuntimeError("Redis connection refused")
+
+        def pop(self, key, default=None):
+            raise RuntimeError("Redis connection refused")
+
+    original_call = test_client.app.__class__.__call__
+
+    async def patched_call(self, scope, receive, send):
+        if scope["type"] in {"http", "websocket"}:
+            scope["session"] = BrokenSession()
+        return await original_call(self, scope, receive, send)
+
+    with patch.object(type(test_client.app), "__call__", patched_call):
+        response = test_client.get("/manage_rooms")
+
+    assert response.status_code == 503
+    assert "セッションにアクセスできません" in response.text
 
 
 def test_unexpected_exception_returns_json_error_response(test_client: TestClient):
