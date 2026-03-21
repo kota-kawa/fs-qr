@@ -67,6 +67,30 @@ app.mount(
 )
 
 
+def _wants_json_response(request: Request) -> bool:
+    accept = request.headers.get("accept", "")
+    content_type = request.headers.get("content-type", "")
+    return (
+        request.url.path.startswith("/api")
+        or request.headers.get("x-requested-with") == "XMLHttpRequest"
+        or "application/json" in accept
+        or "application/json" in content_type
+    )
+
+
+def _build_error_response(request: Request, message: str, status_code: int):
+    if _wants_json_response(request):
+        return JSONResponse({"detail": message}, status_code=status_code)
+    response = render_template(
+        request,
+        "error.html",
+        message=message,
+        _status_code=status_code,
+    )
+    response.status_code = status_code
+    return response
+
+
 @app.middleware("http")
 async def csrf_middleware(request: Request, call_next):
     error = await validate_csrf(request)
@@ -80,6 +104,20 @@ async def db_session_middleware(request: Request, call_next):
     try:
         response = await call_next(request)
         return response
+    except StarletteHTTPException:
+        raise
+    except Exception as exc:
+        logger.exception(
+            "Unhandled application error on %s %s",
+            request.method,
+            request.url.path,
+            exc_info=exc,
+        )
+        return _build_error_response(
+            request,
+            "一時的なエラーが発生しました。時間をおいて再度お試しください。",
+            500,
+        )
     finally:
         await db_session.remove()
 
@@ -114,14 +152,31 @@ async def shutdown():
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
-        accept = request.headers.get("accept", "")
-        if request.url.path.startswith("/api") or "application/json" in accept:
+        if _wants_json_response(request):
             return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
-        if "text/html" in accept or "*/*" in accept:
-            response = render_template(request, "404.html")
-            response.status_code = 404
-            return response
+        response = render_template(request, "404.html", _status_code=404)
+        response.status_code = 404
+        return response
+    if _wants_json_response(request):
+        return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+    if 400 <= exc.status_code < 600:
+        return _build_error_response(request, str(exc.detail), exc.status_code)
     return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+
+
+@app.exception_handler(Exception)
+async def unexpected_exception_handler(request: Request, exc: Exception):
+    logger.exception(
+        "Unhandled application error on %s %s",
+        request.method,
+        request.url.path,
+        exc_info=exc,
+    )
+    return _build_error_response(
+        request,
+        "一時的なエラーが発生しました。時間をおいて再度お試しください。",
+        500,
+    )
 
 
 app.include_router(group_router)

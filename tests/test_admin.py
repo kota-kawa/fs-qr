@@ -1,3 +1,6 @@
+from pathlib import Path
+from unittest.mock import AsyncMock, patch
+
 from starlette.testclient import TestClient
 
 
@@ -20,3 +23,17 @@ def test_admin_remove_wrong_pw(test_client: TestClient):
     response = test_client.get("/admin/remove/somesecureid?pw=wrongpassword")
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
+
+
+def test_all_remove_recreates_upload_dir_when_missing(
+    test_client: TestClient, tmp_path: Path
+):
+    with (
+        patch("Admin.admin_app.BASE_DIR", str(tmp_path)),
+        patch("Admin.admin_app.ADMIN_KEY", "secret"),
+        patch("Admin.admin_app.fs_data.all_remove", new=AsyncMock()),
+    ):
+        response = test_client.post("/all-remove", data={"pw": "secret"})
+
+    assert response.status_code == 302
+    assert (tmp_path / "static" / "upload").is_dir()

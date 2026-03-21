@@ -1,12 +1,14 @@
 import logging
 import os
 import time
+from html import escape
 from typing import Any, Dict, Iterable
 from urllib.parse import quote_plus
 
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
+from starlette.responses import HTMLResponse
 
 from settings import BASE_DIR
 
@@ -83,11 +85,81 @@ logger = logging.getLogger(__name__)
 def render_template(request: Request, template_name: str, **context: Any):
     payload = {"request": TemplateRequestProxy(request)}
     payload.update(context)
+    requested_status = payload.pop("_status_code", None)
     try:
-        return templates.TemplateResponse(template_name, payload)
-    except Exception as e:
-        logger.exception(f"Error rendering template {template_name}: {e}")
-        raise e
+        try:
+            response = templates.TemplateResponse(request, template_name, payload)
+        except TypeError:
+            response = templates.TemplateResponse(template_name, payload)
+        if requested_status is not None:
+            response.status_code = int(requested_status)
+        return response
+    except Exception:
+        logger.exception("Error rendering template %s", template_name)
+        fallback_message = str(
+            context.get("message")
+            or "一時的なエラーが発生しました。時間をおいて再度お試しください。"
+        )
+        fallback_status = (
+            int(requested_status) if requested_status and int(requested_status) >= 400 else 500
+        )
+        title = "ページが見つかりません" if template_name == "404.html" else "エラー"
+        body = f"""<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{escape(title)} | FS!QR</title>
+  <style>
+    body {{
+      margin: 0;
+      font-family: sans-serif;
+      background: #f5f5f5;
+      color: #1f2937;
+    }}
+    main {{
+      max-width: 640px;
+      margin: 8vh auto;
+      padding: 24px;
+    }}
+    section {{
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      text-align: center;
+    }}
+    h1 {{
+      margin: 0 0 16px;
+      font-size: 1.5rem;
+    }}
+    p {{
+      margin: 0 0 24px;
+      line-height: 1.7;
+    }}
+    a {{
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+    }}
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>{escape(title)}</h1>
+      <p>{escape(fallback_message)}</p>
+      <a href="/">ホームへ戻る</a>
+    </section>
+  </main>
+</body>
+</html>
+"""
+        return HTMLResponse(body, status_code=fallback_status)
 
 
 def build_url(request: Request, name: str, **params: Any) -> str:
