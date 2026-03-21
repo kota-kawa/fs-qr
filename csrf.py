@@ -49,7 +49,10 @@ async def _get_submitted_token(request: Request) -> str | None:
 
     # 2. Check form body for regular form submissions.
     content_type = request.headers.get("content-type", "")
-    if "application/x-www-form-urlencoded" in content_type or "multipart/form-data" in content_type:
+    if (
+        "application/x-www-form-urlencoded" in content_type
+        or "multipart/form-data" in content_type
+    ):
         try:
             form = await request.form()
             token = form.get(CSRF_FIELD_NAME)
@@ -71,7 +74,9 @@ async def validate_csrf(request: Request) -> str | None:
 
     session_token = request.session.get(CSRF_SESSION_KEY)
     if not session_token:
-        return "CSRFトークンがセッションに存在しません。ページを再読み込みしてください。"
+        return (
+            "CSRFトークンがセッションに存在しません。ページを再読み込みしてください。"
+        )
 
     submitted_token = await _get_submitted_token(request)
     if not submitted_token:
