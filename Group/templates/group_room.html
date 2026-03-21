@@ -102,16 +102,36 @@
 
 .share-priority-card {
   margin-bottom: 1.25rem;
-  padding: 1rem 1.1rem;
+  padding: 1rem 1.1rem 0.9rem;
   border-radius: 16px;
   background: rgba(240, 253, 244, 0.96);
   border: 1px solid rgba(34, 197, 94, 0.18);
   color: rgb(22, 101, 52);
 }
 
-.share-priority-card strong {
-  display: block;
+.share-priority-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-bottom: 0.35rem;
+}
+
+.share-priority-card strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.share-priority-card strong svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.share-priority-hint {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #3f3f46;
 }
 
 .sensitive-value {
@@ -136,15 +156,45 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 88px;
   min-height: 2.4rem;
-  padding: 0.4rem 0.8rem;
+  width: 2.4rem;
+  padding: 0;
   border-radius: 999px;
   border: 1px solid rgba(22, 101, 52, 0.16);
   background: #fff;
   color: rgb(22, 101, 52);
   font-weight: 600;
   text-decoration: none;
+  flex: none;
+}
+
+.secondary-action-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.secondary-action-button.is-pill {
+  width: auto;
+  min-width: 0;
+  padding: 0.68rem 0.95rem;
+  gap: 0.5rem;
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
+  box-shadow: 0 10px 20px rgba(22, 101, 52, 0.18);
+}
+
+.share-priority-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.share-mini-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
 .share-feedback {
@@ -167,6 +217,18 @@
 .share-feedback.is-error {
   background: rgba(254, 242, 242, 0.92);
   color: #b91c1c;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Upload area colors to match Group theme */
@@ -229,12 +291,39 @@
         
         <div class="modern-card-body">
             <div class="share-priority-card">
-                <strong>最短の共有方法</strong>
-                参加者には「共有リンクをコピー」で URL を送るのが最短です。URL を使わない場合だけ、Room ID とパスワードを共有してください。
-                <div class="sensitive-actions">
-                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}" data-default-label="共有リンクをコピー" data-copied-label="コピー済み">共有リンクをコピー</button>
-                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="Room ID: {{ room_id }} / Password: {{ password }}" data-default-label="IDとPWをコピー" data-copied-label="コピー済み">IDとPWをコピー</button>
+                <div class="share-priority-head">
+                    <strong>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M3.75 12a.75.75 0 0 1 .75-.75h11.19L12.22 7.78a.75.75 0 1 1 1.06-1.06l4.75 4.75a.75.75 0 0 1 0 1.06l-4.75 4.75a.75.75 0 1 1-1.06-1.06l3.47-3.47H4.5A.75.75 0 0 1 3.75 12Z"/>
+                        </svg>
+                        共有
+                    </strong>
+                    <div class="share-priority-actions">
+                        <button type="button" class="secondary-action-button is-pill copy-url-button" data-copy-value="{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}" data-default-label="リンクをコピー" data-copied-label="コピー済み">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M15.75 3.75a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h7.5Z"/>
+                                <path d="M5.25 7.5a.75.75 0 0 1 1.5 0v8.25A2.25 2.25 0 0 0 9 18h8.25a.75.75 0 0 1 0 1.5H9a3.75 3.75 0 0 1-3.75-3.75V7.5Z"/>
+                            </svg>
+                            <span>リンク</span>
+                        </button>
+                        <div class="share-mini-actions">
+                            <button type="button" class="secondary-action-button copy-url-button" data-copy-value="Room ID: {{ room_id }} / Password: {{ password }}" data-default-label="IDとPWをコピー" data-copied-label="コピー済み" aria-label="IDとPWをコピー" title="IDとPWをコピー">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M15.75 1.5a3.75 3.75 0 0 0-3.673 4.5H5.25a3.75 3.75 0 0 0 0 7.5h.75v2.25A2.25 2.25 0 0 0 8.25 18h1.5v.75a3.75 3.75 0 1 0 7.5 0V18h.75A2.25 2.25 0 0 0 20.25 15.75V13.5h.75a3.75 3.75 0 0 0 0-7.5h-1.327A3.75 3.75 0 0 0 15.75 1.5Zm-1.5 3.75a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm-9 4.5a1.5 1.5 0 0 0 0 3h.75v-3h-.75Zm12 9a1.5 1.5 0 1 1-3 0V18h3v.75Zm1.5-3v-3h-9v3h9Zm2.25-6a1.5 1.5 0 0 1 0 3h-.75v-3H21Z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="sr-only">IDとPWをコピー</span>
+                            </button>
+                            <a href="{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener" class="secondary-action-button" aria-label="共有リンクを開く" title="共有リンクを開く">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M13.5 4.5A1.5 1.5 0 0 1 15 3h4.5A1.5 1.5 0 0 1 21 4.5V9a.75.75 0 0 1-1.5 0V5.56l-7.72 7.72a.75.75 0 1 1-1.06-1.06l7.72-7.72H15A.75.75 0 0 1 13.5 4.5Z" clip-rule="evenodd"/>
+                                    <path fill-rule="evenodd" d="M6 6.75A2.25 2.25 0 0 1 8.25 4.5H12a.75.75 0 0 1 0 1.5H8.25A.75.75 0 0 0 7.5 6.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V12a.75.75 0 0 1 1.5 0v3.75A2.25 2.25 0 0 1 18 18H8.25A2.25 2.25 0 0 1 6 15.75v-9Z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="sr-only">共有リンクを開く</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                <p class="share-priority-hint">リンクを送るのが最短です。</p>
             </div>
             <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
             <!-- Room Info + QR Code -->
@@ -477,7 +566,7 @@
                 const isMasked = target.classList.contains('is-masked');
                 target.textContent = isMasked ? visibleValue : maskedValue;
                 target.classList.toggle('is-masked', !isMasked);
-                button.textContent = isMasked
+                button.innerHTML = isMasked
                     ? (button.getAttribute('data-hide-label') || '隠す')
                     : (button.getAttribute('data-show-label') || '表示');
             });
