@@ -182,6 +182,35 @@
     transform: translateY(0);
 }
 
+.inline-feedback {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    background: rgba(254, 242, 242, 0.95);
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.inline-feedback.is-visible {
+    display: block;
+}
+
+.retention-preview {
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(240, 253, 244, 0.95);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: rgb(22, 101, 52);
+}
+
+.retention-preview strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 576px) {
     .page-container {
@@ -329,7 +358,13 @@
                       </span>
                   </div>
                   <small class="retention-select-hint">指定した保存期間を過ぎるとルーム全体が安全に削除されます。</small>
+                  <div class="retention-preview" id="retentionPreview" aria-live="polite">
+                      <strong>この内容で今すぐ作成した場合の削除予定</strong>
+                      <span id="retentionPreviewTime">計算中...</span>
+                  </div>
               </div>
+
+              <div class="inline-feedback" id="createRoomInlineError" role="alert" aria-live="assertive"></div>
 
               <button type="submit" class="btn-modern">Create Room</button>
           </form>
@@ -347,6 +382,41 @@
 
 
 <script>
+    const retentionSelect = document.getElementById('retention');
+    const retentionPreviewTime = document.getElementById('retentionPreviewTime');
+    const inlineError = document.getElementById('createRoomInlineError');
+
+    function showInlineError(message) {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = message;
+        inlineError.classList.add('is-visible');
+    }
+
+    function clearInlineError() {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = '';
+        inlineError.classList.remove('is-visible');
+    }
+
+    function formatDateTime(date) {
+        const pad = (value) => String(value).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function updateRetentionPreview() {
+        if (!retentionSelect || !retentionPreviewTime) {
+            return;
+        }
+        const retentionDays = Number(retentionSelect.value || 7);
+        const deletionDate = new Date();
+        deletionDate.setDate(deletionDate.getDate() + retentionDays);
+        retentionPreviewTime.textContent = `${formatDateTime(deletionDate)} ごろに自動削除されます`;
+    }
+
     // ID生成関数
     function generateRandomId() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -367,6 +437,7 @@
         // 自動生成モードが初期値なので手動入力欄を無効化
         roomIdInput.name = '';
         hiddenIdInput.name = 'id';
+        updateRetentionPreview();
     });
 
     // ID入力方式の切り替え
@@ -376,6 +447,7 @@
             const autoGroup = document.getElementById('autoIdGroup');
             const roomIdInput = document.getElementById('roomID');
             const hiddenIdInput = document.getElementById('hiddenId');
+            clearInlineError();
             
             if (this.value === 'manual') {
                 manualGroup.style.display = 'block';
@@ -399,8 +471,12 @@
 
     document.querySelector('form').addEventListener('submit', function (event) {
         event.preventDefault(); // フォームのデフォルト動作を一時停止
+        clearInlineError();
         
         const form = event.target;
+        if (!form.reportValidity()) {
+            return;
+        }
         const formData = new FormData(form);
         
         document.getElementById('loading-screen').style.display = 'flex'; // ローディング画面を表示
@@ -433,7 +509,7 @@
                     } else {
                         // 手動入力モードの場合はエラーを表示
                         document.getElementById('loading-screen').style.display = 'none';
-                        alert(data.error);
+                        showInlineError(data.error);
                         return Promise.reject('Manual ID conflict');
                     }
                 });
@@ -441,7 +517,7 @@
                 // その他のエラー
                 return response.json().then(data => {
                     document.getElementById('loading-screen').style.display = 'none';
-                    alert(data.error || 'エラーが発生しました');
+                    showInlineError(data.error || 'ルーム作成に失敗しました。時間をおいて再度お試しください。');
                     throw new Error(data.error);
                 });
             }
@@ -463,6 +539,7 @@
     // ID入力欄のリアルタイムバリデーション（手動入力時のみ）
     const roomIdInput = document.getElementById('roomID');
     roomIdInput.addEventListener('input', function() {
+        clearInlineError();
         const value = this.value;
                 const isValid = /^[a-zA-Z0-9]{0,6}$/.test(value);
 
@@ -477,5 +554,9 @@
                     this.style.borderColor = value.length === 6 ? '#10b981' : '#e5e7eb';
                 }
     });
+
+    if (retentionSelect) {
+        retentionSelect.addEventListener('change', updateRetentionPreview);
+    }
   </script>
 {% endblock %}

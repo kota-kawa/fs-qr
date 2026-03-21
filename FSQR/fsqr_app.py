@@ -198,6 +198,8 @@ async def upload_complete(request: Request, secure_id: str):
         id=id_val,
         password=password_val,
         secure_id=secure_id,
+        file_type=row.get("file_type", "multiple"),
+        original_filename=row.get("original_filename", ""),
         mode="upload",
         url=share_url,
         retention_days=retention_days,
@@ -244,6 +246,8 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
         id=record["id"],
         password=record["password"],
         secure_id=secure_id,
+        file_type=record.get("file_type", "multiple"),
+        original_filename=record.get("original_filename", ""),
         url=build_url(
             request, "fsqr.fs_qr_download", room_id=room_id, password=password
         ),

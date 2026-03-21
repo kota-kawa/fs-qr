@@ -89,6 +89,75 @@
   background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
 }
 
+.share-priority-card {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(247, 254, 231, 0.96);
+  border: 1px solid rgba(163, 230, 53, 0.22);
+  color: #4d7c0f;
+}
+
+.share-priority-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.sensitive-value {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;
+  font-weight: 600;
+}
+
+.sensitive-value.is-masked {
+  letter-spacing: 0.08em;
+}
+
+.sensitive-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.45rem;
+}
+
+.secondary-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  min-height: 2.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(132, 204, 22, 0.2);
+  background: #fff;
+  color: #4d7c0f;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.share-feedback {
+  display: none;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.share-feedback.is-visible {
+  display: block;
+}
+
+.share-feedback.is-success {
+  background: rgba(236, 253, 245, 0.92);
+  color: #047857;
+}
+
+.share-feedback.is-error {
+  background: rgba(254, 242, 242, 0.92);
+  color: #b91c1c;
+}
+
 /* Editor and form colors to match Note theme */
 .modern-editor {
   border-color: rgb(132, 204, 22);
@@ -119,6 +188,15 @@
         </div>
         
         <div class="modern-card-body">
+            <div class="share-priority-card">
+                <strong>最短の共有方法</strong>
+                参加者には「共有リンクをコピー」で URL を送るのが最短です。URL を使わない場合だけ、Room ID とパスワードを共有してください。
+                <div class="sensitive-actions">
+                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" data-default-label="共有リンクをコピー" data-copied-label="コピー済み">共有リンクをコピー</button>
+                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="Room ID: {{ room_id }} / Password: {{ password }}" data-default-label="IDとPWをコピー" data-copied-label="コピー済み">IDとPWをコピー</button>
+                </div>
+            </div>
+            <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
             <!-- Room Info + QR Code -->
             <div class="room-info-container">
                 <div class="room-info-card">
@@ -130,18 +208,30 @@
                         </div>
                         <div class="room-info-row">
                             <span class="room-info-label">Password</span>
-                            <span class="room-info-value">{{ password }}</span>
+                            <span class="room-info-value">
+                                <span id="noteRoomPassword" class="sensitive-value is-masked" data-visible-value="{{ password }}" data-masked-value="••••••">••••••</span>
+                                <div class="sensitive-actions">
+                                    <button type="button" class="secondary-action-button reveal-value-button" data-target="noteRoomPassword" data-show-label="表示" data-hide-label="隠す">表示</button>
+                                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ password }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー">PWをコピー</button>
+                                </div>
+                            </span>
                         </div>
                         <div class="room-info-row">
                             <span class="room-info-label">URL</span>
                             <span class="room-info-value room-info-url">
-                                <a id="noteRoomUrl" class="room-info-url-link" href="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener">
-                                    {{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}
-                                </a>
+                                <span id="noteRoomUrl" class="sensitive-value is-masked" data-visible-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" data-masked-value="https://••••••••••">https://••••••••••</span>
+                                <div class="sensitive-actions">
+                                <button
+                                  type="button"
+                                  class="secondary-action-button reveal-value-button"
+                                  data-target="noteRoomUrl"
+                                  data-show-label="表示"
+                                  data-hide-label="隠す"
+                                >表示</button>
                                 <button
                                   type="button"
                                   class="copy-url-button"
-                                  data-copy-target="noteRoomUrl"
+                                  data-copy-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}"
                                   data-default-label="URLをコピー"
                                   data-copied-label="コピー済み"
                                   aria-label="URLをコピー"
@@ -151,6 +241,8 @@
                                     <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
                                   </svg>
                                 </button>
+                                <a class="secondary-action-button" href="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener">開く</a>
+                                </div>
                             </span>
                         </div>
                         <div class="room-info-row">
@@ -230,16 +322,45 @@
     });
   }
 
+  function setShareFeedback(message, kind) {
+    const feedback = document.getElementById('shareFeedback');
+    if (!feedback) {
+      return;
+    }
+    feedback.textContent = message;
+    feedback.className = `share-feedback is-visible is-${kind}`;
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.copy-url-button').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const targetId = button.getAttribute('data-copy-target');
+    document.querySelectorAll('.reveal-value-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
         const target = targetId ? document.getElementById(targetId) : null;
         if (!target) {
           return;
         }
 
-        const text = target.textContent.trim();
+        const visibleValue = target.getAttribute('data-visible-value') || '';
+        const maskedValue = target.getAttribute('data-masked-value') || '••••••';
+        const isMasked = target.classList.contains('is-masked');
+        target.textContent = isMasked ? visibleValue : maskedValue;
+        target.classList.toggle('is-masked', !isMasked);
+        button.textContent = isMasked
+          ? (button.getAttribute('data-hide-label') || '隠す')
+          : (button.getAttribute('data-show-label') || '表示');
+      });
+    });
+
+    document.querySelectorAll('.copy-url-button').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const targetId = button.getAttribute('data-copy-target');
+        const target = targetId ? document.getElementById(targetId) : null;
+        const text = button.getAttribute('data-copy-value')
+          || (target ? (target.getAttribute('data-visible-value') || target.textContent.trim()) : '');
+        if (!text) {
+          return;
+        }
+
         const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
         const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
         if (!button.hasAttribute('aria-label')) {
@@ -254,13 +375,14 @@
           button.classList.add('copied');
           button.setAttribute('aria-label', copiedLabel);
           button.setAttribute('title', copiedLabel);
+          setShareFeedback('コピーしました。参加者にそのまま送れます。', 'success');
           setTimeout(() => {
             button.classList.remove('copied');
             button.setAttribute('aria-label', defaultLabel);
             button.setAttribute('title', defaultLabel);
           }, 2000);
         } catch (error) {
-          alert('コピーに失敗しました。URLを選択して手動でコピーしてください。');
+          setShareFeedback('コピーに失敗しました。表示して手動でコピーしてください。', 'error');
         }
       });
     });

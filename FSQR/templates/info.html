@@ -79,9 +79,87 @@
 .copy-url-button.copied {
   background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
 }
+
+.share-priority-card {
+  margin-bottom: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(239, 246, 255, 0.92);
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  text-align: left;
+}
+
+.share-priority-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #1d4ed8;
+}
+
+.sensitive-value {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;
+  font-weight: 600;
+}
+
+.sensitive-value.is-masked {
+  letter-spacing: 0.08em;
+}
+
+.sensitive-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.45rem;
+}
+
+.secondary-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(31, 39, 199, 0.18);
+  border-radius: 999px;
+  background: #fff;
+  color: #1f27c7;
+  font-weight: 600;
+}
+
+.share-feedback {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.share-feedback.is-visible {
+  display: block;
+}
+
+.share-feedback.is-success {
+  background: rgba(236, 253, 245, 0.92);
+  color: #047857;
+}
+
+.share-feedback.is-error {
+  background: rgba(254, 242, 242, 0.92);
+  color: #b91c1c;
+}
+
+.share-actions-primary {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
 </style>
 
 <div class="info-page">
+  {% set display_filename = original_filename if file_type == 'single' and original_filename else secure_id ~ ('.enc' if file_type == 'single' else '.zip') %}
   <div class="info-box">
     <div class="info-box-header">
       <h2>
@@ -98,6 +176,10 @@
     {% if mode == 'upload' %}
     <div class="info-box-content">
       <div class="text-center" style="max-width: 500px; margin: 0 auto;">
+        <div class="share-priority-card">
+          <strong>最短の共有方法</strong>
+          相手には「共有リンクをコピー」で URL を送るのが最短です。URL を使わない場合だけ、ID とパスワードを共有してください。
+        </div>
         <h3>ダウンロード先の情報:</h3>
         <table class="table table-bordered table-striped text-start">
           <tr>
@@ -106,32 +188,42 @@
           </tr>
           <tr>
             <th scope="row" class="text-center" style="white-space: nowrap;">パスワード</th>
-            <td>{{ password | e }}</td>
+            <td>
+              <span
+                id="sharePasswordValue"
+                class="sensitive-value is-masked"
+                data-visible-value="{{ password | e }}"
+                data-masked-value="••••••"
+              >••••••</span>
+              <div class="sensitive-actions">
+                <button type="button" class="secondary-action-button reveal-value-button" data-target="sharePasswordValue" data-show-label="表示" data-hide-label="隠す">表示</button>
+                <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ password | e }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー">PWをコピー</button>
+              </div>
+            </td>
           </tr>
           <tr>
             <th scope="row" class="text-center" style="white-space: nowrap;">共有リンク</th>
             <td>
-              <div class="share-url-wrapper">
-                <a id="shareRoomUrl" class="share-url-link" href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a>
-                <button
-                  type="button"
-                  class="copy-url-button"
-                  data-copy-target="shareRoomUrl"
-                  data-default-label="URLをコピー"
-                  data-copied-label="コピー済み"
-                  aria-label="URLをコピー"
-                  title="URLをコピー"
-                >
+              <span
+                id="shareRoomUrl"
+                class="sensitive-value is-masked"
+                data-visible-value="{{ url }}"
+                data-masked-value="https://••••••••••"
+              >https://••••••••••</span>
+              <div class="sensitive-actions">
+                <button type="button" class="secondary-action-button reveal-value-button" data-target="shareRoomUrl" data-show-label="表示" data-hide-label="隠す">表示</button>
+                <button type="button" class="copy-url-button" data-copy-value="{{ url }}" data-default-label="URLをコピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
                   </svg>
                 </button>
+                <a href="{{ url }}" target="_blank" rel="noopener" class="secondary-action-button">開く</a>
               </div>
             </td>
           </tr>
           <tr>
             <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
-            <td>{{ secure_id }}.zip</td>
+            <td>{{ display_filename }}</td>
           </tr>
           <tr>
             <th scope="row" class="text-center" style="white-space: nowrap;">自動削除まで</th>
@@ -152,6 +244,12 @@
           </tr>
         </table>
 
+        <div class="share-actions-primary">
+          <button type="button" class="modern-btn modern-btn-success" id="copyShareLinkPrimary" data-copy-value="{{ url }}">共有リンクをコピー</button>
+          <button type="button" class="modern-btn" id="copyCredentialsPrimary" data-copy-value="ID: {{ id | e }} / Password: {{ password | e }}">IDとPWをコピー</button>
+        </div>
+        <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
+
         <div class="text-center mt-4">
           <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
                class="img-fluid" style="max-width: 200px; height: auto; border-radius: 12px; box-shadow: var(--shadow-md);" alt="QR">
@@ -167,6 +265,10 @@
     {% else %}
     <div class="info-box-content">
       <div class="text-center" style="max-width: 400px; margin: 0 auto;">
+        <div class="share-priority-card">
+          <strong>この画面を開けていれば受け取り準備は完了です</strong>
+          共有リンクから開いた場合は、追加の入力なしでそのままダウンロードできます。
+        </div>
         <table class="table table-bordered table-striped">
           <tr>
             <th scope="row" class="text-center">ID</th>
@@ -174,12 +276,22 @@
           </tr>
           <tr>
             <th scope="row" class="text-center">ファイル名</th>
-            <td class="text-start">{{ secure_id }}.zip</td>
+            <td class="text-start">{{ display_filename }}</td>
           </tr>
           {% if password %}
           <tr>
             <th scope="row" class="text-center">Password</th>
-            <td class="text-start">{{ password | e }}</td>
+            <td class="text-start">
+              <span
+                id="downloadPasswordValue"
+                class="sensitive-value is-masked"
+                data-visible-value="{{ password | e }}"
+                data-masked-value="••••••"
+              >••••••</span>
+              <div class="sensitive-actions">
+                <button type="button" class="secondary-action-button reveal-value-button" data-target="downloadPasswordValue" data-show-label="表示" data-hide-label="隠す">表示</button>
+              </div>
+            </td>
           </tr>
           {% endif %}
           <tr>
@@ -243,16 +355,44 @@
       });
     }
 
+    function setShareFeedback(message, kind) {
+      const feedback = document.getElementById('shareFeedback');
+      if (!feedback) {
+        return;
+      }
+      feedback.textContent = message;
+      feedback.className = `share-feedback is-visible is-${kind}`;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.copy-url-button').forEach((button) => {
-        button.addEventListener('click', async () => {
-          const targetId = button.getAttribute('data-copy-target');
+      document.querySelectorAll('.reveal-value-button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-target');
           const target = targetId ? document.getElementById(targetId) : null;
           if (!target) {
             return;
           }
 
-          const text = target.textContent.trim();
+          const visibleValue = target.getAttribute('data-visible-value') || '';
+          const maskedValue = target.getAttribute('data-masked-value') || '••••••';
+          const isMasked = target.classList.contains('is-masked');
+          target.textContent = isMasked ? visibleValue : maskedValue;
+          target.classList.toggle('is-masked', !isMasked);
+          button.textContent = isMasked
+            ? (button.getAttribute('data-hide-label') || '隠す')
+            : (button.getAttribute('data-show-label') || '表示');
+        });
+      });
+
+      document.querySelectorAll('.copy-url-button').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const targetId = button.getAttribute('data-copy-target');
+          const target = targetId ? document.getElementById(targetId) : null;
+          const text = button.getAttribute('data-copy-value')
+            || (target ? (target.getAttribute('data-visible-value') || target.textContent.trim()) : '');
+          if (!text) {
+            return;
+          }
           const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
           const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
           if (!button.hasAttribute('aria-label')) {
@@ -267,13 +407,29 @@
             button.classList.add('copied');
             button.setAttribute('aria-label', copiedLabel);
             button.setAttribute('title', copiedLabel);
+            setShareFeedback('コピーしました。相手にそのまま送れます。', 'success');
             setTimeout(() => {
               button.classList.remove('copied');
               button.setAttribute('aria-label', defaultLabel);
               button.setAttribute('title', defaultLabel);
             }, 2000);
           } catch (error) {
-            alert('コピーに失敗しました。URLを選択して手動でコピーしてください。');
+            setShareFeedback('コピーに失敗しました。表示して手動でコピーしてください。', 'error');
+          }
+        });
+      });
+
+      document.querySelectorAll('#copyShareLinkPrimary, #copyCredentialsPrimary').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const text = button.getAttribute('data-copy-value') || '';
+          if (!text) {
+            return;
+          }
+          try {
+            await copyTextToClipboard(text);
+            setShareFeedback('コピーしました。相手にそのまま共有できます。', 'success');
+          } catch (error) {
+            setShareFeedback('コピーに失敗しました。表示内容を手動でコピーしてください。', 'error');
           }
         });
       });
