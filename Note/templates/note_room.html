@@ -35,25 +35,6 @@
   --usage-header-accent: rgb(163, 230, 53);
 }
 
-.room-info-value.room-info-url {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.room-info-url-link {
-  color: inherit;
-  text-decoration: none;
-  word-break: break-all;
-}
-
-.room-info-url-link:hover,
-.room-info-url-link:focus {
-  color: inherit;
-  text-decoration: none;
-}
-
 .copy-url-button {
   display: inline-flex;
   align-items: center;
@@ -123,24 +104,6 @@
   color: #3f3f46;
 }
 
-.sensitive-value {
-  display: inline-block;
-  max-width: 100%;
-  word-break: break-all;
-  font-weight: 600;
-}
-
-.sensitive-value.is-masked {
-  letter-spacing: 0.08em;
-}
-
-.sensitive-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 0.45rem;
-}
-
 .secondary-action-button {
   display: inline-flex;
   align-items: center;
@@ -171,6 +134,58 @@
   color: #fff;
   background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
   box-shadow: 0 10px 20px rgba(132, 204, 22, 0.18);
+}
+
+/* Clean room info values */
+.room-info-value-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.room-info-value-text {
+  font-weight: 600;
+  word-break: break-all;
+  color: var(--text-dark, #1f2937);
+}
+
+.room-info-value-row .copy-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.room-info-value-row .copy-inline-btn:hover {
+  color: #4d7c0f;
+  background: rgba(132, 204, 22, 0.1);
+}
+
+.room-info-value-row .copy-inline-btn.copied {
+  color: #16a34a;
+}
+
+.room-info-value-row .copy-inline-btn svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.room-info-url-text {
+  font-weight: 600;
+  word-break: break-all;
+  color: var(--text-dark, #1f2937);
+  font-size: 0.82rem;
+  line-height: 1.4;
 }
 
 .share-priority-actions {
@@ -293,45 +308,35 @@
                     <div class="room-info-body">
                         <div class="room-info-row">
                             <span class="room-info-label">Room ID</span>
-                            <span class="room-info-value">{{ room_id }}</span>
+                            <span class="room-info-value">
+                                <span class="room-info-value-row">
+                                    <span class="room-info-value-text">{{ room_id }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Room IDをコピー" title="Room IDをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
+                            </span>
                         </div>
                         <div class="room-info-row">
                             <span class="room-info-label">Password</span>
                             <span class="room-info-value">
-                                <span id="noteRoomPassword" class="sensitive-value is-masked" data-visible-value="{{ password }}" data-masked-value="••••••">••••••</span>
-                                <div class="sensitive-actions">
-                                    <button type="button" class="secondary-action-button reveal-value-button" data-target="noteRoomPassword" data-show-label="表示" data-hide-label="隠す">表示</button>
-                                    <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ password }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー">PWをコピー</button>
-                                </div>
+                                <span class="room-info-value-row">
+                                    <span class="room-info-value-text">{{ password }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Passwordをコピー" title="Passwordをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
                             </span>
                         </div>
                         <div class="room-info-row">
                             <span class="room-info-label">URL</span>
-                            <span class="room-info-value room-info-url">
-                                <span id="noteRoomUrl" class="sensitive-value is-masked" data-visible-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" data-masked-value="https://••••••••••">https://••••••••••</span>
-                                <div class="sensitive-actions">
-                                <button
-                                  type="button"
-                                  class="secondary-action-button reveal-value-button"
-                                  data-target="noteRoomUrl"
-                                  data-show-label="表示"
-                                  data-hide-label="隠す"
-                                >表示</button>
-                                <button
-                                  type="button"
-                                  class="copy-url-button"
-                                  data-copy-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}"
-                                  data-default-label="URLをコピー"
-                                  data-copied-label="コピー済み"
-                                  aria-label="URLをコピー"
-                                  title="URLをコピー"
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
-                                  </svg>
-                                </button>
-                                <a class="secondary-action-button" href="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" target="_blank" rel="noopener">開く</a>
-                                </div>
+                            <span class="room-info-value">
+                                <span class="room-info-value-row">
+                                    <span class="room-info-url-text">{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
                             </span>
                         </div>
                         <div class="room-info-row">
@@ -346,7 +351,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="qr-code-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_room', room_id=room_id, password=password, _external=True)|urlencode }}"
                          alt="QR Code" style="width: 160px; height: 160px;">
@@ -421,25 +426,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.reveal-value-button').forEach((button) => {
-      button.addEventListener('click', () => {
-        const targetId = button.getAttribute('data-target');
-        const target = targetId ? document.getElementById(targetId) : null;
-        if (!target) {
-          return;
-        }
-
-        const visibleValue = target.getAttribute('data-visible-value') || '';
-        const maskedValue = target.getAttribute('data-masked-value') || '••••••';
-        const isMasked = target.classList.contains('is-masked');
-        target.textContent = isMasked ? visibleValue : maskedValue;
-        target.classList.toggle('is-masked', !isMasked);
-        button.innerHTML = isMasked
-          ? (button.getAttribute('data-hide-label') || '隠す')
-          : (button.getAttribute('data-show-label') || '表示');
-      });
-    });
-
     document.querySelectorAll('.copy-url-button').forEach((button) => {
       button.addEventListener('click', async () => {
         const targetId = button.getAttribute('data-copy-target');

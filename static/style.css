@@ -1576,10 +1576,11 @@ body.note-section > * {
 
 .room-info-header {
   color: white;
-  padding: 1rem 1.5rem;
-  text-align: center;
+  padding: 0.7rem 1.25rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   position: relative;
@@ -1597,13 +1598,14 @@ body.note-section > * {
 }
 
 .room-info-body {
-  padding: 0;
+  padding: 0.25rem 0;
 }
 
 .room-info-row {
   display: flex;
-  align-items: center;
-  padding: 1rem 1.5rem;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -1613,18 +1615,19 @@ body.note-section > * {
 
 .room-info-label {
   font-weight: 600;
-  color: var(--text-dark);
-  min-width: 100px;
+  color: var(--text-medium);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  min-width: 80px;
+  flex-shrink: 0;
 }
 
 .room-info-value {
-  color: var(--text-medium);
-  font-family: monospace;
-  background: var(--bg-light);
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  margin-left: auto;
-  font-size: 0.95rem;
+  color: var(--text-dark);
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  min-width: 0;
 }
 
 .qr-code-container {
