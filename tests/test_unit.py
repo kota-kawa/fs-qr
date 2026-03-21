@@ -1,5 +1,6 @@
 """Pure unit tests – no HTTP, no database, no Redis required."""
 
+import re
 from datetime import datetime
 
 
@@ -146,3 +147,102 @@ def test_is_safe_path_traversal():
     from Group.group_app import is_safe_path
 
     assert is_safe_path("/var/uploads", "/var/uploads/../etc/passwd") is False
+
+
+def test_is_safe_path_nested_safe():
+    from Group.group_app import is_safe_path
+
+    assert is_safe_path("/var/uploads", "/var/uploads/roomid/subdir/file.txt") is True
+
+
+def test_is_safe_path_sibling_directory():
+    from Group.group_app import is_safe_path
+
+    assert is_safe_path("/var/uploads/room1", "/var/uploads/room2/file.txt") is False
+
+
+def test_is_safe_path_equals_base():
+    from Group.group_app import is_safe_path
+
+    assert is_safe_path("/var/uploads", "/var/uploads") is True
+
+
+# ---------------------------------------------------------------------------
+# Note.note_app – _generate_room_id
+# ---------------------------------------------------------------------------
+
+
+def test_generate_room_id_length():
+    from Note.note_app import _generate_room_id
+
+    assert len(_generate_room_id()) == 6
+
+
+def test_generate_room_id_alphanumeric():
+    from Note.note_app import _generate_room_id
+
+    for _ in range(20):
+        rid = _generate_room_id()
+        assert re.match(r"^[a-zA-Z0-9]{6}$", rid), f"無効なルームID: {rid}"
+
+
+# ---------------------------------------------------------------------------
+# FSQR.fsqr_app – _calculate_deletion_context (追加ケース)
+# ---------------------------------------------------------------------------
+
+
+def test_calculate_deletion_context_1day():
+    from FSQR.fsqr_app import _calculate_deletion_context
+
+    record = {"retention_days": 1, "time": datetime(2026, 3, 1, 0, 0)}
+    days, date_str = _calculate_deletion_context(record)
+    assert days == 1
+    assert date_str == "2026-03-02 00:00"
+
+
+# ---------------------------------------------------------------------------
+# rate_limit – get_block_message エッジケース
+# ---------------------------------------------------------------------------
+
+
+def test_get_block_message_empty_string():
+    from rate_limit import get_block_message
+
+    msg = get_block_message("")
+    assert isinstance(msg, str) and len(msg) > 0
+
+
+# ---------------------------------------------------------------------------
+# Note.note_app – _is_valid_room_id 追加エッジケース
+# ---------------------------------------------------------------------------
+
+
+def test_is_valid_room_id_with_space():
+    from Note.note_app import _is_valid_room_id
+
+    assert _is_valid_room_id("abc 23") is False
+
+
+def test_is_valid_room_id_unicode():
+    from Note.note_app import _is_valid_room_id
+
+    assert _is_valid_room_id("日本語abc") is False
+
+
+# ---------------------------------------------------------------------------
+# rate_limit – get_client_ip: 空白のみの X-Forwarded-For ヘッダー
+# ---------------------------------------------------------------------------
+
+
+def test_get_client_ip_whitespace_forwarded_uses_client():
+    from rate_limit import get_client_ip
+
+    req = type(
+        "R",
+        (),
+        {
+            "headers": {"X-Forwarded-For": "   "},
+            "client": type("C", (), {"host": "10.1.2.3"})(),
+        },
+    )()
+    assert get_client_ip(req) == "10.1.2.3"

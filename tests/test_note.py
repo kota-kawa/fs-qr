@@ -1,3 +1,5 @@
+from unittest.mock import AsyncMock, patch
+
 from starlette.testclient import TestClient
 
 
@@ -76,3 +78,60 @@ def test_search_note_invalid_password_chars(test_client: TestClient):
     )
     assert response.status_code == 302
     assert "/search_note" in response.headers["location"]
+
+
+# --- note_room: ルームが見つからない → 404 ---
+
+
+def test_note_room_not_found(test_client: TestClient):
+    """認証情報が一致しないルームアクセスは 404 を返す"""
+    with (
+        patch(
+            "Note.note_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch(
+            "Note.note_data.pick_room_id_direct",
+            new_callable=AsyncMock,
+            return_value=False,
+        ),
+    ):
+        response = test_client.get("/note/abc123/000000")
+    assert response.status_code == 404
+
+
+def test_note_direct_not_found(test_client: TestClient):
+    """note_direct_access で認証失敗の場合は 404 を返す"""
+    with (
+        patch(
+            "Note.note_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch(
+            "Note.note_data.pick_room_id_direct",
+            new_callable=AsyncMock,
+            return_value=False,
+        ),
+    ):
+        response = test_client.get("/note_direct/abc123/000000")
+    assert response.status_code == 404
+
+
+# --- create_note_room: auto モードで渡した ID が重複 → 409 ---
+
+
+def test_create_note_room_auto_duplicate(test_client: TestClient):
+    """auto モードで渡した ID が既存ルームと重複する場合は 409 を返す"""
+    with patch(
+        "Note.note_app._room_id_exists",
+        new_callable=AsyncMock,
+        return_value=True,
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            json={"id": "abc123", "idMode": "auto"},
+        )
+    assert response.status_code == 409
+    assert "retry_auto" in response.json()

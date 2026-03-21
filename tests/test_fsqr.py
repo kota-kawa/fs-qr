@@ -97,3 +97,75 @@ def test_download_not_found(test_client: TestClient):
     with patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=None):
         response = test_client.get("/download/nonexistent000")
     assert response.status_code == 404
+
+
+def test_download_found_redirects(test_client: TestClient):
+    """secure_id に対応するデータが存在する場合は 302 でルームへリダイレクトする"""
+    mock_data = [{"id": "abc123", "password": "654321"}]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.get("/download/abc123-uid-file.zip")
+    assert response.status_code == 302
+
+
+# --- fs_qr_room: 認証失敗 → 404 ---
+
+
+def test_fs_qr_room_not_found(test_client: TestClient):
+    """認証情報が一致しないルームアクセスは 404 を返す"""
+    with patch(
+        "FSQR.fsqr_data.get_data_by_credentials",
+        new_callable=AsyncMock,
+        return_value=None,
+    ):
+        response = test_client.get("/fs-qr/abc123/000000")
+    assert response.status_code == 404
+
+
+# --- try_login: DB 不一致 → エラーページ ---
+
+
+def test_try_login_not_found(test_client: TestClient):
+    """正しい形式でも DB が不一致の場合はエラーページ (200) を返す"""
+    with patch("FSQR.fsqr_data.try_login", new_callable=AsyncMock, return_value=False):
+        response = test_client.post(
+            "/try_login", data={"name": "abc123", "pw": "654321"}
+        )
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+
+
+def test_try_login_success_redirects(test_client: TestClient):
+    """認証成功時は 302 でルームページへリダイレクトする"""
+    with patch(
+        "FSQR.fsqr_data.try_login",
+        new_callable=AsyncMock,
+        return_value="abc123-uid-file",
+    ):
+        response = test_client.post(
+            "/try_login", data={"name": "abc123", "pw": "654321"}
+        )
+    assert response.status_code == 302
+
+
+# --- upload_complete: データが存在する場合 → 200 ---
+
+
+def test_upload_complete_found(test_client: TestClient):
+    """secure_id に対応するデータが存在する場合は 200 を返す"""
+    from datetime import datetime
+
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "654321",
+            "retention_days": 7,
+            "time": datetime(2026, 1, 1, 0, 0),
+        }
+    ]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.get("/upload_complete/abc123-uid-file")
+    assert response.status_code == 200

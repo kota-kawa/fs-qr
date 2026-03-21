@@ -1,3 +1,5 @@
+from unittest.mock import AsyncMock, patch
+
 from starlette.testclient import TestClient
 
 
@@ -91,3 +93,96 @@ def test_delete_file_dotdot_filename(test_client: TestClient):
     """ ".." を含むファイル名の delete は 400 を返す"""
     response = test_client.delete("/delete/roomid/000000/..malicious.txt")
     assert response.status_code == 400
+
+
+# --- group_room: 認証失敗かつ Note ルームでもない → 404 ---
+
+
+def test_group_room_not_found(test_client: TestClient):
+    """認証情報が一致せず Note ルームでもない場合は 404 を返す"""
+    with patch(
+        "Note.note_data.get_room_meta_direct",
+        new_callable=AsyncMock,
+        return_value=None,
+    ):
+        response = test_client.get("/group/abc123/000000")
+    assert response.status_code == 404
+
+
+# --- group_upload: 認証失敗 → 400 ---
+
+
+def test_group_upload_invalid_auth(test_client: TestClient):
+    """認証情報が一致しない場合はファイルアップロードを拒否する (400)"""
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=None,
+    ):
+        response = test_client.post(
+            "/group_upload/abc123/000000",
+            files={"upfile": ("test.txt", b"hello", "text/plain")},
+        )
+    assert response.status_code == 400
+    assert "error" in response.json()
+
+
+def test_group_upload_no_files(test_client: TestClient):
+    """認証は通るがファイルが送られない場合は 400 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.post("/group_upload/abc123/000000")
+    assert response.status_code == 400
+    assert "error" in response.json()
+
+
+# --- check (list_files): 認証失敗 → 404 ---
+
+
+def test_list_files_invalid_auth(test_client: TestClient):
+    """認証情報が一致しない場合はファイル一覧取得を拒否する (404)"""
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=None,
+    ):
+        response = test_client.get("/check/abc123/000000")
+    assert response.status_code == 404
+    assert "error" in response.json()
+
+
+# --- download/all: 認証失敗 → 404 ---
+
+
+def test_download_all_invalid_auth(test_client: TestClient):
+    """認証情報が一致しない場合は全ファイルダウンロードを拒否する (404)"""
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=None,
+    ):
+        response = test_client.get("/download/all/abc123/000000")
+    assert response.status_code == 404
+    assert "error" in response.json()
+
+
+# --- create_group_room: auto モードで重複 ID → 409 ---
+
+
+def test_create_group_room_auto_duplicate(test_client: TestClient):
+    """auto モードで渡した ID が既存ルームと重複する場合は 409 を返す"""
+    with patch(
+        "Group.group_data.get_data",
+        new_callable=AsyncMock,
+        return_value=[{"room_id": "abc123"}],
+    ):
+        response = test_client.post(
+            "/create_group_room",
+            json={"id": "abc123", "idMode": "auto"},
+        )
+    assert response.status_code == 409
+    assert "retry_auto" in response.json()
