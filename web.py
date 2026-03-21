@@ -101,7 +101,9 @@ def render_template(request: Request, template_name: str, **context: Any):
             or "一時的なエラーが発生しました。時間をおいて再度お試しください。"
         )
         fallback_status = (
-            int(requested_status) if requested_status and int(requested_status) >= 400 else 500
+            int(requested_status)
+            if requested_status and int(requested_status) >= 400
+            else 500
         )
         title = "ページが見つかりません" if template_name == "404.html" else "エラー"
         body = f"""<!doctype html>
