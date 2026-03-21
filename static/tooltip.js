@@ -4,6 +4,9 @@
   const ORIGINAL_TITLE_ATTR = "data-tooltip-title";
   const SKIP_ATTR = "data-tooltip-skip";
   const IGNORE_SELECTOR = "input, textarea, select, option";
+  const FOOTER_SKIP_SELECTOR = "footer, .simple-footer, .service-footer";
+  const INTERACTIVE_SELECTOR = "button, a[href], [role='button'], [role='link'], summary";
+  const TOOLTIP_TARGET_SELECTOR = `[${TOOLTIP_ATTR}], [${ORIGINAL_TITLE_ATTR}], [title]`;
   const VIEWPORT_MARGIN = 10;
   const GAP = 10;
   const MAX_TOOLTIP_WIDTH = 320;
@@ -56,7 +59,20 @@
     if (element.matches(IGNORE_SELECTOR) || element.closest(IGNORE_SELECTOR)) {
       return true;
     }
+    if (element.matches(FOOTER_SKIP_SELECTOR) || element.closest(FOOTER_SKIP_SELECTOR)) {
+      return true;
+    }
     return false;
+  }
+
+  function isTooltipEligible(element) {
+    if (!element || !element.matches) {
+      return false;
+    }
+    if (element.hasAttribute(TOOLTIP_ATTR) || element.hasAttribute(ORIGINAL_TITLE_ATTR)) {
+      return true;
+    }
+    return element.hasAttribute("title") && element.matches(INTERACTIVE_SELECTOR);
   }
 
   function extractText(element) {
@@ -75,11 +91,6 @@
       return title.trim();
     }
 
-    const ariaLabel = element.getAttribute("aria-label");
-    if (ariaLabel) {
-      return ariaLabel.trim();
-    }
-
     return "";
   }
 
@@ -88,6 +99,9 @@
       return;
     }
     if (shouldSkipElement(element)) {
+      return;
+    }
+    if (!isTooltipEligible(element)) {
       return;
     }
     if (element.hasAttribute(ORIGINAL_TITLE_ATTR)) {
@@ -114,10 +128,13 @@
     if (!eventTarget || !eventTarget.closest) {
       return null;
     }
-    const candidate = eventTarget.closest(
-      `[${TOOLTIP_ATTR}], [${ORIGINAL_TITLE_ATTR}], [title], [aria-label]`
-    );
-    if (!candidate || shouldSkipElement(candidate) || isElementDisabled(candidate)) {
+    const candidate = eventTarget.closest(TOOLTIP_TARGET_SELECTOR);
+    if (
+      !candidate ||
+      !isTooltipEligible(candidate) ||
+      shouldSkipElement(candidate) ||
+      isElementDisabled(candidate)
+    ) {
       return null;
     }
     const text = extractText(candidate);
