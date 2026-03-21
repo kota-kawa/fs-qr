@@ -39,7 +39,9 @@ STATIC_DIR = os.path.join(PARENT_DIR, "static")
 
 # アップロード先フォルダ
 UPLOAD_FOLDER = os.path.join(STATIC_DIR, "group_uploads")
-SESSION_ACCESS_ERROR = "セッションにアクセスできません。ページを再読み込みしてください。"
+SESSION_ACCESS_ERROR = (
+    "セッションにアクセスできません。ページを再読み込みしてください。"
+)
 
 
 def is_safe_path(base_path, target_path):
