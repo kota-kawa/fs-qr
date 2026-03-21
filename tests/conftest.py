@@ -38,17 +38,6 @@ class MockSessionMiddleware:
 
 mock_starsessions.SessionMiddleware = MockSessionMiddleware
 
-
-class MockSessionAutoloadMiddleware:
-    def __init__(self, app, **kwargs):
-        self.app = app
-
-    async def __call__(self, scope, receive, send):
-        await self.app(scope, receive, send)
-
-
-mock_starsessions.SessionAutoloadMiddleware = MockSessionAutoloadMiddleware
-
 mock_starsessions_stores = MagicMock()
 sys.modules["starsessions.stores"] = mock_starsessions_stores
 mock_starsessions_stores_redis = MagicMock()
@@ -102,7 +91,6 @@ def test_client():
         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock),
         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock),
         patch("Group.group_data.get_data_direct", new_callable=AsyncMock),
-        patch("csrf.validate_csrf", new_callable=AsyncMock, return_value=None),
     ):
         # appのインポートはモック設定後に行う
         from app import app

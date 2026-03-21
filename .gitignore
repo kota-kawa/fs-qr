@@ -6,9 +6,6 @@
 *.exe
 *.dll
 *.json
-!static/manifest.json
-!static/manifest_group.json
-!static/manifest_note.json
 *.Identifier
 # ログファイルを無視
 

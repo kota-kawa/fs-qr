@@ -43,8 +43,6 @@ async def all_remove(request: Request):
         return msg(request, "マスターパスワードが違います")
 
     await fs_data.all_remove()
-    upload_dir = os.path.join(BASE_DIR, "static", "upload")
-    if os.path.isdir(upload_dir):
-        shutil.rmtree(upload_dir)
-    os.makedirs(upload_dir, exist_ok=True)
+    shutil.rmtree(os.path.join(BASE_DIR, "static", "upload"))
+    os.mkdir(os.path.join(BASE_DIR, "static", "upload"))
     return RedirectResponse("/remove-succes", status_code=302)

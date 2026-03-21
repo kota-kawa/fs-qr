@@ -8,11 +8,6 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starsessions import SessionMiddleware
-
-try:
-    from starsessions import SessionAutoloadMiddleware
-except ImportError:  # pragma: no cover - compatibility with older starsessions
-    SessionAutoloadMiddleware = None
 from starsessions.stores.redis import RedisStore
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 
@@ -21,7 +16,6 @@ try:
 except ImportError:  # pragma: no cover - fallback for older Starlette
     from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-from csrf import csrf_error_response, validate_csrf
 from database import db_session
 from Note import note_data
 from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
@@ -66,44 +60,10 @@ def _build_session_middleware_kwargs():
 
 
 app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
-if inspect.isclass(SessionAutoloadMiddleware):
-    app.add_middleware(SessionAutoloadMiddleware)
 
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"
 )
-
-
-def _wants_json_response(request: Request) -> bool:
-    accept = request.headers.get("accept", "")
-    content_type = request.headers.get("content-type", "")
-    return (
-        request.url.path.startswith("/api")
-        or request.headers.get("x-requested-with") == "XMLHttpRequest"
-        or "application/json" in accept
-        or "application/json" in content_type
-    )
-
-
-def _build_error_response(request: Request, message: str, status_code: int):
-    if _wants_json_response(request):
-        return JSONResponse({"detail": message}, status_code=status_code)
-    response = render_template(
-        request,
-        "error.html",
-        message=message,
-        _status_code=status_code,
-    )
-    response.status_code = status_code
-    return response
-
-
-@app.middleware("http")
-async def csrf_middleware(request: Request, call_next):
-    error = await validate_csrf(request)
-    if error:
-        return csrf_error_response(request, error)
-    return await call_next(request)
 
 
 @app.middleware("http")
@@ -111,20 +71,6 @@ async def db_session_middleware(request: Request, call_next):
     try:
         response = await call_next(request)
         return response
-    except StarletteHTTPException:
-        raise
-    except Exception as exc:
-        logger.exception(
-            "Unhandled application error on %s %s",
-            request.method,
-            request.url.path,
-            exc_info=exc,
-        )
-        return _build_error_response(
-            request,
-            "一時的なエラーが発生しました。時間をおいて再度お試しください。",
-            500,
-        )
     finally:
         await db_session.remove()
 
@@ -159,31 +105,14 @@ async def shutdown():
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
-        if _wants_json_response(request):
+        accept = request.headers.get("accept", "")
+        if request.url.path.startswith("/api") or "application/json" in accept:
             return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
-        response = render_template(request, "404.html", _status_code=404)
-        response.status_code = 404
-        return response
-    if _wants_json_response(request):
-        return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
-    if 400 <= exc.status_code < 600:
-        return _build_error_response(request, str(exc.detail), exc.status_code)
+        if "text/html" in accept or "*/*" in accept:
+            response = render_template(request, "404.html")
+            response.status_code = 404
+            return response
     return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
-
-
-@app.exception_handler(Exception)
-async def unexpected_exception_handler(request: Request, exc: Exception):
-    logger.exception(
-        "Unhandled application error on %s %s",
-        request.method,
-        request.url.path,
-        exc_info=exc,
-    )
-    return _build_error_response(
-        request,
-        "一時的なエラーが発生しました。時間をおいて再度お試しください。",
-        500,
-    )
 
 
 app.include_router(group_router)
