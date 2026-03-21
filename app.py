@@ -46,6 +46,41 @@ app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 
 
+class ConditionalSecureCookiesMiddleware:
+    """Set Secure on cookies only for HTTPS requests.
+
+    Local HTTP development keeps working, while proxied HTTPS deployments still
+    get secure cookies.
+    """
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        forwarded_proto = ""
+        for key, value in scope.get("headers", []):
+            if key.lower() == b"x-forwarded-proto":
+                forwarded_proto = value.decode("latin-1").split(",")[0].strip().lower()
+                break
+        is_https = scope.get("scheme") == "https" or forwarded_proto == "https"
+
+        async def send_with_secure_cookie(message):
+            if is_https and message["type"] == "http.response.start":
+                headers = []
+                for key, value in message.get("headers", []):
+                    if key.lower() == b"set-cookie" and b"secure" not in value.lower():
+                        value += b"; Secure"
+                    headers.append((key, value))
+                message = {**message, "headers": headers}
+            await send(message)
+
+        await self.app(scope, receive, send_with_secure_cookie)
+
+
 def _build_session_middleware_kwargs():
     # starsessions has breaking changes across versions, so pass only supported kwargs.
     params = inspect.signature(SessionMiddleware.__init__).parameters
@@ -57,10 +92,6 @@ def _build_session_middleware_kwargs():
         kwargs["same_site"] = "lax"
     elif "cookie_same_site" in params:
         kwargs["cookie_same_site"] = "lax"
-    if "https_only" in params:
-        kwargs["https_only"] = True
-    elif "cookie_https_only" in params:
-        kwargs["cookie_https_only"] = True
 
     return kwargs
 
@@ -68,6 +99,7 @@ def _build_session_middleware_kwargs():
 app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 if inspect.isclass(SessionAutoloadMiddleware):
     app.add_middleware(SessionAutoloadMiddleware)
+app.add_middleware(ConditionalSecureCookiesMiddleware)
 
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"

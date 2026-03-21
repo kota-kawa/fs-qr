@@ -1,0 +1,16 @@
+{
+  "name": "FS!QR Group",
+  "short_name": "Group",
+  "start_url": "/group_menu",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dbe72f",
+  "icons": [
+    {
+      "src": "/static/apple-touch-icon2.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "FS!QR Note",
+  "short_name": "Note",
+  "start_url": "/note_menu",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c2bf20",
+  "icons": [
+    {
+      "src": "/static/apple-touch-icon4.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
