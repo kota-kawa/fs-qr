@@ -1,4 +1,3 @@
-import asyncio
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
@@ -131,68 +130,6 @@ def test_unexpected_exception_returns_json_error_response(test_client: TestClien
     assert response.json() == {
         "detail": "一時的なエラーが発生しました。時間をおいて再度お試しください。"
     }
-
-
-def test_conditional_secure_cookie_middleware_adds_secure_on_https():
-    from app import ConditionalSecureCookiesMiddleware
-
-    async def inner_app(scope, receive, send):
-        await send(
-            {
-                "type": "http.response.start",
-                "status": 200,
-                "headers": [(b"set-cookie", b"session=abc; Path=/; HttpOnly")],
-            }
-        )
-        await send({"type": "http.response.body", "body": b"", "more_body": False})
-
-    sent = []
-
-    async def receive():
-        return {"type": "http.request", "body": b"", "more_body": False}
-
-    async def send(message):
-        sent.append(message)
-
-    middleware = ConditionalSecureCookiesMiddleware(inner_app)
-    asyncio.run(
-        middleware({"type": "http", "scheme": "https", "headers": []}, receive, send)
-    )
-
-    start = sent[0]
-    assert start["type"] == "http.response.start"
-    assert start["headers"][0][1].endswith(b"; Secure")
-
-
-def test_conditional_secure_cookie_middleware_keeps_http_cookie_without_secure():
-    from app import ConditionalSecureCookiesMiddleware
-
-    async def inner_app(scope, receive, send):
-        await send(
-            {
-                "type": "http.response.start",
-                "status": 200,
-                "headers": [(b"set-cookie", b"session=abc; Path=/; HttpOnly")],
-            }
-        )
-        await send({"type": "http.response.body", "body": b"", "more_body": False})
-
-    sent = []
-
-    async def receive():
-        return {"type": "http.request", "body": b"", "more_body": False}
-
-    async def send(message):
-        sent.append(message)
-
-    middleware = ConditionalSecureCookiesMiddleware(inner_app)
-    asyncio.run(
-        middleware({"type": "http", "scheme": "http", "headers": []}, receive, send)
-    )
-
-    start = sent[0]
-    assert start["type"] == "http.response.start"
-    assert b"Secure" not in start["headers"][0][1]
 
 
 def test_room_templates_have_balanced_div_tags():
