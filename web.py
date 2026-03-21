@@ -65,18 +65,24 @@ def get_flashed_messages(context: Dict[str, Any]) -> Iterable[str]:
     request: Request = context.get("request")
     if request is None:
         return []
-    messages = request.session.pop("_flashes", [])
+    try:
+        messages = request.session.pop("_flashes", [])
+    except Exception:
+        return []
     if not isinstance(messages, list):
         return []
     return messages
 
 
 def flash_message(request: Request, message: str) -> None:
-    messages = request.session.get("_flashes")
-    if not isinstance(messages, list):
-        messages = []
-    messages.append(message)
-    request.session["_flashes"] = messages
+    try:
+        messages = request.session.get("_flashes")
+        if not isinstance(messages, list):
+            messages = []
+        messages.append(message)
+        request.session["_flashes"] = messages
+    except Exception:
+        logger.warning("Failed to flash message (session may be unavailable)")
 
 
 logger = logging.getLogger(__name__)
@@ -94,8 +100,8 @@ def render_template(request: Request, template_name: str, **context: Any):
         if requested_status is not None:
             response.status_code = int(requested_status)
         return response
-    except Exception:
-        logger.exception("Error rendering template %s", template_name)
+    except Exception as exc:
+        logger.exception("Error rendering template %s: %s", template_name, exc)
         fallback_message = str(
             context.get("message")
             or "一時的なエラーが発生しました。時間をおいて再度お試しください。"
@@ -192,7 +198,11 @@ def csrf_token(context: Dict[str, Any]) -> str:
     request: Request = context.get("request")
     if request is None:
         return ""
-    return generate_csrf_token(request)
+    try:
+        return generate_csrf_token(request)
+    except Exception:
+        logger.warning("Failed to generate CSRF token (session may be unavailable)")
+        return ""
 
 
 templates.env.globals.update(

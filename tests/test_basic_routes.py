@@ -50,6 +50,39 @@ def test_template_render_failure_returns_fallback_html(test_client: TestClient):
     assert "Internal Server Error" not in response.text
 
 
+def test_pages_render_when_session_raises(test_client: TestClient):
+    """csrf_token() がセッション障害でも空文字を返しページが正常に描画される"""
+
+    class BrokenSession(dict):
+        def get(self, key, default=None):
+            raise RuntimeError("Redis connection refused")
+
+        def __setitem__(self, key, value):
+            raise RuntimeError("Redis connection refused")
+
+    def _inject_broken_session(scope, receive, send):
+        scope["session"] = BrokenSession()
+
+    original_call = test_client.app.__class__.__call__
+
+    async def patched_call(self, scope, receive, send):
+        if scope["type"] in {"http", "websocket"}:
+            scope["session"] = BrokenSession()
+        return await original_call(self, scope, receive, send)
+
+    with patch.object(type(test_client.app), "__call__", patched_call):
+        # Note pages (extend note_layout.html which uses csrf_token())
+        response = test_client.get("/create_note_room")
+        assert response.status_code == 200
+
+        response = test_client.get("/search_note")
+        assert response.status_code == 200
+
+        # Home page (extends layout.html which uses csrf_token())
+        response = test_client.get("/")
+        assert response.status_code == 200
+
+
 def test_unexpected_exception_returns_json_error_response(test_client: TestClient):
     with patch(
         "FSQR.fsqr_app.fs_data.get_data",

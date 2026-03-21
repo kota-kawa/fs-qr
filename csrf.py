@@ -4,10 +4,13 @@ Generates per-session tokens and validates them on state-changing requests
 (POST, PUT, PATCH, DELETE).
 """
 
+import logging
 import secrets
 
 from fastapi import Request
 from starlette.responses import JSONResponse
+
+logger = logging.getLogger(__name__)
 
 CSRF_SESSION_KEY = "_csrf_token"
 CSRF_FIELD_NAME = "csrf_token"
@@ -72,7 +75,12 @@ async def validate_csrf(request: Request) -> str | None:
     if _is_exempt(request.url.path):
         return None
 
-    session_token = request.session.get(CSRF_SESSION_KEY)
+    try:
+        session_token = request.session.get(CSRF_SESSION_KEY)
+    except Exception:
+        logger.warning("Failed to access session for CSRF validation")
+        return "セッションにアクセスできません。ページを再読み込みしてください。"
+
     if not session_token:
         return (
             "CSRFトークンがセッションに存在しません。ページを再読み込みしてください。"
