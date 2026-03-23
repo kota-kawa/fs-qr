@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from .group_common import canonical_redirect, get_room_if_valid, is_safe_path
+from .group_common import canonical_redirect, get_room_if_valid
 from .group_routes_file import (
     register_group_delete_file_route,
     register_group_download_all_route,
@@ -25,7 +25,7 @@ from .group_routes_room import (
     register_group_room_access_route,
     register_group_search_process_route,
 )
-from .group_responses import group_block_response, room_msg
+from .group_responses import group_block_response
 
 router = APIRouter()
 
