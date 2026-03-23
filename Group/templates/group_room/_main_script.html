@@ -1,0 +1,519 @@
+<script>
+    // CSRF token for all AJAX requests
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+        }
+    });
+
+    $(document).ready(function () {
+        var uploadArea = $('#upload-area');
+        var fileInput = $('#fileInput');
+        var fileList = $('#fileList');
+        var otherFileList = $('#otherFileList');
+        var uploadBtn = $('#uploadBtn');
+        var downloadAllBtn = $('#downloadAllBtn');
+        var uploadStatusMessage = $('#uploadStatusMessage');
+        var filesArray = [];
+
+        const ICONS = Object.freeze({
+            file: `<span class="modern-file-icon svg-icon svg-icon--lg" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                            <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                        </svg>
+                    </span>`,
+            download: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>`,
+            trash: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            cloud: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            check: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>`,
+            rocket: `<span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                              <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                          </svg>
+                      </span>`
+        });
+
+        const uploadButtonLabel = `${ICONS.rocket} アップロード`;
+        const uploadIconElement = document.querySelector('.upload-icon-modern');
+        const setUploadIcon = (name) => {
+            if (uploadIconElement && ICONS[name]) {
+                uploadIconElement.innerHTML = ICONS[name];
+            }
+        };
+
+        uploadBtn.html(uploadButtonLabel);
+
+        // ドラッグオーバー
+        uploadArea.on('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.addClass('dragover');
+        });
+
+        // ドラッグリーブ
+        uploadArea.on('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.removeClass('dragover');
+        });
+
+        // ドロップ
+        uploadArea.on('drop', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.removeClass('dragover');
+            var files = e.originalEvent.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        // クリックでファイル選択
+        uploadArea.on('click', function (e) {
+            // ボタン以外の場所をクリックした場合にファイル選択ダイアログを開く
+            if (e.target.tagName !== 'BUTTON') {
+                fileInput[0].click();
+            }
+        });
+        
+        // ボタンの直接的なクリックハンドラ
+        $('#uploadFileBtn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileInput[0].click();
+        });
+
+        // ファイル選択後
+        fileInput.on('change', function () {
+            var files = fileInput[0].files;
+            handleFiles(files);
+        });
+
+        // 他のユーザーのファイル表示
+        const roomId = '{{ room_id }}';
+        const roomPassword = '{{ password }}';
+        var fetchRetryCount = 0;
+        var maxRetries = 3;
+        var isDownloading = {}; // Track download states to prevent multiple clicks
+
+        function fetchAndDisplayOtherFiles() {
+            $.ajax({
+                url: `/check/${roomId}/${roomPassword}`,
+                type: 'GET',
+                timeout: 10000, // 10 second timeout
+                success: function (files) {
+                    fetchRetryCount = 0; // Reset retry count on success
+                    
+                    if (files.error) {
+                        console.warn('ファイル取得エラー:', files.error);
+                        return;
+                    }
+
+                    otherFileList.empty(); // リストをリセット
+                    $('#fileCount').text(files.length); // ファイル数を更新
+                    
+                    if (files.length === 0) {
+                        otherFileList.html('<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>');
+                        return;
+                    }
+                    
+                    files.forEach(function (file) {
+                        var fileItem = $('<div class="modern-file-item"></div>');
+                        var fileName = $('<div class="modern-file-name"></div>');
+                        var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
+                        fileName.html(ICONS.file).append(fileNameText);
+
+                        var actions = $('<div class="modern-file-actions"></div>');
+
+                        var downloadBtn = $('<button class="modern-file-action-btn"></button>')
+                            .html(ICONS.download)
+                            .attr('aria-label', 'ダウンロード')
+                            .attr('title', 'ダウンロード');
+                        const encodedFilename = encodeURIComponent(file.name);
+                        const downloadKey = `${roomId}-${file.name}`;
+                        
+                        downloadBtn.on('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Prevent multiple simultaneous downloads of the same file
+                            if (isDownloading[downloadKey]) {
+                                return;
+                            }
+                            
+                            isDownloading[downloadKey] = true;
+                            downloadBtn.prop('disabled', true);
+                            
+                            // Show download progress spinner
+                            $('#downloadSpinnerContainer').show();
+                            $('#downloadAnimationContainer').addClass('downloading');
+                            $('#downloadStatusText').text(`${file.name} をダウンロード中...`);
+                            $('#downloadProgressBar').css('transform', 'scaleX(0)');
+                            
+                            // Use XMLHttpRequest for progress tracking
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
+                            xhr.responseType = 'blob';
+                            
+                            xhr.onprogress = function(event) {
+                                if (event.lengthComputable) {
+                                    var percentComplete = event.loaded / event.total;
+                                    $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                                }
+                            };
+                            
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    // Create download link
+                                    var blob = xhr.response;
+                                    var link = document.createElement('a');
+                                    link.href = URL.createObjectURL(blob);
+                                    link.download = file.name;
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                    URL.revokeObjectURL(link.href);
+                                    
+                                    $('#downloadProgressBar').css('transform', 'scaleX(1)');
+                                    $('#downloadStatusText').text('ダウンロード完了！');
+                                    
+                                    setTimeout(function() {
+                                        $('#downloadSpinnerContainer').hide();
+                                        $('#downloadAnimationContainer').removeClass('downloading');
+                                    }, 1000);
+                                } else {
+                                    alert('ダウンロード中にエラーが発生しました。');
+                                    $('#downloadSpinnerContainer').hide();
+                                    $('#downloadAnimationContainer').removeClass('downloading');
+                                }
+                                
+                                // Re-enable button
+                                isDownloading[downloadKey] = false;
+                                downloadBtn.prop('disabled', false);
+                            };
+                            
+                            xhr.onerror = function() {
+                                alert('ダウンロード中にエラーが発生しました。');
+                                $('#downloadSpinnerContainer').hide();
+                                $('#downloadAnimationContainer').removeClass('downloading');
+                                isDownloading[downloadKey] = false;
+                                downloadBtn.prop('disabled', false);
+                            };
+                            
+                            xhr.send();
+                        });
+
+                        var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
+                            .html(ICONS.trash)
+                            .attr('aria-label', '削除')
+                            .attr('title', '削除');
+                        deleteBtn.on('click', function () {
+                            if (confirm('本当にこのファイルを削除しますか？')) {
+                                $.ajax({
+                                    url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
+                                    type: 'DELETE',
+                                    success: function () {
+                                        alert('ファイルが削除されました。');
+                                        fileItem.remove();
+                                        $('#fileCount').text($('#otherFileList .modern-file-item').length);
+                                    },
+                                    error: function () {
+                                        alert('削除中にエラーが発生しました。');
+                                    }
+                                });
+                            }
+                        });
+
+                        actions.append(downloadBtn).append(deleteBtn);
+                        fileItem.append(fileName).append(actions);
+                        otherFileList.append(fileItem);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    fetchRetryCount++;
+                    console.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
+                    
+                    // Only show alert after all retries are exhausted
+                    if (fetchRetryCount >= maxRetries) {
+                        console.error('他のユーザーのファイル情報を取得できませんでした。');
+                        fetchRetryCount = 0; // Reset for next cycle
+                    }
+                    // Don't show alert for temporary network issues
+                }
+            });
+        }
+
+        // 定期的にファイルリストを更新する関数
+        function startFilePolling() {
+            // Initial load
+            fetchAndDisplayOtherFiles();
+            // Slightly longer interval to reduce server load and conflicts
+            setInterval(fetchAndDisplayOtherFiles, 2000); // 2秒ごとにリクエストを送信
+        }
+
+        startFilePolling();
+
+        // ファイル処理
+        function handleFiles(files) {
+            // ファイル数制限チェック (既存ファイル + 新規ファイル)
+            const MAX_FILES = 10;
+            const totalFiles = filesArray.length + files.length;
+            if (totalFiles > MAX_FILES) {
+                alert(`ファイル数は最大${MAX_FILES}個までです（現在: ${filesArray.length}個、追加しようとしているファイル: ${files.length}個）`);
+                return;
+            }
+
+            // ファイルサイズ制限チェック (500MB = 500 * 1024 * 1024 bytes)
+            const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
+            let currentSize = 0;
+            let newFilesSize = 0;
+
+            // 既存ファイルのサイズを計算
+            filesArray.forEach(function(file) {
+                currentSize += file.size;
+            });
+
+            // 新規ファイルのサイズを計算
+            for (var i = 0; i < files.length; i++) {
+                newFilesSize += files[i].size;
+            }
+
+            const totalSize = currentSize + newFilesSize;
+            if (totalSize > MAX_TOTAL_SIZE) {
+                const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+                alert(`ファイルの合計サイズは500MBまでです（現在の合計: ${totalSizeMB}MB）`);
+                return;
+            }
+
+            fileList.show(); // Show file list
+            
+            for (var i = 0; i < files.length; i++) {
+                filesArray.push(files[i]);
+                var fileItem = $('<div class="modern-file-item"></div>');
+                var fileName = $('<div class="modern-file-name"></div>');
+                var fileNameText = $('<span class="modern-file-name-text"></span>').text(files[i].name);
+                fileName.html(ICONS.file).append(fileNameText);
+
+                var actions = $('<div class="modern-file-actions"></div>');
+                var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
+                    .html(ICONS.trash)
+                    .attr('aria-label', '削除')
+                    .attr('title', '削除');
+                deleteBtn.on('click', (function (index) {
+                    return function () {
+                        filesArray.splice(index, 1);
+                        $(this).closest('.modern-file-item').remove();
+                        if (filesArray.length === 0) {
+                            fileList.hide();
+                            setUploadIcon('cloud');
+                        }
+                    };
+                })(filesArray.length - 1));
+                
+                actions.append(deleteBtn);
+                fileItem.append(fileName).append(actions);
+                fileList.append(fileItem);
+            }
+            
+            setUploadIcon('check');
+        }
+
+        uploadBtn.on('click', function () {
+            if (filesArray.length === 0) {
+                alert('アップロードするファイルがありません。');
+                return;
+            }
+
+            // アップロード前に再度ファイル制限をチェック
+            const MAX_FILES = 10;
+            const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
+
+            if (filesArray.length > MAX_FILES) {
+                alert(`ファイル数は最大${MAX_FILES}個までです`);
+                return;
+            }
+
+            let totalSize = 0;
+            filesArray.forEach(function(file) {
+                totalSize += file.size;
+            });
+
+            if (totalSize > MAX_TOTAL_SIZE) {
+                const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+                alert(`ファイルの合計サイズは500MBまでです（現在: ${sizeMB}MB）`);
+                return;
+            }
+
+            var formData = new FormData();
+            filesArray.forEach(function (file) {
+                formData.append('upfile', file);  // `upfile` キーにファイルを追加
+            });
+
+            // Show progress bar
+            $('#uploadProgressContainer').show();
+            $('#uploadProgressBar').css('transform', 'scaleX(0)');
+            $('#uploadProgressText').text('アップロード中...');
+            uploadStatusMessage.removeClass('is-error').hide().text('');
+
+            // Disable upload button during upload
+            uploadBtn.prop('disabled', true).text('アップロード中...');
+
+            $.ajax({
+                url: `/group_upload/${roomId}/${roomPassword}`,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    // Upload progress
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            $('#uploadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                            $('#uploadProgressText').text(`アップロード中... ${Math.round(percentComplete * 100)}%`);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (response) {
+                    $('#uploadProgressBar').css('transform', 'scaleX(1)');
+                    $('#uploadProgressText').text('アップロード完了！');
+
+                    setTimeout(function() {
+                        $('#uploadProgressContainer').hide();
+                        uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+
+                        var statusMessage = '';
+                        var isError = false;
+                        if (response.status === 'success') {
+                            statusMessage = 'ファイルのアップロードが完了しました。';
+                            fileList.empty().hide();
+                            filesArray = [];
+                            setUploadIcon('cloud');
+                        } else if (response.status === 'error') {
+                            isError = true;
+                            var errorDetails = response.message || 'アップロード中にエラーが発生しました。';
+                            if (Array.isArray(response.files) && response.files.length > 0) {
+                                errorDetails += '（対象ファイル: ' + response.files.join(', ') + '）';
+                            }
+                            statusMessage = errorDetails;
+                        } else {
+                            statusMessage = 'ファイルのアップロードが完了しました。';
+                            fileList.empty().hide();
+                            filesArray = [];
+                            setUploadIcon('cloud');
+                        }
+
+                        if (statusMessage) {
+                            uploadStatusMessage
+                                .toggleClass('is-error', isError)
+                                .text(statusMessage)
+                                .fadeIn();
+                        }
+                    }, 1000);
+                },
+                error: function (xhr) {
+                    $('#uploadProgressContainer').hide();
+                    uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+
+                    var errorMessage = 'アップロード中にエラーが発生しました。';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    }
+                    uploadStatusMessage
+                        .addClass('is-error')
+                        .text(errorMessage)
+                        .fadeIn();
+                }
+            });
+        });
+
+        // すべてダウンロード
+        var isDownloadingAll = false;
+        
+        downloadAllBtn.on('click', function () {
+            if (isDownloadingAll) {
+                return;
+            }
+            
+            isDownloadingAll = true;
+            downloadAllBtn.prop('disabled', true);
+            
+            // Show download progress spinner
+            $('#downloadSpinnerContainer').show();
+            $('#downloadAnimationContainer').addClass('downloading');
+            $('#downloadStatusText').text('全ファイルをダウンロード中...');
+            $('#downloadProgressBar').css('transform', 'scaleX(0)');
+            
+            // Use XMLHttpRequest for progress tracking
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', `/download/all/${roomId}/${roomPassword}`, true);
+            xhr.responseType = 'blob';
+            
+            xhr.onprogress = function(event) {
+                if (event.lengthComputable) {
+                    var percentComplete = event.loaded / event.total;
+                    $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                }
+            };
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Create download link
+                    var blob = xhr.response;
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${roomId}_files.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                    
+                    $('#downloadProgressBar').css('transform', 'scaleX(1)');
+                    $('#downloadStatusText').text('ダウンロード完了！');
+                    
+                    setTimeout(function() {
+                        $('#downloadSpinnerContainer').hide();
+                        $('#downloadAnimationContainer').removeClass('downloading');
+                    }, 1000);
+                } else {
+                    alert('ダウンロード中にエラーが発生しました。');
+                    $('#downloadSpinnerContainer').hide();
+                    $('#downloadAnimationContainer').removeClass('downloading');
+                }
+                
+                // Re-enable button
+                isDownloadingAll = false;
+                downloadAllBtn.prop('disabled', false);
+            };
+            
+            xhr.onerror = function() {
+                alert('ダウンロード中にエラーが発生しました。');
+                $('#downloadSpinnerContainer').hide();
+                $('#downloadAnimationContainer').removeClass('downloading');
+                isDownloadingAll = false;
+                downloadAllBtn.prop('disabled', false);
+            };
+            
+            xhr.send();
+        });
+    });
+</script>
