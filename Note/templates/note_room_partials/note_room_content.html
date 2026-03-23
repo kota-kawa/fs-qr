@@ -1,0 +1,103 @@
+<div class="modern-page-container">
+    <div class="modern-content-card">
+        <div class="modern-card-header">
+            <h1>
+                <span class="svg-icon svg-icon--xl svg-icon--with-text" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd"/>
+                        <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                    </svg>
+                </span>
+                リアルタイムノート
+            </h1>
+        </div>
+        
+        <div class="modern-card-body">
+            <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
+            <!-- Room Info + QR Code -->
+            <div class="room-info-container">
+                <div class="room-info-card">
+                    <div class="room-info-header">Room情報</div>
+                    <div class="room-info-body">
+                        <div class="room-info-row">
+                            <span class="room-info-label">Room ID</span>
+                            <span class="room-info-value">
+                                <span class="room-info-value-row">
+                                    <span class="room-info-value-text">{{ room_id }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Room IDをコピー" title="Room IDをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">Password</span>
+                            <span class="room-info-value">
+                                <span class="room-info-value-row">
+                                    <span class="room-info-value-text">{{ password }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Passwordをコピー" title="Passwordをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">URL</span>
+                            <span class="room-info-value">
+                                <span class="room-info-value-row">
+                                    <span class="room-info-url-text">{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ url_for('note.note_room', room_id=room_id, password=password, _external=True) }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                                    </button>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="room-info-row">
+                            <span class="room-info-label">削除予定日</span>
+                            <span class="room-info-value">
+                                {% if deletion_date %}
+                                    {{ deletion_date }} （{{ retention_days }}日後）
+                                {% else %}
+                                    {{ retention_days }}日後に自動削除
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-code-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_room', room_id=room_id, password=password, _external=True)|urlencode }}"
+                         alt="QR Code" style="width: 160px; height: 160px;">
+                </div>
+            </div>
+
+            <!-- Editor -->
+            <div class="modern-form-group">
+                <label for="editor" class="modern-form-label">共有ノート（最大10000文字）</label>
+                <textarea id="editor" class="modern-editor"
+                          placeholder="ここに入力すると1秒ごとに同期されます…"
+                          maxlength="10000" style="height: 60vh;"></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                    <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
+                    <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;">Syncing…</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="usage-section">
+  <div class="usage-section-header">
+    <h5>使い方</h5>
+  </div>
+  <div class="usage-section-content">
+    <p>
+      このルームではテキストをリアルタイムに共有できます。<br>
+      上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
+      エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
+      最大10000文字まで入力可能です。
+    </p>
+  </div>
+</div>
+
