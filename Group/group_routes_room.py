@@ -39,7 +39,10 @@ def register_group_room_access_route(router: APIRouter):
                 if meta:
                     return RedirectResponse(
                         build_url(
-                            request, "note.note_room", room_id=room_id, password=password
+                            request,
+                            "note.note_room",
+                            room_id=room_id,
+                            password=password,
                         ),
                         status_code=302,
                     )
@@ -154,7 +157,10 @@ def register_group_create_room_route(router: APIRouter):
         os.makedirs(folder_path, exist_ok=True)
 
         await group_data.create_room(
-            id=room_id, password=password, room_id=room_id, retention_days=retention_days
+            id=room_id,
+            password=password,
+            room_id=room_id,
+            retention_days=retention_days,
         )
         return RedirectResponse(
             build_url(request, "group.group_room", room_id=room_id, password=password),
@@ -213,7 +219,9 @@ def register_group_direct_route(router: APIRouter):
                 return room_msg(
                     request, get_block_message(block_label), status_code=429
                 )
-            return room_msg(request, "指定されたルームが見つかりません", status_code=404)
+            return room_msg(
+                request, "指定されたルームが見つかりません", status_code=404
+            )
 
         await register_success(SCOPE_GROUP, ip)
 

@@ -1,6 +1,10 @@
 from fastapi import APIRouter, Request
 
-from .group_common import canonical_redirect, get_room_if_valid, is_safe_path as _is_safe_path
+from .group_common import (
+    canonical_redirect,
+    get_room_if_valid,
+    is_safe_path as _is_safe_path,
+)
 from .group_routes_file import (
     register_group_delete_file_route,
     register_group_download_all_route,
