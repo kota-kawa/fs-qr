@@ -1,0 +1,478 @@
+<!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script>
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('fileInput');
+    const fileListDisplay = document.getElementById('fileList');
+    const idInput = document.getElementById('name');
+    const uploadForm = document.getElementById('uploadForm');
+    const startUploadBtn = document.getElementById('startUploadBtn');
+    const retentionSelect = document.getElementById('retention');
+    const retentionPreviewTime = document.getElementById('retentionPreviewTime');
+    const inlineError = document.getElementById('uploadInlineError');
+    const spinnerRoot = document.getElementById('spinner-container');
+    const spinnerText = document.querySelector('#spinner-container .text');
+    const spinnerProgress = document.querySelector('#spinner-container .progress-bar');
+
+    const ICONS = Object.freeze({
+        file: `<span class="modern-file-icon svg-icon svg-icon--lg" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
+                        <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
+                    </svg>
+                </span>`,
+        trash: `<span class="svg-icon svg-icon--lg" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>`,
+        cloudUpload: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                               <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd"/>
+                           </svg>
+                       </span>`,
+        check: `<span class="svg-icon svg-icon--xxl" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>`,
+        rocket: `<span class="svg-icon svg-icon--lg svg-icon--with-text" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd"/>
+                        <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z"/>
+                    </svg>
+                </span>`
+    });
+
+    const uploadIconElement = document.querySelector('.upload-icon-modern');
+    const setUploadIcon = (name) => {
+        if (uploadIconElement && ICONS[name]) {
+            uploadIconElement.innerHTML = ICONS[name];
+        }
+    };
+
+    const uploadButtonLabel = `${ICONS.rocket} アップロード開始`;
+    if (startUploadBtn) {
+        startUploadBtn.innerHTML = uploadButtonLabel;
+    }
+    setUploadIcon('cloudUpload');
+
+    function showFormError(message) {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = message;
+        inlineError.classList.add('is-visible');
+    }
+
+    function clearFormError() {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = '';
+        inlineError.classList.remove('is-visible');
+    }
+
+    function formatDateTime(date) {
+        const pad = (value) => String(value).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function updateRetentionPreview() {
+        if (!retentionSelect || !retentionPreviewTime) {
+            return;
+        }
+        const retentionDays = Number(retentionSelect.value || 7);
+        const deletionDate = new Date();
+        deletionDate.setDate(deletionDate.getDate() + retentionDays);
+        retentionPreviewTime.textContent = `${formatDateTime(deletionDate)} ごろに自動削除されます`;
+    }
+
+    function hideSpinner() {
+        if (spinnerRoot) {
+            spinnerRoot.style.display = 'none';
+        }
+        if (spinnerProgress) {
+            spinnerProgress.style.transform = 'scaleX(0)';
+        }
+        if (spinnerText) {
+            spinnerText.textContent = '暗号化中...';
+        }
+    }
+
+    // ID生成関数
+    function generateRandomId() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 6; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    // ページ読み込み時に自動生成IDを設定
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('autoGeneratedId').value = generateRandomId();
+        document.getElementById('hiddenId').value = document.getElementById('autoGeneratedId').value;
+        updateRetentionPreview();
+    });
+
+    // ID入力方式の切り替え
+    document.querySelectorAll('input[name="idMode"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const manualGroup = document.getElementById('manualIdGroup');
+            const autoGroup = document.getElementById('autoIdGroup');
+            const nameInput = document.getElementById('name');
+            const hiddenIdInput = document.getElementById('hiddenId');
+            clearFormError();
+            
+            if (this.value === 'manual') {
+                manualGroup.style.display = 'block';
+                autoGroup.style.display = 'none';
+                nameInput.required = true;
+                hiddenIdInput.name = ''; // hidden fieldを無効化
+                nameInput.name = 'name'; // manual inputを有効化
+            } else {
+                manualGroup.style.display = 'none';
+                autoGroup.style.display = 'block';
+                nameInput.required = false;
+                nameInput.name = ''; // manual inputを無効化
+                hiddenIdInput.name = 'name'; // hidden fieldを有効化
+                // 新しいIDを生成
+                const newId = generateRandomId();
+                document.getElementById('autoGeneratedId').value = newId;
+                hiddenIdInput.value = newId;
+            }
+        });
+    });
+
+    // ドラッグ＆ドロップを有効にするイベント
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        console.log('Files dropped:', files);
+        handleFiles(files);
+    });
+
+    // クリックでファイル選択を有効にする
+    uploadArea.addEventListener('click', (e) => {
+        // ボタンのクリックイベントがuploadAreaのクリックイベントに干渉しないようにする
+        if (e.target.tagName !== 'BUTTON') {
+            fileInput.click();
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        console.log('Files selected:', files);
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        clearFormError();
+        // ファイル数制限チェック
+        const MAX_FILES = 10;
+        if (files.length > MAX_FILES) {
+            showFormError(`ファイル数は最大${MAX_FILES}個までです。不要なファイルを外して再度お試しください。`);
+            return;
+        }
+
+        // ファイルサイズ制限チェック (500MB = 500 * 1024 * 1024 bytes)
+        const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
+        let totalSize = 0;
+        Array.from(files).forEach(file => {
+            totalSize += file.size;
+        });
+        
+        if (totalSize > MAX_TOTAL_SIZE) {
+            const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+            showFormError(`ファイルの合計サイズは500MBまでです。現在の合計は ${sizeMB}MB です。`);
+            return;
+        }
+
+        fileListDisplay.innerHTML = ''; // リストをクリア
+        fileListDisplay.style.display = 'block'; // Show file list
+        
+        Array.from(files).forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'modern-file-item';
+
+            const fileName = document.createElement('div');
+            fileName.className = 'modern-file-name';
+            fileName.innerHTML = `${ICONS.file}<span class="modern-file-name-text">${file.name}</span>`;
+
+            const fileActions = document.createElement('div');
+            fileActions.className = 'modern-file-actions';
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'modern-file-action-btn delete';
+            deleteBtn.innerHTML = ICONS.trash;
+            deleteBtn.type = 'button';
+            deleteBtn.setAttribute('aria-label', '削除');
+            deleteBtn.setAttribute('title', '削除');
+            deleteBtn.onclick = () => {
+                fileItem.remove();
+                if (fileListDisplay.children.length === 0) {
+                    fileListDisplay.style.display = 'none';
+                    setUploadIcon('cloudUpload');
+                }
+            };
+            
+            fileActions.appendChild(deleteBtn);
+            fileItem.appendChild(fileName);
+            fileItem.appendChild(fileActions);
+            fileListDisplay.appendChild(fileItem);
+        });
+        
+        setUploadIcon('check');
+
+        // ファイルをfileInputにセットする
+        const dataTransfer = new DataTransfer();
+        Array.from(files).forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        fileInput.files = dataTransfer.files;
+    }
+
+    // 暗号化と進捗表示の関数（単一ファイルと複数ファイルに対応）
+    async function encryptAndZipFilesWithProgress(files, key) {
+        const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+        const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+        const progressBar = document.querySelector('.progress-bar');
+
+        // 単一ファイルの場合は暗号化のみ
+        if (files.length === 1) {
+            const file = files[0];
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const fileBuffer = await file.arrayBuffer();
+            
+            // 暗号化進捗を25%まで表示
+            progressBar.style.transform = `scaleX(0.25)`;
+            
+            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+            
+            // 暗号化完了で50%まで進捗
+            progressBar.style.transform = `scaleX(0.5)`;
+            
+            // IVと暗号化データを結合したBlobを返す
+            return new Blob([iv, encryptedBuffer]);
+        }
+
+        // 複数ファイルの場合は従来のZIP化処理
+        const zip = new JSZip();
+
+        // 各ファイルを順次処理し、暗号化進捗を表示
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const fileBuffer = await file.arrayBuffer();
+            const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
+            zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
+            
+            // 暗号化進捗を表示 (ファイル処理の25%分として計算)
+            const encryptProgress = ((i + 1) / files.length) * 25;
+            progressBar.style.transform = `scaleX(${encryptProgress / 100})`;
+        }
+
+        // ZIPファイルの生成と進捗バーの更新 (25%～50%の範囲)
+        return await zip.generateAsync({ type: 'blob' }, (metadata) => {
+            const zipProgress = 25 + (metadata.percent / 4); // 25%～50%の範囲
+            progressBar.style.transform = `scaleX(${zipProgress / 100})`;
+        });
+    }
+
+    // 1秒ごとに表示を切り替えるアニメーション
+    let iconSwitchInterval;
+
+    function startEncryptionAnimation() {
+        const spinnerContainer = document.querySelector('.spinner-second-container');
+        iconSwitchInterval = setInterval(() => {
+            spinnerContainer.classList.toggle('encrypting');
+        }, 1000); // 1秒ごとに切り替え
+    }
+
+    function startUploadAnimation() {
+        const spinnerContainer = document.querySelector('.spinner-second-container');
+        // 暗号化アニメーションを停止
+        clearInterval(iconSwitchInterval);
+        spinnerContainer.classList.remove('encrypting');
+        
+        // アップロードアニメーションを開始
+        iconSwitchInterval = setInterval(() => {
+            spinnerContainer.classList.toggle('uploading');
+        }, 800); // 少し早めに切り替え
+    }
+
+    function stopIconSwitching() {
+        clearInterval(iconSwitchInterval);
+    }
+
+    // フォーム送信時のイベント修正
+    uploadForm.addEventListener('submit', async function (event) {
+    event.preventDefault(); // 標準のフォーム送信を止める
+    clearFormError();
+
+    if (!uploadForm.reportValidity()) {
+        return;
+    }
+
+    // スピナー表示 & アニメーション開始
+    spinnerRoot.style.display = 'flex';
+    startEncryptionAnimation();
+
+    const files = fileInput.files;
+    // ID取得：自動生成モードか手動入力モードかを判定
+    const isAutoMode = document.querySelector('input[name="idMode"]:checked').value === 'auto';
+    const id = isAutoMode ? document.getElementById('hiddenId').value : idInput.value.trim();
+
+    if (files.length > 0 && id.length > 0) {
+        // アップロード前に再度ファイル制限をチェック
+        const MAX_FILES = 10;
+        const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
+        
+        if (files.length > MAX_FILES) {
+            showFormError(`ファイル数は最大${MAX_FILES}個までです。`);
+            hideSpinner();
+            stopIconSwitching();
+            return;
+        }
+        
+        let totalSize = 0;
+        Array.from(files).forEach(file => {
+            totalSize += file.size;
+        });
+        
+        if (totalSize > MAX_TOTAL_SIZE) {
+            const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+            showFormError(`ファイルの合計サイズは500MBまでです。現在の合計は ${sizeMB}MB です。`);
+            hideSpinner();
+            stopIconSwitching();
+            return;
+        }
+        
+        try {
+            // (1)「アップロード中...」を表示 ※最低1秒は表示
+            spinnerText.textContent = 'アップロード準備中...';
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // (2) 暗号化処理に入る
+            spinnerText.textContent = '暗号化中...';
+            const encryptedBlob = await encryptAndZipFilesWithProgress(files, id);
+
+            // (3) 送信中に切り替え（進捗バーはリセットせず50%の状態から継続）
+            spinnerText.textContent = '送信中...';
+            
+            // アニメーションを暗号化から送信に切り替え
+            startUploadAnimation();
+
+            // 送信するファイルをFormDataに追加
+            // 単一ファイルか複数ファイルかで処理を分岐
+            const formData = new FormData();
+            if (files.length === 1) {
+                // 単一ファイルの場合は.encファイルとして送信
+                const encryptedFile = new File([encryptedBlob], `${files[0].name}.enc`, { type: 'application/octet-stream' });
+                formData.append('upfile', encryptedFile);
+                formData.append('file_type', 'single'); // ファイルタイプを明示
+            } else {
+                // 複数ファイルの場合はZIPファイルとして送信
+                const zipFile = new File([encryptedBlob], 'encrypted_files.zip', { type: 'application/zip' });
+                formData.append('upfile', zipFile);
+                formData.append('file_type', 'multiple'); // ファイルタイプを明示
+            }
+            formData.append('name', id);
+            formData.append('original_filename', files[0].name); // 元のファイル名を保存
+            formData.append('retention_days', document.getElementById('retention').value);
+
+            // XMLHttpRequest を利用してアップロード進捗を計測
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
+            const progressBar = document.querySelector('.progress-bar');
+
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    // 送信進捗を50%から100%の範囲で表示
+                    const uploadProgress = (event.loaded / event.total) * 50; // 0-50%
+                    const totalProgress = 50 + uploadProgress; // 50-100%
+                    progressBar.style.transform = `scaleX(${totalProgress / 100})`;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const result = JSON.parse(xhr.responseText);
+                    if (result.redirect_url) {
+                        window.location.href = result.redirect_url;
+                    } else {
+                        showFormError('アップロードは完了しましたが、遷移先を取得できませんでした。画面を再読み込みして確認してください。');
+                        hideSpinner();
+                    }
+                } else {
+                    // Handle JSON error responses
+                    try {
+                        const errorResult = JSON.parse(xhr.responseText);
+                        if (errorResult.error) {
+                            showFormError(errorResult.error);
+                        } else {
+                            showFormError('アップロードに失敗しました。時間をおいて再度お試しください。');
+                        }
+                    } catch (e) {
+                        showFormError('アップロードに失敗しました。時間をおいて再度お試しください。');
+                    }
+                    hideSpinner();
+                }
+                stopIconSwitching();
+            };
+
+            xhr.onerror = function () {
+                showFormError('送信中にエラーが発生しました。通信状態を確認して再度お試しください。');
+                hideSpinner();
+                stopIconSwitching();
+            };
+
+            // 送信開始
+            xhr.send(formData);
+
+        } catch (error) {
+            showFormError(`処理中にエラーが発生しました。${error.message}`);
+            hideSpinner();
+            stopIconSwitching();
+        }
+    } else {
+        showFormError('ファイルと共有用IDを確認してください。');
+        hideSpinner();
+        stopIconSwitching();
+    }
+});
+
+// ID入力欄の リアルタイム バリデーション
+idInput.addEventListener('input', function() {
+    const value = this.value;
+                const isValid = /^[a-zA-Z0-9]{0,6}$/.test(value);
+
+                if (!isValid) {
+                    this.setCustomValidity('半角英数字のみ使用してください');
+                    this.style.borderColor = '#ef4444';
+                } else if (value.length < 6 && value.length > 0) {
+                    this.setCustomValidity('6文字すべて入力してください');
+                    this.style.borderColor = '#f59e0b';
+                } else {
+                    this.setCustomValidity('');
+                    this.style.borderColor = value.length === 6 ? '#10b981' : '#e5e7eb';
+                }
+});
+
+if (retentionSelect) {
+    retentionSelect.addEventListener('change', updateRetentionPreview);
+}
+
+</script>
