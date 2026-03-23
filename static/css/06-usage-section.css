@@ -1,0 +1,109 @@
+/* ===============================================
+   Unified Usage Section Styling
+   =============================================== */
+
+/* Modern usage card styling for room pages */
+.usage-section {
+  --usage-card-radius: 20px;
+  --usage-header-gradient: var(--primary-gradient);
+  --usage-header-accent: rgb(32, 178, 170);
+  max-width: 900px;
+  margin: 2rem auto;
+  background: var(--bg-white);
+  border-radius: var(--usage-card-radius);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.usage-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--usage-header-gradient);
+  border-top-left-radius: var(--usage-card-radius);
+  border-top-right-radius: var(--usage-card-radius);
+}
+
+.usage-section-header {
+  color: white;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  position: relative;
+  border-top-left-radius: var(--usage-card-radius);
+  border-top-right-radius: var(--usage-card-radius);
+  isolation: isolate;
+}
+
+.usage-section-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--usage-header-gradient);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  z-index: -1;
+}
+
+.usage-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 8px solid var(--usage-header-accent);
+}
+
+.usage-section-header h5 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Kaisei Opti', serif;
+}
+
+.usage-section-content {
+  padding: 2rem 2.5rem;
+  text-align: left;
+  line-height: 1.7;
+  color: var(--text-medium);
+}
+
+.usage-section-content p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.usage-section-content br {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments for usage sections */
+@media (max-width: 768px) {
+  .usage-section {
+    margin: 1rem;
+    --usage-card-radius: 15px;
+    border-radius: var(--usage-card-radius);
+  }
+  
+  .usage-section-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .usage-section-header h5 {
+    font-size: 1.3rem;
+  }
+  
+  .usage-section-content {
+    padding: 1.5rem 1.75rem;
+  }
+}
+
