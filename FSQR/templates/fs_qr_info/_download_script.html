@@ -1,0 +1,148 @@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script>
+    const container = document.getElementById('animationContainer');
+    const spinnerContainer = document.getElementById('spinnerContainer');
+    const progressBar = document.getElementById('progressBar');
+
+    // アニメーションを1秒ごとにトグルさせる
+    setInterval(() => {
+      container.classList.toggle('decrypting');
+    }, 1000); // 1秒ごとにトグル
+
+
+    const downloadForm = document.getElementById('downloadForm');
+    if (!downloadForm) {
+      return;
+    }
+
+    downloadForm.addEventListener('submit', async function (e) {
+    e.preventDefault(); // ← 従来のsubmitを止めて、JSの処理に切り替える
+
+    // スピナーの表示
+    const spinnerContainer = document.getElementById('spinnerContainer');
+    const container = document.getElementById('animationContainer');
+    spinnerContainer.style.display = 'flex';
+    container.classList.add('decrypting');
+    document.getElementById('statusText').textContent = '受信中...';
+
+    // テンプレートからキーとなる文字列を取得
+    const secureId = "{{ secure_id }}";
+    const decryptionKey = secureId.split('-')[0];
+
+    // fetch APIでサーバーからファイルを受信
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const response = await fetch(this.action, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'X-CSRF-Token': csrfToken }
+    });
+    const encryptedBlob = await response.blob();
+    
+    // レスポンスヘッダーからファイルタイプを取得
+    const fileType = response.headers.get('X-File-Type') || 'multiple';
+    const originalFilename = response.headers.get('X-Original-Filename') || '';
+
+    // 状態を「復号中」に変更
+    document.getElementById('statusText').textContent = '復号中...';
+
+    let decryptedBlob;
+    let downloadFilename;
+
+    if (fileType === 'single') {
+      // 単一ファイルの復号処理
+      decryptedBlob = await decryptSingleFile(encryptedBlob, decryptionKey);
+      downloadFilename = originalFilename || `${secureId}_decrypted`;
+    } else {
+      // 複数ファイル（ZIP）の復号処理
+      decryptedBlob = await decryptAndDownloadZip(encryptedBlob, decryptionKey);
+      downloadFilename = `${secureId}.zip`;
+    }
+
+    if (decryptedBlob) {
+      // 復号完了後、自動ダウンロード
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(decryptedBlob);
+      link.download = downloadFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert('復号に失敗しました。');
+    }
+
+    // スピナーを非表示に戻す
+    spinnerContainer.style.display = 'none';
+    container.classList.remove('decrypting');
+  });
+
+  // AES-GCMで復号する関数
+  async function decryptFile(encryptedBuffer, key, iv) {
+    const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      keyBuffer,
+      { name: 'AES-GCM' },
+      false,
+      ['decrypt']
+    );
+    try {
+      return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);
+    } catch (error) {
+      console.error('復号エラー:', error);
+      return null;
+    }
+  }
+
+  // 単一ファイルの復号処理
+  async function decryptSingleFile(encryptedBlob, key) {
+    try {
+      const arrayBuffer = await encryptedBlob.arrayBuffer();
+      const iv = arrayBuffer.slice(0, 12);  // 最初の12バイトはIV
+      const encryptedContent = arrayBuffer.slice(12);  // 残りが暗号化されたデータ
+      
+      const decryptedContent = await decryptFile(encryptedContent, key, iv);
+      
+      if (decryptedContent) {
+        return new Blob([decryptedContent]);
+      }
+      return null;
+    } catch (error) {
+      console.error('単一ファイル復号エラー:', error);
+      return null;
+    }
+  }
+
+  // ZIPファイル内の各ファイルを復号 → 新たにZIP化 → 最終Blobを返す
+  async function decryptAndDownloadZip(encryptedBlob, key) {
+    const zip = await JSZip.loadAsync(encryptedBlob);
+    const decryptedZip = new JSZip();
+    const totalFiles = Object.keys(zip.files).length;
+    let processedFiles = 0;
+
+    for (const fileName in zip.files) {
+      const fileData = await zip.file(fileName).async('arraybuffer');
+      const iv = fileData.slice(0, 12);
+      const encryptedContent = fileData.slice(12);
+      const decryptedContent = await decryptFile(encryptedContent, key, iv);
+
+      if (decryptedContent) {
+        decryptedZip.file(fileName.replace('.enc', ''), decryptedContent);
+      } else {
+        return null;
+      }
+
+      // プログレスバーの更新例
+      processedFiles++;
+      const progressPercentage = (processedFiles / totalFiles) * 100;
+      document.getElementById('progressBar').style.transform =
+        `scaleX(${progressPercentage / 100})`;
+    }
+
+    return decryptedZip.generateAsync({ type: 'blob' });
+  }
+
+
+
+
+  </script>

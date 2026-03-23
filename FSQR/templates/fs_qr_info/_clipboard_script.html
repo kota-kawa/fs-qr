@@ -1,0 +1,117 @@
+
+  <!-- Hidden elements for download functionality -->
+  <div id="fileContent"></div>
+
+  <script>
+    async function copyTextToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+
+      return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        try {
+          if (document.execCommand('copy')) {
+            resolve();
+          } else {
+            reject(new Error('execCommand failed'));
+          }
+        } catch (err) {
+          reject(err);
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      });
+    }
+
+    function setShareFeedback(message, kind) {
+      const feedback = document.getElementById('shareFeedback');
+      if (!feedback) {
+        return;
+      }
+      feedback.textContent = message;
+      feedback.className = `share-feedback is-visible is-${kind}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.reveal-value-button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-target');
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (!target) {
+            return;
+          }
+
+          const visibleValue = target.getAttribute('data-visible-value') || '';
+          const maskedValue = target.getAttribute('data-masked-value') || '••••••';
+          const isMasked = target.classList.contains('is-masked');
+          target.textContent = isMasked ? visibleValue : maskedValue;
+          target.classList.toggle('is-masked', !isMasked);
+          button.innerHTML = isMasked
+            ? (button.getAttribute('data-hide-label') || '隠す')
+            : (button.getAttribute('data-show-label') || '表示');
+        });
+      });
+
+      document.querySelectorAll('.copy-url-button').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const targetId = button.getAttribute('data-copy-target');
+          const target = targetId ? document.getElementById(targetId) : null;
+          const text = button.getAttribute('data-copy-value')
+            || (target ? (target.getAttribute('data-visible-value') || target.textContent.trim()) : '');
+          if (!text) {
+            return;
+          }
+          const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
+          const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
+          if (!button.hasAttribute('aria-label')) {
+            button.setAttribute('aria-label', defaultLabel);
+          }
+          if (!button.hasAttribute('title')) {
+            button.setAttribute('title', defaultLabel);
+          }
+
+          try {
+            await copyTextToClipboard(text);
+            button.classList.add('copied');
+            button.setAttribute('aria-label', copiedLabel);
+            if (button.hasAttribute('title')) {
+              button.setAttribute('title', copiedLabel);
+            }
+            setShareFeedback('コピーしました。相手にそのまま送れます。', 'success');
+            setTimeout(() => {
+              button.classList.remove('copied');
+              button.setAttribute('aria-label', defaultLabel);
+              if (button.hasAttribute('title')) {
+                button.setAttribute('title', defaultLabel);
+              }
+            }, 2000);
+          } catch (error) {
+            setShareFeedback('コピーに失敗しました。表示して手動でコピーしてください。', 'error');
+          }
+        });
+      });
+
+      document.querySelectorAll('#copyShareLinkPrimary, #copyCredentialsPrimary').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const text = button.getAttribute('data-copy-value') || '';
+          if (!text) {
+            return;
+          }
+          try {
+            await copyTextToClipboard(text);
+            setShareFeedback('コピーしました。相手にそのまま共有できます。', 'success');
+          } catch (error) {
+            setShareFeedback('コピーに失敗しました。表示内容を手動でコピーしてください。', 'error');
+          }
+        });
+      });
+    });
+  </script>
