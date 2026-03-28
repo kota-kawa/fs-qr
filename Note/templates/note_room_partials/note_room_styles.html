@@ -138,5 +138,57 @@
   border-color: rgb(132, 204, 22);
   box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
 }
-</style>
 
+.note-editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.note-char-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(132, 204, 22, 0.12);
+  color: #3f6212;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.note-editor-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(132, 204, 22, 0.35);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  background: linear-gradient(135deg, rgba(132, 204, 22, 0.14) 0%, rgba(163, 230, 53, 0.24) 100%);
+  color: #3f6212;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.note-action-button:hover,
+.note-action-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -10px rgba(77, 124, 15, 0.55);
+  background: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, rgba(163, 230, 53, 0.34) 100%);
+}
+
+.note-action-button:active {
+  transform: translateY(0);
+}
+</style>

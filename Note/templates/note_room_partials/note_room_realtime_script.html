@@ -3,6 +3,9 @@
   const roomPassword = "{{ password }}";
   const editor = document.getElementById("editor");
   const status = document.getElementById("status");
+  const charCount = document.getElementById("charCount");
+  const pasteButton = document.getElementById("pasteButton");
+  const copyAllButton = document.getElementById("copyAllButton");
   let lastStamp = "", selfEdit = false;
   let contentAtLastSync = "";  // <--- 追加: 最後に同期した時点のコンテンツ
   let selfEditTimeout = null; // selfEdit フラグのタイムアウト管理
@@ -64,6 +67,20 @@
   let reconnectTimer = null;
   let pendingContent = null;
 
+  function showEditorFeedback(message, kind) {
+    if (typeof setShareFeedback === "function") {
+      setShareFeedback(message, kind);
+    }
+  }
+
+  function updateCharCount(content) {
+    if (!charCount) {
+      return;
+    }
+    const length = (content || "").length;
+    charCount.textContent = `${length} / ${MAX_LENGTH}文字`;
+  }
+
   function setStatus(className, text) {
     status.className = className;
     status.textContent = text;
@@ -106,6 +123,7 @@
 
   editor.addEventListener("input", () => {
     clearTimeout(typTimer);
+    updateCharCount(editor.value);
     
     typTimer = setTimeout(() => {
       const currentContent = editor.value;
@@ -129,6 +147,7 @@
     }
 
     editor.value = newContent;
+    updateCharCount(newContent);
 
     if (isEditorFocused && isCursorSafeToRestore(oldContent, newContent, cursorStart, cursorEnd)) {
       const newLength = newContent.length;
@@ -174,9 +193,70 @@
 
   function handleInit(payload) {
     editor.value = payload.content || "";
+    updateCharCount(editor.value);
     contentAtLastSync = editor.value;
     lastStamp = payload.updated_at || "";
     setStatus("badge bg-success", "Up-to-date");
+  }
+
+  async function handlePasteFromClipboard() {
+    if (!navigator.clipboard || !navigator.clipboard.readText) {
+      showEditorFeedback("この環境ではペースト機能を利用できません。", "error");
+      return;
+    }
+
+    try {
+      const clipText = await navigator.clipboard.readText();
+      if (!clipText) {
+        showEditorFeedback("クリップボードに貼り付けるテキストがありません。", "error");
+        return;
+      }
+
+      const selectionStart = editor.selectionStart ?? editor.value.length;
+      const selectionEnd = editor.selectionEnd ?? editor.value.length;
+      const before = editor.value.slice(0, selectionStart);
+      const after = editor.value.slice(selectionEnd);
+      const remain = MAX_LENGTH - (before.length + after.length);
+
+      if (remain <= 0) {
+        showEditorFeedback(`文字数上限（${MAX_LENGTH}文字）に達しています。`, "error");
+        return;
+      }
+
+      const insertText = clipText.slice(0, remain);
+      editor.value = before + insertText + after;
+      const nextCursor = selectionStart + insertText.length;
+      editor.setSelectionRange(nextCursor, nextCursor);
+      updateCharCount(editor.value);
+      editor.dispatchEvent(new Event("input", { bubbles: true }));
+      editor.focus();
+
+      if (insertText.length < clipText.length) {
+        showEditorFeedback(`上限のため${insertText.length}文字のみ貼り付けました。`, "error");
+      } else {
+        showEditorFeedback("ペーストしました。", "success");
+      }
+    } catch (error) {
+      showEditorFeedback("ペーストに失敗しました。ブラウザの権限設定を確認してください。", "error");
+    }
+  }
+
+  async function handleCopyAllText() {
+    const text = editor.value || "";
+    if (!text) {
+      showEditorFeedback("コピーするテキストがありません。", "error");
+      return;
+    }
+
+    try {
+      if (typeof copyTextToClipboard !== "function") {
+        throw new Error("Clipboard helper unavailable");
+      }
+      await copyTextToClipboard(text);
+      showEditorFeedback("ノート全文をコピーしました。", "success");
+    } catch (error) {
+      showEditorFeedback("全文コピーに失敗しました。手動でコピーしてください。", "error");
+    }
   }
 
   function scheduleReconnect() {
@@ -246,5 +326,14 @@
     });
   }
 
+  if (pasteButton) {
+    pasteButton.addEventListener("click", handlePasteFromClipboard);
+  }
+
+  if (copyAllButton) {
+    copyAllButton.addEventListener("click", handleCopyAllText);
+  }
+
+  updateCharCount(editor.value);
   connectWebSocket();
 </script>

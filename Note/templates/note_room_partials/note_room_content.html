@@ -77,6 +77,13 @@
                 <textarea id="editor" class="modern-editor"
                           placeholder="ここに入力すると1秒ごとに同期されます…"
                           maxlength="10000" style="height: 60vh;"></textarea>
+                <div class="note-editor-toolbar">
+                    <span id="charCount" class="note-char-count" aria-live="polite">0 / 10000文字</span>
+                    <div class="note-editor-actions">
+                        <button type="button" id="pasteButton" class="note-action-button">ペースト</button>
+                        <button type="button" id="copyAllButton" class="note-action-button">全文コピー</button>
+                    </div>
+                </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
                     <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;">Syncing…</span>
@@ -100,4 +107,3 @@
     </p>
   </div>
 </div>
-
