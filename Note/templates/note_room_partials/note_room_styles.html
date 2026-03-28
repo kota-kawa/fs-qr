@@ -139,6 +139,29 @@
   box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
 }
 
+/* Keep the page background continuous from header to footer on note room page */
+body.note-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#layout.page {
+  flex: 1 0 auto;
+}
+
+.modern-page-container {
+  min-height: auto;
+  background: transparent;
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+footer.simple-footer {
+  margin-bottom: 0;
+  padding-bottom: 1.5rem;
+}
+
 .note-editor-toolbar {
   display: flex;
   justify-content: space-between;
