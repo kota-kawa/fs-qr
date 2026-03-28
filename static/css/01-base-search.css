@@ -113,6 +113,13 @@ body.fsqr-section footer.simple-footer {
   padding-bottom: 1.5rem;
 }
 
+body.fsqr-section .info-page,
+body.fsqr-section .page-container,
+body.fsqr-section .modern-page-container {
+  min-height: auto;
+  background: transparent !important;
+}
+
 /* ホバー時の拡大 (画像のみ) */
 .search-link:hover img {
   transform: scale(1.2);
