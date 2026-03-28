@@ -44,7 +44,8 @@ th { text-align: right; }
 }
 
 body.group-section,
-body.note-section {
+body.note-section,
+body.fsqr-section {
   position: relative;
   min-height: 100vh;
   background-attachment: fixed;
@@ -65,8 +66,16 @@ body.note-section {
     linear-gradient(145deg, #f3f8b6 0%, #c2bf20 22%, #8bcf2a 64%, #1b7a44 100%);
 }
 
+body.fsqr-section {
+  background:
+    radial-gradient(circle at top left, rgba(191, 219, 254, 0.42) 0%, rgba(191, 219, 254, 0) 34%),
+    radial-gradient(circle at 84% 18%, rgba(35, 195, 223, 0.24) 0%, rgba(35, 195, 223, 0) 30%),
+    linear-gradient(145deg, #b9f1ff 0%, #23c3df 22%, #3b82f6 64%, #1f27c7 100%);
+}
+
 body.group-section::before,
-body.note-section::before {
+body.note-section::before,
+body.fsqr-section::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -78,13 +87,33 @@ body.note-section::before {
 }
 
 body.group-section > *,
-body.note-section > * {
+body.note-section > *,
+body.fsqr-section > * {
   position: relative;
   z-index: 1;
+}
+
+body.group-section,
+body.note-section,
+body.fsqr-section {
+  display: flex;
+  flex-direction: column;
+}
+
+body.group-section #layout.page,
+body.note-section #layout.page,
+body.fsqr-section #layout.page {
+  flex: 1 0 auto;
+}
+
+body.group-section footer.simple-footer,
+body.note-section footer.simple-footer,
+body.fsqr-section footer.simple-footer {
+  margin-bottom: 0;
+  padding-bottom: 1.5rem;
 }
 
 /* ホバー時の拡大 (画像のみ) */
 .search-link:hover img {
   transform: scale(1.2);
 }
-
