@@ -9,13 +9,17 @@
 <div class="container py-4" style="max-width: 800px;">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="h4 fw-bold mb-0">管理ページ</h2>
-    <form action="/all-remove" method="POST" class="d-inline" onsubmit="return confirm('本当にすべて削除しますか？');">
-      <input type="hidden" name="pw" value="{{ pw }}">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <button class="btn btn-danger btn-sm rounded-pill px-3" type="submit">
-        {{ icon('trash', size='sm', with_text=True) }} すべて削除
-      </button>
-    </form>
+    <div class="d-flex gap-2">
+      <a href="/admin/logout" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+        {{ icon('arrow_left', size='sm', with_text=True) }} ログアウト
+      </a>
+      <form action="/all-remove" method="POST" class="d-inline" onsubmit="return confirm('本当にすべて削除しますか？');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-danger btn-sm rounded-pill px-3" type="submit">
+          {{ icon('trash', size='sm', with_text=True) }} すべて削除
+        </button>
+      </form>
+    </div>
   </div>
 
   {% if files %}
@@ -35,7 +39,6 @@
             </div>
             <div class="d-flex gap-2 mt-3">
               <form action="/admin/remove/{{ f.secure_id }}" method="POST" class="flex-fill" onsubmit="return confirm('削除しますか？');">
-                <input type="hidden" name="pw" value="{{ pw }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
                   {{ icon('trash', size='sm') }} 削除

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block extra_head %}
+  <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block contents %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm border">
+        <div class="text-center mb-4">
+          <div class="mb-3 text-primary">
+            {{ icon('lock', size='xxl') }}
+          </div>
+          <h2 class="h4 fw-bold mb-1">管理ページログイン</h2>
+          <p class="text-secondary small mb-0">管理者パスワードを入力してください。</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+              <p class="mb-0">{{ message }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/admin/list" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label for="pw" class="form-label fw-semibold">マスターパスワード</label>
+          <input
+            id="pw"
+            name="pw"
+            type="password"
+            class="form-control mb-3"
+            required
+            minlength="1"
+            maxlength="128"
+          >
+          <button type="submit" class="btn btn-primary w-100 rounded-pill">
+            {{ icon('arrow_right', size='sm', with_text=True) }} ログイン
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

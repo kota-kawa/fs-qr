@@ -1,6 +1,5 @@
 import io
 import os
-import urllib.parse
 import zipfile
 
 from fastapi import APIRouter, HTTPException, Request
@@ -16,13 +15,14 @@ from api_response import api_error_response, api_ok_response
 from database import db_session
 from FSQR import fsqr_data as fs_data
 from Group import group_data
-from web import build_url, enforce_csrf, render_template
+from web import build_url, enforce_csrf, flash_message, render_template
 from settings import DB_ADMIN_PASSWORD
 
 fs_db = db_session
 grp_db = db_session
 
 ADMIN_DB_PW = DB_ADMIN_PASSWORD
+DB_ADMIN_SESSION_KEY = "db_admin_authenticated"
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "static", "upload")
@@ -165,20 +165,28 @@ def _collect_room_files(room_id):
     return files
 
 
+def _is_db_admin_authenticated(request: Request) -> bool:
+    return bool(request.session.get(DB_ADMIN_SESSION_KEY))
+
+
 @router.get("/", name="db_admin.dashboard")
 @router.post("/", name="db_admin.dashboard_post")
 async def dashboard(request: Request):
+    if "pw" in request.query_params:
+        return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)
+
     if request.method == "POST":
         await enforce_csrf(request)
         form = await request.form()
-        target = build_url(request, "db_admin.dashboard")
-        pw = form.get("password", "")
-        encoded_pw = urllib.parse.quote_plus(pw)
-        return RedirectResponse(f"{target}?pw={encoded_pw}", status_code=302)
+        pw = (form.get("password", "") or "").strip()
+        if pw != ADMIN_DB_PW:
+            flash_message(request, "パスワードが違います")
+            return render_template(request, "db_admin.html", authenticated=False)
+        request.session[DB_ADMIN_SESSION_KEY] = True
+        return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)
 
-    pw = request.query_params.get("pw", "")
-    if pw != ADMIN_DB_PW:
-        return render_template(request, "db_admin.html", authenticated=False, pw="")
+    if not _is_db_admin_authenticated(request):
+        return render_template(request, "db_admin.html", authenticated=False)
 
     summary = [
         {"name": "fsqr", "count": await safe_count(fs_db, "fsqr")},
@@ -200,13 +208,12 @@ async def dashboard(request: Request):
         authenticated=True,
         summary=summary,
         recent=recent_rows,
-        pw=ADMIN_DB_PW,
     )
 
 
 @router.get("/file/{secure_id}", name="db_admin.file_detail")
-async def file_detail(request: Request, secure_id: str, pw: str = ""):
-    if pw != ADMIN_DB_PW:
+async def file_detail(request: Request, secure_id: str):
+    if not _is_db_admin_authenticated(request):
         return api_error_response("forbidden", status_code=403)
 
     record = await _get_record(secure_id)
@@ -242,8 +249,8 @@ async def file_detail(request: Request, secure_id: str, pw: str = ""):
 
 
 @router.get("/file/{secure_id}/download", name="db_admin.file_download")
-async def file_download(request: Request, secure_id: str, pw: str = ""):
-    if pw != ADMIN_DB_PW:
+async def file_download(request: Request, secure_id: str):
+    if not _is_db_admin_authenticated(request):
         raise HTTPException(status_code=403)
 
     record = await _get_record(secure_id)
@@ -259,8 +266,8 @@ async def file_download(request: Request, secure_id: str, pw: str = ""):
 
 
 @router.get("/room/{room_id}", name="db_admin.room_detail")
-async def room_detail(request: Request, room_id: str, pw: str = ""):
-    if pw != ADMIN_DB_PW:
+async def room_detail(request: Request, room_id: str):
+    if not _is_db_admin_authenticated(request):
         return api_error_response("forbidden", status_code=403)
 
     record = await _get_room_record(room_id)
@@ -286,8 +293,8 @@ async def room_detail(request: Request, room_id: str, pw: str = ""):
 
 
 @router.get("/room/{room_id}/download", name="db_admin.room_download")
-async def room_download(request: Request, room_id: str, pw: str = ""):
-    if pw != ADMIN_DB_PW:
+async def room_download(request: Request, room_id: str):
+    if not _is_db_admin_authenticated(request):
         raise HTTPException(status_code=403)
 
     record = await _get_room_record(room_id)
@@ -315,3 +322,9 @@ async def room_download(request: Request, room_id: str, pw: str = ""):
     )
     headers = {"Content-Disposition": f"attachment; filename={download_name}"}
     return StreamingResponse(archive, media_type="application/zip", headers=headers)
+
+
+@router.get("/db/logout", name="db_admin.logout")
+async def db_admin_logout(request: Request):
+    request.session.pop(DB_ADMIN_SESSION_KEY, None)
+    return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)
