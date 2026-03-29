@@ -36,10 +36,15 @@ body::before {
 
 header,
 #layout,
-footer,
-#spinner-container {
+footer {
   position: relative;
   z-index: 1;
+}
+
+#spinner-container {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
 }
 
 .modern-card-header {
