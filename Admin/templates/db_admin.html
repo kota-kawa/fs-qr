@@ -171,6 +171,15 @@
     if (!isPlainObject(parsed)) {
       throw new Error('レスポンス形式が不正です。');
     }
+    if (parsed.status !== 'ok' && parsed.status !== 'error') {
+      throw new Error('レスポンス形式が不正です。');
+    }
+    if (!isPlainObject(parsed.data)) {
+      throw new Error('レスポンス形式が不正です。');
+    }
+    if (parsed.error !== undefined && parsed.error !== null && typeof parsed.error !== 'string') {
+      throw new Error('レスポンス形式が不正です。');
+    }
     return parsed;
   }
 
@@ -193,10 +202,24 @@
     return normalized;
   }
 
-  function normalizeDetailPayload(data) {
-    if (!isPlainObject(data)) {
+  function normalizeDetailPayload(payload) {
+    if (!isPlainObject(payload)) {
       return null;
     }
+
+    if (payload.status === 'error') {
+      return {
+        error: typeof payload.error === 'string' && payload.error
+          ? payload.error
+          : 'ファイル情報の取得に失敗しました。'
+      };
+    }
+
+    if (payload.status !== 'ok' || !isPlainObject(payload.data)) {
+      return null;
+    }
+
+    const data = payload.data;
     return {
       secure_id: typeof data.secure_id === 'string' ? data.secure_id : '',
       room_id: typeof data.room_id === 'string' ? data.room_id : '',
@@ -349,6 +372,9 @@
         const normalizedData = normalizeDetailPayload(data);
         if (!normalizedData) {
           throw new Error('取得データの形式が不正です。');
+        }
+        if (normalizedData.error) {
+          throw new Error(normalizedData.error);
         }
         updateMeta(normalizedData, type);
         const hasFiles = updateFiles(normalizedData.files, type);

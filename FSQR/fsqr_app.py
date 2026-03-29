@@ -7,8 +7,9 @@ from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from pydantic import ValidationError
-from starlette.responses import FileResponse, JSONResponse, RedirectResponse
+from starlette.responses import FileResponse, RedirectResponse
 
+from api_response import api_error_response, api_ok_response
 from file_validation import normalize_upload_filename, validate_upload_limits
 from models import FsqrUploadInput, RoomSearchInput
 from rate_limit import (
@@ -154,7 +155,7 @@ async def upload(
         retention_days=retention_days_int,
     )
 
-    return JSONResponse(
+    return api_ok_response(
         {
             "redirect_url": build_url(
                 request, "fsqr.upload_complete", secure_id=secure_id
@@ -344,8 +345,8 @@ def json_or_msg(request: Request, message: str, status_code: int = 400):
         content_type == "application/x-www-form-urlencoded"
         and request.headers.get("x-requested-with") == "XMLHttpRequest"
     ):
-        return JSONResponse({"error": message}, status_code=status_code)
+        return api_error_response(message, status_code=status_code)
     if "multipart/form-data" in content_type:
-        return JSONResponse({"error": message}, status_code=status_code)
+        return api_error_response(message, status_code=status_code)
 
     return msg(request, message, status_code=status_code)

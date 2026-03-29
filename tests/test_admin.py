@@ -133,7 +133,9 @@ def test_db_admin_file_detail_wrong_pw(test_client):
     """誤ったパスワードでは 403 を返す"""
     response = test_client.get("/admin/file/abc123?pw=wrongpw")
     assert response.status_code == 403
-    assert response.json()["error"] == "forbidden"
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["error"] == "forbidden"
 
 
 def test_db_admin_file_detail_not_found(test_client):
@@ -144,7 +146,9 @@ def test_db_admin_file_detail_not_found(test_client):
     ):
         response = test_client.get("/admin/file/nonexistent?pw=testpw")
     assert response.status_code == 404
-    assert response.json()["error"] == "not_found"
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["error"] == "not_found"
 
 
 def test_db_admin_file_detail_found(test_client):
@@ -170,10 +174,11 @@ def test_db_admin_file_detail_found(test_client):
         response = test_client.get("/admin/file/abc123-uid-file?pw=testpw")
 
     assert response.status_code == 200
-    data = response.json()
-    assert data["secure_id"] == "abc123-uid-file"
-    assert data["id"] == "abc123"
-    assert "files" in data
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["secure_id"] == "abc123-uid-file"
+    assert payload["data"]["id"] == "abc123"
+    assert "files" in payload["data"]
 
 
 # --- /admin/room/{room_id}: db_admin ルート ---
@@ -217,9 +222,10 @@ def test_db_admin_room_detail_found(test_client):
         response = test_client.get("/admin/room/abc123?pw=testpw")
 
     assert response.status_code == 200
-    data = response.json()
-    assert data["room_id"] == "abc123"
-    assert "files" in data
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["room_id"] == "abc123"
+    assert "files" in payload["data"]
 
 
 # --- POST /admin/: ダッシュボードフォーム ---

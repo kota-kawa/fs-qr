@@ -33,7 +33,9 @@ def test_create_note_room_empty_id_manual(test_client: TestClient):
         json={"id": "", "idMode": "manual"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_create_note_room_invalid_chars(test_client: TestClient):
@@ -43,7 +45,9 @@ def test_create_note_room_invalid_chars(test_client: TestClient):
         json={"id": "abc!@#", "idMode": "manual"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_create_note_room_wrong_length(test_client: TestClient):
@@ -53,7 +57,9 @@ def test_create_note_room_wrong_length(test_client: TestClient):
         json={"id": "abcde", "idMode": "manual"},  # 5文字
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- search_note_process バリデーション ---
@@ -159,7 +165,9 @@ def test_create_note_room_auto_duplicate(test_client: TestClient):
             json={"id": "abc123", "idMode": "auto"},
         )
     assert response.status_code == 409
-    assert "retry_auto" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["data"]["retry_auto"] is True
 
 
 # --- Note API: GET /api/note/{room_id}/{password} ---
@@ -181,7 +189,9 @@ def test_note_api_get_not_found(test_client: TestClient):
     ):
         response = test_client.get("/api/note/abc123/000000")
     assert response.status_code == 404
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_note_api_get_found_returns_content(test_client: TestClient):
@@ -207,9 +217,10 @@ def test_note_api_get_found_returns_content(test_client: TestClient):
         response = test_client.get("/api/note/abc123/000000")
 
     assert response.status_code == 200
-    data = response.json()
-    assert data["content"] == "Hello, World!"
-    assert "updated_at" in data
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["content"] == "Hello, World!"
+    assert "updated_at" in payload["data"]
 
 
 def test_note_api_get_uninitialized_room_returns_404(test_client: TestClient):
@@ -311,7 +322,9 @@ def test_note_api_post_success_returns_ok(test_client: TestClient):
             },
         )
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["note_status"] == "ok"
 
 
 def test_note_api_post_fallback_when_no_sync_params(test_client: TestClient):
@@ -343,4 +356,6 @@ def test_note_api_post_fallback_when_no_sync_params(test_client: TestClient):
             json={"content": "some content"},
         )
     assert response.status_code == 200
-    assert response.json()["status"] == "ok_unconditional_fallback"
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["note_status"] == "ok_unconditional_fallback"

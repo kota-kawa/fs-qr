@@ -36,13 +36,19 @@
       if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
         return false;
       }
-      if (typeof payload.status !== 'string') {
+      if (payload.status !== 'ok' && payload.status !== 'error') {
         return false;
       }
-      if (payload.message !== undefined && typeof payload.message !== 'string') {
+      if (payload.data !== undefined && (!payload.data || typeof payload.data !== 'object' || Array.isArray(payload.data))) {
         return false;
       }
-      if (payload.files !== undefined && !Array.isArray(payload.files)) {
+      if (payload.error !== undefined && payload.error !== null && typeof payload.error !== 'string') {
+        return false;
+      }
+      if (payload.data && payload.data.message !== undefined && typeof payload.data.message !== 'string') {
+        return false;
+      }
+      if (payload.data && payload.data.files !== undefined && !Array.isArray(payload.data.files)) {
         return false;
       }
       return true;
@@ -127,14 +133,15 @@
 
         var statusMessage = '';
         var isError = false;
-        if (response.status === 'success') {
-          statusMessage = 'ファイルのアップロードが完了しました。';
+        var responseData = response.data || {};
+        if (response.status === 'ok') {
+          statusMessage = responseData.message || 'ファイルのアップロードが完了しました。';
           clearFiles();
         } else if (response.status === 'error') {
           isError = true;
-          var errorDetails = response.message || 'アップロード中にエラーが発生しました。';
-          if (Array.isArray(response.files) && response.files.length > 0) {
-            errorDetails += '（対象ファイル: ' + response.files.join(', ') + '）';
+          var errorDetails = response.error || responseData.message || 'アップロード中にエラーが発生しました。';
+          if (Array.isArray(responseData.files) && responseData.files.length > 0) {
+            errorDetails += '（対象ファイル: ' + responseData.files.join(', ') + '）';
           }
           statusMessage = errorDetails;
         } else {

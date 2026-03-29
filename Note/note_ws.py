@@ -102,11 +102,18 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
             await websocket.send_json(payload_with_type)
 
             if changed and status_code == 200:
+                payload_data = payload.get("data", {})
+                if not isinstance(payload_data, dict):
+                    payload_data = {}
                 update_payload = {
                     "type": "update",
-                    "content": payload.get("content"),
-                    "updated_at": payload.get("updated_at"),
-                    "status": payload.get("status"),
+                    "status": "ok",
+                    "data": {
+                        "content": payload_data.get("content"),
+                        "updated_at": payload_data.get("updated_at"),
+                        "note_status": payload_data.get("note_status"),
+                    },
+                    "error": None,
                 }
                 await hub.broadcast(room_id, update_payload, exclude=websocket)
                 await publish_room_update(room_id, update_payload)

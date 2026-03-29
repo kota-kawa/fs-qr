@@ -18,15 +18,28 @@ def _format_updated_at(updated_at):
     )
 
 
+def _ok_payload(data, status_text):
+    return {"status": "ok", "data": {**data, "note_status": status_text}, "error": None}
+
+
+def _error_payload(error, status_text, data=None):
+    base = {} if data is None else dict(data)
+    return {
+        "status": "error",
+        "data": {**base, "note_status": status_text},
+        "error": str(error),
+    }
+
+
 async def sync_note_content(
     room_id, client_content, client_last_known_updated_at, client_original_content
 ):
     if len(client_content) > MAX_CONTENT_LENGTH:
         return (
-            {
-                "status": "error",
-                "error": f"Content exceeds max length of {MAX_CONTENT_LENGTH} characters.",
-            },
+            _error_payload(
+                f"Content exceeds max length of {MAX_CONTENT_LENGTH} characters.",
+                "error",
+            ),
             400,
             False,
         )
@@ -38,11 +51,13 @@ async def sync_note_content(
         await nd.save_content(room_id, client_content)
         row = await nd.get_row(room_id)
         return (
-            {
-                "status": "ok_unconditional_fallback",
-                "updated_at": _format_updated_at(row["updated_at"]),
-                "content": row["content"],
-            },
+            _ok_payload(
+                {
+                    "updated_at": _format_updated_at(row["updated_at"]),
+                    "content": row["content"],
+                },
+                "ok_unconditional_fallback",
+            ),
             200,
             True,
         )
@@ -56,11 +71,13 @@ async def sync_note_content(
             if rowcount > 0:
                 row = await nd.get_row(room_id)
                 return (
-                    {
-                        "status": "ok",
-                        "updated_at": _format_updated_at(row["updated_at"]),
-                        "content": row["content"],
-                    },
+                    _ok_payload(
+                        {
+                            "updated_at": _format_updated_at(row["updated_at"]),
+                            "content": row["content"],
+                        },
+                        "ok",
+                    ),
                     200,
                     True,
                 )
@@ -77,12 +94,14 @@ async def sync_note_content(
                 continue
             final_row = await nd.get_row(room_id)
             return (
-                {
-                    "status": "conflict_max_retries",
-                    "error": "Unable to resolve conflict after multiple attempts. Please refresh and try again.",
-                    "updated_at": _format_updated_at(final_row["updated_at"]),
-                    "content": final_row["content"],
-                },
+                _error_payload(
+                    "Unable to resolve conflict after multiple attempts. Please refresh and try again.",
+                    "conflict_max_retries",
+                    data={
+                        "updated_at": _format_updated_at(final_row["updated_at"]),
+                        "content": final_row["content"],
+                    },
+                ),
                 409,
                 False,
             )
@@ -94,7 +113,7 @@ async def sync_note_content(
             if attempt == MAX_RETRY_ATTEMPTS - 1:
                 raise
 
-    return ({"status": "error", "error": "Internal server error"}, 500, False)
+    return (_error_payload("Internal server error", "error"), 500, False)
 
 
 async def attempt_merge(room_id, client_content, client_original_content):
@@ -114,11 +133,13 @@ async def attempt_merge(room_id, client_content, client_original_content):
             if merged_rowcount > 0:
                 final_row = await nd.get_row(room_id)
                 return (
-                    {
-                        "status": "ok_merged",
-                        "updated_at": _format_updated_at(final_row["updated_at"]),
-                        "content": final_row["content"],
-                    },
+                    _ok_payload(
+                        {
+                            "updated_at": _format_updated_at(final_row["updated_at"]),
+                            "content": final_row["content"],
+                        },
+                        "ok_merged",
+                    ),
                     200,
                     True,
                 )
@@ -127,12 +148,14 @@ async def attempt_merge(room_id, client_content, client_original_content):
 
         final_row = await nd.get_row(room_id)
         return (
-            {
-                "status": "conflict_merge_failed",
-                "error": "Automatic merge failed. Please review the latest content.",
-                "updated_at": _format_updated_at(final_row["updated_at"]),
-                "content": final_row["content"],
-            },
+            _error_payload(
+                "Automatic merge failed. Please review the latest content.",
+                "conflict_merge_failed",
+                data={
+                    "updated_at": _format_updated_at(final_row["updated_at"]),
+                    "content": final_row["content"],
+                },
+            ),
             409,
             False,
         )

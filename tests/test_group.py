@@ -34,7 +34,9 @@ def test_create_group_room_empty_id(test_client: TestClient):
         json={"id": "", "idMode": "manual"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_create_group_room_invalid_chars(test_client: TestClient):
@@ -44,7 +46,9 @@ def test_create_group_room_invalid_chars(test_client: TestClient):
         json={"id": "abc!@#", "idMode": "manual"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_create_group_room_wrong_length(test_client: TestClient):
@@ -54,7 +58,9 @@ def test_create_group_room_wrong_length(test_client: TestClient):
         json={"id": "abcde", "idMode": "manual"},  # 5文字
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- search_group_process バリデーション ---
@@ -67,7 +73,9 @@ def test_search_group_invalid_id_chars(test_client: TestClient):
         data={"id": "bad!!", "password": "123456"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_search_group_invalid_password_chars(test_client: TestClient):
@@ -77,7 +85,9 @@ def test_search_group_invalid_password_chars(test_client: TestClient):
         data={"id": "abc123", "password": "abc"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- group ファイル操作: 不正パス ---
@@ -176,7 +186,9 @@ def test_group_upload_invalid_auth(test_client: TestClient):
             files={"upfile": ("test.txt", b"hello", "text/plain")},
         )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_group_upload_no_files(test_client: TestClient):
@@ -189,7 +201,9 @@ def test_group_upload_no_files(test_client: TestClient):
     ):
         response = test_client.post("/group_upload/abc123/000000")
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- check (list_files): 認証失敗 → 404 ---
@@ -204,7 +218,9 @@ def test_list_files_invalid_auth(test_client: TestClient):
     ):
         response = test_client.get("/check/abc123/000000")
     assert response.status_code == 404
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- download/all: 認証失敗 → 404 ---
@@ -219,7 +235,9 @@ def test_download_all_invalid_auth(test_client: TestClient):
     ):
         response = test_client.get("/download/all/abc123/000000")
     assert response.status_code == 404
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- create_group_room: auto モードで重複 ID → 409 ---
@@ -237,7 +255,9 @@ def test_create_group_room_auto_duplicate(test_client: TestClient):
             json={"id": "abc123", "idMode": "auto"},
         )
     assert response.status_code == 409
-    assert "retry_auto" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["data"]["retry_auto"] is True
 
 
 # --- ファイル操作: 認証成功後のフロー ---
@@ -254,7 +274,9 @@ def test_list_files_auth_success_no_dir(test_client: TestClient):
         response = test_client.get("/check/abc123/000000")
     # 認証通過 → ディレクトリなし → 404
     assert response.status_code == 404
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_download_file_not_found_after_auth(test_client: TestClient):
@@ -307,7 +329,9 @@ def test_group_upload_too_many_files(test_client: TestClient):
             files=files,
         )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_download_file_empty_filename_returns_400(test_client: TestClient):

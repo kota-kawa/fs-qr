@@ -28,7 +28,19 @@
     }
 
     function isObjectPayload(payload) {
-      return core.isPlainObject(payload);
+      if (!core.isPlainObject(payload)) {
+        return false;
+      }
+      if (payload.status !== undefined && payload.status !== 'ok' && payload.status !== 'error') {
+        return false;
+      }
+      if (payload.data !== undefined && !core.isPlainObject(payload.data)) {
+        return false;
+      }
+      if (payload.error !== undefined && payload.error !== null && typeof payload.error !== 'string') {
+        return false;
+      }
+      return true;
     }
 
     function validateBeforeSubmit(files, id) {
@@ -125,8 +137,13 @@
               if (!isObjectPayload(result)) {
                 showFormError('アップロードは完了しましたが、レスポンス形式が不正です。画面を再読み込みして確認してください。');
                 spinner.hideSpinner();
-              } else if (typeof result.redirect_url === 'string' && result.redirect_url) {
-                window.location.href = result.redirect_url;
+              } else if (
+                result.status === 'ok'
+                && result.data
+                && typeof result.data.redirect_url === 'string'
+                && result.data.redirect_url
+              ) {
+                window.location.href = result.data.redirect_url;
               } else {
                 showFormError('アップロードは完了しましたが、遷移先を取得できませんでした。画面を再読み込みして確認してください。');
                 spinner.hideSpinner();

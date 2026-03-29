@@ -4,9 +4,10 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
-from starlette.responses import JSONResponse, RedirectResponse
+from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
+from api_response import api_error_response
 from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_GROUP,
@@ -122,22 +123,20 @@ def register_group_create_room_route(router: APIRouter):
         try:
             id_val = inp.validate_manual_id()
         except ValueError as exc:
-            return JSONResponse({"error": str(exc)}, status_code=400)
+            return api_error_response(str(exc), status_code=400)
 
         room_id = id_val
         existing_room = await group_data.get_data(room_id)
 
         if existing_room:
             if inp.id_mode == "auto":
-                return JSONResponse(
-                    {
-                        "error": "生成されたIDが重複しています。新しいIDで再試行してください。",
-                        "retry_auto": True,
-                    },
+                return api_error_response(
+                    "生成されたIDが重複しています。新しいIDで再試行してください。",
                     status_code=409,
+                    data={"retry_auto": True},
                 )
-            return JSONResponse(
-                {"error": "このIDは既に使用されています。別のIDを使用してください。"},
+            return api_error_response(
+                "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
             )
 
@@ -178,8 +177,8 @@ def register_group_search_process_route(router: APIRouter):
             _, block_label = await register_failure(SCOPE_GROUP, ip)
             if block_label:
                 return group_block_response(request, block_label)
-            return JSONResponse(
-                {"error": "IDまたはパスワードに不正な値が含まれています。"},
+            return api_error_response(
+                "IDまたはパスワードに不正な値が含まれています。",
                 status_code=400,
             )
 

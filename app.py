@@ -14,7 +14,7 @@ try:
 except ImportError:  # pragma: no cover - fallback for older starsessions
     SessionAutoloadMiddleware = None
 from starsessions.stores.redis import RedisStore
-from starlette.responses import FileResponse, JSONResponse, RedirectResponse
+from starlette.responses import FileResponse, RedirectResponse
 
 try:
     from starlette.middleware.proxy_headers import ProxyHeadersMiddleware
@@ -25,6 +25,7 @@ from database import db_session
 from migration_runner import run_migrations
 from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
 from web import render_template
+from api_response import api_error_response
 
 from Group.group_app import router as group_router
 from Note.note_app import router as note_router
@@ -115,12 +116,12 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
         accept = request.headers.get("accept", "")
         if request.url.path.startswith("/api") or "application/json" in accept:
-            return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+            return api_error_response(str(exc.detail), status_code=exc.status_code)
         if "text/html" in accept or "*/*" in accept:
             response = render_template(request, "404.html")
             response.status_code = 404
             return response
-    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+    return api_error_response(str(exc.detail), status_code=exc.status_code)
 
 
 app.include_router(group_router)

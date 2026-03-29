@@ -4,8 +4,9 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
-from starlette.responses import JSONResponse, RedirectResponse
+from starlette.responses import RedirectResponse
 
+from api_response import api_error_response
 from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_NOTE,
@@ -106,16 +107,14 @@ async def create_note_room(request: Request):
         try:
             id_val = inp.validate_manual_id()
         except ValueError as exc:
-            return JSONResponse({"error": str(exc)}, status_code=400)
+            return api_error_response(str(exc), status_code=400)
 
     if id_mode == "auto":
         if id_val and await _room_id_exists(id_val):
-            return JSONResponse(
-                {
-                    "error": "生成されたIDが重複しています。新しいIDで再試行してください。",
-                    "retry_auto": True,
-                },
+            return api_error_response(
+                "生成されたIDが重複しています。新しいIDで再試行してください。",
                 status_code=409,
+                data={"retry_auto": True},
             )
         if not id_val:
             generated = None
@@ -125,17 +124,15 @@ async def create_note_room(request: Request):
                     generated = candidate
                     break
             if not generated:
-                return JSONResponse(
-                    {
-                        "error": "自動生成IDの作成に失敗しました。時間をおいて再試行してください。"
-                    },
+                return api_error_response(
+                    "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
                     status_code=500,
                 )
             id_val = generated
     else:
         if await _room_id_exists(id_val):
-            return JSONResponse(
-                {"error": "このIDは既に使用されています。別のIDを使用してください。"},
+            return api_error_response(
+                "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
             )
 
@@ -145,8 +142,8 @@ async def create_note_room(request: Request):
     await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
     created = await _get_room_if_valid(room_id, pw)
     if not created:
-        return JSONResponse(
-            {"error": "ルーム作成に失敗しました。時間をおいて再試行してください。"},
+        return api_error_response(
+            "ルーム作成に失敗しました。時間をおいて再試行してください。",
             status_code=500,
         )
     return RedirectResponse(

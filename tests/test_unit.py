@@ -698,7 +698,8 @@ def test_sync_note_content_missing_params_uses_fallback():
         )
 
     assert status == 200
-    assert payload["status"] == "ok_unconditional_fallback"
+    assert payload["status"] == "ok"
+    assert payload["data"]["note_status"] == "ok_unconditional_fallback"
     assert changed is True
 
 
@@ -723,10 +724,11 @@ def test_sync_note_content_successful_save_returns_ok():
                 "2026-01-01 00:00:00.000000",
                 "original",
             )
-        )
+    )
 
     assert status == 200
     assert payload["status"] == "ok"
+    assert payload["data"]["note_status"] == "ok"
     assert changed is True
 
 
@@ -755,10 +757,11 @@ def test_sync_note_content_conflict_max_retries_returns_409():
                 "2026-01-01 00:00:00.000000",
                 "original",
             )
-        )
+    )
 
     assert status == 409
-    assert payload["status"] == "conflict_max_retries"
+    assert payload["status"] == "error"
+    assert payload["data"]["note_status"] == "conflict_max_retries"
     assert changed is False
 
 

@@ -46,7 +46,9 @@ def test_upload_invalid_id_chars(test_client: TestClient):
         data={"name": "inv@lid", "file_type": "multiple"},
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_upload_wrong_id_length(test_client: TestClient):
@@ -57,7 +59,9 @@ def test_upload_wrong_id_length(test_client: TestClient):
         data={"name": "abc", "file_type": "multiple"},  # 3文字
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 def test_upload_too_many_files(test_client: TestClient):
@@ -67,7 +71,9 @@ def test_upload_too_many_files(test_client: TestClient):
         "/upload", files=files, data={"name": "", "file_type": "multiple"}
     )
     assert response.status_code == 400
-    assert "error" in response.json()
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
 
 
 # --- try_login バリデーション ---

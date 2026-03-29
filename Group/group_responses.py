@@ -1,6 +1,6 @@
 from fastapi import Request
-from starlette.responses import JSONResponse
 
+from api_response import api_error_response
 from rate_limit import get_block_message
 from web import render_template
 
@@ -18,5 +18,5 @@ def group_block_response(request: Request, block_label):
         content_type.startswith("application/json")
         or request.headers.get("x-requested-with") == "XMLHttpRequest"
     ):
-        return JSONResponse({"error": message}, status_code=429)
+        return api_error_response(message, status_code=429)
     return room_msg(request, message, status_code=429)

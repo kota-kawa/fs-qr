@@ -31,8 +31,12 @@ def test_note_ws_ack_includes_request_id():
     }
     sync_payload = {
         "status": "ok",
-        "content": "hello",
-        "updated_at": "2026-01-01 00:00:01.000000",
+        "data": {
+            "content": "hello",
+            "updated_at": "2026-01-01 00:00:01.000000",
+            "note_status": "ok",
+        },
+        "error": None,
     }
 
     async def scenario():
@@ -68,3 +72,4 @@ def test_note_ws_ack_includes_request_id():
     assert ack_payload["type"] == "ack"
     assert ack_payload["request_id"] == "save-1"
     assert ack_payload["status"] == "ok"
+    assert ack_payload["data"]["note_status"] == "ok"

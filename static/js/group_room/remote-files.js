@@ -35,13 +35,22 @@
     }
 
     function normalizeFileEntries(payload) {
-      if (!Array.isArray(payload)) {
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+        return null;
+      }
+      if (payload.status !== 'ok') {
+        return null;
+      }
+      if (!payload.data || typeof payload.data !== 'object' || Array.isArray(payload.data)) {
+        return null;
+      }
+      if (!Array.isArray(payload.data.files)) {
         return null;
       }
 
       var files = [];
-      for (var i = 0; i < payload.length; i += 1) {
-        var file = payload[i];
+      for (var i = 0; i < payload.data.files.length; i += 1) {
+        var file = payload.data.files[i];
         if (!isValidFileEntry(file)) {
           return null;
         }
@@ -123,11 +132,15 @@
               xhr.setRequestHeader('X-CSRF-Token', csrfToken);
             }
             xhr.onload = function () {
-              if (xhr.status >= 200 && xhr.status < 300) {
+              var payload = core.safeParseJson
+                ? core.safeParseJson(xhr.responseText, logger, 'group delete response')
+                : null;
+              if (xhr.status >= 200 && xhr.status < 300 && payload && payload.status === 'ok') {
                 alert('ファイルが削除されました。');
                 fetchAndDisplayOtherFiles();
               } else {
-                alert('削除中にエラーが発生しました。');
+                var message = payload && typeof payload.error === 'string' ? payload.error : '削除中にエラーが発生しました。';
+                alert(message);
               }
             };
             xhr.onerror = function () {
@@ -181,7 +194,7 @@
 
         fetchRetryCount = 0;
 
-        if (core.isPlainObject && core.isPlainObject(parsed) && typeof parsed.error === 'string') {
+        if (core.isPlainObject && core.isPlainObject(parsed) && parsed.status === 'error' && typeof parsed.error === 'string') {
           logger.warn('ファイル取得エラー:', parsed.error);
           return;
         }

@@ -26,19 +26,25 @@
       if (payload.status !== undefined && typeof payload.status !== "string") {
         return null;
       }
-      if (payload.error !== undefined && typeof payload.error !== "string") {
+      if (payload.data !== undefined && !isPlainObject(payload.data)) {
         return null;
       }
-      if (payload.content !== undefined && typeof payload.content !== "string") {
-        return null;
-      }
-      if (payload.updated_at !== undefined && typeof payload.updated_at !== "string") {
+      if (payload.error !== undefined && payload.error !== null && typeof payload.error !== "string") {
         return null;
       }
       if (payload.request_id !== undefined && typeof payload.request_id !== "string") {
         return null;
       }
       if (payload.requestId !== undefined && typeof payload.requestId !== "string") {
+        return null;
+      }
+      if (payload.data && payload.data.content !== undefined && typeof payload.data.content !== "string") {
+        return null;
+      }
+      if (payload.data && payload.data.updated_at !== undefined && typeof payload.data.updated_at !== "string") {
+        return null;
+      }
+      if (payload.data && payload.data.note_status !== undefined && typeof payload.data.note_status !== "string") {
         return null;
       }
       return payload;
@@ -48,10 +54,16 @@
       if (!isPlainObject(payload)) {
         return null;
       }
-      if (typeof payload.content !== "string" || typeof payload.updated_at !== "string") {
+      if (payload.status !== undefined && typeof payload.status !== "string") {
         return null;
       }
-      if (payload.status !== undefined && typeof payload.status !== "string") {
+      if (payload.data !== undefined && !isPlainObject(payload.data)) {
+        return null;
+      }
+      if (!payload.data || typeof payload.data.content !== "string" || typeof payload.data.updated_at !== "string") {
+        return null;
+      }
+      if (payload.data.note_status !== undefined && typeof payload.data.note_status !== "string") {
         return null;
       }
       return payload;
@@ -223,25 +235,27 @@
         return;
       }
 
-      if (
-        normalizedPayload.status
-        && (normalizedPayload.status.startsWith("ok") || normalizedPayload.status.startsWith("conflict"))
-      ) {
-        if (normalizedPayload.content !== undefined && normalizedPayload.updated_at) {
-          selfEditModule.applyServerContent(context, normalizedPayload.content, normalizedPayload.updated_at);
-        }
+      var ackData = normalizedPayload.data || {};
+      var noteStatus = typeof ackData.note_status === "string" ? ackData.note_status : "";
+      var hasServerContent = ackData.content !== undefined && ackData.updated_at;
+      if (hasServerContent && (normalizedPayload.status === "ok" || noteStatus.startsWith("conflict"))) {
+        selfEditModule.applyServerContent(context, ackData.content, ackData.updated_at);
+      }
 
-        if (normalizedPayload.status === "ok_merged") {
+      if (
+        normalizedPayload.status === "ok"
+      ) {
+        if (noteStatus === "ok_merged") {
           ui.setStatus(context, "badge bg-info", "Saved (Merged)");
           ui.setMergeStatus(context, "競合を自動マージして保存しました。", "success");
-        } else if (normalizedPayload.status.startsWith("conflict")) {
-          ui.setStatus(context, "badge bg-warning text-dark", "Conflict resolved");
-          ui.setMergeStatus(context, "最新内容との競合が発生し、サーバー版を反映しました。", "warning");
         } else {
           ui.setStatus(context, "badge bg-success", "Saved");
           ui.setMergeStatus(context, "", "");
         }
-      } else if (normalizedPayload.error) {
+      } else if (normalizedPayload.status === "error" && noteStatus.startsWith("conflict")) {
+        ui.setStatus(context, "badge bg-warning text-dark", "Conflict resolved");
+        ui.setMergeStatus(context, "最新内容との競合が発生し、サーバー版を反映しました。", "warning");
+      } else if (normalizedPayload.status === "error" && normalizedPayload.error) {
         ui.setStatus(context, "badge bg-danger", normalizedPayload.error);
         ui.setMergeStatus(context, "", "");
       }
@@ -269,19 +283,24 @@
         return;
       }
 
-      if (normalizedPayload.updated_at && normalizedPayload.updated_at !== context.lastStamp) {
+      var updateData = normalizedPayload.data || {};
+      if (updateData.updated_at && updateData.updated_at !== context.lastStamp) {
         const hasLocalDraft = context.pendingContent !== null && context.pendingContent !== undefined;
         const hasUnsyncedEditor = context.editor.value !== context.contentAtLastSync;
         if (hasLocalDraft || hasUnsyncedEditor) {
-          selfEditModule.queuePendingRemoteUpdate(context, normalizedPayload);
+          selfEditModule.queuePendingRemoteUpdate(context, {
+            content: updateData.content,
+            updated_at: updateData.updated_at,
+            status: updateData.note_status || ""
+          });
           ui.setStatus(context, "badge bg-warning text-dark", "Remote update queued");
           ui.setMergeStatus(context, "他ユーザーの更新を待機中です（ローカル保存後に反映）。", "warning");
           return;
         }
         selfEditModule.applyServerContent(
           context,
-          normalizedPayload.content,
-          normalizedPayload.updated_at,
+          updateData.content,
+          updateData.updated_at,
           "Updated by others"
         );
         ui.setMergeStatus(context, "", "");

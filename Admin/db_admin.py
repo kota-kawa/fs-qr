@@ -7,12 +7,12 @@ from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import text
 from starlette.responses import (
     FileResponse,
-    JSONResponse,
     RedirectResponse,
     StreamingResponse,
 )
 from werkzeug.utils import secure_filename
 
+from api_response import api_error_response, api_ok_response
 from database import db_session
 from FSQR import fsqr_data as fs_data
 from Group import group_data
@@ -207,11 +207,11 @@ async def dashboard(request: Request):
 @router.get("/file/{secure_id}", name="db_admin.file_detail")
 async def file_detail(request: Request, secure_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        return JSONResponse({"error": "forbidden"}, status_code=403)
+        return api_error_response("forbidden", status_code=403)
 
     record = await _get_record(secure_id)
     if not record:
-        return JSONResponse({"error": "not_found"}, status_code=404)
+        return api_error_response("not_found", status_code=404)
 
     path, stored_name, display_name, _ = _resolve_file_path(record)
     files = []
@@ -228,16 +228,17 @@ async def file_detail(request: Request, secure_id: str, pw: str = ""):
     if hasattr(created_at, "isoformat"):
         created_at = created_at.isoformat(sep=" ")
 
-    payload = {
-        "secure_id": record.get("secure_id"),
-        "id": record.get("id"),
-        "password": record.get("password"),
-        "file_type": record.get("file_type", "multiple"),
-        "original_filename": record.get("original_filename"),
-        "created_at": created_at,
-        "files": files,
-    }
-    return JSONResponse(payload)
+    return api_ok_response(
+        {
+            "secure_id": record.get("secure_id"),
+            "id": record.get("id"),
+            "password": record.get("password"),
+            "file_type": record.get("file_type", "multiple"),
+            "original_filename": record.get("original_filename"),
+            "created_at": created_at,
+            "files": files,
+        }
+    )
 
 
 @router.get("/file/{secure_id}/download", name="db_admin.file_download")
@@ -260,11 +261,11 @@ async def file_download(request: Request, secure_id: str, pw: str = ""):
 @router.get("/room/{room_id}", name="db_admin.room_detail")
 async def room_detail(request: Request, room_id: str, pw: str = ""):
     if pw != ADMIN_DB_PW:
-        return JSONResponse({"error": "forbidden"}, status_code=403)
+        return api_error_response("forbidden", status_code=403)
 
     record = await _get_room_record(room_id)
     if not record:
-        return JSONResponse({"error": "not_found"}, status_code=404)
+        return api_error_response("not_found", status_code=404)
 
     created_at = record.get("time")
     if hasattr(created_at, "isoformat"):
@@ -272,16 +273,16 @@ async def room_detail(request: Request, room_id: str, pw: str = ""):
 
     files = _collect_room_files(record.get("room_id"))
 
-    payload = {
-        "room_id": record.get("room_id"),
-        "id": record.get("id"),
-        "password": record.get("password"),
-        "retention_days": record.get("retention_days"),
-        "created_at": created_at,
-        "files": files,
-    }
-
-    return JSONResponse(payload)
+    return api_ok_response(
+        {
+            "room_id": record.get("room_id"),
+            "id": record.get("id"),
+            "password": record.get("password"),
+            "retention_days": record.get("retention_days"),
+            "created_at": created_at,
+            "files": files,
+        }
+    )
 
 
 @router.get("/room/{room_id}/download", name="db_admin.room_download")

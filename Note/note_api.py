@@ -2,8 +2,8 @@ import logging
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
-from starlette.responses import JSONResponse
 
+from api_response import api_error_response, api_ok_response
 from models import NoteSyncInput
 from . import note_data as nd
 from .note_sync import sync_note_content
@@ -28,18 +28,18 @@ async def note_sync(request: Request, room_id: str, password: str):
             room_id = fallback_room_id
             meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
-        return JSONResponse(
-            {"error": "room not found or password mismatch"}, status_code=404
+        return api_error_response(
+            "room not found or password mismatch", status_code=404
         )
 
     if request.method == "GET":
         try:
             row = await nd.get_row(room_id)
             if row["updated_at"] is None:
-                return JSONResponse(
-                    {"error": "room not found or not initialized"}, status_code=404
+                return api_error_response(
+                    "room not found or not initialized", status_code=404
                 )
-            return JSONResponse(
+            return api_ok_response(
                 {
                     "content": row["content"],
                     "updated_at": row["updated_at"].isoformat(
@@ -49,7 +49,7 @@ async def note_sync(request: Request, room_id: str, password: str):
             )
         except Exception as e:
             logger.error("GET error for room %s: %s", room_id, e)
-        return JSONResponse({"error": "Internal server error"}, status_code=500)
+        return api_error_response("Internal server error", status_code=500)
 
     try:
         try:
@@ -61,7 +61,7 @@ async def note_sync(request: Request, room_id: str, password: str):
                 data if isinstance(data, dict) else {}
             )
         except ValidationError:
-            return JSONResponse({"error": "Invalid request body"}, status_code=400)
+            return api_error_response("Invalid request body", status_code=400)
         client_content = sync_in.content
         client_last_known_updated_at = sync_in.last_known_updated_at
         client_original_content = sync_in.original_content
@@ -71,8 +71,14 @@ async def note_sync(request: Request, room_id: str, password: str):
             client_last_known_updated_at,
             client_original_content,
         )
-        return JSONResponse(payload, status_code=status_code)
+        if status_code >= 400:
+            return api_error_response(
+                payload.get("error", "Internal server error"),
+                status_code=status_code,
+                data=payload.get("data", {}),
+            )
+        return api_ok_response(payload.get("data", {}), status_code=status_code)
 
     except Exception as e:
         logger.error("Critical error in note_sync for room %s: %s", room_id, e)
-        return JSONResponse({"error": "Internal server error"}, status_code=500)
+        return api_error_response("Internal server error", status_code=500)
