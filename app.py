@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starsessions import SessionMiddleware
+
 try:
     from starsessions import SessionAutoloadMiddleware
 except ImportError:  # pragma: no cover - fallback for older starsessions
