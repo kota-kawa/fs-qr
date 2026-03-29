@@ -8,6 +8,10 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starsessions import SessionMiddleware
+try:
+    from starsessions import SessionAutoloadMiddleware
+except ImportError:  # pragma: no cover - fallback for older starsessions
+    SessionAutoloadMiddleware = None
 from starsessions.stores.redis import RedisStore
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 
@@ -59,6 +63,9 @@ def _build_session_middleware_kwargs():
     return kwargs
 
 
+if SessionAutoloadMiddleware is not None:
+    # SessionMiddleware must run before autoload so session_handler is available.
+    app.add_middleware(SessionAutoloadMiddleware)
 app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 
 app.mount(

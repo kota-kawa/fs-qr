@@ -83,6 +83,17 @@ class MockSessionMiddleware:
 
 mock_starsessions.SessionMiddleware = MockSessionMiddleware
 
+
+class MockSessionAutoloadMiddleware:
+    def __init__(self, app, **kwargs):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        await self.app(scope, receive, send)
+
+
+mock_starsessions.SessionAutoloadMiddleware = MockSessionAutoloadMiddleware
+
 mock_starsessions_stores = MagicMock()
 sys.modules["starsessions.stores"] = mock_starsessions_stores
 mock_starsessions_stores_redis = MagicMock()

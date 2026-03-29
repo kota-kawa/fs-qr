@@ -36,3 +36,16 @@ def test_404(test_client: TestClient):
     response = test_client.get("/non-existent-page")
     assert response.status_code == 404
     assert "text/html" in response.headers["content-type"]
+
+
+def test_session_middleware_order():
+    from app import app
+
+    class_names = [middleware.cls.__name__ for middleware in app.user_middleware]
+    session_index = next(
+        i for i, name in enumerate(class_names) if "SessionMiddleware" in name
+    )
+    autoload_index = next(
+        i for i, name in enumerate(class_names) if "SessionAutoloadMiddleware" in name
+    )
+    assert session_index < autoload_index
