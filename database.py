@@ -1,13 +1,17 @@
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     async_scoped_session,
     async_sessionmaker,
     create_async_engine,
 )
 from sqlalchemy.exc import DBAPIError, OperationalError, TimeoutError as SATimeoutError
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -67,3 +71,33 @@ async def reset_db_connection():
         await engine.dispose()
     except Exception:
         pass
+
+
+async def execute_query(query, params=None, fetch=False, retries=2):
+    stmt = query if hasattr(query, "bindparams") else text(query)
+    for attempt in range(retries + 1):
+        try:
+            result = await db_session.execute(stmt, params or {})
+            if fetch:
+                rows = result.mappings().all()
+                try:
+                    await db_session.rollback()
+                except Exception:
+                    pass
+                return rows
+            await db_session.commit()
+            return result.rowcount
+        except Exception as e:
+            if is_retryable_db_error(e) and attempt < retries:
+                logger.warning(
+                    "Database connection lost, retrying (%s/%s)", attempt + 1, retries
+                )
+                await reset_db_connection()
+                await asyncio.sleep(0.5 * (2**attempt))
+                continue
+            logger.error("Database query failed: %s", e)
+            try:
+                await db_session.rollback()
+            except Exception:
+                pass
+            raise

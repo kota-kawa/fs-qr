@@ -1,10 +1,9 @@
-import asyncio
 import os
 from typing import Optional
 from sqlalchemy import text
 import logging
 import log_config  # noqa: F401
-from database import db_session, is_retryable_db_error, reset_db_connection
+from database import execute_query
 from cache_utils import cache_data
 
 # ログ設定
@@ -13,38 +12,6 @@ logger = logging.getLogger(__name__)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC = os.path.join(BASE_DIR, "static", "upload")
 
-
-# データベースクエリの共通実行関数
-async def execute_query(query, params=None, fetch=False, retries=2):
-    for attempt in range(retries + 1):
-        try:
-            result = await db_session.execute(query, params or {})
-
-            if fetch:
-                rows = result.mappings().all()
-                # Release connection early for read-only queries
-                try:
-                    await db_session.rollback()
-                except Exception:
-                    pass
-                return rows
-
-            await db_session.commit()
-            return result.rowcount
-        except Exception as e:
-            if is_retryable_db_error(e) and attempt < retries:
-                logger.warning(
-                    "Database connection lost, retrying (%s/%s)", attempt + 1, retries
-                )
-                await reset_db_connection()
-                await asyncio.sleep(0.5 * (2**attempt))
-                continue
-            logger.error("Database query failed: %s", e)
-            try:
-                await db_session.rollback()
-            except Exception:
-                pass
-            raise
 
 
 # ファイルを保存

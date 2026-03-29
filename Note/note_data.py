@@ -1,56 +1,13 @@
-import asyncio
 import logging
 from typing import Optional
 import log_config  # noqa: F401
 from sqlalchemy import text
-from database import db_session, is_retryable_db_error, reset_db_connection
+from database import execute_query
 from cache_utils import cache_data
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
-
-# 共通クエリ実行関数
-async def execute_query(query, params=None, fetch=False, retries=2):
-    """
-    SQL クエリを実行するユーティリティ。
-    :param query: SQL テキストまたは sqlalchemy.text オブジェクト
-    :param params: バインドパラメータ用辞書
-    :param fetch: 結果を取得する場合は True
-    :return: fetch=True の場合は結果リスト、それ以外は影響行数
-    """
-    stmt = query if hasattr(query, "bindparams") else text(query)
-    for attempt in range(retries + 1):
-        try:
-            if params:
-                result = await db_session.execute(stmt, params)
-            else:
-                result = await db_session.execute(stmt)
-
-            if fetch:
-                rows = result.mappings().all()
-                # Release connection early for read-only queries
-                try:
-                    await db_session.rollback()
-                except Exception:
-                    pass
-                return rows
-            await db_session.commit()
-            return result.rowcount
-        except Exception as e:
-            if is_retryable_db_error(e) and attempt < retries:
-                logger.warning(
-                    "Database connection lost, retrying (%s/%s)", attempt + 1, retries
-                )
-                await reset_db_connection()
-                await asyncio.sleep(0.5 * (2**attempt))
-                continue
-            logger.error("Database query failed: %s", e)
-            try:
-                await db_session.rollback()
-            except Exception:
-                pass
-            raise
 
 
 # note_app.py などから使用するエイリアス関数
