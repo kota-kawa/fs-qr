@@ -1,8 +1,109 @@
-
 <style>
-/* Override colors for upload_complete and download pages to match fs-qr menu page */
+.page-container.info-page {
+  min-height: auto;
+  background: transparent;
+  padding: 2rem 1rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.modern-info-card {
+  --card-radius: 24px;
+  width: 100%;
+  max-width: 920px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--card-radius);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.modern-info-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%);
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
+}
+
+.modern-info-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 25px 35px -5px rgba(0, 0, 0, 0.15),
+    0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
 .info-box-header {
   background: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%) !important;
+  border-top-left-radius: var(--card-radius, 24px);
+  border-top-right-radius: var(--card-radius, 24px);
+}
+
+.info-box-header::before {
+  background: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%) !important;
+}
+
+.info-box-header::after {
+  border-top-color: #1f27c7;
+}
+
+.info-box-header .card-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Kaisei Opti", serif;
+}
+
+.info-box-content {
+  padding: 2.5rem 2rem 2rem;
+}
+
+.info-content-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.info-content-inner--compact {
+  max-width: 520px;
+}
+
+.info-box-content h3 {
+  color: #1f27c7;
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  padding-left: 0.9rem;
+  border-left: 4px solid #23c3df;
+  text-align: left;
+  font-family: "Kaisei Opti", serif;
+}
+
+.info-box-content .table {
+  margin-bottom: 0;
+  border-color: rgba(148, 163, 184, 0.24);
+}
+
+.info-box-content .table th {
+  background: rgba(241, 245, 249, 0.88);
+  color: #334155;
+  width: 9rem;
+  vertical-align: middle;
+}
+
+.info-box-content .table td {
+  vertical-align: middle;
 }
 
 .share-url-wrapper {
@@ -195,10 +296,44 @@
   border: 0;
 }
 
-.info-page {
-  min-height: auto;
-  background: transparent;
-  padding-top: 1.5rem;
-  padding-bottom: 1rem;
+.usage-section {
+  max-width: 920px;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .page-container.info-page {
+    padding: 1rem 0.75rem;
+  }
+
+  .modern-info-card {
+    --card-radius: 20px;
+  }
+
+  .info-box-header {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .info-box-header .card-title {
+    font-size: 1.5rem;
+  }
+
+  .info-box-content {
+    padding: 2rem 1.5rem 1.75rem;
+  }
+
+  .info-content-inner,
+  .info-content-inner--compact {
+    max-width: 100%;
+  }
+
+  .info-box-content .table th {
+    width: 7.2rem;
+  }
+
+  .share-priority-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

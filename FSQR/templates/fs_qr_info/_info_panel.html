@@ -1,9 +1,9 @@
 
-<div class="info-page">
+<div class="page-container info-page">
   {% set display_filename = original_filename if file_type == 'single' and original_filename else secure_id ~ ('.enc' if file_type == 'single' else '.zip') %}
-  <div class="info-box">
-    <div class="info-box-header">
-      <h2>
+  <div class="modern-card modern-info-card info-box">
+    <div class="card-header info-box-header">
+      <h2 class="card-title">
         <!-- タイトル -->
         {% if mode == 'upload' %}
         アップロード完了
@@ -15,8 +15,8 @@
 
     
     {% if mode == 'upload' %}
-    <div class="info-box-content">
-      <div class="text-center" style="max-width: 500px; margin: 0 auto;">
+    <div class="card-body info-box-content">
+      <div class="text-center info-content-inner">
         <div class="share-priority-card">
           <div class="share-priority-head">
             <strong>
@@ -132,13 +132,13 @@
 
 
     {% else %}
-    <div class="info-box-content">
-      <div class="text-center" style="max-width: 400px; margin: 0 auto;">
+    <div class="card-body info-box-content">
+      <div class="text-center info-content-inner info-content-inner--compact">
         <div class="share-priority-card">
           <strong>この画面を開けていれば受け取り準備は完了です</strong>
           共有リンクから開いた場合は、追加の入力なしでそのままダウンロードできます。
         </div>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped text-start">
           <tr>
             <th scope="row" class="text-center">ID</th>
             <td class="text-start">{{ id | e }}</td>
@@ -191,4 +191,5 @@
     </div>
 
     {% endif %}
+  </div>
 </div>
