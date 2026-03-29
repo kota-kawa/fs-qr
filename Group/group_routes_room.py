@@ -126,7 +126,7 @@ def register_group_create_room_route(router: APIRouter):
         existing_room = await group_data.get_data(room_id)
 
         if existing_room:
-            if id_mode == "auto":
+            if inp.id_mode == "auto":
                 return JSONResponse(
                     {
                         "error": "生成されたIDが重複しています。新しいIDで再試行してください。",
