@@ -98,22 +98,23 @@
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
-}
-
-.room-info-value-row--stack {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.45rem;
+  flex-wrap: nowrap;
 }
 
 .room-info-value-actions {
   margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .room-info-value-text {
   font-weight: 600;
   word-break: break-all;
   color: var(--text-dark, #1f2937);
+  min-width: 0;
 }
 
 .room-info-url-text {
@@ -122,6 +123,7 @@
   color: var(--text-dark, #1f2937);
   font-size: 0.82rem;
   line-height: 1.4;
+  min-width: 0;
 }
 
 .info-box-content h3 {
@@ -344,6 +346,14 @@
 .usage-section {
   max-width: 920px;
   margin-top: 1.5rem;
+  --usage-header-gradient: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%);
+  --usage-header-accent: #1f27c7;
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.usage-section-content {
+  background: linear-gradient(160deg, rgba(239, 246, 255, 0.78) 0%, rgba(255, 255, 255, 0.94) 100%);
+  color: #334155;
 }
 
 @media (max-width: 768px) {
