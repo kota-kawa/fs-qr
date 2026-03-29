@@ -15,7 +15,11 @@ from file_validation import (
     validate_requested_filename,
     validate_upload_limits,
 )
-from settings import UPLOAD_MAX_FILES, UPLOAD_MAX_TOTAL_SIZE_BYTES, UPLOAD_MAX_TOTAL_SIZE_MB
+from settings import (
+    UPLOAD_MAX_FILES,
+    UPLOAD_MAX_TOTAL_SIZE_BYTES,
+    UPLOAD_MAX_TOTAL_SIZE_MB,
+)
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
@@ -88,9 +92,7 @@ def register_group_upload_route(router: APIRouter):
             )
 
         await notify_group_files_updated(room_id)
-        return api_ok_response(
-            {"message": "ファイルが正常にアップロードされました。"}
-        )
+        return api_ok_response({"message": "ファイルが正常にアップロードされました。"})
 
 
 def register_group_list_files_route(router: APIRouter):
@@ -109,9 +111,7 @@ def register_group_list_files_route(router: APIRouter):
             )
 
         if not is_safe_path(UPLOAD_FOLDER, target_directory):
-            return api_error_response(
-                "不正なパスが検出されました。", status_code=400
-            )
+            return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
             files = [
@@ -184,16 +184,12 @@ def register_group_download_file_route(router: APIRouter):
         file_path = os.path.join(room_folder, decoded_filename)
 
         if not is_safe_path(room_folder, file_path):
-            return api_error_response(
-                "不正なパスが検出されました。", status_code=400
-            )
+            return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
             if os.path.exists(file_path):
                 return FileResponse(file_path, filename=decoded_filename)
-            return api_error_response(
-                "ファイルが見つかりません。", status_code=404
-            )
+            return api_error_response("ファイルが見つかりません。", status_code=404)
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
@@ -218,9 +214,7 @@ def register_group_delete_file_route(router: APIRouter):
         file_path = os.path.join(room_folder, decoded_filename)
 
         if not is_safe_path(room_folder, file_path):
-            return api_error_response(
-                "不正なパスが検出されました。", status_code=400
-            )
+            return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
             if os.path.exists(file_path):
@@ -229,8 +223,6 @@ def register_group_delete_file_route(router: APIRouter):
                 return api_ok_response(
                     {"message": "ファイルが削除されました。"}, status_code=200
                 )
-            return api_error_response(
-                "ファイルが見つかりません。", status_code=404
-            )
+            return api_error_response("ファイルが見つかりません。", status_code=404)
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)

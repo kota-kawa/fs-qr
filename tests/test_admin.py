@@ -178,7 +178,9 @@ def test_db_admin_file_detail_found(test_client):
             "time": datetime(2026, 1, 1),
         }
     ]
-    with patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data):
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/file/abc123-uid-file")
 
@@ -217,7 +219,9 @@ def test_db_admin_room_detail_found(test_client):
             "time": datetime(2026, 1, 1),
         }
     ]
-    with patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=mock_data):
+    with patch(
+        "Group.group_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/room/abc123")
 

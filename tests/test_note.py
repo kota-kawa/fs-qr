@@ -126,7 +126,9 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
         response = test_client.get("/note/abc123/000000")
     assert response.status_code == 200
     html = response.text
-    assert "window.__FSQR_APP__.api.setConfig('noteRoomRealtime', Object.freeze({" in html
+    assert (
+        "window.__FSQR_APP__.api.setConfig('noteRoomRealtime', Object.freeze({" in html
+    )
     assert "maxContentLength" in html
     assert "selfEditTimeoutMs" in html
     assert "mergeStatus" in html

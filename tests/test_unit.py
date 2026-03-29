@@ -724,7 +724,7 @@ def test_sync_note_content_successful_save_returns_ok():
                 "2026-01-01 00:00:00.000000",
                 "original",
             )
-    )
+        )
 
     assert status == 200
     assert payload["status"] == "ok"
@@ -757,7 +757,7 @@ def test_sync_note_content_conflict_max_retries_returns_409():
                 "2026-01-01 00:00:00.000000",
                 "original",
             )
-    )
+        )
 
     assert status == 409
     assert payload["status"] == "error"
@@ -812,7 +812,10 @@ def test_validate_upload_limits_rejects_too_large_total_size():
 def test_validate_requested_filename_blocks_dangerous_pattern():
     from file_validation import validate_requested_filename
 
-    assert validate_requested_filename("../secret.txt") == "不正なファイル名が検出されました。"
+    assert (
+        validate_requested_filename("../secret.txt")
+        == "不正なファイル名が検出されました。"
+    )
 
 
 def test_validate_requested_filename_blocks_blank_string():

@@ -20,7 +20,11 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from settings import UPLOAD_MAX_FILES, UPLOAD_MAX_TOTAL_SIZE_BYTES, UPLOAD_MAX_TOTAL_SIZE_MB
+from settings import (
+    UPLOAD_MAX_FILES,
+    UPLOAD_MAX_TOTAL_SIZE_BYTES,
+    UPLOAD_MAX_TOTAL_SIZE_MB,
+)
 from web import build_url, enforce_csrf, render_template
 from . import fsqr_data as fs_data
 

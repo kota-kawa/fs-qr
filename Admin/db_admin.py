@@ -173,7 +173,9 @@ def _is_db_admin_authenticated(request: Request) -> bool:
 @router.post("/", name="db_admin.dashboard_post")
 async def dashboard(request: Request):
     if "pw" in request.query_params:
-        return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)
+        return RedirectResponse(
+            build_url(request, "db_admin.dashboard"), status_code=302
+        )
 
     if request.method == "POST":
         await enforce_csrf(request)
@@ -183,7 +185,9 @@ async def dashboard(request: Request):
             flash_message(request, "パスワードが違います")
             return render_template(request, "db_admin.html", authenticated=False)
         request.session[DB_ADMIN_SESSION_KEY] = True
-        return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)
+        return RedirectResponse(
+            build_url(request, "db_admin.dashboard"), status_code=302
+        )
 
     if not _is_db_admin_authenticated(request):
         return render_template(request, "db_admin.html", authenticated=False)
