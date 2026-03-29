@@ -63,7 +63,10 @@ CREATE TABLE IF NOT EXISTS note_room(
   id VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   room_id VARCHAR(255) NOT NULL,
-  retention_days INT NOT NULL DEFAULT 7
+  retention_days INT NOT NULL DEFAULT 7,
+  INDEX idx_note_room_id_password (id, password),
+  INDEX idx_note_room_room_id_password (room_id, password),
+  INDEX idx_note_room_time (time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
@@ -71,9 +74,51 @@ CREATE_NOTE_CONTENT = """
 CREATE TABLE IF NOT EXISTS note_content(
   room_id VARCHAR(255) PRIMARY KEY,
   content LONGTEXT,
-  updated_at DATETIME(6)
+  updated_at DATETIME(6),
+  INDEX idx_note_content_updated_at (updated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
+
+
+ADD_NOTE_ROOM_IDX_ID_PASSWORD = """
+ALTER TABLE note_room
+ADD INDEX idx_note_room_id_password (id, password)
+"""
+
+ADD_NOTE_ROOM_IDX_ROOM_ID_PASSWORD = """
+ALTER TABLE note_room
+ADD INDEX idx_note_room_room_id_password (room_id, password)
+"""
+
+ADD_NOTE_ROOM_IDX_TIME = """
+ALTER TABLE note_room
+ADD INDEX idx_note_room_time (time)
+"""
+
+ADD_NOTE_CONTENT_IDX_UPDATED_AT = """
+ALTER TABLE note_content
+ADD INDEX idx_note_content_updated_at (updated_at)
+"""
+
+INDEX_CHECK_SQL = """
+SELECT COUNT(*) AS cnt
+FROM information_schema.statistics
+WHERE table_schema = DATABASE()
+  AND table_name = :table_name
+  AND index_name = :index_name
+"""
+
+
+async def ensure_index(table_name: str, index_name: str, ddl: str):
+    rows = await execute_query(
+        INDEX_CHECK_SQL,
+        {"table_name": table_name, "index_name": index_name},
+        fetch=True,
+    )
+    exists = bool(rows and rows[0].get("cnt"))
+    if exists:
+        return
+    await execute_query(ddl)
 
 
 # テーブル作成チェック
@@ -85,6 +130,20 @@ async def ensure_tables():
         await execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")
     except Exception:
         pass
+    await ensure_index(
+        "note_room", "idx_note_room_id_password", ADD_NOTE_ROOM_IDX_ID_PASSWORD
+    )
+    await ensure_index(
+        "note_room",
+        "idx_note_room_room_id_password",
+        ADD_NOTE_ROOM_IDX_ROOM_ID_PASSWORD,
+    )
+    await ensure_index("note_room", "idx_note_room_time", ADD_NOTE_ROOM_IDX_TIME)
+    await ensure_index(
+        "note_content",
+        "idx_note_content_updated_at",
+        ADD_NOTE_CONTENT_IDX_UPDATED_AT,
+    )
     logger.info("note tables checked/created")
 
 

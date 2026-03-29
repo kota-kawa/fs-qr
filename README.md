@@ -132,6 +132,13 @@ docker-compose up --build
 ### 4) ブラウザでアクセス
 - http://localhost:5000
 
+## 🗃️ 既存環境向けインデックス移行
+既に作成済みのDBには次のSQLを実行してください。
+
+```bash
+docker compose exec -T db mysql -u"$SQL_USER" -p"$SQL_PW" "$SQL_DB" < db_init/migrate_add_indexes.sql
+```
+
 ## 🧰 技術スタック
 - **FastAPI** (Python)
 - **MySQL**

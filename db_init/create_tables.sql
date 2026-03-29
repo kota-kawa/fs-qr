@@ -7,7 +7,10 @@ CREATE TABLE fsqr (
     secure_id VARCHAR(255) NOT NULL,      -- ファイルのセキュアID
     file_type VARCHAR(20) DEFAULT 'multiple', -- ファイルタイプ: single or multiple
     original_filename VARCHAR(255) DEFAULT NULL, -- 単一ファイルの元のファイル名
-    retention_days INT NOT NULL DEFAULT 7 -- 自動削除までの日数
+    retention_days INT NOT NULL DEFAULT 7, -- 自動削除までの日数
+    INDEX idx_fsqr_id_password (id, password),
+    INDEX idx_fsqr_secure_id (secure_id),
+    INDEX idx_fsqr_time (time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE room (
@@ -16,7 +19,10 @@ CREATE TABLE room (
     id VARCHAR(255) NOT NULL,             -- ユーザーID
     password VARCHAR(255) NOT NULL,       -- パスワード
     room_id VARCHAR(255) NOT NULL,        -- 部屋ID
-    retention_days INT NOT NULL DEFAULT 7 -- 自動削除までの日数
+    retention_days INT NOT NULL DEFAULT 7, -- 自動削除までの日数
+    INDEX idx_room_id_password (id, password),
+    INDEX idx_room_room_id (room_id),
+    INDEX idx_room_time (time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -31,13 +37,17 @@ CREATE TABLE note_room (
     id VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     room_id VARCHAR(255) NOT NULL,
-    retention_days INT NOT NULL DEFAULT 7
+    retention_days INT NOT NULL DEFAULT 7,
+    INDEX idx_note_room_id_password (id, password),
+    INDEX idx_note_room_room_id_password (room_id, password),
+    INDEX idx_note_room_time (time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 各ルームに 1 行だけ、最新ノート本文を保持
 CREATE TABLE note_content (
     room_id VARCHAR(255) PRIMARY KEY,
     content LONGTEXT,
-    updated_at DATETIME
+    updated_at DATETIME,
+    INDEX idx_note_content_updated_at (updated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
