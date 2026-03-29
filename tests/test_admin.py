@@ -21,7 +21,9 @@ def test_admin_list_wrong_pw(test_client: TestClient):
 
 def test_admin_remove_wrong_pw(test_client: TestClient):
     """誤ったパスワードで削除エンドポイントにアクセスするとエラーページ (200) を返す"""
-    response = test_client.get("/admin/remove/somesecureid?pw=wrongpassword")
+    response = test_client.post(
+        "/admin/remove/somesecureid", data={"pw": "wrongpassword"}
+    )
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
 
@@ -45,7 +47,9 @@ def test_admin_remove_not_found(test_client: TestClient):
         patch("Admin.admin_app.ADMIN_KEY", "test_master_key"),
         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=None),
     ):
-        response = test_client.get("/admin/remove/nonexistent?pw=test_master_key")
+        response = test_client.post(
+            "/admin/remove/nonexistent", data={"pw": "test_master_key"}
+        )
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
 

@@ -13,6 +13,8 @@
     const spinnerRoot = document.getElementById('spinner-container');
     const spinnerText = document.querySelector('#spinner-container .text');
     const spinnerProgress = document.querySelector('#spinner-container .progress-bar');
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
 
     const ICONS = Object.freeze({
         file: `<span class="modern-file-icon svg-icon svg-icon--lg" aria-hidden="true">
@@ -396,6 +398,9 @@
             // XMLHttpRequest を利用してアップロード進捗を計測
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/upload', true);
+            if (csrfToken) {
+                xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            }
             const progressBar = document.querySelector('.progress-bar');
 
             xhr.upload.onprogress = function (event) {

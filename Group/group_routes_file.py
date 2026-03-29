@@ -10,6 +10,7 @@ from starlette.responses import FileResponse, JSONResponse, StreamingResponse
 from werkzeug.utils import secure_filename
 
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
+from web import enforce_csrf
 
 
 def register_group_upload_route(router: APIRouter):
@@ -20,6 +21,7 @@ def register_group_upload_route(router: APIRouter):
         password: str,
         upfile: Optional[list[UploadFile]] = File(None),
     ):
+        await enforce_csrf(request)
         record = await get_room_if_valid(room_id, password)
         if not record:
             return JSONResponse(
@@ -212,6 +214,7 @@ def register_group_download_file_route(router: APIRouter):
 def register_group_delete_file_route(router: APIRouter):
     @router.delete("/delete/{room_id}/{password}/{filename}", name="group.delete_file")
     async def delete_file(request: Request, room_id: str, password: str, filename: str):
+        await enforce_csrf(request)
         decoded_filename = urllib.parse.unquote(filename)
 
         if any(

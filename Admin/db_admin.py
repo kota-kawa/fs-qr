@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 from database import db_session
 from FSQR import fsqr_data as fs_data
 from Group import group_data
-from web import build_url, render_template
+from web import build_url, enforce_csrf, render_template
 from settings import DB_ADMIN_PASSWORD
 
 fs_db = db_session
@@ -169,6 +169,7 @@ def _collect_room_files(room_id):
 @router.post("/", name="db_admin.dashboard_post")
 async def dashboard(request: Request):
     if request.method == "POST":
+        await enforce_csrf(request)
         form = await request.form()
         target = build_url(request, "db_admin.dashboard")
         pw = form.get("password", "")

@@ -479,12 +479,14 @@
             return;
         }
         const formData = new FormData(form);
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
         document.getElementById('loading-screen').style.display = 'flex'; // ローディング画面を表示
         
         fetch(form.action, {
             method: 'POST',
             credentials: 'same-origin',
+            headers: { 'X-CSRF-Token': csrfToken },
             body: formData
         })
         .then(response => {
@@ -507,6 +509,7 @@
                         return fetch(form.action, {
                             method: 'POST',
                             credentials: 'same-origin',
+                            headers: { 'X-CSRF-Token': csrfToken },
                             body: newFormData
                         });
                     } else {

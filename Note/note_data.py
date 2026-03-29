@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS note_room(
   password VARCHAR(255) NOT NULL,
   room_id VARCHAR(255) NOT NULL,
   retention_days INT NOT NULL DEFAULT 7,
+  UNIQUE KEY uq_note_room_room_id (room_id),
   INDEX idx_note_room_id_password (id, password),
   INDEX idx_note_room_room_id_password (room_id, password),
   INDEX idx_note_room_time (time)
@@ -108,6 +109,15 @@ WHERE table_schema = DATABASE()
   AND index_name = :index_name
 """
 
+UNIQUE_CHECK_SQL = """
+SELECT COUNT(*) AS cnt
+FROM information_schema.statistics
+WHERE table_schema = DATABASE()
+  AND table_name = :table_name
+  AND index_name = :index_name
+  AND non_unique = 0
+"""
+
 
 async def ensure_index(table_name: str, index_name: str, ddl: str):
     rows = await execute_query(
@@ -121,10 +131,27 @@ async def ensure_index(table_name: str, index_name: str, ddl: str):
     await execute_query(ddl)
 
 
+async def ensure_unique_key(table_name: str, index_name: str, ddl: str):
+    rows = await execute_query(
+        UNIQUE_CHECK_SQL,
+        {"table_name": table_name, "index_name": index_name},
+        fetch=True,
+    )
+    exists = bool(rows and rows[0].get("cnt"))
+    if exists:
+        return
+    await execute_query(ddl)
+
+
 # テーブル作成チェック
 async def ensure_tables():
     await execute_query(CREATE_NOTE_ROOM)
     await execute_query(CREATE_NOTE_CONTENT)
+    await ensure_unique_key(
+        "note_room",
+        "uq_note_room_room_id",
+        "ALTER TABLE note_room ADD UNIQUE KEY uq_note_room_room_id (room_id)",
+    )
     # 既存テーブルをマイクロ秒精度に更新
     try:
         await execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")

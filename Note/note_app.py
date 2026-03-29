@@ -13,7 +13,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from web import build_url, flash_message, render_template
+from web import build_url, enforce_csrf, flash_message, render_template
 from . import note_data as nd
 
 router = APIRouter()
@@ -70,6 +70,7 @@ async def create_note_room_page(request: Request):
 
 @router.post("/create_note_room", name="note.create_note_room")
 async def create_note_room(request: Request):
+    await enforce_csrf(request)
     json_data = {}
     form_data = {}
     content_type = request.headers.get("content-type", "")
@@ -246,6 +247,7 @@ async def search_note_room_page(request: Request):
 
 @router.post("/search_note_process", name="note.search_note_room")
 async def search_note_room(request: Request):
+    await enforce_csrf(request)
     form = await request.form()
     id_val = (form.get("id") or "").strip()
     pw = (form.get("password") or "").strip()

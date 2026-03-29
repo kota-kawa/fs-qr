@@ -1,6 +1,9 @@
 import asyncio
 import os
+import re
+import secrets
 import sys
+from http.cookies import SimpleCookie
 from unittest.mock import AsyncMock, MagicMock, patch
 
 # プロジェクトルートをsys.pathに追加
@@ -27,13 +30,55 @@ sys.modules["starsessions"] = mock_starsessions
 
 # SessionMiddleware が ASGI アプリとして正しく振る舞うようにする
 class MockSessionMiddleware:
+    _cookie_name = "test_session_id"
+    _sessions = {}
+
     def __init__(self, app, **kwargs):
         self.app = app
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] in {"http", "websocket"}:
-            scope.setdefault("session", {})
-        await self.app(scope, receive, send)
+        if scope["type"] not in {"http", "websocket"}:
+            await self.app(scope, receive, send)
+            return
+
+        cookie_header = ""
+        for key, value in scope.get("headers", []):
+            if key == b"cookie":
+                cookie_header = value.decode("latin-1")
+                break
+
+        cookies = SimpleCookie()
+        if cookie_header:
+            cookies.load(cookie_header)
+
+        session_id = (
+            cookies[MockSessionMiddleware._cookie_name].value
+            if MockSessionMiddleware._cookie_name in cookies
+            else None
+        )
+        if not session_id or session_id not in MockSessionMiddleware._sessions:
+            session_id = secrets.token_hex(16)
+            MockSessionMiddleware._sessions[session_id] = {}
+
+        scope["session"] = MockSessionMiddleware._sessions[session_id]
+
+        async def send_wrapper(message):
+            if message["type"] == "http.response.start":
+                headers = list(message.get("headers", []))
+                headers.append(
+                    (
+                        b"set-cookie",
+                        (
+                            f"{MockSessionMiddleware._cookie_name}="
+                            f"{session_id}; Path=/; HttpOnly"
+                        ).encode("latin-1"),
+                    )
+                )
+                message["headers"] = headers
+            await send(message)
+
+        await self.app(scope, receive, send_wrapper)
+        MockSessionMiddleware._sessions[session_id] = scope.get("session", {})
 
 
 mock_starsessions.SessionMiddleware = MockSessionMiddleware
@@ -56,15 +101,71 @@ import httpx  # noqa: E402
 
 
 class SimpleASGITestClient:
+    SAFE_METHODS = {"GET", "HEAD", "OPTIONS", "TRACE"}
+    CSRF_TOKEN_PATH_CANDIDATES = ("/fs-qr", "/group", "/note", "/admin/")
+
     def __init__(self, app):
         self.app = app
+        self.cookies = httpx.Cookies()
+        self.csrf_token = None
 
-    async def _request(self, method: str, path: str, **kwargs):
+    async def _raw_request(self, method: str, path: str, **kwargs):
         transport = httpx.ASGITransport(app=self.app)
         async with httpx.AsyncClient(
-            transport=transport, base_url="http://testserver"
+            transport=transport,
+            base_url="http://testserver",
+            cookies=self.cookies,
+            follow_redirects=False,
         ) as client:
-            return await client.request(method, path, **kwargs)
+            response = await client.request(method, path, **kwargs)
+            self.cookies.update(client.cookies)
+            return response
+
+    @staticmethod
+    def _extract_csrf_token_from_html(html: str):
+        if not html:
+            return None
+        patterns = [
+            r"<meta\s+name=['\"]csrf-token['\"]\s+content=['\"]([^'\"]+)['\"]",
+            r"name=['\"]csrf_token['\"]\s+value=['\"]([^'\"]+)['\"]",
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, html)
+            if match:
+                return match.group(1)
+        return None
+
+    async def _ensure_csrf_token(self) -> str:
+        if self.csrf_token:
+            return self.csrf_token
+        for path in self.CSRF_TOKEN_PATH_CANDIDATES:
+            response = await self._raw_request("GET", path)
+            token = self._extract_csrf_token_from_html(response.text)
+            if token:
+                self.csrf_token = token
+                return token
+        raise RuntimeError("Failed to extract CSRF token from candidate page responses")
+
+    async def _request(self, method: str, path: str, **kwargs):
+        method_upper = method.upper()
+        headers = dict(kwargs.pop("headers", {}) or {})
+        auto_csrf_added = False
+
+        has_csrf_header = any(key.lower() == "x-csrf-token" for key in headers)
+        if method_upper not in self.SAFE_METHODS and not has_csrf_header:
+            headers["X-CSRF-Token"] = await self._ensure_csrf_token()
+            auto_csrf_added = True
+
+        if headers:
+            kwargs["headers"] = headers
+
+        response = await self._raw_request(method, path, **kwargs)
+        if auto_csrf_added and response.status_code == 403:
+            self.csrf_token = None
+            headers["X-CSRF-Token"] = await self._ensure_csrf_token()
+            kwargs["headers"] = headers
+            response = await self._raw_request(method, path, **kwargs)
+        return response
 
     def request(self, method: str, path: str, **kwargs):
         return asyncio.run(self._request(method, path, **kwargs))

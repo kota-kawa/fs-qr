@@ -226,6 +226,7 @@ function generateRandomId() {
 // Ensure spinner is hidden on page load
 document.addEventListener('DOMContentLoaded', function() {
     hideSpinner();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
     // Add form submission handlers
     document.querySelector('#join-tab form').addEventListener('submit', function(e) {
@@ -245,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(form.action, {
             method: 'POST',
             credentials: 'same-origin',
+            headers: { 'X-CSRF-Token': csrfToken },
             body: formData
         })
         .then(response => {
@@ -267,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         return fetch(form.action, {
                             method: 'POST',
                             credentials: 'same-origin',
+                            headers: { 'X-CSRF-Token': csrfToken },
                             body: newFormData
                         });
                     } else {

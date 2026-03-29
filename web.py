@@ -1,10 +1,12 @@
+import hmac
 import logging
 import os
+import secrets
 import time
 from typing import Any, Dict, Iterable
 from urllib.parse import quote_plus
 
-from fastapi import Request
+from fastapi import HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 
@@ -23,6 +25,11 @@ TEMPLATE_DIRS = [
 TEMPLATE_DIRS = [path for path in TEMPLATE_DIRS if os.path.isdir(path)]
 
 templates = Jinja2Templates(directory=TEMPLATE_DIRS)
+
+CSRF_SESSION_KEY = "_csrf_token"
+CSRF_FORM_FIELD = "csrf_token"
+CSRF_HEADER_NAME = "x-csrf-token"
+SAFE_HTTP_METHODS = frozenset({"GET", "HEAD", "OPTIONS", "TRACE"})
 
 
 class TemplateRequestProxy:
@@ -77,11 +84,62 @@ def flash_message(request: Request, message: str) -> None:
     request.session["_flashes"] = messages
 
 
+def _normalize_csrf_token(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    token = value.strip()
+    return token
+
+
+def get_or_create_csrf_token(request: Request) -> str:
+    token = _normalize_csrf_token(request.session.get(CSRF_SESSION_KEY))
+    if token:
+        return token
+    token = secrets.token_urlsafe(32)
+    request.session[CSRF_SESSION_KEY] = token
+    return token
+
+
+async def _extract_csrf_token(request: Request) -> str:
+    header_token = _normalize_csrf_token(request.headers.get(CSRF_HEADER_NAME))
+    if header_token:
+        return header_token
+
+    content_type = request.headers.get("content-type", "")
+    if (
+        "application/x-www-form-urlencoded" in content_type
+        or "multipart/form-data" in content_type
+    ):
+        form = await request.form()
+        form_token = _normalize_csrf_token(form.get(CSRF_FORM_FIELD))
+        if form_token:
+            return form_token
+
+    return ""
+
+
+async def validate_csrf(request: Request) -> bool:
+    expected = get_or_create_csrf_token(request)
+    provided = await _extract_csrf_token(request)
+    if not provided:
+        return False
+    return hmac.compare_digest(provided, expected)
+
+
+async def enforce_csrf(request: Request) -> None:
+    if request.method in SAFE_HTTP_METHODS:
+        return
+    if await validate_csrf(request):
+        return
+    raise HTTPException(status_code=403, detail="CSRF token missing or invalid")
+
+
 @pass_context
 def csrf_token(context: Dict[str, Any]) -> str:
-    # Frontend templates added today expect this global.
-    # Backend is intentionally kept at the pre-CSRF state, so return an inert token.
-    return ""
+    request: Request = context.get("request")
+    if request is None:
+        return ""
+    return get_or_create_csrf_token(request)
 
 
 logger = logging.getLogger(__name__)

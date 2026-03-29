@@ -29,6 +29,7 @@ def upgrade() -> None:
             file_type VARCHAR(20) DEFAULT 'multiple',
             original_filename VARCHAR(255) DEFAULT NULL,
             retention_days INT NOT NULL DEFAULT 7,
+            UNIQUE KEY uq_fsqr_uuid (uuid),
             INDEX idx_fsqr_id_password (id, password),
             INDEX idx_fsqr_secure_id (secure_id),
             INDEX idx_fsqr_time (time)
@@ -44,6 +45,7 @@ def upgrade() -> None:
             password VARCHAR(255) NOT NULL,
             room_id VARCHAR(255) NOT NULL,
             retention_days INT NOT NULL DEFAULT 7,
+            UNIQUE KEY uq_room_room_id (room_id),
             INDEX idx_room_id_password (id, password),
             INDEX idx_room_room_id (room_id),
             INDEX idx_room_time (time)
@@ -59,6 +61,7 @@ def upgrade() -> None:
             password VARCHAR(255) NOT NULL,
             room_id VARCHAR(255) NOT NULL,
             retention_days INT NOT NULL DEFAULT 7,
+            UNIQUE KEY uq_note_room_room_id (room_id),
             INDEX idx_note_room_id_password (id, password),
             INDEX idx_note_room_room_id_password (room_id, password),
             INDEX idx_note_room_time (time)
@@ -124,6 +127,11 @@ def upgrade() -> None:
         index_name="idx_fsqr_id_password",
         ddl="ALTER TABLE fsqr ADD INDEX idx_fsqr_id_password (id, password)",
     )
+    _add_unique_if_missing(
+        table_name="fsqr",
+        index_name="uq_fsqr_uuid",
+        ddl="ALTER TABLE fsqr ADD UNIQUE KEY uq_fsqr_uuid (uuid)",
+    )
     _add_index_if_missing(
         table_name="fsqr",
         index_name="idx_fsqr_secure_id",
@@ -139,6 +147,11 @@ def upgrade() -> None:
         index_name="idx_room_id_password",
         ddl="ALTER TABLE room ADD INDEX idx_room_id_password (id, password)",
     )
+    _add_unique_if_missing(
+        table_name="room",
+        index_name="uq_room_room_id",
+        ddl="ALTER TABLE room ADD UNIQUE KEY uq_room_room_id (room_id)",
+    )
     _add_index_if_missing(
         table_name="room",
         index_name="idx_room_room_id",
@@ -153,6 +166,11 @@ def upgrade() -> None:
         table_name="note_room",
         index_name="idx_note_room_id_password",
         ddl="ALTER TABLE note_room ADD INDEX idx_note_room_id_password (id, password)",
+    )
+    _add_unique_if_missing(
+        table_name="note_room",
+        index_name="uq_note_room_room_id",
+        ddl="ALTER TABLE note_room ADD UNIQUE KEY uq_note_room_room_id (room_id)",
     )
     _add_index_if_missing(
         table_name="note_room",
@@ -219,6 +237,20 @@ def _index_exists(table_name: str, index_name: str) -> bool:
     return bool(op.get_bind().exec_driver_sql(query).scalar())
 
 
+def _unique_index_exists(table_name: str, index_name: str) -> bool:
+    if table_name not in _ALLOWED_TABLES:
+        raise ValueError(f"Unsupported table name: {table_name}")
+    query = f"""
+        SELECT COUNT(*)
+        FROM information_schema.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = '{table_name}'
+          AND INDEX_NAME = '{index_name}'
+          AND NON_UNIQUE = 0
+    """
+    return bool(op.get_bind().exec_driver_sql(query).scalar())
+
+
 def _add_column_if_missing(table_name: str, column_name: str, ddl: str) -> None:
     if not _table_exists(table_name):
         return
@@ -231,5 +263,13 @@ def _add_index_if_missing(table_name: str, index_name: str, ddl: str) -> None:
     if not _table_exists(table_name):
         return
     if _index_exists(table_name, index_name):
+        return
+    op.execute(ddl)
+
+
+def _add_unique_if_missing(table_name: str, index_name: str, ddl: str) -> None:
+    if not _table_exists(table_name):
+        return
+    if _unique_index_exists(table_name, index_name):
         return
     op.execute(ddl)

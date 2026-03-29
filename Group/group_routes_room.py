@@ -16,6 +16,7 @@ from rate_limit import (
     register_success,
 )
 from web import build_url, render_template
+from web import enforce_csrf
 
 from . import group_data
 from .group_common import UPLOAD_FOLDER, get_room_if_valid
@@ -87,6 +88,7 @@ def register_group_room_access_route(router: APIRouter):
 def register_group_create_room_route(router: APIRouter):
     @router.post("/create_group_room", name="group.create_group_room")
     async def create_group_room(request: Request):
+        await enforce_csrf(request)
         json_data = {}
         form_data = {}
         content_type = request.headers.get("content-type", "")
@@ -171,6 +173,7 @@ def register_group_create_room_route(router: APIRouter):
 def register_group_search_process_route(router: APIRouter):
     @router.post("/search_group_process", name="group.search_room")
     async def search_room(request: Request):
+        await enforce_csrf(request)
         form = await request.form()
         id_val = (form.get("id") or "").strip()
         password = (form.get("password") or "").strip()

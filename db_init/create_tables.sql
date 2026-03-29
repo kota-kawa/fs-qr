@@ -8,6 +8,7 @@ CREATE TABLE fsqr (
     file_type VARCHAR(20) DEFAULT 'multiple', -- ファイルタイプ: single or multiple
     original_filename VARCHAR(255) DEFAULT NULL, -- 単一ファイルの元のファイル名
     retention_days INT NOT NULL DEFAULT 7, -- 自動削除までの日数
+    UNIQUE KEY uq_fsqr_uuid (uuid),
     INDEX idx_fsqr_id_password (id, password),
     INDEX idx_fsqr_secure_id (secure_id),
     INDEX idx_fsqr_time (time)
@@ -20,6 +21,7 @@ CREATE TABLE room (
     password VARCHAR(255) NOT NULL,       -- パスワード
     room_id VARCHAR(255) NOT NULL,        -- 部屋ID
     retention_days INT NOT NULL DEFAULT 7, -- 自動削除までの日数
+    UNIQUE KEY uq_room_room_id (room_id),
     INDEX idx_room_id_password (id, password),
     INDEX idx_room_room_id (room_id),
     INDEX idx_room_time (time)
@@ -38,6 +40,7 @@ CREATE TABLE note_room (
     password VARCHAR(255) NOT NULL,
     room_id VARCHAR(255) NOT NULL,
     retention_days INT NOT NULL DEFAULT 7,
+    UNIQUE KEY uq_note_room_room_id (room_id),
     INDEX idx_note_room_id_password (id, password),
     INDEX idx_note_room_room_id_password (room_id, password),
     INDEX idx_note_room_time (time)

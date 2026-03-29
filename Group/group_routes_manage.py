@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from starlette.responses import RedirectResponse
 
 from settings import MANAGEMENT_PASSWORD as management_password
-from web import flash_message, render_template
+from web import enforce_csrf, flash_message, render_template
 
 from . import group_data
 
@@ -10,6 +10,7 @@ from . import group_data
 def _register_manage_rooms_post(router: APIRouter):
     @router.post("/manage_rooms", name="group.manage_rooms_post")
     async def manage_rooms_post(request: Request):
+        await enforce_csrf(request)
         if request.method == "POST":
             form = await request.form()
             password = form.get("password")
@@ -51,6 +52,7 @@ def register_group_logout_management_route(router: APIRouter):
 def register_group_delete_room_route(router: APIRouter):
     @router.post("/delete_room/{room_id}", name="group.delete_room")
     async def delete_room(request: Request, room_id: str):
+        await enforce_csrf(request)
         await group_data.remove_data(room_id)
         return RedirectResponse("/manage_rooms", status_code=302)
 
@@ -58,5 +60,6 @@ def register_group_delete_room_route(router: APIRouter):
 def register_group_delete_all_rooms_route(router: APIRouter):
     @router.post("/delete_all_rooms", name="group.delete_all_rooms")
     async def delete_all_rooms(request: Request):
+        await enforce_csrf(request)
         await group_data.all_remove()
         return RedirectResponse("/manage_rooms", status_code=302)

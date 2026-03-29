@@ -229,6 +229,7 @@
                                 $.ajax({
                                     url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
                                     type: 'DELETE',
+                                    headers: { 'X-CSRF-Token': csrfToken },
                                     success: function () {
                                         alert('ファイルが削除されました。');
                                         fileItem.remove();
@@ -378,6 +379,7 @@
             $.ajax({
                 url: `/group_upload/${roomId}/${roomPassword}`,
                 type: 'POST',
+                headers: { 'X-CSRF-Token': csrfToken },
                 data: formData,
                 processData: false,
                 contentType: false,

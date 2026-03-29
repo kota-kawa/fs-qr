@@ -18,7 +18,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from web import build_url, render_template
+from web import build_url, enforce_csrf, render_template
 from . import fsqr_data as fs_data
 
 router = APIRouter()
@@ -84,6 +84,7 @@ async def upload(
     retention_days: str = Form(""),
     upfile: Optional[List[UploadFile]] = File(None),
 ):
+    await enforce_csrf(request)
     uid = str(uuid.uuid4())[:10]
     id_val = name.strip()
     file_type = file_type or "multiple"
@@ -254,11 +255,13 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
 
 @router.post("/download_go/{secure_id}", name="fsqr.download_go")
 async def download_go(request: Request, secure_id: str):
+    await enforce_csrf(request)
     return await _send_file_response(request, secure_id)
 
 
 @router.post("/fs-qr/{room_id}/{password}/download", name="fsqr.fs_qr_download")
 async def fs_qr_download(request: Request, room_id: str, password: str):
+    await enforce_csrf(request)
     secure_id, _ = await _get_room_by_credentials(room_id, password)
     if not secure_id:
         return msg(request, "IDかパスワードが間違っています")
@@ -300,6 +303,7 @@ async def search_fs_qr(request: Request):
 
 @router.post("/try_login", name="fsqr.kekka")
 async def kekka(request: Request):
+    await enforce_csrf(request)
     form = await request.form()
     id_val = (form.get("name") or "").strip()
     password = (form.get("pw") or "").strip()

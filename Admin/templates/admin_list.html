@@ -34,9 +34,13 @@
               </div>
             </div>
             <div class="d-flex gap-2 mt-3">
-              <a href="/admin/remove/{{ f.secure_id }}?pw={{ pw }}" class="btn btn-outline-danger btn-sm flex-fill rounded-pill" onclick="return confirm('削除しますか？');">
-                {{ icon('trash', size='sm') }} 削除
-              </a>
+              <form action="/admin/remove/{{ f.secure_id }}" method="POST" class="flex-fill" onsubmit="return confirm('削除しますか？');">
+                <input type="hidden" name="pw" value="{{ pw }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
+                  {{ icon('trash', size='sm') }} 削除
+                </button>
+              </form>
               <a href="/download/{{ f.secure_id }}" class="btn btn-outline-primary btn-sm flex-fill rounded-pill">
                 {{ icon('arrow_down', size='sm') }} ダウンロード
               </a>

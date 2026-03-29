@@ -7,7 +7,7 @@ from starlette.responses import RedirectResponse
 from FSQR import fsqr_data as fs_data
 from FSQR.fsqr_app import msg
 from settings import ADMIN_KEY
-from web import render_template
+from web import enforce_csrf, render_template
 
 router = APIRouter()
 
@@ -23,8 +23,11 @@ async def admin_list(request: Request, pw: str = ""):
     )
 
 
-@router.get("/admin/remove/{secure_id}", name="admin.admin_remove")
-async def admin_remove(request: Request, secure_id: str, pw: str = ""):
+@router.post("/admin/remove/{secure_id}", name="admin.admin_remove")
+async def admin_remove(request: Request, secure_id: str):
+    await enforce_csrf(request)
+    form = await request.form()
+    pw = (form.get("pw") or "").strip()
     if pw != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")
 
@@ -38,6 +41,7 @@ async def admin_remove(request: Request, secure_id: str, pw: str = ""):
 
 @router.post("/all-remove", name="admin.all")
 async def all_remove(request: Request):
+    await enforce_csrf(request)
     form = await request.form()
     if form.get("pw", "") != ADMIN_KEY:
         return msg(request, "マスターパスワードが違います")

@@ -5,6 +5,7 @@ from starlette.responses import JSONResponse
 
 from . import note_data as nd
 from .note_sync import sync_note_content
+from web import enforce_csrf
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +16,9 @@ router = APIRouter(prefix="/api")
     "/note/{room_id}/{password}", methods=["GET", "POST"], name="note.note_sync"
 )
 async def note_sync(request: Request, room_id: str, password: str):
+    if request.method == "POST":
+        await enforce_csrf(request)
+
     meta = await nd.get_room_meta_direct(room_id, password=password)
     if not meta:
         fallback_room_id = await nd.pick_room_id_direct(room_id, password)
