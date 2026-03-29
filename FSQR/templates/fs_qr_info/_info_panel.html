@@ -17,105 +17,83 @@
     {% if mode == 'upload' %}
     <div class="card-body info-box-content">
       <div class="text-center info-content-inner">
-        <div class="share-priority-card">
-          <div class="share-priority-head">
-            <strong>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M3.75 12a.75.75 0 0 1 .75-.75h11.19L12.22 7.78a.75.75 0 1 1 1.06-1.06l4.75 4.75a.75.75 0 0 1 0 1.06l-4.75 4.75a.75.75 0 1 1-1.06-1.06l3.47-3.47H4.5A.75.75 0 0 1 3.75 12Z"/>
-              </svg>
-              共有
-            </strong>
-            <div class="share-priority-actions">
-              <button type="button" class="secondary-action-button is-pill" id="copyShareLinkPrimary" data-copy-value="{{ url }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M15.75 3.75a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h7.5Z"/>
-                  <path d="M5.25 7.5a.75.75 0 0 1 1.5 0v8.25A2.25 2.25 0 0 0 9 18h8.25a.75.75 0 0 1 0 1.5H9a3.75 3.75 0 0 1-3.75-3.75V7.5Z"/>
-                </svg>
-                <span>リンクをコピー</span>
-              </button>
-              <div class="share-mini-actions">
-                <button type="button" class="secondary-action-button" id="copyCredentialsPrimary" data-copy-value="ID: {{ id | e }} / Password: {{ password | e }}" aria-label="IDとPWをコピー" title="IDとPWをコピー">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M15.75 1.5a3.75 3.75 0 0 0-3.673 4.5H5.25a3.75 3.75 0 0 0 0 7.5h.75v2.25A2.25 2.25 0 0 0 8.25 18h1.5v.75a3.75 3.75 0 1 0 7.5 0V18h.75A2.25 2.25 0 0 0 20.25 15.75V13.5h.75a3.75 3.75 0 0 0 0-7.5h-1.327A3.75 3.75 0 0 0 15.75 1.5Zm-1.5 3.75a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm-9 4.5a1.5 1.5 0 0 0 0 3h.75v-3h-.75Zm12 9a1.5 1.5 0 1 1-3 0V18h3v.75Zm1.5-3v-3h-9v3h9Zm2.25-6a1.5 1.5 0 0 1 0 3h-.75v-3H21Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="sr-only">IDとPWをコピー</span>
-                </button>
-                <a href="{{ url }}" target="_blank" rel="noopener" class="secondary-action-button" aria-label="共有リンクを開く" title="共有リンクを開く">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M13.5 4.5A1.5 1.5 0 0 1 15 3h4.5A1.5 1.5 0 0 1 21 4.5V9a.75.75 0 0 1-1.5 0V5.56l-7.72 7.72a.75.75 0 1 1-1.06-1.06l7.72-7.72H15A.75.75 0 0 1 13.5 4.5Z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M6 6.75A2.25 2.25 0 0 1 8.25 4.5H12a.75.75 0 0 1 0 1.5H8.25A.75.75 0 0 0 7.5 6.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V12a.75.75 0 0 1 1.5 0v3.75A2.25 2.25 0 0 1 18 18H8.25A2.25 2.25 0 0 1 6 15.75v-9Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="sr-only">共有リンクを開く</span>
-                </a>
+        <div class="room-info-container room-info-container--single">
+          <div class="room-info-card">
+            <div class="room-info-header">ダウンロード先の情報</div>
+            <div class="room-info-body">
+              <div class="room-info-row">
+                <span class="room-info-label">ID</span>
+                <span class="room-info-value">
+                  <span class="room-info-value-row">
+                    <span class="room-info-value-text">{{ id | e }}</span>
+                  </span>
+                </span>
+              </div>
+              <div class="room-info-row">
+                <span class="room-info-label">パスワード</span>
+                <span class="room-info-value">
+                  <span class="room-info-value-row room-info-value-row--stack">
+                    <span
+                      id="sharePasswordValue"
+                      class="sensitive-value is-masked"
+                      data-visible-value="{{ password | e }}"
+                      data-masked-value="••••••"
+                    >••••••</span>
+                    <span class="sensitive-actions room-info-value-actions">
+                      <button type="button" class="secondary-action-button reveal-value-button" data-target="sharePasswordValue" data-show-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg>' data-hide-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l17 17a.75.75 0 1 0 1.06-1.06l-2.24-2.24a10.75 10.75 0 0 0 2.74-3.68.75.75 0 0 0 0-.6C19.27 9.73 15.97 7.5 12 7.5c-1.29 0-2.5.24-3.6.68L6.7 6.48A10.4 10.4 0 0 1 12 5.25c4.4 0 8.11 2.54 9.97 6.75a.75.75 0 0 1 0 .6 11.8 11.8 0 0 1-2.62 3.67l-1.65-1.65a9.86 9.86 0 0 0 1.73-2.32C17.75 9.12 15.1 7.5 12 7.5c-.85 0-1.67.12-2.43.35l1.7 1.7a3.75 3.75 0 0 1 4.18 4.18l1.2 1.2c.38-.47.72-.98 1-1.53a.75.75 0 0 1 1.34.67 10.96 10.96 0 0 1-1.2 1.82l1.47 1.47A11.98 11.98 0 0 0 21 12.3C19.36 8.7 16.01 6.75 12 6.75c-1.67 0-3.22.34-4.58.96l-1.56-1.56A11.93 11.93 0 0 0 3 12.3a12.65 12.65 0 0 0 3.93 4.82l-1.4 1.4a.75.75 0 1 0 1.06 1.06l11.88-11.88-1.06-1.06-2.07 2.07a3.75 3.75 0 0 0-4.05-1.2L9.8 6.02A10.16 10.16 0 0 0 7.4 7.2L4.6 4.4a.75.75 0 0 0-1.06 0ZM12 10.5c.2 0 .39.04.56.1l-1.96 1.96A1.5 1.5 0 0 1 12 10.5Zm-6.86 3.63a10.7 10.7 0 0 1-.58-1.2C5.8 10.08 8.55 8.25 12 8.25c.58 0 1.14.05 1.67.16l-1.44 1.44a3 3 0 0 0-3.82 3.82L7.2 14.88a9.9 9.9 0 0 1-2.06-1.75Z"/></svg>' aria-label="共有パスワードを表示" title="共有パスワードを表示"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg><span class="sr-only">表示</span></button>
+                      <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ password | e }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.75 3.75a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h7.5Z"/><path fill="currentColor" d="M5.25 7.5a.75.75 0 0 1 1.5 0v8.25A2.25 2.25 0 0 0 9 18h8.25a.75.75 0 0 1 0 1.5H9a3.75 3.75 0 0 1-3.75-3.75V7.5Z"/></svg><span class="sr-only">PWをコピー</span></button>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div class="room-info-row">
+                <span class="room-info-label">URL</span>
+                <span class="room-info-value">
+                  <span class="room-info-value-row room-info-value-row--stack">
+                    <span
+                      id="shareRoomUrl"
+                      class="sensitive-value is-masked room-info-url-text"
+                      data-visible-value="{{ url }}"
+                      data-masked-value="https://••••••••••"
+                    >https://••••••••••</span>
+                    <span class="sensitive-actions room-info-value-actions">
+                      <button type="button" class="secondary-action-button reveal-value-button" data-target="shareRoomUrl" data-show-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg>' data-hide-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l17 17a.75.75 0 1 0 1.06-1.06l-2.24-2.24a10.75 10.75 0 0 0 2.74-3.68.75.75 0 0 0 0-.6C19.27 9.73 15.97 7.5 12 7.5c-1.29 0-2.5.24-3.6.68L6.7 6.48A10.4 10.4 0 0 1 12 5.25c4.4 0 8.11 2.54 9.97 6.75a.75.75 0 0 1 0 .6 11.8 11.8 0 0 1-2.62 3.67l-1.65-1.65a9.86 9.86 0 0 0 1.73-2.32C17.75 9.12 15.1 7.5 12 7.5c-.85 0-1.67.12-2.43.35l1.7 1.7a3.75 3.75 0 0 1 4.18 4.18l1.2 1.2c.38-.47.72-.98 1-1.53a.75.75 0 0 1 1.34.67 10.96 10.96 0 0 1-1.2 1.82l1.47 1.47A11.98 11.98 0 0 0 21 12.3C19.36 8.7 16.01 6.75 12 6.75c-1.67 0-3.22.34-4.58.96l-1.56-1.56A11.93 11.93 0 0 0 3 12.3a12.65 12.65 0 0 0 3.93 4.82l-1.4 1.4a.75.75 0 1 0 1.06 1.06l11.88-11.88-1.06-1.06-2.07 2.07a3.75 3.75 0 0 0-4.05-1.2L9.8 6.02A10.16 10.16 0 0 0 7.4 7.2L4.6 4.4a.75.75 0 0 0-1.06 0ZM12 10.5c.2 0 .39.04.56.1l-1.96 1.96A1.5 1.5 0 0 1 12 10.5Zm-6.86 3.63a10.7 10.7 0 0 1-.58-1.2C5.8 10.08 8.55 8.25 12 8.25c.58 0 1.14.05 1.67.16l-1.44 1.44a3 3 0 0 0-3.82 3.82L7.2 14.88a9.9 9.9 0 0 1-2.06-1.75Z"/></svg>' aria-label="共有リンクを表示" title="共有リンクを表示"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg><span class="sr-only">表示</span></button>
+                      <button type="button" class="copy-url-button" data-copy-value="{{ url }}" data-default-label="URLをコピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
+                        </svg>
+                        <span class="sr-only">URLをコピー</span>
+                      </button>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div class="room-info-row">
+                <span class="room-info-label">ファイル名</span>
+                <span class="room-info-value">
+                  <span class="room-info-value-text">{{ display_filename }}</span>
+                </span>
+              </div>
+              <div class="room-info-row">
+                <span class="room-info-label">自動削除</span>
+                <span class="room-info-value">
+                  {{ retention_days }}日後
+                  <small class="text-muted d-block">選択した期間を過ぎると安全に削除されます。</small>
+                </span>
+              </div>
+              <div class="room-info-row">
+                <span class="room-info-label">削除予定日</span>
+                <span class="room-info-value">
+                  {% if deletion_date %}
+                    {{ deletion_date }}
+                  {% else %}
+                    {{ retention_days }}日後に自動削除予定
+                  {% endif %}
+                </span>
               </div>
             </div>
           </div>
-          <p class="share-priority-hint">リンクを送るのが最短です。必要なときだけ ID とパスワードを共有してください。</p>
         </div>
-        <h3>ダウンロード先の情報:</h3>
-        <table class="table table-bordered table-striped text-start">
-          <tr>
-            <th scope="row" class="text-center">ID</th>
-            <td>{{ id | e }}</td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center" style="white-space: nowrap;">パスワード</th>
-            <td>
-              <span
-                id="sharePasswordValue"
-                class="sensitive-value is-masked"
-                data-visible-value="{{ password | e }}"
-                data-masked-value="••••••"
-              >••••••</span>
-              <div class="sensitive-actions">
-                <button type="button" class="secondary-action-button reveal-value-button" data-target="sharePasswordValue" data-show-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg>' data-hide-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l17 17a.75.75 0 1 0 1.06-1.06l-2.24-2.24a10.75 10.75 0 0 0 2.74-3.68.75.75 0 0 0 0-.6C19.27 9.73 15.97 7.5 12 7.5c-1.29 0-2.5.24-3.6.68L6.7 6.48A10.4 10.4 0 0 1 12 5.25c4.4 0 8.11 2.54 9.97 6.75a.75.75 0 0 1 0 .6 11.8 11.8 0 0 1-2.62 3.67l-1.65-1.65a9.86 9.86 0 0 0 1.73-2.32C17.75 9.12 15.1 7.5 12 7.5c-.85 0-1.67.12-2.43.35l1.7 1.7a3.75 3.75 0 0 1 4.18 4.18l1.2 1.2c.38-.47.72-.98 1-1.53a.75.75 0 0 1 1.34.67 10.96 10.96 0 0 1-1.2 1.82l1.47 1.47A11.98 11.98 0 0 0 21 12.3C19.36 8.7 16.01 6.75 12 6.75c-1.67 0-3.22.34-4.58.96l-1.56-1.56A11.93 11.93 0 0 0 3 12.3a12.65 12.65 0 0 0 3.93 4.82l-1.4 1.4a.75.75 0 1 0 1.06 1.06l11.88-11.88-1.06-1.06-2.07 2.07a3.75 3.75 0 0 0-4.05-1.2L9.8 6.02A10.16 10.16 0 0 0 7.4 7.2L4.6 4.4a.75.75 0 0 0-1.06 0ZM12 10.5c.2 0 .39.04.56.1l-1.96 1.96A1.5 1.5 0 0 1 12 10.5Zm-6.86 3.63a10.7 10.7 0 0 1-.58-1.2C5.8 10.08 8.55 8.25 12 8.25c.58 0 1.14.05 1.67.16l-1.44 1.44a3 3 0 0 0-3.82 3.82L7.2 14.88a9.9 9.9 0 0 1-2.06-1.75Z"/></svg>' aria-label="共有パスワードを表示" title="共有パスワードを表示"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg><span class="sr-only">表示</span></button>
-                <button type="button" class="secondary-action-button copy-url-button" data-copy-value="{{ password | e }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.75 3.75a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h7.5Z"/><path fill="currentColor" d="M5.25 7.5a.75.75 0 0 1 1.5 0v8.25A2.25 2.25 0 0 0 9 18h8.25a.75.75 0 0 1 0 1.5H9a3.75 3.75 0 0 1-3.75-3.75V7.5Z"/></svg><span class="sr-only">PWをコピー</span></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center" style="white-space: nowrap;">共有リンク</th>
-            <td>
-              <span
-                id="shareRoomUrl"
-                class="sensitive-value is-masked"
-                data-visible-value="{{ url }}"
-                data-masked-value="https://••••••••••"
-              >https://••••••••••</span>
-              <div class="sensitive-actions">
-                <button type="button" class="secondary-action-button reveal-value-button" data-target="shareRoomUrl" data-show-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg>' data-hide-label='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l17 17a.75.75 0 1 0 1.06-1.06l-2.24-2.24a10.75 10.75 0 0 0 2.74-3.68.75.75 0 0 0 0-.6C19.27 9.73 15.97 7.5 12 7.5c-1.29 0-2.5.24-3.6.68L6.7 6.48A10.4 10.4 0 0 1 12 5.25c4.4 0 8.11 2.54 9.97 6.75a.75.75 0 0 1 0 .6 11.8 11.8 0 0 1-2.62 3.67l-1.65-1.65a9.86 9.86 0 0 0 1.73-2.32C17.75 9.12 15.1 7.5 12 7.5c-.85 0-1.67.12-2.43.35l1.7 1.7a3.75 3.75 0 0 1 4.18 4.18l1.2 1.2c.38-.47.72-.98 1-1.53a.75.75 0 0 1 1.34.67 10.96 10.96 0 0 1-1.2 1.82l1.47 1.47A11.98 11.98 0 0 0 21 12.3C19.36 8.7 16.01 6.75 12 6.75c-1.67 0-3.22.34-4.58.96l-1.56-1.56A11.93 11.93 0 0 0 3 12.3a12.65 12.65 0 0 0 3.93 4.82l-1.4 1.4a.75.75 0 1 0 1.06 1.06l11.88-11.88-1.06-1.06-2.07 2.07a3.75 3.75 0 0 0-4.05-1.2L9.8 6.02A10.16 10.16 0 0 0 7.4 7.2L4.6 4.4a.75.75 0 0 0-1.06 0ZM12 10.5c.2 0 .39.04.56.1l-1.96 1.96A1.5 1.5 0 0 1 12 10.5Zm-6.86 3.63a10.7 10.7 0 0 1-.58-1.2C5.8 10.08 8.55 8.25 12 8.25c.58 0 1.14.05 1.67.16l-1.44 1.44a3 3 0 0 0-3.82 3.82L7.2 14.88a9.9 9.9 0 0 1-2.06-1.75Z"/></svg>' aria-label="共有リンクを表示" title="共有リンクを表示"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.53 9.47a.75.75 0 0 1 1.06 0l.97.97a9.77 9.77 0 0 1 12.88 0l.97-.97a.75.75 0 1 1 1.06 1.06l-1.03 1.03a9.72 9.72 0 0 1 0 1.88l1.03 1.03a.75.75 0 1 1-1.06 1.06l-.97-.97a9.77 9.77 0 0 1-1.88 1.27l-.37 1.38a.75.75 0 1 1-1.45-.39l.25-.93a9.83 9.83 0 0 1-2.11.23 9.83 9.83 0 0 1-2.1-.23l.24.93a.75.75 0 1 1-1.45.39l-.37-1.38a9.77 9.77 0 0 1-1.88-1.27l-.97.97a.75.75 0 1 1-1.06-1.06l1.03-1.03a9.72 9.72 0 0 1 0-1.88L3.53 10.53a.75.75 0 0 1 0-1.06ZM12 9a2.25 2.25 0 1 0 0 4.5A2.25 2.25 0 0 0 12 9Z"/></svg><span class="sr-only">表示</span></button>
-                <button type="button" class="copy-url-button" data-copy-value="{{ url }}" data-default-label="URLをコピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
-                  </svg>
-                  <span class="sr-only">URLをコピー</span>
-                </button>
-                <a href="{{ url }}" target="_blank" rel="noopener" class="secondary-action-button" aria-label="共有リンクを開く" title="共有リンクを開く"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M13.5 4.5A1.5 1.5 0 0 1 15 3h4.5A1.5 1.5 0 0 1 21 4.5V9a.75.75 0 0 1-1.5 0V5.56l-7.72 7.72a.75.75 0 1 1-1.06-1.06l7.72-7.72H15A.75.75 0 0 1 13.5 4.5Z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M6 6.75A2.25 2.25 0 0 1 8.25 4.5H12a.75.75 0 0 1 0 1.5H8.25A.75.75 0 0 0 7.5 6.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V12a.75.75 0 0 1 1.5 0v3.75A2.25 2.25 0 0 1 18 18H8.25A2.25 2.25 0 0 1 6 15.75v-9Z" clip-rule="evenodd"/></svg><span class="sr-only">開く</span></a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center" style="white-space: nowrap;">ファイル名</th>
-            <td>{{ display_filename }}</td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center" style="white-space: nowrap;">自動削除まで</th>
-            <td>
-              {{ retention_days }}日後
-              <small class="text-muted d-block">選択した期間を過ぎると安全に削除されます。</small>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center" style="white-space: nowrap;">削除予定日</th>
-            <td>
-              {% if deletion_date %}
-                {{ deletion_date }}
-              {% else %}
-                {{ retention_days }}日後に自動削除予定
-              {% endif %}
-            </td>
-          </tr>
-        </table>
 
         <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
 
