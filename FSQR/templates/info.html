@@ -19,10 +19,7 @@
 {% block twitter_description %}ファイルアップロード完了。QRコードとダウンロードリンクが生成されました。{% endblock %}
 
 {% block contents %}
-{% include "fs_qr_info/_top_styles.html" %}
-{% include "fs_qr_info/_info_panel.html" %}
-{% include "fs_qr_info/_clipboard_script.html" %}
-{% include "fs_qr_info/_spinner_and_usage.html" %}
-{% include "fs_qr_info/_download_script.html" %}
-{% include "fs_qr_info/_spinner_styles.html" %}
+{% include "fs_qr_info/_styles.html" %}
+{% include "fs_qr_info/_content.html" %}
+{% include "fs_qr_info/_scripts.html" %}
 {% endblock %}

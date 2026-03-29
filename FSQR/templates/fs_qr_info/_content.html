@@ -167,3 +167,31 @@
     {% endif %}
   </div>
 </div>
+
+
+  <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
+  <div class="spinner-container" id="spinnerContainer" style="display: none;">
+    <div class="spinner-second-container" id="animationContainer">
+      <div class="icon lock">{{ icons.icon('lock', extra_classes='svg-icon--spinner') }}</div>
+      <div class="icon file">{{ icons.icon('document', extra_classes='svg-icon--spinner') }}</div>
+      <div class="text" id="statusText">受信中...</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Usage Section -->
+  <div class="usage-section">
+    <div class="usage-section-header">
+      <h5>使い方</h5>
+    </div>
+    <div class="usage-section-content">
+      <p>
+        1. 上に表示されたIDとパスワード、共有リンクを共有したい相手に伝えてください。<br>
+        2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するか、共有リンクを開くだけでファイルをダウンロードできます。<br>
+        3. QRコードを読み取ればURLを直接開くことも可能です。<br>
+        ファイルは一定期間後に自動で削除されるため、必要なときに早めにダウンロードしてください。
+      </p>
+    </div>
+  </div>

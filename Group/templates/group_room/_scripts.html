@@ -74,3 +74,27 @@
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+{% import "macros/icons.html" as icons %}
+<script>
+    window.GroupRoomConfig = Object.freeze({
+        roomId: {{ room_id|string|tojson }},
+        roomPassword: {{ password|string|tojson }},
+        debug: {{ frontend_debug | tojson }},
+        icons: Object.freeze({
+            file: {{ icons.icon('document', size='lg', extra_classes='modern-file-icon') | tojson }},
+            download: {{ icons.icon('arrow_down', size='lg') | tojson }},
+            trash: {{ icons.icon('trash', size='lg') | tojson }},
+            cloud: {{ icons.icon('cloud', size='xxl') | tojson }},
+            check: {{ icons.icon('check_circle', size='xxl') | tojson }},
+            rocket: {{ icons.icon('rocket', size='lg', with_text=True) | tojson }}
+        })
+    });
+</script>
+<script src="{{staticfile('js/group_room/core.js')}}"></script>
+<script src="{{staticfile('js/group_room/downloads.js')}}"></script>
+<script src="{{staticfile('js/group_room/remote-files.js')}}"></script>
+<script src="{{staticfile('js/group_room/upload-queue.js')}}"></script>
+<script src="{{staticfile('js/group_room/upload-submit.js')}}"></script>
+<script src="{{staticfile('js/group_room/main.js')}}"></script>

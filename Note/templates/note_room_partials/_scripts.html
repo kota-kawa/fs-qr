@@ -74,3 +74,18 @@
     });
   });
 </script>
+
+<script>
+  window.NoteRoomRealtimeConfig = Object.freeze({
+    room: "{{ room_id }}",
+    roomPassword: "{{ password }}",
+    debug: {{ frontend_debug | tojson }}
+  });
+</script>
+<script src="{{staticfile('js/note_room_realtime/core.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/ui.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/self-edit.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/sync.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/clipboard.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/socket.js')}}"></script>
+<script src="{{staticfile('js/note_room_realtime/main.js')}}"></script>
