@@ -113,7 +113,7 @@
   -webkit-backdrop-filter: blur(6px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767.98px) {
   .glossy-room-shell {
     padding: 1rem;
   }
@@ -134,4 +134,3 @@
     border-radius: 20px;
   }
 }
-

@@ -385,7 +385,7 @@
   box-shadow: 0 12px 26px -14px rgba(101, 163, 13, 0.6);
 }
 
-@media (max-width: 576px) {
+@media (max-width: 575.98px) {
   .retention-select-wrapper {
     max-width: 100%;
   }
@@ -400,4 +400,3 @@
     max-height: 200px;
   }
 }
-

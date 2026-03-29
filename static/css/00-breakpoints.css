@@ -1,0 +1,13 @@
+:root {
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 960px;
+}
+
+/*
+ * Breakpoint policy:
+ * - max-width: 575.98px  (sm down)
+ * - max-width: 767.98px  (md down)
+ * - max-width: 959.98px  (lg down)
+ * - min-width: 768px / 960px (md up / lg up)
+ */

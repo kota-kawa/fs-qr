@@ -364,7 +364,7 @@
 }
 
 /* ─── Mobile: bottom sheet ───────────────────────── */
-@media (max-width: 600px) {
+@media (max-width: 575.98px) {
   .cookie-consent-overlay {
     align-items: flex-end;
     padding: 0;

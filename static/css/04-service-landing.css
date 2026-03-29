@@ -393,20 +393,20 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 959.98px) {
   .service-menu-page .menu-container,
   .service-menu-page .howto-steps {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 
-@media (min-width: 961px) {
+@media (min-width: 960px) {
   .service-menu-page .howto-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767.98px) {
   .service-hero {
     grid-template-columns: 1fr;
   }
@@ -436,4 +436,3 @@
     min-height: auto;
   }
 }
-
