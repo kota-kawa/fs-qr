@@ -345,7 +345,8 @@
 
 .usage-section {
   max-width: 920px;
-  margin-top: 1.5rem;
+  width: calc(100% - 1rem);
+  margin: 1.5rem auto 0;
   --usage-header-gradient: linear-gradient(135deg, #23c3df 0%, #1f27c7 100%);
   --usage-header-accent: #1f27c7;
   border-color: rgba(37, 99, 235, 0.2);
@@ -384,6 +385,10 @@
 
   .room-info-container--single .room-info-label {
     min-width: 5.2rem;
+  }
+
+  .usage-section {
+    width: calc(100% - 0.75rem);
   }
 
   .info-box-content .table th {
