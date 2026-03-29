@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import Optional
 import log_config  # noqa: F401
 from sqlalchemy import text
 from database import db_session, is_retryable_db_error, reset_db_connection
@@ -215,13 +216,13 @@ async def get_room_meta(room_id, password=None):
 # ────────────────────────────────────────────
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
-async def pick_room_id_direct(id_, password):
+async def pick_room_id_direct(id_, password) -> Optional[str]:
     rows = await execute_query(
         "SELECT room_id FROM note_room WHERE id=:i AND password=:p",
         {"i": id_, "p": password},
         fetch=True,
     )
-    return rows[0]["room_id"] if rows else False
+    return rows[0]["room_id"] if rows else None
 
 
 @cache_data(ttl=60)

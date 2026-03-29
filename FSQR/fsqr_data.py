@@ -1,5 +1,6 @@
 import asyncio
 import os
+from typing import Optional
 from sqlalchemy import text
 import logging
 import log_config  # noqa: F401
@@ -17,10 +18,7 @@ STATIC = os.path.join(BASE_DIR, "static", "upload")
 async def execute_query(query, params=None, fetch=False, retries=2):
     for attempt in range(retries + 1):
         try:
-            if params:
-                result = await db_session.execute(query, params)
-            else:
-                result = await db_session.execute(query)
+            result = await db_session.execute(query, params or {})
 
             if fetch:
                 rows = result.mappings().all()
@@ -32,7 +30,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
                 return rows
 
             await db_session.commit()
-            return None
+            return result.rowcount
         except Exception as e:
             if is_retryable_db_error(e) and attempt < retries:
                 logger.warning(
@@ -84,7 +82,7 @@ async def save_file(
 
 # ログイン処理
 @cache_data(ttl=60)
-async def try_login(id, password):
+async def try_login(id, password) -> Optional[str]:
     try:
         query = text("""
             SELECT secure_id FROM fsqr WHERE id = :id AND password = :password
@@ -95,9 +93,8 @@ async def try_login(id, password):
         if result:
             logger.info("Login successful.")
             return result[0]["secure_id"]
-        else:
-            logger.warning("Login failed: Invalid credentials.")
-            return False
+        logger.warning("Login failed: Invalid credentials.")
+        return None
     except Exception as e:
         logger.error(f"Login attempt failed: {e}")
         raise
@@ -113,7 +110,7 @@ async def get_data_by_credentials(id, password):
         result = await execute_query(
             query, {"id": id, "password": password}, fetch=True
         )
-        return result if result else False
+        return result
     except Exception as e:
         logger.error(f"Failed to fetch data by credentials: {e}")
         raise
@@ -127,7 +124,7 @@ async def get_data(secure_id):
             SELECT * FROM fsqr WHERE secure_id = :secure_id
         """)
         result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
-        return result if result else False
+        return result
     except Exception as e:
         logger.error(f"Failed to fetch data: {e}")
         raise

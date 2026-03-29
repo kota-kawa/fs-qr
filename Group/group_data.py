@@ -2,6 +2,7 @@ import asyncio
 import os
 import shutil
 import logging
+from typing import Optional
 import log_config  # noqa: F401
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
@@ -31,7 +32,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
                     pass
                 return rows
             await db_session.commit()
-            return None
+            return result.rowcount
         except Exception as e:
             if is_retryable_db_error(e) and attempt < retries:
                 logger.warning(
@@ -66,12 +67,12 @@ async def create_room(id, password, room_id, retention_days=7):
 
 
 # ログイン処理
-async def pich_room_id_direct(id, password):
+async def pich_room_id_direct(id, password) -> Optional[str]:
     query = text("""
         SELECT room_id FROM room WHERE id = :id AND password = :password
     """)
     result = await execute_query(query, {"id": id, "password": password}, fetch=True)
-    return result[0]["room_id"] if result else False
+    return result[0]["room_id"] if result else None
 
 
 @cache_data(ttl=60)
@@ -85,7 +86,7 @@ async def get_data_direct(secure_id):
         SELECT * FROM room WHERE room_id = :secure_id
     """)
     result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
-    return result if result else False
+    return result
 
 
 @cache_data(ttl=60)
