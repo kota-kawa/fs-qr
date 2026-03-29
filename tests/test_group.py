@@ -147,9 +147,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
 
     script_positions = []
     for script_path in expected_script_paths:
-        script_tag_pattern = (
-            rf'<script src="{re.escape(script_path)}\?v=\d+"></script>'
-        )
+        script_tag_pattern = rf'<script src="{re.escape(script_path)}\?v=\d+"></script>'
         script_tag_match = re.search(script_tag_pattern, html)
         assert script_tag_match is not None
         script_positions.append(script_tag_match.start())
