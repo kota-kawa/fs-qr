@@ -12,6 +12,16 @@
   transition: opacity 0.3s ease;
 }
 
+/* Keep the consent modal anchored to the viewport across all layouts. */
+body > #cookieConsent.cookie-consent-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  z-index: 9999;
+}
+
 .cookie-consent-overlay.is-visible {
   display: flex;
   opacity: 1;
