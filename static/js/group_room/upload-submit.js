@@ -12,11 +12,35 @@
     var core = options.core;
     var getFiles = options.getFiles;
     var clearFiles = options.clearFiles;
+    var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var validation = window.SharedUploadValidation;
     var limits = validation.normalizeLimits(options.limits || {});
     var uploadProgressContainer = document.getElementById('uploadProgressContainer');
     var uploadProgressBar = document.getElementById('uploadProgressBar');
     var uploadProgressText = document.getElementById('uploadProgressText');
+
+    function parseJsonResponse(rawText, label) {
+      var parsed = core.safeParseJson
+        ? core.safeParseJson(rawText, logger, label)
+        : null;
+      return parsed;
+    }
+
+    function isUploadResponsePayload(payload) {
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+        return false;
+      }
+      if (typeof payload.status !== 'string') {
+        return false;
+      }
+      if (payload.message !== undefined && typeof payload.message !== 'string') {
+        return false;
+      }
+      if (payload.files !== undefined && !Array.isArray(payload.files)) {
+        return false;
+      }
+      return true;
+    }
 
     function showStatusMessage(message, isError) {
       uploadStatusMessage.textContent = message;
@@ -77,13 +101,9 @@
 
       var errorMessage = 'アップロード中にエラーが発生しました。';
       if (xhr && xhr.responseText) {
-        try {
-          var responseJson = JSON.parse(xhr.responseText);
-          if (responseJson.error) {
-            errorMessage = responseJson.error;
-          }
-        } catch (error) {
-          // Keep default message when JSON parsing fails.
+        var responseJson = parseJsonResponse(xhr.responseText, 'group upload error');
+        if (responseJson && typeof responseJson.error === 'string' && responseJson.error) {
+          errorMessage = responseJson.error;
         }
       }
 
@@ -147,8 +167,12 @@
 
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
+          var response = parseJsonResponse(xhr.responseText, 'group upload response');
+          if (!isUploadResponsePayload(response)) {
+            showUploadError(xhr);
+            return;
+          }
           try {
-            var response = JSON.parse(xhr.responseText);
             handleUploadResponse(response);
           } catch (error) {
             showUploadError(xhr);

@@ -52,6 +52,7 @@
     csrfToken: core.getCsrfToken(),
     spinner: spinnerController,
     encryptionService: encryptionService,
+    logger: logger,
     limits: limits
   });
 

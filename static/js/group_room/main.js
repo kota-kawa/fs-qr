@@ -73,6 +73,7 @@
       roomPassword: roomPassword,
       csrfToken: csrfToken,
       core: core,
+      logger: logger,
       getFiles: uploadQueue.getFiles,
       clearFiles: uploadQueue.clearFiles,
       limits: limits

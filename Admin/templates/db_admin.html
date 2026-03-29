@@ -154,6 +154,62 @@
   let currentType = null;
   let currentIdentifier = null;
 
+  function isPlainObject(value) {
+    return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  }
+
+  async function safeReadJsonResponse(response) {
+    if (!response) {
+      throw new Error('レスポンスの取得に失敗しました。');
+    }
+    let parsed = null;
+    try {
+      parsed = await response.json();
+    } catch (error) {
+      throw new Error('レスポンス形式が不正です。');
+    }
+    if (!isPlainObject(parsed)) {
+      throw new Error('レスポンス形式が不正です。');
+    }
+    return parsed;
+  }
+
+  function normalizeFileEntries(files) {
+    if (!Array.isArray(files)) {
+      return [];
+    }
+    const normalized = [];
+    files.forEach((file) => {
+      if (!isPlainObject(file)) {
+        return;
+      }
+      normalized.push({
+        display_name: typeof file.display_name === 'string' ? file.display_name : '',
+        name: typeof file.name === 'string' ? file.name : '',
+        stored_name: typeof file.stored_name === 'string' ? file.stored_name : '',
+        size: Number.isFinite(Number(file.size)) ? Number(file.size) : 0
+      });
+    });
+    return normalized;
+  }
+
+  function normalizeDetailPayload(data) {
+    if (!isPlainObject(data)) {
+      return null;
+    }
+    return {
+      secure_id: typeof data.secure_id === 'string' ? data.secure_id : '',
+      room_id: typeof data.room_id === 'string' ? data.room_id : '',
+      id: typeof data.id === 'string' ? data.id : '',
+      password: typeof data.password === 'string' ? data.password : '',
+      file_type: typeof data.file_type === 'string' ? data.file_type : '',
+      original_filename: typeof data.original_filename === 'string' ? data.original_filename : '',
+      created_at: typeof data.created_at === 'string' ? data.created_at : '',
+      retention_days: data.retention_days === null || data.retention_days === undefined ? null : data.retention_days,
+      files: normalizeFileEntries(data.files)
+    };
+  }
+
   function setAlert(message) {
     if (!alertBox) return;
     if (message) {
@@ -287,11 +343,15 @@
         if (!response.ok) {
           throw new Error(response.status === 404 ? 'データが存在しません。' : 'ファイル情報の取得に失敗しました。');
         }
-        return response.json();
+        return safeReadJsonResponse(response);
       })
       .then((data) => {
-        updateMeta(data, type);
-        const hasFiles = updateFiles(data.files, type);
+        const normalizedData = normalizeDetailPayload(data);
+        if (!normalizedData) {
+          throw new Error('取得データの形式が不正です。');
+        }
+        updateMeta(normalizedData, type);
+        const hasFiles = updateFiles(normalizedData.files, type);
         if (hasFiles && downloadBtn) {
           const downloadPath = type === 'room'
             ? `/admin/room/${encodeURIComponent(identifier)}/download?pw=${encodeURIComponent(adminPw)}`

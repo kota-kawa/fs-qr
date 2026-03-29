@@ -11,6 +11,7 @@
     var otherFileList = options.otherFileList;
     var downloadHandlers = options.downloadHandlers;
     var limits = options.limits || {};
+    var core = modules.core || {};
 
     var fetchRetryCount = 0;
     var maxRetries = 3;
@@ -25,6 +26,26 @@
     var fileListRequestTimeoutMs = Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
       ? parsedFileListRequestTimeoutMs
       : 1000;
+
+    function isValidFileEntry(file) {
+      return Boolean(file) && typeof file === 'object' && typeof file.name === 'string' && file.name.length > 0;
+    }
+
+    function normalizeFileEntries(payload) {
+      if (!Array.isArray(payload)) {
+        return null;
+      }
+
+      var files = [];
+      for (var i = 0; i < payload.length; i += 1) {
+        var file = payload[i];
+        if (!isValidFileEntry(file)) {
+          return null;
+        }
+        files.push({ name: file.name });
+      }
+      return files;
+    }
 
     function setFileCount(count) {
       var fileCountElement = document.getElementById('fileCount');
@@ -147,22 +168,24 @@
         }
 
         var files;
-        try {
-          files = JSON.parse(xhr.responseText);
-        } catch (error) {
-          handleFetchFailure('parse_error', error);
+        var parsed = core.safeParseJson
+          ? core.safeParseJson(xhr.responseText, logger, 'group file list')
+          : null;
+        if (parsed === null) {
+          handleFetchFailure('parse_error', 'invalid json');
           return;
         }
 
         fetchRetryCount = 0;
 
-        if (files && files.error) {
-          logger.warn('ファイル取得エラー:', files.error);
+        if (core.isPlainObject && core.isPlainObject(parsed) && typeof parsed.error === 'string') {
+          logger.warn('ファイル取得エラー:', parsed.error);
           return;
         }
 
-        if (!Array.isArray(files)) {
-          handleFetchFailure('unexpected_payload', 'files is not array');
+        files = normalizeFileEntries(parsed);
+        if (!files) {
+          handleFetchFailure('unexpected_payload', 'files payload is invalid');
           return;
         }
 
@@ -217,13 +240,18 @@
       };
 
       fileListSocket.onmessage = function (event) {
-        try {
-          var payload = JSON.parse(event.data);
-          if (payload.type === 'files_updated') {
-            fetchAndDisplayOtherFiles();
-          }
-        } catch (error) {
-          logger.warn('WebSocketメッセージの解析に失敗しました:', error);
+        var payload = core.safeParseJson
+          ? core.safeParseJson(event && event.data, logger, 'group websocket message')
+          : null;
+        if (!payload) {
+          return;
+        }
+        if (typeof payload !== 'object' || Array.isArray(payload)) {
+          logger.warn('WebSocketメッセージ形式が不正です。');
+          return;
+        }
+        if (payload.type === 'files_updated') {
+          fetchAndDisplayOtherFiles();
         }
       };
 

@@ -33,6 +33,28 @@
     };
   }
 
+  function safeParseJson(rawText, logger, label) {
+    if (typeof rawText !== 'string') {
+      if (logger && typeof logger.warn === 'function') {
+        logger.warn(`${label || 'JSON payload'} is not a string.`);
+      }
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawText);
+    } catch (error) {
+      if (logger && typeof logger.warn === 'function') {
+        logger.warn(`${label || 'JSON payload'} parse failed.`, error);
+      }
+      return null;
+    }
+  }
+
+  function isPlainObject(value) {
+    return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  }
+
   function getElements() {
     return {
       uploadArea: document.getElementById('upload-area'),
@@ -100,6 +122,8 @@
   modules.core = {
     getFsQrUploadConfig: getFsQrUploadConfig,
     createLogger: createLogger,
+    safeParseJson: safeParseJson,
+    isPlainObject: isPlainObject,
     getElements: getElements,
     getCsrfToken: getCsrfToken,
     createUploadIconController: createUploadIconController,

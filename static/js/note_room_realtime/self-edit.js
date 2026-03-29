@@ -89,7 +89,13 @@
   }
 
   function queuePendingRemoteUpdate(context, payload) {
-    if (!payload || payload.content === undefined || payload.updated_at === undefined) {
+    if (
+      !payload
+      || typeof payload !== "object"
+      || Array.isArray(payload)
+      || typeof payload.content !== "string"
+      || typeof payload.updated_at !== "string"
+    ) {
       return;
     }
     if (
@@ -102,7 +108,7 @@
     context.pendingRemoteUpdate = {
       content: payload.content,
       updatedAt: payload.updated_at,
-      status: payload.status || ""
+      status: typeof payload.status === "string" ? payload.status : ""
     };
   }
 

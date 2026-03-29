@@ -33,6 +33,28 @@
     };
   }
 
+  function isPlainObject(value) {
+    return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  }
+
+  function safeParseJson(rawText, logger, label) {
+    if (typeof rawText !== 'string') {
+      if (logger && typeof logger.warn === 'function') {
+        logger.warn(`${label || 'JSON payload'} is not a string.`);
+      }
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawText);
+    } catch (error) {
+      if (logger && typeof logger.warn === 'function') {
+        logger.warn(`${label || 'JSON payload'} parse failed.`, error);
+      }
+      return null;
+    }
+  }
+
   function getCsrfToken() {
     var csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
     return csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
@@ -127,6 +149,8 @@
   modules.core = {
     getGroupRoomConfig: getGroupRoomConfig,
     createLogger: createLogger,
+    isPlainObject: isPlainObject,
+    safeParseJson: safeParseJson,
     getCsrfToken: getCsrfToken,
     createUploadIconController: createUploadIconController,
     showElement: showElement,

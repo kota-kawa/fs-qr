@@ -7,6 +7,62 @@
 
   function createSyncHandlers(context) {
     const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
+    const core = modules.core;
+
+    function isPlainObject(value) {
+      if (core && typeof core.isPlainObject === "function") {
+        return core.isPlainObject(value);
+      }
+      return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+    }
+
+    function normalizeAckPayload(payload) {
+      if (!isPlainObject(payload)) {
+        return null;
+      }
+      if (payload.status !== undefined && typeof payload.status !== "string") {
+        return null;
+      }
+      if (payload.error !== undefined && typeof payload.error !== "string") {
+        return null;
+      }
+      if (payload.content !== undefined && typeof payload.content !== "string") {
+        return null;
+      }
+      if (payload.updated_at !== undefined && typeof payload.updated_at !== "string") {
+        return null;
+      }
+      if (payload.request_id !== undefined && typeof payload.request_id !== "string") {
+        return null;
+      }
+      if (payload.requestId !== undefined && typeof payload.requestId !== "string") {
+        return null;
+      }
+      return payload;
+    }
+
+    function normalizeUpdatePayload(payload) {
+      if (!isPlainObject(payload)) {
+        return null;
+      }
+      if (typeof payload.content !== "string" || typeof payload.updated_at !== "string") {
+        return null;
+      }
+      if (payload.status !== undefined && typeof payload.status !== "string") {
+        return null;
+      }
+      return payload;
+    }
+
+    function normalizeInitPayload(payload) {
+      if (!isPlainObject(payload)) {
+        return null;
+      }
+      if (typeof payload.content !== "string" || typeof payload.updated_at !== "string") {
+        return null;
+      }
+      return payload;
+    }
 
     function setSyncState(nextState) {
       context.syncState = nextState;
@@ -153,28 +209,37 @@
     }
 
     function handleAck(payload) {
-      const appliedAck = finalizeInFlightFromAck(payload);
+      const normalizedPayload = normalizeAckPayload(payload);
+      if (!normalizedPayload) {
+        logger.warn("Invalid ack payload:", payload);
+        return;
+      }
+
+      const appliedAck = finalizeInFlightFromAck(normalizedPayload);
       if (!appliedAck) {
         return;
       }
 
-      if (payload.status && (payload.status.startsWith("ok") || payload.status.startsWith("conflict"))) {
-        if (payload.content !== undefined && payload.updated_at) {
-          selfEditModule.applyServerContent(context, payload.content, payload.updated_at);
+      if (
+        normalizedPayload.status
+        && (normalizedPayload.status.startsWith("ok") || normalizedPayload.status.startsWith("conflict"))
+      ) {
+        if (normalizedPayload.content !== undefined && normalizedPayload.updated_at) {
+          selfEditModule.applyServerContent(context, normalizedPayload.content, normalizedPayload.updated_at);
         }
 
-        if (payload.status === "ok_merged") {
+        if (normalizedPayload.status === "ok_merged") {
           ui.setStatus(context, "badge bg-info", "Saved (Merged)");
           ui.setMergeStatus(context, "競合を自動マージして保存しました。", "success");
-        } else if (payload.status.startsWith("conflict")) {
+        } else if (normalizedPayload.status.startsWith("conflict")) {
           ui.setStatus(context, "badge bg-warning text-dark", "Conflict resolved");
           ui.setMergeStatus(context, "最新内容との競合が発生し、サーバー版を反映しました。", "warning");
         } else {
           ui.setStatus(context, "badge bg-success", "Saved");
           ui.setMergeStatus(context, "", "");
         }
-      } else if (payload.error) {
-        ui.setStatus(context, "badge bg-danger", payload.error);
+      } else if (normalizedPayload.error) {
+        ui.setStatus(context, "badge bg-danger", normalizedPayload.error);
         ui.setMergeStatus(context, "", "");
       }
 
@@ -190,34 +255,47 @@
     }
 
     function handleUpdate(payload) {
-      if (!payload || payload.updated_at === undefined) {
+      const normalizedPayload = normalizeUpdatePayload(payload);
+      if (!normalizedPayload) {
+        logger.warn("Invalid update payload:", payload);
         return;
       }
 
       if (context.inFlightSave || context.syncState === SYNC_STATES.SAVING || context.syncState === SYNC_STATES.SAVING_DIRTY) {
-        selfEditModule.queuePendingRemoteUpdate(context, payload);
+        selfEditModule.queuePendingRemoteUpdate(context, normalizedPayload);
         return;
       }
 
-      if (payload.updated_at && payload.updated_at !== context.lastStamp) {
+      if (normalizedPayload.updated_at && normalizedPayload.updated_at !== context.lastStamp) {
         const hasLocalDraft = context.pendingContent !== null && context.pendingContent !== undefined;
         const hasUnsyncedEditor = context.editor.value !== context.contentAtLastSync;
         if (hasLocalDraft || hasUnsyncedEditor) {
-          selfEditModule.queuePendingRemoteUpdate(context, payload);
+          selfEditModule.queuePendingRemoteUpdate(context, normalizedPayload);
           ui.setStatus(context, "badge bg-warning text-dark", "Remote update queued");
           ui.setMergeStatus(context, "他ユーザーの更新を待機中です（ローカル保存後に反映）。", "warning");
           return;
         }
-        selfEditModule.applyServerContent(context, payload.content, payload.updated_at, "Updated by others");
+        selfEditModule.applyServerContent(
+          context,
+          normalizedPayload.content,
+          normalizedPayload.updated_at,
+          "Updated by others"
+        );
         ui.setMergeStatus(context, "", "");
       }
     }
 
     function handleInit(payload) {
-      context.editor.value = payload.content || "";
+      const normalizedPayload = normalizeInitPayload(payload);
+      if (!normalizedPayload) {
+        logger.warn("Invalid init payload:", payload);
+        return;
+      }
+
+      context.editor.value = normalizedPayload.content;
       ui.updateCharCount(context, context.editor.value);
       context.contentAtLastSync = context.editor.value;
-      context.lastStamp = payload.updated_at || "";
+      context.lastStamp = normalizedPayload.updated_at;
       context.pendingContent = null;
       context.pendingBaseContent = null;
       context.pendingRemoteUpdate = null;

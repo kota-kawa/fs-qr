@@ -12,8 +12,18 @@
     var csrfToken = options.csrfToken;
     var spinner = options.spinner;
     var encryptionService = options.encryptionService;
+    var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var validation = window.SharedUploadValidation;
     var limits = validation.normalizeLimits(options.limits || {});
+    var core = modules.core;
+
+    function parseJsonResponse(rawText, label) {
+      return core.safeParseJson(rawText, logger, label);
+    }
+
+    function isObjectPayload(payload) {
+      return core.isPlainObject(payload);
+    }
 
     function validateBeforeSubmit(files, id) {
       if (!(files.length > 0 && id.length > 0)) {
@@ -105,22 +115,21 @@
 
           xhr.onload = function () {
             if (xhr.status === 200) {
-              var result = JSON.parse(xhr.responseText);
-              if (result.redirect_url) {
+              var result = parseJsonResponse(xhr.responseText, 'fsqr upload response');
+              if (!isObjectPayload(result)) {
+                showFormError('アップロードは完了しましたが、レスポンス形式が不正です。画面を再読み込みして確認してください。');
+                spinner.hideSpinner();
+              } else if (typeof result.redirect_url === 'string' && result.redirect_url) {
                 window.location.href = result.redirect_url;
               } else {
                 showFormError('アップロードは完了しましたが、遷移先を取得できませんでした。画面を再読み込みして確認してください。');
                 spinner.hideSpinner();
               }
             } else {
-              try {
-                var errorResult = JSON.parse(xhr.responseText);
-                if (errorResult.error) {
-                  showFormError(errorResult.error);
-                } else {
-                  showFormError('アップロードに失敗しました。時間をおいて再度お試しください。');
-                }
-              } catch (parseError) {
+              var errorResult = parseJsonResponse(xhr.responseText, 'fsqr upload error');
+              if (isObjectPayload(errorResult) && typeof errorResult.error === 'string' && errorResult.error) {
+                showFormError(errorResult.error);
+              } else {
                 showFormError('アップロードに失敗しました。時間をおいて再度お試しください。');
               }
               spinner.hideSpinner();

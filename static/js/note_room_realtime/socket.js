@@ -5,6 +5,7 @@
 
   function createSocketHandlers(context, syncHandlers) {
     const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
+    const core = modules.core;
 
     function scheduleReconnect() {
       if (context.reconnectTimer) {
@@ -30,13 +31,18 @@
       });
 
       context.ws.addEventListener("message", (event) => {
-        let payload = null;
-        try {
-          payload = JSON.parse(event.data);
-        } catch (err) {
+        const payload = core.safeParseJson
+          ? core.safeParseJson(event && event.data, logger, "note websocket message")
+          : null;
+        if (!payload) {
           return;
         }
-        if (!payload || !payload.type) {
+        if (!core.isPlainObject(payload)) {
+          logger.warn("Invalid websocket payload shape:", payload);
+          return;
+        }
+        if (typeof payload.type !== "string") {
+          logger.warn("WebSocket payload type is missing or invalid:", payload);
           return;
         }
         if (payload.type === "init") {

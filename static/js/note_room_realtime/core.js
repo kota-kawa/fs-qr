@@ -42,6 +42,28 @@
     };
   }
 
+  function isPlainObject(value) {
+    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+  }
+
+  function safeParseJson(rawText, logger, label) {
+    if (typeof rawText !== "string") {
+      if (logger && typeof logger.warn === "function") {
+        logger.warn(`${label || "JSON payload"} is not a string.`);
+      }
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawText);
+    } catch (error) {
+      if (logger && typeof logger.warn === "function") {
+        logger.warn(`${label || "JSON payload"} parse failed.`, error);
+      }
+      return null;
+    }
+  }
+
   function createContext() {
     const config = getConfig();
     const limits = config.limits || {};
@@ -84,6 +106,8 @@
   modules.core = {
     getConfig: getConfig,
     createLogger: createLogger,
+    isPlainObject: isPlainObject,
+    safeParseJson: safeParseJson,
     createContext: createContext,
     SYNC_STATES: SYNC_STATES
   };
