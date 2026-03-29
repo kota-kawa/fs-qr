@@ -12,7 +12,7 @@ def test_fsqr_upload_page(test_client: TestClient):
     response = test_client.get("/fs-qr")
     assert response.status_code == 200
     html = response.text
-    assert "window.FsQrUploadConfig = Object.freeze({" in html
+    assert "window.__FSQR_APP__.api.setConfig('fsQrUpload', Object.freeze({" in html
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
     assert "maxTotalSizeMB" in html

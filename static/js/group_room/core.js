@@ -1,9 +1,12 @@
 (function (window) {
-  window.GroupRoomModules = window.GroupRoomModules || {};
-  var modules = window.GroupRoomModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('groupRoom');
 
   function getGroupRoomConfig() {
-    return window.GroupRoomConfig || {};
+    return appNamespace.api.getConfig('groupRoom');
   }
 
   function createLogger(enabled) {

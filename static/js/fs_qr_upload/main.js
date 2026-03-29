@@ -1,10 +1,17 @@
 (function (window) {
-  window.FsQrUploadModules = window.FsQrUploadModules || {};
-  var modules = window.FsQrUploadModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
   var core = modules.core;
   var config = core.getFsQrUploadConfig();
   var logger = core.createLogger(Boolean(config.debug));
-  var limits = window.SharedUploadValidation.normalizeLimits(config.limits || {});
+  var validation = appNamespace.api.getShared('uploadValidation');
+  if (!validation) {
+    throw new Error('Shared upload validation is not initialized.');
+  }
+  var limits = validation.normalizeLimits(config.limits || {});
   var elements = core.getElements();
 
   var formError = core.createFormErrorController(elements.inlineError);

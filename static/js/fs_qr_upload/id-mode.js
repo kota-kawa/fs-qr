@@ -1,6 +1,9 @@
 (function (window) {
-  window.FsQrUploadModules = window.FsQrUploadModules || {};
-  var modules = window.FsQrUploadModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
 
   function createIdModeController(options) {
     var idInput = options.idInput;

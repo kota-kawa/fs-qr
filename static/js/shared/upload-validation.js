@@ -1,4 +1,9 @@
 (function (window) {
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+
   var DANGEROUS_FILENAME_PATTERNS = ['..', '/', '\\', '\0'];
 
   function normalizeLimits(limits) {
@@ -104,11 +109,13 @@
     };
   }
 
-  window.SharedUploadValidation = Object.freeze({
+  var sharedUploadValidation = Object.freeze({
     normalizeLimits: normalizeLimits,
     toArray: toArray,
     calculateTotalSize: calculateTotalSize,
     findInvalidFilename: findInvalidFilename,
     validateSelection: validateSelection
   });
+
+  appNamespace.api.setShared('uploadValidation', sharedUploadValidation);
 })(window);

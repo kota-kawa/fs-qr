@@ -1,6 +1,9 @@
 (function (window) {
-  window.GroupRoomModules = window.GroupRoomModules || {};
-  var modules = window.GroupRoomModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('groupRoom');
 
   function createUploadSubmitter(options) {
     var uploadBtn = options.uploadBtn;
@@ -13,7 +16,10 @@
     var getFiles = options.getFiles;
     var clearFiles = options.clearFiles;
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
-    var validation = window.SharedUploadValidation;
+    var validation = appNamespace.api.getShared('uploadValidation');
+    if (!validation) {
+      throw new Error('Shared upload validation is not initialized.');
+    }
     var limits = validation.normalizeLimits(options.limits || {});
     var uploadProgressContainer = document.getElementById('uploadProgressContainer');
     var uploadProgressBar = document.getElementById('uploadProgressBar');

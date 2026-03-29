@@ -75,8 +75,9 @@
     });
 </script>
 {% import "macros/icons.html" as icons %}
+<script src="{{staticfile('js/shared/app-namespace.js')}}"></script>
 <script>
-    window.GroupRoomConfig = Object.freeze({
+    window.__FSQR_APP__.api.setConfig('groupRoom', Object.freeze({
         roomId: {{ room_id|string|tojson }},
         roomPassword: {{ password|string|tojson }},
         debug: {{ frontend_debug | tojson }},
@@ -95,7 +96,7 @@
             check: {{ icons.icon('check_circle', size='xxl') | tojson }},
             rocket: {{ icons.icon('rocket', size='lg', with_text=True) | tojson }}
         })
-    });
+    }));
 </script>
 <script src="{{staticfile('js/shared/upload-validation.js')}}"></script>
 <script src="{{staticfile('js/group_room/core.js')}}"></script>

@@ -1,6 +1,9 @@
 (function (window) {
-  window.NoteRoomRealtimeModules = window.NoteRoomRealtimeModules || {};
-  const modules = window.NoteRoomRealtimeModules;
+  const appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error("App namespace is not initialized.");
+  }
+  const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
   const ui = modules.ui;
 
   function createClipboardHandlers(context) {

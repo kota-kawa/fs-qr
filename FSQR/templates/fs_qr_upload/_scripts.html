@@ -1,8 +1,9 @@
 <!-- JavaScript for Encryption, ZIP, Upload Area, and Spinner -->
 {% import "macros/icons.html" as icons %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js" integrity="sha384-wj2H3JPCraDV2eZ/vqVPAvEIkFv7WCZAac4WV7Gt/hfpso4sCcOuARI3O2rRqFV0" crossorigin="anonymous"></script>
+<script src="{{staticfile('js/shared/app-namespace.js')}}"></script>
 <script>
-    window.FsQrUploadConfig = Object.freeze({
+    window.__FSQR_APP__.api.setConfig('fsQrUpload', Object.freeze({
         debug: {{ frontend_debug | tojson }},
         limits: Object.freeze(((window.AppConfig || {}).limits || {}).upload || {}),
         icons: Object.freeze({
@@ -12,7 +13,7 @@
             check: {{ icons.icon('check_circle', size='xxl') | tojson }},
             rocket: {{ icons.icon('rocket', size='lg', with_text=True) | tojson }}
         })
-    });
+    }));
 </script>
 <script src="{{staticfile('js/shared/upload-validation.js')}}"></script>
 <script src="{{staticfile('js/fs_qr_upload/core.js')}}"></script>

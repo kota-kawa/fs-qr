@@ -153,7 +153,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
         script_positions.append(script_tag_match.start())
 
     assert script_positions == sorted(script_positions)
-    assert "window.GroupRoomConfig = Object.freeze({" in html
+    assert "window.__FSQR_APP__.api.setConfig('groupRoom', Object.freeze({" in html
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
     assert "fileListRequestTimeoutMs" in html

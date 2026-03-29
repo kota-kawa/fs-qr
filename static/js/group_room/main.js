@@ -1,10 +1,16 @@
 (function (window) {
-  window.GroupRoomModules = window.GroupRoomModules || {};
-  var modules = window.GroupRoomModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('groupRoom');
   var core = modules.core;
   var config = core.getGroupRoomConfig();
   var logger = core.createLogger(Boolean(config.debug));
-  var validation = window.SharedUploadValidation;
+  var validation = appNamespace.api.getShared('uploadValidation');
+  if (!validation) {
+    throw new Error('Shared upload validation is not initialized.');
+  }
   var rawLimits = config.limits || {};
   var parsedFileListRequestTimeoutMs = Number(rawLimits.fileListRequestTimeoutMs);
   var limits = validation.normalizeLimits(rawLimits);

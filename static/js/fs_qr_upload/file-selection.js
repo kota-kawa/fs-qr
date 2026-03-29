@@ -1,6 +1,9 @@
 (function (window) {
-  window.FsQrUploadModules = window.FsQrUploadModules || {};
-  var modules = window.FsQrUploadModules;
+  var appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error('App namespace is not initialized.');
+  }
+  var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
 
   function createFileSelectionController(options) {
     var uploadArea = options.uploadArea;
@@ -12,7 +15,10 @@
     var showFormError = options.showFormError;
     var setUploadIcon = options.setUploadIcon;
     var setFileInputFiles = options.setFileInputFiles;
-    var validation = window.SharedUploadValidation;
+    var validation = appNamespace.api.getShared('uploadValidation');
+    if (!validation) {
+      throw new Error('Shared upload validation is not initialized.');
+    }
     var limits = validation.normalizeLimits(options.limits || {});
 
     function validateFiles(files) {

@@ -1,6 +1,9 @@
 (function (window) {
-  window.NoteRoomRealtimeModules = window.NoteRoomRealtimeModules || {};
-  const modules = window.NoteRoomRealtimeModules;
+  const appNamespace = window.__FSQR_APP__;
+  if (!appNamespace || !appNamespace.api) {
+    throw new Error("App namespace is not initialized.");
+  }
+  const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
   const SYNC_STATES = Object.freeze({
     // Local state machine for note sync lifecycle.
     BOOTSTRAPPING: "bootstrapping",
@@ -12,7 +15,7 @@
   });
 
   function getConfig() {
-    return window.NoteRoomRealtimeConfig || {};
+    return appNamespace.api.getConfig("noteRoomRealtime");
   }
 
   function createLogger(enabled) {
