@@ -760,3 +760,74 @@ def test_sync_note_content_conflict_max_retries_returns_409():
     assert status == 409
     assert payload["status"] == "conflict_max_retries"
     assert changed is False
+
+
+# ---------------------------------------------------------------------------
+# file_validation
+# ---------------------------------------------------------------------------
+
+
+def test_validate_upload_limits_rejects_too_many_files():
+    from io import BytesIO
+    from types import SimpleNamespace
+
+    from file_validation import validate_upload_limits
+
+    files = [
+        SimpleNamespace(filename="a.txt", file=BytesIO(b"a")),
+        SimpleNamespace(filename="b.txt", file=BytesIO(b"b")),
+    ]
+
+    error = validate_upload_limits(
+        files,
+        max_files=1,
+        max_total_size_bytes=10,
+        max_total_size_mb=1,
+    )
+
+    assert error == "ファイル数は最大1個までです。"
+
+
+def test_validate_upload_limits_rejects_too_large_total_size():
+    from io import BytesIO
+    from types import SimpleNamespace
+
+    from file_validation import validate_upload_limits
+
+    files = [SimpleNamespace(filename="a.txt", file=BytesIO(b"abcd"))]
+
+    error = validate_upload_limits(
+        files,
+        max_files=10,
+        max_total_size_bytes=3,
+        max_total_size_mb=1,
+    )
+
+    assert error == "ファイルの合計サイズは1MBまでです。"
+
+
+def test_validate_requested_filename_blocks_dangerous_pattern():
+    from file_validation import validate_requested_filename
+
+    assert validate_requested_filename("../secret.txt") == "不正なファイル名が検出されました。"
+
+
+def test_validate_requested_filename_blocks_blank_string():
+    from file_validation import validate_requested_filename
+
+    assert validate_requested_filename("   ") == "無効なファイル名です。"
+
+
+def test_normalize_upload_filename_uses_secure_filename():
+    from file_validation import normalize_upload_filename
+
+    assert normalize_upload_filename("../hello.txt") == "hello.txt"
+
+
+def test_sanitize_group_upload_filename_falls_back_when_hidden():
+    from file_validation import sanitize_group_upload_filename
+
+    with patch("file_validation.time.time", return_value=1234567890):
+        result = sanitize_group_upload_filename(".bashrc")
+
+    assert result == "file_1234567890"

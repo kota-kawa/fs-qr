@@ -9,6 +9,11 @@ from fastapi import APIRouter, File, Request, UploadFile
 from starlette.responses import FileResponse, JSONResponse, StreamingResponse
 from werkzeug.utils import secure_filename
 
+from file_validation import (
+    sanitize_group_upload_filename,
+    validate_requested_filename,
+    validate_upload_limits,
+)
 from settings import UPLOAD_MAX_FILES, UPLOAD_MAX_TOTAL_SIZE_BYTES, UPLOAD_MAX_TOTAL_SIZE_MB
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
 from .group_realtime import notify_group_files_updated
@@ -36,25 +41,15 @@ def register_group_upload_route(router: APIRouter):
                 {"error": "ファイルがアップロードされていません。"}, status_code=400
             )
 
-        if len(upfile) > UPLOAD_MAX_FILES:
+        limits_error = validate_upload_limits(
+            upfile,
+            max_files=UPLOAD_MAX_FILES,
+            max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
+            max_total_size_mb=UPLOAD_MAX_TOTAL_SIZE_MB,
+        )
+        if limits_error:
             return JSONResponse(
-                {"error": f"ファイル数は最大{UPLOAD_MAX_FILES}個までです。"},
-                status_code=400,
-            )
-
-        total_size = 0
-        max_total_size = UPLOAD_MAX_TOTAL_SIZE_BYTES
-
-        for file in upfile:
-            if file.filename:
-                file.file.seek(0, os.SEEK_END)
-                file_size = file.file.tell()
-                file.file.seek(0)
-                total_size += file_size
-
-        if total_size > max_total_size:
-            return JSONResponse(
-                {"error": f"ファイルの合計サイズは{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです。"},
+                {"error": limits_error},
                 status_code=400,
             )
 
@@ -67,16 +62,7 @@ def register_group_upload_route(router: APIRouter):
             if file.filename == "":
                 continue
 
-            safe_filename = file.filename
-
-            if any(char in file.filename for char in ["..", "/", "\\", "\0"]):
-                safe_filename = secure_filename(file.filename)
-
-            if not safe_filename or safe_filename.startswith("."):
-                import time
-
-                _, ext = os.path.splitext(file.filename)
-                safe_filename = f"file_{int(time.time())}{ext}"
+            safe_filename = sanitize_group_upload_filename(file.filename)
 
             file_path = os.path.join(save_path, safe_filename)
 
@@ -186,16 +172,9 @@ def register_group_download_file_route(router: APIRouter):
     ):
         decoded_filename = urllib.parse.unquote(filename)
 
-        if any(
-            dangerous_pattern in decoded_filename
-            for dangerous_pattern in ["..", "/", "\\", "\0"]
-        ):
-            return JSONResponse(
-                {"error": "不正なファイル名が検出されました。"}, status_code=400
-            )
-
-        if not decoded_filename.strip():
-            return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
+        filename_error = validate_requested_filename(decoded_filename)
+        if filename_error:
+            return JSONResponse({"error": filename_error}, status_code=400)
 
         if not await get_room_if_valid(room_id, password):
             return JSONResponse(
@@ -227,16 +206,9 @@ def register_group_delete_file_route(router: APIRouter):
         await enforce_csrf(request)
         decoded_filename = urllib.parse.unquote(filename)
 
-        if any(
-            dangerous_pattern in decoded_filename
-            for dangerous_pattern in ["..", "/", "\\", "\0"]
-        ):
-            return JSONResponse(
-                {"error": "不正なファイル名が検出されました。"}, status_code=400
-            )
-
-        if not decoded_filename.strip():
-            return JSONResponse({"error": "無効なファイル名です。"}, status_code=400)
+        filename_error = validate_requested_filename(decoded_filename)
+        if filename_error:
+            return JSONResponse({"error": filename_error}, status_code=400)
 
         if not await get_room_if_valid(room_id, password):
             return JSONResponse(

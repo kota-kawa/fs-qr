@@ -8,8 +8,8 @@ from typing import List, Optional
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from pydantic import ValidationError
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
-from werkzeug.utils import secure_filename
 
+from file_validation import normalize_upload_filename, validate_upload_limits
 from models import FsqrUploadInput, RoomSearchInput
 from rate_limit import (
     SCOPE_QR,
@@ -113,28 +113,23 @@ async def upload(
     if not upfile:
         return json_or_msg(request, "アップロード失敗")
 
-    if len(upfile) > UPLOAD_MAX_FILES:
-        return json_or_msg(request, f"ファイル数は最大{UPLOAD_MAX_FILES}個までです")
-
-    total_size = 0
-    max_total_size = UPLOAD_MAX_TOTAL_SIZE_BYTES
-
-    for file in upfile:
-        if file.filename:
-            file.file.seek(0, os.SEEK_END)
-            file_size = file.file.tell()
-            file.file.seek(0)
-            total_size += file_size
-
-    if total_size > max_total_size:
-        return json_or_msg(
-            request, f"ファイルの合計サイズは{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです"
-        )
+    limits_error = validate_upload_limits(
+        upfile,
+        max_files=UPLOAD_MAX_FILES,
+        max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
+        max_total_size_mb=UPLOAD_MAX_TOTAL_SIZE_MB,
+        too_many_files_message=f"ファイル数は最大{UPLOAD_MAX_FILES}個までです",
+        too_large_total_size_message=(
+            f"ファイルの合計サイズは{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです"
+        ),
+    )
+    if limits_error:
+        return json_or_msg(request, limits_error)
 
     uploaded_files = []
 
     for file in upfile:
-        filename = secure_filename(file.filename or "")
+        filename = normalize_upload_filename(file.filename or "")
         if not filename:
             return json_or_msg(request, "不正なファイル名です")
 

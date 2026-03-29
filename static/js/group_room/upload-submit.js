@@ -12,20 +12,11 @@
     var core = options.core;
     var getFiles = options.getFiles;
     var clearFiles = options.clearFiles;
-    var limits = options.limits || {};
+    var validation = window.SharedUploadValidation;
+    var limits = validation.normalizeLimits(options.limits || {});
     var uploadProgressContainer = document.getElementById('uploadProgressContainer');
     var uploadProgressBar = document.getElementById('uploadProgressBar');
     var uploadProgressText = document.getElementById('uploadProgressText');
-    var parsedMaxFiles = Number(limits.maxFiles);
-    var parsedMaxTotalSizeBytes = Number(limits.maxTotalSizeBytes);
-    var parsedMaxTotalSizeMB = Number(limits.maxTotalSizeMB);
-    var maxFiles = Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1;
-    var maxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
-      ? parsedMaxTotalSizeBytes
-      : 1;
-    var maxTotalSizeMB = Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
-      ? parsedMaxTotalSizeMB
-      : Math.max(1, Math.ceil(maxTotalSizeBytes / (1024 * 1024)));
 
     function showStatusMessage(message, isError) {
       uploadStatusMessage.textContent = message;
@@ -45,19 +36,17 @@
         return false;
       }
 
-      if (filesArray.length > maxFiles) {
-        alert(`ファイル数は最大${maxFiles}個までです`);
-        return false;
-      }
-
-      var totalSize = 0;
-      filesArray.forEach(function (file) {
-        totalSize += file.size;
+      var result = validation.validateSelection(filesArray, limits, {
+        checkFileName: true
       });
-
-      if (totalSize > maxTotalSizeBytes) {
-        var sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-        alert(`ファイルの合計サイズは${maxTotalSizeMB}MBまでです（現在: ${sizeMB}MB）`);
+      if (!result.ok) {
+        if (result.reason === 'max_files') {
+          alert(`ファイル数は最大${limits.maxFiles}個までです`);
+        } else if (result.reason === 'max_total_size') {
+          alert(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです（現在: ${result.totalSizeMB}MB）`);
+        } else if (result.reason === 'invalid_filename') {
+          alert('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+        }
         return false;
       }
 

@@ -12,17 +12,8 @@
     var csrfToken = options.csrfToken;
     var spinner = options.spinner;
     var encryptionService = options.encryptionService;
-    var limits = options.limits || {};
-    var parsedMaxFiles = Number(limits.maxFiles);
-    var parsedMaxTotalSizeBytes = Number(limits.maxTotalSizeBytes);
-    var parsedMaxTotalSizeMB = Number(limits.maxTotalSizeMB);
-    var maxFiles = Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1;
-    var maxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
-      ? parsedMaxTotalSizeBytes
-      : 1;
-    var maxTotalSizeMB = Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
-      ? parsedMaxTotalSizeMB
-      : Math.max(1, Math.ceil(maxTotalSizeBytes / (1024 * 1024)));
+    var validation = window.SharedUploadValidation;
+    var limits = validation.normalizeLimits(options.limits || {});
 
     function validateBeforeSubmit(files, id) {
       if (!(files.length > 0 && id.length > 0)) {
@@ -32,21 +23,15 @@
         return false;
       }
 
-      if (files.length > maxFiles) {
-        showFormError(`ファイル数は最大${maxFiles}個までです。`);
-        spinner.hideSpinner();
-        spinner.stopIconSwitching();
-        return false;
-      }
-
-      var totalSize = 0;
-      Array.from(files).forEach(function (file) {
-        totalSize += file.size;
-      });
-
-      if (totalSize > maxTotalSizeBytes) {
-        var sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-        showFormError(`ファイルの合計サイズは${maxTotalSizeMB}MBまでです。現在の合計は ${sizeMB}MB です。`);
+      var result = validation.validateSelection(files, limits, { checkFileName: true });
+      if (!result.ok) {
+        if (result.reason === 'max_files') {
+          showFormError(`ファイル数は最大${limits.maxFiles}個までです。`);
+        } else if (result.reason === 'max_total_size') {
+          showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は ${result.totalSizeMB}MB です。`);
+        } else if (result.reason === 'invalid_filename') {
+          showFormError('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+        }
         spinner.hideSpinner();
         spinner.stopIconSwitching();
         return false;
