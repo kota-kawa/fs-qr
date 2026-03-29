@@ -77,8 +77,8 @@
 
 <script>
   window.NoteRoomRealtimeConfig = Object.freeze({
-    room: "{{ room_id }}",
-    roomPassword: "{{ password }}",
+    room: {{ room_id | string | tojson }},
+    roomPassword: {{ password | string | tojson }},
     debug: {{ frontend_debug | tojson }}
   });
 </script>

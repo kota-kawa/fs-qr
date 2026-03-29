@@ -145,7 +145,7 @@
     document.getElementById('statusText').textContent = '受信中...';
 
     // テンプレートからキーとなる文字列を取得
-    const secureId = "{{ secure_id }}";
+    const secureId = {{ secure_id | tojson }};
     const decryptionKey = secureId.split('-')[0];
 
     // fetch APIでサーバーからファイルを受信
