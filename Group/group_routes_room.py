@@ -1,12 +1,13 @@
 import os
 import random
-import re
 from datetime import timedelta
 
 from fastapi import APIRouter, Request
+from pydantic import ValidationError
 from starlette.responses import JSONResponse, RedirectResponse
 from werkzeug.utils import secure_filename
 
+from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_GROUP,
     check_rate_limit,
@@ -105,36 +106,21 @@ def register_group_create_room_route(router: APIRouter):
             id_candidates = form_data.getlist("id")
         if not id_candidates:
             id_candidates = [json_data.get("id", "")]
-        id_val = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
-        id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
+        raw_id = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
+        raw_id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
             "idMode", "auto"
         )
+        raw_retention = form_data.get("retention_days") if form_data else None
+        if raw_retention is None:
+            raw_retention = json_data.get("retention_days", 7)
 
-        retention_value = form_data.get("retention_days") if form_data else None
-        if retention_value is None:
-            retention_value = json_data.get("retention_days", 7)
+        inp = RoomCreateInput(id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention)
+        retention_days = inp.retention_days
+
         try:
-            retention_days = int(retention_value)
-        except (TypeError, ValueError):
-            retention_days = 7
-
-        if retention_days not in (1, 7, 30):
-            retention_days = 7
-
-        if not id_val:
-            return JSONResponse({"error": "IDが指定されていません。"}, status_code=400)
-
-        if not re.match(r"^[a-zA-Z0-9]+$", id_val):
-            return JSONResponse(
-                {
-                    "error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
-                },
-                status_code=400,
-            )
-        if len(id_val) != 6:
-            return JSONResponse(
-                {"error": "IDは6文字の半角英数字で入力してください。"}, status_code=400
-            )
+            id_val = inp.validate_manual_id()
+        except ValueError as exc:
+            return JSONResponse({"error": str(exc)}, status_code=400)
 
         room_id = id_val
         existing_room = await group_data.get_data(room_id)
@@ -183,9 +169,10 @@ def register_group_search_process_route(router: APIRouter):
         if not allowed:
             return group_block_response(request, block_label)
 
-        if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(
-            r"^[0-9]+$", password
-        ):
+        try:
+            search_inp = RoomSearchInput(room_id=id_val, password=password)
+            id_val, password = search_inp.room_id, search_inp.password
+        except ValidationError:
             _, block_label = await register_failure(SCOPE_GROUP, ip)
             if block_label:
                 return group_block_response(request, block_label)

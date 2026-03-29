@@ -1,8 +1,10 @@
 import logging
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from pydantic import ValidationError
 
 from database import remove_db_session
+from models import NoteWsMessage
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -69,12 +71,14 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
         await remove_db_session()
 
         while True:
-            message = await websocket.receive_json()
-            if message.get("type") != "save":
+            raw = await websocket.receive_json()
+            try:
+                message = NoteWsMessage.model_validate(raw)
+            except ValidationError:
                 continue
-            client_content = message.get("content", "")
-            client_last_known_updated_at = message.get("last_known_updated_at")
-            client_original_content = message.get("original_content")
+            client_content = message.content
+            client_last_known_updated_at = message.last_known_updated_at
+            client_original_content = message.original_content
 
             try:
                 payload, status_code, changed = await sync_note_content(

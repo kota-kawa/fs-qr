@@ -1,8 +1,10 @@
 import logging
 
 from fastapi import APIRouter, Request
+from pydantic import ValidationError
 from starlette.responses import JSONResponse
 
+from models import NoteSyncInput
 from . import note_data as nd
 from .note_sync import sync_note_content
 from web import enforce_csrf
@@ -54,9 +56,13 @@ async def note_sync(request: Request, room_id: str, password: str):
             data = await request.json()
         except Exception:
             data = {}
-        client_content = data.get("content", "")
-        client_last_known_updated_at = data.get("last_known_updated_at")
-        client_original_content = data.get("original_content")
+        try:
+            sync_in = NoteSyncInput.model_validate(data if isinstance(data, dict) else {})
+        except ValidationError:
+            return JSONResponse({"error": "Invalid request body"}, status_code=400)
+        client_content = sync_in.content
+        client_last_known_updated_at = sync_in.last_known_updated_at
+        client_original_content = sync_in.original_content
         payload, status_code, _ = await sync_note_content(
             room_id,
             client_content,

@@ -1,5 +1,4 @@
 import os
-import re
 import secrets
 import uuid
 from datetime import timedelta
@@ -7,9 +6,11 @@ import shutil
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
+from pydantic import ValidationError
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse
 from werkzeug.utils import secure_filename
 
+from models import FsqrUploadInput, RoomSearchInput
 from rate_limit import (
     SCOPE_QR,
     check_rate_limit,
@@ -86,33 +87,23 @@ async def upload(
 ):
     await enforce_csrf(request)
     uid = str(uuid.uuid4())[:10]
-    id_val = name.strip()
     file_type = file_type or "multiple"
     original_filename = original_filename or ""
 
-    retention_value = (retention_days or "").strip()
-    try:
-        retention_days_int = int(retention_value) if retention_value else 7
-    except ValueError:
-        retention_days_int = 7
-
-    if retention_days_int not in (1, 7, 30):
-        retention_days_int = 7
+    upload_in = FsqrUploadInput(name=name, retention_days=retention_days)
+    retention_days_int = upload_in.retention_days
+    id_val = upload_in.name
 
     if not id_val:
         import string
 
         chars = string.ascii_letters + string.digits
         id_val = "".join(secrets.choice(chars) for _ in range(6))
-
-    if id_val:
-        if not re.match(r"^[a-zA-Z0-9]+$", id_val):
-            return json_or_msg(
-                request,
-                "IDに無効な文字が含まれています。半角英数字のみ使用してください。",
-            )
-        if len(id_val) != 6:
-            return json_or_msg(request, "IDは6文字の半角英数字で入力してください。")
+    else:
+        try:
+            upload_in.validate_manual_id()
+        except ValueError as exc:
+            return json_or_msg(request, str(exc))
 
     password = str(secrets.randbelow(10**6)).zfill(6)
 
@@ -313,11 +304,14 @@ async def kekka(request: Request):
     if not allowed:
         return msg(request, get_block_message(block_label), 429)
 
-    if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", password):
+    try:
+        inp = RoomSearchInput(room_id=id_val, password=password)
+    except ValidationError:
         _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDまたはパスワードに不正な文字が含まれています。")
+    id_val, password = inp.room_id, inp.password
 
     secure_id = await fs_data.try_login(id_val, password)
 

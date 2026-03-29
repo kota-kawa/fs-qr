@@ -3,8 +3,10 @@ import re
 from datetime import timedelta
 
 from fastapi import APIRouter, Request
+from pydantic import ValidationError
 from starlette.responses import JSONResponse, RedirectResponse
 
+from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -19,11 +21,8 @@ from . import note_data as nd
 router = APIRouter()
 
 
-_ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
-
-
 def _is_valid_room_id(value: str) -> bool:
-    return bool(value) and bool(_ROOM_ID_RE.match(value))
+    return bool(re.match(r"^[a-zA-Z0-9]{6}$", value)) if value else False
 
 
 def _generate_room_id() -> str:
@@ -87,39 +86,27 @@ async def create_note_room(request: Request):
         id_candidates = form_data.getlist("id")
     if not id_candidates:
         id_candidates = [json_data.get("id", "")]
-    id_val = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
-    id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
+    raw_id = next((str(v).strip() for v in id_candidates if str(v).strip()), "")
+    raw_id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
         "idMode", "auto"
     )
+    raw_retention = form_data.get("retention_days") if form_data else None
+    if raw_retention is None:
+        raw_retention = json_data.get("retention_days", 7)
 
-    retention_value = form_data.get("retention_days") if form_data else None
-    if retention_value is None:
-        retention_value = json_data.get("retention_days", 7)
-    try:
-        retention_days = int(retention_value)
-    except (TypeError, ValueError):
-        retention_days = 7
-
-    if retention_days not in (1, 7, 30):
-        retention_days = 7
+    inp = RoomCreateInput(id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention)
+    id_val = inp.id
+    id_mode = inp.id_mode
+    retention_days = inp.retention_days
 
     if id_mode == "auto":
         if not _is_valid_room_id(id_val):
             id_val = ""
     else:
-        if not id_val:
-            return JSONResponse({"error": "IDが指定されていません。"}, status_code=400)
-        if not _is_valid_room_id(id_val):
-            if not re.match(r"^[a-zA-Z0-9]+$", id_val):
-                return JSONResponse(
-                    {
-                        "error": "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
-                    },
-                    status_code=400,
-                )
-            return JSONResponse(
-                {"error": "IDは6文字の半角英数字で入力してください"}, status_code=400
-            )
+        try:
+            id_val = inp.validate_manual_id()
+        except ValueError as exc:
+            return JSONResponse({"error": str(exc)}, status_code=400)
 
     if id_mode == "auto":
         if id_val and await _room_id_exists(id_val):
@@ -257,7 +244,10 @@ async def search_note_room(request: Request):
     if not allowed:
         flash_message(request, get_block_message(block_label))
         return RedirectResponse("/search_note", status_code=302)
-    if not re.match(r"^[a-zA-Z0-9]+$", id_val) or not re.match(r"^[0-9]+$", pw):
+    try:
+        inp = RoomSearchInput(room_id=id_val, password=pw)
+        id_val, pw = inp.room_id, inp.password
+    except ValidationError:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             flash_message(request, get_block_message(block_label))
