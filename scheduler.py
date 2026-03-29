@@ -11,6 +11,7 @@ import log_config  # noqa: F401  (configure logging)
 from database import reset_db_connection
 from FSQR import fsqr_data
 from Group import group_data
+from migration_runner import run_migrations
 from Note import note_data
 from settings import REDIS_URL
 
@@ -81,6 +82,8 @@ def remove_expired_note_rooms():
 
 
 def run_scheduler():
+    asyncio.run(run_migrations())
+
     # Parse REDIS_URL for RedisJobStore
     url = urlparse(REDIS_URL)
     jobstores = {

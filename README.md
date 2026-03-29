@@ -46,6 +46,27 @@ docker-compose up --build
 ### 4) Open in your browser
 - http://localhost:5000
 
+## 🗃️ Database migrations (Alembic)
+Schema changes are managed with Alembic.
+
+```bash
+# inside project root
+alembic upgrade head
+```
+
+Create a new migration:
+
+```bash
+alembic revision -m "describe change"
+```
+
+When containers start, `web` and `scheduler` run migrations automatically by default.  
+To disable this behavior, set:
+
+```env
+RUN_MIGRATIONS_ON_STARTUP=false
+```
+
 ## 🧰 Tech Stack
 - **FastAPI** (Python)
 - **MySQL**
@@ -132,11 +153,24 @@ docker-compose up --build
 ### 4) ブラウザでアクセス
 - http://localhost:5000
 
-## 🗃️ 既存環境向けインデックス移行
-既に作成済みのDBには次のSQLを実行してください。
+## 🗃️ DBマイグレーション（Alembic）
+スキーマ変更は Alembic で管理します。
 
 ```bash
-docker compose exec -T db mysql -u"$SQL_USER" -p"$SQL_PW" "$SQL_DB" < db_init/migrate_add_indexes.sql
+alembic upgrade head
+```
+
+新しいマイグレーション作成:
+
+```bash
+alembic revision -m "変更内容"
+```
+
+コンテナ起動時、`web` と `scheduler` はデフォルトで自動マイグレーションを実行します。  
+無効化する場合は以下を設定してください。
+
+```env
+RUN_MIGRATIONS_ON_STARTUP=false
 ```
 
 ## 🧰 技術スタック

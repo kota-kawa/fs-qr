@@ -17,7 +17,7 @@ except ImportError:  # pragma: no cover - fallback for older Starlette
     from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from database import db_session
-from Note import note_data
+from migration_runner import run_migrations
 from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
 from web import render_template
 
@@ -80,7 +80,7 @@ async def startup():
     ready = False
     for attempt in range(5):
         try:
-            await note_data.ensure_tables()
+            await run_migrations()
             ready = True
             break
         except Exception as exc:

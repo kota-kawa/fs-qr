@@ -1,6 +1,7 @@
 # バイナリファイルを無視
 *.env
 *.ini
+!alembic.ini
 *.service
 *.sock
 *.exe

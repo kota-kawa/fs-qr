@@ -85,7 +85,7 @@ def test_client():
     # Note.note_dataなどがDBにアクセスするのを防ぐ
 
     with (
-        patch("Note.note_data.ensure_tables", new_callable=AsyncMock),
+        patch("migration_runner.run_migrations", new_callable=AsyncMock),
         patch("Note.note_realtime.startup", new_callable=AsyncMock),
         patch("Note.note_realtime.shutdown", new_callable=AsyncMock),
         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock),
