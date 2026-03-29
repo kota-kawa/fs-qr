@@ -3,18 +3,11 @@
 <style>
 /* Glossy FS-QR upload theme */
 :root {
-  --glossy-theme-gradient: linear-gradient(135deg, #23c3df 0%, #1f27c7 58%, #7dd3fc 100%);
-  --glossy-page-background:
-    radial-gradient(circle at top left, rgba(125, 211, 252, 0.38) 0%, rgba(125, 211, 252, 0) 34%),
-    radial-gradient(circle at 82% 18%, rgba(35, 195, 223, 0.24) 0%, rgba(35, 195, 223, 0) 30%),
-    linear-gradient(145deg, #b9f1ff 0%, #23c3df 20%, #3b82f6 58%, #1f27c7 100%);
-  --glossy-panel-background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%),
-    radial-gradient(circle at top left, rgba(191, 219, 254, 0.42) 0%, rgba(191, 219, 254, 0) 38%),
-    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.3) 0%, rgba(56, 189, 248, 0) 32%),
-    linear-gradient(145deg, rgba(186, 230, 253, 0.82) 0%, rgba(35, 195, 223, 0.76) 22%, rgba(59, 130, 246, 0.8) 60%, rgba(31, 39, 199, 0.82) 100%);
-  --glossy-shadow: rgba(31, 39, 199, 0.24);
-  --glossy-shadow-strong: rgba(31, 39, 199, 0.34);
+  --glossy-theme-gradient: var(--theme-fsqr-glossy-gradient);
+  --glossy-page-background: var(--theme-fsqr-glossy-page-background);
+  --glossy-panel-background: var(--theme-fsqr-glossy-panel-background);
+  --glossy-shadow: var(--theme-fsqr-glossy-shadow);
+  --glossy-shadow-strong: var(--theme-fsqr-glossy-shadow-strong);
 }
 
 body {
@@ -28,9 +21,7 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 42%),
-    radial-gradient(circle at 50% -8%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 42%);
+  background: var(--theme-fsqr-overlay-highlight);
   z-index: 0;
 }
 
@@ -49,12 +40,12 @@ footer {
 
 .modern-card-header {
   --modern-card-header-gradient: var(--glossy-theme-gradient);
-  --modern-card-header-accent: #1f27c7;
+  --modern-card-header-accent: var(--theme-fsqr-accent);
 }
 
 .usage-section {
   --usage-header-gradient: var(--glossy-theme-gradient);
-  --usage-header-accent: #1f27c7;
+  --usage-header-accent: var(--theme-fsqr-accent);
 }
 
 .retention-select-wrapper--azure {
@@ -75,10 +66,10 @@ footer {
 
 .modern-content-card {
   background: var(--glossy-panel-background);
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--theme-fsqr-glass-border);
+  box-shadow: var(--theme-fsqr-glass-shadow);
+  backdrop-filter: blur(var(--theme-fsqr-glass-blur));
+  -webkit-backdrop-filter: blur(var(--theme-fsqr-glass-blur));
   overflow: visible;
 }
 
@@ -94,7 +85,7 @@ footer {
 
 .modern-card-header {
   background: var(--glossy-page-background);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: var(--theme-fsqr-glass-inset-shadow);
   overflow: hidden;
 }
 
@@ -103,7 +94,7 @@ footer {
 }
 
 .modern-card-header h1 {
-  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  text-shadow: var(--theme-fsqr-glass-title-shadow);
 }
 
 .modern-card-body {
@@ -112,20 +103,20 @@ footer {
 
 /* Upload area colors to match FSQR theme */
 .modern-upload-area {
-  border-color: rgba(35, 195, 223, 0.5);
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.78) 0%, rgba(239, 246, 255, 0.9) 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68), 0 12px 24px rgba(15, 23, 42, 0.08);
+  border-color: var(--theme-fsqr-upload-border);
+  background: var(--theme-fsqr-upload-background);
+  box-shadow: var(--theme-fsqr-upload-surface-shadow);
 }
 
 .modern-upload-area:hover,
 .modern-upload-area.dragover {
-  border-color: #1f27c7;
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.88) 0%, rgba(219, 234, 254, 0.94) 100%);
-  box-shadow: 0 16px 30px rgba(31, 39, 199, 0.16);
+  border-color: var(--theme-fsqr-accent);
+  background: var(--theme-fsqr-upload-background-hover);
+  box-shadow: var(--theme-fsqr-upload-surface-shadow-hover);
 }
 
 .upload-icon-modern {
-  color: #23c3df;
+  color: var(--theme-fsqr-upload-icon);
 }
 
 .upload-button-modern {
@@ -138,25 +129,25 @@ footer {
 }
 
 .modern-file-icon {
-  color: #23c3df;
+  color: var(--theme-fsqr-upload-icon);
 }
 
 .modern-file-list {
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.78) 0%, rgba(239, 246, 255, 0.9) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 12px 24px rgba(15, 23, 42, 0.08);
+  background: var(--theme-fsqr-file-list-background);
+  border: 1px solid var(--theme-fsqr-file-list-border);
+  box-shadow: var(--theme-fsqr-file-list-shadow);
 }
 
 .modern-file-item {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.88) 100%);
+  background: var(--theme-fsqr-file-item-background);
   margin: 0.5rem;
-  border-radius: 10px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--theme-fsqr-file-item-border);
+  box-shadow: var(--theme-fsqr-file-item-shadow);
 }
 
 .modern-file-item:hover {
-  background: rgba(35, 195, 223, 0.05);
+  background: var(--theme-fsqr-file-item-hover-bg);
 }
 
 .modern-btn-success {
@@ -166,30 +157,30 @@ footer {
 
 .modern-btn-success:hover {
   box-shadow: 0 16px 28px var(--glossy-shadow-strong);
-  color: white;
+  color: var(--bg-white);
 }
 
 .modern-form-group {
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.72) 0%, rgba(249, 250, 251, 0.9) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: var(--theme-fsqr-form-group-background);
+  border: 1px solid var(--theme-fsqr-form-group-border);
   border-radius: 18px;
   padding: 1.25rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 10px 22px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--theme-fsqr-form-group-shadow);
 }
 
 .modern-form-input:focus {
-  border-color: #23c3df;
-  box-shadow: 0 0 0 3px rgba(35, 195, 223, 0.1);
+  border-color: var(--theme-fsqr-upload-icon);
+  box-shadow: 0 0 0 3px var(--theme-fsqr-upload-focus-ring);
 }
 
 .inline-feedback {
   display: none;
   margin-top: 1rem;
   padding: 0.9rem 1rem;
-  border-radius: 14px;
-  border: 1px solid rgba(239, 68, 68, 0.22);
-  background: rgba(254, 242, 242, 0.92);
-  color: #b91c1c;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--status-error-border-soft);
+  background: var(--status-error-bg);
+  color: var(--status-error-text);
   font-weight: 600;
 }
 
@@ -200,34 +191,34 @@ footer {
 .retention-preview {
   margin-top: 0.9rem;
   padding: 0.9rem 1rem;
-  border-radius: 14px;
-  background: rgba(239, 246, 255, 0.92);
-  border: 1px solid rgba(35, 195, 223, 0.2);
-  color: #1e3a8a;
+  border-radius: var(--radius-lg);
+  background: var(--theme-fsqr-retention-preview-bg);
+  border: 1px solid var(--theme-fsqr-retention-preview-border);
+  color: var(--theme-fsqr-retention-preview-text);
 }
 
 .retention-preview strong {
   display: block;
   margin-bottom: 0.2rem;
-  color: #1d4ed8;
+  color: var(--theme-fsqr-retention-preview-strong);
 }
 
 .retention-preview-time {
-  font-size: 0.95rem;
+  font-size: var(--font-size-retention-preview-time);
   font-weight: 600;
 }
 
 .usage-section {
   background: var(--glossy-panel-background);
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--theme-fsqr-glass-border);
+  box-shadow: var(--theme-fsqr-glass-shadow);
+  backdrop-filter: blur(var(--theme-fsqr-glass-blur));
+  -webkit-backdrop-filter: blur(var(--theme-fsqr-glass-blur));
 }
 
 .usage-section-header {
   background: var(--glossy-page-background);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: var(--theme-fsqr-glass-inset-shadow);
 }
 
 .usage-section-header::before {
@@ -235,14 +226,14 @@ footer {
 }
 
 .spinner-container {
-  background: rgba(6, 10, 20, 0.36);
+  background: var(--theme-fsqr-spinner-overlay);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
 
 .spinner-second-container {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(239, 246, 255, 0.9) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  background: var(--theme-fsqr-spinner-panel-background);
+  border: 1px solid var(--theme-fsqr-spinner-panel-border);
+  box-shadow: var(--theme-fsqr-spinner-panel-shadow);
 }
 </style>

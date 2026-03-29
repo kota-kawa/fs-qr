@@ -7,9 +7,149 @@
   --text-dark: #1f2937;
   --text-medium: #6b7280;
   --text-light: #9ca3af;
+  --text-slate: #334155;
+  --text-subtle: #64748b;
   --bg-light: #f8fafc;
   --bg-white: #ffffff;
   --border-light: #e5e7eb;
+  --surface-page-gradient: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+  --status-success-bg: rgba(236, 253, 245, 0.92);
+  --status-success-text: #047857;
+  --status-error-bg: rgba(254, 242, 242, 0.92);
+  --status-error-text: #b91c1c;
+  --status-error-border-soft: rgba(239, 68, 68, 0.22);
+  --table-border-soft: rgba(148, 163, 184, 0.24);
+  --table-header-bg: rgba(241, 245, 249, 0.88);
+  --table-header-width: 9rem;
+  --table-header-width-mobile: 7.2rem;
+  --room-page-max-width: 920px;
+  --room-content-max-width: 640px;
+  --room-content-max-width-compact: 520px;
+  --size-spinner-container: 200px;
+  --size-spinner-icon: 150px;
+  --size-spinner-text: 20px;
+  --size-spinner-progress-height: 10px;
+  --size-spinner-progress-radius: 5px;
+  --size-secondary-action-icon: 1.05rem;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --size-action-button: 2.5rem;
+  --size-action-icon: 1.25rem;
+  --size-inline-action-button: 1.75rem;
+  --size-inline-action-icon: 0.95rem;
+  --font-size-room-url: 0.82rem;
+  --font-size-retention-preview-time: 0.95rem;
+  --theme-fsqr-start: #23c3df;
+  --theme-fsqr-end: #1f27c7;
+  --theme-fsqr-mid: #3b82f6;
+  --theme-fsqr-light: #7dd3fc;
+  --theme-fsqr-sheet: #b9f1ff;
+  --theme-fsqr-accent: var(--theme-fsqr-end);
+  --theme-fsqr-gradient: linear-gradient(135deg, var(--theme-fsqr-start) 0%, var(--theme-fsqr-end) 100%);
+  --theme-fsqr-gradient-reverse: linear-gradient(135deg, var(--theme-fsqr-end) 0%, var(--theme-fsqr-start) 100%);
+  --theme-fsqr-copy-copied-gradient: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  --theme-fsqr-copy-shadow: rgba(31, 39, 199, 0.5);
+  --theme-fsqr-secondary-border: rgba(31, 39, 199, 0.18);
+  --theme-fsqr-priority-bg: rgba(239, 246, 255, 0.92);
+  --theme-fsqr-priority-border: rgba(37, 99, 235, 0.16);
+  --theme-fsqr-priority-text: #1d4ed8;
+  --theme-fsqr-card-surface: rgba(255, 255, 255, 0.95);
+  --theme-fsqr-card-border: rgba(255, 255, 255, 0.2);
+  --theme-fsqr-card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.3);
+  --theme-fsqr-card-shadow-hover: 0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.06);
+  --theme-fsqr-card-title-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --theme-fsqr-card-blur: 20px;
+  --theme-fsqr-usage-border: rgba(37, 99, 235, 0.2);
+  --theme-fsqr-usage-content-bg: linear-gradient(160deg, rgba(239, 246, 255, 0.78) 0%, rgba(255, 255, 255, 0.94) 100%);
+  --theme-fsqr-upload-border: rgba(35, 195, 223, 0.5);
+  --theme-fsqr-upload-background: linear-gradient(155deg, rgba(255, 255, 255, 0.78) 0%, rgba(239, 246, 255, 0.9) 100%);
+  --theme-fsqr-upload-background-hover: linear-gradient(155deg, rgba(255, 255, 255, 0.88) 0%, rgba(219, 234, 254, 0.94) 100%);
+  --theme-fsqr-upload-surface-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68), 0 12px 24px rgba(15, 23, 42, 0.08);
+  --theme-fsqr-upload-surface-shadow-hover: 0 16px 30px rgba(31, 39, 199, 0.16);
+  --theme-fsqr-upload-icon: var(--theme-fsqr-start);
+  --theme-fsqr-upload-focus-ring: rgba(35, 195, 223, 0.1);
+  --theme-fsqr-file-item-hover-bg: rgba(35, 195, 223, 0.05);
+  --theme-fsqr-file-list-background: linear-gradient(155deg, rgba(255, 255, 255, 0.78) 0%, rgba(239, 246, 255, 0.9) 100%);
+  --theme-fsqr-file-list-border: rgba(255, 255, 255, 0.72);
+  --theme-fsqr-file-list-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 12px 24px rgba(15, 23, 42, 0.08);
+  --theme-fsqr-file-item-background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.88) 100%);
+  --theme-fsqr-file-item-border: rgba(226, 232, 240, 0.9);
+  --theme-fsqr-file-item-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+  --theme-fsqr-form-group-background: linear-gradient(155deg, rgba(255, 255, 255, 0.72) 0%, rgba(249, 250, 251, 0.9) 100%);
+  --theme-fsqr-form-group-border: rgba(255, 255, 255, 0.75);
+  --theme-fsqr-form-group-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 10px 22px rgba(15, 23, 42, 0.06);
+  --theme-fsqr-retention-preview-bg: rgba(239, 246, 255, 0.92);
+  --theme-fsqr-retention-preview-border: rgba(35, 195, 223, 0.2);
+  --theme-fsqr-retention-preview-text: #1e3a8a;
+  --theme-fsqr-retention-preview-strong: #1d4ed8;
+  --theme-fsqr-glossy-gradient: linear-gradient(135deg, var(--theme-fsqr-start) 0%, var(--theme-fsqr-end) 58%, var(--theme-fsqr-light) 100%);
+  --theme-fsqr-glossy-page-background:
+    radial-gradient(circle at top left, rgba(125, 211, 252, 0.38) 0%, rgba(125, 211, 252, 0) 34%),
+    radial-gradient(circle at 82% 18%, rgba(35, 195, 223, 0.24) 0%, rgba(35, 195, 223, 0) 30%),
+    linear-gradient(145deg, var(--theme-fsqr-sheet) 0%, var(--theme-fsqr-start) 20%, var(--theme-fsqr-mid) 58%, var(--theme-fsqr-end) 100%);
+  --theme-fsqr-glossy-panel-background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%),
+    radial-gradient(circle at top left, rgba(191, 219, 254, 0.42) 0%, rgba(191, 219, 254, 0) 38%),
+    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.3) 0%, rgba(56, 189, 248, 0) 32%),
+    linear-gradient(145deg, rgba(186, 230, 253, 0.82) 0%, rgba(35, 195, 223, 0.76) 22%, rgba(59, 130, 246, 0.8) 60%, rgba(31, 39, 199, 0.82) 100%);
+  --theme-fsqr-glossy-shadow: rgba(31, 39, 199, 0.24);
+  --theme-fsqr-glossy-shadow-strong: rgba(31, 39, 199, 0.34);
+  --theme-fsqr-overlay-highlight:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 50% -8%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 42%);
+  --theme-fsqr-glass-border: rgba(255, 255, 255, 0.32);
+  --theme-fsqr-glass-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
+  --theme-fsqr-glass-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  --theme-fsqr-glass-title-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  --theme-fsqr-glass-blur: 14px;
+  --theme-fsqr-spinner-overlay: rgba(6, 10, 20, 0.36);
+  --theme-fsqr-spinner-panel-background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(239, 246, 255, 0.9) 100%);
+  --theme-fsqr-spinner-panel-border: rgba(255, 255, 255, 0.72);
+  --theme-fsqr-spinner-panel-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  --theme-group-start: #166534;
+  --theme-group-end: #22c55e;
+  --theme-group-accent: var(--theme-group-end);
+  --theme-group-gradient: linear-gradient(135deg, var(--theme-group-start) 0%, var(--theme-group-end) 100%);
+  --theme-group-copy-copied-gradient: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+  --theme-group-shadow-soft: rgba(22, 101, 52, 0.5);
+  --theme-group-inline-hover-bg: rgba(34, 197, 94, 0.1);
+  --theme-group-file-item-hover-bg: rgba(34, 197, 94, 0.05);
+  --theme-group-inline-copied: #16a34a;
+  --theme-group-upload-bg: linear-gradient(135deg, rgba(22, 101, 52, 0.02) 0%, rgba(34, 197, 94, 0.05) 100%);
+  --theme-group-upload-bg-hover: linear-gradient(135deg, rgba(22, 101, 52, 0.05) 0%, rgba(34, 197, 94, 0.1) 100%);
+  --theme-group-upload-shadow: 0 8px 25px rgba(22, 101, 52, 0.15);
+  --theme-group-button-shadow: 0 4px 12px rgba(22, 101, 52, 0.3);
+  --theme-group-button-shadow-hover: 0 6px 20px rgba(22, 101, 52, 0.4);
+  --theme-group-upload-status-error: #dc2626;
+  --theme-note-start: #84cc16;
+  --theme-note-end: #a3e635;
+  --theme-note-accent: var(--theme-note-end);
+  --theme-note-gradient: linear-gradient(135deg, var(--theme-note-start) 0%, var(--theme-note-end) 100%);
+  --theme-note-copy-copied-gradient: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+  --theme-note-shadow-soft: rgba(132, 204, 22, 0.5);
+  --theme-note-inline-hover-color: #4d7c0f;
+  --theme-note-inline-hover-bg: rgba(132, 204, 22, 0.1);
+  --theme-note-inline-copied: #16a34a;
+  --theme-note-focus-ring: rgba(132, 204, 22, 0.1);
+  --theme-note-char-count-bg: rgba(132, 204, 22, 0.12);
+  --theme-note-char-count-text: #3f6212;
+  --theme-note-action-border: rgba(132, 204, 22, 0.35);
+  --theme-note-action-background: linear-gradient(135deg, rgba(132, 204, 22, 0.14) 0%, rgba(163, 230, 53, 0.24) 100%);
+  --theme-note-action-background-hover: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, rgba(163, 230, 53, 0.34) 100%);
+  --theme-note-action-shadow: 0 8px 16px -10px rgba(77, 124, 15, 0.55);
+  --spinner-overlay-light: rgba(255, 255, 255, 0.8);
+  --spinner-lock-color: #e74c3c;
+  --spinner-file-color: #3498db;
+  --spinner-text-gradient: linear-gradient(90deg, #e74c3c, #3498db, #f1c40f, #9b59b6);
+  --spinner-progress-track: #ccc;
+  --spinner-progress-fill: #3498db;
+  --retention-citrus-arrow-gradient: linear-gradient(135deg, #84cc16, #65a30d);
+  --retention-citrus-arrow-shadow: 0 12px 26px -14px rgba(101, 163, 13, 0.6);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -67,7 +207,7 @@
 /* Enhanced page wrapper for info pages */
 .info-page {
   min-height: calc(100vh - 200px);
-  background: linear-gradient(135deg, var(--bg-light) 0%, rgba(248, 250, 252, 0.8) 100%);
+  background: var(--surface-page-gradient);
   padding: 2rem 1rem;
 }
 
@@ -156,7 +296,7 @@
 
 .retention-select option {
   font-weight: 500;
-  color: #1f2937;
+  color: var(--text-dark);
 }
 
 .retention-select-wrapper.is-enhanced .retention-select {
@@ -320,7 +460,7 @@
 .retention-select-hint {
   display: block;
   margin-top: 0.6rem;
-  color: #64748b;
+  color: var(--text-subtle);
   font-size: 0.85rem;
   letter-spacing: 0.01em;
 }
@@ -381,8 +521,8 @@
 }
 
 .retention-select-wrapper--citrus .retention-select-arrow {
-  background: linear-gradient(135deg, #84cc16, #65a30d);
-  box-shadow: 0 12px 26px -14px rgba(101, 163, 13, 0.6);
+  background: var(--retention-citrus-arrow-gradient);
+  box-shadow: var(--retention-citrus-arrow-shadow);
 }
 
 @media (max-width: 575.98px) {

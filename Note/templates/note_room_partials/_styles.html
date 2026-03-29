@@ -1,44 +1,44 @@
 <style>
 /* Override colors for Note room to match create/search pages */
 .modern-card-header {
-  --modern-card-header-gradient: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-  --modern-card-header-accent: rgb(163, 230, 53);
+  --modern-card-header-gradient: var(--theme-note-gradient);
+  --modern-card-header-accent: var(--theme-note-accent);
 }
 
 .room-info-card {
-  --room-info-header-gradient: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
+  --room-info-header-gradient: var(--theme-note-gradient);
 }
 
 .usage-section {
-  --usage-header-gradient: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-  --usage-header-accent: rgb(163, 230, 53);
+  --usage-header-gradient: var(--theme-note-gradient);
+  --usage-header-accent: var(--theme-note-accent);
 }
 
 .copy-url-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: var(--size-action-button);
+  height: var(--size-action-button);
   padding: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border: none;
-  background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
-  color: #fff;
+  background: var(--theme-note-gradient);
+  color: var(--bg-white);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .copy-url-button svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: var(--size-action-icon);
+  height: var(--size-action-icon);
   flex: none;
 }
 
 .copy-url-button:hover,
 .copy-url-button:focus-visible {
   transform: translateY(-1px);
-  box-shadow: 0 10px 15px -8px rgba(132, 204, 22, 0.5);
+  box-shadow: 0 10px 15px -8px var(--theme-note-shadow-soft);
 }
 
 .copy-url-button:active {
@@ -46,7 +46,7 @@
 }
 
 .copy-url-button.copied {
-  background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+  background: var(--theme-note-copy-copied-gradient);
 }
 
 
@@ -61,44 +61,44 @@
 .room-info-value-text {
   font-weight: 600;
   word-break: break-all;
-  color: var(--text-dark, #1f2937);
+  color: var(--text-dark);
 }
 
 .room-info-value-row .copy-inline-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--size-inline-action-button);
+  height: var(--size-inline-action-button);
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: #9ca3af;
+  color: var(--text-light);
   cursor: pointer;
   flex-shrink: 0;
   transition: color 0.15s, background 0.15s;
 }
 
 .room-info-value-row .copy-inline-btn:hover {
-  color: #4d7c0f;
-  background: rgba(132, 204, 22, 0.1);
+  color: var(--theme-note-inline-hover-color);
+  background: var(--theme-note-inline-hover-bg);
 }
 
 .room-info-value-row .copy-inline-btn.copied {
-  color: #16a34a;
+  color: var(--theme-note-inline-copied);
 }
 
 .room-info-value-row .copy-inline-btn svg {
-  width: 0.95rem;
-  height: 0.95rem;
+  width: var(--size-inline-action-icon);
+  height: var(--size-inline-action-icon);
 }
 
 .room-info-url-text {
   font-weight: 600;
   word-break: break-all;
-  color: var(--text-dark, #1f2937);
-  font-size: 0.82rem;
+  color: var(--text-dark);
+  font-size: var(--font-size-room-url);
   line-height: 1.4;
 }
 
@@ -107,7 +107,7 @@
   display: none;
   margin-bottom: 1rem;
   padding: 0.85rem 1rem;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   font-weight: 600;
 }
 
@@ -116,27 +116,27 @@
 }
 
 .share-feedback.is-success {
-  background: rgba(236, 253, 245, 0.92);
-  color: #047857;
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
 }
 
 .share-feedback.is-error {
-  background: rgba(254, 242, 242, 0.92);
-  color: #b91c1c;
+  background: var(--status-error-bg);
+  color: var(--status-error-text);
 }
 
 /* Editor and form colors to match Note theme */
 .modern-editor {
-  border-color: rgb(132, 204, 22);
+  border-color: var(--theme-note-start);
 }
 
 .modern-editor:focus {
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+  box-shadow: 0 0 0 3px var(--theme-note-focus-ring);
 }
 
 .modern-form-input:focus {
-  border-color: rgb(132, 204, 22);
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+  border-color: var(--theme-note-start);
+  box-shadow: 0 0 0 3px var(--theme-note-focus-ring);
 }
 
 /* Keep the page background continuous from header to footer on note room page */
@@ -175,9 +175,9 @@ footer.simple-footer {
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(132, 204, 22, 0.12);
-  color: #3f6212;
+  border-radius: var(--radius-pill);
+  background: var(--theme-note-char-count-bg);
+  color: var(--theme-note-char-count-text);
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -192,11 +192,11 @@ footer.simple-footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(132, 204, 22, 0.35);
-  border-radius: 10px;
+  border: 1px solid var(--theme-note-action-border);
+  border-radius: var(--radius-md);
   padding: 0.45rem 0.85rem;
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.14) 0%, rgba(163, 230, 53, 0.24) 100%);
-  color: #3f6212;
+  background: var(--theme-note-action-background);
+  color: var(--theme-note-char-count-text);
   font-size: 0.88rem;
   font-weight: 700;
   line-height: 1;
@@ -207,8 +207,8 @@ footer.simple-footer {
 .note-action-button:hover,
 .note-action-button:focus-visible {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px -10px rgba(77, 124, 15, 0.55);
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, rgba(163, 230, 53, 0.34) 100%);
+  box-shadow: var(--theme-note-action-shadow);
+  background: var(--theme-note-action-background-hover);
 }
 
 .note-action-button:active {
