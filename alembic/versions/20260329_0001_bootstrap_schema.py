@@ -33,7 +33,7 @@ def upgrade() -> None:
             INDEX idx_fsqr_id_password (id, password),
             INDEX idx_fsqr_secure_id (secure_id),
             INDEX idx_fsqr_time (time)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         """
     )
     op.execute(
@@ -49,7 +49,7 @@ def upgrade() -> None:
             INDEX idx_room_id_password (id, password),
             INDEX idx_room_room_id (room_id),
             INDEX idx_room_time (time)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         """
     )
     op.execute(

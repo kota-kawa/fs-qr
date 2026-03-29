@@ -9,7 +9,6 @@ from cache_utils import cache_data
 logger = logging.getLogger(__name__)
 
 
-
 # note_app.py などから使用するエイリアス関数
 _exec = execute_query
 

@@ -12,7 +12,7 @@ CREATE TABLE fsqr (
     INDEX idx_fsqr_id_password (id, password),
     INDEX idx_fsqr_secure_id (secure_id),
     INDEX idx_fsqr_time (time)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE room (
     suji INT AUTO_INCREMENT PRIMARY KEY,  -- 自動増分の主キー
@@ -25,7 +25,7 @@ CREATE TABLE room (
     INDEX idx_room_id_password (id, password),
     INDEX idx_room_room_id (room_id),
     INDEX idx_room_time (time)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- =======================

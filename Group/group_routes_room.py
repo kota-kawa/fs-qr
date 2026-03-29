@@ -114,7 +114,9 @@ def register_group_create_room_route(router: APIRouter):
         if raw_retention is None:
             raw_retention = json_data.get("retention_days", 7)
 
-        inp = RoomCreateInput(id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention)
+        inp = RoomCreateInput(
+            id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
+        )
         retention_days = inp.retention_days
 
         try:

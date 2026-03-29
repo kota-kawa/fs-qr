@@ -2,6 +2,7 @@
 共通入力バリデーションモデル。
 各モジュールのルートハンドラからインポートして使用する。
 """
+
 from __future__ import annotations
 
 import re
@@ -29,7 +30,9 @@ class RoomSearchInput(BaseModel):
     def validate_room_id(cls, v: str) -> str:
         v = v.strip()
         if not _ALNUM_RE.match(v):
-            raise ValueError("IDに無効な文字が含まれています。半角英数字のみ使用してください。")
+            raise ValueError(
+                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
+            )
         return v
 
     @field_validator("password")
@@ -72,7 +75,9 @@ class RoomCreateInput(BaseModel):
         if not v:
             raise ValueError("IDが指定されていません。")
         if not _ALNUM_RE.match(v):
-            raise ValueError("IDに無効な文字が含まれています。半角英数字のみ使用してください。")
+            raise ValueError(
+                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
+            )
         if len(v) != 6:
             raise ValueError("IDは6文字の半角英数字で入力してください。")
         return v
@@ -106,7 +111,9 @@ class FsqrUploadInput(BaseModel):
         """name が指定された場合の 6文字英数字チェック。エラー時は ValueError を送出。"""
         v = self.name
         if not _ALNUM_RE.match(v):
-            raise ValueError("IDに無効な文字が含まれています。半角英数字のみ使用してください。")
+            raise ValueError(
+                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
+            )
         if len(v) != 6:
             raise ValueError("IDは6文字の半角英数字で入力してください。")
         return v

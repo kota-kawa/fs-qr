@@ -17,7 +17,6 @@ QR = os.path.join(BASE_DIR, "static/qrcode")
 STATIC = os.path.join(BASE_DIR, "static/upload")
 
 
-
 # グループの部屋の作成
 async def create_room(id, password, room_id, retention_days=7):
     query = text("""

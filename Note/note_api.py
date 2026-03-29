@@ -57,7 +57,9 @@ async def note_sync(request: Request, room_id: str, password: str):
         except Exception:
             data = {}
         try:
-            sync_in = NoteSyncInput.model_validate(data if isinstance(data, dict) else {})
+            sync_in = NoteSyncInput.model_validate(
+                data if isinstance(data, dict) else {}
+            )
         except ValidationError:
             return JSONResponse({"error": "Invalid request body"}, status_code=400)
         client_content = sync_in.content
