@@ -34,15 +34,8 @@
   }
 
   function getCsrfToken() {
-    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  }
-
-  function setupAjaxCsrf(csrfToken) {
-    $.ajaxSetup({
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-      }
-    });
+    var csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    return csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
   }
 
   function createUploadIconController(icons) {
@@ -53,6 +46,43 @@
           uploadIconElement.innerHTML = icons[name];
         }
       }
+    };
+  }
+
+  function showElement(element) {
+    if (!element) {
+      return;
+    }
+    element.style.removeProperty('display');
+  }
+
+  function hideElement(element) {
+    if (!element) {
+      return;
+    }
+    element.style.display = 'none';
+  }
+
+  function setElementText(element, text) {
+    if (!element) {
+      return;
+    }
+    element.textContent = text;
+  }
+
+  function setProgressScale(progressBar, scale) {
+    if (!progressBar) {
+      return;
+    }
+    progressBar.style.transform = `scaleX(${scale})`;
+  }
+
+  function getDownloadProgressElements() {
+    return {
+      spinnerContainer: document.getElementById('downloadSpinnerContainer'),
+      animationContainer: document.getElementById('downloadAnimationContainer'),
+      statusText: document.getElementById('downloadStatusText'),
+      progressBar: document.getElementById('downloadProgressBar')
     };
   }
 
@@ -67,31 +97,42 @@
   }
 
   function showDownloadProgress(statusText) {
-    $('#downloadSpinnerContainer').show();
-    $('#downloadAnimationContainer').addClass('downloading');
-    $('#downloadStatusText').text(statusText);
-    $('#downloadProgressBar').css('transform', 'scaleX(0)');
+    var elements = getDownloadProgressElements();
+    showElement(elements.spinnerContainer);
+    if (elements.animationContainer) {
+      elements.animationContainer.classList.add('downloading');
+    }
+    setElementText(elements.statusText, statusText);
+    setProgressScale(elements.progressBar, 0);
   }
 
   function hideDownloadProgress() {
-    $('#downloadSpinnerContainer').hide();
-    $('#downloadAnimationContainer').removeClass('downloading');
+    var elements = getDownloadProgressElements();
+    hideElement(elements.spinnerContainer);
+    if (elements.animationContainer) {
+      elements.animationContainer.classList.remove('downloading');
+    }
   }
 
   function setDownloadProgressScale(scale) {
-    $('#downloadProgressBar').css('transform', `scaleX(${scale})`);
+    var elements = getDownloadProgressElements();
+    setProgressScale(elements.progressBar, scale);
   }
 
   function setDownloadStatusText(text) {
-    $('#downloadStatusText').text(text);
+    var elements = getDownloadProgressElements();
+    setElementText(elements.statusText, text);
   }
 
   modules.core = {
     getGroupRoomConfig: getGroupRoomConfig,
     createLogger: createLogger,
     getCsrfToken: getCsrfToken,
-    setupAjaxCsrf: setupAjaxCsrf,
     createUploadIconController: createUploadIconController,
+    showElement: showElement,
+    hideElement: hideElement,
+    setElementText: setElementText,
+    setProgressScale: setProgressScale,
     triggerBlobDownload: triggerBlobDownload,
     showDownloadProgress: showDownloadProgress,
     hideDownloadProgress: hideDownloadProgress,

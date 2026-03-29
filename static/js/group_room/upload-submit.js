@@ -9,8 +9,24 @@
     var roomId = options.roomId;
     var roomPassword = options.roomPassword;
     var csrfToken = options.csrfToken;
+    var core = options.core;
     var getFiles = options.getFiles;
     var clearFiles = options.clearFiles;
+    var uploadProgressContainer = document.getElementById('uploadProgressContainer');
+    var uploadProgressBar = document.getElementById('uploadProgressBar');
+    var uploadProgressText = document.getElementById('uploadProgressText');
+
+    function showStatusMessage(message, isError) {
+      uploadStatusMessage.textContent = message;
+      uploadStatusMessage.classList.toggle('is-error', Boolean(isError));
+      uploadStatusMessage.style.display = 'block';
+    }
+
+    function resetStatusMessage() {
+      uploadStatusMessage.classList.remove('is-error');
+      uploadStatusMessage.style.display = 'none';
+      uploadStatusMessage.textContent = '';
+    }
 
     function validateFiles(filesArray) {
       if (filesArray.length === 0) {
@@ -49,35 +65,42 @@
     }
 
     function showUploadProgressStart() {
-      $('#uploadProgressContainer').show();
-      $('#uploadProgressBar').css('transform', 'scaleX(0)');
-      $('#uploadProgressText').text('アップロード中...');
-      uploadStatusMessage.removeClass('is-error').hide().text('');
-      uploadBtn.prop('disabled', true).text('アップロード中...');
+      core.showElement(uploadProgressContainer);
+      core.setProgressScale(uploadProgressBar, 0);
+      core.setElementText(uploadProgressText, 'アップロード中...');
+      resetStatusMessage();
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = 'アップロード中...';
     }
 
     function showUploadError(xhr) {
-      $('#uploadProgressContainer').hide();
-      uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+      core.hideElement(uploadProgressContainer);
+      uploadBtn.disabled = false;
+      uploadBtn.innerHTML = uploadButtonLabel;
 
       var errorMessage = 'アップロード中にエラーが発生しました。';
-      if (xhr.responseJSON && xhr.responseJSON.error) {
-        errorMessage = xhr.responseJSON.error;
+      if (xhr && xhr.responseText) {
+        try {
+          var responseJson = JSON.parse(xhr.responseText);
+          if (responseJson.error) {
+            errorMessage = responseJson.error;
+          }
+        } catch (error) {
+          // Keep default message when JSON parsing fails.
+        }
       }
 
-      uploadStatusMessage
-        .addClass('is-error')
-        .text(errorMessage)
-        .fadeIn();
+      showStatusMessage(errorMessage, true);
     }
 
     function handleUploadResponse(response) {
-      $('#uploadProgressBar').css('transform', 'scaleX(1)');
-      $('#uploadProgressText').text('アップロード完了！');
+      core.setProgressScale(uploadProgressBar, 1);
+      core.setElementText(uploadProgressText, 'アップロード完了！');
 
       setTimeout(function () {
-        $('#uploadProgressContainer').hide();
-        uploadBtn.prop('disabled', false).html(uploadButtonLabel);
+        core.hideElement(uploadProgressContainer);
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = uploadButtonLabel;
 
         var statusMessage = '';
         var isError = false;
@@ -97,10 +120,7 @@
         }
 
         if (statusMessage) {
-          uploadStatusMessage
-            .toggleClass('is-error', isError)
-            .text(statusMessage)
-            .fadeIn();
+          showStatusMessage(statusMessage, isError);
         }
       }, 1000);
     }
@@ -114,32 +134,43 @@
       var formData = buildUploadFormData(filesArray);
       showUploadProgressStart();
 
-      $.ajax({
-        url: `/group_upload/${roomId}/${roomPassword}`,
-        type: 'POST',
-        headers: { 'X-CSRF-Token': csrfToken },
-        data: formData,
-        processData: false,
-        contentType: false,
-        xhr: function () {
-          var xhr = new window.XMLHttpRequest();
-          xhr.upload.addEventListener('progress', function (evt) {
-            if (evt.lengthComputable) {
-              var percentComplete = evt.loaded / evt.total;
-              $('#uploadProgressBar').css('transform', `scaleX(${percentComplete})`);
-              $('#uploadProgressText').text(`アップロード中... ${Math.round(percentComplete * 100)}%`);
-            }
-          }, false);
-          return xhr;
-        },
-        success: handleUploadResponse,
-        error: showUploadError
-      });
+      var xhr = new window.XMLHttpRequest();
+      xhr.open('POST', `/group_upload/${roomId}/${roomPassword}`, true);
+      if (csrfToken) {
+        xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+      }
+
+      xhr.upload.addEventListener('progress', function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = evt.loaded / evt.total;
+          core.setProgressScale(uploadProgressBar, percentComplete);
+          core.setElementText(uploadProgressText, `アップロード中... ${Math.round(percentComplete * 100)}%`);
+        }
+      }, false);
+
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            var response = JSON.parse(xhr.responseText);
+            handleUploadResponse(response);
+          } catch (error) {
+            showUploadError(xhr);
+          }
+          return;
+        }
+        showUploadError(xhr);
+      };
+
+      xhr.onerror = function () {
+        showUploadError(xhr);
+      };
+
+      xhr.send(formData);
     }
 
     return {
       bindUpload: function () {
-        uploadBtn.on('click', uploadFiles);
+        uploadBtn.addEventListener('click', uploadFiles);
       }
     };
   }

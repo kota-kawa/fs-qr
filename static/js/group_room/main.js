@@ -6,24 +6,30 @@
   var logger = core.createLogger(Boolean(config.debug));
   var csrfToken = core.getCsrfToken();
 
-  core.setupAjaxCsrf(csrfToken);
+  function initializeGroupRoom() {
+    var uploadArea = document.getElementById('upload-area');
+    var fileInput = document.getElementById('fileInput');
+    var fileList = document.getElementById('fileList');
+    var otherFileList = document.getElementById('otherFileList');
+    var uploadBtn = document.getElementById('uploadBtn');
+    var downloadAllBtn = document.getElementById('downloadAllBtn');
+    var uploadStatusMessage = document.getElementById('uploadStatusMessage');
 
-  $(document).ready(function () {
-    var uploadArea = $('#upload-area');
-    var fileInput = $('#fileInput');
-    var fileList = $('#fileList');
-    var otherFileList = $('#otherFileList');
-    var uploadBtn = $('#uploadBtn');
-    var downloadAllBtn = $('#downloadAllBtn');
-    var uploadStatusMessage = $('#uploadStatusMessage');
+    if (
+      !uploadArea || !fileInput || !fileList || !otherFileList ||
+      !uploadBtn || !downloadAllBtn || !uploadStatusMessage
+    ) {
+      logger.warn('Group room初期化に必要な要素が見つかりませんでした。');
+      return;
+    }
 
     var roomId = config.roomId;
     var roomPassword = config.roomPassword;
-    var icons = config.icons;
-    var uploadButtonLabel = `${icons.rocket} アップロード`;
+    var icons = config.icons || {};
+    var uploadButtonLabel = `${icons.rocket || ''} アップロード`;
     var uploadIconController = core.createUploadIconController(icons);
 
-    uploadBtn.html(uploadButtonLabel);
+    uploadBtn.innerHTML = uploadButtonLabel;
 
     var downloadHandlers = modules.downloads.createDownloadHandlers({
       roomId: roomId,
@@ -57,6 +63,7 @@
       roomId: roomId,
       roomPassword: roomPassword,
       csrfToken: csrfToken,
+      core: core,
       getFiles: uploadQueue.getFiles,
       clearFiles: uploadQueue.clearFiles
     });
@@ -67,5 +74,11 @@
     uploadQueue.bindFileSelection();
     uploadSubmitter.bindUpload();
     downloadHandlers.bindDownloadAll();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGroupRoom);
+  } else {
+    initializeGroupRoom();
+  }
 })(window);

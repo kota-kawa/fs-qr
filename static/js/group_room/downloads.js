@@ -20,7 +20,7 @@
       }
 
       isDownloading[downloadKey] = true;
-      downloadBtn.prop('disabled', true);
+      downloadBtn.disabled = true;
       core.showDownloadProgress(`${file.name} をダウンロード中...`);
 
       var xhr = new XMLHttpRequest();
@@ -47,14 +47,14 @@
           core.hideDownloadProgress();
         }
         isDownloading[downloadKey] = false;
-        downloadBtn.prop('disabled', false);
+        downloadBtn.disabled = false;
       };
 
       xhr.onerror = function () {
         alert('ダウンロード中にエラーが発生しました。');
         core.hideDownloadProgress();
         isDownloading[downloadKey] = false;
-        downloadBtn.prop('disabled', false);
+        downloadBtn.disabled = false;
       };
 
       xhr.send();
@@ -66,7 +66,7 @@
       }
 
       isDownloadingAll = true;
-      downloadAllBtn.prop('disabled', true);
+      downloadAllBtn.disabled = true;
       core.showDownloadProgress('全ファイルをダウンロード中...');
 
       var xhr = new XMLHttpRequest();
@@ -94,14 +94,14 @@
         }
 
         isDownloadingAll = false;
-        downloadAllBtn.prop('disabled', false);
+        downloadAllBtn.disabled = false;
       };
 
       xhr.onerror = function () {
         alert('ダウンロード中にエラーが発生しました。');
         core.hideDownloadProgress();
         isDownloadingAll = false;
-        downloadAllBtn.prop('disabled', false);
+        downloadAllBtn.disabled = false;
       };
 
       xhr.send();
@@ -110,7 +110,7 @@
     return {
       downloadSingleFile: downloadSingleFile,
       bindDownloadAll: function () {
-        downloadAllBtn.on('click', downloadAllFiles);
+        downloadAllBtn.addEventListener('click', downloadAllFiles);
       }
     };
   }

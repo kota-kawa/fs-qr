@@ -8,8 +8,53 @@
     var fileList = options.fileList;
     var icons = options.icons;
     var setUploadIcon = options.setUploadIcon;
+    var filePickerButton = document.getElementById('uploadFileBtn');
 
     var filesArray = [];
+
+    function renderFileList() {
+      fileList.innerHTML = '';
+      if (filesArray.length === 0) {
+        fileList.style.display = 'none';
+        setUploadIcon('cloud');
+        return;
+      }
+
+      fileList.style.display = 'block';
+      filesArray.forEach(function (file, index) {
+        var fileItem = document.createElement('div');
+        fileItem.className = 'modern-file-item';
+
+        var fileName = document.createElement('div');
+        fileName.className = 'modern-file-name';
+        fileName.innerHTML = `${icons.file}<span class="modern-file-name-text"></span>`;
+        var fileNameText = fileName.querySelector('.modern-file-name-text');
+        if (fileNameText) {
+          fileNameText.textContent = file.name;
+        }
+
+        var actions = document.createElement('div');
+        actions.className = 'modern-file-actions';
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'modern-file-action-btn delete';
+        deleteBtn.type = 'button';
+        deleteBtn.innerHTML = icons.trash;
+        deleteBtn.setAttribute('aria-label', '削除');
+        deleteBtn.setAttribute('title', '削除');
+        deleteBtn.addEventListener('click', function () {
+          filesArray.splice(index, 1);
+          renderFileList();
+        });
+
+        actions.appendChild(deleteBtn);
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(actions);
+        fileList.appendChild(fileItem);
+      });
+
+      setUploadIcon('check');
+    }
 
     function handleFiles(files) {
       var MAX_FILES = 10;
@@ -38,75 +83,49 @@
         return;
       }
 
-      fileList.show();
-
       for (var index = 0; index < files.length; index += 1) {
         filesArray.push(files[index]);
-        var fileItem = $('<div class="modern-file-item"></div>');
-        var fileName = $('<div class="modern-file-name"></div>');
-        var fileNameText = $('<span class="modern-file-name-text"></span>').text(files[index].name);
-        fileName.html(icons.file).append(fileNameText);
-
-        var actions = $('<div class="modern-file-actions"></div>');
-        var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
-          .html(icons.trash)
-          .attr('aria-label', '削除')
-          .attr('title', '削除');
-
-        deleteBtn.on('click', (function (deleteIndex) {
-          return function () {
-            filesArray.splice(deleteIndex, 1);
-            $(this).closest('.modern-file-item').remove();
-            if (filesArray.length === 0) {
-              fileList.hide();
-              setUploadIcon('cloud');
-            }
-          };
-        })(filesArray.length - 1));
-
-        actions.append(deleteBtn);
-        fileItem.append(fileName).append(actions);
-        fileList.append(fileItem);
       }
-
-      setUploadIcon('check');
+      renderFileList();
     }
 
     function bindFileSelection() {
-      uploadArea.on('dragover', function (e) {
+      uploadArea.addEventListener('dragover', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        uploadArea.addClass('dragover');
+        uploadArea.classList.add('dragover');
       });
 
-      uploadArea.on('dragleave', function (e) {
+      uploadArea.addEventListener('dragleave', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        uploadArea.removeClass('dragover');
+        uploadArea.classList.remove('dragover');
       });
 
-      uploadArea.on('drop', function (e) {
+      uploadArea.addEventListener('drop', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        uploadArea.removeClass('dragover');
-        var files = e.originalEvent.dataTransfer.files;
+        uploadArea.classList.remove('dragover');
+        var files = e.dataTransfer.files;
         handleFiles(files);
       });
 
-      uploadArea.on('click', function (e) {
+      uploadArea.addEventListener('click', function (e) {
         if (e.target.tagName !== 'BUTTON') {
-          fileInput[0].click();
+          fileInput.click();
         }
       });
 
-      $('#uploadFileBtn').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        fileInput[0].click();
-      });
+      if (filePickerButton) {
+        filePickerButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          fileInput.click();
+        });
+      }
 
-      fileInput.on('change', function () {
-        var files = fileInput[0].files;
+      fileInput.addEventListener('change', function () {
+        var files = fileInput.files;
         handleFiles(files);
       });
     }
@@ -117,8 +136,7 @@
 
     function clearFiles() {
       filesArray = [];
-      fileList.empty().hide();
-      setUploadIcon('cloud');
+      renderFileList();
     }
 
     return {

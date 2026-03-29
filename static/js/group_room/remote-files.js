@@ -21,6 +21,19 @@
     var shouldRefetchFileList = false;
     var lastRenderedFileSignature = null;
 
+    function setFileCount(count) {
+      var fileCountElement = document.getElementById('fileCount');
+      if (fileCountElement) {
+        fileCountElement.textContent = String(count);
+      }
+    }
+
+    function clearChildren(element) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+    }
+
     function buildFileSignature(files) {
       return JSON.stringify(
         files
@@ -30,60 +43,86 @@
     }
 
     function renderOtherFileList(files) {
-      otherFileList.empty();
-      $('#fileCount').text(files.length);
+      clearChildren(otherFileList);
+      setFileCount(files.length);
 
       if (files.length === 0) {
-        otherFileList.html('<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>');
+        otherFileList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>';
         return;
       }
 
       files.forEach(function (file) {
-        var fileItem = $('<div class="modern-file-item"></div>');
-        var fileName = $('<div class="modern-file-name"></div>');
-        var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
-        fileName.html(icons.file).append(fileNameText);
+        var fileItem = document.createElement('div');
+        fileItem.className = 'modern-file-item';
 
-        var actions = $('<div class="modern-file-actions"></div>');
+        var fileName = document.createElement('div');
+        fileName.className = 'modern-file-name';
+        fileName.innerHTML = `${icons.file}<span class="modern-file-name-text"></span>`;
+        var fileNameText = fileName.querySelector('.modern-file-name-text');
+        if (fileNameText) {
+          fileNameText.textContent = file.name;
+        }
 
-        var downloadBtn = $('<button class="modern-file-action-btn"></button>')
-          .html(icons.download)
-          .attr('aria-label', 'ダウンロード')
-          .attr('title', 'ダウンロード');
+        var actions = document.createElement('div');
+        actions.className = 'modern-file-actions';
 
-        downloadBtn.on('click', function (e) {
+        var downloadBtn = document.createElement('button');
+        downloadBtn.className = 'modern-file-action-btn';
+        downloadBtn.type = 'button';
+        downloadBtn.innerHTML = icons.download;
+        downloadBtn.setAttribute('aria-label', 'ダウンロード');
+        downloadBtn.setAttribute('title', 'ダウンロード');
+        downloadBtn.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
           downloadHandlers.downloadSingleFile(file, downloadBtn);
         });
 
-        var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
-          .html(icons.trash)
-          .attr('aria-label', '削除')
-          .attr('title', '削除');
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'modern-file-action-btn delete';
+        deleteBtn.type = 'button';
+        deleteBtn.innerHTML = icons.trash;
+        deleteBtn.setAttribute('aria-label', '削除');
+        deleteBtn.setAttribute('title', '削除');
 
-        deleteBtn.on('click', function () {
+        deleteBtn.addEventListener('click', function () {
           var encodedFilename = encodeURIComponent(file.name);
           if (confirm('本当にこのファイルを削除しますか？')) {
-            $.ajax({
-              url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
-              type: 'DELETE',
-              headers: { 'X-CSRF-Token': csrfToken },
-              success: function () {
+            var xhr = new window.XMLHttpRequest();
+            xhr.open('DELETE', `/delete/${roomId}/${roomPassword}/${encodedFilename}`, true);
+            if (csrfToken) {
+              xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            }
+            xhr.onload = function () {
+              if (xhr.status >= 200 && xhr.status < 300) {
                 alert('ファイルが削除されました。');
                 fetchAndDisplayOtherFiles();
-              },
-              error: function () {
+              } else {
                 alert('削除中にエラーが発生しました。');
               }
-            });
+            };
+            xhr.onerror = function () {
+              alert('削除中にエラーが発生しました。');
+            };
+            xhr.send();
           }
         });
 
-        actions.append(downloadBtn).append(deleteBtn);
-        fileItem.append(fileName).append(actions);
-        otherFileList.append(fileItem);
+        actions.appendChild(downloadBtn);
+        actions.appendChild(deleteBtn);
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(actions);
+        otherFileList.appendChild(fileItem);
       });
+    }
+
+    function handleFetchFailure(status, error) {
+      fetchRetryCount += 1;
+      logger.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
+      if (fetchRetryCount >= maxRetries) {
+        logger.error('他のユーザーのファイル情報を取得できませんでした。');
+        fetchRetryCount = 0;
+      }
     }
 
     function fetchAndDisplayOtherFiles() {
@@ -93,43 +132,58 @@
       }
 
       isFetchingFileList = true;
-      $.ajax({
-        url: `/check/${roomId}/${roomPassword}`,
-        type: 'GET',
-        timeout: 10000,
-        success: function (files) {
-          fetchRetryCount = 0;
-
-          if (files.error) {
-            logger.warn('ファイル取得エラー:', files.error);
-            return;
-          }
-
-          var currentFileSignature = buildFileSignature(files);
-          if (currentFileSignature === lastRenderedFileSignature) {
-            $('#fileCount').text(files.length);
-            return;
-          }
-
-          lastRenderedFileSignature = currentFileSignature;
-          renderOtherFileList(files);
-        },
-        error: function (xhr, status, error) {
-          fetchRetryCount += 1;
-          logger.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
-          if (fetchRetryCount >= maxRetries) {
-            logger.error('他のユーザーのファイル情報を取得できませんでした。');
-            fetchRetryCount = 0;
-          }
-        },
-        complete: function () {
-          isFetchingFileList = false;
-          if (shouldRefetchFileList) {
-            shouldRefetchFileList = false;
-            fetchAndDisplayOtherFiles();
-          }
+      var xhr = new window.XMLHttpRequest();
+      xhr.open('GET', `/check/${roomId}/${roomPassword}`, true);
+      xhr.timeout = 10000;
+      xhr.onload = function () {
+        if (!(xhr.status >= 200 && xhr.status < 300)) {
+          handleFetchFailure('http_error', `status=${xhr.status}`);
+          return;
         }
-      });
+
+        var files;
+        try {
+          files = JSON.parse(xhr.responseText);
+        } catch (error) {
+          handleFetchFailure('parse_error', error);
+          return;
+        }
+
+        fetchRetryCount = 0;
+
+        if (files && files.error) {
+          logger.warn('ファイル取得エラー:', files.error);
+          return;
+        }
+
+        if (!Array.isArray(files)) {
+          handleFetchFailure('unexpected_payload', 'files is not array');
+          return;
+        }
+
+        var currentFileSignature = buildFileSignature(files);
+        if (currentFileSignature === lastRenderedFileSignature) {
+          setFileCount(files.length);
+          return;
+        }
+
+        lastRenderedFileSignature = currentFileSignature;
+        renderOtherFileList(files);
+      };
+      xhr.onerror = function () {
+        handleFetchFailure('network_error', 'network');
+      };
+      xhr.ontimeout = function () {
+        handleFetchFailure('timeout', 'timeout');
+      };
+      xhr.onloadend = function () {
+        isFetchingFileList = false;
+        if (shouldRefetchFileList) {
+          shouldRefetchFileList = false;
+          fetchAndDisplayOtherFiles();
+        }
+      };
+      xhr.send();
     }
 
     function scheduleFileListReconnect() {
