@@ -169,3 +169,86 @@ def test_upload_complete_found(test_client: TestClient):
     ):
         response = test_client.get("/upload_complete/abc123-uid-file")
     assert response.status_code == 200
+
+
+# --- fs_qr_room: 認証成功 → 200 ---
+
+
+def test_fs_qr_room_found_returns_200(test_client: TestClient):
+    """認証成功でルームページ (200) を表示する"""
+    from datetime import datetime
+
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "654321",
+            "secure_id": "abc123-uid-file",
+            "retention_days": 7,
+            "time": datetime(2026, 1, 1),
+        }
+    ]
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data_by_credentials",
+            new_callable=AsyncMock,
+            return_value=mock_data,
+        ),
+        patch("FSQR.fsqr_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get("/fs-qr/abc123/654321")
+    assert response.status_code == 200
+
+
+def test_fs_qr_room_rate_limited_returns_429(test_client: TestClient):
+    """レートリミット超過で 429 を返す"""
+    with patch(
+        "FSQR.fsqr_app.check_rate_limit",
+        new_callable=AsyncMock,
+        return_value=(False, None, "1日"),
+    ):
+        response = test_client.get("/fs-qr/abc123/654321")
+    assert response.status_code == 429
+
+
+def test_fs_qr_room_auth_fail_then_blocked_returns_429(test_client: TestClient):
+    """認証失敗後にブロック判定で 429 を返す"""
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data_by_credentials",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch(
+            "FSQR.fsqr_app.register_failure",
+            new_callable=AsyncMock,
+            return_value=(None, "30分"),
+        ),
+    ):
+        response = test_client.get("/fs-qr/abc123/654321")
+    assert response.status_code == 429
+
+
+# --- try_login: レートリミット超過 → 429 ---
+
+
+def test_try_login_rate_limited_returns_429(test_client: TestClient):
+    """try_login でレートリミット超過の場合は 429 を返す"""
+    with patch(
+        "FSQR.fsqr_app.check_rate_limit",
+        new_callable=AsyncMock,
+        return_value=(False, None, "30分"),
+    ):
+        response = test_client.post(
+            "/try_login", data={"name": "abc123", "pw": "654321"}
+        )
+    assert response.status_code == 429

@@ -1,7 +1,11 @@
 """Pure unit tests – no HTTP, no database, no Redis required."""
 
+import asyncio
 import re
 from datetime import datetime
+from unittest.mock import AsyncMock, patch
+
+import pytest
 
 
 # ---------------------------------------------------------------------------
@@ -246,3 +250,513 @@ def test_get_client_ip_whitespace_forwarded_uses_client():
         },
     )()
     assert get_client_ip(req) == "10.1.2.3"
+
+
+# ---------------------------------------------------------------------------
+# cache_utils – CustomJSONEncoder
+# ---------------------------------------------------------------------------
+
+
+def test_custom_json_encoder_datetime():
+    import json
+    from datetime import datetime
+
+    from cache_utils import CustomJSONEncoder
+
+    result = json.loads(
+        json.dumps(datetime(2026, 1, 1, 12, 0, 0), cls=CustomJSONEncoder)
+    )
+    assert result == "2026-01-01T12:00:00"
+
+
+def test_custom_json_encoder_date():
+    import json
+    from datetime import date
+
+    from cache_utils import CustomJSONEncoder
+
+    result = json.loads(json.dumps(date(2026, 1, 1), cls=CustomJSONEncoder))
+    assert result == "2026-01-01"
+
+
+def test_custom_json_encoder_timedelta():
+    import json
+    from datetime import timedelta
+
+    from cache_utils import CustomJSONEncoder
+
+    result = json.loads(json.dumps(timedelta(days=1), cls=CustomJSONEncoder))
+    assert isinstance(result, str)
+
+
+def test_custom_json_encoder_decimal():
+    import json
+    from decimal import Decimal
+
+    from cache_utils import CustomJSONEncoder
+
+    result = json.loads(json.dumps(Decimal("3.14"), cls=CustomJSONEncoder))
+    assert abs(result - 3.14) < 1e-10
+
+
+# ---------------------------------------------------------------------------
+# cache_utils – cache_data decorator
+# ---------------------------------------------------------------------------
+
+
+def test_cache_data_miss_calls_function():
+    """キャッシュミス時は関数を呼び出して結果を返す"""
+    from cache_utils import cache_data
+
+    mock_redis = AsyncMock()
+    mock_redis.get = AsyncMock(return_value=None)
+    mock_redis.setex = AsyncMock()
+
+    @cache_data(ttl=60, key_prefix="test")
+    async def my_func():
+        return [{"name": "hello"}]
+
+    with patch("cache_utils.redis_client", mock_redis):
+        result = asyncio.run(my_func())
+
+    assert result == [{"name": "hello"}]
+    mock_redis.get.assert_awaited_once()
+
+
+def test_cache_data_hit_returns_cached_value():
+    """キャッシュヒット時はキャッシュから値を返す（関数は呼ばれない）"""
+    import json
+
+    from cache_utils import cache_data
+
+    cached_value = [{"name": "cached"}]
+    mock_redis = AsyncMock()
+    mock_redis.get = AsyncMock(return_value=json.dumps(cached_value))
+
+    call_count = 0
+
+    @cache_data(ttl=60, key_prefix="test")
+    async def my_func():
+        nonlocal call_count
+        call_count += 1
+        return [{"name": "not cached"}]
+
+    with patch("cache_utils.redis_client", mock_redis):
+        result = asyncio.run(my_func())
+
+    assert result == cached_value
+    assert call_count == 0
+
+
+def test_cache_data_redis_error_still_calls_function():
+    """Redis エラー時も関数を呼び出して結果を返す"""
+    from cache_utils import cache_data
+
+    mock_redis = AsyncMock()
+    mock_redis.get = AsyncMock(side_effect=Exception("Connection refused"))
+
+    @cache_data(ttl=60, key_prefix="test")
+    async def my_func():
+        return "fallback"
+
+    with patch("cache_utils.redis_client", mock_redis):
+        result = asyncio.run(my_func())
+
+    assert result == "fallback"
+
+
+# ---------------------------------------------------------------------------
+# rate_limit – async functions
+# ---------------------------------------------------------------------------
+
+
+def test_check_rate_limit_not_blocked():
+    """ブロックなし → (True, None, None)"""
+    from rate_limit import check_rate_limit
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(check_rate_limit("qr", "10.0.0.1"))
+
+    assert allowed is True
+    assert until is None
+    assert label is None
+
+
+def test_check_rate_limit_blocked():
+    """ブロック中 → (False, until, label)"""
+    from rate_limit import check_rate_limit
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value="1日")
+    mock_r.ttl = AsyncMock(return_value=3600)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(check_rate_limit("qr", "10.0.0.1"))
+
+    assert allowed is False
+    assert label == "1日"
+    assert until is not None
+
+
+def test_check_rate_limit_redis_error_fails_open():
+    """Redis エラー時はフェイルオープン → True"""
+    from rate_limit import check_rate_limit
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(side_effect=Exception("Redis down"))
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, _, _ = asyncio.run(check_rate_limit("qr", "10.0.0.1"))
+
+    assert allowed is True
+
+
+def test_register_failure_below_threshold_no_block():
+    """しきい値未満の失敗ではブロックされない"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=1)
+    mock_r.expire = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert until is None
+    assert label is None
+
+
+def test_register_failure_10_triggers_30min_block():
+    """10回失敗 → 30分ブロック"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=10)
+    mock_r.set = AsyncMock()
+    mock_r.delete = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert label == "30分"
+    assert until is not None
+
+
+def test_register_failure_50_triggers_1day_block():
+    """50回失敗 → 1日ブロック"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=50)
+    mock_r.set = AsyncMock()
+    mock_r.delete = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert label == "1日"
+    assert until is not None
+
+
+def test_register_failure_already_blocked_returns_existing():
+    """すでにブロック中なら既存のブロック情報を返す"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value="30分")
+    mock_r.ttl = AsyncMock(return_value=1800)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert label == "30分"
+    assert until is not None
+
+
+def test_register_failure_redis_error_returns_none():
+    """Redis エラー時は (None, None) を返す"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(side_effect=Exception("Redis down"))
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert until is None
+    assert label is None
+
+
+def test_register_success_deletes_keys():
+    """成功時はカウンターとブロックキーを削除する"""
+    from rate_limit import register_success
+
+    mock_r = AsyncMock()
+    mock_r.delete = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        asyncio.run(register_success("qr", "10.0.0.1"))
+
+    mock_r.delete.assert_awaited_once()
+
+
+def test_register_success_redis_error_does_not_raise():
+    """Redis エラー時も例外を発生させない"""
+    from rate_limit import register_success
+
+    mock_r = AsyncMock()
+    mock_r.delete = AsyncMock(side_effect=Exception("Redis down"))
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        asyncio.run(register_success("qr", "10.0.0.1"))  # must not raise
+
+
+# ---------------------------------------------------------------------------
+# Admin.db_admin – helper functions
+# ---------------------------------------------------------------------------
+
+
+def test_validate_recent_limit_valid():
+    from Admin.db_admin import _validate_recent_limit
+
+    assert _validate_recent_limit(10) == 10
+
+
+def test_validate_recent_limit_zero_raises():
+    from Admin.db_admin import _validate_recent_limit
+
+    with pytest.raises(ValueError):
+        _validate_recent_limit(0)
+
+
+def test_validate_recent_limit_negative_raises():
+    from Admin.db_admin import _validate_recent_limit
+
+    with pytest.raises(ValueError):
+        _validate_recent_limit(-5)
+
+
+def test_validate_recent_limit_non_int_raises():
+    from Admin.db_admin import _validate_recent_limit
+
+    with pytest.raises(TypeError):
+        _validate_recent_limit("10")
+
+
+def test_resolve_file_path_multiple_type():
+    from Admin.db_admin import _resolve_file_path
+
+    record = {"secure_id": "abc123-uid-file", "file_type": "multiple"}
+    path, stored_name, display_name, mimetype = _resolve_file_path(record)
+
+    assert stored_name == "abc123-uid-file.zip"
+    assert display_name == "abc123-uid-file.zip"
+    assert mimetype == "application/zip"
+    assert path.endswith(stored_name)
+
+
+def test_resolve_file_path_single_type_with_original_name():
+    from Admin.db_admin import _resolve_file_path
+
+    record = {
+        "secure_id": "abc123-uid-file",
+        "file_type": "single",
+        "original_filename": "myfile.txt",
+    }
+    path, stored_name, display_name, mimetype = _resolve_file_path(record)
+
+    assert stored_name == "abc123-uid-file.enc"
+    assert display_name == "myfile.txt"
+    assert mimetype == "application/octet-stream"
+
+
+def test_resolve_file_path_single_type_no_original_name():
+    from Admin.db_admin import _resolve_file_path
+
+    record = {
+        "secure_id": "abc123-uid-file",
+        "file_type": "single",
+        "original_filename": "",
+    }
+    _, stored_name, display_name, _ = _resolve_file_path(record)
+
+    assert stored_name == "abc123-uid-file.enc"
+    assert display_name == stored_name
+
+
+def test_get_room_folder_valid():
+    from Admin.db_admin import _get_room_folder
+
+    folder = _get_room_folder("abc123")
+    assert folder is not None
+    assert "abc123" in folder
+
+
+def test_get_room_folder_empty_string_returns_none():
+    from Admin.db_admin import _get_room_folder
+
+    assert _get_room_folder("") is None
+
+
+def test_get_room_folder_none_returns_none():
+    from Admin.db_admin import _get_room_folder
+
+    assert _get_room_folder(None) is None
+
+
+def test_collect_room_files_missing_dir_returns_empty():
+    from Admin.db_admin import _collect_room_files
+
+    result = _collect_room_files("nonexistent_room_xyz_99999")
+    assert result == []
+
+
+def test_collect_room_files_with_files():
+    """ファイルが存在するディレクトリからファイル一覧を返す"""
+    import os
+    import tempfile
+
+    from Admin.db_admin import _collect_room_files
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        with patch("Admin.db_admin.GROUP_UPLOAD_DIR", tmpdir):
+            # Create a fake room directory with a file
+            folder = os.path.join(tmpdir, "testroom")
+            os.makedirs(folder)
+            with open(os.path.join(folder, "hello.txt"), "w") as f:
+                f.write("content")
+
+            result = _collect_room_files("testroom")
+
+    assert len(result) == 1
+    assert result[0]["stored_name"] == "hello.txt"
+    assert result[0]["size"] == 7
+
+
+# ---------------------------------------------------------------------------
+# Note.note_sync – _format_updated_at
+# ---------------------------------------------------------------------------
+
+
+def test_format_updated_at_with_datetime():
+    from datetime import datetime
+
+    from Note.note_sync import _format_updated_at
+
+    dt = datetime(2026, 1, 1, 12, 0, 0, 123456)
+    result = _format_updated_at(dt)
+    assert "2026-01-01 12:00:00" in result
+
+
+def test_format_updated_at_with_none():
+    from Note.note_sync import _format_updated_at
+
+    assert _format_updated_at(None) is None
+
+
+# ---------------------------------------------------------------------------
+# Note.note_sync – sync_note_content
+# ---------------------------------------------------------------------------
+
+
+def test_sync_note_content_too_long_returns_400():
+    """コンテンツが最大長を超える場合は 400 エラーを返す"""
+    from Note.note_sync import MAX_CONTENT_LENGTH, sync_note_content
+
+    long_content = "x" * (MAX_CONTENT_LENGTH + 1)
+    payload, status, changed = asyncio.run(
+        sync_note_content("room1", long_content, None, None)
+    )
+
+    assert status == 400
+    assert changed is False
+    assert "error" in payload
+
+
+def test_sync_note_content_missing_params_uses_fallback():
+    """last_known_updated_at が None の場合は無条件フォールバックを使う"""
+    from datetime import datetime
+
+    from Note.note_sync import sync_note_content
+
+    mock_row = {"content": "saved", "updated_at": datetime(2026, 1, 1)}
+
+    with (
+        patch("Note.note_sync.nd.save_content", new_callable=AsyncMock),
+        patch(
+            "Note.note_sync.nd.get_row", new_callable=AsyncMock, return_value=mock_row
+        ),
+    ):
+        payload, status, changed = asyncio.run(
+            sync_note_content("room1", "new content", None, None)
+        )
+
+    assert status == 200
+    assert payload["status"] == "ok_unconditional_fallback"
+    assert changed is True
+
+
+def test_sync_note_content_successful_save_returns_ok():
+    """rowcount > 0 の正常保存は status=ok を返す"""
+    from datetime import datetime
+
+    from Note.note_sync import sync_note_content
+
+    mock_row = {"content": "new content", "updated_at": datetime(2026, 1, 1)}
+
+    with (
+        patch("Note.note_sync.nd.save_content", new_callable=AsyncMock, return_value=1),
+        patch(
+            "Note.note_sync.nd.get_row", new_callable=AsyncMock, return_value=mock_row
+        ),
+    ):
+        payload, status, changed = asyncio.run(
+            sync_note_content(
+                "room1",
+                "new content",
+                "2026-01-01 00:00:00.000000",
+                "original",
+            )
+        )
+
+    assert status == 200
+    assert payload["status"] == "ok"
+    assert changed is True
+
+
+def test_sync_note_content_conflict_max_retries_returns_409():
+    """rowcount == 0 が続き merge も失敗する場合は 409 を返す"""
+    from datetime import datetime
+
+    from Note.note_sync import sync_note_content
+
+    mock_row = {"content": "server content", "updated_at": datetime(2026, 1, 1)}
+
+    with (
+        patch("Note.note_sync.nd.save_content", new_callable=AsyncMock, return_value=0),
+        patch(
+            "Note.note_sync.nd.get_row", new_callable=AsyncMock, return_value=mock_row
+        ),
+        patch(
+            "Note.note_sync.attempt_merge", new_callable=AsyncMock, return_value=None
+        ),
+        patch("asyncio.sleep", new_callable=AsyncMock),
+    ):
+        payload, status, changed = asyncio.run(
+            sync_note_content(
+                "room1",
+                "client content",
+                "2026-01-01 00:00:00.000000",
+                "original",
+            )
+        )
+
+    assert status == 409
+    assert payload["status"] == "conflict_max_retries"
+    assert changed is False

@@ -186,3 +186,79 @@ def test_create_group_room_auto_duplicate(test_client: TestClient):
         )
     assert response.status_code == 409
     assert "retry_auto" in response.json()
+
+
+# --- ファイル操作: 認証成功後のフロー ---
+
+
+def test_list_files_auth_success_no_dir(test_client: TestClient):
+    """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.get("/check/abc123/000000")
+    # 認証通過 → ディレクトリなし → 404
+    assert response.status_code == 404
+    assert "error" in response.json()
+
+
+def test_download_file_not_found_after_auth(test_client: TestClient):
+    """認証成功でもファイルが存在しない場合は 404 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.get("/download/abc123/000000/notexist.txt")
+    assert response.status_code == 404
+
+
+def test_delete_file_not_found_after_auth(test_client: TestClient):
+    """認証成功でもファイルが存在しない場合は 404 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.delete("/delete/abc123/000000/notexist.txt")
+    assert response.status_code == 404
+
+
+def test_download_all_auth_success_no_dir(test_client: TestClient):
+    """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.get("/download/all/abc123/000000")
+    assert response.status_code == 404
+
+
+def test_group_upload_too_many_files(test_client: TestClient):
+    """ファイル数が 10 を超えると 400 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    files = [("upfile", (f"file{i}.txt", b"x", "text/plain")) for i in range(11)]
+    with patch(
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_room,
+    ):
+        response = test_client.post(
+            "/group_upload/abc123/000000",
+            files=files,
+        )
+    assert response.status_code == 400
+    assert "error" in response.json()
+
+
+def test_download_file_empty_filename_returns_400(test_client: TestClient):
+    """空のファイル名は 400 を返す"""
+    response = test_client.get("/download/abc123/000000/ ")
+    assert response.status_code == 400
