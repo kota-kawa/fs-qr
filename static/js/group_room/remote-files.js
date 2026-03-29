@@ -7,6 +7,7 @@
     var roomPassword = options.roomPassword;
     var csrfToken = options.csrfToken;
     var icons = options.icons;
+    var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var otherFileList = options.otherFileList;
     var downloadHandlers = options.downloadHandlers;
 
@@ -100,7 +101,7 @@
           fetchRetryCount = 0;
 
           if (files.error) {
-            console.warn('ファイル取得エラー:', files.error);
+            logger.warn('ファイル取得エラー:', files.error);
             return;
           }
 
@@ -115,9 +116,9 @@
         },
         error: function (xhr, status, error) {
           fetchRetryCount += 1;
-          console.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
+          logger.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
           if (fetchRetryCount >= maxRetries) {
-            console.error('他のユーザーのファイル情報を取得できませんでした。');
+            logger.error('他のユーザーのファイル情報を取得できませんでした。');
             fetchRetryCount = 0;
           }
         },
@@ -163,7 +164,7 @@
             fetchAndDisplayOtherFiles();
           }
         } catch (error) {
-          console.warn('WebSocketメッセージの解析に失敗しました:', error);
+          logger.warn('WebSocketメッセージの解析に失敗しました:', error);
         }
       };
 
@@ -178,7 +179,7 @@
           return;
         }
         if (event && event.code === 1008) {
-          console.warn('ファイル更新WebSocketが認証エラーで切断されました。');
+          logger.warn('ファイル更新WebSocketが認証エラーで切断されました。');
           return;
         }
         scheduleFileListReconnect();

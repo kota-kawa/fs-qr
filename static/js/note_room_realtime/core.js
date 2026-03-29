@@ -6,6 +6,33 @@
     return window.NoteRoomRealtimeConfig || {};
   }
 
+  function createLogger(enabled) {
+    function callConsole(method, args) {
+      if (!enabled || typeof window.console === "undefined") {
+        return;
+      }
+      if (typeof window.console[method] === "function") {
+        window.console[method].apply(window.console, args);
+        return;
+      }
+      if (typeof window.console.log === "function") {
+        window.console.log.apply(window.console, args);
+      }
+    }
+
+    return {
+      log: function () {
+        callConsole("log", arguments);
+      },
+      warn: function () {
+        callConsole("warn", arguments);
+      },
+      error: function () {
+        callConsole("error", arguments);
+      }
+    };
+  }
+
   function createContext() {
     const config = getConfig();
 
@@ -31,6 +58,8 @@
   }
 
   modules.core = {
+    getConfig: getConfig,
+    createLogger: createLogger,
     createContext: createContext
   };
 })(window);

@@ -6,6 +6,33 @@
     return window.FsQrUploadConfig || {};
   }
 
+  function createLogger(enabled) {
+    function callConsole(method, args) {
+      if (!enabled || typeof window.console === 'undefined') {
+        return;
+      }
+      if (typeof window.console[method] === 'function') {
+        window.console[method].apply(window.console, args);
+        return;
+      }
+      if (typeof window.console.log === 'function') {
+        window.console.log.apply(window.console, args);
+      }
+    }
+
+    return {
+      log: function () {
+        callConsole('log', arguments);
+      },
+      warn: function () {
+        callConsole('warn', arguments);
+      },
+      error: function () {
+        callConsole('error', arguments);
+      }
+    };
+  }
+
   function getElements() {
     return {
       uploadArea: document.getElementById('upload-area'),
@@ -72,6 +99,7 @@
 
   modules.core = {
     getFsQrUploadConfig: getFsQrUploadConfig,
+    createLogger: createLogger,
     getElements: getElements,
     getCsrfToken: getCsrfToken,
     createUploadIconController: createUploadIconController,

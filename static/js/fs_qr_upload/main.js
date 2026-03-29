@@ -3,6 +3,7 @@
   var modules = window.FsQrUploadModules;
   var core = modules.core;
   var config = core.getFsQrUploadConfig();
+  var logger = core.createLogger(Boolean(config.debug));
   var elements = core.getElements();
 
   var formError = core.createFormErrorController(elements.inlineError);
@@ -28,6 +29,7 @@
     fileInput: elements.fileInput,
     fileListDisplay: elements.fileListDisplay,
     icons: config.icons || {},
+    logger: logger,
     clearFormError: formError.clearFormError,
     showFormError: formError.showFormError,
     setUploadIcon: uploadIconController.setUploadIcon,

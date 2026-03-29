@@ -4,6 +4,8 @@
   const ui = modules.ui;
 
   function createSocketHandlers(context, syncHandlers) {
+    const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
+
     function scheduleReconnect() {
       if (context.reconnectTimer) {
         return;
@@ -59,9 +61,9 @@
       });
 
       context.ws.addEventListener("close", (event) => {
-        console.warn("WebSocket closed:", event.code, event.reason);
+        logger.warn("WebSocket closed:", event.code, event.reason);
         if (event.code === 1006) {
-          console.error("WebSocket connection failed abruptly. Check server logs or network.");
+          logger.error("WebSocket connection failed abruptly. Check server logs or network.");
         }
         scheduleReconnect();
       });

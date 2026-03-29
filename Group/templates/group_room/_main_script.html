@@ -3,6 +3,7 @@
     window.GroupRoomConfig = Object.freeze({
         roomId: {{ room_id|string|tojson }},
         roomPassword: {{ password|string|tojson }},
+        debug: {{ frontend_debug | tojson }},
         icons: Object.freeze({
             file: {{ icons.icon('document', size='lg', extra_classes='modern-file-icon') | tojson }},
             download: {{ icons.icon('arrow_down', size='lg') | tojson }},

@@ -12,3 +12,13 @@ MANAGEMENT_PASSWORD = os.getenv("MANAGEMENT_PASSWORD")
 DB_ADMIN_PASSWORD = os.getenv("DB_ADMIN_PASSWORD")
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+FRONTEND_DEBUG = _env_flag("FRONTEND_DEBUG", default=False)

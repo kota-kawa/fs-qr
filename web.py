@@ -10,7 +10,7 @@ from fastapi import HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 
-from settings import BASE_DIR
+from settings import BASE_DIR, FRONTEND_DEBUG
 
 TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, "templates"),
@@ -180,4 +180,5 @@ templates.env.globals.update(
     url_for=url_for,
     get_flashed_messages=get_flashed_messages,
     csrf_token=csrf_token,
+    frontend_debug=FRONTEND_DEBUG,
 )

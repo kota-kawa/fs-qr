@@ -3,6 +3,7 @@
   var modules = window.GroupRoomModules;
   var core = modules.core;
   var config = core.getGroupRoomConfig();
+  var logger = core.createLogger(Boolean(config.debug));
   var csrfToken = core.getCsrfToken();
 
   core.setupAjaxCsrf(csrfToken);
@@ -36,6 +37,7 @@
       roomPassword: roomPassword,
       csrfToken: csrfToken,
       icons: icons,
+      logger: logger,
       otherFileList: otherFileList,
       downloadHandlers: downloadHandlers
     });

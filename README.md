@@ -37,6 +37,7 @@ ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
+FRONTEND_DEBUG=false
 ```
 
 ### 3) Run the stack
@@ -67,6 +68,9 @@ To disable this behavior, set:
 ```env
 RUN_MIGRATIONS_ON_STARTUP=false
 ```
+
+`FRONTEND_DEBUG=true` にすると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
+本番環境では `false` のまま運用してください。
 
 ## 🧰 Tech Stack
 - **FastAPI** (Python)
@@ -145,6 +149,7 @@ ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
+FRONTEND_DEBUG=false
 ```
 
 ### 3) 起動
@@ -174,6 +179,9 @@ alembic revision -m "変更内容"
 ```env
 RUN_MIGRATIONS_ON_STARTUP=false
 ```
+
+`FRONTEND_DEBUG=true` を設定すると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
+本番運用時は `false` のままにしてください。
 
 ## 🧰 技術スタック
 - **FastAPI** (Python)

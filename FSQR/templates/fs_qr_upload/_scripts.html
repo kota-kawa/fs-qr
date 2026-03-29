@@ -3,6 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
     window.FsQrUploadConfig = Object.freeze({
+        debug: {{ frontend_debug | tojson }},
         icons: Object.freeze({
             file: {{ icons.icon('document', size='lg', extra_classes='modern-file-icon') | tojson }},
             trash: {{ icons.icon('trash', size='lg') | tojson }},

@@ -7,6 +7,7 @@
     var fileInput = options.fileInput;
     var fileListDisplay = options.fileListDisplay;
     var icons = options.icons;
+    var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var clearFormError = options.clearFormError;
     var showFormError = options.showFormError;
     var setUploadIcon = options.setUploadIcon;
@@ -96,7 +97,7 @@
         e.preventDefault();
         uploadArea.classList.remove('dragover');
         var files = e.dataTransfer.files;
-        console.log('Files dropped:', files);
+        logger.log('Files dropped:', files);
         handleFiles(files);
       });
 
@@ -108,7 +109,7 @@
 
       fileInput.addEventListener('change', function (e) {
         var files = e.target.files;
-        console.log('Files selected:', files);
+        logger.log('Files selected:', files);
         handleFiles(files);
       });
     }

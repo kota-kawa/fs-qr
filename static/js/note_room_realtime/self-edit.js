@@ -14,7 +14,8 @@
     if (value && timeoutMs > 0) {
       context.selfEditTimeout = setTimeout(() => {
         if (context.selfEdit) {
-          console.warn("selfEdit flag was stuck, resetting");
+          const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
+          logger.warn("selfEdit flag was stuck, resetting");
           context.selfEdit = false;
           context.status.className = "badge bg-warning";
           context.status.textContent = "Connection timeout";

@@ -1,7 +1,8 @@
 <script>
   window.NoteRoomRealtimeConfig = Object.freeze({
     room: "{{ room_id }}",
-    roomPassword: "{{ password }}"
+    roomPassword: "{{ password }}",
+    debug: {{ frontend_debug | tojson }}
   });
 </script>
 <script src="{{staticfile('js/note_room_realtime/core.js')}}"></script>

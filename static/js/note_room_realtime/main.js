@@ -3,6 +3,8 @@
   const modules = window.NoteRoomRealtimeModules;
 
   const context = modules.core.createContext();
+  const config = modules.core.getConfig();
+  context.logger = modules.core.createLogger(Boolean(config.debug));
   const syncHandlers = modules.sync.createSyncHandlers(context);
   const clipboardHandlers = modules.clipboard.createClipboardHandlers(context);
   const socketHandlers = modules.socket.createSocketHandlers(context, syncHandlers);
