@@ -12,6 +12,17 @@
     var csrfToken = options.csrfToken;
     var spinner = options.spinner;
     var encryptionService = options.encryptionService;
+    var limits = options.limits || {};
+    var parsedMaxFiles = Number(limits.maxFiles);
+    var parsedMaxTotalSizeBytes = Number(limits.maxTotalSizeBytes);
+    var parsedMaxTotalSizeMB = Number(limits.maxTotalSizeMB);
+    var maxFiles = Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1;
+    var maxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
+      ? parsedMaxTotalSizeBytes
+      : 1;
+    var maxTotalSizeMB = Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
+      ? parsedMaxTotalSizeMB
+      : Math.max(1, Math.ceil(maxTotalSizeBytes / (1024 * 1024)));
 
     function validateBeforeSubmit(files, id) {
       if (!(files.length > 0 && id.length > 0)) {
@@ -21,11 +32,8 @@
         return false;
       }
 
-      var MAX_FILES = 10;
-      var MAX_TOTAL_SIZE = 500 * 1024 * 1024;
-
-      if (files.length > MAX_FILES) {
-        showFormError(`ファイル数は最大${MAX_FILES}個までです。`);
+      if (files.length > maxFiles) {
+        showFormError(`ファイル数は最大${maxFiles}個までです。`);
         spinner.hideSpinner();
         spinner.stopIconSwitching();
         return false;
@@ -36,9 +44,9 @@
         totalSize += file.size;
       });
 
-      if (totalSize > MAX_TOTAL_SIZE) {
+      if (totalSize > maxTotalSizeBytes) {
         var sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-        showFormError(`ファイルの合計サイズは500MBまでです。現在の合計は ${sizeMB}MB です。`);
+        showFormError(`ファイルの合計サイズは${maxTotalSizeMB}MBまでです。現在の合計は ${sizeMB}MB です。`);
         spinner.hideSpinner();
         spinner.stopIconSwitching();
         return false;

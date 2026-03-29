@@ -101,6 +101,30 @@ def test_note_room_not_found(test_client: TestClient):
     assert response.status_code == 404
 
 
+def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
+    """note_room はリアルタイム設定に制限値を含める"""
+    mock_meta = {"id": "tester", "retention_days": 7, "time": None}
+    with (
+        patch(
+            "Note.note_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value=mock_meta,
+        ),
+        patch("Note.note_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get("/note/abc123/000000")
+    assert response.status_code == 200
+    html = response.text
+    assert "window.NoteRoomRealtimeConfig = Object.freeze({" in html
+    assert "maxContentLength" in html
+    assert "selfEditTimeoutMs" in html
+
+
 def test_note_direct_not_found(test_client: TestClient):
     """note_direct_access で認証失敗の場合は 404 を返す"""
     with (

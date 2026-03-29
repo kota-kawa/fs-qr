@@ -21,4 +21,30 @@ def _env_flag(name: str, default: bool = False) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _env_int(name: str, default: int, minimum: int = 0) -> int:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return default
+    if parsed < minimum:
+        return default
+    return parsed
+
+
 FRONTEND_DEBUG = _env_flag("FRONTEND_DEBUG", default=False)
+
+UPLOAD_MAX_FILES = _env_int("UPLOAD_MAX_FILES", default=10, minimum=1)
+UPLOAD_MAX_TOTAL_SIZE_MB = _env_int("UPLOAD_MAX_TOTAL_SIZE_MB", default=500, minimum=1)
+UPLOAD_MAX_TOTAL_SIZE_BYTES = UPLOAD_MAX_TOTAL_SIZE_MB * 1024 * 1024
+
+GROUP_FILE_LIST_REQUEST_TIMEOUT_MS = _env_int(
+    "GROUP_FILE_LIST_REQUEST_TIMEOUT_MS", default=10_000, minimum=1
+)
+
+NOTE_MAX_CONTENT_LENGTH = _env_int("NOTE_MAX_CONTENT_LENGTH", default=10_000, minimum=1)
+NOTE_SELF_EDIT_TIMEOUT_MS = _env_int(
+    "NOTE_SELF_EDIT_TIMEOUT_MS", default=12_000, minimum=1
+)

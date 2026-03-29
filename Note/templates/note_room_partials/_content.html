@@ -69,12 +69,12 @@
 
             <!-- Editor -->
             <div class="modern-form-group">
-                <label for="editor" class="modern-form-label">共有ノート（最大10000文字）</label>
+                <label for="editor" class="modern-form-label">共有ノート（最大{{ note_max_content_length }}文字）</label>
                 <textarea id="editor" class="modern-editor"
                           placeholder="ここに入力すると1秒ごとに同期されます…"
-                          maxlength="10000" style="height: 60vh;"></textarea>
+                          maxlength="{{ note_max_content_length }}" style="height: 60vh;"></textarea>
                 <div class="note-editor-toolbar">
-                    <span id="charCount" class="note-char-count" aria-live="polite">0 / 10000文字</span>
+                    <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}文字</span>
                     <div class="note-editor-actions">
                         <button type="button" id="pasteButton" class="note-action-button">ペースト</button>
                         <button type="button" id="copyAllButton" class="note-action-button">全文コピー</button>
@@ -99,7 +99,7 @@
       このルームではテキストをリアルタイムに共有できます。<br>
       上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
       エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
-      最大10000文字まで入力可能です。
+      最大{{ note_max_content_length }}文字まで入力可能です。
     </p>
   </div>
 </div>

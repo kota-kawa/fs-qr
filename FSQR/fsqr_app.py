@@ -19,6 +19,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from settings import UPLOAD_MAX_FILES, UPLOAD_MAX_TOTAL_SIZE_BYTES, UPLOAD_MAX_TOTAL_SIZE_MB
 from web import build_url, enforce_csrf, render_template
 from . import fsqr_data as fs_data
 
@@ -112,11 +113,11 @@ async def upload(
     if not upfile:
         return json_or_msg(request, "アップロード失敗")
 
-    if len(upfile) > 10:
-        return json_or_msg(request, "ファイル数は最大10個までです")
+    if len(upfile) > UPLOAD_MAX_FILES:
+        return json_or_msg(request, f"ファイル数は最大{UPLOAD_MAX_FILES}個までです")
 
     total_size = 0
-    max_total_size = 500 * 1024 * 1024
+    max_total_size = UPLOAD_MAX_TOTAL_SIZE_BYTES
 
     for file in upfile:
         if file.filename:
@@ -126,7 +127,9 @@ async def upload(
             total_size += file_size
 
     if total_size > max_total_size:
-        return json_or_msg(request, "ファイルの合計サイズは500MBまでです")
+        return json_or_msg(
+            request, f"ファイルの合計サイズは{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです"
+        )
 
     uploaded_files = []
 

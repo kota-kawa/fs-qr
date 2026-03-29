@@ -79,7 +79,8 @@
   window.NoteRoomRealtimeConfig = Object.freeze({
     room: {{ room_id | string | tojson }},
     roomPassword: {{ password | string | tojson }},
-    debug: {{ frontend_debug | tojson }}
+    debug: {{ frontend_debug | tojson }},
+    limits: Object.freeze(((window.AppConfig || {}).limits || {}).note || {})
   });
 </script>
 <script src="{{staticfile('js/note_room_realtime/core.js')}}"></script>

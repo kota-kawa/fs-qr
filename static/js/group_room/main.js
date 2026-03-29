@@ -4,6 +4,24 @@
   var core = modules.core;
   var config = core.getGroupRoomConfig();
   var logger = core.createLogger(Boolean(config.debug));
+  var rawLimits = config.limits || {};
+  var parsedMaxFiles = Number(rawLimits.maxFiles);
+  var parsedMaxTotalSizeBytes = Number(rawLimits.maxTotalSizeBytes);
+  var parsedMaxTotalSizeMB = Number(rawLimits.maxTotalSizeMB);
+  var parsedFileListRequestTimeoutMs = Number(rawLimits.fileListRequestTimeoutMs);
+  var safeMaxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
+    ? parsedMaxTotalSizeBytes
+    : 1;
+  var limits = {
+    maxFiles: Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1,
+    maxTotalSizeBytes: safeMaxTotalSizeBytes,
+    maxTotalSizeMB: Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
+      ? parsedMaxTotalSizeMB
+      : Math.max(1, Math.ceil(safeMaxTotalSizeBytes / (1024 * 1024))),
+    fileListRequestTimeoutMs: Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
+      ? parsedFileListRequestTimeoutMs
+      : 1000
+  };
   var csrfToken = core.getCsrfToken();
 
   function initializeGroupRoom() {
@@ -45,7 +63,8 @@
       icons: icons,
       logger: logger,
       otherFileList: otherFileList,
-      downloadHandlers: downloadHandlers
+      downloadHandlers: downloadHandlers,
+      limits: limits
     });
 
     var uploadQueue = modules.uploadQueue.createUploadQueue({
@@ -53,7 +72,8 @@
       fileInput: fileInput,
       fileList: fileList,
       icons: icons,
-      setUploadIcon: uploadIconController.setUploadIcon
+      setUploadIcon: uploadIconController.setUploadIcon,
+      limits: limits
     });
 
     var uploadSubmitter = modules.uploadSubmit.createUploadSubmitter({
@@ -65,7 +85,8 @@
       csrfToken: csrfToken,
       core: core,
       getFiles: uploadQueue.getFiles,
-      clearFiles: uploadQueue.clearFiles
+      clearFiles: uploadQueue.clearFiles,
+      limits: limits
     });
 
     remoteFileListManager.bindLifecycleEvents();

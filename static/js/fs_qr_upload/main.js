@@ -4,6 +4,20 @@
   var core = modules.core;
   var config = core.getFsQrUploadConfig();
   var logger = core.createLogger(Boolean(config.debug));
+  var rawLimits = config.limits || {};
+  var parsedMaxFiles = Number(rawLimits.maxFiles);
+  var parsedMaxTotalSizeBytes = Number(rawLimits.maxTotalSizeBytes);
+  var parsedMaxTotalSizeMB = Number(rawLimits.maxTotalSizeMB);
+  var safeMaxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
+    ? parsedMaxTotalSizeBytes
+    : 1;
+  var limits = {
+    maxFiles: Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1,
+    maxTotalSizeBytes: safeMaxTotalSizeBytes,
+    maxTotalSizeMB: Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
+      ? parsedMaxTotalSizeMB
+      : Math.max(1, Math.ceil(safeMaxTotalSizeBytes / (1024 * 1024)))
+  };
   var elements = core.getElements();
 
   var formError = core.createFormErrorController(elements.inlineError);
@@ -33,7 +47,8 @@
     clearFormError: formError.clearFormError,
     showFormError: formError.showFormError,
     setUploadIcon: uploadIconController.setUploadIcon,
-    setFileInputFiles: core.setFileInputFiles
+    setFileInputFiles: core.setFileInputFiles,
+    limits: limits
   });
 
   var encryptionService = modules.encryption.createEncryptionService({
@@ -49,7 +64,8 @@
     showFormError: formError.showFormError,
     csrfToken: core.getCsrfToken(),
     spinner: spinnerController,
-    encryptionService: encryptionService
+    encryptionService: encryptionService,
+    limits: limits
   });
 
   function initializeStaticUi() {

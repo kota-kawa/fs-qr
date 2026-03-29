@@ -80,6 +80,13 @@
         roomId: {{ room_id|string|tojson }},
         roomPassword: {{ password|string|tojson }},
         debug: {{ frontend_debug | tojson }},
+        limits: Object.freeze(
+            Object.assign(
+                {},
+                (((window.AppConfig || {}).limits || {}).upload || {}),
+                (((window.AppConfig || {}).limits || {}).group || {})
+            )
+        ),
         icons: Object.freeze({
             file: {{ icons.icon('document', size='lg', extra_classes='modern-file-icon') | tojson }},
             download: {{ icons.icon('arrow_down', size='lg') | tojson }},

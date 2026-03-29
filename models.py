@@ -9,6 +9,7 @@ import re
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
+from settings import NOTE_MAX_CONTENT_LENGTH
 
 _ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
@@ -126,7 +127,7 @@ class NoteWsMessage(BaseModel):
     """
 
     type: Literal["save"]
-    content: str = Field(default="", max_length=10_000)
+    content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
     last_known_updated_at: Optional[str] = None
     original_content: Optional[str] = None
 
@@ -137,6 +138,6 @@ class NoteSyncInput(BaseModel):
     使用箇所: Note /api/note/{room_id}/{password} (POST)
     """
 
-    content: str = Field(default="", max_length=10_000)
+    content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
     last_known_updated_at: Optional[str] = None
     original_content: Optional[str] = None

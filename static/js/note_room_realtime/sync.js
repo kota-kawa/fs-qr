@@ -24,7 +24,7 @@
       }
 
       context.pendingContent = null;
-      selfEditModule.setSelfEdit(context, true, 12000);
+      selfEditModule.setSelfEdit(context, true, context.selfEditTimeoutMs);
       ui.setStatus(context, "badge bg-secondary", "Saving...");
 
       context.ws.send(JSON.stringify({

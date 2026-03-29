@@ -35,6 +35,15 @@
 
   function createContext() {
     const config = getConfig();
+    const limits = config.limits || {};
+    const parsedMaxContentLength = Number(limits.maxContentLength);
+    const parsedSelfEditTimeoutMs = Number(limits.selfEditTimeoutMs);
+    const maxLength = Number.isFinite(parsedMaxContentLength) && parsedMaxContentLength > 0
+      ? parsedMaxContentLength
+      : 1;
+    const selfEditTimeoutMs = Number.isFinite(parsedSelfEditTimeoutMs) && parsedSelfEditTimeoutMs > 0
+      ? parsedSelfEditTimeoutMs
+      : 1000;
 
     return {
       room: config.room,
@@ -44,7 +53,8 @@
       charCount: document.getElementById("charCount"),
       pasteButton: document.getElementById("pasteButton"),
       copyAllButton: document.getElementById("copyAllButton"),
-      MAX_LENGTH: 10000,
+      MAX_LENGTH: maxLength,
+      selfEditTimeoutMs: selfEditTimeoutMs,
       lastStamp: "",
       selfEdit: false,
       contentAtLastSync: "",

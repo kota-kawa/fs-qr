@@ -3,11 +3,12 @@ import logging
 
 import diff_match_patch as dmp_module
 
+from settings import NOTE_MAX_CONTENT_LENGTH
 from . import note_data as nd
 
 logger = logging.getLogger(__name__)
 
-MAX_CONTENT_LENGTH = 10000
+MAX_CONTENT_LENGTH = NOTE_MAX_CONTENT_LENGTH
 MAX_RETRY_ATTEMPTS = 3
 
 

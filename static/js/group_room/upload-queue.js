@@ -8,7 +8,18 @@
     var fileList = options.fileList;
     var icons = options.icons;
     var setUploadIcon = options.setUploadIcon;
+    var limits = options.limits || {};
     var filePickerButton = document.getElementById('uploadFileBtn');
+    var parsedMaxFiles = Number(limits.maxFiles);
+    var parsedMaxTotalSizeBytes = Number(limits.maxTotalSizeBytes);
+    var parsedMaxTotalSizeMB = Number(limits.maxTotalSizeMB);
+    var maxFiles = Number.isFinite(parsedMaxFiles) && parsedMaxFiles > 0 ? parsedMaxFiles : 1;
+    var maxTotalSizeBytes = Number.isFinite(parsedMaxTotalSizeBytes) && parsedMaxTotalSizeBytes > 0
+      ? parsedMaxTotalSizeBytes
+      : 1;
+    var maxTotalSizeMB = Number.isFinite(parsedMaxTotalSizeMB) && parsedMaxTotalSizeMB > 0
+      ? parsedMaxTotalSizeMB
+      : Math.max(1, Math.ceil(maxTotalSizeBytes / (1024 * 1024)));
 
     var filesArray = [];
 
@@ -57,14 +68,12 @@
     }
 
     function handleFiles(files) {
-      var MAX_FILES = 10;
       var totalFiles = filesArray.length + files.length;
-      if (totalFiles > MAX_FILES) {
-        alert(`ファイル数は最大${MAX_FILES}個までです（現在: ${filesArray.length}個、追加しようとしているファイル: ${files.length}個）`);
+      if (totalFiles > maxFiles) {
+        alert(`ファイル数は最大${maxFiles}個までです（現在: ${filesArray.length}個、追加しようとしているファイル: ${files.length}個）`);
         return;
       }
 
-      var MAX_TOTAL_SIZE = 500 * 1024 * 1024;
       var currentSize = 0;
       var newFilesSize = 0;
 
@@ -77,9 +86,9 @@
       }
 
       var totalSize = currentSize + newFilesSize;
-      if (totalSize > MAX_TOTAL_SIZE) {
+      if (totalSize > maxTotalSizeBytes) {
         var totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-        alert(`ファイルの合計サイズは500MBまでです（現在の合計: ${totalSizeMB}MB）`);
+        alert(`ファイルの合計サイズは${maxTotalSizeMB}MBまでです（現在の合計: ${totalSizeMB}MB）`);
         return;
       }
 

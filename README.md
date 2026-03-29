@@ -38,6 +38,11 @@ MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
 FRONTEND_DEBUG=false
+UPLOAD_MAX_FILES=10
+UPLOAD_MAX_TOTAL_SIZE_MB=500
+GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
+NOTE_MAX_CONTENT_LENGTH=10000
+NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) Run the stack
@@ -71,6 +76,8 @@ RUN_MIGRATIONS_ON_STARTUP=false
 
 `FRONTEND_DEBUG=true` にすると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
 本番環境では `false` のまま運用してください。
+
+アップロード/ノート関連の上限値も `.env` で統一管理できます（フロントの `*Config` とバックエンド検証で共通利用）。
 
 ## 🧰 Tech Stack
 - **FastAPI** (Python)
@@ -150,6 +157,11 @@ MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
 FRONTEND_DEBUG=false
+UPLOAD_MAX_FILES=10
+UPLOAD_MAX_TOTAL_SIZE_MB=500
+GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
+NOTE_MAX_CONTENT_LENGTH=10000
+NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) 起動
@@ -182,6 +194,8 @@ RUN_MIGRATIONS_ON_STARTUP=false
 
 `FRONTEND_DEBUG=true` を設定すると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
 本番運用時は `false` のままにしてください。
+
+アップロード/ノート関連の上限値も `.env` で統一管理でき、フロントの `*Config` とバックエンド検証に同じ値が反映されます。
 
 ## 🧰 技術スタック
 - **FastAPI** (Python)

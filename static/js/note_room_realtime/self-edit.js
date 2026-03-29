@@ -3,15 +3,19 @@
   const modules = window.NoteRoomRealtimeModules;
   const ui = modules.ui;
 
-  function setSelfEdit(context, value, timeoutMs = 8000) {
+  function setSelfEdit(context, value, timeoutMs) {
     context.selfEdit = value;
+    const parsedTimeoutMs = Number(timeoutMs);
+    const effectiveTimeoutMs = Number.isFinite(parsedTimeoutMs) && parsedTimeoutMs > 0
+      ? parsedTimeoutMs
+      : Number(context.selfEditTimeoutMs || 0);
 
     if (context.selfEditTimeout) {
       clearTimeout(context.selfEditTimeout);
       context.selfEditTimeout = null;
     }
 
-    if (value && timeoutMs > 0) {
+    if (value && effectiveTimeoutMs > 0) {
       context.selfEditTimeout = setTimeout(() => {
         if (context.selfEdit) {
           const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
@@ -20,7 +24,7 @@
           context.status.className = "badge bg-warning";
           context.status.textContent = "Connection timeout";
         }
-      }, timeoutMs);
+      }, effectiveTimeoutMs);
     }
   }
 

@@ -9,6 +9,7 @@ from fastapi import APIRouter, File, Request, UploadFile
 from starlette.responses import FileResponse, JSONResponse, StreamingResponse
 from werkzeug.utils import secure_filename
 
+from settings import UPLOAD_MAX_FILES, UPLOAD_MAX_TOTAL_SIZE_BYTES, UPLOAD_MAX_TOTAL_SIZE_MB
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
@@ -35,13 +36,14 @@ def register_group_upload_route(router: APIRouter):
                 {"error": "ファイルがアップロードされていません。"}, status_code=400
             )
 
-        if len(upfile) > 10:
+        if len(upfile) > UPLOAD_MAX_FILES:
             return JSONResponse(
-                {"error": "ファイル数は最大10個までです。"}, status_code=400
+                {"error": f"ファイル数は最大{UPLOAD_MAX_FILES}個までです。"},
+                status_code=400,
             )
 
         total_size = 0
-        max_total_size = 500 * 1024 * 1024
+        max_total_size = UPLOAD_MAX_TOTAL_SIZE_BYTES
 
         for file in upfile:
             if file.filename:
@@ -52,7 +54,8 @@ def register_group_upload_route(router: APIRouter):
 
         if total_size > max_total_size:
             return JSONResponse(
-                {"error": "ファイルの合計サイズは500MBまでです。"}, status_code=400
+                {"error": f"ファイルの合計サイズは{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです。"},
+                status_code=400,
             )
 
         error_files = []

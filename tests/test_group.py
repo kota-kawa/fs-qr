@@ -154,6 +154,9 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
 
     assert script_positions == sorted(script_positions)
     assert "window.GroupRoomConfig = Object.freeze({" in html
+    assert "maxFiles" in html
+    assert "maxTotalSizeBytes" in html
+    assert "fileListRequestTimeoutMs" in html
     assert "function handleFiles(files)" not in html
     assert "function fetchAndDisplayOtherFiles()" not in html
 

@@ -14,6 +14,24 @@
     <meta name="rating" content="general" />
     <meta name="theme-color" content="#dbe72f" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <script>
+      window.AppConfig = Object.freeze({
+        limits: Object.freeze({
+          upload: Object.freeze({
+            maxFiles: {{ upload_max_files | tojson }},
+            maxTotalSizeBytes: {{ upload_max_total_size_bytes | tojson }},
+            maxTotalSizeMB: {{ upload_max_total_size_mb | tojson }}
+          }),
+          note: Object.freeze({
+            maxContentLength: {{ note_max_content_length | tojson }},
+            selfEditTimeoutMs: {{ note_self_edit_timeout_ms | tojson }}
+          }),
+          group: Object.freeze({
+            fileListRequestTimeoutMs: {{ group_file_list_request_timeout_ms | tojson }}
+          })
+        })
+      });
+    </script>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

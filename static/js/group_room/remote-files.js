@@ -10,6 +10,7 @@
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var otherFileList = options.otherFileList;
     var downloadHandlers = options.downloadHandlers;
+    var limits = options.limits || {};
 
     var fetchRetryCount = 0;
     var maxRetries = 3;
@@ -20,6 +21,10 @@
     var isFetchingFileList = false;
     var shouldRefetchFileList = false;
     var lastRenderedFileSignature = null;
+    var parsedFileListRequestTimeoutMs = Number(limits.fileListRequestTimeoutMs);
+    var fileListRequestTimeoutMs = Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
+      ? parsedFileListRequestTimeoutMs
+      : 1000;
 
     function setFileCount(count) {
       var fileCountElement = document.getElementById('fileCount');
@@ -134,7 +139,7 @@
       isFetchingFileList = true;
       var xhr = new window.XMLHttpRequest();
       xhr.open('GET', `/check/${roomId}/${roomPassword}`, true);
-      xhr.timeout = 10000;
+      xhr.timeout = fileListRequestTimeoutMs;
       xhr.onload = function () {
         if (!(xhr.status >= 200 && xhr.status < 300)) {
           handleFetchFailure('http_error', `status=${xhr.status}`);

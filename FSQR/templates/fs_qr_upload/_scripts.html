@@ -4,6 +4,7 @@
 <script>
     window.FsQrUploadConfig = Object.freeze({
         debug: {{ frontend_debug | tojson }},
+        limits: Object.freeze(((window.AppConfig || {}).limits || {}).upload || {}),
         icons: Object.freeze({
             file: {{ icons.icon('document', size='lg', extra_classes='modern-file-icon') | tojson }},
             trash: {{ icons.icon('trash', size='lg') | tojson }},
