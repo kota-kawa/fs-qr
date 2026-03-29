@@ -1,6 +1,15 @@
 (function (window) {
   window.NoteRoomRealtimeModules = window.NoteRoomRealtimeModules || {};
   const modules = window.NoteRoomRealtimeModules;
+  const SYNC_STATES = Object.freeze({
+    // Local state machine for note sync lifecycle.
+    BOOTSTRAPPING: "bootstrapping",
+    IDLE: "idle",
+    DIRTY: "dirty",
+    SAVING: "saving",
+    SAVING_DIRTY: "saving_dirty",
+    OFFLINE_DIRTY: "offline_dirty"
+  });
 
   function getConfig() {
     return window.NoteRoomRealtimeConfig || {};
@@ -50,19 +59,24 @@
       roomPassword: config.roomPassword,
       editor: document.getElementById("editor"),
       status: document.getElementById("status"),
+      mergeStatus: document.getElementById("mergeStatus"),
       charCount: document.getElementById("charCount"),
       pasteButton: document.getElementById("pasteButton"),
       copyAllButton: document.getElementById("copyAllButton"),
       MAX_LENGTH: maxLength,
       selfEditTimeoutMs: selfEditTimeoutMs,
       lastStamp: "",
-      selfEdit: false,
+      syncState: SYNC_STATES.BOOTSTRAPPING,
       contentAtLastSync: "",
-      selfEditTimeout: null,
       ws: null,
       reconnectAttempt: 0,
       reconnectTimer: null,
       pendingContent: null,
+      pendingBaseContent: null,
+      inFlightSave: null,
+      pendingRemoteUpdate: null,
+      saveSequence: 0,
+      ackRttMs: null,
       typTimer: null
     };
   }
@@ -70,6 +84,7 @@
   modules.core = {
     getConfig: getConfig,
     createLogger: createLogger,
-    createContext: createContext
+    createContext: createContext,
+    SYNC_STATES: SYNC_STATES
   };
 })(window);

@@ -26,11 +26,7 @@
       context.ws.addEventListener("open", () => {
         context.reconnectAttempt = 0;
         ui.setStatus(context, "badge bg-info", "Connected");
-        if (context.pendingContent !== null) {
-          const content = context.pendingContent;
-          context.pendingContent = null;
-          syncHandlers.sendSave(content);
-        }
+        syncHandlers.handleSocketOnline();
       });
 
       context.ws.addEventListener("message", (event) => {
@@ -65,10 +61,12 @@
         if (event.code === 1006) {
           logger.error("WebSocket connection failed abruptly. Check server logs or network.");
         }
+        syncHandlers.handleSocketOffline();
         scheduleReconnect();
       });
 
       context.ws.addEventListener("error", () => {
+        syncHandlers.handleSocketOffline();
         ui.setStatus(context, "badge bg-danger", "Connection error");
       });
     }

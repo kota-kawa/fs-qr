@@ -123,6 +123,7 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
     assert "window.NoteRoomRealtimeConfig = Object.freeze({" in html
     assert "maxContentLength" in html
     assert "selfEditTimeoutMs" in html
+    assert "mergeStatus" in html
 
 
 def test_note_direct_not_found(test_client: TestClient):

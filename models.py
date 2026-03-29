@@ -127,6 +127,7 @@ class NoteWsMessage(BaseModel):
     """
 
     type: Literal["save"]
+    request_id: Optional[str] = Field(default=None, max_length=64)
     content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
     last_known_updated_at: Optional[str] = None
     original_content: Optional[str] = None

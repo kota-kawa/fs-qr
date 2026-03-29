@@ -77,6 +77,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
             except ValidationError:
                 continue
             client_content = message.content
+            client_request_id = message.request_id
             client_last_known_updated_at = message.last_known_updated_at
             client_original_content = message.original_content
 
@@ -96,6 +97,8 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 continue
 
             payload_with_type = {"type": "ack", **payload}
+            if client_request_id:
+                payload_with_type["request_id"] = client_request_id
             await websocket.send_json(payload_with_type)
 
             if changed and status_code == 200:

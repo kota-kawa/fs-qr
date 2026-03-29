@@ -79,6 +79,10 @@ RUN_MIGRATIONS_ON_STARTUP=false
 
 アップロード/ノート関連の上限値も `.env` で統一管理できます（フロントの `*Config` とバックエンド検証で共通利用）。
 
+Note の WebSocket 同期はクライアント側で明示的なステートマシン（`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`）を使って競合処理します。  
+保存中に他ユーザー更新を受信した場合は即時破棄せずキューし、ACK 後に適用されます。  
+また ACK タイムアウトは固定値ではなく、`NOTE_SELF_EDIT_TIMEOUT_MS` を下限に通信RTTから適応的に伸縮します。
+
 ## 🧰 Tech Stack
 - **FastAPI** (Python)
 - **MySQL**
@@ -196,6 +200,10 @@ RUN_MIGRATIONS_ON_STARTUP=false
 本番運用時は `false` のままにしてください。
 
 アップロード/ノート関連の上限値も `.env` で統一管理でき、フロントの `*Config` とバックエンド検証に同じ値が反映されます。
+
+Note の WebSocket 同期はクライアント側で明示的なステートマシン（`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`）を使用し、競合時の挙動を固定化しています。  
+保存中に他ユーザー更新が来た場合はキューして ACK 後に反映し、ローカル入力の消失を避けます。  
+ACK タイムアウトは固定ではなく、`NOTE_SELF_EDIT_TIMEOUT_MS` を下限として通信RTTに応じて動的に調整されます。
 
 ## 🧰 技術スタック
 - **FastAPI** (Python)
