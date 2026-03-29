@@ -30,6 +30,32 @@ GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
 
 router = APIRouter(prefix="/admin")
 
+COUNT_QUERIES = {
+    "fsqr": text("SELECT COUNT(*) FROM fsqr"),
+    "room": text("SELECT COUNT(*) FROM room"),
+    "note_room": text("SELECT COUNT(*) FROM note_room"),
+    "note_content": text("SELECT COUNT(*) FROM note_content"),
+}
+
+RECENT_QUERIES = {
+    ("fsqr", "time"): text("SELECT * FROM fsqr ORDER BY time DESC LIMIT :limit"),
+    ("room", "time"): text("SELECT * FROM room ORDER BY time DESC LIMIT :limit"),
+    ("note_room", "time"): text(
+        "SELECT * FROM note_room ORDER BY time DESC LIMIT :limit"
+    ),
+    ("note_content", "updated_at"): text(
+        "SELECT * FROM note_content ORDER BY updated_at DESC LIMIT :limit"
+    ),
+}
+
+
+def _validate_recent_limit(limit):
+    if not isinstance(limit, int):
+        raise TypeError("limit must be an integer")
+    if limit < 1:
+        raise ValueError("limit must be greater than 0")
+    return limit
+
 
 async def table_exists(sess, table_name):
     q = """
@@ -46,9 +72,12 @@ async def table_exists(sess, table_name):
 
 
 async def safe_count(sess, table):
+    query = COUNT_QUERIES.get(table)
+    if query is None:
+        return 0
     if not await table_exists(sess, table):
         return 0
-    result = await sess.execute(text(f"SELECT COUNT(*) FROM {table}"))
+    result = await sess.execute(query)
     count = result.scalar()
     try:
         await sess.rollback()
@@ -58,10 +87,12 @@ async def safe_count(sess, table):
 
 
 async def safe_recent(sess, table, time_col, limit=10):
+    query = RECENT_QUERIES.get((table, time_col))
+    if query is None:
+        return None
     if not await table_exists(sess, table):
         return None
-    q = f"SELECT * FROM {table} ORDER BY {time_col} DESC LIMIT {limit}"
-    result = await sess.execute(text(q))
+    result = await sess.execute(query, {"limit": _validate_recent_limit(limit)})
     rows = result.mappings().all()
     try:
         await sess.rollback()
