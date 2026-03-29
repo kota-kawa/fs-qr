@@ -4,6 +4,16 @@
   }
   window.__fsqrAlertModalInitialized = true;
 
+  let showModalImpl = null;
+
+  window.showAlertModal = function (text) {
+    if (typeof showModalImpl === "function") {
+      showModalImpl(text);
+      return;
+    }
+    window.alert(String(text ?? ""));
+  };
+
   function setupAlertModal() {
     const overlay = document.getElementById("fsqrAlertModalOverlay");
     const message = document.getElementById("fsqrAlertModalMessage");
@@ -46,10 +56,7 @@
         closeModal();
       }
     });
-
-    window.alert = function (text) {
-      showModal(text);
-    };
+    showModalImpl = showModal;
   }
 
   if (document.readyState === "loading") {
