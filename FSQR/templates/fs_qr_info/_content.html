@@ -170,8 +170,8 @@
 
 
   <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
-  <div class="spinner-container" id="spinnerContainer" style="display: none;">
-    <div class="spinner-second-container" id="animationContainer">
+  <div class="spinner-container spinner-container--hidden" id="spinnerContainer">
+    <div class="spinner-second-container spinner-second-container--decrypt" id="animationContainer">
       <div class="icon lock">{{ icons.icon('lock', extra_classes='svg-icon--spinner') }}</div>
       <div class="icon file">{{ icons.icon('document', extra_classes='svg-icon--spinner') }}</div>
       <div class="text" id="statusText">受信中...</div>

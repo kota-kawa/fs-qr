@@ -142,7 +142,6 @@
   --theme-note-action-background: linear-gradient(135deg, rgba(132, 204, 22, 0.14) 0%, rgba(163, 230, 53, 0.24) 100%);
   --theme-note-action-background-hover: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, rgba(163, 230, 53, 0.34) 100%);
   --theme-note-action-shadow: 0 8px 16px -10px rgba(77, 124, 15, 0.55);
-  --spinner-overlay-light: rgba(255, 255, 255, 0.8);
   --spinner-lock-color: #e74c3c;
   --spinner-file-color: #3498db;
   --spinner-text-gradient: linear-gradient(90deg, #e74c3c, #3498db, #f1c40f, #9b59b6);
