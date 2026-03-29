@@ -10,6 +10,8 @@ from Note.note_ws import note_ws
 def test_note_ws_ack_includes_request_id():
     websocket = MagicMock()
     websocket.headers = {}
+    websocket.query_params = {"csrf_token": "csrf-test-token"}
+    websocket.session = {"_csrf_token": "csrf-test-token"}
     websocket.client = type("Client", (), {"host": "127.0.0.1"})()
     websocket.send_json = AsyncMock()
     websocket.receive_json = AsyncMock(
@@ -73,3 +75,22 @@ def test_note_ws_ack_includes_request_id():
     assert ack_payload["request_id"] == "save-1"
     assert ack_payload["status"] == "ok"
     assert ack_payload["data"]["note_status"] == "ok"
+
+
+def test_note_ws_rejects_missing_websocket_csrf():
+    websocket = MagicMock()
+    websocket.headers = {}
+    websocket.query_params = {}
+    websocket.session = {"_csrf_token": "csrf-test-token"}
+    websocket.client = type("Client", (), {"host": "127.0.0.1"})()
+    websocket.close = AsyncMock()
+
+    async def scenario():
+        with patch(
+            "Note.note_ws.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ):
+            await note_ws(websocket=websocket, room_id="abc123", password="000000")
+
+    asyncio.run(scenario())
+    websocket.close.assert_awaited_once_with(code=1008)

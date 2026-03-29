@@ -49,6 +49,8 @@ def test_group_files_ws_rejects_invalid_auth():
     register_group_files_ws_route(router)
     endpoint = router.routes[0].endpoint
     websocket = MagicMock()
+    websocket.query_params = {"csrf_token": "csrf-test-token"}
+    websocket.session = {"_csrf_token": "csrf-test-token"}
     websocket.close = AsyncMock()
 
     async def scenario():
@@ -67,6 +69,8 @@ def test_group_files_ws_connects_and_disconnects_on_client_close():
     register_group_files_ws_route(router)
     endpoint = router.routes[0].endpoint
     websocket = MagicMock()
+    websocket.query_params = {"csrf_token": "csrf-test-token"}
+    websocket.session = {"_csrf_token": "csrf-test-token"}
     websocket.receive_text = AsyncMock(side_effect=WebSocketDisconnect())
 
     async def scenario():
@@ -85,3 +89,19 @@ def test_group_files_ws_connects_and_disconnects_on_client_close():
             disconnect_mock.assert_awaited_once_with("abc123", websocket)
 
     asyncio.run(scenario())
+
+
+def test_group_files_ws_rejects_missing_websocket_csrf():
+    router = APIRouter()
+    register_group_files_ws_route(router)
+    endpoint = router.routes[0].endpoint
+    websocket = MagicMock()
+    websocket.query_params = {}
+    websocket.session = {"_csrf_token": "csrf-test-token"}
+    websocket.close = AsyncMock()
+
+    async def scenario():
+        await endpoint(websocket=websocket, room_id="abc123", password="000000")
+
+    asyncio.run(scenario())
+    websocket.close.assert_awaited_once_with(code=1008)

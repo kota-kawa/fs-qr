@@ -16,7 +16,13 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from web import build_url, enforce_csrf, flash_message, render_template
+from web import (
+    build_url,
+    enforce_csrf,
+    flash_message,
+    get_or_create_csrf_token,
+    render_template,
+)
 from . import note_data as nd
 
 router = APIRouter()
@@ -221,6 +227,7 @@ async def note_room(request: Request, room_id: str, password: str):
         password=password,
         retention_days=retention_days,
         deletion_date=deletion_date,
+        websocket_csrf_token=get_or_create_csrf_token(request),
     )
 
 

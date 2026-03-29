@@ -6,7 +6,7 @@ import time
 from typing import Any, Dict, Iterable
 from urllib.parse import quote_plus
 
-from fastapi import HTTPException, Request
+from fastapi import HTTPException, Request, WebSocket
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 
@@ -141,6 +141,49 @@ async def enforce_csrf(request: Request) -> None:
     if await validate_csrf(request):
         return
     raise HTTPException(status_code=403, detail="CSRF token missing or invalid")
+
+
+def _extract_websocket_csrf_token(websocket: WebSocket) -> str:
+    query_params = getattr(websocket, "query_params", None)
+    if hasattr(query_params, "get"):
+        query_token = _normalize_csrf_token(query_params.get(CSRF_FORM_FIELD))
+        if query_token:
+            return query_token
+
+    headers = getattr(websocket, "headers", None)
+    if hasattr(headers, "get"):
+        header_token = _normalize_csrf_token(headers.get(CSRF_HEADER_NAME))
+        if header_token:
+            return header_token
+
+    return ""
+
+
+def _get_websocket_session(websocket: WebSocket) -> Any:
+    session = getattr(websocket, "session", None)
+    if session is not None:
+        return session
+
+    scope = getattr(websocket, "scope", None)
+    if isinstance(scope, dict):
+        return scope.get("session")
+    return None
+
+
+def validate_websocket_csrf(websocket: WebSocket) -> bool:
+    provided = _extract_websocket_csrf_token(websocket)
+    if not provided:
+        return False
+
+    session = _get_websocket_session(websocket)
+    if session is None or not hasattr(session, "get"):
+        return False
+
+    expected = _normalize_csrf_token(session.get(CSRF_SESSION_KEY))
+    if not expected:
+        return False
+
+    return hmac.compare_digest(provided, expected)
 
 
 @pass_context

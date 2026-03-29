@@ -8,6 +8,7 @@
   function createRemoteFileListManager(options) {
     var roomId = options.roomId;
     var roomPassword = options.roomPassword;
+    var websocketCsrfToken = options.websocketCsrfToken;
     var csrfToken = options.csrfToken;
     var icons = options.icons;
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
@@ -243,8 +244,11 @@
 
     function connectFileListWebSocket() {
       var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      var wsUrl = `${protocol}://${window.location.host}/ws/group/${roomId}/${roomPassword}`;
-      fileListSocket = new WebSocket(wsUrl);
+      var wsUrl = new URL(`${protocol}://${window.location.host}/ws/group/${roomId}/${roomPassword}`);
+      if (websocketCsrfToken) {
+        wsUrl.searchParams.set('csrf_token', websocketCsrfToken);
+      }
+      fileListSocket = new WebSocket(wsUrl.toString());
 
       fileListSocket.onopen = function () {
         fileListReconnectDelayMs = 1000;

@@ -12,6 +12,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from web import validate_websocket_csrf
 from . import note_data as nd
 from .note_realtime import hub, publish_room_update
 from .note_sync import sync_note_content
@@ -35,6 +36,10 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
     ip = _ws_client_ip(websocket)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
+        await websocket.close(code=1008)
+        return
+
+    if not validate_websocket_csrf(websocket):
         await websocket.close(code=1008)
         return
 

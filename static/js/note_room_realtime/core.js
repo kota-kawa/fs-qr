@@ -82,6 +82,7 @@
     return {
       room: config.room,
       roomPassword: config.roomPassword,
+      websocketCsrfToken: config.websocketCsrfToken,
       editor: document.getElementById("editor"),
       status: document.getElementById("status"),
       mergeStatus: document.getElementById("mergeStatus"),

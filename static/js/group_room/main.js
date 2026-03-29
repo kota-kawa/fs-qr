@@ -38,6 +38,7 @@
 
     var roomId = config.roomId;
     var roomPassword = config.roomPassword;
+    var websocketCsrfToken = config.websocketCsrfToken;
     var icons = config.icons || {};
     var uploadButtonLabel = `${icons.rocket || ''} アップロード`;
     var uploadIconController = core.createUploadIconController(icons);
@@ -54,6 +55,7 @@
     var remoteFileListManager = modules.remoteFiles.createRemoteFileListManager({
       roomId: roomId,
       roomPassword: roomPassword,
+      websocketCsrfToken: websocketCsrfToken,
       csrfToken: csrfToken,
       icons: icons,
       logger: logger,

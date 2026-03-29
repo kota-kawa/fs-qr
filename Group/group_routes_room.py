@@ -17,7 +17,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from web import build_url, render_template
+from web import build_url, get_or_create_csrf_token, render_template
 from web import enforce_csrf
 
 from . import group_data
@@ -84,6 +84,7 @@ def register_group_room_access_route(router: APIRouter):
             password=password,
             retention_days=retention_days,
             deletion_date=deletion_date,
+            websocket_csrf_token=get_or_create_csrf_token(request),
         )
 
 

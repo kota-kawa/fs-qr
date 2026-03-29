@@ -80,6 +80,7 @@
     window.__FSQR_APP__.api.setConfig('groupRoom', Object.freeze({
         roomId: {{ room_id|string|tojson }},
         roomPassword: {{ password|string|tojson }},
+        websocketCsrfToken: {{ websocket_csrf_token|string|tojson }},
         debug: {{ frontend_debug | tojson }},
         limits: Object.freeze(
             Object.assign(
