@@ -1,3 +1,4 @@
+import re
 from unittest.mock import AsyncMock, mock_open, patch
 
 from starlette.testclient import TestClient
@@ -107,6 +108,56 @@ def test_group_room_not_found(test_client: TestClient):
     ):
         response = test_client.get("/group/abc123/000000")
     assert response.status_code == 404
+
+
+def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
+    test_client: TestClient,
+):
+    """group_room は分割済み JS を読み込み、旧インライン実装を含まない"""
+    mock_room = {"id": "tester", "retention_days": 7, "time": None}
+    with (
+        patch(
+            "Group.group_routes_room.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "Group.group_routes_room.get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch(
+            "Group.group_routes_room.register_success",
+            new_callable=AsyncMock,
+        ),
+    ):
+        response = test_client.get("/group/abc123/000000")
+
+    assert response.status_code == 200
+    html = response.text
+
+    expected_script_paths = [
+        "/static/js/group_room/core.js",
+        "/static/js/group_room/downloads.js",
+        "/static/js/group_room/remote-files.js",
+        "/static/js/group_room/upload-queue.js",
+        "/static/js/group_room/upload-submit.js",
+        "/static/js/group_room/main.js",
+    ]
+
+    script_positions = []
+    for script_path in expected_script_paths:
+        script_tag_pattern = (
+            rf'<script src="{re.escape(script_path)}\?v=\d+"></script>'
+        )
+        script_tag_match = re.search(script_tag_pattern, html)
+        assert script_tag_match is not None
+        script_positions.append(script_tag_match.start())
+
+    assert script_positions == sorted(script_positions)
+    assert "window.GroupRoomConfig = Object.freeze({" in html
+    assert "function handleFiles(files)" not in html
+    assert "function fetchAndDisplayOtherFiles()" not in html
 
 
 # --- group_upload: 認証失敗 → 400 ---
