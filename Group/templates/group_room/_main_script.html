@@ -112,8 +112,151 @@
         var fetchRetryCount = 0;
         var maxRetries = 3;
         var isDownloading = {}; // Track download states to prevent multiple clicks
+        var fileListSocket = null;
+        var fileListReconnectDelayMs = 1000;
+        var fileListReconnectTimer = null;
+        var isPageUnloading = false;
+        var isFetchingFileList = false;
+        var shouldRefetchFileList = false;
+        var lastRenderedFileSignature = null;
+
+        function buildFileSignature(files) {
+            return JSON.stringify(
+                files
+                    .map(function (file) { return file.name; })
+                    .sort()
+            );
+        }
+
+        function renderOtherFileList(files) {
+            otherFileList.empty(); // リストをリセット
+            $('#fileCount').text(files.length); // ファイル数を更新
+
+            if (files.length === 0) {
+                otherFileList.html('<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>');
+                return;
+            }
+
+            files.forEach(function (file) {
+                var fileItem = $('<div class="modern-file-item"></div>');
+                var fileName = $('<div class="modern-file-name"></div>');
+                var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
+                fileName.html(ICONS.file).append(fileNameText);
+
+                var actions = $('<div class="modern-file-actions"></div>');
+
+                var downloadBtn = $('<button class="modern-file-action-btn"></button>')
+                    .html(ICONS.download)
+                    .attr('aria-label', 'ダウンロード')
+                    .attr('title', 'ダウンロード');
+                const encodedFilename = encodeURIComponent(file.name);
+                const downloadKey = `${roomId}-${file.name}`;
+
+                downloadBtn.on('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Prevent multiple simultaneous downloads of the same file
+                    if (isDownloading[downloadKey]) {
+                        return;
+                    }
+
+                    isDownloading[downloadKey] = true;
+                    downloadBtn.prop('disabled', true);
+
+                    // Show download progress spinner
+                    $('#downloadSpinnerContainer').show();
+                    $('#downloadAnimationContainer').addClass('downloading');
+                    $('#downloadStatusText').text(`${file.name} をダウンロード中...`);
+                    $('#downloadProgressBar').css('transform', 'scaleX(0)');
+
+                    // Use XMLHttpRequest for progress tracking
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
+                    xhr.responseType = 'blob';
+
+                    xhr.onprogress = function(event) {
+                        if (event.lengthComputable) {
+                            var percentComplete = event.loaded / event.total;
+                            $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
+                        }
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            // Create download link
+                            var blob = xhr.response;
+                            var link = document.createElement('a');
+                            link.href = URL.createObjectURL(blob);
+                            link.download = file.name;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(link.href);
+
+                            $('#downloadProgressBar').css('transform', 'scaleX(1)');
+                            $('#downloadStatusText').text('ダウンロード完了！');
+
+                            setTimeout(function() {
+                                $('#downloadSpinnerContainer').hide();
+                                $('#downloadAnimationContainer').removeClass('downloading');
+                            }, 1000);
+                        } else {
+                            alert('ダウンロード中にエラーが発生しました。');
+                            $('#downloadSpinnerContainer').hide();
+                            $('#downloadAnimationContainer').removeClass('downloading');
+                        }
+
+                        // Re-enable button
+                        isDownloading[downloadKey] = false;
+                        downloadBtn.prop('disabled', false);
+                    };
+
+                    xhr.onerror = function() {
+                        alert('ダウンロード中にエラーが発生しました。');
+                        $('#downloadSpinnerContainer').hide();
+                        $('#downloadAnimationContainer').removeClass('downloading');
+                        isDownloading[downloadKey] = false;
+                        downloadBtn.prop('disabled', false);
+                    };
+
+                    xhr.send();
+                });
+
+                var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
+                    .html(ICONS.trash)
+                    .attr('aria-label', '削除')
+                    .attr('title', '削除');
+                deleteBtn.on('click', function () {
+                    if (confirm('本当にこのファイルを削除しますか？')) {
+                        $.ajax({
+                            url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
+                            type: 'DELETE',
+                            headers: { 'X-CSRF-Token': csrfToken },
+                            success: function () {
+                                alert('ファイルが削除されました。');
+                                fetchAndDisplayOtherFiles();
+                            },
+                            error: function () {
+                                alert('削除中にエラーが発生しました。');
+                            }
+                        });
+                    }
+                });
+
+                actions.append(downloadBtn).append(deleteBtn);
+                fileItem.append(fileName).append(actions);
+                otherFileList.append(fileItem);
+            });
+        }
 
         function fetchAndDisplayOtherFiles() {
+            if (isFetchingFileList) {
+                shouldRefetchFileList = true;
+                return;
+            }
+
+            isFetchingFileList = true;
             $.ajax({
                 url: `/check/${roomId}/${roomPassword}`,
                 type: 'GET',
@@ -126,126 +269,14 @@
                         return;
                     }
 
-                    otherFileList.empty(); // リストをリセット
-                    $('#fileCount').text(files.length); // ファイル数を更新
-                    
-                    if (files.length === 0) {
-                        otherFileList.html('<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>');
+                    var currentFileSignature = buildFileSignature(files);
+                    if (currentFileSignature === lastRenderedFileSignature) {
+                        $('#fileCount').text(files.length);
                         return;
                     }
-                    
-                    files.forEach(function (file) {
-                        var fileItem = $('<div class="modern-file-item"></div>');
-                        var fileName = $('<div class="modern-file-name"></div>');
-                        var fileNameText = $('<span class="modern-file-name-text"></span>').text(file.name);
-                        fileName.html(ICONS.file).append(fileNameText);
 
-                        var actions = $('<div class="modern-file-actions"></div>');
-
-                        var downloadBtn = $('<button class="modern-file-action-btn"></button>')
-                            .html(ICONS.download)
-                            .attr('aria-label', 'ダウンロード')
-                            .attr('title', 'ダウンロード');
-                        const encodedFilename = encodeURIComponent(file.name);
-                        const downloadKey = `${roomId}-${file.name}`;
-                        
-                        downloadBtn.on('click', function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            
-                            // Prevent multiple simultaneous downloads of the same file
-                            if (isDownloading[downloadKey]) {
-                                return;
-                            }
-                            
-                            isDownloading[downloadKey] = true;
-                            downloadBtn.prop('disabled', true);
-                            
-                            // Show download progress spinner
-                            $('#downloadSpinnerContainer').show();
-                            $('#downloadAnimationContainer').addClass('downloading');
-                            $('#downloadStatusText').text(`${file.name} をダウンロード中...`);
-                            $('#downloadProgressBar').css('transform', 'scaleX(0)');
-                            
-                            // Use XMLHttpRequest for progress tracking
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
-                            xhr.responseType = 'blob';
-                            
-                            xhr.onprogress = function(event) {
-                                if (event.lengthComputable) {
-                                    var percentComplete = event.loaded / event.total;
-                                    $('#downloadProgressBar').css('transform', `scaleX(${percentComplete})`);
-                                }
-                            };
-                            
-                            xhr.onload = function() {
-                                if (xhr.status === 200) {
-                                    // Create download link
-                                    var blob = xhr.response;
-                                    var link = document.createElement('a');
-                                    link.href = URL.createObjectURL(blob);
-                                    link.download = file.name;
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    document.body.removeChild(link);
-                                    URL.revokeObjectURL(link.href);
-                                    
-                                    $('#downloadProgressBar').css('transform', 'scaleX(1)');
-                                    $('#downloadStatusText').text('ダウンロード完了！');
-                                    
-                                    setTimeout(function() {
-                                        $('#downloadSpinnerContainer').hide();
-                                        $('#downloadAnimationContainer').removeClass('downloading');
-                                    }, 1000);
-                                } else {
-                                    alert('ダウンロード中にエラーが発生しました。');
-                                    $('#downloadSpinnerContainer').hide();
-                                    $('#downloadAnimationContainer').removeClass('downloading');
-                                }
-                                
-                                // Re-enable button
-                                isDownloading[downloadKey] = false;
-                                downloadBtn.prop('disabled', false);
-                            };
-                            
-                            xhr.onerror = function() {
-                                alert('ダウンロード中にエラーが発生しました。');
-                                $('#downloadSpinnerContainer').hide();
-                                $('#downloadAnimationContainer').removeClass('downloading');
-                                isDownloading[downloadKey] = false;
-                                downloadBtn.prop('disabled', false);
-                            };
-                            
-                            xhr.send();
-                        });
-
-                        var deleteBtn = $('<button class="modern-file-action-btn delete"></button>')
-                            .html(ICONS.trash)
-                            .attr('aria-label', '削除')
-                            .attr('title', '削除');
-                        deleteBtn.on('click', function () {
-                            if (confirm('本当にこのファイルを削除しますか？')) {
-                                $.ajax({
-                                    url: `/delete/${roomId}/${roomPassword}/${encodedFilename}`,
-                                    type: 'DELETE',
-                                    headers: { 'X-CSRF-Token': csrfToken },
-                                    success: function () {
-                                        alert('ファイルが削除されました。');
-                                        fileItem.remove();
-                                        $('#fileCount').text($('#otherFileList .modern-file-item').length);
-                                    },
-                                    error: function () {
-                                        alert('削除中にエラーが発生しました。');
-                                    }
-                                });
-                            }
-                        });
-
-                        actions.append(downloadBtn).append(deleteBtn);
-                        fileItem.append(fileName).append(actions);
-                        otherFileList.append(fileItem);
-                    });
+                    lastRenderedFileSignature = currentFileSignature;
+                    renderOtherFileList(files);
                 },
                 error: function (xhr, status, error) {
                     fetchRetryCount++;
@@ -257,19 +288,106 @@
                         fetchRetryCount = 0; // Reset for next cycle
                     }
                     // Don't show alert for temporary network issues
+                },
+                complete: function () {
+                    isFetchingFileList = false;
+                    if (shouldRefetchFileList) {
+                        shouldRefetchFileList = false;
+                        fetchAndDisplayOtherFiles();
+                    }
                 }
             });
         }
 
-        // 定期的にファイルリストを更新する関数
-        function startFilePolling() {
-            // Initial load
-            fetchAndDisplayOtherFiles();
-            // Slightly longer interval to reduce server load and conflicts
-            setInterval(fetchAndDisplayOtherFiles, 2000); // 2秒ごとにリクエストを送信
+        function scheduleFileListReconnect() {
+            if (fileListReconnectTimer) {
+                clearTimeout(fileListReconnectTimer);
+            }
+
+            fileListReconnectTimer = setTimeout(function () {
+                connectFileListWebSocket();
+            }, fileListReconnectDelayMs);
+            fileListReconnectDelayMs = Math.min(fileListReconnectDelayMs * 2, 30000);
         }
 
-        startFilePolling();
+        function connectFileListWebSocket() {
+            var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            var wsUrl = `${protocol}://${window.location.host}/ws/group/${roomId}/${roomPassword}`;
+            fileListSocket = new WebSocket(wsUrl);
+
+            fileListSocket.onopen = function () {
+                fileListReconnectDelayMs = 1000;
+                if (fileListReconnectTimer) {
+                    clearTimeout(fileListReconnectTimer);
+                    fileListReconnectTimer = null;
+                }
+                fetchAndDisplayOtherFiles();
+            };
+
+            fileListSocket.onmessage = function (event) {
+                try {
+                    var payload = JSON.parse(event.data);
+                    if (payload.type === 'files_updated') {
+                        fetchAndDisplayOtherFiles();
+                    }
+                } catch (error) {
+                    console.warn('WebSocketメッセージの解析に失敗しました:', error);
+                }
+            };
+
+            fileListSocket.onerror = function () {
+                if (fileListSocket && fileListSocket.readyState === WebSocket.OPEN) {
+                    fileListSocket.close();
+                }
+            };
+
+            fileListSocket.onclose = function (event) {
+                if (isPageUnloading) {
+                    return;
+                }
+                if (event && event.code === 1008) {
+                    console.warn('ファイル更新WebSocketが認証エラーで切断されました。');
+                    return;
+                }
+                scheduleFileListReconnect();
+            };
+        }
+
+        function startFileRealtimeUpdates() {
+            fetchAndDisplayOtherFiles();
+            connectFileListWebSocket();
+        }
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                fetchAndDisplayOtherFiles();
+                if (
+                    !fileListSocket ||
+                    fileListSocket.readyState === WebSocket.CLOSING ||
+                    fileListSocket.readyState === WebSocket.CLOSED
+                ) {
+                    connectFileListWebSocket();
+                }
+            }
+        });
+
+        window.addEventListener('beforeunload', function () {
+            isPageUnloading = true;
+            if (fileListReconnectTimer) {
+                clearTimeout(fileListReconnectTimer);
+            }
+            if (
+                fileListSocket &&
+                (
+                    fileListSocket.readyState === WebSocket.OPEN ||
+                    fileListSocket.readyState === WebSocket.CONNECTING
+                )
+            ) {
+                fileListSocket.close();
+            }
+        });
+
+        startFileRealtimeUpdates();
 
         // ファイル処理
         function handleFiles(files) {

@@ -1,4 +1,4 @@
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, mock_open, patch
 
 from starlette.testclient import TestClient
 
@@ -262,3 +262,47 @@ def test_download_file_empty_filename_returns_400(test_client: TestClient):
     """空のファイル名は 400 を返す"""
     response = test_client.get("/download/abc123/000000/ ")
     assert response.status_code == 400
+
+
+def test_group_upload_notifies_realtime_when_saved_files_exist(test_client: TestClient):
+    """保存済みファイルがある場合は realtime 通知を送る"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    notify_mock = AsyncMock()
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.notify_group_files_updated", notify_mock),
+        patch("Group.group_routes_file.os.makedirs"),
+        patch("Group.group_routes_file.open", mock_open(), create=True),
+        patch("Group.group_routes_file.shutil.copyfileobj"),
+        patch("Group.group_routes_file.os.path.getsize", return_value=1),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123/000000",
+            files={"upfile": ("test.txt", b"hello", "text/plain")},
+        )
+    assert response.status_code == 200
+    notify_mock.assert_awaited_once_with("abc123")
+
+
+def test_group_delete_notifies_realtime_on_success(test_client: TestClient):
+    """ファイル削除成功時は realtime 通知を送る"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    notify_mock = AsyncMock()
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.notify_group_files_updated", notify_mock),
+        patch("Group.group_routes_file.os.path.exists", return_value=True),
+        patch("Group.group_routes_file.os.remove"),
+    ):
+        response = test_client.delete("/delete/abc123/000000/test.txt")
+
+    assert response.status_code == 200
+    notify_mock.assert_awaited_once_with("abc123")

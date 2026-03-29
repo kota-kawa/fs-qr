@@ -10,6 +10,7 @@ from starlette.responses import FileResponse, JSONResponse, StreamingResponse
 from werkzeug.utils import secure_filename
 
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
+from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
 
 
@@ -55,6 +56,7 @@ def register_group_upload_route(router: APIRouter):
             )
 
         error_files = []
+        saved_files_count = 0
         save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(save_path, exist_ok=True)
 
@@ -81,10 +83,14 @@ def register_group_upload_route(router: APIRouter):
                 if os.path.getsize(file_path) == 0:
                     error_files.append(file.filename)
                     os.remove(file_path)
+                else:
+                    saved_files_count += 1
             except Exception:
                 error_files.append(file.filename)
 
         if error_files:
+            if saved_files_count > 0:
+                await notify_group_files_updated(room_id)
             return JSONResponse(
                 {
                     "status": "error",
@@ -94,6 +100,7 @@ def register_group_upload_route(router: APIRouter):
                 status_code=500,
             )
 
+        await notify_group_files_updated(room_id)
         return JSONResponse(
             {"status": "success", "message": "ファイルが正常にアップロードされました。"}
         )
@@ -245,6 +252,7 @@ def register_group_delete_file_route(router: APIRouter):
         try:
             if os.path.exists(file_path):
                 os.remove(file_path)
+                await notify_group_files_updated(room_id)
                 return JSONResponse(
                     {"message": "ファイルが削除されました。"}, status_code=200
                 )

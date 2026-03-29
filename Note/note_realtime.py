@@ -117,15 +117,20 @@ class RoomHub:
             pipeline.srem(instance_key, member)
             pipeline.scard(room_key)
             pipeline.scard(instance_key)
-            room_removed, instance_removed, room_count, instance_count = (
-                await pipeline.execute()
-            )
+            (
+                room_removed,
+                instance_removed,
+                room_count,
+                instance_count,
+            ) = await pipeline.execute()
             if room_removed and room_count == 0:
                 await client.delete(room_key)
             if instance_removed and instance_count == 0:
                 await client.delete(instance_key)
         except Exception as exc:
-            logger.warning("Failed to unregister websocket connection in Redis: %s", exc)
+            logger.warning(
+                "Failed to unregister websocket connection in Redis: %s", exc
+            )
 
     async def _clear_instance_connections(self):
         client = await get_redis()

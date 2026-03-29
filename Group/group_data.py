@@ -7,6 +7,7 @@ from sqlalchemy import text
 from werkzeug.utils import secure_filename
 from database import db_session, is_retryable_db_error, reset_db_connection
 from cache_utils import cache_data
+from .group_realtime import hub as group_ws_hub
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -131,6 +132,7 @@ async def remove_data(secure_id):
         DELETE FROM room WHERE room_id = :secure_id
     """)
     await execute_query(query, {"secure_id": secure_id})
+    await group_ws_hub.close_room(secure_id, code=1001)
 
 
 # 全てのデータを削除
@@ -159,6 +161,7 @@ async def all_remove():
                     room_folder,
                     e,
                 )
+        await group_ws_hub.close_room(room_id, code=1001)
 
     # 最後に、データベースから全ルームのレコードを削除
     query = text("DELETE FROM room")
