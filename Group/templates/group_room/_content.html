@@ -73,11 +73,11 @@
                     {{ icons.icon('cloud', size='xxl') }}
                 </div>
                 <p class="upload-text-modern">ここにファイルをドラッグ＆ドロップ<br>またはクリックしてファイルを選択</p>
-                <button type="button" class="upload-button-modern" id="uploadFileBtn">
+                <button type="button" class="upload-button-modern" id="uploadFileBtn" aria-label="アップロードするファイルを選択">
                     {{ icons.icon('arrow_up', size='lg', with_text=True) }}
                     ファイルを選択
                 </button>
-                <input type="file" id="fileInput" multiple style="display: none;">
+                <input type="file" id="fileInput" multiple style="display: none;" aria-label="アップロードするファイルを選択">
             </div>
 
             <!-- Uploaded Files List -->
@@ -89,7 +89,7 @@
                 <div id="fileList" class="modern-file-list" style="display: none;">
                     <!-- 自分がアップロードしたファイルがここに表示されます -->
                 </div>
-                <button class="modern-btn modern-btn-success" id="uploadBtn" style="margin-top: 1rem;">
+                <button class="modern-btn modern-btn-success" id="uploadBtn" style="margin-top: 1rem;" aria-label="選択したファイルをアップロード">
                     {{ icons.icon('rocket', size='lg', with_text=True) }}
                     アップロード
                 </button>
@@ -115,7 +115,7 @@
                 <div id="otherFileList" class="modern-file-list">
                     <!-- 他の人のアップロードしたファイルがここに表示されます -->
                 </div>
-                <button class="modern-btn" id="downloadAllBtn" style="margin-top: 1rem;">
+                <button class="modern-btn" id="downloadAllBtn" style="margin-top: 1rem;" aria-label="メンバーのファイルをすべてダウンロード">
                     {{ icons.icon('archive_box', size='lg', with_text=True) }}
                     すべてダウンロード
                 </button>

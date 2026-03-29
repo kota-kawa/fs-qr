@@ -18,11 +18,11 @@
                         {{ icons.icon('cloud_upload', size='xxl') }}
                     </div>
                     <p class="upload-text-modern">ここをクリックまたはドラッグしてファイルをアップロード</p>
-                    <button type="button" onclick="fileInput.click()" class="upload-button-modern">
+                    <button type="button" onclick="fileInput.click()" class="upload-button-modern" aria-label="アップロードするファイルを選択">
                         {{ icons.icon('arrow_up', size='lg', with_text=True) }}
                         ファイルを選択
                     </button>
-                    <input type="file" name="upfile" id="fileInput" multiple style="display: none;">
+                    <input type="file" name="upfile" id="fileInput" multiple style="display: none;" aria-label="アップロードするファイルを選択">
                 </div>
                 
                 <!-- File List -->
@@ -85,7 +85,7 @@
                 <div class="inline-feedback" id="uploadInlineError" role="alert" aria-live="assertive"></div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="modern-btn modern-btn-success" id="startUploadBtn">
+                <button type="submit" class="modern-btn modern-btn-success" id="startUploadBtn" aria-label="ファイルをアップロード開始">
                     {{ icons.icon('rocket', size='lg', with_text=True) }}
                     アップロード開始
                 </button>
