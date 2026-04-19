@@ -373,33 +373,18 @@ body > #cookieConsent.cookie-consent-overlay {
   color: #0284c7;
 }
 
-/* ─── Mobile: bottom sheet ───────────────────────── */
+/* ─── Mobile ─────────────────────────────────────── */
 @media (max-width: 575.98px) {
   .cookie-consent-overlay {
-    align-items: flex-end;
-    padding: 0;
+    align-items: center;
+    padding: 1rem;
     background: rgba(15, 23, 42, 0.5);
   }
 
   .cookie-consent-dialog {
     width: 100%;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     padding: 1.75rem 1.25rem 1.5rem;
-  }
-
-  @keyframes cookie-dialog-in-mobile {
-    from {
-      opacity: 1;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .cookie-consent-overlay.is-visible .cookie-consent-dialog {
-    animation: cookie-dialog-in-mobile 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .cookie-consent-header {
