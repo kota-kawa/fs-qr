@@ -22,14 +22,19 @@
     var fileListSocket = null;
     var fileListReconnectDelayMs = 1000;
     var fileListReconnectTimer = null;
+    var fileListPollTimer = null;
     var isPageUnloading = false;
     var isFetchingFileList = false;
     var shouldRefetchFileList = false;
     var lastRenderedFileSignature = null;
     var parsedFileListRequestTimeoutMs = Number(limits.fileListRequestTimeoutMs);
+    var parsedFileListPollIntervalMs = Number(limits.fileListPollIntervalMs);
     var fileListRequestTimeoutMs = Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
       ? parsedFileListRequestTimeoutMs
       : 1000;
+    var fileListPollIntervalMs = Number.isFinite(parsedFileListPollIntervalMs) && parsedFileListPollIntervalMs >= 1000
+      ? parsedFileListPollIntervalMs
+      : 15000;
 
     function isValidFileEntry(file) {
       return Boolean(file) && typeof file === 'object' && typeof file.name === 'string' && file.name.length > 0;
@@ -242,6 +247,23 @@
       fileListReconnectDelayMs = Math.min(fileListReconnectDelayMs * 2, 30000);
     }
 
+    function stopPolling() {
+      if (fileListPollTimer) {
+        clearInterval(fileListPollTimer);
+        fileListPollTimer = null;
+      }
+    }
+
+    function startPolling() {
+      stopPolling();
+      fileListPollTimer = setInterval(function () {
+        if (document.visibilityState === 'hidden') {
+          return;
+        }
+        fetchAndDisplayOtherFiles();
+      }, fileListPollIntervalMs);
+    }
+
     function connectFileListWebSocket() {
       var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
       var wsUrl = new URL(`${protocol}://${window.location.host}/ws/group/${roomId}/${roomPassword}`);
@@ -295,6 +317,7 @@
 
     function startRealtimeUpdates() {
       fetchAndDisplayOtherFiles();
+      startPolling();
       connectFileListWebSocket();
     }
 
@@ -317,6 +340,7 @@
         if (fileListReconnectTimer) {
           clearTimeout(fileListReconnectTimer);
         }
+        stopPolling();
         if (
           fileListSocket &&
           (

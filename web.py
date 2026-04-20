@@ -13,6 +13,7 @@ from jinja2 import pass_context
 from settings import (
     BASE_DIR,
     FRONTEND_DEBUG,
+    GROUP_FILE_LIST_POLL_INTERVAL_MS,
     GROUP_FILE_LIST_REQUEST_TIMEOUT_MS,
     NOTE_MAX_CONTENT_LENGTH,
     NOTE_SELF_EDIT_TIMEOUT_MS,
@@ -238,5 +239,6 @@ templates.env.globals.update(
     upload_max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
     note_max_content_length=NOTE_MAX_CONTENT_LENGTH,
     note_self_edit_timeout_ms=NOTE_SELF_EDIT_TIMEOUT_MS,
+    group_file_list_poll_interval_ms=GROUP_FILE_LIST_POLL_INTERVAL_MS,
     group_file_list_request_timeout_ms=GROUP_FILE_LIST_REQUEST_TIMEOUT_MS,
 )

@@ -27,7 +27,8 @@
             selfEditTimeoutMs: {{ note_self_edit_timeout_ms | tojson }}
           }),
           group: Object.freeze({
-            fileListRequestTimeoutMs: {{ group_file_list_request_timeout_ms | tojson }}
+            fileListRequestTimeoutMs: {{ group_file_list_request_timeout_ms | tojson }},
+            fileListPollIntervalMs: {{ group_file_list_poll_interval_ms | tojson }}
           })
         })
       });

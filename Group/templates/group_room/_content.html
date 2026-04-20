@@ -95,12 +95,24 @@
                 </button>
                 
                 <!-- Upload Progress Bar -->
-                <div id="uploadProgressContainer" style="display: none; margin-top: 1rem;">
-                    <div style="text-align: center; margin-bottom: 0.5rem; color: var(--text-dark); font-weight: 500;">
-                        <span id="uploadProgressText">アップロード中...</span>
+                <div id="uploadProgressContainer" class="group-transfer-card group-transfer-card--upload" style="display: none;">
+                    <div class="group-transfer-card__visual" aria-hidden="true">
+                        <div class="group-transfer-card__orb"></div>
+                        <div class="group-transfer-card__icon group-transfer-card__icon--file">
+                            {{ icons.icon('document', size='xl') }}
+                        </div>
+                        <div class="group-transfer-card__icon group-transfer-card__icon--upload">
+                            {{ icons.icon('arrow_up', size='lg') }}
+                        </div>
                     </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="uploadProgressBar"></div>
+                    <div class="group-transfer-card__content">
+                        <div class="group-transfer-card__eyebrow">Uploading</div>
+                        <div class="group-transfer-card__title">
+                            <span id="uploadProgressText">アップロード中...</span>
+                        </div>
+                        <div class="group-transfer-card__progress progress-bar-container">
+                            <div class="progress-bar" id="uploadProgressBar"></div>
+                        </div>
                     </div>
                 </div>
                 <div id="uploadStatusMessage" class="upload-status-message" role="status" aria-live="polite"></div>
@@ -125,17 +137,23 @@
 </div>
 
 <!-- Download Progress Spinner -->
-<div class="spinner-container" id="downloadSpinnerContainer" style="display: none;">
-    <div class="spinner-second-container" id="downloadAnimationContainer">
-        <div class="icon file">
-            {{ icons.icon('document', extra_classes='svg-icon--spinner') }}
+<div class="spinner-container group-download-overlay" id="downloadSpinnerContainer" style="display: none;">
+    <div class="spinner-second-container group-download-panel" id="downloadAnimationContainer">
+        <div class="group-download-panel__glow" aria-hidden="true"></div>
+        <div class="group-download-panel__visual" aria-hidden="true">
+            <div class="icon file group-download-panel__icon group-download-panel__icon--file">
+                {{ icons.icon('document', size='xl') }}
+            </div>
+            <div class="icon download group-download-panel__icon group-download-panel__icon--download">
+                {{ icons.icon('arrow_down', size='xl') }}
+            </div>
         </div>
-        <div class="icon download">
-            {{ icons.icon('arrow_down', extra_classes='svg-icon--spinner') }}
-        </div>
-        <div class="text" id="downloadStatusText">ダウンロード中...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="downloadProgressBar"></div>
+        <div class="group-download-panel__content">
+            <div class="group-download-panel__eyebrow">Downloading</div>
+            <div class="text" id="downloadStatusText">ダウンロード中...</div>
+            <div class="group-download-panel__progress progress-bar-container">
+                <div class="progress-bar" id="downloadProgressBar"></div>
+            </div>
         </div>
     </div>
 </div>

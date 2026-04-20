@@ -13,10 +13,14 @@
   }
   var rawLimits = config.limits || {};
   var parsedFileListRequestTimeoutMs = Number(rawLimits.fileListRequestTimeoutMs);
+  var parsedFileListPollIntervalMs = Number(rawLimits.fileListPollIntervalMs);
   var limits = validation.normalizeLimits(rawLimits);
   limits.fileListRequestTimeoutMs = Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
     ? parsedFileListRequestTimeoutMs
     : 1000;
+  limits.fileListPollIntervalMs = Number.isFinite(parsedFileListPollIntervalMs) && parsedFileListPollIntervalMs >= 1000
+    ? parsedFileListPollIntervalMs
+    : 15000;
   var csrfToken = core.getCsrfToken();
 
   function initializeGroupRoom() {
@@ -84,6 +88,7 @@
       logger: logger,
       getFiles: uploadQueue.getFiles,
       clearFiles: uploadQueue.clearFiles,
+      refreshRemoteFiles: remoteFileListManager.fetchAndDisplayOtherFiles,
       limits: limits
     });
 

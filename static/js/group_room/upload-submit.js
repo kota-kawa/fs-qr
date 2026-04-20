@@ -16,6 +16,9 @@
     var getFiles = options.getFiles;
     var clearFiles = options.clearFiles;
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
+    var refreshRemoteFiles = typeof options.refreshRemoteFiles === 'function'
+      ? options.refreshRemoteFiles
+      : function () {};
     var validation = appNamespace.api.getShared('uploadValidation');
     if (!validation) {
       throw new Error('Shared upload validation is not initialized.');
@@ -137,6 +140,7 @@
         if (response.status === 'ok') {
           statusMessage = responseData.message || 'ファイルのアップロードが完了しました。';
           clearFiles();
+          refreshRemoteFiles();
         } else if (response.status === 'error') {
           isError = true;
           var errorDetails = response.error || responseData.message || 'アップロード中にエラーが発生しました。';
@@ -147,6 +151,7 @@
         } else {
           statusMessage = 'ファイルのアップロードが完了しました。';
           clearFiles();
+          refreshRemoteFiles();
         }
 
         if (statusMessage) {
