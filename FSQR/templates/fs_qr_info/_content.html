@@ -169,14 +169,28 @@
 </div>
 
 
-  <!-- ▼ ダウンロード中の進捗を示すスピナー（非表示で用意しておく） -->
-  <div class="spinner-container spinner-container--hidden" id="spinnerContainer">
-    <div class="spinner-second-container spinner-second-container--decrypt" id="animationContainer">
-      <div class="icon lock">{{ icons.icon('lock', extra_classes='svg-icon--spinner') }}</div>
-      <div class="icon file">{{ icons.icon('document', extra_classes='svg-icon--spinner') }}</div>
-      <div class="text" id="statusText">受信中...</div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar"></div>
+  <div class="spinner-container fsqr-download-overlay spinner-container--hidden" id="spinnerContainer">
+    <div class="fsqr-transfer-card fsqr-transfer-card--download is-receiving" id="animationContainer">
+      <div class="fsqr-transfer-card__visual" aria-hidden="true">
+        <div class="fsqr-transfer-card__orb"></div>
+        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
+          {{ icons.icon('document', size='xl') }}
+        </div>
+        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--download">
+          {{ icons.icon('arrow_down', size='lg') }}
+        </div>
+        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
+          {{ icons.icon('lock', size='lg') }}
+        </div>
+      </div>
+      <div class="fsqr-transfer-card__content">
+        <div class="fsqr-transfer-card__eyebrow" id="statusEyebrow">Downloading</div>
+        <div class="fsqr-transfer-card__title">
+          <span id="statusText">受信中...</span>
+        </div>
+        <div class="fsqr-transfer-card__progress progress-bar-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
       </div>
     </div>
   </div>

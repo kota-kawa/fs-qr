@@ -7,6 +7,9 @@
 
   function createEncryptionService(options) {
     var setProgressScale = options.setProgressScale;
+    var setStatusText = typeof options.setStatusText === 'function'
+      ? options.setStatusText
+      : function () {};
 
     async function encryptAndZipFilesWithProgress(files, key) {
       var keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
@@ -17,10 +20,12 @@
         var singleIv = crypto.getRandomValues(new Uint8Array(12));
         var singleFileBuffer = await singleFile.arrayBuffer();
 
+        setStatusText('暗号化中... 25%');
         setProgressScale(0.25);
 
         var singleEncryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: singleIv }, cryptoKey, singleFileBuffer);
 
+        setStatusText('暗号化中... 50%');
         setProgressScale(0.5);
         return new Blob([singleIv, singleEncryptedBuffer]);
       }
@@ -35,11 +40,13 @@
         zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
 
         var encryptProgress = ((i + 1) / files.length) * 25;
+        setStatusText(`暗号化中... ${Math.round(encryptProgress)}%`);
         setProgressScale(encryptProgress / 100);
       }
 
       return zip.generateAsync({ type: 'blob' }, function (metadata) {
         var zipProgress = 25 + (metadata.percent / 4);
+        setStatusText(`圧縮中... ${Math.round(zipProgress)}%`);
         setProgressScale(zipProgress / 100);
       });
     }

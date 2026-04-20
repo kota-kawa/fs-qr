@@ -7,16 +7,33 @@
 
   function createSpinnerController(options) {
     var spinnerRoot = options.spinnerRoot;
+    var spinnerAnimationContainer = options.spinnerAnimationContainer;
+    var spinnerEyebrow = options.spinnerEyebrow;
     var spinnerText = options.spinnerText;
     var spinnerProgress = options.spinnerProgress;
-    var iconSwitchInterval;
+
+    function setPhase(phaseName) {
+      if (!spinnerAnimationContainer) {
+        return;
+      }
+      spinnerAnimationContainer.classList.remove('is-encrypting', 'is-uploading');
+      if (phaseName === 'encrypting') {
+        spinnerAnimationContainer.classList.add('is-encrypting');
+      } else if (phaseName === 'uploading') {
+        spinnerAnimationContainer.classList.add('is-uploading');
+      }
+    }
 
     function hideSpinner() {
       if (spinnerRoot) {
         spinnerRoot.style.display = 'none';
       }
+      setPhase('');
       if (spinnerProgress) {
         spinnerProgress.style.transform = 'scaleX(0)';
+      }
+      if (spinnerEyebrow) {
+        spinnerEyebrow.textContent = 'Encrypting';
       }
       if (spinnerText) {
         spinnerText.textContent = '暗号化中...';
@@ -25,13 +42,19 @@
 
     function showSpinner() {
       if (spinnerRoot) {
-        spinnerRoot.style.display = 'flex';
+        spinnerRoot.style.display = 'grid';
       }
     }
 
     function setSpinnerText(text) {
       if (spinnerText) {
         spinnerText.textContent = text;
+      }
+    }
+
+    function setSpinnerEyebrow(text) {
+      if (spinnerEyebrow) {
+        spinnerEyebrow.textContent = text;
       }
     }
 
@@ -42,30 +65,24 @@
     }
 
     function startEncryptionAnimation() {
-      var spinnerContainer = document.querySelector('.spinner-second-container');
-      iconSwitchInterval = setInterval(function () {
-        spinnerContainer.classList.toggle('encrypting');
-      }, 1000);
+      setPhase('encrypting');
+      setSpinnerEyebrow('Encrypting');
     }
 
     function startUploadAnimation() {
-      var spinnerContainer = document.querySelector('.spinner-second-container');
-      clearInterval(iconSwitchInterval);
-      spinnerContainer.classList.remove('encrypting');
-
-      iconSwitchInterval = setInterval(function () {
-        spinnerContainer.classList.toggle('uploading');
-      }, 800);
+      setPhase('uploading');
+      setSpinnerEyebrow('Uploading');
     }
 
     function stopIconSwitching() {
-      clearInterval(iconSwitchInterval);
+      setPhase('');
     }
 
     return {
       hideSpinner: hideSpinner,
       showSpinner: showSpinner,
       setSpinnerText: setSpinnerText,
+      setSpinnerEyebrow: setSpinnerEyebrow,
       setProgressScale: setProgressScale,
       startEncryptionAnimation: startEncryptionAnimation,
       startUploadAnimation: startUploadAnimation,

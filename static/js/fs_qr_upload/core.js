@@ -69,9 +69,11 @@
       retentionSelect: document.getElementById('retention'),
       retentionPreviewTime: document.getElementById('retentionPreviewTime'),
       inlineError: document.getElementById('uploadInlineError'),
-      spinnerRoot: document.getElementById('spinner-container'),
-      spinnerText: document.querySelector('#spinner-container .text'),
-      spinnerProgress: document.querySelector('#spinner-container .progress-bar')
+      spinnerRoot: document.getElementById('uploadProgressContainer'),
+      spinnerAnimationContainer: document.getElementById('uploadProgressContainer'),
+      spinnerEyebrow: document.getElementById('uploadProgressEyebrow'),
+      spinnerText: document.getElementById('uploadProgressText'),
+      spinnerProgress: document.getElementById('uploadProgressBar')
     };
   }
 

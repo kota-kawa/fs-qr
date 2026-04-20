@@ -18,6 +18,8 @@
   var uploadIconController = core.createUploadIconController(config.icons || {});
   var spinnerController = modules.spinner.createSpinnerController({
     spinnerRoot: elements.spinnerRoot,
+    spinnerAnimationContainer: elements.spinnerAnimationContainer,
+    spinnerEyebrow: elements.spinnerEyebrow,
     spinnerText: elements.spinnerText,
     spinnerProgress: elements.spinnerProgress
   });
@@ -46,12 +48,14 @@
   });
 
   var encryptionService = modules.encryption.createEncryptionService({
-    setProgressScale: spinnerController.setProgressScale
+    setProgressScale: spinnerController.setProgressScale,
+    setStatusText: spinnerController.setSpinnerText
   });
 
   var uploadSubmitter = modules.uploadSubmit.createUploadSubmitter({
     uploadForm: elements.uploadForm,
     fileInput: elements.fileInput,
+    startUploadBtn: elements.startUploadBtn,
     retentionSelect: elements.retentionSelect,
     getCurrentId: idModeController.getCurrentId,
     clearFormError: formError.clearFormError,
@@ -60,13 +64,13 @@
     spinner: spinnerController,
     encryptionService: encryptionService,
     logger: logger,
+    uploadButtonLabel: `${config.icons.rocket} アップロード開始`,
     limits: limits
   });
 
   function initializeStaticUi() {
-    var uploadButtonLabel = `${config.icons.rocket} アップロード開始`;
     if (elements.startUploadBtn) {
-      elements.startUploadBtn.innerHTML = uploadButtonLabel;
+      elements.startUploadBtn.innerHTML = uploadSubmitter.getUploadButtonLabel();
     }
     uploadIconController.setUploadIcon('cloudUpload');
   }

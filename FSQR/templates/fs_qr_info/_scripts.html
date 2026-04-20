@@ -129,8 +129,27 @@
     const spinnerContainer = document.getElementById('spinnerContainer');
     const progressBar = document.getElementById('progressBar');
     const statusText = document.getElementById('statusText');
+    const statusEyebrow = document.getElementById('statusEyebrow');
     const secureId = {{ secure_id | tojson }};
     const decryptionKey = secureId.split('-')[0];
+
+    function setPhase(phase) {
+      if (!container) {
+        return;
+      }
+      container.classList.remove('is-receiving', 'is-decrypting');
+      if (phase === 'receiving') {
+        container.classList.add('is-receiving');
+        if (statusEyebrow) {
+          statusEyebrow.textContent = 'Downloading';
+        }
+      } else if (phase === 'decrypting') {
+        container.classList.add('is-decrypting');
+        if (statusEyebrow) {
+          statusEyebrow.textContent = 'Decrypting';
+        }
+      }
+    }
 
     function setProgress(value) {
       if (!progressBar) {
@@ -139,13 +158,12 @@
       progressBar.style.transform = `scaleX(${Math.max(0, Math.min(1, value))})`;
     }
 
-    function showSpinner(message) {
+    function showSpinner(message, phase) {
       if (spinnerContainer) {
         spinnerContainer.style.display = 'flex';
+        spinnerContainer.classList.remove('spinner-container--hidden');
       }
-      if (container) {
-        container.classList.add('decrypting');
-      }
+      setPhase(phase);
       if (statusText) {
         statusText.textContent = message;
       }
@@ -154,18 +172,11 @@
     function hideSpinner() {
       if (spinnerContainer) {
         spinnerContainer.style.display = 'none';
+        spinnerContainer.classList.add('spinner-container--hidden');
       }
-      if (container) {
-        container.classList.remove('decrypting');
-      }
+      setPhase('');
       setProgress(0);
     }
-
-    window.setInterval(function () {
-      if (container) {
-        container.classList.toggle('decrypting');
-      }
-    }, 1000);
 
     async function decryptFile(encryptedBuffer, key, iv) {
       const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
@@ -190,12 +201,19 @@
         const arrayBuffer = await encryptedBlob.arrayBuffer();
         const iv = arrayBuffer.slice(0, 12);
         const encryptedContent = arrayBuffer.slice(12);
+        if (statusText) {
+          statusText.textContent = '復号中... 35%';
+        }
+        setProgress(0.35);
         const decryptedContent = await decryptFile(encryptedContent, key, iv);
 
         if (!decryptedContent) {
           return null;
         }
 
+        if (statusText) {
+          statusText.textContent = '復号中... 100%';
+        }
         setProgress(1);
         return new Blob([decryptedContent]);
       } catch (error) {
@@ -228,34 +246,69 @@
 
         decryptedZip.file(fileName.replace(/\.enc$/i, ''), decryptedContent);
         processedFiles += 1;
+        if (statusText) {
+          statusText.textContent = `復号中... ${Math.round((processedFiles / totalFiles) * 100)}%`;
+        }
         setProgress(totalFiles ? processedFiles / totalFiles : 1);
       }
 
       return decryptedZip.generateAsync({ type: 'blob' });
     }
 
-    downloadForm.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      showSpinner('受信中...');
-
-      try {
+    function downloadEncryptedBlob() {
+      return new Promise((resolve, reject) => {
         const csrfMeta = document.querySelector('meta[name="csrf-token"]');
         const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
-        const response = await fetch(downloadForm.action, {
-          method: 'POST',
-          credentials: 'same-origin',
-          headers: csrfToken ? { 'X-CSRF-Token': csrfToken } : {}
-        });
-
-        if (!response.ok) {
-          throw new Error('ダウンロードに失敗しました。');
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', downloadForm.action, true);
+        xhr.responseType = 'blob';
+        if (csrfToken) {
+          xhr.setRequestHeader('X-CSRF-Token', csrfToken);
         }
 
-        const encryptedBlob = await response.blob();
-        const fileType = response.headers.get('X-File-Type') || 'multiple';
-        const originalFilename = response.headers.get('X-Original-Filename') || '';
+        xhr.onprogress = function (event) {
+          if (event.lengthComputable) {
+            const percent = event.loaded / event.total;
+            setProgress(percent);
+            if (statusText) {
+              statusText.textContent = `ダウンロード中... ${Math.round(percent * 100)}%`;
+            }
+          }
+        };
 
-        showSpinner('復号中...');
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve({
+              blob: xhr.response,
+              fileType: xhr.getResponseHeader('X-File-Type') || 'multiple',
+              originalFilename: xhr.getResponseHeader('X-Original-Filename') || ''
+            });
+            return;
+          }
+          reject(new Error('ダウンロードに失敗しました。'));
+        };
+
+        xhr.onerror = function () {
+          reject(new Error('ダウンロードに失敗しました。'));
+        };
+
+        xhr.send();
+      });
+    }
+
+    downloadForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      showSpinner('ダウンロード中... 0%', 'receiving');
+      setProgress(0);
+
+      try {
+        const downloadResult = await downloadEncryptedBlob();
+        const encryptedBlob = downloadResult.blob;
+        const fileType = downloadResult.fileType;
+        const originalFilename = downloadResult.originalFilename;
+
+        showSpinner('復号中... 0%', 'decrypting');
+        setProgress(0);
 
         let decryptedBlob;
         let downloadFilename;
@@ -279,6 +332,10 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        if (statusText) {
+          statusText.textContent = 'ダウンロード完了！';
+        }
+        setProgress(1);
         window.setTimeout(function () {
           URL.revokeObjectURL(objectUrl);
         }, 1000);

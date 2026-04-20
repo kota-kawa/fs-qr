@@ -136,22 +136,24 @@
     </div>
 </div>
 
-<!-- Download Progress Spinner -->
+<!-- Download Progress -->
 <div class="spinner-container group-download-overlay" id="downloadSpinnerContainer" style="display: none;">
-    <div class="spinner-second-container group-download-panel" id="downloadAnimationContainer">
-        <div class="group-download-panel__glow" aria-hidden="true"></div>
-        <div class="group-download-panel__visual" aria-hidden="true">
-            <div class="icon file group-download-panel__icon group-download-panel__icon--file">
+    <div class="group-transfer-card group-transfer-card--download" id="downloadAnimationContainer">
+        <div class="group-transfer-card__visual" aria-hidden="true">
+            <div class="group-transfer-card__orb"></div>
+            <div class="group-transfer-card__icon group-transfer-card__icon--file">
                 {{ icons.icon('document', size='xl') }}
             </div>
-            <div class="icon download group-download-panel__icon group-download-panel__icon--download">
-                {{ icons.icon('arrow_down', size='xl') }}
+            <div class="group-transfer-card__icon group-transfer-card__icon--download">
+                {{ icons.icon('arrow_down', size='lg') }}
             </div>
         </div>
-        <div class="group-download-panel__content">
-            <div class="group-download-panel__eyebrow">Downloading</div>
-            <div class="text" id="downloadStatusText">ダウンロード中...</div>
-            <div class="group-download-panel__progress progress-bar-container">
+        <div class="group-transfer-card__content">
+            <div class="group-transfer-card__eyebrow">Downloading</div>
+            <div class="group-transfer-card__title">
+                <span id="downloadStatusText">ダウンロード中...</span>
+            </div>
+            <div class="group-transfer-card__progress progress-bar-container">
                 <div class="progress-bar" id="downloadProgressBar"></div>
             </div>
         </div>

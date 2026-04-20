@@ -89,6 +89,30 @@
                     {{ icons.icon('rocket', size='lg', with_text=True) }}
                     アップロード開始
                 </button>
+
+                <div id="uploadProgressContainer" class="fsqr-transfer-card fsqr-transfer-card--upload" style="display: none;">
+                    <div class="fsqr-transfer-card__visual" aria-hidden="true">
+                        <div class="fsqr-transfer-card__orb"></div>
+                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
+                            {{ icons.icon('document', size='xl') }}
+                        </div>
+                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
+                            {{ icons.icon('lock', size='lg') }}
+                        </div>
+                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--upload">
+                            {{ icons.icon('arrow_up', size='lg') }}
+                        </div>
+                    </div>
+                    <div class="fsqr-transfer-card__content">
+                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">Encrypting</div>
+                        <div class="fsqr-transfer-card__title">
+                            <span id="uploadProgressText">暗号化中...</span>
+                        </div>
+                        <div class="fsqr-transfer-card__progress progress-bar-container">
+                            <div class="progress-bar" id="uploadProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -105,29 +129,6 @@
                 3. 完了画面では共有リンクのコピーが最短です。URLを送るだけで相手が受け取れます。<br>
                  ※最大{{ upload_max_files }}ファイル、合計{{ upload_max_total_size_mb }}MBまで扱えます。
             </p>
-        </div>
-    </div>
-</div>
-
-{% import "macros/icons.html" as icons %}
-<!-- Spinner Container (Hidden initially) -->
-<div id="spinner-container" class="spinner-container spinner-container--hidden">
-    <div class="spinner-second-container">
-        <div class="icon file">
-            {{ icons.icon('document', extra_classes='svg-icon--spinner') }}
-        </div>
-        <div class="icon lock">
-            {{ icons.icon('lock', extra_classes='svg-icon--spinner') }}
-        </div>
-        <div class="icon upload">
-            {{ icons.icon('arrow_up', extra_classes='svg-icon--spinner') }}
-        </div>
-        <div class="icon cloud">
-            {{ icons.icon('cloud', extra_classes='svg-icon--spinner') }}
-        </div>
-        <div class="text">暗号化中...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar"></div>
         </div>
     </div>
 </div>

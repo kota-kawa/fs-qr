@@ -24,7 +24,7 @@
 
       isDownloading[downloadKey] = true;
       downloadBtn.disabled = true;
-      core.showDownloadProgress(`${file.name} をダウンロード中...`);
+      core.showDownloadProgress(`${file.name} をダウンロード中... 0%`);
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
@@ -34,6 +34,7 @@
         if (event.lengthComputable) {
           var percentComplete = event.loaded / event.total;
           core.setDownloadProgressScale(percentComplete);
+          core.setDownloadStatusText(`${file.name} をダウンロード中... ${Math.round(percentComplete * 100)}%`);
         }
       };
 
@@ -70,7 +71,7 @@
 
       isDownloadingAll = true;
       downloadAllBtn.disabled = true;
-      core.showDownloadProgress('全ファイルをダウンロード中...');
+      core.showDownloadProgress('全ファイルをダウンロード中... 0%');
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', `/download/all/${roomId}/${roomPassword}`, true);
@@ -80,6 +81,7 @@
         if (event.lengthComputable) {
           var percentComplete = event.loaded / event.total;
           core.setDownloadProgressScale(percentComplete);
+          core.setDownloadStatusText(`全ファイルをダウンロード中... ${Math.round(percentComplete * 100)}%`);
         }
       };
 

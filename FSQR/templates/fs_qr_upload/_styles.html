@@ -182,6 +182,148 @@ footer {
   display: block;
 }
 
+.fsqr-transfer-card {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 22px;
+  border: 1px solid rgba(64, 130, 221, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(238, 246, 255, 0.9)),
+    var(--surface-elevated, #fff);
+  box-shadow: 0 20px 40px -28px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+}
+
+.fsqr-transfer-card__visual {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fsqr-transfer-card__orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.94), rgba(223, 239, 255, 0.32) 58%, rgba(64, 130, 221, 0.16));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 14px 30px -18px rgba(64, 130, 221, 0.42);
+}
+
+.fsqr-transfer-card__orb::before,
+.fsqr-transfer-card__orb::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(64, 130, 221, 0.16);
+}
+
+.fsqr-transfer-card__orb::before {
+  animation: fsqr-transfer-pulse 2.4s ease-in-out infinite;
+}
+
+.fsqr-transfer-card__orb::after {
+  inset: -4px;
+  border-color: rgba(113, 170, 238, 0.28);
+  animation: fsqr-transfer-spin 6s linear infinite;
+}
+
+.fsqr-transfer-card__icon {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+}
+
+.fsqr-transfer-card__icon--file {
+  transform: translateX(-7px);
+  color: var(--theme-fsqr-upload-icon);
+  animation: fsqr-transfer-file-float 2.1s ease-in-out infinite;
+}
+
+.fsqr-transfer-card__icon--phase {
+  width: 34px;
+  height: 34px;
+  right: 2px;
+  bottom: 8px;
+  border-radius: 999px;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fsqr-transfer-card__icon--lock {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 12px 24px -16px rgba(37, 99, 235, 0.75);
+}
+
+.fsqr-transfer-card__icon--upload {
+  background: linear-gradient(135deg, #4aba95, #1d9a75);
+  box-shadow: 0 12px 24px -16px rgba(29, 154, 117, 0.8);
+}
+
+.fsqr-transfer-card__content {
+  min-width: 0;
+}
+
+.fsqr-transfer-card__eyebrow {
+  margin-bottom: 0.3rem;
+  color: var(--theme-fsqr-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fsqr-transfer-card__title {
+  color: var(--text-dark);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.fsqr-transfer-card__progress {
+  margin-top: 0.85rem;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(64, 130, 221, 0.12), rgba(15, 23, 42, 0.08));
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.fsqr-transfer-card__progress .progress-bar {
+  background: linear-gradient(90deg, #63a4ff, #4082dd 55%, #84b8ff);
+  border-radius: inherit;
+  box-shadow: 0 0 22px rgba(64, 130, 221, 0.35);
+}
+
+.fsqr-transfer-card--upload.is-encrypting .fsqr-transfer-card__icon--lock {
+  opacity: 1;
+  animation: fsqr-transfer-badge-bob 1.3s ease-in-out infinite;
+}
+
+.fsqr-transfer-card--upload.is-uploading .fsqr-transfer-card__icon--upload {
+  opacity: 1;
+  animation: fsqr-transfer-badge-bob 1.3s ease-in-out infinite;
+}
+
+.fsqr-transfer-card--upload.is-encrypting .fsqr-transfer-card__icon--file {
+  transform: translateX(-7px) translateY(-4px) scale(0.94);
+  filter: saturate(1.08);
+}
+
+.fsqr-transfer-card--upload.is-uploading .fsqr-transfer-card__icon--file {
+  transform: translateX(-7px) translateY(-2px) scale(0.96);
+}
+
 .retention-preview {
   margin-top: 0.9rem;
   padding: 0.9rem 1rem;
@@ -202,6 +344,55 @@ footer {
   font-weight: 600;
 }
 
+@keyframes fsqr-transfer-pulse {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes fsqr-transfer-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fsqr-transfer-file-float {
+  0%,
+  100% {
+    transform: translateX(-7px) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-7px) translateY(-5px);
+  }
+}
+
+@keyframes fsqr-transfer-badge-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(4px);
+  }
+
+  70% {
+    transform: translateY(-1px);
+  }
+}
+
 .usage-section {
   background: var(--glossy-panel-background);
   border: 1px solid var(--theme-fsqr-glass-border);
@@ -219,12 +410,17 @@ footer {
   background: var(--glossy-page-background);
 }
 
-/* FS-QR upload spinner: keep only the icon animation, no panel behind it */
-#spinner-container .spinner-second-container {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0;
+@media (max-width: 640px) {
+  .fsqr-transfer-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .fsqr-transfer-card__content {
+    width: 100%;
+  }
 }
 
 </style>

@@ -186,138 +186,71 @@
   padding: 1.5rem;
 }
 
-.group-download-panel.spinner-second-container {
-  position: relative;
+.group-transfer-card--download {
   width: min(100%, 420px);
-  height: auto;
-  padding: 1.5rem 1.5rem 1.35rem;
+  margin-top: 0;
+  border-color: rgba(56, 189, 248, 0.18);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(240, 249, 255, 0.92));
-  border: 1px solid rgba(255, 255, 255, 0.82);
-  border-radius: 30px;
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(240, 249, 255, 0.9)),
+    var(--surface-elevated, #fff);
+  box-shadow: 0 24px 48px -28px rgba(15, 23, 42, 0.42);
+}
+
+.group-transfer-card--download .group-transfer-card__orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.94), rgba(221, 242, 255, 0.28) 56%, rgba(56, 189, 248, 0.16));
   box-shadow:
-    0 30px 60px -34px rgba(15, 23, 42, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
-  overflow: hidden;
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 14px 30px -18px rgba(37, 99, 235, 0.42);
 }
 
-.group-download-panel__glow {
-  position: absolute;
-  inset: -25% auto auto 50%;
-  width: 260px;
-  height: 260px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(74, 186, 149, 0.18), rgba(59, 130, 246, 0.1) 45%, transparent 72%);
-  pointer-events: none;
+.group-transfer-card--download .group-transfer-card__orb::before {
+  border-color: rgba(56, 189, 248, 0.18);
 }
 
-.group-download-panel__visual {
-  position: relative;
-  width: 156px;
-  height: 156px;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.group-transfer-card--download .group-transfer-card__orb::after {
+  border-color: rgba(147, 197, 253, 0.32);
 }
 
-.group-download-panel__visual::before,
-.group-download-panel__visual::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
+.group-transfer-card--download .group-transfer-card__icon--file {
+  color: #1d9a75;
 }
 
-.group-download-panel__visual::before {
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.96), rgba(223, 245, 236, 0.42) 58%, rgba(74, 186, 149, 0.18));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 20px 45px -28px rgba(15, 23, 42, 0.45);
-}
-
-.group-download-panel__visual::after {
-  inset: 10px;
-  border: 1px solid rgba(74, 186, 149, 0.18);
-  animation: group-transfer-spin 10s linear infinite;
-}
-
-.group-download-panel .icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
-}
-
-.group-download-panel__icon--file {
-  color: #178f6d;
-  opacity: 1;
-}
-
-.group-download-panel__icon--download {
-  width: 50px;
-  height: 50px;
+.group-transfer-card--download .group-transfer-card__icon--download {
+  width: 34px;
+  height: 34px;
+  right: 2px;
+  bottom: 8px;
   border-radius: 999px;
   background: linear-gradient(135deg, #38bdf8, #2563eb);
   color: #fff;
-  opacity: 0.92;
-  box-shadow: 0 18px 28px -18px rgba(37, 99, 235, 0.75);
+  box-shadow: 0 12px 24px -16px rgba(37, 99, 235, 0.85);
 }
 
-.group-download-panel.downloading .group-download-panel__icon--file {
-  transform: translate(-50%, -50%) translateY(-10px) scale(0.9);
-  filter: saturate(1.1);
+.group-transfer-card--download.downloading .group-transfer-card__icon--file {
+  transform: translateX(-7px) translateY(-4px) scale(0.94);
+  filter: saturate(1.08);
 }
 
-.group-download-panel.downloading .group-download-panel__icon--download {
-  transform: translate(-50%, -50%) translateY(24px);
-  animation: group-download-bounce 1.3s ease-in-out infinite;
+.group-transfer-card--download.downloading .group-transfer-card__icon--download {
+  animation: group-download-arrow-bob 1.3s ease-in-out infinite;
 }
 
-.group-download-panel__content {
-  position: relative;
-  z-index: 1;
-}
-
-.group-download-panel__eyebrow {
-  margin-bottom: 0.35rem;
-  text-align: center;
+.group-transfer-card--download .group-transfer-card__eyebrow {
   color: #2563eb;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
-.group-download-panel .text {
-  position: static;
-  width: auto;
-  margin: 0;
-  text-align: center;
-  color: var(--text-dark);
-  font-size: 1.05rem;
-  font-weight: 700;
-  background: none;
-  -webkit-text-fill-color: currentColor;
-  animation: none;
-}
-
-.group-download-panel__progress {
+.group-transfer-card--download .group-transfer-card__progress {
   position: static;
   width: 100%;
   height: 12px;
-  margin-top: 1rem;
+  margin-top: 0.85rem;
   background: linear-gradient(90deg, rgba(37, 99, 235, 0.12), rgba(15, 23, 42, 0.08));
   border-radius: 999px;
   overflow: hidden;
 }
 
-.group-download-panel__progress .progress-bar {
+.group-transfer-card--download .group-transfer-card__progress .progress-bar {
   background: linear-gradient(90deg, #38bdf8, #2563eb 58%, #60a5fa);
   border-radius: inherit;
   box-shadow: 0 0 24px rgba(37, 99, 235, 0.35);
@@ -368,18 +301,18 @@
   }
 }
 
-@keyframes group-download-bounce {
+@keyframes group-download-arrow-bob {
   0%,
   100% {
-    transform: translate(-50%, -50%) translateY(24px);
+    transform: translateY(0);
   }
 
   40% {
-    transform: translate(-50%, -50%) translateY(32px);
+    transform: translateY(4px);
   }
 
   70% {
-    transform: translate(-50%, -50%) translateY(20px);
+    transform: translateY(-1px);
   }
 }
 
@@ -395,19 +328,8 @@
     width: 100%;
   }
 
-  .group-download-panel.spinner-second-container {
-    padding: 1.25rem 1rem 1.1rem;
-    border-radius: 24px;
-  }
-
-  .group-download-panel__visual {
-    width: 132px;
-    height: 132px;
-    margin-bottom: 0.9rem;
-  }
-
-  .group-download-panel .text {
-    font-size: 0.98rem;
+  .group-transfer-card--download {
+    max-width: 360px;
   }
 }
 

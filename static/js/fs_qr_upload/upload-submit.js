@@ -8,6 +8,7 @@
   function createUploadSubmitter(options) {
     var uploadForm = options.uploadForm;
     var fileInput = options.fileInput;
+    var startUploadBtn = options.startUploadBtn;
     var retentionSelect = options.retentionSelect;
     var getCurrentId = options.getCurrentId;
     var clearFormError = options.clearFormError;
@@ -16,6 +17,7 @@
     var spinner = options.spinner;
     var encryptionService = options.encryptionService;
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
+    var uploadButtonLabel = options.uploadButtonLabel || 'アップロード開始';
     var validation = appNamespace.api.getShared('uploadValidation');
     if (!validation) {
       throw new Error('Shared upload validation is not initialized.');
@@ -46,6 +48,10 @@
     function validateBeforeSubmit(files, id) {
       if (!(files.length > 0 && id.length > 0)) {
         showFormError('ファイルと共有用IDを確認してください。');
+        if (startUploadBtn) {
+          startUploadBtn.disabled = false;
+          startUploadBtn.innerHTML = uploadButtonLabel;
+        }
         spinner.hideSpinner();
         spinner.stopIconSwitching();
         return false;
@@ -59,6 +65,10 @@
           showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は ${result.totalSizeMB}MB です。`);
         } else if (result.reason === 'invalid_filename') {
           showFormError('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+        }
+        if (startUploadBtn) {
+          startUploadBtn.disabled = false;
+          startUploadBtn.innerHTML = uploadButtonLabel;
         }
         spinner.hideSpinner();
         spinner.stopIconSwitching();
@@ -96,6 +106,10 @@
 
         spinner.showSpinner();
         spinner.startEncryptionAnimation();
+        if (startUploadBtn) {
+          startUploadBtn.disabled = true;
+          startUploadBtn.textContent = '処理中...';
+        }
 
         var files = fileInput.files;
         var id = getCurrentId();
@@ -105,14 +119,18 @@
         }
 
         try {
+          spinner.setSpinnerEyebrow('Encrypting');
           spinner.setSpinnerText('アップロード準備中...');
+          spinner.setProgressScale(0);
           await new Promise(function (resolve) {
             setTimeout(resolve, 1000);
           });
 
+          spinner.setProgressScale(0.05);
           spinner.setSpinnerText('暗号化中...');
           var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, id);
 
+          spinner.setSpinnerEyebrow('Uploading');
           spinner.setSpinnerText('送信中...');
           spinner.startUploadAnimation();
 
@@ -128,6 +146,7 @@
               var uploadProgress = (progressEvent.loaded / progressEvent.total) * 50;
               var totalProgress = 50 + uploadProgress;
               spinner.setProgressScale(totalProgress / 100);
+              spinner.setSpinnerText(`送信中... ${Math.round(totalProgress)}%`);
             }
           };
 
@@ -157,12 +176,20 @@
               }
               spinner.hideSpinner();
             }
+            if (startUploadBtn) {
+              startUploadBtn.disabled = false;
+              startUploadBtn.innerHTML = uploadButtonLabel;
+            }
             spinner.stopIconSwitching();
           };
 
           xhr.onerror = function () {
             showFormError('送信中にエラーが発生しました。通信状態を確認して再度お試しください。');
             spinner.hideSpinner();
+            if (startUploadBtn) {
+              startUploadBtn.disabled = false;
+              startUploadBtn.innerHTML = uploadButtonLabel;
+            }
             spinner.stopIconSwitching();
           };
 
@@ -170,13 +197,20 @@
         } catch (error) {
           showFormError(`処理中にエラーが発生しました。${error.message}`);
           spinner.hideSpinner();
+          if (startUploadBtn) {
+            startUploadBtn.disabled = false;
+            startUploadBtn.innerHTML = uploadButtonLabel;
+          }
           spinner.stopIconSwitching();
         }
       });
     }
 
     return {
-      bindUpload: bindUpload
+      bindUpload: bindUpload,
+      getUploadButtonLabel: function () {
+        return uploadButtonLabel;
+      }
     };
   }
 
