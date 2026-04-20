@@ -182,6 +182,29 @@ def test_upload_complete_found(test_client: TestClient):
     assert response.status_code == 200
 
 
+def test_upload_complete_shows_original_filename_for_single_file(
+    test_client: TestClient,
+):
+    from datetime import datetime
+
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "654321",
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": datetime(2026, 1, 1, 0, 0),
+        }
+    ]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.get("/upload_complete/abc123-uid-file")
+    assert response.status_code == 200
+    assert "report.pdf" in response.text
+
+
 # --- fs_qr_room: 認証成功 → 200 ---
 
 
@@ -213,6 +236,38 @@ def test_fs_qr_room_found_returns_200(test_client: TestClient):
     ):
         response = test_client.get("/fs-qr/abc123/654321")
     assert response.status_code == 200
+
+
+def test_fs_qr_room_shows_original_filename_for_single_file(test_client: TestClient):
+    from datetime import datetime
+
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "654321",
+            "secure_id": "abc123-uid-file",
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": datetime(2026, 1, 1),
+        }
+    ]
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data_by_credentials",
+            new_callable=AsyncMock,
+            return_value=mock_data,
+        ),
+        patch("FSQR.fsqr_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get("/fs-qr/abc123/654321")
+    assert response.status_code == 200
+    assert "report.pdf" in response.text
 
 
 def test_fs_qr_room_rate_limited_returns_429(test_client: TestClient):
@@ -247,6 +302,31 @@ def test_fs_qr_room_auth_fail_then_blocked_returns_429(test_client: TestClient):
     ):
         response = test_client.get("/fs-qr/abc123/654321")
     assert response.status_code == 429
+
+
+def test_download_go_single_sets_attachment_headers(test_client, monkeypatch, tmp_path):
+    from FSQR import fsqr_app
+
+    secure_id = "abc123-uid-file"
+    encrypted_path = tmp_path / f"{secure_id}.enc"
+    encrypted_path.write_bytes(b"encrypted")
+    monkeypatch.setattr(fsqr_app, "STATIC", str(tmp_path))
+
+    mock_data = [
+        {
+            "file_type": "single",
+            "original_filename": "report.pdf",
+        }
+    ]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.post(f"/download_go/{secure_id}")
+
+    assert response.status_code == 200
+    assert response.headers["content-disposition"] == 'attachment; filename="report.pdf"'
+    assert response.headers["x-file-type"] == "single"
+    assert response.headers["x-original-filename"] == "report.pdf"
 
 
 # --- try_login: レートリミット超過 → 429 ---
