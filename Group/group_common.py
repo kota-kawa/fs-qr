@@ -33,13 +33,7 @@ def canonical_redirect(request: Request):
 
 
 async def get_room_if_valid(room_id, password):
-    room_data = await group_data.get_data_direct(room_id)
-    if not room_data:
-        return None
-    record = room_data[0]
-    if record.get("password") != password:
-        return None
-    return record
+    return await group_data.get_data_by_room_credentials(room_id, password)
 
 
 def remember_group_room_access(request: Request, room_id: str, password: str) -> None:

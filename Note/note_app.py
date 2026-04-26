@@ -1,4 +1,3 @@
-import random
 import re
 import secrets
 from datetime import timedelta
@@ -35,7 +34,7 @@ def _is_valid_room_id(value: str) -> bool:
 
 def _generate_room_id() -> str:
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    return "".join(random.choice(chars) for _ in range(6))
+    return "".join(secrets.choice(chars) for _ in range(6))
 
 
 async def _room_id_exists(room_id: str) -> bool:

@@ -1,7 +1,10 @@
 import logging
 from typing import Optional
+
 import log_config  # noqa: F401
 from sqlalchemy import text
+
+from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 
@@ -135,12 +138,13 @@ async def ensure_tables():
 # ノートルーム作成
 # ────────────────────────────────────────────
 async def create_room(id_, password, room_id, retention_days=7):
+    hashed_password = hash_password(password)
     await execute_query(
         """
         INSERT INTO note_room(time, id, password, room_id, retention_days)
         VALUES(NOW(), :i, :p, :r, :retention)
         """,
-        {"i": id_, "p": password, "r": room_id, "retention": retention_days},
+        {"i": id_, "p": hashed_password, "r": room_id, "retention": retention_days},
     )
     await invalidate_cache_entry("get_room_meta", room_id)
     await invalidate_cache_entry("get_room_meta", room_id, password=password)
@@ -151,20 +155,20 @@ async def create_room(id_, password, room_id, retention_days=7):
 # ルームメタ情報取得
 # ────────────────────────────────────────────
 async def get_room_meta_direct(room_id, password=None):
+    rows = await execute_query(
+        "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r",
+        {"r": room_id},
+        fetch=True,
+    )
+    if not rows:
+        return None
+    row = rows[0]
     if password is None:
-        query = (
-            "SELECT id, password, time, retention_days FROM note_room WHERE room_id=:r"
-        )
-        params = {"r": room_id}
-    else:
-        query = (
-            "SELECT id, password, time, retention_days "
-            "FROM note_room WHERE room_id=:r AND password=:p"
-        )
-        params = {"r": room_id, "p": password}
-
-    rows = await execute_query(query, params, fetch=True)
-    return rows[0] if rows else None
+        return row
+    stored_password = row.get("password")
+    if not verify_password(stored_password, password):
+        return None
+    return row
 
 
 @cache_data(ttl=60)
@@ -177,11 +181,16 @@ async def get_room_meta(room_id, password=None):
 # ────────────────────────────────────────────
 async def pick_room_id_direct(id_, password) -> Optional[str]:
     rows = await execute_query(
-        "SELECT room_id FROM note_room WHERE id=:i AND password=:p",
-        {"i": id_, "p": password},
+        "SELECT room_id, password FROM note_room WHERE id=:i",
+        {"i": id_},
         fetch=True,
     )
-    return rows[0]["room_id"] if rows else None
+    for row in rows:
+        stored_password = row.get("password")
+        if not verify_password(stored_password, password):
+            continue
+        return row["room_id"]
+    return None
 
 
 @cache_data(ttl=60)
@@ -264,8 +273,7 @@ async def remove_expired_rooms():
             await execute_query("DELETE FROM note_room WHERE room_id = :r", {"r": rid})
             await invalidate_cache_entry("get_room_meta", rid)
             if meta:
-                await invalidate_cache_entry("get_room_meta", rid, password=meta["password"])
-                await invalidate_cache_entry("pick_room_id", meta["id"], meta["password"])
+                await invalidate_cache_prefix("pick_room_id")
             logger.info(f"Expired note room removed: {rid}")
         await invalidate_cache_prefix("get_room_meta")
         await invalidate_cache_prefix("pick_room_id")

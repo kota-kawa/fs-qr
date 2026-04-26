@@ -125,13 +125,15 @@ async def shutdown():
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
+        generic_message = "Resource not found"
         accept = request.headers.get("accept", "")
         if request.url.path.startswith("/api") or "application/json" in accept:
-            return api_error_response(str(exc.detail), status_code=exc.status_code)
+            return api_error_response(generic_message, status_code=exc.status_code)
         if "text/html" in accept or "*/*" in accept:
             response = render_template(request, "404.html")
             response.status_code = 404
             return response
+        return api_error_response(generic_message, status_code=exc.status_code)
     return api_error_response(str(exc.detail), status_code=exc.status_code)
 
 

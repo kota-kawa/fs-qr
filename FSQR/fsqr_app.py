@@ -32,6 +32,7 @@ from settings import (
     UPLOAD_MAX_TOTAL_SIZE_MB,
 )
 from web import build_url, enforce_csrf, render_template
+from password_security import is_password_hashed
 from . import fsqr_data as fs_data
 
 router = APIRouter()
@@ -41,6 +42,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC = os.path.join(BASE_DIR, "static", "upload")
 # Ensure the upload directory exists to avoid FileNotFoundError
 os.makedirs(STATIC, exist_ok=True)
+FSQR_UPLOAD_ACCESS_SESSION_KEY = "fsqr_upload_access"
 
 
 def _canonical_redirect(request: Request):
@@ -56,6 +58,30 @@ async def _get_room_by_credentials(room_id, password):
         return None, None
     record = data[0]
     return record.get("secure_id"), record
+
+
+def _remember_fsqr_access(request: Request, secure_id: str, id_val: str, password: str) -> None:
+    payload = request.session.get(FSQR_UPLOAD_ACCESS_SESSION_KEY)
+    if not isinstance(payload, dict):
+        payload = {}
+    payload[str(secure_id)] = {"id": str(id_val), "password": str(password)}
+    if len(payload) > 20:
+        payload = dict(list(payload.items())[-20:])
+    request.session[FSQR_UPLOAD_ACCESS_SESSION_KEY] = payload
+
+
+def _get_fsqr_access(request: Request, secure_id: str):
+    payload = request.session.get(FSQR_UPLOAD_ACCESS_SESSION_KEY)
+    if not isinstance(payload, dict):
+        return None
+    entry = payload.get(str(secure_id))
+    if not isinstance(entry, dict):
+        return None
+    id_val = entry.get("id")
+    password = entry.get("password")
+    if not isinstance(id_val, str) or not isinstance(password, str):
+        return None
+    return {"id": id_val, "password": password}
 
 
 def _calculate_deletion_context(record):
@@ -168,6 +194,7 @@ async def upload(
         original_filename=original_filename,
         retention_days=retention_days_int,
     )
+    _remember_fsqr_access(request, secure_id, id_val, password)
 
     return api_ok_response(
         {
@@ -185,16 +212,23 @@ async def upload_complete(request: Request, secure_id: str):
         raise HTTPException(status_code=404)
 
     row = data[0]
+    access = _get_fsqr_access(request, secure_id)
     id_val = row["id"]
-    password_val = row["password"]
+    password_val = ""
+    if access and access["id"] == id_val:
+        password_val = access["password"]
+    elif isinstance(row.get("password"), str) and not is_password_hashed(row["password"]):
+        password_val = row["password"]
 
-    share_url = build_url(
-        request,
-        "fsqr.fs_qr_room",
-        room_id=id_val,
-        password=password_val,
-        _external=True,
-    )
+    share_url = ""
+    if password_val:
+        share_url = build_url(
+            request,
+            "fsqr.fs_qr_room",
+            room_id=id_val,
+            password=password_val,
+            _external=True,
+        )
     retention_days, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
@@ -218,10 +252,16 @@ async def download(request: Request, secure_id: str):
     if not data:
         raise HTTPException(status_code=404)
     row = data[0]
+    access = _get_fsqr_access(request, secure_id)
+    password = None
+    if access and access["id"] == row["id"]:
+        password = access["password"]
+    elif isinstance(row.get("password"), str) and not is_password_hashed(row["password"]):
+        password = row["password"]
+    if not password:
+        raise HTTPException(status_code=404)
     return RedirectResponse(
-        build_url(
-            request, "fsqr.fs_qr_room", room_id=row["id"], password=row["password"]
-        ),
+        build_url(request, "fsqr.fs_qr_room", room_id=row["id"], password=password),
         status_code=302,
     )
 
@@ -249,7 +289,7 @@ async def fs_qr_room(request: Request, room_id: str, password: str):
         "info.html",
         mode="download",
         id=record["id"],
-        password=record["password"],
+        password=password,
         secure_id=secure_id,
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),

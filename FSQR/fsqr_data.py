@@ -2,7 +2,9 @@ import os
 from typing import Optional
 from sqlalchemy import text
 import logging
+
 import log_config  # noqa: F401
+from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 
@@ -24,6 +26,7 @@ async def save_file(
     retention_days=7,
 ):
     try:
+        hashed_password = hash_password(password)
         query = text("""
             INSERT INTO fsqr (time, uuid, id, password, secure_id, file_type, original_filename, retention_days)
             VALUES (NOW(), :uid, :id, :password, :secure_id, :file_type, :original_filename, :retention_days)
@@ -33,7 +36,7 @@ async def save_file(
             {
                 "uid": uid,
                 "id": id,
-                "password": password,
+                "password": hashed_password,
                 "secure_id": secure_id,
                 "file_type": file_type,
                 "original_filename": original_filename,
@@ -54,15 +57,10 @@ async def save_file(
 @cache_data(ttl=60)
 async def try_login(id, password) -> Optional[str]:
     try:
-        query = text("""
-            SELECT secure_id FROM fsqr WHERE id = :id AND password = :password
-        """)
-        result = await execute_query(
-            query, {"id": id, "password": password}, fetch=True
-        )
-        if result:
+        record = await _find_record_by_credentials(id, password)
+        if record:
             logger.info("Login successful.")
-            return result[0]["secure_id"]
+            return record["secure_id"]
         logger.warning("Login failed: Invalid credentials.")
         return None
     except Exception as e:
@@ -74,13 +72,8 @@ async def try_login(id, password) -> Optional[str]:
 @cache_data(ttl=60)
 async def get_data_by_credentials(id, password):
     try:
-        query = text("""
-            SELECT * FROM fsqr WHERE id = :id AND password = :password
-        """)
-        result = await execute_query(
-            query, {"id": id, "password": password}, fetch=True
-        )
-        return result
+        record = await _find_record_by_credentials(id, password)
+        return [record] if record else []
     except Exception as e:
         logger.error(f"Failed to fetch data by credentials: {e}")
         raise
@@ -151,10 +144,8 @@ async def remove_data(secure_id):
         await invalidate_cache_entry("get_data", secure_id)
         await invalidate_cache_entry("get_all")
         if record:
-            await invalidate_cache_entry("try_login", record.get("id"), record.get("password"))
-            await invalidate_cache_entry(
-                "get_data_by_credentials", record.get("id"), record.get("password")
-            )
+            await invalidate_cache_prefix("try_login")
+            await invalidate_cache_prefix("get_data_by_credentials")
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
@@ -194,3 +185,16 @@ async def remove_expired_files():
                 logger.info(f"Expired record removed: {secure_id}")
     except Exception as e:
         logger.error(f"Failed to remove expired files: {e}")
+
+
+async def _find_record_by_credentials(id_val: str, password: str):
+    query = text("""
+        SELECT * FROM fsqr WHERE id = :id
+    """)
+    rows = await execute_query(query, {"id": id_val}, fetch=True)
+    for row in rows:
+        stored_password = row.get("password")
+        if not verify_password(stored_password, password):
+            continue
+        return row
+    return None

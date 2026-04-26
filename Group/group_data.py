@@ -2,9 +2,12 @@ import os
 import shutil
 import logging
 from typing import Optional
+
 import log_config  # noqa: F401
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
+
+from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 from .group_realtime import hub as group_ws_hub
@@ -19,6 +22,7 @@ STATIC = os.path.join(BASE_DIR, "static/upload")
 
 # グループの部屋の作成
 async def create_room(id, password, room_id, retention_days=7):
+    hashed_password = hash_password(password)
     query = text("""
         INSERT INTO room (time, id, password, room_id, retention_days)
         VALUES (NOW(), :id, :password, :room_id, :retention_days)
@@ -27,7 +31,7 @@ async def create_room(id, password, room_id, retention_days=7):
         query,
         {
             "id": id,
-            "password": password,
+            "password": hashed_password,
             "room_id": room_id,
             "retention_days": retention_days,
         },
@@ -40,10 +44,15 @@ async def create_room(id, password, room_id, retention_days=7):
 # ログイン処理
 async def pich_room_id_direct(id, password) -> Optional[str]:
     query = text("""
-        SELECT room_id FROM room WHERE id = :id AND password = :password
+        SELECT room_id, password FROM room WHERE id = :id
     """)
-    result = await execute_query(query, {"id": id, "password": password}, fetch=True)
-    return result[0]["room_id"] if result else None
+    result = await execute_query(query, {"id": id}, fetch=True)
+    for row in result:
+        stored_password = row.get("password")
+        if not verify_password(stored_password, password):
+            continue
+        return row["room_id"]
+    return None
 
 
 @cache_data(ttl=60)
@@ -58,6 +67,17 @@ async def get_data_direct(secure_id):
     """)
     result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
     return result
+
+
+async def get_data_by_room_credentials(room_id: str, password: str):
+    rows = await get_data_direct(room_id)
+    if not rows:
+        return None
+    record = rows[0]
+    stored_password = record.get("password")
+    if not verify_password(stored_password, password):
+        return None
+    return record
 
 
 @cache_data(ttl=60)
@@ -115,9 +135,7 @@ async def remove_data(secure_id):
     await invalidate_cache_entry("get_data", secure_id)
     await invalidate_cache_entry("get_all")
     if room_record:
-        await invalidate_cache_entry(
-            "pich_room_id", room_record.get("id"), room_record.get("password")
-        )
+        await invalidate_cache_prefix("pich_room_id")
 
 
 # 全てのデータを削除

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+import re
 
 from dotenv import load_dotenv
 from sqlalchemy import text
@@ -95,9 +96,17 @@ async def execute_query(query, params=None, fetch=False, retries=2):
                 await reset_db_connection()
                 await asyncio.sleep(0.5 * (2**attempt))
                 continue
-            logger.error("Database query failed: %s", e)
+            logger.error("Database query failed: %s", _sanitize_db_exception(e))
             try:
                 await db_session.rollback()
             except Exception:
                 pass
             raise
+
+
+def _sanitize_db_exception(exc: Exception) -> str:
+    msg = str(exc)
+    msg = re.sub(r"(?i)(password\s*=\s*)([^,\s;]+)", r"\1***", msg)
+    msg = re.sub(r"(?i)(pwd\s*=\s*)([^,\s;]+)", r"\1***", msg)
+    msg = re.sub(r"://([^:@\s]+):([^@/\s]+)@", r"://\1:***@", msg)
+    return msg
