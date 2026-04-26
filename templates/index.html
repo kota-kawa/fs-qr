@@ -138,45 +138,57 @@
     }
 
     .top-search-panel {
-      width: min(100%, 760px);
-      margin: 0 auto 34px;
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 18px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      width: min(100%, 660px);
+      margin: 0 auto 30px;
+      padding: 14px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     }
 
-    .top-search-title {
-      margin: 0 0 14px;
-      color: #1f2937;
-      font-size: 1.15rem;
-      font-weight: 700;
-      text-align: center;
+    .top-search-panel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.22);
+      background-color: #F0F8FF;
     }
 
     .top-search-form {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: end;
+      grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr) 104px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .top-search-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      color: #4082dd;
+      font-size: 1.35rem;
     }
 
     .top-search-field label {
-      display: block;
-      margin-bottom: 6px;
-      color: #374151;
-      font-size: 0.9rem;
-      font-weight: 700;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .top-search-field input {
       width: 100%;
-      min-height: 46px;
-      padding: 0.75rem 0.9rem;
-      border: 2px solid #d1d5db;
-      border-radius: 10px;
+      min-height: 44px;
+      padding: 0.72rem 0.9rem;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
       color: #111827;
-      background: #ffffff;
+      background: #f9fafb;
       font-size: 1rem;
     }
 
@@ -190,20 +202,20 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 46px;
-      padding: 0 1.25rem;
+      gap: 7px;
+      min-height: 44px;
+      padding: 0 1rem;
       border: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       color: #ffffff;
-      background: #1f2937;
+      background: #4082dd;
       font-weight: 700;
       white-space: nowrap;
       transition: background-color 0.2s ease, transform 0.2s ease;
     }
 
     .top-search-button:hover {
-      background: #111827;
+      background: #2563eb;
       transform: translateY(-1px);
     }
 
@@ -258,15 +270,20 @@
       .menu-header h1 { font-size: 2rem; }
       .menu-header p  { font-size: 1rem; }
       .top-search-panel {
+        width: min(100%, 360px);
         margin-bottom: 24px;
-        padding: 16px;
-        border-radius: 14px;
+        padding: 12px;
+        border-radius: 18px;
       }
       .top-search-form {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+      }
+      .top-search-icon {
+        display: none;
       }
       .top-search-button {
         width: 100%;
+        grid-column: 1 / -1;
       }
       .menu-list      { gap: 10px; }
       .menu-item      { width: 160px; height: 160px; }
@@ -285,7 +302,6 @@
         padding: 15px 10px calc(15px + env(safe-area-inset-bottom));
       }
       .menu-header h1 { font-size: 1.8rem; }
-      .top-search-title { font-size: 1rem; }
       .menu-list {
         flex-direction: column;
         align-items: center;
@@ -307,29 +323,30 @@
     <div class="menu-content">
       <div class="menu-header">
         <h1>ファイル共有メニュー</h1>
-        <p>検索するか、利用したいファイル共有方法を選んでください。</p>
+        <p>検索または共有方法を選択</p>
       </div>
-      <section class="top-search-panel" aria-labelledby="topSearchTitle">
-        <h2 class="top-search-title" id="topSearchTitle">IDとパスワードですべてから検索</h2>
+      <section class="top-search-panel" aria-label="横断検索">
         <form class="top-search-form" action="/search_all" method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="top-search-icon">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </div>
           <div class="top-search-field">
-            <label for="topSearchId">ルームID</label>
+            <label for="topSearchId">ID</label>
             <input type="text" id="topSearchId" name="id"
                    minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}"
-                   placeholder="半角英数字6文字" required
+                   placeholder="ID" required
                    title="6文字の半角英数字で入力してください">
           </div>
           <div class="top-search-field">
-            <label for="topSearchPassword">パスワード</label>
+            <label for="topSearchPassword">PW</label>
             <input type="password" id="topSearchPassword" name="password"
                    minlength="6" maxlength="6" pattern="[0-9]{6}"
-                   placeholder="6桁の数字" required
+                   placeholder="PW" required
                    title="6桁の数字で入力してください">
           </div>
           <button type="submit" class="top-search-button">
-            <i class="fas fa-search" aria-hidden="true"></i>
-            <span>すべてから検索</span>
+            <span>検索</span>
           </button>
         </form>
       </section>

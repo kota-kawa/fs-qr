@@ -8,7 +8,9 @@ def test_index(test_client: TestClient):
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     assert 'action="/search_all"' in response.text
-    assert "すべてから検索" in response.text
+    assert 'aria-label="横断検索"' in response.text
+    assert 'placeholder="ID"' in response.text
+    assert 'placeholder="PW"' in response.text
 
 
 def test_about(test_client: TestClient):
