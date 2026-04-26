@@ -1,3 +1,5 @@
+> 一番下に日本語版もあります
+
 # 📂 FS-QR (File Sharing & QR)
 
 FS-QR is a FastAPI-powered web app that makes file sharing, QR-based downloads, and real-time collaborative notes effortless. It is built to be production-friendly (Docker + MySQL), simple to operate, and easy to showcase in a portfolio.
@@ -74,17 +76,17 @@ To disable this behavior, set:
 RUN_MIGRATIONS_ON_STARTUP=false
 ```
 
-`FRONTEND_DEBUG=true` にすると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
-本番環境では `false` のまま運用してください。
+Setting `FRONTEND_DEBUG=true` enables frontend debug logs (`console.log/warn/error`).  
+Keep it as `false` in production.
 
-アップロード/ノート関連の上限値も `.env` で統一管理できます（フロントの `*Config` とバックエンド検証で共通利用）。
+Upload- and note-related limits are also centrally managed via `.env`, and the same values are shared between the frontend `*Config` and backend validation.
 
-Note の WebSocket 同期はクライアント側で明示的なステートマシン（`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`）を使って競合処理します。  
-保存中に他ユーザー更新を受信した場合は即時破棄せずキューし、ACK 後に適用されます。  
-また ACK タイムアウトは固定値ではなく、`NOTE_SELF_EDIT_TIMEOUT_MS` を下限に通信RTTから適応的に伸縮します。
+Note WebSocket sync uses an explicit client-side state machine (`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`) to handle conflicts.  
+If updates from other users arrive while a save is in flight, they are queued instead of being discarded immediately, and applied after the ACK.  
+The ACK timeout is not a fixed value either — it adapts to the communication RTT, using `NOTE_SELF_EDIT_TIMEOUT_MS` as a lower bound.
 
-Note / Group の WebSocket 接続時には、HTTP セッションに紐づく CSRF トークン検証を実施します。
-同一セッションで描画されたページから渡されるトークンが一致しない場合、ハンドシェイクは拒否されます。
+For Note / Group WebSocket connections, a CSRF token tied to the HTTP session is validated during the handshake.
+If the token passed from the page rendered in the same session does not match, the handshake is rejected.
 
 ## 🧰 Tech Stack
 - **FastAPI** (Python)
