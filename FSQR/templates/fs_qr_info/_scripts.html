@@ -340,7 +340,7 @@
           URL.revokeObjectURL(objectUrl);
         }, 1000);
       } catch (error) {
-        window.alert(error instanceof Error ? error.message : '復号に失敗しました。');
+        window.showAlertModal(error instanceof Error ? error.message : '復号に失敗しました。');
       } finally {
         hideSpinner();
       }

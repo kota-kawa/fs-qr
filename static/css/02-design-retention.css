@@ -3,6 +3,9 @@
   --primary-color: rgb(0, 109, 128);
   --primary-light: rgba(0, 109, 128, 0.1);
   --primary-gradient: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+  --focus-ring-color: rgba(37, 99, 235, 0.32);
+  --focus-ring-strong: 0 0 0 3px var(--focus-ring-color);
+  --focus-ring-offset: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 7px var(--focus-ring-color);
   --accent-color: #4f46e5;
   --text-dark: #1f2937;
   --text-medium: #6b7280;
@@ -287,10 +290,13 @@
 }
 
 .retention-select:focus {
-  outline: none;
   transform: translateY(-1px);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9));
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 7px var(--retention-accent-soft);
+}
+
+.retention-select:focus-visible {
+  outline: 3px solid transparent;
+  box-shadow: var(--focus-ring-offset);
 }
 
 .retention-select option {
@@ -339,11 +345,11 @@
 }
 
 .retention-select-trigger:focus-visible {
-  outline: none;
+  outline: 3px solid transparent;
   transform: translateY(-1px);
   background: var(--retention-trigger-hover-bg);
   color: var(--retention-trigger-hover-text);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 7px var(--retention-accent-soft), var(--retention-trigger-hover-shadow);
+  box-shadow: var(--focus-ring-offset), var(--retention-trigger-hover-shadow);
 }
 
 .retention-select-wrapper.is-open .retention-select-trigger {

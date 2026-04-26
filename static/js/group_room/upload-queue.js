@@ -20,6 +20,14 @@
 
     var filesArray = [];
 
+    function notify(message) {
+      if (typeof window.showAlertModal === 'function') {
+        window.showAlertModal(message);
+        return;
+      }
+      window.alert(message);
+    }
+
     function renderFileList() {
       fileList.innerHTML = '';
       if (filesArray.length === 0) {
@@ -73,11 +81,11 @@
 
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          alert(`ファイル数は最大${limits.maxFiles}個までです（現在: ${filesArray.length}個、追加しようとしているファイル: ${result.selectedFilesCount}個）`);
+          notify(`ファイル数は最大${limits.maxFiles}個までです。現在${filesArray.length}個、追加しようとしているファイルは${result.selectedFilesCount}個です。`);
         } else if (result.reason === 'max_total_size') {
-          alert(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです（現在の合計: ${result.totalSizeMB}MB）`);
+          notify(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
         } else if (result.reason === 'invalid_filename') {
-          alert('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          notify('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
         }
         return;
       }

@@ -17,16 +17,17 @@
 
       if (files.length === 1) {
         var singleFile = files[0];
+        setStatusText(`暗号化中: ${singleFile.name}（1/1）`);
         var singleIv = crypto.getRandomValues(new Uint8Array(12));
         var singleFileBuffer = await singleFile.arrayBuffer();
 
-        setStatusText('暗号化中... 25%');
+        setStatusText(`暗号化中: ${singleFile.name}（1/1、25%）`);
         setProgressScale(0.25);
 
         var singleEncryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: singleIv }, cryptoKey, singleFileBuffer);
 
-        setStatusText('暗号化中... 50%');
-        setProgressScale(0.5);
+        setStatusText(`暗号化完了: ${singleFile.name}（1/1）`);
+        setProgressScale(1);
         return new Blob([singleIv, singleEncryptedBuffer]);
       }
 
@@ -39,15 +40,14 @@
         var encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, cryptoKey, fileBuffer);
         zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
 
-        var encryptProgress = ((i + 1) / files.length) * 25;
-        setStatusText(`暗号化中... ${Math.round(encryptProgress)}%`);
-        setProgressScale(encryptProgress / 100);
+        var encryptProgress = (i + 1) / files.length;
+        setStatusText(`暗号化中: ${file.name}（${i + 1}/${files.length}）`);
+        setProgressScale(encryptProgress);
       }
 
       return zip.generateAsync({ type: 'blob' }, function (metadata) {
-        var zipProgress = 25 + (metadata.percent / 4);
-        setStatusText(`圧縮中... ${Math.round(zipProgress)}%`);
-        setProgressScale(zipProgress / 100);
+        setStatusText(`圧縮中... ${Math.round(metadata.percent)}%`);
+        setProgressScale(1);
       });
     }
 

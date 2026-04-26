@@ -187,7 +187,11 @@
 
     function sendSave(currentContent) {
       if (currentContent.length > context.MAX_LENGTH) {
-        alert(`文字数は最大 ${context.MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+        if (typeof window.showAlertModal === 'function') {
+          window.showAlertModal(`文字数は最大 ${context.MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+        } else {
+          window.alert(`文字数は最大 ${context.MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+        }
         setSyncState(SYNC_STATES.IDLE);
         return;
       }

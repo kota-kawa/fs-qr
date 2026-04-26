@@ -127,28 +127,34 @@
     <header>
       <div class="container text-center">
         <h1 class="mt-3"><a href="/fs-qr_menu" target="_self"><img
-              style="height: 100px; width: auto;" src="{{staticfile('logo.png')}}"
+              style="height: 100px; width: auto;" src="{{staticfile('logo.png')}}" loading="lazy" decoding="async"
               alt="FS ! QR">
           </a>
         </h1>
       </div>
       <div class="text-center">
         <a href="/search_fs-qr" class="search-link">
-          <img src="{{staticfile('kensaku2.png')}}" alt="検索アイコン" />
+          <img src="{{staticfile('kensaku2.png')}}" alt="検索アイコン" loading="lazy" decoding="async" />
           <span>検索</span>
         </a>
+        <nav class="section-tabs" aria-label="サービスナビゲーション">
+          <a class="section-tab" href="/">ホーム</a>
+          <a class="section-tab" href="/fs-qr_menu" aria-current="page">FS!QR</a>
+          <a class="section-tab" href="/group_menu">Group</a>
+          <a class="section-tab" href="/note_menu">Note</a>
+        </nav>
       </div>
     </header>
 
     <div id="layout" class="page">
-      <div id="main">
+      <main id="main">
         <div class="contents">
           {% block contents %}
           <!-- ここにメインコンテンツ -->
           {% endblock %}
         </div>
         <!-- end of .contents -->
-      </div>
+      </main>
     </div>
 
     <footer class="simple-footer">
@@ -159,6 +165,7 @@
       <a href="/usage">使い方</a>
       <a href="/site-operator">サイト運営者情報</a>
       <a href="/articles">解説記事</a>
+      <a href="/">トップへ戻る</a>
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>
 

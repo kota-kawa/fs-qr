@@ -291,8 +291,25 @@ footer {
   line-height: 1.45;
 }
 
-.fsqr-transfer-card__progress {
+.fsqr-transfer-card__detail {
+  margin-top: 0.35rem;
+  color: var(--text-medium);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.fsqr-transfer-card__stage {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
   margin-top: 0.85rem;
+  color: var(--text-slate);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.fsqr-transfer-card__progress {
   height: 12px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(64, 130, 221, 0.12), rgba(15, 23, 42, 0.08));
@@ -303,6 +320,22 @@ footer {
   background: linear-gradient(90deg, #63a4ff, #4082dd 55%, #84b8ff);
   border-radius: inherit;
   box-shadow: 0 0 22px rgba(64, 130, 221, 0.35);
+}
+
+.fsqr-transfer-card__cancel {
+  margin-top: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--text-slate);
+  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+
+.fsqr-transfer-card__cancel:focus-visible {
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 2px;
 }
 
 .fsqr-transfer-card--upload.is-encrypting .fsqr-transfer-card__icon--lock {

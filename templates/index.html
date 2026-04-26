@@ -193,9 +193,12 @@
     }
 
     .top-search-field input:focus {
-      outline: none;
       border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+
+    .top-search-field input:focus-visible {
+      outline: 3px solid transparent;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.32);
     }
 
     .top-search-button {
@@ -252,7 +255,7 @@
     .menu-item.group   i { font-size: 3rem; color: #4aba95; margin-bottom: 15px; }
     .menu-item.fs-qr   i { font-size: 3rem; color: #4082dd; margin-bottom: 15px; }
     .menu-item.note    i { font-size: 3rem; color: #64ba4a; margin-bottom: 15px; }
-    .menu-item h3 {
+    .menu-item h2 {
       font-size: 1.5rem;
       margin: 0;
       color: #333;
@@ -287,7 +290,7 @@
       }
       .menu-list      { gap: 10px; }
       .menu-item      { width: 160px; height: 160px; }
-      .menu-item h3   { font-size: 1.1rem; }
+      .menu-item h2   { font-size: 1.1rem; }
       .menu-item.group i,
       .menu-item.fs-qr i,
       .menu-item.note i {
@@ -308,7 +311,7 @@
         gap: 12px;
       }
       .menu-item    { width: 150px; height: 150px; }
-      .menu-item h3 { font-size: 1rem; }
+      .menu-item h2 { font-size: 1rem; }
       .menu-item.group i,
       .menu-item.fs-qr i,
       .menu-item.note i {
@@ -320,7 +323,7 @@
 </head>
 <body>
   <div class="menu-container">
-    <div class="menu-content">
+    <main class="menu-content" role="main">
       <div class="menu-header">
         <h1>ファイル共有メニュー</h1>
         <p>検索または共有方法を選択</p>
@@ -332,18 +335,19 @@
             <i class="fas fa-search" aria-hidden="true"></i>
           </div>
           <div class="top-search-field">
-            <label for="topSearchId">ID</label>
+            <label for="topSearchId">ルームID</label>
             <input type="text" id="topSearchId" name="id"
                    minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}"
-                   placeholder="ID" required
+                   placeholder="ルームID" required
                    title="6文字の半角英数字で入力してください">
           </div>
           <div class="top-search-field">
-            <label for="topSearchPassword">PW</label>
+            <label for="topSearchPassword">パスワード</label>
             <input type="password" id="topSearchPassword" name="password"
                    minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})"
-                   placeholder="PW" required
-                   title="共有されたパスワードを入力してください">
+                   placeholder="パスワード" required
+                   title="6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
+                   autocomplete="current-password" inputmode="numeric">
           </div>
           <button type="submit" class="top-search-button">
             <span>検索</span>
@@ -356,7 +360,7 @@
           <a href="/group" class="menu-item group">
 
             <i class="fas fa-users"></i>
-            <h3>グループで共有</h3>
+            <h2>グループで共有</h2>
           </a>
         </li>
         <li>
@@ -364,7 +368,7 @@
           <a href="/fs-qr" class="menu-item fs-qr">
 
             <i class="fas fa-qrcode"></i>
-            <h3>QRコード共有</h3>
+            <h2>QRコード共有</h2>
           </a>
         </li>
         <li>
@@ -372,11 +376,11 @@
           <a href="/note" class="menu-item note mb-3">
 
             <i class="fas fa-pencil-alt"></i>
-            <h3>ノート共有</h3>
+            <h2>ノート共有</h2>
           </a>
         </li>
       </ul>
-    </div>
+    </main>
     <footer class="simple-footer" style="color:#ffffff;text-shadow:0 1px 2px rgba(0,0,0,0.6);">
       <a href="/">ホーム</a>
       <a href="/about">サイト概要</a>

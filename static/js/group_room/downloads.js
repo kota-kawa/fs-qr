@@ -14,6 +14,14 @@
     var isDownloading = {};
     var isDownloadingAll = false;
 
+    function notify(message) {
+      if (typeof window.showAlertModal === 'function') {
+        window.showAlertModal(message);
+        return;
+      }
+      window.alert(message);
+    }
+
     function downloadSingleFile(file, downloadBtn) {
       var encodedFilename = encodeURIComponent(file.name);
       var downloadKey = `${roomId}-${file.name}`;
@@ -47,7 +55,7 @@
             core.hideDownloadProgress();
           }, 1000);
         } else {
-          alert('ダウンロード中にエラーが発生しました。');
+          notify('ダウンロード中にエラーが発生しました。');
           core.hideDownloadProgress();
         }
         isDownloading[downloadKey] = false;
@@ -55,7 +63,7 @@
       };
 
       xhr.onerror = function () {
-        alert('ダウンロード中にエラーが発生しました。');
+        notify('ダウンロード中にエラーが発生しました。');
         core.hideDownloadProgress();
         isDownloading[downloadKey] = false;
         downloadBtn.disabled = false;
@@ -94,7 +102,7 @@
             core.hideDownloadProgress();
           }, 1000);
         } else {
-          alert('ダウンロード中にエラーが発生しました。');
+          notify('ダウンロード中にエラーが発生しました。');
           core.hideDownloadProgress();
         }
 
@@ -103,7 +111,7 @@
       };
 
       xhr.onerror = function () {
-        alert('ダウンロード中にエラーが発生しました。');
+        notify('ダウンロード中にエラーが発生しました。');
         core.hideDownloadProgress();
         isDownloadingAll = false;
         downloadAllBtn.disabled = false;

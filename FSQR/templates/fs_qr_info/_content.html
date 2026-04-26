@@ -95,7 +95,7 @@
 
         <div class="text-center mt-4">
           <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
-               class="img-fluid" style="max-width: 200px; height: auto; border-radius: 12px; box-shadow: var(--shadow-md);" alt="QR">
+               class="img-fluid" style="max-width: 200px; height: auto; border-radius: 12px; box-shadow: var(--shadow-md);" alt="共有用QRコード" loading="lazy" decoding="async">
         </div>
         
         <div class="text-center mt-4">
@@ -123,7 +123,7 @@
           </tr>
           {% if password %}
           <tr>
-            <th scope="row" class="text-center">Password</th>
+            <th scope="row" class="text-center">パスワード</th>
             <td class="text-start">
               <span
                 id="downloadPasswordValue"

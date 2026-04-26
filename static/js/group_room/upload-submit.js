@@ -28,6 +28,14 @@
     var uploadProgressBar = document.getElementById('uploadProgressBar');
     var uploadProgressText = document.getElementById('uploadProgressText');
 
+    function notify(message) {
+      if (typeof window.showAlertModal === 'function') {
+        window.showAlertModal(message);
+        return;
+      }
+      window.alert(message);
+    }
+
     function parseJsonResponse(rawText, label) {
       var parsed = core.safeParseJson
         ? core.safeParseJson(rawText, logger, label)
@@ -71,7 +79,7 @@
 
     function validateFiles(filesArray) {
       if (filesArray.length === 0) {
-        alert('アップロードするファイルがありません。');
+        notify('アップロードするファイルがありません。');
         return false;
       }
 
@@ -80,11 +88,11 @@
       });
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          alert(`ファイル数は最大${limits.maxFiles}個までです`);
+          notify(`ファイル数は最大${limits.maxFiles}個までです。`);
         } else if (result.reason === 'max_total_size') {
-          alert(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです（現在: ${result.totalSizeMB}MB）`);
+          notify(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
         } else if (result.reason === 'invalid_filename') {
-          alert('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          notify('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
         }
         return false;
       }

@@ -25,6 +25,40 @@
     --glossy-shadow: rgba(101, 163, 13, 0.24);
     --glossy-shadow-strong: rgba(101, 163, 13, 0.34);
 }
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 6.5rem !important;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    cursor: pointer;
+}
+
+.password-toggle:focus-visible {
+    outline: 3px solid rgba(101, 163, 13, 0.32);
+    outline-offset: 2px;
+}
+
+.field-help {
+    display: block;
+    margin-top: 0.35rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
 </style>
 
 <div class="glossy-room-shell">
@@ -38,7 +72,7 @@
         <div class="glossy-room-body">
             <!-- Access Form Section -->
             <div class="glossy-surface" style="padding: 1.5rem; margin-bottom: 2rem;">
-                <h3 style="margin-top: 0; color: #374151;">ルームにアクセス</h3>
+                <h2 style="margin-top: 0; color: #374151; font-size: 1.35rem;">ルームにアクセス</h2>
                 
                 <!-- Tab Buttons -->
                 <div class="glossy-tab-track" style="display: flex; border-radius: 10px; margin-bottom: 1rem;">
@@ -55,16 +89,25 @@
                     <form method="POST" action="/search_note_process">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div style="margin-bottom: 1rem;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Room ID</label>
-                            <input type="text" name="id" placeholder="ルームIDを入力" required
+                            <label for="noteJoinRoomId" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID</label>
+                            <input type="text" id="noteJoinRoomId" name="id" placeholder="ルームIDを入力" required
                                    minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                                   aria-describedby="noteJoinRoomIdHelp"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                            <small id="noteJoinRoomIdHelp" class="field-help">共有された6文字のルームIDを入力してください。</small>
                         </div>
                         <div style="margin-bottom: 1rem;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Password</label>
-                            <input type="password" name="password" placeholder="パスワード" required
-                                   minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})" title="共有されたパスワードを入力してください"
-                                   style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                            <label for="noteJoinPassword" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">パスワード</label>
+                            <div class="password-field">
+                                <input type="password" id="noteJoinPassword" name="password" placeholder="パスワードを入力" required
+                                       minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})"
+                                       title="6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
+                                       autocomplete="current-password" inputmode="numeric"
+                                       aria-describedby="noteJoinPasswordHelp"
+                                       style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                                <button type="button" class="password-toggle" data-password-toggle="noteJoinPassword" aria-controls="noteJoinPassword" aria-label="パスワードを表示">表示</button>
+                            </div>
+                            <small id="noteJoinPasswordHelp" class="field-help">6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアを入力してください。</small>
                         </div>
                     <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
@@ -93,11 +136,13 @@
                         
                         <!-- ID入力欄（手動） -->
                         <div id="manualIdGroup" style="display: none; margin-bottom: 1rem;">
-                            <label for="roomID" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Room ID</label>
+                            <label for="roomID" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID</label>
                             <input type="text" id="roomID" name="id" placeholder="6文字の半角英数字で入力"
                                    minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}"
+                                   aria-describedby="manualRoomIdHelp"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;"
                                    title="6文字の半角英数字で入力してください">
+                            <small id="manualRoomIdHelp" class="field-help">6文字の半角英数字で入力してください。</small>
                         </div>
                         
                         <!-- 自動生成ID表示 -->
@@ -143,7 +188,7 @@
                           style="width: 100%; height: 200px; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.78); border-radius: 14px; font-size: 1rem; background: linear-gradient(155deg, rgba(243, 244, 246, 0.92) 0%, rgba(255, 255, 255, 0.78) 100%); color: #6b7280; resize: vertical; font-family: monospace; line-height: 1.6; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 10px 20px rgba(15, 23, 42, 0.08);"></textarea>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <small style="color: #6b7280;">上記のフォームでルームを作成・参加すると編集できます</small>
-                    <span style="padding: 0.25rem 0.75rem; background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%); color: white; border-radius: 999px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);">Demo Mode</span>
+                    <span style="padding: 0.25rem 0.75rem; background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%); color: white; border-radius: 999px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);">デモ表示</span>
                 </div>
             </div>
         </div>
@@ -293,14 +338,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 // 手動入力モードの場合はエラーを表示
                 hideSpinner();
-                alert(typeof data.error === 'string' ? data.error : 'このIDは既に使用されています。別のIDを使用してください。');
+                window.showAlertModal(typeof data.error === 'string' ? data.error : 'このIDは既に使用されています。別のIDを使用してください。');
                 return Promise.reject('Manual ID conflict');
             }
             if (!response.ok) {
                 // その他のエラー
                 const data = await safeReadJsonResponse(response);
                 hideSpinner();
-                alert(typeof data.error === 'string' ? data.error : 'エラーが発生しました');
+                window.showAlertModal(typeof data.error === 'string' ? data.error : 'エラーが発生しました。');
                 throw new Error(typeof data.error === 'string' ? data.error : 'room create failed');
             }
             return response;
@@ -374,6 +419,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    document.querySelectorAll('[data-password-toggle]').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = document.getElementById(this.dataset.passwordToggle);
+            if (!input) {
+                return;
+            }
+            const shouldShow = input.type === 'password';
+            input.type = shouldShow ? 'text' : 'password';
+            this.textContent = shouldShow ? '隠す' : '表示';
+            this.setAttribute('aria-label', shouldShow ? 'パスワードを隠す' : 'パスワードを表示');
+        });
+    });
 });
 
 // Hide spinner if form submission fails (user navigates back)

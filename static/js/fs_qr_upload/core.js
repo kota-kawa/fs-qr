@@ -73,7 +73,10 @@
       spinnerAnimationContainer: document.getElementById('uploadProgressContainer'),
       spinnerEyebrow: document.getElementById('uploadProgressEyebrow'),
       spinnerText: document.getElementById('uploadProgressText'),
-      spinnerProgress: document.getElementById('uploadProgressBar')
+      spinnerDetail: document.getElementById('uploadProgressDetail'),
+      spinnerProgress: document.getElementById('encryptionProgressBar'),
+      uploadProgress: document.getElementById('uploadProgressBar'),
+      cancelUploadBtn: document.getElementById('cancelUploadBtn')
     };
   }
 

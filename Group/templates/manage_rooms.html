@@ -9,7 +9,7 @@
     <h1 class="mb-4 text-center">ルーム管理</h1>
 
     <!-- すべて削除ボタン -->
-    <form method="post" action="/delete_all_rooms" onsubmit="return confirm('本当にすべてのルームを削除しますか？');" class="text-center">
+    <form method="post" action="/delete_all_rooms" class="text-center" data-confirm-submit="本当にすべてのルームを削除しますか？">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button type="submit" class="btn btn-danger mb-3">すべて削除</button>
     </form>
@@ -33,7 +33,7 @@
                 <td>{{ room.password }}</td>
                 <td>{{ room.retention_days }}日</td>
                 <td>
-                    <form method="post" action="/delete_room/{{ room.room_id }}" onsubmit="return confirm('このルームを削除しますか？');">
+                    <form method="post" action="/delete_room/{{ room.room_id }}" data-confirm-submit="このルームを削除しますか？">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="btn btn-sm btn-danger">削除</button>
                     </form>
@@ -47,4 +47,22 @@
         </tbody>
     </table>
 </div>
+<script>
+document.querySelectorAll('[data-confirm-submit]').forEach(function(form) {
+    form.addEventListener('submit', async function(event) {
+        if (form.dataset.confirmed === 'true') {
+            return;
+        }
+        event.preventDefault();
+        var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
+            title: '削除の確認',
+            confirmLabel: '削除する'
+        });
+        if (confirmed) {
+            form.dataset.confirmed = 'true';
+            form.submit();
+        }
+    });
+});
+</script>
 {% endblock %}

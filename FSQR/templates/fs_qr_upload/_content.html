@@ -104,13 +104,24 @@
                         </div>
                     </div>
                     <div class="fsqr-transfer-card__content">
-                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">Encrypting</div>
+                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">暗号化</div>
                         <div class="fsqr-transfer-card__title">
                             <span id="uploadProgressText">暗号化中...</span>
                         </div>
-                        <div class="fsqr-transfer-card__progress progress-bar-container">
-                            <div class="progress-bar" id="uploadProgressBar"></div>
+                        <div class="fsqr-transfer-card__detail" id="uploadProgressDetail" aria-live="polite">ファイルを準備しています。</div>
+                        <div class="fsqr-transfer-card__stage">
+                            <span>暗号化</span>
+                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="暗号化の進捗">
+                                <div class="progress-bar" id="encryptionProgressBar"></div>
+                            </div>
                         </div>
+                        <div class="fsqr-transfer-card__stage">
+                            <span>アップロード</span>
+                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="アップロードの進捗">
+                                <div class="progress-bar" id="uploadProgressBar"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="fsqr-transfer-card__cancel" id="cancelUploadBtn">キャンセル</button>
                     </div>
                 </div>
             </form>

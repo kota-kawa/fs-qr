@@ -10,7 +10,9 @@
     var spinnerAnimationContainer = options.spinnerAnimationContainer;
     var spinnerEyebrow = options.spinnerEyebrow;
     var spinnerText = options.spinnerText;
+    var spinnerDetail = options.spinnerDetail;
     var spinnerProgress = options.spinnerProgress;
+    var uploadProgress = options.uploadProgress;
 
     function setPhase(phaseName) {
       if (!spinnerAnimationContainer) {
@@ -32,11 +34,17 @@
       if (spinnerProgress) {
         spinnerProgress.style.transform = 'scaleX(0)';
       }
+      if (uploadProgress) {
+        uploadProgress.style.transform = 'scaleX(0)';
+      }
       if (spinnerEyebrow) {
-        spinnerEyebrow.textContent = 'Encrypting';
+        spinnerEyebrow.textContent = '暗号化';
       }
       if (spinnerText) {
         spinnerText.textContent = '暗号化中...';
+      }
+      if (spinnerDetail) {
+        spinnerDetail.textContent = 'ファイルを準備しています。';
       }
     }
 
@@ -58,20 +66,34 @@
       }
     }
 
+    function setSpinnerDetail(text) {
+      if (spinnerDetail) {
+        spinnerDetail.textContent = text;
+      }
+    }
+
     function setProgressScale(scale) {
       if (spinnerProgress) {
         spinnerProgress.style.transform = `scaleX(${scale})`;
       }
     }
 
+    function setUploadProgressScale(scale) {
+      if (uploadProgress) {
+        uploadProgress.style.transform = `scaleX(${scale})`;
+      }
+    }
+
     function startEncryptionAnimation() {
       setPhase('encrypting');
-      setSpinnerEyebrow('Encrypting');
+      setSpinnerEyebrow('暗号化');
+      setUploadProgressScale(0);
     }
 
     function startUploadAnimation() {
       setPhase('uploading');
-      setSpinnerEyebrow('Uploading');
+      setSpinnerEyebrow('アップロード');
+      setProgressScale(1);
     }
 
     function stopIconSwitching() {
@@ -83,7 +105,9 @@
       showSpinner: showSpinner,
       setSpinnerText: setSpinnerText,
       setSpinnerEyebrow: setSpinnerEyebrow,
+      setSpinnerDetail: setSpinnerDetail,
       setProgressScale: setProgressScale,
+      setUploadProgressScale: setUploadProgressScale,
       startEncryptionAnimation: startEncryptionAnimation,
       startUploadAnimation: startUploadAnimation,
       stopIconSwitching: stopIconSwitching

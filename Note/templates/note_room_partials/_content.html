@@ -16,22 +16,22 @@
                     <div class="room-info-header">Room情報</div>
                     <div class="room-info-body">
                         <div class="room-info-row">
-                            <span class="room-info-label">Room ID</span>
+                            <span class="room-info-label">ルームID</span>
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
                                     <span class="room-info-value-text">{{ room_id }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Room IDをコピー" title="Room IDをコピー">
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー" title="ルームIDをコピー">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                     </button>
                                 </span>
                             </span>
                         </div>
                         <div class="room-info-row">
-                            <span class="room-info-label">Password</span>
+                            <span class="room-info-label">パスワード</span>
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
                                     <span class="room-info-value-text">{{ password }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="Passwordをコピー" title="Passwordをコピー">
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー" title="パスワードをコピー">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                     </button>
                                 </span>
@@ -63,7 +63,7 @@
 
                 <div class="qr-code-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('note.note_room', room_id=room_id, password=password, _external=True)|urlencode }}"
-                         alt="QR Code" style="width: 160px; height: 160px;">
+                         alt="共有用QRコード" style="width: 160px; height: 160px;" loading="lazy" decoding="async">
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
-                    <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;">Syncing…</span>
+                    <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;" role="status" aria-live="polite">同期中…</span>
                 </div>
                 <small id="mergeStatus" style="display: block; margin-top: 0.4rem; color: var(--text-medium);" aria-live="polite"></small>
             </div>

@@ -125,11 +125,14 @@
 }
 
 .form-control:focus {
-    outline: none;
     border-color: rgb(163, 230, 53);
     background: white;
-    box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.1);
     transform: translateY(-1px);
+}
+
+.form-control:focus-visible {
+    outline: 3px solid transparent;
+    box-shadow: 0 0 0 3px rgba(101, 163, 13, 0.32);
 }
 
 .btn-modern {

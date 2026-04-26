@@ -129,31 +129,37 @@
         deleteBtn.setAttribute('aria-label', '削除');
         deleteBtn.setAttribute('title', '削除');
 
-        deleteBtn.addEventListener('click', function () {
+        deleteBtn.addEventListener('click', async function () {
           var encodedFilename = encodeURIComponent(file.name);
-          if (confirm('本当にこのファイルを削除しますか？')) {
-            var xhr = new window.XMLHttpRequest();
-            xhr.open('DELETE', `/delete/${roomId}/${roomPassword}/${encodedFilename}`, true);
-            if (csrfToken) {
-              xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-            }
-            xhr.onload = function () {
-              var payload = core.safeParseJson
-                ? core.safeParseJson(xhr.responseText, logger, 'group delete response')
-                : null;
-              if (xhr.status >= 200 && xhr.status < 300 && payload && payload.status === 'ok') {
-                alert('ファイルが削除されました。');
-                fetchAndDisplayOtherFiles();
-              } else {
-                var message = payload && typeof payload.error === 'string' ? payload.error : '削除中にエラーが発生しました。';
-                alert(message);
-              }
-            };
-            xhr.onerror = function () {
-              alert('削除中にエラーが発生しました。');
-            };
-            xhr.send();
+          var confirmed = await window.showConfirmModal(
+            `「${file.name}」を削除します。この操作は元に戻せません。`,
+            { title: 'ファイルを削除', confirmLabel: '削除する' }
+          );
+          if (!confirmed) {
+            return;
           }
+
+          var xhr = new window.XMLHttpRequest();
+          xhr.open('DELETE', `/delete/${roomId}/${roomPassword}/${encodedFilename}`, true);
+          if (csrfToken) {
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+          }
+          xhr.onload = function () {
+            var payload = core.safeParseJson
+              ? core.safeParseJson(xhr.responseText, logger, 'group delete response')
+              : null;
+            if (xhr.status >= 200 && xhr.status < 300 && payload && payload.status === 'ok') {
+              window.showAlertModal('ファイルを削除しました。');
+              fetchAndDisplayOtherFiles();
+            } else {
+              var message = payload && typeof payload.error === 'string' ? payload.error : '削除中にエラーが発生しました。';
+              window.showAlertModal(message);
+            }
+          };
+          xhr.onerror = function () {
+            window.showAlertModal('削除中にエラーが発生しました。');
+          };
+          xhr.send();
         });
 
         actions.appendChild(downloadBtn);

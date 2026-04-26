@@ -12,7 +12,7 @@
   <meta name="geo.placename" content="Japan" />
   <meta name="distribution" content="global" />
   <meta name="rating" content="general" />
-  <meta name="theme-color" content="#c2bf20" />
+  <meta name="theme-color" content="#342ae3" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <script>
     window.AppConfig = Object.freeze({
@@ -67,9 +67,9 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Note">
-  <link rel="icon" href="{{staticfile('favicon4.ico')}}">
+  <link rel="icon" href="{{staticfile('favicon.ico')}}">
   <link rel="apple-touch-icon" sizes="180x180"
-        href="{{staticfile('apple-touch-icon4.png')}}">
+        href="{{staticfile('apple-touch-icon.png')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -155,7 +155,7 @@
     <div class="container text-center">
       <h1 class="mt-3">
         <a href="/note_menu" target="_self">
-          <img src="{{staticfile('note_logo.png')}}" alt="NoteShare"
+          <img src="{{staticfile('note_logo.png')}}" alt="NoteShare" loading="lazy" decoding="async"
                style="height:100px;width:auto;">
         </a>
       </h1>
@@ -165,18 +165,24 @@
   <!-- ── Search-link（虫眼鏡）───────────── -->
   <div class="text-center">
     <a href="/search_note" class="search-link">
-      <img src="{{staticfile('note_search.png')}}" alt="検索" />
+      <img src="{{staticfile('note_search.png')}}" alt="検索" loading="lazy" decoding="async" />
       <span>検索</span>
     </a>
+    <nav class="section-tabs" aria-label="サービスナビゲーション">
+      <a class="section-tab" href="/">ホーム</a>
+      <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
+      <a class="section-tab" href="/group_menu">Group</a>
+      <a class="section-tab" href="/note_menu" aria-current="page">Note</a>
+    </nav>
   </div>
 
   <!-- ── Main ──────────────────────────── -->
   <div id="layout" class="page">
-    <div id="main">
+    <main id="main">
       <div class="contents">
         {% block contents %}{% endblock %}
       </div>
-    </div>
+    </main>
   </div>
 
 
@@ -189,6 +195,7 @@
     <a href="/usage">使い方</a>
     <a href="/site-operator">サイト運営者情報</a>
     <a href="/articles">解説記事</a>
+    <a href="/">トップへ戻る</a>
     <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
   </footer>
 

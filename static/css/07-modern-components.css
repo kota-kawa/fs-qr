@@ -278,9 +278,12 @@
 }
 
 .modern-form-input:focus {
-  outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(0, 109, 128, 0.1);
+}
+
+.modern-form-input:focus-visible {
+  outline: 3px solid transparent;
+  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(0, 109, 128, 0.22));
 }
 
 .modern-editor {
@@ -297,8 +300,12 @@
 }
 
 .modern-editor:focus {
-  outline: none;
   box-shadow: 0 0 0 3px rgba(0, 109, 128, 0.1);
+}
+
+.modern-editor:focus-visible {
+  outline: 3px solid transparent;
+  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(0, 109, 128, 0.22));
 }
 
 .modern-btn {

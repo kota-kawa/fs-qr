@@ -9,6 +9,7 @@
     var uploadForm = options.uploadForm;
     var fileInput = options.fileInput;
     var startUploadBtn = options.startUploadBtn;
+    var cancelUploadBtn = options.cancelUploadBtn;
     var retentionSelect = options.retentionSelect;
     var getCurrentId = options.getCurrentId;
     var clearFormError = options.clearFormError;
@@ -24,6 +25,8 @@
     }
     var limits = validation.normalizeLimits(options.limits || {});
     var core = modules.core;
+    var activeXhr = null;
+    var cancelRequested = false;
 
     function parseJsonResponse(rawText, label) {
       return core.safeParseJson(rawText, logger, label);
@@ -62,7 +65,7 @@
         if (result.reason === 'max_files') {
           showFormError(`ファイル数は最大${limits.maxFiles}個までです。`);
         } else if (result.reason === 'max_total_size') {
-          showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は ${result.totalSizeMB}MB です。`);
+          showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
         } else if (result.reason === 'invalid_filename') {
           showFormError('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
         }
@@ -96,9 +99,21 @@
     }
 
     function bindUpload() {
+      if (cancelUploadBtn) {
+        cancelUploadBtn.addEventListener('click', function () {
+          cancelRequested = true;
+          if (activeXhr) {
+            activeXhr.abort();
+          }
+          spinner.setSpinnerText('キャンセルしています...');
+          spinner.setSpinnerDetail('暗号化中の場合は、現在の処理が終わり次第キャンセルします。');
+        });
+      }
+
       uploadForm.addEventListener('submit', async function (event) {
         event.preventDefault();
         clearFormError();
+        cancelRequested = false;
 
         if (!uploadForm.reportValidity()) {
           return;
@@ -119,23 +134,34 @@
         }
 
         try {
-          spinner.setSpinnerEyebrow('Encrypting');
+          var fileNames = Array.from(files).map(function (file) { return file.name; });
+          spinner.setSpinnerEyebrow('暗号化');
           spinner.setSpinnerText('アップロード準備中...');
+          spinner.setSpinnerDetail(`対象ファイル: ${fileNames[0]}${fileNames.length > 1 ? ` ほか${fileNames.length - 1}件` : ''}`);
           spinner.setProgressScale(0);
+          spinner.setUploadProgressScale(0);
           await new Promise(function (resolve) {
             setTimeout(resolve, 1000);
           });
 
-          spinner.setProgressScale(0.05);
+          if (cancelRequested) {
+            throw new Error('アップロードをキャンセルしました。');
+          }
+
           spinner.setSpinnerText('暗号化中...');
           var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, id);
+          if (cancelRequested) {
+            throw new Error('アップロードをキャンセルしました。');
+          }
 
-          spinner.setSpinnerEyebrow('Uploading');
+          spinner.setSpinnerEyebrow('アップロード');
           spinner.setSpinnerText('送信中...');
+          spinner.setSpinnerDetail(`送信対象: ${fileNames.length}件`);
           spinner.startUploadAnimation();
 
           var formData = buildUploadFormData(files, encryptedBlob, id);
           var xhr = new XMLHttpRequest();
+          activeXhr = xhr;
           xhr.open('POST', '/upload', true);
           if (csrfToken) {
             xhr.setRequestHeader('X-CSRF-Token', csrfToken);
@@ -143,10 +169,9 @@
 
           xhr.upload.onprogress = function (progressEvent) {
             if (progressEvent.lengthComputable) {
-              var uploadProgress = (progressEvent.loaded / progressEvent.total) * 50;
-              var totalProgress = 50 + uploadProgress;
-              spinner.setProgressScale(totalProgress / 100);
-              spinner.setSpinnerText(`送信中... ${Math.round(totalProgress)}%`);
+              var uploadProgress = progressEvent.loaded / progressEvent.total;
+              spinner.setUploadProgressScale(uploadProgress);
+              spinner.setSpinnerText(`送信中... ${Math.round(uploadProgress * 100)}%`);
             }
           };
 
@@ -181,6 +206,7 @@
               startUploadBtn.innerHTML = uploadButtonLabel;
             }
             spinner.stopIconSwitching();
+            activeXhr = null;
           };
 
           xhr.onerror = function () {
@@ -191,6 +217,18 @@
               startUploadBtn.innerHTML = uploadButtonLabel;
             }
             spinner.stopIconSwitching();
+            activeXhr = null;
+          };
+
+          xhr.onabort = function () {
+            showFormError('アップロードをキャンセルしました。');
+            spinner.hideSpinner();
+            if (startUploadBtn) {
+              startUploadBtn.disabled = false;
+              startUploadBtn.innerHTML = uploadButtonLabel;
+            }
+            spinner.stopIconSwitching();
+            activeXhr = null;
           };
 
           xhr.send(formData);

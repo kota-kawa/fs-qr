@@ -42,6 +42,7 @@
 
 .fsqr-alert-modal-actions {
   display: flex;
+  gap: 0.75rem;
   justify-content: center;
   margin-top: 1.25rem;
 }
@@ -64,4 +65,11 @@
 .fsqr-alert-modal-button:focus-visible {
   outline: 3px solid rgba(59, 130, 246, 0.45);
   outline-offset: 2px;
+}
+
+.fsqr-alert-modal-button--secondary {
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  box-shadow: none;
 }

@@ -21,7 +21,9 @@
     spinnerAnimationContainer: elements.spinnerAnimationContainer,
     spinnerEyebrow: elements.spinnerEyebrow,
     spinnerText: elements.spinnerText,
-    spinnerProgress: elements.spinnerProgress
+    spinnerDetail: elements.spinnerDetail,
+    spinnerProgress: elements.spinnerProgress,
+    uploadProgress: elements.uploadProgress
   });
 
   var retentionController = modules.retention.createRetentionPreviewController({
@@ -56,6 +58,7 @@
     uploadForm: elements.uploadForm,
     fileInput: elements.fileInput,
     startUploadBtn: elements.startUploadBtn,
+    cancelUploadBtn: elements.cancelUploadBtn,
     retentionSelect: elements.retentionSelect,
     getCurrentId: idModeController.getCurrentId,
     clearFormError: formError.clearFormError,
