@@ -207,6 +207,31 @@ def test_group_upload_no_files(test_client: TestClient):
     assert isinstance(payload["error"], str)
 
 
+def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
+    """HTML/SVG 判定されたファイルは 400 で拒否する"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    detector = type("Detector", (), {"from_buffer": lambda self, _: "text/html"})()
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("file_validation._MIME_DETECTOR", detector),
+        patch("Group.group_routes_file.os.makedirs"),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123/000000",
+            files={"upfile": ("safe.txt", b"<html>bad</html>", "text/plain")},
+        )
+
+    assert response.status_code == 400
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["error"] == "HTML/SVG ファイルはアップロードできません。"
+    assert payload["data"]["files"] == ["safe.txt"]
+
+
 # --- check (list_files): 認証失敗 → 404 ---
 
 
@@ -306,10 +331,13 @@ def test_delete_room_requires_management_auth(test_client: TestClient):
 def test_list_files_auth_success_no_dir(test_client: TestClient):
     """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
-    with patch(
-        "Group.group_data.get_data_direct",
-        new_callable=AsyncMock,
-        return_value=mock_room,
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.os.path.exists", return_value=False),
     ):
         response = test_client.get("/check/abc123/000000")
     # 認証通過 → ディレクトリなし → 404
@@ -399,10 +427,13 @@ def test_delete_file_backoff_returns_429(test_client: TestClient):
 def test_download_all_auth_success_no_dir(test_client: TestClient):
     """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
-    with patch(
-        "Group.group_data.get_data_direct",
-        new_callable=AsyncMock,
-        return_value=mock_room,
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.os.path.exists", return_value=False),
     ):
         response = test_client.get("/download/all/abc123/000000")
     assert response.status_code == 404

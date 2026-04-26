@@ -11,7 +11,9 @@ from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
 from file_validation import (
+    build_content_disposition_attachment,
     sanitize_group_upload_filename,
+    validate_upload_file_content,
     validate_requested_filename,
     validate_upload_limits,
 )
@@ -71,12 +73,18 @@ def register_group_upload_route(router: APIRouter):
             )
 
         error_files = []
+        rejected_files = []
         saved_files_count = 0
         save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(save_path, exist_ok=True)
 
         for file in upfile:
             if file.filename == "":
+                continue
+
+            content_error = validate_upload_file_content(file)
+            if content_error:
+                rejected_files.append(file.filename)
                 continue
 
             safe_filename = sanitize_group_upload_filename(file.filename)
@@ -93,6 +101,15 @@ def register_group_upload_route(router: APIRouter):
                     saved_files_count += 1
             except Exception:
                 error_files.append(file.filename)
+
+        if rejected_files:
+            if saved_files_count > 0:
+                await notify_group_files_updated(room_id)
+            return api_error_response(
+                "HTML/SVG ファイルはアップロードできません。",
+                status_code=400,
+                data={"files": rejected_files},
+            )
 
         if error_files:
             if saved_files_count > 0:
@@ -163,8 +180,11 @@ def register_group_download_all_route(router: APIRouter):
                         with open(file_path, "rb") as f:
                             zipf.writestr(filename, f.read())
             zip_stream.seek(0)
+            download_name = secure_filename(f"{room_id}_files.zip") or "room_files.zip"
             headers = {
-                "Content-Disposition": f"attachment; filename={room_id}_files.zip"
+                "Content-Disposition": build_content_disposition_attachment(
+                    download_name
+                )
             }
             return StreamingResponse(
                 zip_stream, media_type="application/zip", headers=headers
@@ -200,7 +220,11 @@ def register_group_download_file_route(router: APIRouter):
 
         try:
             if os.path.exists(file_path):
-                return FileResponse(file_path, filename=decoded_filename)
+                response = FileResponse(file_path)
+                response.headers["Content-Disposition"] = (
+                    build_content_disposition_attachment(decoded_filename)
+                )
+                return response
             return api_error_response("ファイルが見つかりません。", status_code=404)
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)

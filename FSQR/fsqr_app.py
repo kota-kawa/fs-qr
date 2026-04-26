@@ -10,7 +10,13 @@ from pydantic import ValidationError
 from starlette.responses import FileResponse, RedirectResponse
 
 from api_response import api_error_response, api_ok_response
-from file_validation import normalize_upload_filename, validate_upload_limits
+from file_validation import (
+    build_content_disposition_attachment,
+    normalize_upload_filename,
+    sanitize_download_filename,
+    validate_upload_file_content,
+    validate_upload_limits,
+)
 from models import FsqrUploadInput, RoomSearchInput
 from rate_limit import (
     SCOPE_QR,
@@ -137,6 +143,10 @@ async def upload(
         filename = normalize_upload_filename(file.filename or "")
         if not filename:
             return json_or_msg(request, "不正なファイル名です")
+
+        content_error = validate_upload_file_content(file)
+        if content_error:
+            return json_or_msg(request, content_error)
 
         save_path = os.path.join(STATIC, secure_id_base + filename)
 
@@ -287,10 +297,13 @@ async def _send_file_response(request: Request, secure_id: str):
         return msg(request, "ファイルが存在しません")
 
     response = FileResponse(path, media_type=mimetype)
-    response.headers["Content-Disposition"] = f'attachment; filename="{download_name}"'
+    response.headers["Content-Disposition"] = build_content_disposition_attachment(
+        download_name
+    )
     response.headers["X-File-Type"] = file_type
-    if original_filename:
-        response.headers["X-Original-Filename"] = original_filename
+    safe_original_filename = sanitize_download_filename(original_filename, default="")
+    if safe_original_filename:
+        response.headers["X-Original-Filename"] = safe_original_filename
     return response
 
 

@@ -13,6 +13,7 @@ from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
 from database import db_session
+from file_validation import build_content_disposition_attachment
 from FSQR import fsqr_data as fs_data
 from Group import group_data
 from web import build_url, enforce_csrf, flash_message, render_template
@@ -266,7 +267,11 @@ async def file_download(request: Request, secure_id: str):
     if not os.path.exists(path):
         raise HTTPException(status_code=404)
 
-    return FileResponse(path, filename=display_name, media_type=mimetype)
+    response = FileResponse(path, media_type=mimetype)
+    response.headers["Content-Disposition"] = build_content_disposition_attachment(
+        display_name
+    )
+    return response
 
 
 @router.get("/room/{room_id}", name="db_admin.room_detail")
@@ -324,7 +329,9 @@ async def room_download(request: Request, room_id: str):
     download_name = (
         secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
     )
-    headers = {"Content-Disposition": f"attachment; filename={download_name}"}
+    headers = {
+        "Content-Disposition": build_content_disposition_attachment(download_name)
+    }
     return StreamingResponse(archive, media_type="application/zip", headers=headers)
 
 

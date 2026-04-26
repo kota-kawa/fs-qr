@@ -325,7 +325,8 @@ def test_download_go_single_sets_attachment_headers(test_client, monkeypatch, tm
 
     assert response.status_code == 200
     assert (
-        response.headers["content-disposition"] == 'attachment; filename="report.pdf"'
+        response.headers["content-disposition"]
+        == 'attachment; filename="report.pdf"; filename*=UTF-8\'\'report.pdf'
     )
     assert response.headers["x-file-type"] == "single"
     assert response.headers["x-original-filename"] == "report.pdf"

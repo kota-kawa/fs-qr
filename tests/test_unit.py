@@ -891,3 +891,29 @@ def test_sanitize_group_upload_filename_falls_back_when_hidden():
         result = sanitize_group_upload_filename(".bashrc")
 
     assert result == "file_1234567890"
+
+
+def test_build_content_disposition_attachment_uses_rfc5987():
+    from file_validation import build_content_disposition_attachment
+
+    header = build_content_disposition_attachment('evil\r\nx: y".txt')
+
+    assert "\r" not in header
+    assert "\n" not in header
+    assert 'filename="evilx: y.txt"' in header
+    assert "filename*=UTF-8''evilx%3A%20y.txt" in header
+
+
+def test_validate_upload_file_content_blocks_svg_mime():
+    from io import BytesIO
+    from types import SimpleNamespace
+
+    from file_validation import validate_upload_file_content
+
+    upload = SimpleNamespace(filename="image.png", file=BytesIO(b"<svg></svg>"))
+    detector = SimpleNamespace(from_buffer=lambda _: "image/svg+xml")
+
+    with patch("file_validation._MIME_DETECTOR", detector):
+        result = validate_upload_file_content(upload)
+
+    assert result == "HTML/SVG ファイルはアップロードできません。"

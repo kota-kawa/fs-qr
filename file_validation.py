@@ -5,11 +5,24 @@ from __future__ import annotations
 import os
 import time
 from collections.abc import Iterable, Sequence
+from urllib.parse import quote
 
 from fastapi import UploadFile
 from werkzeug.utils import secure_filename
 
-_DANGEROUS_FILENAME_PATTERNS = ("..", "/", "\\", "\x00")
+try:
+    import magic
+except ImportError:  # pragma: no cover - production dependency guard
+    magic = None
+
+_DANGEROUS_FILENAME_PATTERNS = ("..", "/", "\\", "\x00", "\r", "\n")
+_DISALLOWED_UPLOAD_EXTENSIONS = {".html", ".htm", ".xhtml", ".svg", ".svgz"}
+_DISALLOWED_UPLOAD_MIME_TYPES = {
+    "application/xhtml+xml",
+    "image/svg+xml",
+    "text/html",
+}
+_MIME_DETECTOR = magic.Magic(mime=True) if magic is not None else None
 
 
 def has_dangerous_filename_pattern(filename: str) -> bool:
@@ -72,3 +85,64 @@ def sanitize_group_upload_filename(filename: str) -> str:
         safe_filename = f"file_{int(time.time())}{ext}"
 
     return safe_filename
+
+
+def _strip_header_unsafe_chars(value: str) -> str:
+    cleaned = "".join(ch for ch in (value or "") if 32 <= ord(ch) != 127)
+    return cleaned.replace('"', "").replace("\\", "").strip()
+
+
+def sanitize_download_filename(filename: str, default: str = "download") -> str:
+    cleaned = _strip_header_unsafe_chars(filename)
+    if cleaned:
+        return cleaned
+    return default
+
+
+def build_content_disposition_attachment(
+    filename: str,
+    *,
+    fallback_filename: str = "download",
+) -> str:
+    safe_filename = sanitize_download_filename(filename, default=fallback_filename)
+    ascii_fallback = safe_filename.encode("ascii", "ignore").decode("ascii")
+    ascii_fallback = sanitize_download_filename(
+        ascii_fallback, default=fallback_filename
+    )
+    utf8_filename = quote(safe_filename, safe="!#$&+-.^_`|~")
+    return (
+        f'attachment; filename="{ascii_fallback}"; '
+        f"filename*=UTF-8''{utf8_filename}"
+    )
+
+
+def detect_upload_mime_type(upload_file: UploadFile, *, sniff_size: int = 8192) -> str:
+    if _MIME_DETECTOR is None:
+        raise RuntimeError("python-magic is not available.")
+
+    current_position = upload_file.file.tell()
+    upload_file.file.seek(0)
+    sample = upload_file.file.read(sniff_size)
+    upload_file.file.seek(current_position)
+    if not sample:
+        return "application/octet-stream"
+    detected_mime = _MIME_DETECTOR.from_buffer(sample)
+    if not detected_mime:
+        return "application/octet-stream"
+    return detected_mime
+
+
+def validate_upload_file_content(upload_file: UploadFile) -> str | None:
+    if _MIME_DETECTOR is None:
+        return "サーバーのファイル種別判定が利用できません。管理者へお問い合わせください。"
+
+    filename = upload_file.filename or ""
+    _, ext = os.path.splitext(filename.lower())
+    if ext in _DISALLOWED_UPLOAD_EXTENSIONS:
+        return "HTML/SVG ファイルはアップロードできません。"
+
+    detected_mime = detect_upload_mime_type(upload_file)
+    if detected_mime in _DISALLOWED_UPLOAD_MIME_TYPES:
+        return "HTML/SVG ファイルはアップロードできません。"
+
+    return None
