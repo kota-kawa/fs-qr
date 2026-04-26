@@ -1,7 +1,23 @@
 :root {
   --bp-sm: 576px;
   --bp-md: 768px;
-  --bp-lg: 960px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+  --btn-primary: #2563eb;
+  --btn-primary-hover: #1d4ed8;
+  --btn-danger: #dc2626;
+  --btn-danger-hover: #b91c1c;
+  --btn-secondary: #475569;
+  --z-base: 0;
+  --z-dropdown: 900;
+  --z-overlay: 1000;
+  --z-modal: 1100;
+  --z-toast: 1200;
+  --z-tooltip: 1300;
+}
+
+html {
+  font-size: clamp(14px, 100%, 16px);
 }
 
 .section-tabs {
@@ -37,10 +53,58 @@
   outline-offset: 2px;
 }
 
+.footer-link-button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.footer-link-button:focus-visible {
+  outline: 3px solid var(--focus-ring-color, rgba(37, 99, 235, 0.32));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .section-tabs,
+  .search-link,
+  .cookie-consent-overlay,
+  .fsqr-alert-modal-overlay,
+  .fsqr-tooltip {
+    display: none !important;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+  }
+}
+
 /*
  * Breakpoint policy:
- * - max-width: 575.98px  (sm down)
- * - max-width: 767.98px  (md down)
- * - max-width: 959.98px  (lg down)
- * - min-width: 768px / 960px (md up / lg up)
+ * - max-width: calc(var(--bp-sm) - 0.02px)  (sm down)
+ * - max-width: calc(var(--bp-md) - 0.02px)  (md down)
+ * - max-width: calc(var(--bp-lg) - 0.02px)  (lg down)
+ * - min-width: var(--bp-md) / var(--bp-lg) (md up / lg up)
  */

@@ -30,10 +30,6 @@
     position: relative;
 }
 
-.password-field input {
-    padding-right: 6.5rem !important;
-}
-
 .password-toggle {
     position: absolute;
     top: 50%;
@@ -104,7 +100,7 @@
                                        title="6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
                                        autocomplete="current-password" inputmode="numeric"
                                        aria-describedby="groupJoinPasswordHelp"
-                                       style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                                       style="width: 100%; padding: 0.75rem 6.5rem 0.75rem 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                                 <button type="button" class="password-toggle" data-password-toggle="groupJoinPassword" aria-controls="groupJoinPassword" aria-label="パスワードを表示">表示</button>
                             </div>
                             <small id="groupJoinPasswordHelp" class="field-help">6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアを入力してください。</small>
@@ -244,7 +240,7 @@
 </div>
 
 <!-- Spinner overlay -->
-<div id="spinner-overlay" class="glossy-spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: 9999;">
+<div id="spinner-overlay" class="glossy-spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: var(--z-overlay);">
     <div style="text-align: center;">
         <div style="width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(34, 197, 94); border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>

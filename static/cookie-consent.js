@@ -48,7 +48,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     const overlay = document.getElementById('cookieConsent');
 
-    if (!overlay || hasConsent()) {
+    if (!overlay) {
       return;
     }
 
@@ -74,6 +74,15 @@
       switchView(overlay, 'settings');
       focusOnTarget(settingsFocus || toggles[0]);
     }
+
+    window.showCookieConsentPanel = function (viewName) {
+      showOverlay(overlay);
+      if (viewName === 'settings') {
+        showSettingsView();
+      } else {
+        showSummaryView();
+      }
+    };
 
     function acceptConsent() {
       setConsentCookie('accepted');
@@ -120,7 +129,15 @@
       }
     });
 
-    showOverlay(overlay);
-    showSummaryView();
+    document.querySelectorAll('[data-cookie-settings]').forEach((trigger) => {
+      trigger.addEventListener('click', function () {
+        window.showCookieConsentPanel('settings');
+      });
+    });
+
+    if (!hasConsent()) {
+      showOverlay(overlay);
+      showSummaryView();
+    }
   });
 })();

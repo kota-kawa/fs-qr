@@ -117,7 +117,7 @@ body.fsqr-section .info-page,
 body.fsqr-section .page-container,
 body.fsqr-section .modern-page-container {
   min-height: auto;
-  background: transparent !important;
+  background: transparent;
 }
 
 /* ホバー時の拡大 (画像のみ) */

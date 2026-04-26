@@ -8,7 +8,7 @@ Disallow: /delete_room/
 Disallow: /delete_all_rooms
 Disallow: /all-remove
 
-# Disallow dynamic download/upload pages
+# Disallow dynamic download/upload and private room pages
 Disallow: /download/
 Disallow: /upload/
 Disallow: /upload_complete/
@@ -19,10 +19,20 @@ Disallow: /group/
 Disallow: /note/
 Disallow: /fs-qr/
 
-# Allow search engines to crawl public content
-Allow: /search_fs-qr
-Allow: /search_group
-Allow: /search_note
+# Allow public marketing and article content
+Allow: /fs-qr
+Allow: /group
+Allow: /note
+Allow: /fs-qr_menu
+Allow: /group_menu
+Allow: /note_menu
+Allow: /articles
+Allow: /fs-qr-concept
+Allow: /safe-sharing
+Allow: /encryption
+Allow: /education
+Allow: /business
+Allow: /risk-mitigation
 
 # Sitemap location
 Sitemap: https://fs-qr.com/sitemap.xml

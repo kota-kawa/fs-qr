@@ -11,7 +11,7 @@
   background-color: var(--theme-fsqr-spinner-overlay, rgba(6, 10, 20, 0.36));
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  z-index: 9999;
+  z-index: var(--z-overlay);
 }
 
 .spinner-container--hidden {

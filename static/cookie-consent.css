@@ -7,19 +7,19 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  z-index: 9999;
+  z-index: var(--z-modal);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 /* Keep the consent modal anchored to the viewport across all layouts. */
 body > #cookieConsent.cookie-consent-overlay {
-  position: fixed !important;
-  inset: 0 !important;
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   margin: 0;
-  z-index: 9999;
+  z-index: var(--z-modal);
 }
 
 .cookie-consent-overlay.is-visible {
@@ -165,14 +165,14 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 .cookie-consent-button--primary {
-  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, var(--btn-primary) 0%, var(--btn-primary-hover) 100%);
   color: #ffffff;
-  box-shadow: 0 8px 22px rgba(2, 132, 199, 0.3);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.3);
 }
 
 .cookie-consent-button--primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.38);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.38);
 }
 
 .cookie-consent-button--outline {
@@ -374,7 +374,7 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 /* ─── Mobile ─────────────────────────────────────── */
-@media (max-width: 575.98px) {
+@media (max-width: calc(var(--bp-sm) - 0.02px)) {
   .cookie-consent-overlay {
     align-items: center;
     padding: 1rem;

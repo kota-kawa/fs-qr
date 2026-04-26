@@ -60,6 +60,8 @@
       return;
     }
     context.mergeStatus.textContent = text || "";
+    context.mergeStatus.classList.toggle("note-conflict-banner", Boolean(text));
+    context.mergeStatus.classList.toggle("is-success", kind === "success");
     if (!text) {
       context.mergeStatus.style.color = "var(--text-medium)";
       return;

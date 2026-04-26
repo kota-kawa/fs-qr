@@ -86,6 +86,9 @@
 }
 
 .search-result-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
   margin-top: 1.5rem;
 }
 
@@ -107,7 +110,28 @@
   background: #111827;
 }
 
-@media (max-width: 576px) {
+.search-result-checklist {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.search-result-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  color: #1f2937;
+  background: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: calc(var(--bp-sm) - 0.02px)) {
   .search-result-panel {
     padding: 1.5rem;
   }
@@ -135,10 +159,22 @@
           </a>
         {% endfor %}
       </div>
+    {% else %}
+      <ul class="search-result-checklist" aria-label="検索できない場合の確認事項">
+        <li>IDは6文字の半角英数字です。</li>
+        <li>大文字と小文字は区別されます。</li>
+        <li>パスワードは6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアです。</li>
+        <li>保存期間を過ぎた共有は自動削除されます。</li>
+      </ul>
     {% endif %}
 
     <div class="search-result-actions">
       <a class="search-result-back" href="/">トップページへ戻る</a>
+      {% if not matches %}
+        <a class="search-result-cta" href="/fs-qr">新しく共有する</a>
+        <a class="search-result-cta" href="/group">グループを作成する</a>
+        <a class="search-result-cta" href="/note">ノートを作成する</a>
+      {% endif %}
     </div>
   </div>
 </div>

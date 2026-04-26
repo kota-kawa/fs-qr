@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="{% block meta_description %}FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業{% endblock %}" />
     <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
@@ -59,8 +59,8 @@
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
     
-    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
     <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
     <link rel="manifest" href="{{staticfile('manifest_group.json')}}">
@@ -177,7 +177,7 @@
     </div>
 
     <div id="layout" class="page">
-      <main id="main">
+      <main id="main" role="main" tabindex="-1">
         <div class="contents">
           {% block contents %}
           <!-- ここにメインコンテンツ -->
@@ -195,6 +195,7 @@
       <a href="/usage">使い方</a>
       <a href="/site-operator">サイト運営者情報</a>
       <a href="/articles">解説記事</a>
+      <button type="button" class="footer-link-button" data-cookie-settings>Cookie設定</button>
       <a href="/">トップへ戻る</a>
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>

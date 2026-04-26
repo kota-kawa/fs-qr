@@ -286,6 +286,31 @@
   box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(0, 109, 128, 0.22));
 }
 
+.upload-limit-status {
+  margin-top: 0.75rem;
+  color: var(--text-medium);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.upload-limit-status.is-warning {
+  color: var(--status-error-text);
+  font-weight: 700;
+}
+
+.modern-file-item.is-invalid {
+  border-color: var(--status-error-border-soft);
+  background: var(--status-error-bg);
+}
+
+.modern-file-item-note {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--status-error-text);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .modern-editor {
   width: 100%;
   border: 2px solid var(--primary-color);
@@ -427,7 +452,7 @@
    Responsive Design for Modern Components
    =============================================== */
 
-@media (max-width: 767.98px) {
+@media (max-width: calc(var(--bp-md) - 0.02px)) {
   .modern-page-container {
     padding: 1rem 0.5rem;
   }

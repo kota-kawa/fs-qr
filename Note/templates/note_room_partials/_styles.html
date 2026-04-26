@@ -182,6 +182,29 @@ footer.simple-footer {
   font-size: 0.9rem;
 }
 
+#status {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.note-conflict-banner {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  background: rgba(255, 251, 235, 0.95);
+  color: #92400e;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.note-conflict-banner.is-success {
+  border-color: rgba(34, 197, 94, 0.28);
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
+}
+
 .note-editor-actions {
   display: inline-flex;
   align-items: center;

@@ -17,6 +17,7 @@
     }
     var limits = validation.normalizeLimits(options.limits || {});
     var filePickerButton = document.getElementById('uploadFileBtn');
+    var uploadLimitStatus = document.getElementById('uploadLimitStatus');
 
     var filesArray = [];
 
@@ -28,25 +29,65 @@
       window.alert(message);
     }
 
+    function formatSize(bytes) {
+      return `${Math.max(0, bytes / (1024 * 1024)).toFixed(2)}MB`;
+    }
+
+    function updateLimitStatus(hasInvalid) {
+      if (!uploadLimitStatus) {
+        return;
+      }
+      var totalSize = validation.calculateTotalSize(filesArray);
+      var remainingBytes = limits.maxTotalSizeBytes - totalSize;
+      uploadLimitStatus.textContent = `現在 ${filesArray.length} / 最大 ${limits.maxFiles} 件、残り ${formatSize(remainingBytes)}（上限 ${limits.maxTotalSizeMB}MB）`;
+      uploadLimitStatus.classList.toggle('is-warning', Boolean(hasInvalid));
+    }
+
+    function getInvalidReason(file, index, runningSize) {
+      if (index >= limits.maxFiles) {
+        return '最大件数を超えています';
+      }
+      if (runningSize > limits.maxTotalSizeBytes) {
+        return '合計サイズの上限を超えています';
+      }
+      if (validation.findInvalidFilename([file]) !== null) {
+        return 'ファイル名を変更してください';
+      }
+      return '';
+    }
+
     function renderFileList() {
       fileList.innerHTML = '';
       if (filesArray.length === 0) {
         fileList.style.display = 'none';
         setUploadIcon('cloud');
+        updateLimitStatus(false);
         return;
       }
 
       fileList.style.display = 'block';
+      var runningSize = 0;
+      var hasInvalid = false;
       filesArray.forEach(function (file, index) {
+        runningSize += file.size || 0;
+        var invalidReason = getInvalidReason(file, index, runningSize);
+        hasInvalid = hasInvalid || Boolean(invalidReason);
         var fileItem = document.createElement('div');
         fileItem.className = 'modern-file-item';
+        fileItem.classList.toggle('is-invalid', Boolean(invalidReason));
 
         var fileName = document.createElement('div');
         fileName.className = 'modern-file-name';
-        fileName.innerHTML = `${icons.file}<span class="modern-file-name-text"></span>`;
+        fileName.innerHTML = `${icons.file}<span><span class="modern-file-name-text"></span></span>`;
         var fileNameText = fileName.querySelector('.modern-file-name-text');
         if (fileNameText) {
           fileNameText.textContent = file.name;
+        }
+        if (invalidReason) {
+          var note = document.createElement('span');
+          note.className = 'modern-file-item-note';
+          note.textContent = invalidReason;
+          fileName.querySelector('span').appendChild(note);
         }
 
         var actions = document.createElement('div');
@@ -69,6 +110,7 @@
         fileList.appendChild(fileItem);
       });
 
+      updateLimitStatus(hasInvalid);
       setUploadIcon('check');
     }
 
@@ -87,7 +129,6 @@
         } else if (result.reason === 'invalid_filename') {
           notify('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
         }
-        return;
       }
 
       var selectedFiles = validation.toArray(files);

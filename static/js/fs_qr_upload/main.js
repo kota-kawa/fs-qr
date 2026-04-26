@@ -40,6 +40,7 @@
     uploadArea: elements.uploadArea,
     fileInput: elements.fileInput,
     fileListDisplay: elements.fileListDisplay,
+    uploadLimitStatus: elements.uploadLimitStatus,
     icons: config.icons || {},
     logger: logger,
     clearFormError: formError.clearFormError,

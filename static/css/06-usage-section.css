@@ -87,7 +87,7 @@
 }
 
 /* Responsive adjustments for usage sections */
-@media (max-width: 767.98px) {
+@media (max-width: calc(var(--bp-md) - 0.02px)) {
   .usage-section {
     margin: 1rem;
     --usage-card-radius: 15px;

@@ -63,6 +63,7 @@
       uploadArea: document.getElementById('upload-area'),
       fileInput: document.getElementById('fileInput'),
       fileListDisplay: document.getElementById('fileList'),
+      uploadLimitStatus: document.getElementById('uploadLimitStatus'),
       idInput: document.getElementById('name'),
       uploadForm: document.getElementById('uploadForm'),
       startUploadBtn: document.getElementById('startUploadBtn'),

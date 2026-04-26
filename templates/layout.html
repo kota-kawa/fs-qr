@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="{% block meta_description %}FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム{% endblock %}" />
     <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
@@ -58,8 +58,8 @@
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
     
-    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
     <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
     <link rel="manifest" href="{{staticfile('manifest.json')}}">
@@ -147,7 +147,7 @@
     </header>
 
     <div id="layout" class="page">
-      <main id="main">
+      <main id="main" role="main" tabindex="-1">
         <div class="contents">
           {% block contents %}
           <!-- ここにメインコンテンツ -->
@@ -165,6 +165,7 @@
       <a href="/usage">使い方</a>
       <a href="/site-operator">サイト運営者情報</a>
       <a href="/articles">解説記事</a>
+      <button type="button" class="footer-link-button" data-cookie-settings>Cookie設定</button>
       <a href="/">トップへ戻る</a>
       <small>Copyright &copy;2025 FS!QR, All Rights Reserved.</small>
     </footer>

@@ -3,6 +3,7 @@ import inspect
 import logging
 import os
 import log_config  # Initialize logging configuration  # noqa: F401
+from datetime import date
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
@@ -14,7 +15,7 @@ try:
 except ImportError:  # pragma: no cover - fallback for older starsessions
     SessionAutoloadMiddleware = None
 from starsessions.stores.redis import RedisStore
-from starlette.responses import FileResponse, RedirectResponse
+from starlette.responses import FileResponse, RedirectResponse, Response
 
 try:
     from starlette.middleware.proxy_headers import ProxyHeadersMiddleware
@@ -218,7 +219,42 @@ async def ads_txt():
 
 @app.get("/sitemap.xml", name="sitemap")
 async def sitemap():
-    return FileResponse(os.path.join(BASE_DIR, "sitemap.xml"))
+    today = date.today().isoformat()
+    urls = [
+        ("/", "weekly", "1.0"),
+        ("/about", "monthly", "0.8"),
+        ("/contact", "monthly", "0.7"),
+        ("/usage", "monthly", "0.8"),
+        ("/privacy-policy", "monthly", "0.6"),
+        ("/site-operator", "monthly", "0.6"),
+        ("/articles", "weekly", "0.8"),
+        ("/fs-qr_menu", "weekly", "0.9"),
+        ("/fs-qr", "weekly", "0.9"),
+        ("/group_menu", "weekly", "0.9"),
+        ("/group", "weekly", "0.9"),
+        ("/create_room", "weekly", "0.8"),
+        ("/note_menu", "weekly", "0.9"),
+        ("/note", "weekly", "0.9"),
+        ("/create_note_room", "weekly", "0.8"),
+        ("/fs-qr-concept", "monthly", "0.7"),
+        ("/safe-sharing", "monthly", "0.7"),
+        ("/encryption", "monthly", "0.7"),
+        ("/education", "monthly", "0.7"),
+        ("/business", "monthly", "0.7"),
+        ("/risk-mitigation", "monthly", "0.7"),
+    ]
+    entries = "\n".join(
+        f"  <url><loc>https://fs-qr.com{path}</loc><lastmod>{today}</lastmod>"
+        f"<changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
+        for path, changefreq, priority in urls
+    )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{entries}\n"
+        "</urlset>\n"
+    )
+    return Response(content=xml, media_type="application/xml")
 
 
 @app.get("/robots.txt", name="robots")

@@ -46,7 +46,7 @@
   text-align: left;
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--bp-md)) {
   .operator-profile {
     flex-direction: row;
     text-align: left;
@@ -56,4 +56,3 @@
     max-width: none;
   }
 }
-
