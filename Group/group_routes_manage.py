@@ -22,7 +22,7 @@ def _register_manage_rooms_post(router: APIRouter):
             if password == management_password:
                 mark_session_authenticated(request.session, "management_authenticated")
             else:
-                flash_message(request, "パスワードが違います。 সন")
+                flash_message(request, "パスワードが違います。")
                 return render_template(request, "manage_rooms_login.html")
 
         if not is_session_authenticated(request.session, "management_authenticated"):

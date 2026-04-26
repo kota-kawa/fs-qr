@@ -122,10 +122,18 @@ def register_group_create_room_route(router: APIRouter):
         )
         retention_days = inp.retention_days
 
-        try:
-            id_val = inp.validate_manual_id()
-        except ValueError as exc:
-            return api_error_response(str(exc), status_code=400)
+        if inp.id_mode != "auto":
+            try:
+                id_val = inp.validate_manual_id()
+            except ValueError as exc:
+                return api_error_response(str(exc), status_code=400)
+        else:
+            id_val = inp.id
+            if not id_val:
+                return api_error_response(
+                    "IDが取得できませんでした。再度お試しください。",
+                    status_code=400,
+                )
 
         room_id = id_val
         existing_room = await group_data.get_data(room_id)
