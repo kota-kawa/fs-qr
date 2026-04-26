@@ -22,9 +22,7 @@ def clear_session_authenticated(
     session.pop(_session_auth_timestamp_key(auth_key), None)
 
 
-def is_session_authenticated(
-    session: MutableMapping[str, Any], auth_key: str
-) -> bool:
+def is_session_authenticated(session: MutableMapping[str, Any], auth_key: str) -> bool:
     if not session.get(auth_key):
         return False
 

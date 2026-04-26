@@ -60,7 +60,9 @@ async def _get_room_by_credentials(room_id, password):
     return record.get("secure_id"), record
 
 
-def _remember_fsqr_access(request: Request, secure_id: str, id_val: str, password: str) -> None:
+def _remember_fsqr_access(
+    request: Request, secure_id: str, id_val: str, password: str
+) -> None:
     payload = request.session.get(FSQR_UPLOAD_ACCESS_SESSION_KEY)
     if not isinstance(payload, dict):
         payload = {}
@@ -217,7 +219,9 @@ async def upload_complete(request: Request, secure_id: str):
     password_val = ""
     if access and access["id"] == id_val:
         password_val = access["password"]
-    elif isinstance(row.get("password"), str) and not is_password_hashed(row["password"]):
+    elif isinstance(row.get("password"), str) and not is_password_hashed(
+        row["password"]
+    ):
         password_val = row["password"]
 
     share_url = ""
@@ -256,7 +260,9 @@ async def download(request: Request, secure_id: str):
     password = None
     if access and access["id"] == row["id"]:
         password = access["password"]
-    elif isinstance(row.get("password"), str) and not is_password_hashed(row["password"]):
+    elif isinstance(row.get("password"), str) and not is_password_hashed(
+        row["password"]
+    ):
         password = row["password"]
     if not password:
         raise HTTPException(status_code=404)

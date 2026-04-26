@@ -111,8 +111,7 @@ def build_content_disposition_attachment(
     )
     utf8_filename = quote(safe_filename, safe="!#$&+-.^_`|~")
     return (
-        f'attachment; filename="{ascii_fallback}"; '
-        f"filename*=UTF-8''{utf8_filename}"
+        f"attachment; filename=\"{ascii_fallback}\"; filename*=UTF-8''{utf8_filename}"
     )
 
 
@@ -134,7 +133,9 @@ def detect_upload_mime_type(upload_file: UploadFile, *, sniff_size: int = 8192) 
 
 def validate_upload_file_content(upload_file: UploadFile) -> str | None:
     if _MIME_DETECTOR is None:
-        return "サーバーのファイル種別判定が利用できません。管理者へお問い合わせください。"
+        return (
+            "サーバーのファイル種別判定が利用できません。管理者へお問い合わせください。"
+        )
 
     filename = upload_file.filename or ""
     _, ext = os.path.splitext(filename.lower())
