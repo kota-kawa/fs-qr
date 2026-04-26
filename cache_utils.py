@@ -34,14 +34,8 @@ def cache_data(ttl=60, key_prefix=""):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
             try:
-                # Create a cache key based on function name and arguments
-                # We filter out args that might not be serializable or relevant if needed
-                # For simplicity, we assume simple args for now
-                arg_data = [args, kwargs]
-                arg_str = json.dumps(arg_data, sort_keys=True, default=str)
-                key_hash = hashlib.md5(arg_str.encode()).hexdigest()
                 prefix = key_prefix or func.__name__
-                cache_key = f"db_cache:{prefix}:{key_hash}"
+                cache_key = _build_cache_key(prefix, args, kwargs)
 
                 # Try to get from cache
                 cached_data = await redis_client.get(cache_key)
@@ -79,3 +73,28 @@ def cache_data(ttl=60, key_prefix=""):
         return wrapper
 
     return decorator
+
+
+def _build_cache_key(key_prefix: str, args, kwargs) -> str:
+    arg_data = [args, kwargs]
+    arg_str = json.dumps(arg_data, sort_keys=True, default=str)
+    key_hash = hashlib.md5(arg_str.encode()).hexdigest()
+    return f"db_cache:{key_prefix}:{key_hash}"
+
+
+async def invalidate_cache_entry(key_prefix: str, *args, **kwargs) -> None:
+    cache_key = _build_cache_key(key_prefix, args, kwargs)
+    try:
+        await redis_client.delete(cache_key)
+    except Exception as e:
+        logger.warning(f"Cache delete error: {e}")
+
+
+async def invalidate_cache_prefix(key_prefix: str) -> None:
+    pattern = f"db_cache:{key_prefix}:*"
+    try:
+        keys = [key async for key in redis_client.scan_iter(match=pattern)]
+        if keys:
+            await redis_client.delete(*keys)
+    except Exception as e:
+        logger.warning(f"Cache prefix delete error: {e}")

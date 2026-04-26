@@ -6,6 +6,11 @@ from starlette.responses import RedirectResponse
 
 from FSQR import fsqr_data as fs_data
 from FSQR.fsqr_app import msg
+from session_auth import (
+    clear_session_authenticated,
+    is_session_authenticated,
+    mark_session_authenticated,
+)
 from settings import ADMIN_KEY
 from web import enforce_csrf, flash_message, render_template
 
@@ -16,7 +21,7 @@ ADMIN_SESSION_KEY = "admin_authenticated"
 
 
 def _is_admin_authenticated(request: Request) -> bool:
-    return bool(request.session.get(ADMIN_SESSION_KEY))
+    return is_session_authenticated(request.session, ADMIN_SESSION_KEY)
 
 
 @router.get("/admin/list", name="admin.admin_list")
@@ -36,13 +41,13 @@ async def admin_login(request: Request):
     if pw != ADMIN_KEY:
         flash_message(request, "マスターパスワードが違います")
         return render_template(request, "admin_login.html")
-    request.session[ADMIN_SESSION_KEY] = True
+    mark_session_authenticated(request.session, ADMIN_SESSION_KEY)
     return RedirectResponse("/admin/list", status_code=302)
 
 
 @router.get("/admin/logout", name="admin.admin_logout")
 async def admin_logout(request: Request):
-    request.session.pop(ADMIN_SESSION_KEY, None)
+    clear_session_authenticated(request.session, ADMIN_SESSION_KEY)
     return RedirectResponse("/admin/list", status_code=302)
 
 

@@ -17,9 +17,12 @@ GROUP_ROOM_ACCESS_SESSION_KEY = "group_room_access"
 
 
 def is_safe_path(base_path, target_path):
-    return os.path.commonprefix(
-        [os.path.abspath(target_path), os.path.abspath(base_path)]
-    ) == os.path.abspath(base_path)
+    base_abs = os.path.abspath(base_path)
+    target_abs = os.path.abspath(target_path)
+    try:
+        return os.path.commonpath([target_abs, base_abs]) == base_abs
+    except ValueError:
+        return False
 
 
 def canonical_redirect(request: Request):

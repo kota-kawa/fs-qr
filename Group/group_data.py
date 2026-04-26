@@ -6,7 +6,7 @@ import log_config  # noqa: F401
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
 from database import execute_query
-from cache_utils import cache_data
+from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 from .group_realtime import hub as group_ws_hub
 
 # ログ設定
@@ -32,6 +32,9 @@ async def create_room(id, password, room_id, retention_days=7):
             "retention_days": retention_days,
         },
     )
+    await invalidate_cache_entry("pich_room_id", id, password)
+    await invalidate_cache_entry("get_data", room_id)
+    await invalidate_cache_entry("get_all")
 
 
 # ログイン処理
@@ -65,6 +68,10 @@ async def get_data(secure_id):
 # 全てのデータを取得する
 @cache_data(ttl=300)
 async def get_all():
+    return await get_all_direct()
+
+
+async def get_all_direct():
     query = text("""
         SELECT * FROM room ORDER BY suji DESC
     """)
@@ -85,6 +92,9 @@ async def remove_data(secure_id):
     group_uploads = os.path.join(PARENT_DIR, "static", "group_uploads")
     room_folder = os.path.join(group_uploads, secure_filename(secure_id))
 
+    room_data = await get_data_direct(secure_id)
+    room_record = room_data[0] if room_data else None
+
     # ルームに紐づくアップロードフォルダを削除
     if os.path.exists(room_folder):
         try:
@@ -102,12 +112,18 @@ async def remove_data(secure_id):
     """)
     await execute_query(query, {"secure_id": secure_id})
     await group_ws_hub.close_room(secure_id, code=1001)
+    await invalidate_cache_entry("get_data", secure_id)
+    await invalidate_cache_entry("get_all")
+    if room_record:
+        await invalidate_cache_entry(
+            "pich_room_id", room_record.get("id"), room_record.get("password")
+        )
 
 
 # 全てのデータを削除
 async def all_remove():
-    # 全ルーム情報を取得（get_all() は全件取得を行います）
-    rooms = await get_all()
+    # 全ルーム情報を取得
+    rooms = await get_all_direct()
 
     # グループアップロードフォルダのパス（group_app.py と同じパスを想定）
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -135,6 +151,9 @@ async def all_remove():
     # 最後に、データベースから全ルームのレコードを削除
     query = text("DELETE FROM room")
     await execute_query(query)
+    await invalidate_cache_prefix("pich_room_id")
+    await invalidate_cache_prefix("get_data")
+    await invalidate_cache_prefix("get_all")
 
 
 # 1週間以上経過したルームを削除する関数

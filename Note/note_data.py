@@ -3,7 +3,7 @@ from typing import Optional
 import log_config  # noqa: F401
 from sqlalchemy import text
 from database import execute_query
-from cache_utils import cache_data
+from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -142,6 +142,9 @@ async def create_room(id_, password, room_id, retention_days=7):
         """,
         {"i": id_, "p": password, "r": room_id, "retention": retention_days},
     )
+    await invalidate_cache_entry("get_room_meta", room_id)
+    await invalidate_cache_entry("get_room_meta", room_id, password=password)
+    await invalidate_cache_entry("pick_room_id", id_, password)
 
 
 # ────────────────────────────────────────────
@@ -253,11 +256,18 @@ async def remove_expired_rooms():
         )
         for r in rows:
             rid = r["room_id"]
+            meta = await get_room_meta_direct(rid)
             # コンテンツとルーム情報を順に削除
             await execute_query(
                 "DELETE FROM note_content WHERE room_id = :r", {"r": rid}
             )
             await execute_query("DELETE FROM note_room WHERE room_id = :r", {"r": rid})
+            await invalidate_cache_entry("get_room_meta", rid)
+            if meta:
+                await invalidate_cache_entry("get_room_meta", rid, password=meta["password"])
+                await invalidate_cache_entry("pick_room_id", meta["id"], meta["password"])
             logger.info(f"Expired note room removed: {rid}")
+        await invalidate_cache_prefix("get_room_meta")
+        await invalidate_cache_prefix("pick_room_id")
     except Exception as e:
         logger.error(f"Failed to remove expired note rooms: {e}")

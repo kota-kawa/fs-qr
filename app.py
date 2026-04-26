@@ -23,7 +23,13 @@ except ImportError:  # pragma: no cover - fallback for older Starlette
 
 from database import db_session
 from migration_runner import run_migrations
-from settings import ADMIN_KEY, BASE_DIR, SECRET_KEY, REDIS_URL
+from settings import (
+    ADMIN_KEY,
+    BASE_DIR,
+    SECRET_KEY,
+    REDIS_URL,
+    SESSION_MAX_AGE_SECONDS,
+)
 from web import render_template
 from api_response import api_error_response
 
@@ -55,9 +61,13 @@ def _build_session_middleware_kwargs():
     if "secret_key" in params:
         kwargs["secret_key"] = SECRET_KEY
     if "same_site" in params:
-        kwargs["same_site"] = "lax"
+        kwargs["same_site"] = "strict"
     elif "cookie_same_site" in params:
-        kwargs["cookie_same_site"] = "lax"
+        kwargs["cookie_same_site"] = "strict"
+    if "max_age" in params:
+        kwargs["max_age"] = SESSION_MAX_AGE_SECONDS
+    elif "cookie_max_age" in params:
+        kwargs["cookie_max_age"] = SESSION_MAX_AGE_SECONDS
     if "https_only" in params:
         kwargs["https_only"] = True
     elif "cookie_https_only" in params:

@@ -16,6 +16,11 @@ from database import db_session
 from file_validation import build_content_disposition_attachment
 from FSQR import fsqr_data as fs_data
 from Group import group_data
+from session_auth import (
+    clear_session_authenticated,
+    is_session_authenticated,
+    mark_session_authenticated,
+)
 from web import build_url, enforce_csrf, flash_message, render_template
 from settings import DB_ADMIN_PASSWORD
 
@@ -167,7 +172,7 @@ def _collect_room_files(room_id):
 
 
 def _is_db_admin_authenticated(request: Request) -> bool:
-    return bool(request.session.get(DB_ADMIN_SESSION_KEY))
+    return is_session_authenticated(request.session, DB_ADMIN_SESSION_KEY)
 
 
 @router.get("/", name="db_admin.dashboard")
@@ -185,7 +190,7 @@ async def dashboard(request: Request):
         if pw != ADMIN_DB_PW:
             flash_message(request, "パスワードが違います")
             return render_template(request, "db_admin.html", authenticated=False)
-        request.session[DB_ADMIN_SESSION_KEY] = True
+        mark_session_authenticated(request.session, DB_ADMIN_SESSION_KEY)
         return RedirectResponse(
             build_url(request, "db_admin.dashboard"), status_code=302
         )
@@ -337,5 +342,5 @@ async def room_download(request: Request, room_id: str):
 
 @router.get("/db/logout", name="db_admin.logout")
 async def db_admin_logout(request: Request):
-    request.session.pop(DB_ADMIN_SESSION_KEY, None)
+    clear_session_authenticated(request.session, DB_ADMIN_SESSION_KEY)
     return RedirectResponse(build_url(request, "db_admin.dashboard"), status_code=302)

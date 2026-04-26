@@ -171,6 +171,15 @@ def test_is_safe_path_equals_base():
     assert is_safe_path("/var/uploads", "/var/uploads") is True
 
 
+def test_is_safe_path_commonprefix_bypass_blocked():
+    from Group.group_app import is_safe_path
+
+    assert (
+        is_safe_path("/var/uploads/group_uploads", "/var/uploads/group_uploads_evil")
+        is False
+    )
+
+
 # ---------------------------------------------------------------------------
 # Note.note_app – _generate_room_id
 # ---------------------------------------------------------------------------
@@ -363,6 +372,85 @@ def test_cache_data_redis_error_still_calls_function():
         result = asyncio.run(my_func())
 
     assert result == "fallback"
+
+
+def test_invalidate_cache_entry_deletes_expected_key():
+    from cache_utils import _build_cache_key, invalidate_cache_entry
+
+    mock_redis = AsyncMock()
+    mock_redis.delete = AsyncMock()
+    expected_key = _build_cache_key("get_data", ("room123",), {})
+
+    with patch("cache_utils.redis_client", mock_redis):
+        asyncio.run(invalidate_cache_entry("get_data", "room123"))
+
+    mock_redis.delete.assert_awaited_once_with(expected_key)
+
+
+def test_invalidate_cache_prefix_deletes_matching_keys():
+    from cache_utils import invalidate_cache_prefix
+
+    keys = ["db_cache:get_data:aaa", "db_cache:get_data:bbb"]
+    mock_redis = AsyncMock()
+    mock_redis.delete = AsyncMock()
+
+    async def _scan_iter(match=None):
+        del match
+        for key in keys:
+            yield key
+
+    mock_redis.scan_iter = _scan_iter
+
+    with patch("cache_utils.redis_client", mock_redis):
+        asyncio.run(invalidate_cache_prefix("get_data"))
+
+    mock_redis.delete.assert_awaited_once_with(*keys)
+
+
+def test_session_auth_marks_and_validates_session():
+    from session_auth import is_session_authenticated, mark_session_authenticated
+
+    session = {}
+    with patch("session_auth.time.time", return_value=1_000):
+        mark_session_authenticated(session, "admin_authenticated")
+        assert is_session_authenticated(session, "admin_authenticated") is True
+
+
+def test_session_auth_expires_and_clears_session():
+    from session_auth import is_session_authenticated
+
+    session = {
+        "admin_authenticated": True,
+        "admin_authenticated_authenticated_at": 100,
+    }
+    with (
+        patch("session_auth.AUTH_SESSION_TIMEOUT_SECONDS", 300),
+        patch("session_auth.time.time", return_value=500),
+    ):
+        assert is_session_authenticated(session, "admin_authenticated") is False
+
+    assert "admin_authenticated" not in session
+    assert "admin_authenticated_authenticated_at" not in session
+
+
+def test_build_session_middleware_kwargs_uses_strict_and_max_age():
+    from app import _build_session_middleware_kwargs
+    from settings import SESSION_MAX_AGE_SECONDS
+
+    fake_params = {
+        "secret_key": object(),
+        "same_site": object(),
+        "max_age": object(),
+        "https_only": object(),
+    }
+    fake_signature = type("FakeSignature", (), {"parameters": fake_params})()
+
+    with patch("app.inspect.signature", return_value=fake_signature):
+        kwargs = _build_session_middleware_kwargs()
+
+    assert kwargs["same_site"] == "strict"
+    assert kwargs["max_age"] == SESSION_MAX_AGE_SECONDS
+    assert kwargs["https_only"] is True
 
 
 # ---------------------------------------------------------------------------

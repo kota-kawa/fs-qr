@@ -1,6 +1,11 @@
 from fastapi import APIRouter, Request
 from starlette.responses import RedirectResponse
 
+from session_auth import (
+    clear_session_authenticated,
+    is_session_authenticated,
+    mark_session_authenticated,
+)
 from settings import MANAGEMENT_PASSWORD as management_password
 from web import enforce_csrf, flash_message, render_template
 
@@ -15,12 +20,12 @@ def _register_manage_rooms_post(router: APIRouter):
             form = await request.form()
             password = form.get("password")
             if password == management_password:
-                request.session["management_authenticated"] = True
+                mark_session_authenticated(request.session, "management_authenticated")
             else:
                 flash_message(request, "パスワードが違います。 সন")
                 return render_template(request, "manage_rooms_login.html")
 
-        if not request.session.get("management_authenticated"):
+        if not is_session_authenticated(request.session, "management_authenticated"):
             return render_template(request, "manage_rooms_login.html")
 
         rooms = await group_data.get_all()
@@ -30,7 +35,7 @@ def _register_manage_rooms_post(router: APIRouter):
 def _register_manage_rooms_get(router: APIRouter):
     @router.get("/manage_rooms", name="group.manage_rooms")
     async def manage_rooms(request: Request):
-        if not request.session.get("management_authenticated"):
+        if not is_session_authenticated(request.session, "management_authenticated"):
             return render_template(request, "manage_rooms_login.html")
 
         rooms = await group_data.get_all()
@@ -45,12 +50,12 @@ def register_group_manage_page_routes(router: APIRouter):
 def register_group_logout_management_route(router: APIRouter):
     @router.get("/logout_management", name="group.logout_management")
     async def logout_management(request: Request):
-        request.session.pop("management_authenticated", None)
+        clear_session_authenticated(request.session, "management_authenticated")
         return RedirectResponse("/manage_rooms", status_code=302)
 
 
 def _redirect_if_not_management_authenticated(request: Request):
-    if not request.session.get("management_authenticated"):
+    if not is_session_authenticated(request.session, "management_authenticated"):
         return RedirectResponse("/manage_rooms", status_code=302)
     return None
 
