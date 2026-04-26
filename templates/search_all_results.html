@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+{% block page_title %}横断検索結果 | FS!QR{% endblock %}
+{% block meta_description %}FS!QRの横断検索結果ページです。{% endblock %}
+{% block meta_keywords %}FS QR, 横断検索, 検索結果{% endblock %}
+{% block og_title %}横断検索結果 | FS!QR{% endblock %}
+{% block og_description %}FS!QRの横断検索結果ページです。{% endblock %}
+{% block twitter_title %}横断検索結果 | FS!QR{% endblock %}
+{% block twitter_description %}FS!QRの横断検索結果ページです。{% endblock %}
+
+{% block contents %}
+<style>
+.search-result-shell {
+  width: min(100%, 720px);
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.search-result-panel {
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+}
+
+.search-result-title {
+  margin: 0 0 0.75rem;
+  color: #111827;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.search-result-message {
+  margin: 0;
+  color: #374151;
+  line-height: 1.7;
+}
+
+.search-result-id {
+  margin: 0 0 1rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.search-result-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.5rem 0;
+}
+
+.search-result-link {
+  display: block;
+  padding: 1rem 1.1rem;
+  border: 1px solid #d1d5db;
+  border-left: 6px solid #2563eb;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  background: #f9fafb;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-result-link.group { border-left-color: #16a34a; }
+.search-result-link.note { border-left-color: #84cc16; }
+
+.search-result-link:hover {
+  background: #ffffff;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+}
+
+.search-result-service {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.search-result-description {
+  display: block;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.search-result-actions {
+  margin-top: 1.5rem;
+}
+
+.search-result-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 1rem;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #1f2937;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.search-result-back:hover {
+  color: #ffffff;
+  background: #111827;
+}
+
+@media (max-width: 576px) {
+  .search-result-panel {
+    padding: 1.5rem;
+  }
+
+  .search-result-title {
+    font-size: 1.45rem;
+  }
+}
+</style>
+
+<div class="search-result-shell">
+  <div class="search-result-panel">
+    <h2 class="search-result-title">横断検索結果</h2>
+    {% if searched_id %}
+      <p class="search-result-id">検索ID: {{ searched_id }}</p>
+    {% endif %}
+    <p class="search-result-message">{{ message }}</p>
+
+    {% if matches %}
+      <div class="search-result-list">
+        {% for match in matches %}
+          <a class="search-result-link {{ match.service_key }}" href="{{ match.url }}">
+            <span class="search-result-service">{{ match.service_name }}</span>
+            <span class="search-result-description">{{ match.description }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="search-result-actions">
+      <a class="search-result-back" href="/">トップページへ戻る</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

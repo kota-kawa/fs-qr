@@ -20,6 +20,7 @@ THRESHOLDS = (
 SCOPE_QR = "qr"
 SCOPE_NOTE = "note"
 SCOPE_GROUP = "group"
+SCOPE_TOP_SEARCH = "top_search"
 
 _redis_client: Optional[redis.Redis] = None
 

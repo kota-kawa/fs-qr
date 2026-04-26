@@ -123,7 +123,7 @@
 
     .menu-header {
       text-align: center;
-      margin-bottom: 50px;
+      margin-bottom: 28px;
       color: #fff;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
@@ -135,6 +135,76 @@
     .menu-header p {
       font-size: 1.5rem;
       margin-top: 10px;
+    }
+
+    .top-search-panel {
+      width: min(100%, 760px);
+      margin: 0 auto 34px;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
+
+    .top-search-title {
+      margin: 0 0 14px;
+      color: #1f2937;
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .top-search-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .top-search-field label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .top-search-field input {
+      width: 100%;
+      min-height: 46px;
+      padding: 0.75rem 0.9rem;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+      color: #111827;
+      background: #ffffff;
+      font-size: 1rem;
+    }
+
+    .top-search-field input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+
+    .top-search-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 1.25rem;
+      border: 0;
+      border-radius: 10px;
+      color: #ffffff;
+      background: #1f2937;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .top-search-button:hover {
+      background: #111827;
+      transform: translateY(-1px);
     }
 
     .menu-list {
@@ -183,10 +253,21 @@
       }
       .menu-header {
         margin-top: 10px;
-        margin-bottom: 30px;
+        margin-bottom: 22px;
       }
       .menu-header h1 { font-size: 2rem; }
       .menu-header p  { font-size: 1rem; }
+      .top-search-panel {
+        margin-bottom: 24px;
+        padding: 16px;
+        border-radius: 14px;
+      }
+      .top-search-form {
+        grid-template-columns: 1fr;
+      }
+      .top-search-button {
+        width: 100%;
+      }
       .menu-list      { gap: 10px; }
       .menu-item      { width: 160px; height: 160px; }
       .menu-item h3   { font-size: 1.1rem; }
@@ -204,6 +285,7 @@
         padding: 15px 10px calc(15px + env(safe-area-inset-bottom));
       }
       .menu-header h1 { font-size: 1.8rem; }
+      .top-search-title { font-size: 1rem; }
       .menu-list {
         flex-direction: column;
         align-items: center;
@@ -225,8 +307,32 @@
     <div class="menu-content">
       <div class="menu-header">
         <h1>ファイル共有メニュー</h1>
-        <p>利用したいファイル共有方法を選んでください。</p>
+        <p>検索するか、利用したいファイル共有方法を選んでください。</p>
       </div>
+      <section class="top-search-panel" aria-labelledby="topSearchTitle">
+        <h2 class="top-search-title" id="topSearchTitle">IDとパスワードですべてから検索</h2>
+        <form class="top-search-form" action="/search_all" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="top-search-field">
+            <label for="topSearchId">ルームID</label>
+            <input type="text" id="topSearchId" name="id"
+                   minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}"
+                   placeholder="半角英数字6文字" required
+                   title="6文字の半角英数字で入力してください">
+          </div>
+          <div class="top-search-field">
+            <label for="topSearchPassword">パスワード</label>
+            <input type="password" id="topSearchPassword" name="password"
+                   minlength="6" maxlength="6" pattern="[0-9]{6}"
+                   placeholder="6桁の数字" required
+                   title="6桁の数字で入力してください">
+          </div>
+          <button type="submit" class="top-search-button">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span>すべてから検索</span>
+          </button>
+        </form>
+      </section>
       <ul class="menu-list">
         <li>
 

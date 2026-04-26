@@ -37,6 +37,7 @@ from Admin.db_admin import router as db_admin_router
 from Admin.admin_app import router as admin_router
 from FSQR.fsqr_app import router as fsqr_router
 from Articles.articles_app import router as articles_router
+from top_search import router as top_search_router
 
 MASTER_PW = ADMIN_KEY
 
@@ -132,6 +133,7 @@ app.include_router(db_admin_router)
 app.include_router(admin_router)
 app.include_router(fsqr_router)
 app.include_router(articles_router)
+app.include_router(top_search_router)
 
 
 def _canonical_redirect(request: Request):
