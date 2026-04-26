@@ -13,7 +13,7 @@ from settings import NOTE_MAX_CONTENT_LENGTH
 
 _ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
-_DIGITS_RE = re.compile(r"^[0-9]+$")
+_PASSWORD_RE = re.compile(r"^(?:[0-9]{6}|[a-zA-Z0-9_-]{8,64})$")
 _RETENTION_CHOICES = frozenset({1, 7, 30})
 
 
@@ -40,8 +40,10 @@ class RoomSearchInput(BaseModel):
     @classmethod
     def validate_password(cls, v: str) -> str:
         v = v.strip()
-        if not _DIGITS_RE.match(v):
-            raise ValueError("パスワードは数字のみで入力してください。")
+        if not _PASSWORD_RE.match(v):
+            raise ValueError(
+                "パスワードは6桁数字、または8〜64文字の半角英数字・-_で入力してください。"
+            )
         return v
 
 

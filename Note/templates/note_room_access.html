@@ -62,8 +62,8 @@
                         </div>
                         <div style="margin-bottom: 1rem;">
                             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Password</label>
-                            <input type="password" name="password" placeholder="6桁の数字" required
-                                   minlength="6" maxlength="6" pattern="[0-9]{6}" title="6桁の数字で入力してください"
+                            <input type="password" name="password" placeholder="パスワード" required
+                                   minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})" title="共有されたパスワードを入力してください"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                         </div>
                     <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">

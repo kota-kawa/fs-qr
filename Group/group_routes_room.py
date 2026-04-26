@@ -1,5 +1,5 @@
 import os
-import random
+import secrets
 from datetime import timedelta
 
 from fastapi import APIRouter, Request
@@ -21,7 +21,7 @@ from web import build_url, get_or_create_csrf_token, render_template
 from web import enforce_csrf
 
 from . import group_data
-from .group_common import UPLOAD_FOLDER, get_room_if_valid
+from .group_common import UPLOAD_FOLDER, get_room_if_valid, remember_group_room_access
 from .group_responses import group_block_response, room_msg
 
 
@@ -63,6 +63,7 @@ def register_group_room_access_route(router: APIRouter):
             )
 
         await register_success(SCOPE_GROUP, ip)
+        remember_group_room_access(request, room_id, password)
 
         user_id = record.get("id", "不明")
         retention_days = record.get("retention_days", 7)
@@ -141,7 +142,7 @@ def register_group_create_room_route(router: APIRouter):
                 status_code=409,
             )
 
-        password = str(random.randrange(10**5, 10**6))
+        password = secrets.token_urlsafe(8)
 
         folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(folder_path, exist_ok=True)

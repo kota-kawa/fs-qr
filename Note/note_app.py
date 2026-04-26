@@ -1,5 +1,6 @@
 import random
 import re
+import secrets
 from datetime import timedelta
 
 from fastapi import APIRouter, Request
@@ -144,7 +145,7 @@ async def create_note_room(request: Request):
 
     room_id = id_val
 
-    pw = str(random.randrange(10**5, 10**6))
+    pw = secrets.token_urlsafe(8)
     await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
     created = await _get_room_if_valid(room_id, pw)
     if not created:

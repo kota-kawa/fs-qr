@@ -1,4 +1,5 @@
 import os
+import hmac
 
 from fastapi import Request
 from starlette.responses import RedirectResponse
@@ -12,6 +13,7 @@ STATIC_DIR = os.path.join(PARENT_DIR, "static")
 
 # アップロード先フォルダ
 UPLOAD_FOLDER = os.path.join(STATIC_DIR, "group_uploads")
+GROUP_ROOM_ACCESS_SESSION_KEY = "group_room_access"
 
 
 def is_safe_path(base_path, target_path):
@@ -35,3 +37,23 @@ async def get_room_if_valid(room_id, password):
     if record.get("password") != password:
         return None
     return record
+
+
+def remember_group_room_access(request: Request, room_id: str, password: str) -> None:
+    rooms = request.session.get(GROUP_ROOM_ACCESS_SESSION_KEY)
+    if not isinstance(rooms, dict):
+        rooms = {}
+    rooms[str(room_id)] = str(password)
+    if len(rooms) > 20:
+        rooms = dict(list(rooms.items())[-20:])
+    request.session[GROUP_ROOM_ACCESS_SESSION_KEY] = rooms
+
+
+def has_group_room_access(request: Request, room_id: str, password: str) -> bool:
+    rooms = request.session.get(GROUP_ROOM_ACCESS_SESSION_KEY)
+    if not isinstance(rooms, dict):
+        return False
+    stored_password = rooms.get(str(room_id))
+    if not isinstance(stored_password, str):
+        return False
+    return hmac.compare_digest(stored_password, str(password))

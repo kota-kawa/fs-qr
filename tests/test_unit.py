@@ -517,6 +517,60 @@ def test_register_success_redis_error_does_not_raise():
         asyncio.run(register_success("qr", "10.0.0.1"))  # must not raise
 
 
+def test_check_exponential_backoff_blocked():
+    """指数バックオフ中なら False を返す"""
+    from rate_limit import check_exponential_backoff
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value="4秒")
+    mock_r.ttl = AsyncMock(return_value=4)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(
+            check_exponential_backoff("group_file_delete", "10.0.0.1:abc123")
+        )
+
+    assert allowed is False
+    assert until is not None
+    assert label == "4秒"
+
+
+def test_register_exponential_backoff_failure_doubles_delay():
+    """失敗回数に応じて指数バックオフを設定する"""
+    from rate_limit import register_exponential_backoff_failure
+
+    mock_r = AsyncMock()
+    mock_r.incr = AsyncMock(return_value=3)
+    mock_r.set = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(
+            register_exponential_backoff_failure(
+                "group_file_delete",
+                "10.0.0.1:abc123",
+                base_seconds=2,
+                max_seconds=300,
+            )
+        )
+
+    assert until is not None
+    assert label == "8秒"
+    mock_r.set.assert_awaited_once()
+
+
+def test_clear_exponential_backoff_deletes_keys():
+    """成功時は指数バックオフのキーを削除する"""
+    from rate_limit import clear_exponential_backoff
+
+    mock_r = AsyncMock()
+    mock_r.delete = AsyncMock()
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        asyncio.run(clear_exponential_backoff("group_file_delete", "10.0.0.1:abc123"))
+
+    mock_r.delete.assert_awaited_once()
+
+
 # ---------------------------------------------------------------------------
 # Admin.db_admin – helper functions
 # ---------------------------------------------------------------------------

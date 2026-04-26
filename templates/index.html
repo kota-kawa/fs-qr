@@ -341,9 +341,9 @@
           <div class="top-search-field">
             <label for="topSearchPassword">PW</label>
             <input type="password" id="topSearchPassword" name="password"
-                   minlength="6" maxlength="6" pattern="[0-9]{6}"
+                   minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})"
                    placeholder="PW" required
-                   title="6桁の数字で入力してください">
+                   title="共有されたパスワードを入力してください">
           </div>
           <button type="submit" class="top-search-button">
             <span>検索</span>

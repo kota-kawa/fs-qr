@@ -21,6 +21,7 @@ SCOPE_QR = "qr"
 SCOPE_NOTE = "note"
 SCOPE_GROUP = "group"
 SCOPE_TOP_SEARCH = "top_search"
+SCOPE_GROUP_FILE_DELETE = "group_file_delete"
 
 _redis_client: Optional[redis.Redis] = None
 
@@ -108,6 +109,63 @@ async def register_success(scope: str, ip: str) -> None:
         await r.delete(count_key, block_key)
     except Exception as e:
         logger.error(f"Redis error in register_success: {e}")
+
+
+async def check_exponential_backoff(
+    scope: str, key: str
+) -> Tuple[bool, Optional[datetime], Optional[str]]:
+    """Check whether a scoped key is temporarily blocked by backoff."""
+    r = get_redis_client()
+    block_key = f"rate_limit:{scope}:{key}:backoff"
+
+    try:
+        block_label = await r.get(block_key)
+        if block_label:
+            ttl = await r.ttl(block_key)
+            if ttl > 0:
+                return False, datetime.utcnow() + timedelta(seconds=ttl), block_label
+    except Exception as e:
+        logger.error(f"Redis error in check_exponential_backoff: {e}")
+        return True, None, None
+
+    return True, None, None
+
+
+async def register_exponential_backoff_failure(
+    scope: str,
+    key: str,
+    *,
+    base_seconds: int = 2,
+    max_seconds: int = 300,
+) -> Tuple[Optional[datetime], Optional[str]]:
+    """Record a failed sensitive action and block with exponential backoff."""
+    r = get_redis_client()
+    count_key = f"rate_limit:{scope}:{key}:backoff_count"
+    block_key = f"rate_limit:{scope}:{key}:backoff"
+
+    try:
+        count = await r.incr(count_key)
+        if count == 1:
+            await r.expire(count_key, 3600)
+
+        delay_seconds = min(max_seconds, base_seconds * (2 ** max(count - 1, 0)))
+        label = f"{delay_seconds}秒"
+        await r.set(block_key, label, ex=delay_seconds)
+        return datetime.utcnow() + timedelta(seconds=delay_seconds), label
+    except Exception as e:
+        logger.error(f"Redis error in register_exponential_backoff_failure: {e}")
+        return None, None
+
+
+async def clear_exponential_backoff(scope: str, key: str) -> None:
+    """Clear backoff state after a successful sensitive action."""
+    r = get_redis_client()
+    count_key = f"rate_limit:{scope}:{key}:backoff_count"
+    block_key = f"rate_limit:{scope}:{key}:backoff"
+    try:
+        await r.delete(count_key, block_key)
+    except Exception as e:
+        logger.error(f"Redis error in clear_exponential_backoff: {e}")
 
 
 def get_block_message(label: Optional[str]) -> str:

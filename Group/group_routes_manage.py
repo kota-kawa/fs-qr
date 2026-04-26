@@ -49,10 +49,19 @@ def register_group_logout_management_route(router: APIRouter):
         return RedirectResponse("/manage_rooms", status_code=302)
 
 
+def _redirect_if_not_management_authenticated(request: Request):
+    if not request.session.get("management_authenticated"):
+        return RedirectResponse("/manage_rooms", status_code=302)
+    return None
+
+
 def register_group_delete_room_route(router: APIRouter):
     @router.post("/delete_room/{room_id}", name="group.delete_room")
     async def delete_room(request: Request, room_id: str):
         await enforce_csrf(request)
+        redirect = _redirect_if_not_management_authenticated(request)
+        if redirect:
+            return redirect
         await group_data.remove_data(room_id)
         return RedirectResponse("/manage_rooms", status_code=302)
 
@@ -61,5 +70,8 @@ def register_group_delete_all_rooms_route(router: APIRouter):
     @router.post("/delete_all_rooms", name="group.delete_all_rooms")
     async def delete_all_rooms(request: Request):
         await enforce_csrf(request)
+        redirect = _redirect_if_not_management_authenticated(request)
+        if redirect:
+            return redirect
         await group_data.all_remove()
         return RedirectResponse("/manage_rooms", status_code=302)

@@ -77,7 +77,7 @@ def test_search_note_invalid_id_chars(test_client: TestClient):
 
 
 def test_search_note_invalid_password_chars(test_client: TestClient):
-    """パスワードに英字が含まれると /search_note にリダイレクトする"""
+    """短すぎるパスワードは /search_note にリダイレクトする"""
     response = test_client.post(
         "/search_note_process",
         data={"id": "abc123", "password": "abc"},
@@ -170,6 +170,32 @@ def test_create_note_room_auto_duplicate(test_client: TestClient):
     payload = response.json()
     assert payload["status"] == "error"
     assert payload["data"]["retry_auto"] is True
+
+
+def test_create_note_room_generates_urlsafe_password(test_client: TestClient):
+    create_mock = AsyncMock()
+    with (
+        patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            json={"id": "abc123", "idMode": "manual"},
+        )
+
+    assert response.status_code == 302
+    assert response.headers["location"] == "/note/abc123/Strong_pw1"
+    create_mock.assert_awaited_once_with(
+        "abc123", "Strong_pw1", "abc123", retention_days=7
+    )
 
 
 # --- Note API: GET /api/note/{room_id}/{password} ---

@@ -20,7 +20,19 @@ from settings import (
     UPLOAD_MAX_TOTAL_SIZE_BYTES,
     UPLOAD_MAX_TOTAL_SIZE_MB,
 )
-from .group_common import UPLOAD_FOLDER, get_room_if_valid, is_safe_path
+from rate_limit import (
+    SCOPE_GROUP_FILE_DELETE,
+    check_exponential_backoff,
+    clear_exponential_backoff,
+    get_client_ip,
+    register_exponential_backoff_failure,
+)
+from .group_common import (
+    UPLOAD_FOLDER,
+    get_room_if_valid,
+    has_group_room_access,
+    is_safe_path,
+)
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
 
@@ -204,11 +216,35 @@ def register_group_delete_file_route(router: APIRouter):
         if filename_error:
             return api_error_response(filename_error, status_code=400)
 
+        ip = get_client_ip(request)
+        backoff_key = f"{ip}:{room_id}"
+        allowed, _, _ = await check_exponential_backoff(
+            SCOPE_GROUP_FILE_DELETE, backoff_key
+        )
+        if not allowed:
+            return api_error_response(
+                "試行回数が多いため、一時的に制限しています。時間をおいて再度お試しください。",
+                status_code=429,
+            )
+
+        if not has_group_room_access(request, room_id, password):
+            await register_exponential_backoff_failure(
+                SCOPE_GROUP_FILE_DELETE, backoff_key
+            )
+            return api_error_response(
+                "ルームセッションが確認できません。ルームに入り直してください。",
+                status_code=403,
+            )
+
         if not await get_room_if_valid(room_id, password):
+            await register_exponential_backoff_failure(
+                SCOPE_GROUP_FILE_DELETE, backoff_key
+            )
             return api_error_response(
                 "ルームが見つからないか、パスワードが間違っています。",
                 status_code=404,
             )
+        await clear_exponential_backoff(SCOPE_GROUP_FILE_DELETE, backoff_key)
 
         room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         file_path = os.path.join(room_folder, decoded_filename)
