@@ -251,7 +251,9 @@ def test_create_note_room_db_error_returns_json(test_client: TestClient):
     assert response.headers["content-type"].startswith("application/json")
     payload = response.json()
     assert payload["status"] == "error"
-    assert payload["error"] == "ルーム作成に失敗しました。時間をおいて再度お試しください。"
+    assert (
+        payload["error"] == "ルーム作成に失敗しました。時間をおいて再度お試しください。"
+    )
 
 
 # --- Note API: GET /api/note/{room_id}/{password} ---
