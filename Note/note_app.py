@@ -50,6 +50,19 @@ async def _room_id_exists(room_id: str) -> bool:
     return bool(rows)
 
 
+async def _ensure_note_tables() -> None:
+    await nd.ensure_tables()
+
+
+async def _room_id_exists_with_schema_repair(room_id: str) -> bool:
+    try:
+        return await _room_id_exists(room_id)
+    except Exception:
+        logger.exception("Failed to check note room ID; repairing note schema")
+        await _ensure_note_tables()
+        return await _room_id_exists(room_id)
+
+
 def _canonical_redirect(request: Request):
     if request.url.query:
         url = request.url.replace(query="")
@@ -125,7 +138,7 @@ async def create_note_room(request: Request):
             return api_error_response(str(exc), status_code=400)
 
     if id_mode == "auto":
-        if id_val and await _room_id_exists(id_val):
+        if id_val and await _room_id_exists_with_schema_repair(id_val):
             return api_error_response(
                 "生成されたIDが重複しています。新しいIDで再試行してください。",
                 status_code=409,
@@ -135,7 +148,7 @@ async def create_note_room(request: Request):
             generated = None
             for _ in range(10):
                 candidate = _generate_room_id()
-                if not await _room_id_exists(candidate):
+                if not await _room_id_exists_with_schema_repair(candidate):
                     generated = candidate
                     break
             if not generated:
@@ -145,7 +158,7 @@ async def create_note_room(request: Request):
                 )
             id_val = generated
     else:
-        if await _room_id_exists(id_val):
+        if await _room_id_exists_with_schema_repair(id_val):
             return api_error_response(
                 "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
@@ -165,11 +178,35 @@ async def create_note_room(request: Request):
             data={"retry_auto": id_mode == "auto"},
         )
     except Exception:
-        logger.exception("Failed to create note room")
-        return api_error_response(
-            "ルーム作成に失敗しました。時間をおいて再度お試しください。",
-            status_code=500,
-        )
+        logger.exception("Failed to create note room; repairing note schema")
+        try:
+            await _ensure_note_tables()
+            if await _room_id_exists(room_id):
+                created = await _get_room_if_valid(room_id, pw)
+                if not created:
+                    return api_error_response(
+                        "このIDは既に使用されています。別のIDを使用してください。",
+                        status_code=409,
+                        data={"retry_auto": id_mode == "auto"},
+                    )
+            else:
+                await nd.create_room(
+                    room_id, pw, room_id, retention_days=retention_days
+                )
+                created = await _get_room_if_valid(room_id, pw)
+        except IntegrityError:
+            logger.info("Note room ID conflict while retrying room_id=%s", room_id)
+            return api_error_response(
+                "このIDは既に使用されています。別のIDを使用してください。",
+                status_code=409,
+                data={"retry_auto": id_mode == "auto"},
+            )
+        except Exception:
+            logger.exception("Failed to create note room after schema repair")
+            return api_error_response(
+                "ルーム作成に失敗しました。時間をおいて再度お試しください。",
+                status_code=500,
+            )
     if not created:
         return api_error_response(
             "ルーム作成に失敗しました。時間をおいて再試行してください。",

@@ -11,7 +11,7 @@
   justify-content: center;
   padding: 1.25rem;
   background: rgba(15, 23, 42, 0.6);
-  z-index: var(--z-modal);
+  z-index: 2147483000;
 }
 
 .fsqr-alert-modal-overlay.is-visible {

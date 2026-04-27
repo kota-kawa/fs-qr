@@ -32,6 +32,9 @@
     if (!overlay || !title || !message || !closeButton || !cancelButton) {
       return;
     }
+    if (overlay.parentElement !== document.body) {
+      document.body.appendChild(overlay);
+    }
 
     const openClass = "fsqr-alert-open";
     let previousActiveElement = null;
@@ -41,6 +44,7 @@
     function closeModal() {
       overlay.classList.remove("is-visible");
       overlay.setAttribute("aria-hidden", "true");
+      overlay.style.display = "none";
       document.body.classList.remove(openClass);
       if (previousActiveElement && typeof previousActiveElement.focus === "function") {
         previousActiveElement.focus();
@@ -61,6 +65,15 @@
       closeButton.textContent = normalizedOptions.confirmLabel || "OK";
       cancelButton.textContent = normalizedOptions.cancelLabel || "キャンセル";
       cancelButton.hidden = normalizedOptions.showCancel !== true;
+      Object.assign(overlay.style, {
+        position: "fixed",
+        inset: "0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1.25rem",
+        zIndex: "2147483000"
+      });
       overlay.classList.add("is-visible");
       overlay.setAttribute("aria-hidden", "false");
       document.body.classList.add(openClass);

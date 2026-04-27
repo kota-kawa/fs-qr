@@ -228,6 +228,39 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     )
 
 
+def test_create_note_room_repairs_schema_when_room_check_fails(test_client: TestClient):
+    """ID 確認でスキーマ例外が起きたら補修して作成を続ける"""
+    create_mock = AsyncMock()
+    ensure_mock = AsyncMock()
+    with (
+        patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Note.note_app._room_id_exists",
+            new_callable=AsyncMock,
+            side_effect=[Exception("missing table"), False],
+        ),
+        patch("Note.note_app._ensure_note_tables", ensure_mock),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["redirect_url"] == "/note/abc123/Strong_pw1"
+    ensure_mock.assert_awaited_once()
+    create_mock.assert_awaited_once_with(
+        "abc123", "Strong_pw1", "abc123", retention_days=7
+    )
+
+
 def test_create_note_room_db_error_returns_json(test_client: TestClient):
     """DB 例外でも fetch が読める JSON エラーを返す"""
     with (
