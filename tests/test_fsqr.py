@@ -1,3 +1,4 @@
+import os
 from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
@@ -74,6 +75,120 @@ def test_upload_too_many_files(test_client: TestClient):
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
+
+
+def test_upload_single_encrypted_file_returns_redirect_url(
+    test_client: TestClient, tmp_path
+):
+    """暗号化済み単一ファイルのアップロードは完了画面 URL を JSON で返す"""
+    save_mock = AsyncMock()
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch("FSQR.fsqr_data.save_file", save_mock),
+    ):
+        response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert (
+        payload["data"]["redirect_url"]
+        == "/upload_complete/abc123-1234567890-report.pdf"
+    )
+    assert (tmp_path / "abc123-1234567890-report.pdf.enc").exists()
+    save_mock.assert_awaited_once_with(
+        uid="1234567890",
+        id="abc123",
+        password="123456",
+        secure_id="abc123-1234567890-report.pdf",
+        file_type="single",
+        original_filename="report.pdf",
+        retention_days=7,
+    )
+
+
+def test_upload_single_filename_with_enc_keeps_download_path_consistent(
+    test_client: TestClient, tmp_path
+):
+    """.enc を含む元ファイル名でも末尾の .enc だけを secure_id から外す"""
+    save_mock = AsyncMock()
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch("FSQR.fsqr_data.save_file", save_mock),
+    ):
+        response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "memo.enc.txt.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "file_type": "single",
+                "original_filename": "memo.enc.txt",
+                "retention_days": "7",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+
+    assert response.status_code == 200
+    secure_id = "abc123-1234567890-memo.enc.txt"
+    assert response.json()["data"]["redirect_url"] == f"/upload_complete/{secure_id}"
+    assert os.path.exists(tmp_path / f"{secure_id}.enc")
+    save_mock.assert_awaited_once()
+    assert save_mock.await_args.kwargs["secure_id"] == secure_id
+
+
+def test_upload_rejects_plain_single_file(test_client: TestClient, tmp_path):
+    """暗号化されていない単一ファイルはアップロード処理として拒否する"""
+    with patch("FSQR.fsqr_app.STATIC", str(tmp_path)):
+        response = test_client.post(
+            "/upload",
+            files={"upfile": ("report.pdf", b"plain", "application/pdf")},
+            data={
+                "name": "abc123",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+
+    assert response.status_code == 400
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert "暗号化済みファイル" in payload["error"]
 
 
 # --- try_login バリデーション ---

@@ -3,6 +3,7 @@ import secrets
 import uuid
 from datetime import timedelta
 import shutil
+import logging
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
@@ -14,7 +15,6 @@ from file_validation import (
     build_content_disposition_attachment,
     normalize_upload_filename,
     sanitize_download_filename,
-    validate_upload_file_content,
     validate_upload_limits,
 )
 from models import FsqrUploadInput, RoomSearchInput
@@ -36,6 +36,7 @@ from password_security import is_password_hashed
 from . import fsqr_data as fs_data
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 # Base configuration (same as in app.py)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -43,6 +44,7 @@ STATIC = os.path.join(BASE_DIR, "static", "upload")
 # Ensure the upload directory exists to avoid FileNotFoundError
 os.makedirs(STATIC, exist_ok=True)
 FSQR_UPLOAD_ACCESS_SESSION_KEY = "fsqr_upload_access"
+FSQR_UPLOAD_FILE_TYPES = frozenset({"single", "multiple"})
 
 
 def _canonical_redirect(request: Request):
@@ -98,6 +100,34 @@ def _calculate_deletion_context(record):
         except Exception:
             deletion_date = None
     return retention_days, deletion_date
+
+
+def _strip_upload_suffix(filename: str, suffix: str) -> str:
+    if filename.lower().endswith(suffix):
+        return filename[: -len(suffix)]
+    return filename
+
+
+def _validate_fsqr_encrypted_payload(
+    file_type: str, files: List[UploadFile]
+) -> str | None:
+    if file_type not in FSQR_UPLOAD_FILE_TYPES:
+        return "アップロード形式が不正です。"
+
+    if len(files) != 1:
+        return "アップロードデータが不正です。ファイルを選び直してください。"
+
+    filename = normalize_upload_filename(files[0].filename or "")
+    if not filename:
+        return "不正なファイル名です"
+
+    normalized = filename.lower()
+    if file_type == "single" and not normalized.endswith(".enc"):
+        return "暗号化済みファイルを送信できませんでした。画面を再読み込みして再度お試しください。"
+    if file_type == "multiple" and not normalized.endswith(".zip"):
+        return "圧縮済みファイルを送信できませんでした。画面を再読み込みして再度お試しください。"
+
+    return None
 
 
 @router.get("/fs-qr_menu", name="fsqr.fs_qr")
@@ -165,16 +195,16 @@ async def upload(
     if limits_error:
         return json_or_msg(request, limits_error)
 
+    payload_error = _validate_fsqr_encrypted_payload(file_type, upfile)
+    if payload_error:
+        return json_or_msg(request, payload_error)
+
     uploaded_files = []
 
     for file in upfile:
         filename = normalize_upload_filename(file.filename or "")
         if not filename:
             return json_or_msg(request, "不正なファイル名です")
-
-        content_error = validate_upload_file_content(file)
-        if content_error:
-            return json_or_msg(request, content_error)
 
         save_path = os.path.join(STATIC, secure_id_base + filename)
 
@@ -183,19 +213,27 @@ async def upload(
         uploaded_files.append(filename)
 
     if file_type == "single":
-        secure_id = (secure_id_base + uploaded_files[-1]).replace(".enc", "")
+        secure_id = secure_id_base + _strip_upload_suffix(uploaded_files[-1], ".enc")
     else:
-        secure_id = (secure_id_base + uploaded_files[-1]).replace(".zip", "")
+        secure_id = secure_id_base + _strip_upload_suffix(uploaded_files[-1], ".zip")
 
-    await fs_data.save_file(
-        uid=uid,
-        id=id_val,
-        password=password,
-        secure_id=secure_id,
-        file_type=file_type,
-        original_filename=original_filename,
-        retention_days=retention_days_int,
-    )
+    try:
+        await fs_data.save_file(
+            uid=uid,
+            id=id_val,
+            password=password,
+            secure_id=secure_id,
+            file_type=file_type,
+            original_filename=original_filename,
+            retention_days=retention_days_int,
+        )
+    except Exception:
+        logger.exception("FSQR upload metadata save failed: secure_id=%s", secure_id)
+        return json_or_msg(
+            request,
+            "アップロード情報の保存に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
     _remember_fsqr_access(request, secure_id, id_val, password)
 
     return api_ok_response(

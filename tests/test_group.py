@@ -67,7 +67,9 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     """fetch からの作成は画面遷移先を JSON で返す"""
     create_mock = AsyncMock()
     with (
-        patch("Group.group_routes_room.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Group.group_routes_room.secrets.token_urlsafe", return_value="Strong_pw1"
+        ),
         patch(
             "Group.group_routes_room.group_data.get_data",
             new_callable=AsyncMock,

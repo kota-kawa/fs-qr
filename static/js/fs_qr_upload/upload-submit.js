@@ -166,6 +166,8 @@
           if (csrfToken) {
             xhr.setRequestHeader('X-CSRF-Token', csrfToken);
           }
+          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          xhr.setRequestHeader('Accept', 'application/json');
 
           xhr.upload.onprogress = function (progressEvent) {
             if (progressEvent.lengthComputable) {
