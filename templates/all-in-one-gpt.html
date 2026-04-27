@@ -44,6 +44,7 @@
             --sash-size: 10px;
 
             /* 使い方ガイド（常時トグル表示）＆最下余白 */
+            --usage-h: 220px;
             --usage-collapsed-h: 52px;
             --bottom-safe: 28px;
         }
@@ -75,11 +76,22 @@
             color:#fff;
             padding: .9rem 1.25rem;
             display:flex; align-items:center; justify-content:space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
             box-shadow: 0 4px 20px rgba(0,0,0,.15);
             z-index: 5;
         }
-        .header h1{ margin:0; font-size:1.3rem; letter-spacing:-.01em; display:flex; align-items:center; gap:.6rem; }
-        .header .controls{ display:flex; gap:.5rem; align-items:center; }
+        .header h1{
+            margin:0;
+            min-width: 0;
+            font-size:1.3rem;
+            letter-spacing:0;
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+            overflow-wrap:anywhere;
+        }
+        .header .controls{ display:flex; gap:.5rem; align-items:center; justify-content:flex-end; flex-wrap:wrap; min-width:0; }
         .btn-control{
             background: rgba(255,255,255,.2);
             border: 1px solid rgba(255,255,255,.35);
@@ -90,6 +102,8 @@
             cursor:pointer;
             transition: .2s;
             display:flex; gap:.45rem; align-items:center;
+            min-width: 0;
+            white-space: normal;
         }
         .btn-control:hover{ background: rgba(255,255,255,.3); transform: translateY(-1px); }
         .btn-help{ background: rgba(72, 187, 120, .22); border-color: rgba(72,187,120,.5); }
@@ -158,12 +172,14 @@
             padding: .7rem 1rem;
             border-bottom:1px solid var(--border-color);
             display:flex; align-items:center; justify-content:space-between;
+            gap: .75rem;
             font-weight:600;
             background: #fff;
         }
 
-        .panel-title{ display:flex; gap:.6rem; align-items:center; color: var(--text-primary); }
-        .panel-controls{ display:flex; gap:.35rem; }
+        .panel-title{ display:flex; gap:.6rem; align-items:center; color: var(--text-primary); min-width:0; overflow-wrap:anywhere; }
+        .panel-title span{ min-width:0; overflow-wrap:anywhere; }
+        .panel-controls{ display:flex; gap:.35rem; flex:0 0 auto; }
 
         .icon-btn{
             width: 32px; height:32px; border:none; border-radius:8px; background: transparent;
@@ -245,6 +261,7 @@
             position: absolute;
             top: 50px; right: 10px;
             width: 280px;
+            max-width: calc(100vw - 2rem);
             background: #fff;
             border:1px solid var(--border-color);
             border-radius: 12px;
@@ -260,7 +277,6 @@
 
         /* 使い方パネル（可変高さ） */
         .usage{
-            --usage-h: 220px;
             height: var(--usage-h);
             overflow: hidden;
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -302,9 +318,24 @@
         @media (max-width: 768px){
             :root{ --row-min: 140px; }
             .header h1{ font-size: 1.1rem; }
+            .header .controls{ width:100%; justify-content:flex-start; }
             .btn-control span{ display:none; }
+            .main{ padding:.75rem; gap:1rem 0; }
+            .panel-header{ align-items:flex-start; }
+            .settings{ left: .75rem; right: .75rem; width:auto; }
+            .usage .usage-header{ gap:.75rem; }
+            .usage .usage-header h3{ font-size:1rem; }
+            .notification{ left:.75rem; right:.75rem; max-width:none; }
         }
     </style>
+    <script>
+        window.__dashboardPendingLoads = [];
+        window.Dashboard = {
+            handleLoad(key) {
+                window.__dashboardPendingLoads.push(key);
+            }
+        };
+    </script>
 </head>
 <body>
 <div class="all-in-one">
@@ -1101,6 +1132,8 @@ const Dashboard = (() => {
     };
 })();
 
+window.Dashboard = Dashboard;
+window.__dashboardPendingLoads.splice(0).forEach(Dashboard.handleLoad);
 document.addEventListener('DOMContentLoaded', Dashboard.init);
 </script>
 <script src="{{staticfile('tooltip.js')}}" defer></script>

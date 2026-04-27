@@ -1,0 +1,361 @@
+/* Cross-page layout hardening for shared templates and legacy inline styles. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  min-width: 0;
+  font: inherit;
+}
+
+#layout.page,
+#main,
+.contents,
+.modern-page-container,
+.page-container,
+.info-page {
+  width: 100%;
+  min-width: 0;
+}
+
+header h1 {
+  line-height: 1;
+}
+
+header h1 img {
+  height: clamp(64px, 16vw, 100px) !important;
+  width: auto !important;
+  max-width: min(82vw, 360px);
+  object-fit: contain;
+}
+
+.search-link {
+  max-width: calc(100% - 1.5rem);
+  justify-content: center;
+}
+
+.search-link img {
+  width: clamp(42px, 11vw, 60px);
+  height: clamp(42px, 11vw, 60px);
+  flex: 0 0 auto;
+}
+
+.search-link span {
+  font-size: clamp(1.8rem, 9vw, 2.8125rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.section-tab,
+.modern-btn,
+.upload-button-modern,
+.btn-modern,
+.search-result-back,
+.search-result-cta,
+.service-menu-page .menu-card a {
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
+}
+
+.simple-footer {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  line-height: 1.6;
+}
+
+.simple-footer .footer-link-button {
+  display: block;
+  margin: 0 auto 0.25rem;
+  text-align: center;
+}
+
+body.group-section footer.simple-footer,
+body.note-section footer.simple-footer,
+body.fsqr-section footer.simple-footer {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.45);
+}
+
+.modern-content-card,
+.modern-card,
+.modern-info-card,
+.info-box,
+.usage-section,
+.search-result-panel,
+.service-hero,
+.service-menu-page .content-section,
+.service-menu-page .menu-card {
+  overflow-wrap: anywhere;
+}
+
+.modern-card-header h1,
+.info-box-header h2,
+.info-box-header .card-title,
+.card-title,
+.service-hero__title,
+.service-menu-page .section-title {
+  overflow-wrap: anywhere;
+  letter-spacing: 0;
+}
+
+.modern-card-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.modern-file-list {
+  min-width: 0;
+}
+
+.modern-file-item,
+.room-info-row,
+.room-info-value-row,
+.glossy-demo-item,
+.note-editor-toolbar,
+.note-editor-actions,
+.search-result-actions {
+  min-width: 0;
+}
+
+.room-info-row {
+  align-items: flex-start;
+}
+
+.room-info-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.room-info-value-row {
+  max-width: 100%;
+}
+
+.room-info-value-text,
+.room-info-url-text,
+.sensitive-value,
+.glossy-demo-item span,
+.search-result-description {
+  overflow-wrap: anywhere;
+}
+
+.qr-code-container {
+  max-width: 100%;
+}
+
+.qr-code-container img {
+  width: min(160px, 100%) !important;
+  height: auto !important;
+  aspect-ratio: 1;
+}
+
+.modern-form-group > div[style*="display: flex"],
+.form-group > div[style*="display: flex"] {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.retention-select-wrapper {
+  max-width: 100%;
+}
+
+.retention-preview,
+.inline-feedback,
+.upload-limit-status,
+.share-feedback {
+  overflow-wrap: anywhere;
+}
+
+.service-hero__description,
+.service-hero__tag,
+.service-menu-page .menu-card p,
+.service-menu-page .faq-item p,
+.service-menu-page .howto-step p {
+  overflow-wrap: anywhere;
+}
+
+.service-menu-page .menu-card i {
+  flex: 0 0 auto;
+}
+
+.top-search-panel,
+.top-search-form,
+.top-search-field {
+  min-width: 0;
+}
+
+.top-search-field input {
+  min-width: 0;
+}
+
+.glossy-demo-item {
+  gap: 0.5rem;
+}
+
+.glossy-demo-item span {
+  min-width: 0;
+}
+
+@media (max-width: 767.98px) {
+  .modern-card-body,
+  .info-box-content,
+  .usage-section-content,
+  .search-result-panel {
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+  }
+
+  .room-info-container {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .room-info-row {
+    gap: 0.4rem 0.75rem;
+  }
+
+  .room-info-label {
+    min-width: 5.5rem;
+  }
+
+  .room-info-value-row {
+    align-items: flex-start;
+  }
+
+  .modern-upload-area {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .modern-file-item {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .modern-file-actions {
+    flex: 0 0 auto;
+  }
+
+  .note-editor-toolbar {
+    align-items: flex-start;
+  }
+
+  .note-editor-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .note-action-button {
+    flex: 1 1 9rem;
+    min-height: 2.4rem;
+  }
+
+  .service-shell {
+    min-width: 0;
+  }
+
+  .service-hero {
+    padding: 1.5rem !important;
+  }
+
+  .service-hero__title {
+    font-size: clamp(1.8rem, 11vw, 2.45rem);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .modern-page-container,
+  .glossy-room-shell,
+  .page-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .section-tabs {
+    width: calc(100% - 1rem) !important;
+    max-width: calc(100% - 1rem) !important;
+  }
+
+  .section-tab {
+    flex-basis: calc(50% - 0.3rem) !important;
+    min-height: 2.5rem !important;
+  }
+
+  .section-tab:first-child {
+    flex-basis: 100% !important;
+  }
+
+  .room-info-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .room-info-label {
+    min-width: 0;
+  }
+
+  .room-info-value-row {
+    width: 100%;
+  }
+
+  .modern-file-item {
+    flex-direction: column;
+  }
+
+  .glossy-demo-item {
+    flex-wrap: wrap;
+  }
+
+  .modern-file-actions {
+    align-self: flex-end;
+  }
+
+  .modern-btn,
+  .btn-modern,
+  .upload-button-modern {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .fsqr-transfer-card__stage {
+    grid-template-columns: 1fr !important;
+    gap: 0.35rem !important;
+    text-align: left;
+  }
+
+  .search-result-shell {
+    padding: 0 0.75rem !important;
+  }
+
+  .search-result-actions > * {
+    width: 100%;
+  }
+}

@@ -45,6 +45,7 @@ logs/*
 
 # ビルドディレクトリを無視
 /build/
+tmp/
 __pycache__/.env
 __pycache__/
 *.pyc
