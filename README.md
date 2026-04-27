@@ -34,6 +34,7 @@ SQL_USER=user
 SQL_PW=password
 SQL_DB=fsqr
 MYSQL_ROOT_PASSWORD=root-password
+MYSQL_VOLUME_NAME=fsqr_mysql_data_v2
 SECRET_KEY=secret
 ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
@@ -50,7 +51,9 @@ NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) Run the stack
-Run the Docker preflight first when changing images or reusing an existing volume:
+The default compose file uses `MYSQL_VOLUME_NAME=fsqr_mysql_data_v2`, which creates a
+fresh MySQL volume instead of reusing an older broken `db_data` volume. Run the Docker
+preflight first when changing images or reusing an existing volume:
 
 ```bash
 ./scripts/docker_preflight.sh
@@ -103,8 +106,22 @@ Run the preflight check to confirm the local Docker volume state:
 ./scripts/docker_preflight.sh
 ```
 
-First inspect and back up the volume if it contains data you need. If the local data is
-disposable, recreate the database volume:
+The current compose default already points to a fresh volume name:
+
+```env
+MYSQL_VOLUME_NAME=fsqr_mysql_data_v2
+```
+
+If you still see the same `mysql.ibd` error, stop and recreate the containers so the new
+volume setting is applied:
+
+```bash
+docker compose down
+docker compose up --build --force-recreate
+```
+
+First inspect and back up the old volume if it contains data you need. If the local data is
+disposable, you can also remove all compose volumes:
 
 ```bash
 docker compose down
@@ -199,6 +216,7 @@ SQL_USER=user
 SQL_PW=password
 SQL_DB=fsqr
 MYSQL_ROOT_PASSWORD=root-password
+MYSQL_VOLUME_NAME=fsqr_mysql_data_v2
 SECRET_KEY=secret
 ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
@@ -215,7 +233,9 @@ NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) 起動
-イメージ変更後や既存ボリュームを再利用する場合は、先に Docker の事前診断を実行します。
+デフォルトの compose は `MYSQL_VOLUME_NAME=fsqr_mysql_data_v2` を使い、壊れた古い
+`db_data` volume を再利用せずに新しい MySQL volume を作ります。イメージ変更後や既存
+ボリュームを再利用する場合は、先に Docker の事前診断を実行します。
 
 ```bash
 ./scripts/docker_preflight.sh
@@ -267,8 +287,22 @@ MySQL が `Cannot open datafile for read-only: 'mysql.ibd'` や
 ./scripts/docker_preflight.sh
 ```
 
-必要なデータがある場合は先にバックアップ/復旧方針を確認してください。ローカル検証用でデータを
-消してよい場合のみ、DB ボリュームを作り直します。
+現在の compose は、デフォルトで新しい volume 名を使います。
+
+```env
+MYSQL_VOLUME_NAME=fsqr_mysql_data_v2
+```
+
+それでも同じ `mysql.ibd` エラーが出る場合は、古いコンテナが残っているため、いったん停止して
+新しい volume 設定でコンテナを作り直します。
+
+```bash
+docker compose down
+docker compose up --build --force-recreate
+```
+
+必要なデータがある場合は先に古い volume のバックアップ/復旧方針を確認してください。
+ローカル検証用でデータを消してよい場合のみ、すべての compose volume を作り直します。
 
 ```bash
 docker compose down

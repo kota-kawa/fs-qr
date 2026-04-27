@@ -36,3 +36,4 @@ services:
 
 volumes:
   db_data:
+    name: ${MYSQL_VOLUME_NAME:-fsqr_mysql_data_v2}
