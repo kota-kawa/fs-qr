@@ -145,7 +145,7 @@ html {
   }
 
   .section-tab {
-    flex: 1 1 calc(33.333% - 0.3rem) !important;
+    flex: 1 1 calc(30% - 0.3rem) !important;
     min-width: 0 !important;
     min-height: 2.35rem !important;
     padding: 0.55rem 0.4rem !important;
@@ -154,6 +154,7 @@ html {
 
   .section-tab:first-child {
     flex: 1 1 100% !important;
+    width: 100% !important;
     font-size: 1rem !important;
     margin-bottom: 0.2rem !important;
   }
