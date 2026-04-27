@@ -454,12 +454,12 @@
 
 @media (max-width: calc(var(--bp-md) - 0.02px)) {
   .modern-page-container {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.25rem;
   }
   
   .modern-content-card {
     border-radius: 16px;
-    margin: 0 0.5rem;
+    margin: 0 0.25rem;
   }
   
   .modern-card-header {
@@ -471,7 +471,7 @@
   }
   
   .modern-card-body {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 0.75rem;
   }
   
   .room-info-container {

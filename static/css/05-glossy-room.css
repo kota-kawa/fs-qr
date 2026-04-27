@@ -71,6 +71,7 @@
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 18px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 12px 28px rgba(15, 23, 42, 0.08);
+  padding: 1.5rem;
 }
 
 .glossy-demo-panel {
@@ -115,18 +116,22 @@
 
 @media (max-width: calc(var(--bp-md) - 0.02px)) {
   .glossy-room-shell {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
   }
 
   .glossy-room-header,
   .glossy-usage-header {
-    padding: 1.5rem 1.25rem;
+    padding: 1.5rem 1rem;
     border-radius: 20px 20px 0 0;
   }
 
   .glossy-room-body,
   .glossy-usage-body {
-    padding: 1.5rem;
+    padding: 1.25rem 0.75rem;
+  }
+
+  .glossy-surface {
+    padding: 1rem;
   }
 
   .glossy-room-card,
