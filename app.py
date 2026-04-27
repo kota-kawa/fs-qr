@@ -26,6 +26,7 @@ from database import db_session
 from migration_runner import run_migrations
 from settings import (
     ADMIN_KEY,
+    ALLOW_START_WITHOUT_DB,
     BASE_DIR,
     SECRET_KEY,
     REDIS_URL,
@@ -111,9 +112,14 @@ async def startup():
             )
             await asyncio.sleep(wait_s)
     if not ready:
-        logger.error(
-            "Database startup checks failed after retries; continuing without bootstrap."
+        message = (
+            "Database startup checks failed after retries; refusing to start web app."
         )
+        if ALLOW_START_WITHOUT_DB:
+            logger.error("%s ALLOW_START_WITHOUT_DB=true, continuing.", message)
+        else:
+            logger.critical(message)
+            raise RuntimeError(message)
     await note_realtime_startup()
     await db_session.remove()
 

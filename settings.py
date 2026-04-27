@@ -35,6 +35,7 @@ def _env_int(name: str, default: int, minimum: int = 0) -> int:
 
 
 FRONTEND_DEBUG = _env_flag("FRONTEND_DEBUG", default=False)
+ALLOW_START_WITHOUT_DB = _env_flag("ALLOW_START_WITHOUT_DB", default=False)
 
 UPLOAD_MAX_FILES = _env_int("UPLOAD_MAX_FILES", default=10, minimum=1)
 UPLOAD_MAX_TOTAL_SIZE_MB = _env_int("UPLOAD_MAX_TOTAL_SIZE_MB", default=500, minimum=1)

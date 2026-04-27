@@ -39,6 +39,8 @@ ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
+RUN_MIGRATIONS_ON_STARTUP=true
+ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
 UPLOAD_MAX_FILES=10
 UPLOAD_MAX_TOTAL_SIZE_MB=500
@@ -75,6 +77,31 @@ To disable this behavior, set:
 ```env
 RUN_MIGRATIONS_ON_STARTUP=false
 ```
+
+By default, the web app refuses to start if MySQL is not reachable after retries.
+This prevents pages from being served while later requests fail with database-backed
+500 errors. For emergency debugging only, this can be bypassed with:
+
+```env
+ALLOW_START_WITHOUT_DB=true
+```
+
+### MySQL volume startup failure
+If MySQL repeatedly logs errors such as `Cannot open datafile for read-only: 'mysql.ibd'`
+or `Data Dictionary initialization failed`, the persisted Docker volume is corrupted or
+incompatible with the running MySQL image. Application retries cannot repair that state.
+
+First inspect and back up the volume if it contains data you need. If the local data is
+disposable, recreate the database volume:
+
+```bash
+docker compose down
+docker volume ls | grep fs-qr
+docker compose down -v
+docker compose up --build
+```
+
+For production, restore the MySQL volume from a known-good backup instead of deleting it.
 
 Setting `FRONTEND_DEBUG=true` enables frontend debug logs (`console.log/warn/error`).  
 Keep it as `false` in production.
@@ -165,6 +192,8 @@ ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
+RUN_MIGRATIONS_ON_STARTUP=true
+ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
 UPLOAD_MAX_FILES=10
 UPLOAD_MAX_TOTAL_SIZE_MB=500
@@ -200,6 +229,31 @@ alembic revision -m "変更内容"
 ```env
 RUN_MIGRATIONS_ON_STARTUP=false
 ```
+
+デフォルトでは、MySQL に接続できない場合 web アプリは起動を停止します。DB が使えないまま
+画面だけ表示され、その後 500 エラーになる状態を避けるためです。緊急の調査時だけ、以下で
+この挙動を無効化できます。
+
+```env
+ALLOW_START_WITHOUT_DB=true
+```
+
+### MySQL ボリューム起動失敗
+MySQL が `Cannot open datafile for read-only: 'mysql.ibd'` や
+`Data Dictionary initialization failed` を繰り返す場合、Docker の永続化ボリュームが破損、
+または MySQL イメージと不整合になっています。この状態はアプリ側のリトライでは修復できません。
+
+必要なデータがある場合は先にバックアップ/復旧方針を確認してください。ローカル検証用でデータを
+消してよい場合のみ、DB ボリュームを作り直します。
+
+```bash
+docker compose down
+docker volume ls | grep fs-qr
+docker compose down -v
+docker compose up --build
+```
+
+本番環境では削除ではなく、正常な MySQL バックアップから復旧してください。
 
 `FRONTEND_DEBUG=true` を設定すると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
 本番運用時は `false` のままにしてください。

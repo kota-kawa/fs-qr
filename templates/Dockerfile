@@ -18,4 +18,4 @@ RUN chmod +x /usr/local/bin/wait-for-it
 EXPOSE 5000
 
 # Run Gunicorn app when the container launches
-CMD ["/usr/local/bin/wait-for-it", "db:3306", "--", "gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["/usr/local/bin/wait-for-it", "db:3306", "--strict", "--timeout=120", "--", "gunicorn", "-b", "0.0.0.0:5000", "app:app"]

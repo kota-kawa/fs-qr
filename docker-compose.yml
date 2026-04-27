@@ -5,14 +5,16 @@ services:
       - SQL_USER=${SQL_USER}
       - SQL_PW=${SQL_PW}
       - SQL_DB=${SQL_DB}
-      - SQL_HOST=${SQL_HOST}
+      - SQL_HOST=${SQL_HOST:-db}
       - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app  # アプリケーションコードのマウント
       - ./logs:/app/logs  # ホストの ./logs ディレクトリをコンテナ内 /app/logs にマウント
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "5000:5000"  # ホストの5000番ポートをDockerのwebサービスにマッピング
     networks:
@@ -24,16 +26,21 @@ services:
       - SQL_USER=${SQL_USER}
       - SQL_PW=${SQL_PW}
       - SQL_DB=${SQL_DB}
-      - SQL_HOST=${SQL_HOST}
+      - SQL_HOST=${SQL_HOST:-db}
       - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
       - ./logs:/app/logs
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     command:
       - /usr/local/bin/wait-for-it
       - db:3306
+      - --strict
+      - --timeout=120
       - --
       - python
       - scheduler.py
@@ -41,7 +48,7 @@ services:
       - app-network
 
   db:
-    image: mysql:8.4
+    image: mysql:8.4.9
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -51,12 +58,23 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./db_init/create_tables.sql:/docker-entrypoint-initdb.d/00_create_tables.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
     networks:
       - app-network
 
   redis:
-    image: redis:7-alpine
+    image: redis:7.4.7-alpine
     restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     networks:
       - app-network
 
