@@ -185,7 +185,7 @@
 }
 
 /* Responsive design */
-@media (max-width: calc(var(--bp-md) - 0.02px)) {
+@media (max-width: 767.98px) {
   .info-page {
     padding: 1rem 0.5rem;
   }

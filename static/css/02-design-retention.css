@@ -530,7 +530,7 @@
   box-shadow: var(--retention-citrus-arrow-shadow);
 }
 
-@media (max-width: calc(var(--bp-sm) - 0.02px)) {
+@media (max-width: 575.98px) {
   .retention-select-wrapper {
     max-width: 100%;
   }

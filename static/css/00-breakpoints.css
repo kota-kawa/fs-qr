@@ -132,7 +132,7 @@ html {
   }
 }
 
-@media (max-width: calc(var(--bp-md) - 0.02px)) {
+@media (max-width: 767.98px) {
   .section-tabs {
     width: 100% !important;
     max-width: 100% !important;
@@ -184,8 +184,8 @@ html {
 
 /*
  * Breakpoint policy:
- * - max-width: calc(var(--bp-sm) - 0.02px)  (sm down)
- * - max-width: calc(var(--bp-md) - 0.02px)  (md down)
- * - max-width: calc(var(--bp-lg) - 0.02px)  (lg down)
- * - min-width: var(--bp-md) / var(--bp-lg) (md up / lg up)
+ * - max-width: 575.98px  (sm down)
+ * - max-width: 767.98px  (md down)
+ * - max-width: 991.98px  (lg down)
+ * - min-width: 768px / 992px (md up / lg up)
  */

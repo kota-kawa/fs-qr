@@ -452,7 +452,7 @@
    Responsive Design for Modern Components
    =============================================== */
 
-@media (max-width: calc(var(--bp-md) - 0.02px)) {
+@media (max-width: 767.98px) {
   .modern-page-container {
     padding: 1rem 0.25rem !important;
     width: 100% !important;

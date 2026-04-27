@@ -393,20 +393,20 @@
   outline-offset: 3px;
 }
 
-@media (max-width: calc(var(--bp-lg) - 0.02px)) {
+@media (max-width: 991.98px) {
   .service-menu-page .menu-container,
   .service-menu-page .howto-steps {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
-@media (min-width: var(--bp-lg)) {
+@media (min-width: 992px) {
   .service-menu-page .howto-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: calc(var(--bp-md) - 0.02px)) {
+@media (max-width: 767.98px) {
   .service-hero {
     grid-template-columns: 1fr !important;
   }
@@ -421,7 +421,7 @@
   }
 }
 
-@media (max-width: calc(var(--bp-sm) - 0.02px)) {
+@media (max-width: 575.98px) {
   .service-shell {
     padding-left: 12px;
     padding-right: 12px;

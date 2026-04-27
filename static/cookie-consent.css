@@ -374,7 +374,7 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 /* ─── Mobile ─────────────────────────────────────── */
-@media (max-width: calc(var(--bp-sm) - 0.02px)) {
+@media (max-width: 575.98px) {
   .cookie-consent-overlay {
     align-items: center;
     padding: 1rem;
