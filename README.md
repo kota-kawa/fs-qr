@@ -50,6 +50,12 @@ NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) Run the stack
+Run the Docker preflight first when changing images or reusing an existing volume:
+
+```bash
+./scripts/docker_preflight.sh
+```
+
 ```bash
 docker-compose up --build
 ```
@@ -90,6 +96,12 @@ ALLOW_START_WITHOUT_DB=true
 If MySQL repeatedly logs errors such as `Cannot open datafile for read-only: 'mysql.ibd'`
 or `Data Dictionary initialization failed`, the persisted Docker volume is corrupted or
 incompatible with the running MySQL image. Application retries cannot repair that state.
+
+Run the preflight check to confirm the local Docker volume state:
+
+```bash
+./scripts/docker_preflight.sh
+```
 
 First inspect and back up the volume if it contains data you need. If the local data is
 disposable, recreate the database volume:
@@ -203,6 +215,12 @@ NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ```
 
 ### 3) 起動
+イメージ変更後や既存ボリュームを再利用する場合は、先に Docker の事前診断を実行します。
+
+```bash
+./scripts/docker_preflight.sh
+```
+
 ```bash
 docker-compose up --build
 ```
@@ -242,6 +260,12 @@ ALLOW_START_WITHOUT_DB=true
 MySQL が `Cannot open datafile for read-only: 'mysql.ibd'` や
 `Data Dictionary initialization failed` を繰り返す場合、Docker の永続化ボリュームが破損、
 または MySQL イメージと不整合になっています。この状態はアプリ側のリトライでは修復できません。
+
+ローカル Docker ボリュームの状態は、以下で確認できます。
+
+```bash
+./scripts/docker_preflight.sh
+```
 
 必要なデータがある場合は先にバックアップ/復旧方針を確認してください。ローカル検証用でデータを
 消してよい場合のみ、DB ボリュームを作り直します。
