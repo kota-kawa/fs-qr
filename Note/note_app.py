@@ -6,7 +6,7 @@ from fastapi import APIRouter, Request
 from pydantic import ValidationError
 from starlette.responses import RedirectResponse
 
-from api_response import api_error_response
+from api_response import api_error_response, api_ok_response
 from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_NOTE,
@@ -22,6 +22,7 @@ from web import (
     flash_message,
     get_or_create_csrf_token,
     render_template,
+    wants_json_response,
 )
 from . import note_data as nd
 
@@ -152,10 +153,10 @@ async def create_note_room(request: Request):
             "ルーム作成に失敗しました。時間をおいて再試行してください。",
             status_code=500,
         )
-    return RedirectResponse(
-        build_url(request, "note.note_room", room_id=room_id, password=pw),
-        status_code=302,
-    )
+    redirect_url = build_url(request, "note.note_room", room_id=room_id, password=pw)
+    if wants_json_response(request):
+        return api_ok_response({"redirect_url": redirect_url})
+    return RedirectResponse(redirect_url, status_code=302)
 
 
 @router.get("/note", name="note.note_room_access")

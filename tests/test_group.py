@@ -63,6 +63,37 @@ def test_create_group_room_wrong_length(test_client: TestClient):
     assert isinstance(payload["error"], str)
 
 
+def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
+    """fetch からの作成は画面遷移先を JSON で返す"""
+    create_mock = AsyncMock()
+    with (
+        patch("Group.group_routes_room.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Group.group_routes_room.group_data.get_data",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch("Group.group_routes_room.group_data.create_room", create_mock),
+        patch("Group.group_routes_room.os.makedirs"),
+    ):
+        response = test_client.post(
+            "/create_group_room",
+            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["redirect_url"] == "/group/abc123/Strong_pw1"
+    create_mock.assert_awaited_once_with(
+        id="abc123",
+        password="Strong_pw1",
+        room_id="abc123",
+        retention_days=7,
+    )
+
+
 # --- search_group_process バリデーション ---
 
 

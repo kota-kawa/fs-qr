@@ -7,7 +7,7 @@ from pydantic import ValidationError
 from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
-from api_response import api_error_response
+from api_response import api_error_response, api_ok_response
 from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_GROUP,
@@ -19,6 +19,7 @@ from rate_limit import (
 )
 from web import build_url, get_or_create_csrf_token, render_template
 from web import enforce_csrf
+from web import wants_json_response
 
 from . import group_data
 from .group_common import UPLOAD_FOLDER, get_room_if_valid, remember_group_room_access
@@ -161,10 +162,12 @@ def register_group_create_room_route(router: APIRouter):
             room_id=room_id,
             retention_days=retention_days,
         )
-        return RedirectResponse(
-            build_url(request, "group.group_room", room_id=room_id, password=password),
-            status_code=302,
+        redirect_url = build_url(
+            request, "group.group_room", room_id=room_id, password=password
         )
+        if wants_json_response(request):
+            return api_ok_response({"redirect_url": redirect_url})
+        return RedirectResponse(redirect_url, status_code=302)
 
 
 def register_group_search_process_route(router: APIRouter):

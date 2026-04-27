@@ -198,6 +198,36 @@ def test_create_note_room_generates_urlsafe_password(test_client: TestClient):
     )
 
 
+def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
+    """fetch からの作成は画面遷移先を JSON で返す"""
+    create_mock = AsyncMock()
+    with (
+        patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["redirect_url"] == "/note/abc123/Strong_pw1"
+    create_mock.assert_awaited_once_with(
+        "abc123", "Strong_pw1", "abc123", retention_days=7
+    )
+
+
 # --- Note API: GET /api/note/{room_id}/{password} ---
 
 

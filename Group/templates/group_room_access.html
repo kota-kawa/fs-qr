@@ -272,6 +272,20 @@ async function safeReadJsonResponse(response) {
     }
 }
 
+async function redirectFromCreateResponse(response) {
+    if (response.redirected) {
+        window.location.href = response.url;
+        return;
+    }
+    const data = await safeReadJsonResponse(response);
+    const redirectUrl = data && data.data && data.data.redirect_url;
+    if (typeof redirectUrl === 'string' && redirectUrl) {
+        window.location.href = redirectUrl;
+        return;
+    }
+    throw new Error('ルーム作成後の移動先が取得できませんでした。');
+}
+
 function switchTab(tabName) {
     // Hide all tabs
     document.getElementById('join-tab').style.display = 'none';
@@ -336,15 +350,14 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(form.action, {
             method: 'POST',
             credentials: 'same-origin',
-            headers: { 'X-CSRF-Token': csrfToken },
+            headers: {
+                'X-CSRF-Token': csrfToken,
+                'X-Requested-With': 'fetch',
+                'Accept': 'application/json'
+            },
             body: formData
         })
         .then(async response => {
-            if (response.redirected) {
-                // 成功時はリダイレクト
-                window.location.href = response.url;
-                return response;
-            }
             if (response.status === 409) {
                 // IDの重複エラーの場合
                 const data = await safeReadJsonResponse(response);
@@ -361,7 +374,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     return fetch(form.action, {
                         method: 'POST',
                         credentials: 'same-origin',
-                        headers: { 'X-CSRF-Token': csrfToken },
+                        headers: {
+                            'X-CSRF-Token': csrfToken,
+                            'X-Requested-With': 'fetch',
+                            'Accept': 'application/json'
+                        },
                         body: newFormData
                     });
                 }
@@ -379,9 +396,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return response;
         })
-        .then(response => {
-            if (response && response.redirected) {
-                window.location.href = response.url;
+        .then(async response => {
+            if (response && response.ok) {
+                await redirectFromCreateResponse(response);
             }
         })
         .catch(error => {

@@ -40,6 +40,7 @@ CSRF_SESSION_KEY = "_csrf_token"
 CSRF_FORM_FIELD = "csrf_token"
 CSRF_HEADER_NAME = "x-csrf-token"
 SAFE_HTTP_METHODS = frozenset({"GET", "HEAD", "OPTIONS", "TRACE"})
+ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
@@ -92,6 +93,15 @@ def flash_message(request: Request, message: str) -> None:
         messages = []
     messages.append(message)
     request.session["_flashes"] = messages
+
+
+def wants_json_response(request: Request) -> bool:
+    requested_with = request.headers.get(ASYNC_REQUEST_HEADER, "").lower()
+    if requested_with in {"fetch", "xmlhttprequest"}:
+        return True
+
+    accept = request.headers.get("accept", "").lower()
+    return "application/json" in accept and "text/html" not in accept
 
 
 def _normalize_csrf_token(value: Any) -> str:
