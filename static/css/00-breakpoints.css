@@ -21,30 +21,83 @@ html {
 }
 
 .section-tabs {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
   justify-content: center;
-  margin: 0.75rem auto 0;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  margin: 0.7rem auto 1.35rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    0 16px 34px rgba(15, 23, 42, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(16px);
 }
 
 .section-tab {
   display: inline-flex;
   align-items: center;
-  min-height: 2.25rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  color: #334155;
+  justify-content: center;
+  min-width: 5.2rem;
+  min-height: 2.45rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(248, 250, 252, 0.72));
+  color: #1f2937;
   font-weight: 700;
+  line-height: 1;
   text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
 .section-tab[aria-current="page"] {
-  border-color: rgba(37, 99, 235, 0.35);
-  background: rgba(239, 246, 255, 0.95);
-  color: #1d4ed8;
+  border-color: rgba(255, 255, 255, 0.68);
+  background: var(--section-tab-active-bg, linear-gradient(135deg, #2563eb, #22d3ee));
+  color: #ffffff;
+  box-shadow:
+    0 10px 22px var(--section-tab-active-shadow, rgba(37, 99, 235, 0.26)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.section-tab:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.96);
+  color: #111827;
+  box-shadow:
+    0 8px 18px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+.section-tab[aria-current="page"]:hover {
+  color: #ffffff;
+  background: var(--section-tab-active-bg, linear-gradient(135deg, #2563eb, #22d3ee));
+}
+
+.fsqr-section {
+  --section-tab-active-bg: linear-gradient(135deg, #1d4ed8 0%, #23c3df 100%);
+  --section-tab-active-shadow: rgba(35, 195, 223, 0.34);
+}
+
+.group-section {
+  --section-tab-active-bg: linear-gradient(135deg, #166534 0%, #22c55e 100%);
+  --section-tab-active-shadow: rgba(34, 197, 94, 0.3);
+}
+
+.note-section {
+  --section-tab-active-bg: linear-gradient(135deg, #4d7c0f 0%, #84cc16 100%);
+  --section-tab-active-shadow: rgba(132, 204, 22, 0.32);
 }
 
 .section-tab:focus-visible,
@@ -76,6 +129,22 @@ html {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: calc(var(--bp-sm) - 0.02px)) {
+  .section-tabs {
+    width: calc(100% - 1.5rem);
+    gap: 0.3rem;
+    padding: 0.3rem;
+    border-radius: 16px;
+  }
+
+  .section-tab {
+    flex: 1 1 calc(50% - 0.3rem);
+    min-width: 0;
+    min-height: 2.35rem;
+    padding: 0.55rem 0.7rem;
   }
 }
 
