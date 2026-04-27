@@ -31,7 +31,7 @@ from settings import (
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
 )
-from web import render_template
+from web import render_template, wants_json_response
 from api_response import api_error_response
 
 from Group.group_app import router as group_router
@@ -136,6 +136,23 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
             return response
         return api_error_response(generic_message, status_code=exc.status_code)
     return api_error_response(str(exc.detail), status_code=exc.status_code)
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    logger.exception("Unhandled error during %s %s", request.method, request.url.path)
+    if request.url.path.startswith("/api") or wants_json_response(request):
+        return api_error_response(
+            "サーバーでエラーが発生しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
+    response = render_template(
+        request,
+        "error.html",
+        message="サーバーでエラーが発生しました。時間をおいて再度お試しください。",
+    )
+    response.status_code = 500
+    return response
 
 
 app.include_router(group_router)

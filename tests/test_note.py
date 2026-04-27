@@ -228,6 +228,32 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     )
 
 
+def test_create_note_room_db_error_returns_json(test_client: TestClient):
+    """DB 例外でも fetch が読める JSON エラーを返す"""
+    with (
+        patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch(
+            "Note.note_app.nd.create_room",
+            new_callable=AsyncMock,
+            side_effect=Exception("database unavailable"),
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 500
+    assert response.headers["content-type"].startswith("application/json")
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert payload["error"] == "ルーム作成に失敗しました。時間をおいて再度お試しください。"
+
+
 # --- Note API: GET /api/note/{room_id}/{password} ---
 
 

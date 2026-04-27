@@ -1,9 +1,11 @@
+import logging
 import re
 import secrets
 from datetime import timedelta
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
+from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
@@ -27,6 +29,7 @@ from web import (
 from . import note_data as nd
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 def _is_valid_room_id(value: str) -> bool:
@@ -102,7 +105,12 @@ async def create_note_room(request: Request):
     if raw_retention is None:
         raw_retention = json_data.get("retention_days", 7)
 
-    inp = RoomCreateInput(id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention)
+    try:
+        inp = RoomCreateInput(
+            id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
+        )
+    except ValidationError:
+        return api_error_response("入力内容が不正です。", status_code=400)
     id_val = inp.id
     id_mode = inp.id_mode
     retention_days = inp.retention_days
@@ -146,8 +154,22 @@ async def create_note_room(request: Request):
     room_id = id_val
 
     pw = secrets.token_urlsafe(8)
-    await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
-    created = await _get_room_if_valid(room_id, pw)
+    try:
+        await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
+        created = await _get_room_if_valid(room_id, pw)
+    except IntegrityError:
+        logger.info("Note room ID conflict while creating room_id=%s", room_id)
+        return api_error_response(
+            "このIDは既に使用されています。別のIDを使用してください。",
+            status_code=409,
+            data={"retry_auto": id_mode == "auto"},
+        )
+    except Exception:
+        logger.exception("Failed to create note room")
+        return api_error_response(
+            "ルーム作成に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
     if not created:
         return api_error_response(
             "ルーム作成に失敗しました。時間をおいて再試行してください。",
