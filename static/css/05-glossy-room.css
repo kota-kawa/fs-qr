@@ -116,26 +116,30 @@
 
 @media (max-width: calc(var(--bp-md) - 0.02px)) {
   .glossy-room-shell {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.25rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .glossy-room-header,
   .glossy-usage-header {
-    padding: 1.5rem 1rem;
-    border-radius: 20px 20px 0 0;
+    padding: 1.5rem 0.75rem !important;
+    border-radius: 20px 20px 0 0 !important;
   }
 
   .glossy-room-body,
   .glossy-usage-body {
-    padding: 1.25rem 0.75rem;
+    padding: 1.25rem 0.5rem !important;
   }
 
   .glossy-surface {
-    padding: 1rem;
+    padding: 1rem 0.75rem !important;
   }
 
   .glossy-room-card,
   .glossy-usage-card {
-    border-radius: 20px;
+    border-radius: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }

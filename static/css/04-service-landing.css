@@ -408,16 +408,16 @@
 
 @media (max-width: calc(var(--bp-md) - 0.02px)) {
   .service-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .service-hero__panel {
-    width: 84px;
-    min-height: 84px;
+    width: 84px !important;
+    min-height: 84px !important;
   }
 
   .service-menu-page .menu-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 }
 

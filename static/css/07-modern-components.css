@@ -454,24 +454,27 @@
 
 @media (max-width: calc(var(--bp-md) - 0.02px)) {
   .modern-page-container {
-    padding: 1rem 0.25rem;
+    padding: 1rem 0.25rem !important;
+    width: 100% !important;
   }
   
   .modern-content-card {
-    border-radius: 16px;
-    margin: 0 0.25rem;
+    border-radius: 16px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   
   .modern-card-header {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1rem !important;
   }
   
   .modern-card-header h1 {
-    font-size: 1.6rem;
+    font-size: 1.6rem !important;
   }
   
   .modern-card-body {
-    padding: 1.5rem 0.75rem;
+    padding: 1.5rem 0.5rem !important;
   }
   
   .room-info-container {
