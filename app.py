@@ -242,34 +242,34 @@ async def ads_txt():
 
 @app.get("/sitemap.xml", name="sitemap")
 async def sitemap():
-    today = date.today().isoformat()
+    # lastmod は該当ページのテンプレート/コードを最後に変更した日付に合わせて更新する
     urls = [
-        ("/", "weekly", "1.0"),
-        ("/about", "monthly", "0.8"),
-        ("/contact", "monthly", "0.7"),
-        ("/usage", "monthly", "0.8"),
-        ("/privacy-policy", "monthly", "0.6"),
-        ("/site-operator", "monthly", "0.6"),
-        ("/articles", "weekly", "0.8"),
-        ("/fs-qr_menu", "weekly", "0.9"),
-        ("/fs-qr", "weekly", "0.9"),
-        ("/group_menu", "weekly", "0.9"),
-        ("/group", "weekly", "0.9"),
-        ("/create_room", "weekly", "0.8"),
-        ("/note_menu", "weekly", "0.9"),
-        ("/note", "weekly", "0.9"),
-        ("/create_note_room", "weekly", "0.8"),
-        ("/fs-qr-concept", "monthly", "0.7"),
-        ("/safe-sharing", "monthly", "0.7"),
-        ("/encryption", "monthly", "0.7"),
-        ("/education", "monthly", "0.7"),
-        ("/business", "monthly", "0.7"),
-        ("/risk-mitigation", "monthly", "0.7"),
+        ("/",                "weekly",  "1.0",  "2026-04-27"),
+        ("/about",           "monthly", "0.8",  "2026-04-26"),
+        ("/contact",         "monthly", "0.7",  "2026-04-26"),
+        ("/usage",           "monthly", "0.8",  "2026-04-26"),
+        ("/privacy-policy",  "monthly", "0.6",  "2026-04-26"),
+        ("/site-operator",   "monthly", "0.5",  "2026-04-26"),
+        ("/articles",        "monthly", "0.8",  "2025-08-31"),
+        ("/fs-qr_menu",      "weekly",  "0.9",  "2026-04-27"),
+        ("/fs-qr",           "weekly",  "0.9",  "2026-04-27"),
+        ("/group_menu",      "weekly",  "0.9",  "2026-04-27"),
+        ("/group",           "weekly",  "0.9",  "2026-04-27"),
+        ("/create_room",     "weekly",  "0.8",  "2026-04-27"),
+        ("/note_menu",       "weekly",  "0.9",  "2026-04-27"),
+        ("/note",            "weekly",  "0.9",  "2026-04-27"),
+        ("/create_note_room","weekly",  "0.8",  "2026-04-27"),
+        ("/fs-qr-concept",   "monthly", "0.6",  "2025-08-31"),
+        ("/safe-sharing",    "monthly", "0.6",  "2025-08-31"),
+        ("/encryption",      "monthly", "0.6",  "2025-08-21"),
+        ("/education",       "monthly", "0.6",  "2025-08-21"),
+        ("/business",        "monthly", "0.6",  "2025-08-21"),
+        ("/risk-mitigation", "monthly", "0.6",  "2025-08-21"),
     ]
     entries = "\n".join(
-        f"  <url><loc>https://fs-qr.com{path}</loc><lastmod>{today}</lastmod>"
+        f"  <url><loc>https://fs-qr.com{path}</loc><lastmod>{lastmod}</lastmod>"
         f"<changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
-        for path, changefreq, priority in urls
+        for path, changefreq, priority, lastmod in urls
     )
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
