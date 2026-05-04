@@ -98,7 +98,9 @@ class RoomHub:
         try:
             pipeline = client.pipeline(transaction=True)
             pipeline.sadd(room_key, member)
+            pipeline.expire(room_key, 3600)
             pipeline.sadd(instance_key, member)
+            pipeline.expire(instance_key, 3600)
             await pipeline.execute()
         except Exception as exc:
             logger.warning("Failed to register websocket connection in Redis: %s", exc)
