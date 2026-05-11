@@ -249,60 +249,58 @@
 }
 </style>
 
-<!-- ローディング画面全体のスタイル -->
 <style>
     #loading-screen {
-      position: fixed;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .room-create-spinner-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+      padding: 2.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .room-create-spinner-panel::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.9); /* 半透明の背景 */
-      z-index: 1000; /* 前面に配置 */
-      display: none; /* 初期状態は非表示 */
-      justify-content: center;
-      align-items: center;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, rgb(132, 204, 22) 0%, rgb(163, 230, 53) 100%);
     }
-  
-    /* ボールのアニメーション */
-    .bouncing-ball {
-      width: 50px;
-      height: 50px;
-      background-color: #ff4785;
+
+    .room-create-ring {
+      width: 56px;
+      height: 56px;
+      border: 5px solid rgba(163, 230, 53, 0.25);
+      border-top-color: rgb(132, 204, 22);
+      border-right-color: rgb(163, 230, 53);
       border-radius: 50%;
-      position: absolute;
-      animation: bounce 1.5s infinite ease-in-out;
+      animation: room-create-spin 0.85s linear infinite;
     }
-  
-    /* ボールの跳ねる動き */
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-200px);
-      }
+
+    @keyframes room-create-spin {
+      to { transform: rotate(360deg); }
     }
-  
-    /* ボールの色とアニメーション遅延 */
-    .bouncing-ball:nth-child(2) {
-      background-color: #ffc371;
-      animation-delay: 0.2s;
-    }
-  
-    .bouncing-ball:nth-child(3) {
-      background-color: #47e6ff;
-      animation-delay: 0.4s;
-    }
-  
-    /* テキストの点滅アニメーション */
-    @keyframes fadeIn {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.5;
-      }
+
+    .room-create-spinner-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #3f6212;
+      letter-spacing: 0.025em;
     }
   </style>
 
@@ -379,11 +377,11 @@
 </div>
 
 
-<!-- ローディング画面をbodyの最後に追加 -->
-<div id="loading-screen" style="display: none;">
-    <div class="bouncing-ball" style="left: 40%;"></div>
-    <div class="bouncing-ball" style="left: 50%;"></div>
-    <div class="bouncing-ball" style="left: 60%;"></div>
+<div id="loading-screen" class="spinner-container spinner-container--hidden" aria-live="polite" aria-label="ルームを作成中">
+    <div class="room-create-spinner-panel">
+        <div class="room-create-ring" role="status"></div>
+        <span class="room-create-spinner-label">ルームを作成中...</span>
+    </div>
 </div>
 
 
@@ -580,7 +578,7 @@
         const formData = new FormData(form);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        document.getElementById('loading-screen').style.display = 'flex'; // ローディング画面を表示
+        document.getElementById('loading-screen').classList.remove('spinner-container--hidden');
         
         try {
             const response = await postCreateRoom(form, formData, csrfToken);
@@ -588,7 +586,7 @@
             await redirectFromCreateResponse(okResponse);
         } catch (error) {
             console.error('Error:', error);
-            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('loading-screen').classList.add('spinner-container--hidden');
             showInlineError(error instanceof Error && error.message ? error.message : 'ルーム作成に失敗しました。時間をおいて再度お試しください。');
         }
     });
