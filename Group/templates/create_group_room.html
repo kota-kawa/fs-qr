@@ -250,57 +250,9 @@
 </style>
 
 <style>
-    #loading-screen {
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-
-    .room-create-spinner-panel {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      box-shadow:
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-      padding: 2.5rem 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .room-create-spinner-panel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(135deg, rgb(22, 101, 52) 0%, rgb(34, 197, 94) 100%);
-    }
-
-    .room-create-ring {
-      width: 56px;
-      height: 56px;
-      border: 5px solid rgba(34, 197, 94, 0.25);
-      border-top-color: rgb(22, 101, 52);
-      border-right-color: rgb(34, 197, 94);
-      border-radius: 50%;
-      animation: room-create-spin 0.85s linear infinite;
-    }
-
-    @keyframes room-create-spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .room-create-spinner-label {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: rgb(22, 101, 52);
-      letter-spacing: 0.025em;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 
@@ -377,10 +329,10 @@
 </div>
 
 
-<div id="loading-screen" class="spinner-container spinner-container--hidden" aria-live="polite" aria-label="ルームを作成中">
-    <div class="room-create-spinner-panel">
-        <div class="room-create-ring" role="status"></div>
-        <span class="room-create-spinner-label">ルームを作成中...</span>
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: var(--z-overlay);">
+    <div style="text-align: center;">
+        <div style="width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(34, 197, 94); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
     </div>
 </div>
 
@@ -514,7 +466,7 @@
         const formData = new FormData(form);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        document.getElementById('loading-screen').classList.remove('spinner-container--hidden');
+        document.getElementById('loading-screen').style.display = 'flex';
         
         fetch(form.action, {
             method: 'POST',
@@ -552,14 +504,14 @@
                     });
                 }
                 // 手動入力モードの場合はエラーを表示
-                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
+                document.getElementById('loading-screen').style.display = 'none';
                 showInlineError(typeof data.error === 'string' ? data.error : 'このIDは既に使用されています。別のIDを使用してください。');
                 return Promise.reject('Manual ID conflict');
             }
             if (!response.ok) {
                 // その他のエラー
                 const data = await safeReadJsonResponse(response);
-                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
+                document.getElementById('loading-screen').style.display = 'none';
                 showInlineError(typeof data.error === 'string' ? data.error : 'ルーム作成に失敗しました。時間をおいて再度お試しください。');
                 throw new Error(typeof data.error === 'string' ? data.error : 'room create failed');
             }
@@ -573,7 +525,7 @@
         .catch(error => {
             if (error !== 'Manual ID conflict') {
                 console.error('Error:', error);
-                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
+                document.getElementById('loading-screen').style.display = 'none';
             }
         });
     });
