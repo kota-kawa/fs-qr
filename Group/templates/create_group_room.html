@@ -249,60 +249,32 @@
 }
 </style>
 
-<!-- ローディング画面全体のスタイル -->
 <style>
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.9); /* 半透明の背景 */
-      z-index: 1000; /* 前面に配置 */
-      display: none; /* 初期状態は非表示 */
-      justify-content: center;
-      align-items: center;
-    }
-  
-    /* ボールのアニメーション */
-    .bouncing-ball {
-      width: 50px;
-      height: 50px;
-      background-color: #ff4785;
+    .room-create-ring {
+      width: 64px;
+      height: 64px;
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
       border-radius: 50%;
-      position: absolute;
-      animation: bounce 1.5s infinite ease-in-out;
+      animation: room-create-spin 0.8s linear infinite;
     }
-  
-    /* ボールの跳ねる動き */
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-200px);
-      }
+
+    @keyframes room-create-spin {
+      to { transform: rotate(360deg); }
     }
-  
-    /* ボールの色とアニメーション遅延 */
-    .bouncing-ball:nth-child(2) {
-      background-color: #ffc371;
-      animation-delay: 0.2s;
+
+    .room-create-spinner-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
-  
-    .bouncing-ball:nth-child(3) {
-      background-color: #47e6ff;
-      animation-delay: 0.4s;
-    }
-  
-    /* テキストの点滅アニメーション */
-    @keyframes fadeIn {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.5;
-      }
+
+    .room-create-spinner-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
     }
   </style>
 
@@ -379,11 +351,11 @@
 </div>
 
 
-<!-- ローディング画面をbodyの最後に追加 -->
-<div id="loading-screen" style="display: none;">
-    <div class="bouncing-ball" style="left: 40%;"></div>
-    <div class="bouncing-ball" style="left: 50%;"></div>
-    <div class="bouncing-ball" style="left: 60%;"></div>
+<div id="loading-screen" class="spinner-container spinner-container--hidden" aria-live="polite" aria-label="ルームを作成中">
+    <div class="room-create-spinner-panel">
+        <div class="room-create-ring" role="status"></div>
+        <span class="room-create-spinner-label">ルームを作成中...</span>
+    </div>
 </div>
 
 
@@ -516,7 +488,7 @@
         const formData = new FormData(form);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        document.getElementById('loading-screen').style.display = 'flex'; // ローディング画面を表示
+        document.getElementById('loading-screen').classList.remove('spinner-container--hidden');
         
         fetch(form.action, {
             method: 'POST',
@@ -554,14 +526,14 @@
                     });
                 }
                 // 手動入力モードの場合はエラーを表示
-                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
                 showInlineError(typeof data.error === 'string' ? data.error : 'このIDは既に使用されています。別のIDを使用してください。');
                 return Promise.reject('Manual ID conflict');
             }
             if (!response.ok) {
                 // その他のエラー
                 const data = await safeReadJsonResponse(response);
-                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
                 showInlineError(typeof data.error === 'string' ? data.error : 'ルーム作成に失敗しました。時間をおいて再度お試しください。');
                 throw new Error(typeof data.error === 'string' ? data.error : 'room create failed');
             }
@@ -575,7 +547,7 @@
         .catch(error => {
             if (error !== 'Manual ID conflict') {
                 console.error('Error:', error);
-                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('loading-screen').classList.add('spinner-container--hidden');
             }
         });
     });
