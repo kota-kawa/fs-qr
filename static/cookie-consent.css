@@ -264,6 +264,49 @@ body > #cookieConsent.cookie-consent-overlay {
   white-space: nowrap;
 }
 
+/* ─── Language quick-pick (summary view) ─────────── */
+.lang-quick-pick {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.lang-quick-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border: 1.5px solid rgba(15, 23, 42, 0.14);
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #475569;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+  white-space: nowrap;
+}
+
+.lang-quick-option:hover {
+  border-color: rgba(14, 165, 233, 0.45);
+  background: #f0f9ff;
+  color: #0284c7;
+}
+
+.lang-quick-option[data-selected="true"] {
+  border-color: #0ea5e9;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
+}
+
+.lang-quick-option:focus-visible {
+  outline: 3px solid rgba(14, 165, 233, 0.4);
+  outline-offset: 2px;
+}
+
 /* ─── Language custom dropdown ────────────────────── */
 .lang-select {
   position: relative;

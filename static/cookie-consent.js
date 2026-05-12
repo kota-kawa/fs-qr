@@ -136,6 +136,26 @@
     document.addEventListener('click', (e) => {
       if (!wrapper.contains(e.target)) closeList();
     });
+
+    return { update: updateDisplay };
+  }
+
+  function initLangQuickPick(wrapper, nativeSelect, onSelect) {
+    const options = wrapper.querySelectorAll('.lang-quick-option');
+
+    function select(value) {
+      options.forEach((opt) => {
+        opt.dataset.selected = opt.dataset.value === value ? 'true' : '';
+      });
+      if (nativeSelect) nativeSelect.value = value;
+      if (onSelect) onSelect(value);
+    }
+
+    options.forEach((opt) => {
+      opt.addEventListener('click', () => select(opt.dataset.value));
+    });
+
+    return { update: select };
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -167,8 +187,16 @@
     }
 
     const langSelectWrapper = overlay.querySelector('[data-lang-select]');
+    let langSelectApi = null;
     if (langSelectWrapper) {
-      initLangSelect(langSelectWrapper, languageSelect, initialLanguage);
+      langSelectApi = initLangSelect(langSelectWrapper, languageSelect, initialLanguage);
+    }
+
+    const langQuickPickWrapper = overlay.querySelector('[data-lang-quick-pick]');
+    if (langQuickPickWrapper) {
+      initLangQuickPick(langQuickPickWrapper, languageSelect, (value) => {
+        if (langSelectApi) langSelectApi.update(value);
+      });
     }
 
     function showSummaryView() {
@@ -191,14 +219,22 @@
       }
     };
 
-    function acceptConsent() {
-      setConsentCookie('accepted');
+    function saveLanguageAndClose(consentFn) {
+      consentFn();
+      const selectedLanguage = languageSelect ? languageSelect.value : initialLanguage;
+      setLanguageCookie(selectedLanguage);
       hideOverlay(overlay);
+      if (selectedLanguage && selectedLanguage !== initialLanguage) {
+        window.location.reload();
+      }
+    }
+
+    function acceptConsent() {
+      saveLanguageAndClose(() => setConsentCookie('accepted'));
     }
 
     function rejectConsent() {
-      setConsentCookie('rejected');
-      hideOverlay(overlay);
+      saveLanguageAndClose(() => setConsentCookie('rejected'));
     }
 
     function saveCustomConsent() {

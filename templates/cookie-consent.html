@@ -25,6 +25,14 @@
     </div>
 
     <div class="cookie-consent-view" data-cookie-consent-view="summary" aria-live="polite">
+      <div class="lang-quick-pick" data-lang-quick-pick aria-label="{{ t('settings.language.title') }}" role="group">
+        {% for option in language_options %}
+          <button type="button" class="lang-quick-option" data-value="{{ option.code }}" {% if option.code == current_language %}data-selected="true"{% endif %}>
+            <span aria-hidden="true">{{ option.flag }}</span>
+            <span>{{ option.label }}</span>
+          </button>
+        {% endfor %}
+      </div>
       <p class="cookie-consent-subtext">
         {{ t('settings.cookie.summary') }}
       </p>
