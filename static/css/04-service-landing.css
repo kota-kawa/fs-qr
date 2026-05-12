@@ -369,6 +369,11 @@
   text-decoration: none;
 }
 
+.service-footer nav a:hover,
+.service-footer nav .footer-link-button:hover {
+  text-decoration: underline;
+}
+
 /* Simple footer with text-only links */
 .simple-footer {
   text-align: center;
