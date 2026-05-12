@@ -80,7 +80,9 @@ def _file_lock(lock_path: str, wait_seconds: int = GEOIP_LOCK_WAIT_SECONDS):
             except FileNotFoundError:
                 continue
             if time.monotonic() - start >= wait_seconds:
-                raise TimeoutError(f"Timed out waiting for GeoIP update lock: {lock_path}")
+                raise TimeoutError(
+                    f"Timed out waiting for GeoIP update lock: {lock_path}"
+                )
             time.sleep(1)
 
     try:
@@ -201,7 +203,9 @@ async def geoip_update_loop(stop_event: asyncio.Event) -> None:
 
 def main() -> int:
     updated = update_geoip_database(force=True)
-    print(f"GeoIP database {'updated' if updated else 'already current'}: {resolve_geoip_db_path()}")
+    print(
+        f"GeoIP database {'updated' if updated else 'already current'}: {resolve_geoip_db_path()}"
+    )
     return 0
 
 

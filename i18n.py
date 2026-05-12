@@ -219,7 +219,9 @@ def _replace_language_metadata(content: str, language: str) -> str:
     html_lang = HTML_LANG_MAP.get(language, DEFAULT_LANGUAGE)
     meta_language = META_LANGUAGE_MAP.get(language, DEFAULT_LANGUAGE)
     og_locale = OG_LOCALE_MAP.get(language, OG_LOCALE_MAP[DEFAULT_LANGUAGE])
-    schema_language = SCHEMA_LANGUAGE_MAP.get(language, SCHEMA_LANGUAGE_MAP[DEFAULT_LANGUAGE])
+    schema_language = SCHEMA_LANGUAGE_MAP.get(
+        language, SCHEMA_LANGUAGE_MAP[DEFAULT_LANGUAGE]
+    )
 
     def replace_html_lang(match: re.Match[str]) -> str:
         attrs = match.group("attrs").rstrip()

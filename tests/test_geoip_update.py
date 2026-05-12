@@ -31,7 +31,9 @@ def test_update_geoip_database_replaces_target_atomically(tmp_path, monkeypatch)
 
     monkeypatch.setattr(geoip_update, "GEOIP_DB_PATH", str(db_path))
     monkeypatch.setattr(geoip_update, "GEOIP_AUTO_UPDATE", True)
-    monkeypatch.setattr(geoip_update, "GEOIP_DB_SOURCE_URL", "https://example.com/db.mmdb.gz")
+    monkeypatch.setattr(
+        geoip_update, "GEOIP_DB_SOURCE_URL", "https://example.com/db.mmdb.gz"
+    )
     monkeypatch.setattr(geoip_update, "_download", fake_download)
     monkeypatch.setattr(geoip_update, "_validate_mmdb", lambda path: None)
 
