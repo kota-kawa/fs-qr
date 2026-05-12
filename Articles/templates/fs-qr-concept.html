@@ -12,6 +12,48 @@
 {% block twitter_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
 {% block twitter_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単で安全なファイル共有の新しい形について説明します。{% endblock %}
 
+{% block og_type %}article{% endblock %}
+{% block extra_og %}
+<meta property="article:published_time" content="2025-08-31T00:00:00+09:00" />
+<meta property="article:modified_time" content="2025-08-31T00:00:00+09:00" />
+<meta property="article:author" content="FS!QR" />
+<meta property="article:section" content="サービス紹介" />
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "FS!QRの基本的な考え方",
+  "description": "FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単で安全なファイル共有の新しい形について説明します。",
+  "datePublished": "2025-08-31T00:00:00+09:00",
+  "dateModified": "2025-08-31T00:00:00+09:00",
+  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FS!QR",
+    "url": "{{ request.url_root }}",
+    "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
+  },
+  "url": "{{ request.url_root }}fs-qr-concept",
+  "inLanguage": "ja-JP",
+  "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
+    { "@type": "ListItem", "position": 3, "name": "FS!QRの基本的な考え方", "item": "{{ request.url_root }}fs-qr-concept" }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="container my-5">
   <div class="info-box">

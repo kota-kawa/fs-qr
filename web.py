@@ -52,6 +52,11 @@ class TemplateRequestProxy:
         url = self._request.url
         return str(url.replace(path="/", query=""))
 
+    @property
+    def canonical_url(self) -> str:
+        url = self._request.url
+        return str(url.replace(query=""))
+
     def __getattr__(self, name: str):
         return getattr(self._request, name)
 

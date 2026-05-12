@@ -35,4 +35,4 @@ Allow: /business
 Allow: /risk-mitigation
 
 # Sitemap location
-Sitemap: https://fs-qr.com/sitemap.xml
+Sitemap: https://fs-qr.net/sitemap.xml

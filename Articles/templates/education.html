@@ -12,6 +12,48 @@
 {% block twitter_title %}教育での活用例 | FS!QR教育現場利用ガイド{% endblock %}
 {% block twitter_description %}FS!QRの教育現場での活用方法を詳しく解説。授業でのファイル配布、課題提出とフィードバック、グループ学習での協働など、学校・大学での効果的な利用例をご紹介します。{% endblock %}
 
+{% block og_type %}article{% endblock %}
+{% block extra_og %}
+<meta property="article:published_time" content="2025-08-21T00:00:00+09:00" />
+<meta property="article:modified_time" content="2025-08-21T00:00:00+09:00" />
+<meta property="article:author" content="FS!QR" />
+<meta property="article:section" content="活用事例" />
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "教育での活用例",
+  "description": "FS!QRの教育現場での活用方法を詳しく解説。授業でのファイル配布、課題提出とフィードバック、グループ学習での協働など、学校・大学での効果的な利用例をご紹介します。",
+  "datePublished": "2025-08-21T00:00:00+09:00",
+  "dateModified": "2025-08-21T00:00:00+09:00",
+  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FS!QR",
+    "url": "{{ request.url_root }}",
+    "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
+  },
+  "url": "{{ request.url_root }}education",
+  "inLanguage": "ja-JP",
+  "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
+    { "@type": "ListItem", "position": 3, "name": "教育での活用例", "item": "{{ request.url_root }}education" }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="container my-5">
   <div class="info-box">

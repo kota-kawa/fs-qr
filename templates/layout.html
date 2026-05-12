@@ -34,17 +34,18 @@
     </script>
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR" />
     <meta property="og:title" content="{% block og_title %}FS!QR | 無料で簡単なファイル共有サービス{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。{% endblock %}" />
-    <meta property="og:url" content="{{ request.base_url }}" />
+    <meta property="og:url" content="{{ request.canonical_url }}" />
     <meta property="og:image" content="{{staticfile('fs-qr-og-compressed.jpg')}}" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="FS!QR ファイル共有サービス" />
+    {% block extra_og %}{% endblock %}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -54,7 +55,8 @@
     <meta name="twitter:image:alt" content="FS!QR ファイル共有サービス" />
     
     <!-- SEO -->
-    <link rel="canonical" href="{{ request.base_url }}" />
+    <link rel="canonical" href="{{ request.canonical_url }}" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     <meta name="googlebot" content="{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}" />
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
