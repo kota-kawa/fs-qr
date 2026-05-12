@@ -10,6 +10,7 @@ services:
     volumes:
       - .:/app  # アプリケーションコードのマウント
       - ./logs:/app/logs  # ホストの ./logs ディレクトリをコンテナ内 /app/logs にマウント
+      - ./geoip:/app/geoip  # GeoIP DB for language detection and updates
     depends_on:
       db:
         condition: service_healthy

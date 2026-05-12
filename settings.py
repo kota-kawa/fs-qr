@@ -34,6 +34,16 @@ def _env_int(name: str, default: int, minimum: int = 0) -> int:
     return parsed
 
 
+GEOIP_DB_PATH = os.getenv(
+    "GEOIP_DB_PATH",
+    os.path.join(BASE_DIR, "geoip", "dbip-country-lite.mmdb"),
+)
+GEOIP_DB_SOURCE_URL = os.getenv("GEOIP_DB_SOURCE_URL", "")
+GEOIP_AUTO_UPDATE = _env_flag("GEOIP_AUTO_UPDATE", default=True)
+GEOIP_UPDATE_INTERVAL_HOURS = _env_int(
+    "GEOIP_UPDATE_INTERVAL_HOURS", default=24, minimum=1
+)
+
 FRONTEND_DEBUG = _env_flag("FRONTEND_DEBUG", default=False)
 ALLOW_START_WITHOUT_DB = _env_flag("ALLOW_START_WITHOUT_DB", default=False)
 

@@ -11,6 +11,25 @@ def test_index(test_client: TestClient):
     assert 'aria-label="横断検索"' in response.text
     assert 'placeholder="ルームID"' in response.text
     assert 'placeholder="パスワード"' in response.text
+    assert "IP Geolocation by DB-IP" in response.text
+
+
+def test_index_uses_language_cookie(test_client: TestClient):
+    response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
+    assert response.status_code == 200
+    assert 'lang="en"' in response.text
+    assert "File Sharing Menu" in response.text
+    assert "Settings" in response.text
+    assert response.headers["content-language"] == "en"
+    assert "Cookie" in response.headers["vary"]
+
+
+def test_index_uses_simplified_chinese_language_cookie(test_client: TestClient):
+    response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-CN"})
+    assert response.status_code == 200
+    assert 'lang="zh-CN"' in response.text
+    assert "文件共享菜单" in response.text
+    assert response.headers["content-language"] == "zh-CN"
 
 
 def test_about(test_client: TestClient):

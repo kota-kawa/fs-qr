@@ -1,15 +1,34 @@
 (function () {
   const CONSENT_COOKIE_NAME = 'fsqr_cookie_consent';
+  const LANGUAGE_COOKIE_NAME = 'fsqr_language';
   const CONSENT_DURATION_DAYS = 365;
+
+  function setCookie(name, value, durationDays = CONSENT_DURATION_DAYS) {
+    const expires = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+  }
+
+  function getCookie(name) {
+    const prefix = `${name}=`;
+    const cookie = document.cookie
+      .split(';')
+      .map((item) => item.trim())
+      .find((item) => item.startsWith(prefix));
+    return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : '';
+  }
 
   function setConsentCookie(value = 'accepted') {
     const normalizedValue =
       typeof value === 'string'
         ? value
         : JSON.stringify({ necessary: true, ...value });
-    const expires = new Date(Date.now() + CONSENT_DURATION_DAYS * 24 * 60 * 60 * 1000);
-    const cookieValue = `${CONSENT_COOKIE_NAME}=${encodeURIComponent(normalizedValue)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-    document.cookie = cookieValue;
+    setCookie(CONSENT_COOKIE_NAME, normalizedValue);
+  }
+
+  function setLanguageCookie(value) {
+    if (['ja', 'en', 'zh-CN'].includes(value)) {
+      setCookie(LANGUAGE_COOKIE_NAME, value);
+    }
   }
 
   function hasConsent() {
@@ -63,6 +82,15 @@
     const saveButton = overlay.querySelector('[data-cookie-consent="save"]');
     const settingsFocus = overlay.querySelector('[data-cookie-consent-settings-focus]');
     const toggles = overlay.querySelectorAll('[data-cookie-consent-toggle]');
+    const languageSelect = overlay.querySelector('[data-language-select]');
+    const initialLanguage =
+      (window.FSQR_I18N && window.FSQR_I18N.language) ||
+      getCookie(LANGUAGE_COOKIE_NAME) ||
+      'ja';
+
+    if (languageSelect) {
+      languageSelect.value = initialLanguage;
+    }
 
     function showSummaryView() {
       switchView(overlay, 'summary');
@@ -101,7 +129,12 @@
         settings[key] = toggle.checked;
       });
       setConsentCookie(settings);
+      const selectedLanguage = languageSelect ? languageSelect.value : initialLanguage;
+      setLanguageCookie(selectedLanguage);
       hideOverlay(overlay);
+      if (selectedLanguage && selectedLanguage !== initialLanguage) {
+        window.location.reload();
+      }
     }
 
     acceptButton.addEventListener('click', acceptConsent);

@@ -7,6 +7,7 @@
 *.exe
 *.dll
 *.json
+!locales/*.json
 *.Identifier
 # ログファイルを無視
 
@@ -39,6 +40,9 @@ static/group_uploads/*
 !static/group_uploads/.gitkeep
 
 logs/*
+
+geoip/*
+!geoip/.gitkeep
 
 
 

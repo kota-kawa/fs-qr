@@ -9,6 +9,15 @@ from urllib.parse import quote_plus
 from fastapi import HTTPException, Request, WebSocket
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
+from starlette.responses import HTMLResponse
+
+from i18n import (
+    LANGUAGE_OPTIONS,
+    get_frontend_messages,
+    make_translator,
+    resolve_language,
+    translate_rendered_html,
+)
 
 from settings import (
     BASE_DIR,
@@ -214,10 +223,26 @@ logger = logging.getLogger(__name__)
 
 
 def render_template(request: Request, template_name: str, **context: Any):
-    payload = {"request": TemplateRequestProxy(request)}
+    language = resolve_language(request)
+    payload = {
+        "request": TemplateRequestProxy(request),
+        "current_language": language,
+        "language_options": LANGUAGE_OPTIONS,
+        "frontend_messages": get_frontend_messages(language),
+        "t": make_translator(language),
+    }
     payload.update(context)
     try:
-        return templates.TemplateResponse(template_name, payload)
+        template = templates.env.get_template(template_name)
+        content = template.render(payload)
+        content = translate_rendered_html(content, language)
+        return HTMLResponse(
+            content,
+            headers={
+                "Vary": "Cookie",
+                "Content-Language": language,
+            },
+        )
     except Exception as e:
         logger.exception(f"Error rendering template {template_name}: {e}")
         raise e

@@ -1,4 +1,13 @@
 <div class="cookie-consent-overlay" id="cookieConsent" aria-hidden="true">
+  <script>
+    window.FSQR_I18N = Object.freeze({
+      language: {{ current_language | tojson }},
+      messages: Object.freeze({{ frontend_messages | tojson }}),
+      t: function (key, fallback) {
+        return this.messages[key] || fallback || key;
+      }
+    });
+  </script>
   <div
     class="cookie-consent-dialog"
     role="dialog"
@@ -6,20 +15,18 @@
     aria-describedby="cookieConsentDescription"
   >
     <div class="cookie-consent-header">
-      <div class="cookie-consent-icon" aria-hidden="true">🍪</div>
+      <div class="cookie-consent-icon" aria-hidden="true">⚙</div>
       <div class="cookie-consent-headings">
-        <h2 id="cookieConsentTitle">Cookieの利用について</h2>
+        <h2 id="cookieConsentTitle">{{ t('settings.title') }}</h2>
         <p id="cookieConsentDescription">
-          FS!QRでは、より良い体験を提供するためにCookieを使用しています。
-          「同意する」をクリックすると、Cookieの利用に同意したものとみなされます。
-          個別に設定したい場合は「設定をカスタマイズ」をご利用ください。
+          {{ t('settings.description') }}
         </p>
       </div>
     </div>
 
     <div class="cookie-consent-view" data-cookie-consent-view="summary" aria-live="polite">
       <p class="cookie-consent-subtext">
-        必須Cookieは常に有効で、サービスの提供に不可欠です。その他のCookieについては、以下から設定を変更できます。
+        {{ t('settings.cookie.summary') }}
       </p>
       <div class="cookie-consent-actions">
         <button
@@ -28,14 +35,14 @@
           data-cookie-consent="accept"
           data-cookie-consent-focus
         >
-          同意する
+          {{ t('settings.accept') }}
         </button>
         <button
           type="button"
           class="cookie-consent-button cookie-consent-button--outline"
           data-cookie-consent="reject"
         >
-          拒否する
+          {{ t('settings.reject') }}
         </button>
       </div>
       <div class="cookie-consent-actions-sub">
@@ -44,9 +51,9 @@
           class="cookie-consent-link-button"
           data-cookie-consent="customize"
         >
-          設定をカスタマイズ
+          {{ t('settings.customize') }}
         </button>
-        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシー</a>
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ t('settings.privacy') }}</a>
       </div>
     </div>
 
@@ -57,26 +64,42 @@
       hidden
     >
       <p class="cookie-consent-subtext">
-        カテゴリごとにCookieの利用を設定できます。必須Cookieは基本的な機能のため、常に有効となります。
+        {{ t('settings.cookie.description') }}
       </p>
       <div class="cookie-consent-settings">
         <div class="cookie-consent-setting">
           <div>
-            <h3>必須Cookie</h3>
-            <p>サイトの基本的な機能を提供するために必要で、無効にすることはできません。</p>
+            <h3>{{ t('settings.language.title') }}</h3>
+            <p>{{ t('settings.language.description') }}</p>
           </div>
-          <span class="cookie-consent-setting-state">常に有効</span>
+          <label class="cookie-consent-language">
+            <span class="visually-hidden">{{ t('settings.language.title') }}</span>
+            <select data-language-select>
+              {% for option in language_options %}
+                <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>
+                  {{ option.label }}
+                </option>
+              {% endfor %}
+            </select>
+          </label>
         </div>
         <div class="cookie-consent-setting">
           <div>
-            <h3>分析Cookie</h3>
-            <p>サイトの利用状況を把握し、サービス改善に役立てるためのデータを収集します。</p>
+            <h3>{{ t('settings.cookie.necessary.title') }}</h3>
+            <p>{{ t('settings.cookie.necessary.description') }}</p>
+          </div>
+          <span class="cookie-consent-setting-state">{{ t('settings.cookie.always_on') }}</span>
+        </div>
+        <div class="cookie-consent-setting">
+          <div>
+            <h3>{{ t('settings.cookie.analytics.title') }}</h3>
+            <p>{{ t('settings.cookie.analytics.description') }}</p>
           </div>
           <label class="cookie-consent-toggle">
             <input
               type="checkbox"
               data-cookie-consent-toggle="analytics"
-              aria-label="分析Cookieの許可"
+              aria-label="{{ t('settings.cookie.analytics.aria') }}"
               data-cookie-consent-settings-focus
             />
             <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
@@ -84,23 +107,23 @@
         </div>
         <div class="cookie-consent-setting">
           <div>
-            <h3>マーケティングCookie</h3>
-            <p>適切な広告やお知らせを表示するために使用されます。</p>
+            <h3>{{ t('settings.cookie.marketing.title') }}</h3>
+            <p>{{ t('settings.cookie.marketing.description') }}</p>
           </div>
           <label class="cookie-consent-toggle">
-            <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="マーケティングCookieの許可" />
+            <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="{{ t('settings.cookie.marketing.aria') }}" />
             <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
           </label>
         </div>
       </div>
       <div class="cookie-consent-settings-footer">
-        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">プライバシーポリシー</a>
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ t('settings.privacy') }}</a>
         <div class="cookie-consent-settings-actions">
           <button type="button" class="cookie-consent-button cookie-consent-button--ghost" data-cookie-consent="back">
-            戻る
+            {{ t('settings.back') }}
           </button>
           <button type="button" class="cookie-consent-button cookie-consent-button--primary" data-cookie-consent="save">
-            保存して閉じる
+            {{ t('settings.save') }}
           </button>
         </div>
       </div>

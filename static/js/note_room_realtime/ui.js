@@ -5,18 +5,25 @@
   }
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   const STATUS_LABELS = {
-    "Connected": "接続済み",
-    "Connection error": "接続エラー",
+    "Connected": translate("note.connected", "接続済み"),
+    "Connection error": translate("note.connection_error", "接続エラー"),
     "Conflict resolved": "競合を解消しました",
     "Offline (reconnecting...)": "オフライン（再接続中）",
     "Remote update queued": "他の編集を反映待ち",
-    "Reconnecting...": "再接続中…",
-    "Saved": "保存済み",
+    "Reconnecting...": translate("note.reconnecting", "再接続中…"),
+    "Saved": translate("note.saved", "保存済み"),
     "Saved (Merged)": "保存済み（変更を統合）",
-    "Saving...": "保存中…",
+    "Saving...": translate("note.saving", "保存中…"),
     "Sync timeout (retrying)": "同期がタイムアウトしました（再試行中）",
-    "Up-to-date": "最新です"
+    "Up-to-date": translate("note.up_to_date", "最新です")
   };
 
   function formatLastSync(date) {

@@ -135,6 +135,9 @@ For production, restore the MySQL volume from a known-good backup instead of del
 Setting `FRONTEND_DEBUG=true` enables frontend debug logs (`console.log/warn/error`).  
 Keep it as `false` in production.
 
+Language auto-detection uses the local DB-IP Lite Country MMDB database under `./geoip/dbip-country-lite.mmdb`.  
+The app downloads it on startup when missing or stale, then refreshes it in the background according to `GEOIP_UPDATE_INTERVAL_HOURS` (default: 24). You can also run `python3 scripts/update_geoip_db.py` manually. DB-IP Lite is CC BY 4.0 data, so the app automatically renders the required `IP Geolocation by DB-IP` attribution link.
+
 Upload- and note-related limits are also centrally managed via `.env`, and the same values are shared between the frontend `*Config` and backend validation.
 
 Note WebSocket sync uses an explicit client-side state machine (`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`) to handle conflicts.  
@@ -315,6 +318,9 @@ docker compose up --build
 
 `FRONTEND_DEBUG=true` を設定すると、フロントエンドのデバッグログ（`console.log/warn/error`）を有効化できます。  
 本番運用時は `false` のままにしてください。
+
+言語の自動判定には、`./geoip/dbip-country-lite.mmdb` に配置される DB-IP Lite Country MMDB を使用します。  
+DBがない場合や古い場合はアプリ起動時に取得し、起動後も `GEOIP_UPDATE_INTERVAL_HOURS`（既定24時間）ごとにバックグラウンド更新します。手動更新は `python3 scripts/update_geoip_db.py` で実行できます。DB-IP LiteはCC BY 4.0データのため、必要な `IP Geolocation by DB-IP` 帰属リンクをアプリが自動表示します。
 
 アップロード/ノート関連の上限値も `.env` で統一管理でき、フロントの `*Config` とバックエンド検証に同じ値が反映されます。
 

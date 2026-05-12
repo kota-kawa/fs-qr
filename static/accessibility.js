@@ -26,6 +26,13 @@
     return `${normalized.slice(0, MAX_LABEL_LENGTH - 3)}...`;
   }
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function getAssociatedLabel(element) {
     if (element.labels && element.labels.length) {
       return toSafeLabel(
@@ -62,7 +69,7 @@
     }
 
     if (type === 'file') {
-      return 'ファイルを選択';
+      return translate('accessibility.choose_file', 'ファイルを選択');
     }
 
     if (type === 'submit' || type === 'button' || type === 'reset') {
@@ -91,11 +98,11 @@
     }
 
     if (element.tagName.toLowerCase() === 'a') {
-      return 'リンクを開く';
+      return translate('accessibility.open_link', 'リンクを開く');
     }
 
     if (element.tagName.toLowerCase() === 'button') {
-      return 'ボタン';
+      return translate('accessibility.button', 'ボタン');
     }
 
     return '';

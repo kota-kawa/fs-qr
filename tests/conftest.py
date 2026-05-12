@@ -198,6 +198,8 @@ def test_client():
 
     with (
         patch("migration_runner.run_migrations", new_callable=AsyncMock),
+        patch("geoip_update.update_geoip_database_async", new_callable=AsyncMock),
+        patch("geoip_update.geoip_update_loop", new_callable=AsyncMock),
         patch("Note.note_realtime.startup", new_callable=AsyncMock),
         patch("Note.note_realtime.shutdown", new_callable=AsyncMock),
         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock),

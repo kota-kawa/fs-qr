@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import inspect
 import logging
 import os
@@ -27,12 +28,14 @@ from settings import (
     ADMIN_KEY,
     ALLOW_START_WITHOUT_DB,
     BASE_DIR,
+    GEOIP_AUTO_UPDATE,
     SECRET_KEY,
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
 )
 from web import render_template, wants_json_response
 from api_response import api_error_response
+from geoip_update import geoip_update_loop, update_geoip_database_async
 
 from Group.group_app import router as group_router
 from Note.note_app import router as note_router
@@ -49,6 +52,8 @@ from top_search import router as top_search_router
 MASTER_PW = ADMIN_KEY
 
 logger = logging.getLogger(__name__)
+_geoip_update_stop_event = None
+_geoip_update_task = None
 
 app = FastAPI()
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
@@ -98,6 +103,18 @@ async def db_session_middleware(request: Request, call_next):
 
 @app.on_event("startup")
 async def startup():
+    global _geoip_update_stop_event, _geoip_update_task
+
+    if GEOIP_AUTO_UPDATE:
+        try:
+            await update_geoip_database_async()
+        except Exception as exc:
+            logger.warning("GeoIP database startup update failed: %s", exc)
+        _geoip_update_stop_event = asyncio.Event()
+        _geoip_update_task = asyncio.create_task(
+            geoip_update_loop(_geoip_update_stop_event)
+        )
+
     ready = False
     for attempt in range(5):
         try:
@@ -125,6 +142,14 @@ async def startup():
 
 @app.on_event("shutdown")
 async def shutdown():
+    global _geoip_update_stop_event, _geoip_update_task
+    if _geoip_update_stop_event is not None:
+        _geoip_update_stop_event.set()
+    if _geoip_update_task is not None:
+        with contextlib.suppress(asyncio.CancelledError):
+            await _geoip_update_task
+        _geoip_update_task = None
+        _geoip_update_stop_event = None
     await note_realtime_shutdown()
 
 
