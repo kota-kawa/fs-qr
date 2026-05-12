@@ -19,9 +19,9 @@ LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
 
 LANGUAGE_OPTIONS = (
-    {"code": "ja", "label": "日本語"},
-    {"code": "en", "label": "English"},
-    {"code": "zh-CN", "label": "简体中文"},
+    {"code": "ja", "label": "日本語", "flag": "🇯🇵"},
+    {"code": "en", "label": "English", "flag": "🇺🇸"},
+    {"code": "zh-CN", "label": "简体中文", "flag": "🇨🇳"},
 )
 
 COUNTRY_LANGUAGE_MAP = {

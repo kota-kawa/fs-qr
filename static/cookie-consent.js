@@ -64,6 +64,80 @@
     }
   }
 
+  function initLangSelect(wrapper, nativeSelect, initialLanguage) {
+    const trigger = wrapper.querySelector('.lang-select-trigger');
+    const list = wrapper.querySelector('.lang-select-list');
+    const options = wrapper.querySelectorAll('.lang-select-option');
+    const flagCurrent = wrapper.querySelector('.lang-select-flag-current');
+    const labelCurrent = wrapper.querySelector('.lang-select-label-current');
+
+    function updateDisplay(value) {
+      const selected = wrapper.querySelector(`.lang-select-option[data-value="${value}"]`);
+      if (!selected) return;
+      if (flagCurrent) flagCurrent.textContent = selected.dataset.flag || '';
+      if (labelCurrent) labelCurrent.textContent = selected.querySelector('span:last-child').textContent.trim();
+      options.forEach((opt) => {
+        opt.setAttribute('aria-selected', opt.dataset.value === value ? 'true' : 'false');
+      });
+      if (nativeSelect) nativeSelect.value = value;
+    }
+
+    function openList() {
+      list.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      const selectedOpt = list.querySelector('[aria-selected="true"]') || list.querySelector('.lang-select-option');
+      if (selectedOpt) selectedOpt.focus();
+    }
+
+    function closeList() {
+      list.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.focus();
+    }
+
+    updateDisplay(initialLanguage);
+
+    trigger.addEventListener('click', () => {
+      list.hidden ? openList() : closeList();
+    });
+
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openList();
+      }
+      if (e.key === 'Escape') closeList();
+    });
+
+    options.forEach((opt) => {
+      opt.addEventListener('click', () => {
+        updateDisplay(opt.dataset.value);
+        closeList();
+      });
+      opt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          updateDisplay(opt.dataset.value);
+          closeList();
+        } else if (e.key === 'Escape') {
+          closeList();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = opt.nextElementSibling;
+          if (next) next.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = opt.previousElementSibling;
+          if (prev) prev.focus();
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target)) closeList();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const overlay = document.getElementById('cookieConsent');
 
@@ -90,6 +164,11 @@
 
     if (languageSelect) {
       languageSelect.value = initialLanguage;
+    }
+
+    const langSelectWrapper = overlay.querySelector('[data-lang-select]');
+    if (langSelectWrapper) {
+      initLangSelect(langSelectWrapper, languageSelect, initialLanguage);
     }
 
     function showSummaryView() {

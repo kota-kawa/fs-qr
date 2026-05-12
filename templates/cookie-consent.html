@@ -72,16 +72,26 @@
             <h3>{{ t('settings.language.title') }}</h3>
             <p>{{ t('settings.language.description') }}</p>
           </div>
-          <label class="cookie-consent-language">
-            <span class="visually-hidden">{{ t('settings.language.title') }}</span>
-            <select data-language-select>
+          <div class="lang-select" data-lang-select>
+            <select data-language-select hidden aria-hidden="true" tabindex="-1">
               {% for option in language_options %}
-                <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>
-                  {{ option.label }}
-                </option>
+                <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>{{ option.label }}</option>
               {% endfor %}
             </select>
-          </label>
+            <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ t('settings.language.title') }}">
+              <span class="lang-select-flag-current" aria-hidden="true"></span>
+              <span class="lang-select-label-current"></span>
+              <svg class="lang-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <ul class="lang-select-list" role="listbox" hidden>
+              {% for option in language_options %}
+                <li class="lang-select-option" role="option" data-value="{{ option.code }}" data-flag="{{ option.flag }}" tabindex="-1" {% if option.code == current_language %}aria-selected="true"{% else %}aria-selected="false"{% endif %}>
+                  <span class="lang-select-flag" aria-hidden="true">{{ option.flag }}</span>
+                  <span>{{ option.label }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
         <div class="cookie-consent-setting">
           <div>
