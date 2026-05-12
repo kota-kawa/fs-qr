@@ -362,6 +362,13 @@
   margin-bottom: 0;
 }
 
+.service-footer nav a,
+.service-footer nav .footer-link-button {
+  display: inline-flex;
+  margin: 0;
+  text-decoration: none;
+}
+
 /* Simple footer with text-only links */
 .simple-footer {
   text-align: center;
@@ -384,6 +391,7 @@
 .service-footer small {
   display: block;
   margin-top: 12px;
+  text-align: center;
   color: rgba(255, 255, 255, 0.78);
 }
 
