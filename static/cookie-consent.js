@@ -244,6 +244,7 @@
     const langQuickPickWrapper = overlay.querySelector('[data-lang-quick-pick]');
     let langSelectApi = null;
     let langQuickPickApi = null;
+    let settingsBackAction = 'summary';
 
     if (langSelectWrapper) {
       langSelectApi = initLangSelect(langSelectWrapper, languageSelect, initialLanguage, (value) => {
@@ -271,8 +272,9 @@
       focusOnTarget(focusTarget);
     }
 
-    function showSettingsView() {
+    function showSettingsView(options = {}) {
       syncTogglesFromStoredConsent();
+      settingsBackAction = options.backAction || 'summary';
       switchView(overlay, 'settings');
       focusOnTarget(settingsFocus || toggles[0]);
     }
@@ -280,7 +282,7 @@
     window.showCookieConsentPanel = function (viewName) {
       showOverlay(overlay, { closeable: true });
       if (viewName === 'settings') {
-        showSettingsView();
+        showSettingsView({ backAction: 'close' });
       } else {
         showSummaryView();
       }
@@ -330,7 +332,16 @@
     }
 
     if (backButton) {
-      backButton.addEventListener('click', showSummaryView);
+      backButton.addEventListener('click', () => {
+        if (
+          settingsBackAction === 'close'
+          && overlay.getAttribute('data-cookie-consent-closeable') === 'true'
+        ) {
+          hideOverlay(overlay);
+          return;
+        }
+        showSummaryView();
+      });
     }
 
     if (saveButton) {
