@@ -291,7 +291,9 @@ def register_group_download_file_route(router: APIRouter):
 
 
 def register_group_preview_file_route(router: APIRouter):
-    @router.get("/preview/{room_id}/{password}/{filename:path}", name="group.preview_file")
+    @router.get(
+        "/preview/{room_id}/{password}/{filename:path}", name="group.preview_file"
+    )
     async def preview_file(
         request: Request, room_id: str, password: str, filename: str
     ):
