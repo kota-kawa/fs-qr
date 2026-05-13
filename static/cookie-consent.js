@@ -35,14 +35,63 @@
     return document.cookie.split(';').some((cookie) => cookie.trim().startsWith(`${CONSENT_COOKIE_NAME}=`));
   }
 
-  function hideOverlay(overlay) {
+  function getStoredConsentSettings() {
+    const storedValue = getCookie(CONSENT_COOKIE_NAME);
+
+    if (storedValue === 'accepted') {
+      return { analytics: true, marketing: true };
+    }
+
+    if (storedValue === 'rejected' || !storedValue) {
+      return { analytics: false, marketing: false };
+    }
+
+    try {
+      const parsed = JSON.parse(storedValue);
+      return {
+        analytics: Boolean(parsed.analytics),
+        marketing: Boolean(parsed.marketing)
+      };
+    } catch (error) {
+      return { analytics: false, marketing: false };
+    }
+  }
+
+  function getFocusableElements(container) {
+    return Array.from(
+      container.querySelectorAll(
+        'a[href], button:not([disabled]):not([hidden]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((element) => {
+      return !element.hidden && element.offsetParent !== null && element.getAttribute('aria-hidden') !== 'true';
+    });
+  }
+
+  let lastFocusedElement = null;
+
+  function hideOverlay(overlay, options = {}) {
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
+    overlay.removeAttribute('data-cookie-consent-closeable');
     document.body.style.removeProperty('overflow');
+
+    if (options.restoreFocus !== false && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
   }
 
-  function showOverlay(overlay) {
+  function setCloseable(overlay, closeable) {
+    const closeButton = overlay.querySelector('[data-cookie-consent="close"]');
+    overlay.setAttribute('data-cookie-consent-closeable', closeable ? 'true' : 'false');
+    if (closeButton) {
+      closeButton.hidden = !closeable;
+    }
+  }
+
+  function showOverlay(overlay, options = {}) {
+    lastFocusedElement = document.activeElement;
+    setCloseable(overlay, Boolean(options.closeable));
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -64,14 +113,14 @@
     }
   }
 
-  function initLangSelect(wrapper, nativeSelect, initialLanguage) {
+  function initLangSelect(wrapper, nativeSelect, initialLanguage, onSelect) {
     const trigger = wrapper.querySelector('.lang-select-trigger');
     const list = wrapper.querySelector('.lang-select-list');
     const options = wrapper.querySelectorAll('.lang-select-option');
     const flagCurrent = wrapper.querySelector('.lang-select-flag-current');
     const labelCurrent = wrapper.querySelector('.lang-select-label-current');
 
-    function updateDisplay(value) {
+    function updateDisplay(value, displayOptions = {}) {
       const selected = wrapper.querySelector(`.lang-select-option[data-value="${value}"]`);
       if (!selected) return;
       if (flagCurrent) flagCurrent.textContent = selected.dataset.flag || '';
@@ -80,6 +129,7 @@
         opt.setAttribute('aria-selected', opt.dataset.value === value ? 'true' : 'false');
       });
       if (nativeSelect) nativeSelect.value = value;
+      if (!displayOptions.silent && onSelect) onSelect(value);
     }
 
     function openList() {
@@ -89,10 +139,11 @@
       if (selectedOpt) selectedOpt.focus();
     }
 
-    function closeList() {
+    function closeList(options = {}) {
+      if (list.hidden) return;
       list.hidden = true;
       trigger.setAttribute('aria-expanded', 'false');
-      trigger.focus();
+      if (options.restoreFocus !== false) trigger.focus();
     }
 
     updateDisplay(initialLanguage);
@@ -134,7 +185,7 @@
     });
 
     document.addEventListener('click', (e) => {
-      if (!wrapper.contains(e.target)) closeList();
+      if (!wrapper.contains(e.target)) closeList({ restoreFocus: false });
     });
 
     return { update: updateDisplay };
@@ -143,12 +194,14 @@
   function initLangQuickPick(wrapper, nativeSelect, onSelect) {
     const options = wrapper.querySelectorAll('.lang-quick-option');
 
-    function select(value) {
+    function select(value, selectOptions = {}) {
       options.forEach((opt) => {
-        opt.dataset.selected = opt.dataset.value === value ? 'true' : '';
+        const selected = opt.dataset.value === value;
+        opt.dataset.selected = selected ? 'true' : '';
+        opt.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
       if (nativeSelect) nativeSelect.value = value;
-      if (onSelect) onSelect(value);
+      if (!selectOptions.silent && onSelect) onSelect(value);
     }
 
     options.forEach((opt) => {
@@ -173,6 +226,7 @@
     const rejectButton = overlay.querySelector('[data-cookie-consent="reject"]');
     const customizeButton = overlay.querySelector('[data-cookie-consent="customize"]');
     const backButton = overlay.querySelector('[data-cookie-consent="back"]');
+    const closeButton = overlay.querySelector('[data-cookie-consent="close"]');
     const saveButton = overlay.querySelector('[data-cookie-consent="save"]');
     const settingsFocus = overlay.querySelector('[data-cookie-consent-settings-focus]');
     const toggles = overlay.querySelectorAll('[data-cookie-consent-toggle]');
@@ -187,15 +241,27 @@
     }
 
     const langSelectWrapper = overlay.querySelector('[data-lang-select]');
+    const langQuickPickWrapper = overlay.querySelector('[data-lang-quick-pick]');
     let langSelectApi = null;
+    let langQuickPickApi = null;
+
     if (langSelectWrapper) {
-      langSelectApi = initLangSelect(langSelectWrapper, languageSelect, initialLanguage);
+      langSelectApi = initLangSelect(langSelectWrapper, languageSelect, initialLanguage, (value) => {
+        if (langQuickPickApi) langQuickPickApi.update(value, { silent: true });
+      });
     }
 
-    const langQuickPickWrapper = overlay.querySelector('[data-lang-quick-pick]');
     if (langQuickPickWrapper) {
-      initLangQuickPick(langQuickPickWrapper, languageSelect, (value) => {
-        if (langSelectApi) langSelectApi.update(value);
+      langQuickPickApi = initLangQuickPick(langQuickPickWrapper, languageSelect, (value) => {
+        if (langSelectApi) langSelectApi.update(value, { silent: true });
+      });
+    }
+
+    function syncTogglesFromStoredConsent() {
+      const storedSettings = getStoredConsentSettings();
+      toggles.forEach((toggle) => {
+        const key = toggle.getAttribute('data-cookie-consent-toggle');
+        toggle.checked = Boolean(storedSettings[key]);
       });
     }
 
@@ -206,12 +272,13 @@
     }
 
     function showSettingsView() {
+      syncTogglesFromStoredConsent();
       switchView(overlay, 'settings');
       focusOnTarget(settingsFocus || toggles[0]);
     }
 
     window.showCookieConsentPanel = function (viewName) {
-      showOverlay(overlay);
+      showOverlay(overlay, { closeable: true });
       if (viewName === 'settings') {
         showSettingsView();
       } else {
@@ -270,6 +337,48 @@
       saveButton.addEventListener('click', saveCustomConsent);
     }
 
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        if (overlay.getAttribute('data-cookie-consent-closeable') === 'true') {
+          hideOverlay(overlay);
+        }
+      });
+    }
+
+    overlay.addEventListener('click', (event) => {
+      if (
+        event.target === overlay
+        && overlay.getAttribute('data-cookie-consent-closeable') === 'true'
+      ) {
+        hideOverlay(overlay);
+      }
+    });
+
+    overlay.addEventListener('keydown', (event) => {
+      if (!overlay.classList.contains('is-visible')) return;
+
+      if (event.key === 'Escape' && overlay.getAttribute('data-cookie-consent-closeable') === 'true') {
+        hideOverlay(overlay);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const focusableElements = getFocusableElements(overlay);
+      if (!focusableElements.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    });
+
     overlay.addEventListener('transitionend', function onTransitionEnd() {
       if (!overlay.classList.contains('is-visible')) {
         overlay.removeEventListener('transitionend', onTransitionEnd);
@@ -284,7 +393,7 @@
     });
 
     if (!hasConsent()) {
-      showOverlay(overlay);
+      showOverlay(overlay, { closeable: false });
       showSummaryView();
     }
   });

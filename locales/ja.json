@@ -22,6 +22,8 @@
     "settings.customize": "設定をカスタマイズ",
     "settings.privacy": "プライバシーポリシー",
     "settings.back": "戻る",
+    "settings.close": "閉じる",
+    "settings.optional": "任意",
     "settings.save": "保存して閉じる",
     "language.option.ja": "日本語",
     "language.option.en": "英語",

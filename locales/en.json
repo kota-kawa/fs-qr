@@ -22,6 +22,8 @@
     "settings.customize": "Customize settings",
     "settings.privacy": "Privacy Policy",
     "settings.back": "Back",
+    "settings.close": "Close",
+    "settings.optional": "Optional",
     "settings.save": "Save and close",
     "language.option.ja": "Japanese",
     "language.option.en": "English",
