@@ -182,6 +182,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
 
     expected_script_paths = [
         "/static/js/group_room/core.js",
+        "/static/js/group_room/preview.js",
         "/static/js/group_room/downloads.js",
         "/static/js/group_room/remote-files.js",
         "/static/js/group_room/upload-queue.js",
@@ -201,6 +202,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
     assert "fileListRequestTimeoutMs" in html
+    assert "groupPreviewOverlay" in html
     assert "function handleFiles(files)" not in html
     assert "function fetchAndDisplayOtherFiles()" not in html
 
@@ -380,6 +382,31 @@ def test_list_files_auth_success_no_dir(test_client: TestClient):
     assert isinstance(payload["error"], str)
 
 
+def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path):
+    """一覧取得はプレビュー可能なファイル種別を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    (room_dir / "sample.png").write_bytes(b"image")
+    (room_dir / "archive.zip").write_bytes(b"zip")
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+    ):
+        response = test_client.get("/check/abc123/000000")
+
+    assert response.status_code == 200
+    files = {item["name"]: item for item in response.json()["data"]["files"]}
+    assert files["sample.png"]["previewable"] is True
+    assert files["sample.png"]["preview_type"] == "image"
+    assert files["archive.zip"]["previewable"] is False
+
+
 def test_download_file_not_found_after_auth(test_client: TestClient):
     """認証成功でもファイルが存在しない場合は 404 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
@@ -390,6 +417,50 @@ def test_download_file_not_found_after_auth(test_client: TestClient):
     ):
         response = test_client.get("/download/abc123/000000/notexist.txt")
     assert response.status_code == 404
+
+
+def test_preview_file_returns_inline_response(test_client: TestClient, tmp_path):
+    """プレビュー可能なファイルは inline で返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    (room_dir / "memo.txt").write_text("hello", encoding="utf-8")
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+    ):
+        response = test_client.get("/preview/abc123/000000/memo.txt")
+
+    assert response.status_code == 200
+    assert response.text == "hello"
+    assert response.headers["content-disposition"].startswith("inline;")
+    assert response.headers["x-content-type-options"] == "nosniff"
+
+
+def test_preview_file_rejects_unsupported_type(test_client: TestClient, tmp_path):
+    """対応外の拡張子はプレビューしない"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    (room_dir / "archive.zip").write_bytes(b"zip")
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+    ):
+        response = test_client.get("/preview/abc123/000000/archive.zip")
+
+    assert response.status_code == 415
+    assert response.json()["status"] == "error"
 
 
 def test_delete_file_not_found_after_auth(test_client: TestClient):

@@ -992,6 +992,18 @@ def test_build_content_disposition_attachment_uses_rfc5987():
     assert "filename*=UTF-8''evilx%3A%20y.txt" in header
 
 
+def test_build_content_disposition_inline_uses_rfc5987():
+    from file_validation import build_content_disposition_inline
+
+    header = build_content_disposition_inline('evil\r\nx: y".txt')
+
+    assert header.startswith("inline;")
+    assert "\r" not in header
+    assert "\n" not in header
+    assert 'filename="evilx: y.txt"' in header
+    assert "filename*=UTF-8''evilx%3A%20y.txt" in header
+
+
 def test_validate_upload_file_content_blocks_svg_mime():
     from io import BytesIO
     from types import SimpleNamespace

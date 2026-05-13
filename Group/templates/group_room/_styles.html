@@ -186,6 +186,137 @@
   padding: 1.5rem;
 }
 
+.group-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.group-preview-overlay.is-visible {
+  display: flex;
+}
+
+.group-preview-dialog {
+  width: min(100%, 960px);
+  height: min(86vh, 720px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 30px 80px -42px rgba(15, 23, 42, 0.72);
+}
+
+.group-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.group-preview-title {
+  min-width: 0;
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.group-preview-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+}
+
+.group-preview-download-link,
+.group-preview-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.3rem;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.group-preview-download-link {
+  padding: 0.4rem 0.75rem;
+  background: var(--theme-group-gradient);
+  color: #fff;
+  text-decoration: none;
+}
+
+.group-preview-download-link:hover {
+  color: #fff;
+}
+
+.group-preview-close {
+  width: 2.3rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #fff;
+  color: var(--text-dark);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.group-preview-body {
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: #f8fafc;
+  overflow: auto;
+}
+
+.group-preview-body.is-centered {
+  align-items: center;
+  padding: 1rem;
+}
+
+.group-preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.group-preview-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.group-preview-text {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 1rem;
+  background: #fff;
+  color: #111827;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.group-preview-message {
+  margin: 0;
+  color: var(--text-medium);
+  font-weight: 700;
+  text-align: center;
+}
+
 .group-transfer-card--download {
   width: min(100%, 420px);
   margin-top: 0;
@@ -330,6 +461,22 @@
 
   .group-transfer-card--download {
     max-width: 360px;
+  }
+
+  .group-preview-dialog {
+    height: min(90vh, 680px);
+  }
+
+  .group-preview-header {
+    align-items: flex-start;
+  }
+
+  .group-preview-header-actions {
+    gap: 0.35rem;
+  }
+
+  .group-preview-download-link {
+    padding-inline: 0.6rem;
   }
 }
 

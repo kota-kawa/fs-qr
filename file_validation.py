@@ -115,6 +115,20 @@ def build_content_disposition_attachment(
     )
 
 
+def build_content_disposition_inline(
+    filename: str,
+    *,
+    fallback_filename: str = "preview",
+) -> str:
+    safe_filename = sanitize_download_filename(filename, default=fallback_filename)
+    ascii_fallback = safe_filename.encode("ascii", "ignore").decode("ascii")
+    ascii_fallback = sanitize_download_filename(
+        ascii_fallback, default=fallback_filename
+    )
+    utf8_filename = quote(safe_filename, safe="!#$&+-.^_`|~")
+    return f"inline; filename=\"{ascii_fallback}\"; filename*=UTF-8''{utf8_filename}"
+
+
 def detect_upload_mime_type(upload_file: UploadFile, *, sniff_size: int = 8192) -> str:
     if _MIME_DETECTOR is None:
         raise RuntimeError("python-magic is not available.")

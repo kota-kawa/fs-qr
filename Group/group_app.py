@@ -10,6 +10,7 @@ from .group_routes_file import (
     register_group_download_all_route,
     register_group_download_file_route,
     register_group_list_files_route,
+    register_group_preview_file_route,
     register_group_upload_route,
 )
 from .group_routes_ws import register_group_files_ws_route
@@ -42,6 +43,7 @@ register_group_upload_route(router)
 register_group_list_files_route(router)
 register_group_download_all_route(router)
 register_group_download_file_route(router)
+register_group_preview_file_route(router)
 register_group_delete_file_route(router)
 register_group_files_ws_route(router)
 register_group_search_page_route(router)

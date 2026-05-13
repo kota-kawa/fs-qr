@@ -31,10 +31,18 @@
     var uploadBtn = document.getElementById('uploadBtn');
     var downloadAllBtn = document.getElementById('downloadAllBtn');
     var uploadStatusMessage = document.getElementById('uploadStatusMessage');
+    var previewOverlay = document.getElementById('groupPreviewOverlay');
+    var previewDialog = previewOverlay ? previewOverlay.querySelector('.group-preview-dialog') : null;
+    var previewTitle = document.getElementById('groupPreviewTitle');
+    var previewBody = document.getElementById('groupPreviewBody');
+    var previewCloseButton = document.getElementById('groupPreviewClose');
+    var previewDownloadLink = document.getElementById('groupPreviewDownloadLink');
 
     if (
       !uploadArea || !fileInput || !fileList || !otherFileList ||
-      !uploadBtn || !downloadAllBtn || !uploadStatusMessage
+      !uploadBtn || !downloadAllBtn || !uploadStatusMessage ||
+      !previewOverlay || !previewDialog || !previewTitle || !previewBody ||
+      !previewCloseButton || !previewDownloadLink
     ) {
       logger.warn('Group room初期化に必要な要素が見つかりませんでした。');
       return;
@@ -56,6 +64,18 @@
       core: core
     });
 
+    var previewManager = modules.preview.createPreviewManager({
+      roomId: roomId,
+      roomPassword: roomPassword,
+      overlay: previewOverlay,
+      dialog: previewDialog,
+      title: previewTitle,
+      body: previewBody,
+      closeButton: previewCloseButton,
+      downloadLink: previewDownloadLink,
+      logger: logger
+    });
+
     var remoteFileListManager = modules.remoteFiles.createRemoteFileListManager({
       roomId: roomId,
       roomPassword: roomPassword,
@@ -65,6 +85,7 @@
       logger: logger,
       otherFileList: otherFileList,
       downloadHandlers: downloadHandlers,
+      previewManager: previewManager,
       limits: limits
     });
 

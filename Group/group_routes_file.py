@@ -1,4 +1,5 @@
 import io
+import mimetypes
 import os
 import shutil
 import urllib
@@ -12,6 +13,7 @@ from werkzeug.utils import secure_filename
 from api_response import api_error_response, api_ok_response
 from file_validation import (
     build_content_disposition_attachment,
+    build_content_disposition_inline,
     sanitize_group_upload_filename,
     validate_upload_file_content,
     validate_requested_filename,
@@ -37,6 +39,64 @@ from .group_common import (
 )
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
+
+
+_PREVIEW_MIME_TYPES = {
+    "application/pdf": "pdf",
+    "application/json": "text",
+    "image/apng": "image",
+    "image/avif": "image",
+    "image/bmp": "image",
+    "image/gif": "image",
+    "image/jpeg": "image",
+    "image/png": "image",
+    "image/webp": "image",
+    "text/csv": "text",
+    "text/markdown": "text",
+    "text/plain": "text",
+}
+
+_PREVIEW_EXTENSIONS = {
+    ".apng": ("image/apng", "image"),
+    ".avif": ("image/avif", "image"),
+    ".bmp": ("image/bmp", "image"),
+    ".csv": ("text/csv", "text"),
+    ".gif": ("image/gif", "image"),
+    ".jpeg": ("image/jpeg", "image"),
+    ".jpg": ("image/jpeg", "image"),
+    ".json": ("application/json", "text"),
+    ".md": ("text/markdown", "text"),
+    ".pdf": ("application/pdf", "pdf"),
+    ".png": ("image/png", "image"),
+    ".txt": ("text/plain", "text"),
+    ".webp": ("image/webp", "image"),
+}
+
+
+def get_preview_metadata(filename: str) -> dict[str, str | bool]:
+    _, extension = os.path.splitext(filename.lower())
+    if extension in _PREVIEW_EXTENSIONS:
+        media_type, preview_type = _PREVIEW_EXTENSIONS[extension]
+        return {
+            "previewable": True,
+            "preview_type": preview_type,
+            "preview_mime_type": media_type,
+        }
+
+    guessed_type, _ = mimetypes.guess_type(filename)
+    preview_type = _PREVIEW_MIME_TYPES.get(guessed_type or "")
+    if preview_type:
+        return {
+            "previewable": True,
+            "preview_type": preview_type,
+            "preview_mime_type": guessed_type,
+        }
+
+    return {
+        "previewable": False,
+        "preview_type": "",
+        "preview_mime_type": "",
+    }
 
 
 def register_group_upload_route(router: APIRouter):
@@ -144,7 +204,7 @@ def register_group_list_files_route(router: APIRouter):
 
         try:
             files = [
-                {"name": file_name}
+                {"name": file_name, **get_preview_metadata(file_name)}
                 for file_name in os.listdir(target_directory)
                 if os.path.isfile(os.path.join(target_directory, file_name))
             ]
@@ -224,6 +284,52 @@ def register_group_download_file_route(router: APIRouter):
                 response.headers["Content-Disposition"] = (
                     build_content_disposition_attachment(decoded_filename)
                 )
+                return response
+            return api_error_response("ファイルが見つかりません。", status_code=404)
+        except Exception as e:
+            return api_error_response(f"エラー: {str(e)}", status_code=500)
+
+
+def register_group_preview_file_route(router: APIRouter):
+    @router.get("/preview/{room_id}/{password}/{filename:path}", name="group.preview_file")
+    async def preview_file(
+        request: Request, room_id: str, password: str, filename: str
+    ):
+        decoded_filename = urllib.parse.unquote(filename)
+
+        filename_error = validate_requested_filename(decoded_filename)
+        if filename_error:
+            return api_error_response(filename_error, status_code=400)
+
+        if not await get_room_if_valid(room_id, password):
+            return api_error_response(
+                "ルームが見つからないか、パスワードが間違っています。",
+                status_code=404,
+            )
+
+        preview_metadata = get_preview_metadata(decoded_filename)
+        if not preview_metadata["previewable"]:
+            return api_error_response(
+                "このファイル形式はプレビューできません。",
+                status_code=415,
+            )
+
+        room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
+        file_path = os.path.join(room_folder, decoded_filename)
+
+        if not is_safe_path(room_folder, file_path):
+            return api_error_response("不正なパスが検出されました。", status_code=400)
+
+        try:
+            if os.path.exists(file_path):
+                response = FileResponse(
+                    file_path,
+                    media_type=str(preview_metadata["preview_mime_type"]),
+                )
+                response.headers["Content-Disposition"] = (
+                    build_content_disposition_inline(decoded_filename)
+                )
+                response.headers["X-Content-Type-Options"] = "nosniff"
                 return response
             return api_error_response("ファイルが見つかりません。", status_code=404)
         except Exception as e:

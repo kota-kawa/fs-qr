@@ -14,6 +14,7 @@
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
     var otherFileList = options.otherFileList;
     var downloadHandlers = options.downloadHandlers;
+    var previewManager = options.previewManager;
     var limits = options.limits || {};
     var core = modules.core || {};
 
@@ -60,7 +61,12 @@
         if (!isValidFileEntry(file)) {
           return null;
         }
-        files.push({ name: file.name });
+        files.push({
+          name: file.name,
+          previewable: file.previewable === true,
+          previewType: typeof file.preview_type === 'string' ? file.preview_type : '',
+          previewMimeType: typeof file.preview_mime_type === 'string' ? file.preview_mime_type : ''
+        });
       }
       return files;
     }
@@ -109,6 +115,21 @@
 
         var actions = document.createElement('div');
         actions.className = 'modern-file-actions';
+
+        if (file.previewable && previewManager && typeof previewManager.previewFile === 'function') {
+          var previewBtn = document.createElement('button');
+          previewBtn.className = 'modern-file-action-btn';
+          previewBtn.type = 'button';
+          previewBtn.innerHTML = icons.preview || icons.file;
+          previewBtn.setAttribute('aria-label', 'プレビュー');
+          previewBtn.setAttribute('title', 'プレビュー');
+          previewBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            previewManager.previewFile(file);
+          });
+          actions.appendChild(previewBtn);
+        }
 
         var downloadBtn = document.createElement('button');
         downloadBtn.className = 'modern-file-action-btn';
