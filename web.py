@@ -12,7 +12,7 @@ from jinja2 import pass_context
 from starlette.responses import HTMLResponse
 
 from i18n import (
-    LANGUAGE_OPTIONS,
+    get_language_options,
     get_frontend_messages,
     make_translator,
     resolve_language,
@@ -227,7 +227,7 @@ def render_template(request: Request, template_name: str, **context: Any):
     payload = {
         "request": TemplateRequestProxy(request),
         "current_language": language,
-        "language_options": LANGUAGE_OPTIONS,
+        "language_options": get_language_options(language),
         "frontend_messages": get_frontend_messages(language),
         "t": make_translator(language),
     }

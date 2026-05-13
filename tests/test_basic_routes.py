@@ -32,6 +32,29 @@ def test_index_uses_simplified_chinese_language_cookie(test_client: TestClient):
     assert response.headers["content-language"] == "zh-CN"
 
 
+def test_index_localizes_language_option_labels_for_english(test_client: TestClient):
+    response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
+    assert response.status_code == 200
+    assert ">Japanese<" in response.text
+    assert ">Chinese (Simplified)<" in response.text
+    assert "日本語" not in response.text
+
+
+def test_note_page_uses_translated_editor_helper_text(test_client: TestClient):
+    response = test_client.get("/note", headers={"Cookie": "fsqr_language=en"})
+    assert response.status_code == 200
+    assert "Shared note (up to 10000 characters)" in response.text
+    assert "You can enter up to 10000 characters." in response.text
+    assert "最大10000文字まで入力可能です。" not in response.text
+
+
+def test_fsqr_upload_page_uses_translated_upload_limit_hint(test_client: TestClient):
+    response = test_client.get("/fs-qr", headers={"Cookie": "fsqr_language=en"})
+    assert response.status_code == 200
+    assert "* You can upload up to 10 files, with a total of 500 MB." in response.text
+    assert "※最大10ファイル、合計500MBまで扱えます。" not in response.text
+
+
 def test_about(test_client: TestClient):
     response = test_client.get("/about")
     assert response.status_code == 200

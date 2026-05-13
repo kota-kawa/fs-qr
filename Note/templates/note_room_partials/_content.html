@@ -69,7 +69,7 @@
 
             <!-- Editor -->
             <div class="modern-form-group">
-                <label for="editor" class="modern-form-label">共有ノート（最大{{ note_max_content_length }}文字）</label>
+                <label for="editor" class="modern-form-label">{{ t('note.editor.label', max_length=note_max_content_length) }}</label>
                 <textarea id="editor" class="modern-editor"
                           placeholder="ここに入力すると1秒ごとに同期されます…"
                           maxlength="{{ note_max_content_length }}" style="height: 60vh;"></textarea>
@@ -100,7 +100,7 @@
       このルームではテキストをリアルタイムに共有できます。<br>
       上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
       エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
-      最大{{ note_max_content_length }}文字まで入力可能です。
+      {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
     </p>
   </div>
 </div>

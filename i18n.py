@@ -215,6 +215,26 @@ def make_translator(language: str):
     return translate
 
 
+def get_language_options(language: str) -> tuple[dict[str, str], ...]:
+    translate = make_translator(language)
+    labels = {
+        "ja": translate("language.option.ja"),
+        "en": translate("language.option.en"),
+        "zh-CN": translate("language.option.zh-CN"),
+    }
+    options: list[dict[str, str]] = []
+    for option in LANGUAGE_OPTIONS:
+        code = option["code"]
+        options.append(
+            {
+                "code": code,
+                "label": labels.get(code, option["label"]),
+                "flag": option["flag"],
+            }
+        )
+    return tuple(options)
+
+
 def _replace_language_metadata(content: str, language: str) -> str:
     html_lang = HTML_LANG_MAP.get(language, DEFAULT_LANGUAGE)
     meta_language = META_LANGUAGE_MAP.get(language, DEFAULT_LANGUAGE)
