@@ -279,11 +279,11 @@ def translate_rendered_html(content: str, language: str) -> str:
     language = normalize_language(language)
     content = _replace_language_metadata(content, language)
     if language == DEFAULT_LANGUAGE:
-        return _ensure_geoip_attribution(content)
+        return content
 
     phrases = _load_translations().get(language, {}).get("phrases", {})
     if not isinstance(phrases, dict):
-        return _ensure_geoip_attribution(content)
+        return content
 
     for source in sorted(phrases, key=len, reverse=True):
         translated = phrases.get(source)
@@ -291,4 +291,4 @@ def translate_rendered_html(content: str, language: str) -> str:
             continue
         content = content.replace(source, translated)
         content = content.replace(escape(source), escape(translated))
-    return _ensure_geoip_attribution(content)
+    return content

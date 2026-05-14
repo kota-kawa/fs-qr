@@ -11,7 +11,6 @@ def test_index(test_client: TestClient):
     assert 'aria-label="横断検索"' in response.text
     assert 'placeholder="ルームID"' in response.text
     assert 'placeholder="パスワード"' in response.text
-    assert "IP Geolocation by DB-IP" in response.text
 
 
 def test_index_uses_language_cookie(test_client: TestClient):
@@ -73,6 +72,7 @@ def test_contact(test_client: TestClient):
 def test_privacy_policy(test_client: TestClient):
     response = test_client.get("/privacy-policy")
     assert response.status_code == 200
+    assert "IP Geolocation by DB-IP" in response.text
 
 
 def test_site_operator(test_client: TestClient):
