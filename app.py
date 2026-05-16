@@ -201,14 +201,10 @@ def _canonical_redirect(request: Request):
     query = request.url.query
     if not query:
         return None
-    allowed_langs = {"ja", "en", "zh-CN", "zh-cn"}
+    allowed_langs = {"ja", "en", "zh-cn"}
     lang = request.query_params.get("lang", "").strip()
     params = list(request.query_params.multi_items())
-    if (
-        len(params) == 1
-        and params[0][0] == "lang"
-        and lang.lower() in {l.lower() for l in allowed_langs}
-    ):
+    if len(params) == 1 and params[0][0] == "lang" and lang.lower() in allowed_langs:
         return None
     url = request.url.replace(query="")
     return RedirectResponse(str(url), status_code=301)
