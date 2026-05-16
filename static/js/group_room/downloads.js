@@ -14,6 +14,16 @@
     var isDownloading = {};
     var isDownloadingAll = false;
 
+    function translate(key, fallback) {
+      return core.translate ? core.translate(key, fallback) : fallback;
+    }
+
+    function formatMessage(key, fallback, replacements) {
+      return core.formatMessage ? core.formatMessage(key, fallback, replacements) : fallback.replace(/\{([^}]+)\}/g, function (_, name) {
+        return Object.prototype.hasOwnProperty.call(replacements || {}, name) ? String(replacements[name]) : `{${name}}`;
+      });
+    }
+
     function notify(message) {
       if (typeof window.showAlertModal === 'function') {
         window.showAlertModal(message);
@@ -32,7 +42,7 @@
 
       isDownloading[downloadKey] = true;
       downloadBtn.disabled = true;
-      core.showDownloadProgress(`${file.name} をダウンロード中... 0%`);
+      core.showDownloadProgress(formatMessage('download.single_progress', 'Downloading {name}... {percent}%', { name: file.name, percent: 0 }));
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
@@ -42,7 +52,7 @@
         if (event.lengthComputable) {
           var percentComplete = event.loaded / event.total;
           core.setDownloadProgressScale(percentComplete);
-          core.setDownloadStatusText(`${file.name} をダウンロード中... ${Math.round(percentComplete * 100)}%`);
+          core.setDownloadStatusText(formatMessage('download.single_progress', 'Downloading {name}... {percent}%', { name: file.name, percent: Math.round(percentComplete * 100) }));
         }
       };
 
@@ -50,12 +60,12 @@
         if (xhr.status === 200) {
           core.triggerBlobDownload(xhr.response, file.name);
           core.setDownloadProgressScale(1);
-          core.setDownloadStatusText('ダウンロード完了！');
+          core.setDownloadStatusText(translate('download.complete', 'Download complete!'));
           setTimeout(function () {
             core.hideDownloadProgress();
           }, 1000);
         } else {
-          notify('ダウンロード中にエラーが発生しました。');
+          notify(translate('download.error', 'An error occurred during download.'));
           core.hideDownloadProgress();
         }
         isDownloading[downloadKey] = false;
@@ -63,7 +73,7 @@
       };
 
       xhr.onerror = function () {
-        notify('ダウンロード中にエラーが発生しました。');
+        notify(translate('download.error', 'An error occurred during download.'));
         core.hideDownloadProgress();
         isDownloading[downloadKey] = false;
         downloadBtn.disabled = false;
@@ -79,7 +89,7 @@
 
       isDownloadingAll = true;
       downloadAllBtn.disabled = true;
-      core.showDownloadProgress('全ファイルをダウンロード中... 0%');
+      core.showDownloadProgress(formatMessage('download.all_progress', 'Downloading all files... {percent}%', { percent: 0 }));
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', `/download/all/${roomId}/${roomPassword}`, true);
@@ -89,7 +99,7 @@
         if (event.lengthComputable) {
           var percentComplete = event.loaded / event.total;
           core.setDownloadProgressScale(percentComplete);
-          core.setDownloadStatusText(`全ファイルをダウンロード中... ${Math.round(percentComplete * 100)}%`);
+          core.setDownloadStatusText(formatMessage('download.all_progress', 'Downloading all files... {percent}%', { percent: Math.round(percentComplete * 100) }));
         }
       };
 
@@ -97,12 +107,12 @@
         if (xhr.status === 200) {
           core.triggerBlobDownload(xhr.response, `${roomId}_files.zip`);
           core.setDownloadProgressScale(1);
-          core.setDownloadStatusText('ダウンロード完了！');
+          core.setDownloadStatusText(translate('download.complete', 'Download complete!'));
           setTimeout(function () {
             core.hideDownloadProgress();
           }, 1000);
         } else {
-          notify('ダウンロード中にエラーが発生しました。');
+          notify(translate('download.error', 'An error occurred during download.'));
           core.hideDownloadProgress();
         }
 
@@ -111,7 +121,7 @@
       };
 
       xhr.onerror = function () {
-        notify('ダウンロード中にエラーが発生しました。');
+        notify(translate('download.error', 'An error occurred during download.'));
         core.hideDownloadProgress();
         isDownloadingAll = false;
         downloadAllBtn.disabled = false;

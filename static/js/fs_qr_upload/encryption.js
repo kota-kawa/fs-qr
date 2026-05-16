@@ -5,6 +5,13 @@
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function createEncryptionService(options) {
     var setProgressScale = options.setProgressScale;
     var setStatusText = typeof options.setStatusText === 'function'
@@ -17,16 +24,16 @@
 
       if (files.length === 1) {
         var singleFile = files[0];
-        setStatusText(`暗号化中: ${singleFile.name}（1/1）`);
+        setStatusText(translate('upload.encrypting_step', 'Encrypting: {name} ({current}/{total})').replace('{name}', singleFile.name).replace('{current}', '1').replace('{total}', '1'));
         var singleIv = crypto.getRandomValues(new Uint8Array(12));
         var singleFileBuffer = await singleFile.arrayBuffer();
 
-        setStatusText(`暗号化中: ${singleFile.name}（1/1、25%）`);
+        setStatusText(translate('upload.encrypting_step_pct', 'Encrypting: {name} ({current}/{total}, {pct}%)').replace('{name}', singleFile.name).replace('{current}', '1').replace('{total}', '1').replace('{pct}', '25'));
         setProgressScale(0.25);
 
         var singleEncryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: singleIv }, cryptoKey, singleFileBuffer);
 
-        setStatusText(`暗号化完了: ${singleFile.name}（1/1）`);
+        setStatusText(translate('upload.encrypted_done', 'Encrypted: {name} ({current}/{total})').replace('{name}', singleFile.name).replace('{current}', '1').replace('{total}', '1'));
         setProgressScale(1);
         return new Blob([singleIv, singleEncryptedBuffer]);
       }
@@ -41,12 +48,12 @@
         zip.file(`${file.name}.enc`, new Blob([iv, encryptedBuffer]));
 
         var encryptProgress = (i + 1) / files.length;
-        setStatusText(`暗号化中: ${file.name}（${i + 1}/${files.length}）`);
+        setStatusText(translate('upload.encrypting_step', 'Encrypting: {name} ({current}/{total})').replace('{name}', file.name).replace('{current}', String(i + 1)).replace('{total}', String(files.length)));
         setProgressScale(encryptProgress);
       }
 
       return zip.generateAsync({ type: 'blob' }, function (metadata) {
-        setStatusText(`圧縮中... ${Math.round(metadata.percent)}%`);
+        setStatusText(translate('upload.compressing', 'Compressing... {percent}%').replace('{percent}', String(Math.round(metadata.percent))));
         setProgressScale(1);
       });
     }

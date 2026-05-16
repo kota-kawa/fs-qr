@@ -4,11 +4,13 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
+  var core = modules.core || {};
 
   function createRetentionPreviewController(options) {
     var retentionSelect = options.retentionSelect;
     var retentionPreviewTime = options.retentionPreviewTime;
-    var retentionAutoDeleteTemplate = options.retentionAutoDeleteTemplate || '{time} ごろに自動削除されます';
+    var retentionAutoDeleteTemplate = options.retentionAutoDeleteTemplate
+      || (core.translate ? core.translate('retention.auto_delete_at', 'Will be automatically deleted around {time}') : 'Will be automatically deleted around {time}');
 
     function formatDateTime(date) {
       function pad(value) {

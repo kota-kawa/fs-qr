@@ -69,7 +69,7 @@
     spinner: spinnerController,
     encryptionService: encryptionService,
     logger: logger,
-    uploadButtonLabel: `${config.icons.rocket} アップロード開始`,
+    uploadButtonLabel: `${config.icons.rocket} ${core.translate('upload.start', 'Start upload')}`,
     limits: limits
   });
 

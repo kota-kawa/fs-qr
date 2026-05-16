@@ -4,6 +4,7 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('groupRoom');
+  var core = modules.core || {};
 
   function createPreviewManager(options) {
     var roomId = options.roomId;
@@ -80,9 +81,9 @@
       var image = document.createElement('img');
       image.className = 'group-preview-image';
       image.src = getPreviewUrl(file);
-      image.alt = `${file.name} のプレビュー`;
+      image.alt = core.formatMessage ? core.formatMessage('group.preview_alt', '{name} preview', { name: file.name }) : `${file.name} preview`;
       image.onerror = function () {
-        setMessage('プレビューを読み込めませんでした。');
+        setMessage(core.translate ? core.translate('group.preview_load_error', 'Could not load the preview.') : 'Could not load the preview.');
       };
       body.appendChild(image);
     }
@@ -91,7 +92,7 @@
       clearPreviewBody();
       var frame = document.createElement('iframe');
       frame.className = 'group-preview-frame';
-      frame.title = `${file.name} のプレビュー`;
+      frame.title = core.formatMessage ? core.formatMessage('group.preview_alt', '{name} preview', { name: file.name }) : `${file.name} preview`;
       frame.src = getPreviewUrl(file);
       body.appendChild(frame);
     }
@@ -99,7 +100,7 @@
     function renderTextPreview(file) {
       clearPreviewBody();
       body.classList.add('is-centered');
-      setMessage('読み込み中...');
+      setMessage(core.translate ? core.translate('common.loading', 'Loading...') : 'Loading...');
       window.fetch(getPreviewUrl(file), { credentials: 'same-origin' })
         .then(function (response) {
           if (!response.ok) {
@@ -116,13 +117,13 @@
         })
         .catch(function (error) {
           logger.warn('Preview request failed.', error);
-          setMessage('プレビューを読み込めませんでした。');
+          setMessage(core.translate ? core.translate('group.preview_load_error', 'Could not load the preview.') : 'Could not load the preview.');
         });
     }
 
     function previewFile(file) {
       if (!file || file.previewable !== true) {
-        notify('このファイル形式はプレビューできません。');
+        notify(core.translate ? core.translate('group.preview_unsupported', 'This file type cannot be previewed.') : 'This file type cannot be previewed.');
         return;
       }
 
@@ -143,7 +144,7 @@
         return;
       }
 
-      setMessage('このファイル形式はプレビューできません。');
+      setMessage(core.translate ? core.translate('group.preview_unsupported', 'This file type cannot be previewed.') : 'This file type cannot be previewed.');
     }
 
     closeButton.addEventListener('click', closePreview);

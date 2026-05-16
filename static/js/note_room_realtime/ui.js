@@ -4,6 +4,7 @@
     throw new Error("App namespace is not initialized.");
   }
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
+  const core = modules.core || {};
 
   function translate(key, fallback) {
     if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
@@ -13,17 +14,17 @@
   }
 
   const STATUS_LABELS = {
-    "Connected": translate("note.connected", "接続済み"),
-    "Connection error": translate("note.connection_error", "接続エラー"),
-    "Conflict resolved": translate("note.conflict_resolved", "競合を解消しました"),
-    "Offline (reconnecting...)": translate("note.offline_reconnecting", "オフライン（再接続中）"),
-    "Remote update queued": translate("note.remote_update_queued", "他の編集を反映待ち"),
-    "Reconnecting...": translate("note.reconnecting", "再接続中…"),
-    "Saved": translate("note.saved", "保存済み"),
-    "Saved (Merged)": translate("note.saved_merged", "保存済み（変更を統合）"),
-    "Saving...": translate("note.saving", "保存中…"),
-    "Sync timeout (retrying)": translate("note.sync_timeout", "同期がタイムアウトしました（再試行中）"),
-    "Up-to-date": translate("note.up_to_date", "最新です")
+    "Connected": translate("note.connected", "Connected"),
+    "Connection error": translate("note.connection_error", "Connection error"),
+    "Conflict resolved": translate("note.conflict_resolved", "Conflict resolved"),
+    "Offline (reconnecting...)": translate("note.offline_reconnecting", "Offline (reconnecting...)"),
+    "Remote update queued": translate("note.remote_update_queued", "Remote update queued"),
+    "Reconnecting...": translate("note.reconnecting", "Reconnecting..."),
+    "Saved": translate("note.saved", "Saved"),
+    "Saved (Merged)": translate("note.saved_merged", "Saved (merged)"),
+    "Saving...": translate("note.saving", "Saving..."),
+    "Sync timeout (retrying)": translate("note.sync_timeout", "Sync timeout (retrying)"),
+    "Up-to-date": translate("note.up_to_date", "Up to date")
   };
 
   function formatLastSync(date) {
@@ -33,9 +34,9 @@
     const diffMs = Date.now() - date.getTime();
     const diffMinutes = Math.max(0, Math.floor(diffMs / 60000));
     if (diffMinutes === 0) {
-      return translate("note.last_sync_just_now", "最終同期: たった今");
+      return translate("note.last_sync_just_now", "Last synced: just now");
     }
-    return translate("note.last_sync_minutes_ago", "最終同期: {n}分前").replace("{n}", diffMinutes);
+    return translate("note.last_sync_minutes_ago", "Last synced: {n} min ago").replace("{n}", diffMinutes);
   }
 
   function setStatus(context, className, text) {
@@ -45,7 +46,7 @@
     }
     context.status.className = className;
     const syncText = formatLastSync(context.lastSyncedAt);
-    context.status.textContent = syncText ? `${label}（${syncText}）` : label;
+    context.status.textContent = syncText ? `${label} (${syncText})` : label;
   }
 
   function showEditorFeedback(message, kind) {
@@ -59,7 +60,9 @@
       return;
     }
     const length = (content || "").length;
-    context.charCount.textContent = `${length} / ${context.MAX_LENGTH}文字`;
+    context.charCount.textContent = core.formatMessage
+      ? core.formatMessage("note.char_count", "{length} / {max_length} characters", { length: length, max_length: context.MAX_LENGTH })
+      : `${length} / ${context.MAX_LENGTH} characters`;
   }
 
   function setMergeStatus(context, text, kind) {

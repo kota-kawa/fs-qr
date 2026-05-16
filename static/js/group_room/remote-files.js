@@ -4,6 +4,7 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('groupRoom');
+  var core = modules.core || {};
 
   function createRemoteFileListManager(options) {
     var roomId = options.roomId;
@@ -16,8 +17,6 @@
     var downloadHandlers = options.downloadHandlers;
     var previewManager = options.previewManager;
     var limits = options.limits || {};
-    var core = modules.core || {};
-
     var fetchRetryCount = 0;
     var maxRetries = 3;
     var fileListSocket = null;
@@ -97,7 +96,12 @@
       setFileCount(files.length);
 
       if (files.length === 0) {
-        otherFileList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-medium);">まだファイルがアップロードされていません</div>';
+        var emptyMessage = document.createElement('div');
+        emptyMessage.style.textAlign = 'center';
+        emptyMessage.style.padding = '2rem';
+        emptyMessage.style.color = 'var(--text-medium)';
+        emptyMessage.textContent = core.translate ? core.translate('group.no_files_yet', 'No files uploaded yet') : 'No files uploaded yet';
+        otherFileList.appendChild(emptyMessage);
         return;
       }
 
@@ -121,8 +125,8 @@
           previewBtn.className = 'modern-file-action-btn';
           previewBtn.type = 'button';
           previewBtn.innerHTML = icons.preview || icons.file;
-          previewBtn.setAttribute('aria-label', 'プレビュー');
-          previewBtn.setAttribute('title', 'プレビュー');
+          previewBtn.setAttribute('aria-label', core.translate ? core.translate('common.preview', 'Preview') : 'Preview');
+          previewBtn.setAttribute('title', core.translate ? core.translate('common.preview', 'Preview') : 'Preview');
           previewBtn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -135,8 +139,8 @@
         downloadBtn.className = 'modern-file-action-btn';
         downloadBtn.type = 'button';
         downloadBtn.innerHTML = icons.download;
-        downloadBtn.setAttribute('aria-label', 'ダウンロード');
-        downloadBtn.setAttribute('title', 'ダウンロード');
+        downloadBtn.setAttribute('aria-label', core.translate ? core.translate('common.download', 'Download') : 'Download');
+        downloadBtn.setAttribute('title', core.translate ? core.translate('common.download', 'Download') : 'Download');
         downloadBtn.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -147,14 +151,17 @@
         deleteBtn.className = 'modern-file-action-btn delete';
         deleteBtn.type = 'button';
         deleteBtn.innerHTML = icons.trash;
-        deleteBtn.setAttribute('aria-label', '削除');
-        deleteBtn.setAttribute('title', '削除');
+        deleteBtn.setAttribute('aria-label', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
+        deleteBtn.setAttribute('title', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
 
         deleteBtn.addEventListener('click', async function () {
           var encodedFilename = encodeURIComponent(file.name);
           var confirmed = await window.showConfirmModal(
-            `「${file.name}」を削除します。この操作は元に戻せません。`,
-            { title: 'ファイルを削除', confirmLabel: '削除する' }
+            core.formatMessage ? core.formatMessage('group.delete_confirm', 'This will delete "{name}". This cannot be undone.', { name: file.name }) : `This will delete "${file.name}". This cannot be undone.`,
+            {
+              title: core.translate ? core.translate('group.delete_file_title', 'Delete file') : 'Delete file',
+              confirmLabel: core.translate ? core.translate('alert.delete', 'Delete') : 'Delete'
+            }
           );
           if (!confirmed) {
             return;
@@ -170,15 +177,15 @@
               ? core.safeParseJson(xhr.responseText, logger, 'group delete response')
               : null;
             if (xhr.status >= 200 && xhr.status < 300 && payload && payload.status === 'ok') {
-              window.showAlertModal('ファイルを削除しました。');
+              window.showAlertModal(core.translate ? core.translate('group.file_deleted', 'File deleted.') : 'File deleted.');
               fetchAndDisplayOtherFiles();
             } else {
-              var message = payload && typeof payload.error === 'string' ? payload.error : '削除中にエラーが発生しました。';
+              var message = payload && typeof payload.error === 'string' ? payload.error : (core.translate ? core.translate('group.delete_error', 'An error occurred while deleting.') : 'An error occurred while deleting.');
               window.showAlertModal(message);
             }
           };
           xhr.onerror = function () {
-            window.showAlertModal('削除中にエラーが発生しました。');
+            window.showAlertModal(core.translate ? core.translate('group.delete_error', 'An error occurred while deleting.') : 'An error occurred while deleting.');
           };
           xhr.send();
         });
@@ -193,9 +200,9 @@
 
     function handleFetchFailure(status, error) {
       fetchRetryCount += 1;
-      logger.warn(`ファイル情報取得失敗 (試行 ${fetchRetryCount}/${maxRetries}):`, status, error);
+      logger.warn(`File list fetch failed (attempt ${fetchRetryCount}/${maxRetries}):`, status, error);
       if (fetchRetryCount >= maxRetries) {
-        logger.error('他のユーザーのファイル情報を取得できませんでした。');
+        logger.error('Could not fetch files from other users.');
         fetchRetryCount = 0;
       }
     }
@@ -228,7 +235,7 @@
         fetchRetryCount = 0;
 
         if (core.isPlainObject && core.isPlainObject(parsed) && parsed.status === 'error' && typeof parsed.error === 'string') {
-          logger.warn('ファイル取得エラー:', parsed.error);
+          logger.warn('File fetch error:', parsed.error);
           return;
         }
 
@@ -316,7 +323,7 @@
           return;
         }
         if (typeof payload !== 'object' || Array.isArray(payload)) {
-          logger.warn('WebSocketメッセージ形式が不正です。');
+          logger.warn('Invalid WebSocket message payload.');
           return;
         }
         if (payload.type === 'files_updated') {
@@ -335,7 +342,7 @@
           return;
         }
         if (event && event.code === 1008) {
-          logger.warn('ファイル更新WebSocketが認証エラーで切断されました。');
+          logger.warn('File update WebSocket closed with an authentication error.');
           return;
         }
         scheduleFileListReconnect();

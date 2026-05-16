@@ -5,6 +5,13 @@
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function createSpinnerController(options) {
     var spinnerRoot = options.spinnerRoot;
     var spinnerAnimationContainer = options.spinnerAnimationContainer;
@@ -38,13 +45,13 @@
         uploadProgress.style.transform = 'scaleX(0)';
       }
       if (spinnerEyebrow) {
-        spinnerEyebrow.textContent = '暗号化';
+        spinnerEyebrow.textContent = translate('upload.encryption', 'Encryption');
       }
       if (spinnerText) {
-        spinnerText.textContent = '暗号化中...';
+        spinnerText.textContent = translate('upload.encrypting', 'Encrypting...');
       }
       if (spinnerDetail) {
-        spinnerDetail.textContent = 'ファイルを準備しています。';
+        spinnerDetail.textContent = translate('upload.preparing', 'Preparing files.');
       }
     }
 
@@ -86,13 +93,13 @@
 
     function startEncryptionAnimation() {
       setPhase('encrypting');
-      setSpinnerEyebrow('暗号化');
+      setSpinnerEyebrow(translate('upload.encryption', 'Encryption'));
       setUploadProgressScale(0);
     }
 
     function startUploadAnimation() {
       setPhase('uploading');
-      setSpinnerEyebrow('アップロード');
+      setSpinnerEyebrow(translate('upload.upload', 'Upload'));
       setProgressScale(1);
     }
 

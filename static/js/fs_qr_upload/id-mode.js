@@ -4,6 +4,7 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
+  var core = modules.core || {};
 
   function createIdModeController(options) {
     var idInput = options.idInput;
@@ -70,10 +71,10 @@
         var isValid = /^[a-zA-Z0-9]{0,6}$/.test(value);
 
         if (!isValid) {
-          this.setCustomValidity('半角英数字のみ使用してください');
+          this.setCustomValidity(core.translate ? core.translate('id.invalid_alnum', 'Use only half-width letters and numbers.') : 'Use only half-width letters and numbers.');
           this.style.borderColor = '#ef4444';
         } else if (value.length < 6 && value.length > 0) {
-          this.setCustomValidity('6文字すべて入力してください');
+          this.setCustomValidity(core.translate ? core.translate('id.incomplete_length', 'Please enter all 6 characters.') : 'Please enter all 6 characters.');
           this.style.borderColor = '#f59e0b';
         } else {
           this.setCustomValidity('');

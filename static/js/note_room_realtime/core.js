@@ -18,6 +18,21 @@
     return appNamespace.api.getConfig("noteRoomRealtime");
   }
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
+  function formatMessage(key, fallback, replacements) {
+    let message = translate(key, fallback);
+    Object.keys(replacements || {}).forEach(function (name) {
+      message = message.replace(new RegExp(`\\{${name}\\}`, "g"), String(replacements[name]));
+    });
+    return message;
+  }
+
   function createLogger(enabled) {
     function callConsole(method, args) {
       if (!enabled || typeof window.console === "undefined") {
@@ -109,6 +124,8 @@
 
   modules.core = {
     getConfig: getConfig,
+    translate: translate,
+    formatMessage: formatMessage,
     createLogger: createLogger,
     isPlainObject: isPlainObject,
     safeParseJson: safeParseJson,

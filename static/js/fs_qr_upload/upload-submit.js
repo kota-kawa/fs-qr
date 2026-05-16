@@ -5,6 +5,13 @@
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function createUploadSubmitter(options) {
     var uploadForm = options.uploadForm;
     var fileInput = options.fileInput;
@@ -18,7 +25,7 @@
     var spinner = options.spinner;
     var encryptionService = options.encryptionService;
     var logger = options.logger || { log: function () {}, warn: function () {}, error: function () {} };
-    var uploadButtonLabel = options.uploadButtonLabel || 'アップロード開始';
+    var uploadButtonLabel = options.uploadButtonLabel || translate('upload.start', 'Start upload');
     var validation = appNamespace.api.getShared('uploadValidation');
     if (!validation) {
       throw new Error('Shared upload validation is not initialized.');
@@ -50,7 +57,7 @@
 
     function validateBeforeSubmit(files, id) {
       if (!(files.length > 0 && id.length > 0)) {
-        showFormError('ファイルと共有用IDを確認してください。');
+        showFormError(translate('upload.file_id_required', 'Please check the file and sharing ID.'));
         if (startUploadBtn) {
           startUploadBtn.disabled = false;
           startUploadBtn.innerHTML = uploadButtonLabel;
@@ -63,11 +70,11 @@
       var result = validation.validateSelection(files, limits, { checkFileName: true });
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          showFormError(`ファイル数は最大${limits.maxFiles}個までです。`);
+          showFormError(translate('upload.error_max_files', 'You can upload a maximum of {max} files.').replace('{max}', String(limits.maxFiles)));
         } else if (result.reason === 'max_total_size') {
-          showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
+          showFormError(translate('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
         } else if (result.reason === 'invalid_filename') {
-          showFormError('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          showFormError(translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.'));
         }
         if (startUploadBtn) {
           startUploadBtn.disabled = false;
@@ -105,8 +112,8 @@
           if (activeXhr) {
             activeXhr.abort();
           }
-          spinner.setSpinnerText('キャンセルしています...');
-          spinner.setSpinnerDetail('暗号化中の場合は、現在の処理が終わり次第キャンセルします。');
+          spinner.setSpinnerText(translate('upload.canceling', 'Canceling...'));
+          spinner.setSpinnerDetail(translate('upload.cancel_detail', 'If encrypting, cancellation will happen after the current step completes.'));
         });
       }
 
@@ -123,7 +130,7 @@
         spinner.startEncryptionAnimation();
         if (startUploadBtn) {
           startUploadBtn.disabled = true;
-          startUploadBtn.textContent = '処理中...';
+          startUploadBtn.textContent = translate('common.processing', 'Processing...');
         }
 
         var files = fileInput.files;
@@ -135,9 +142,9 @@
 
         try {
           var fileNames = Array.from(files).map(function (file) { return file.name; });
-          spinner.setSpinnerEyebrow('暗号化');
-          spinner.setSpinnerText('アップロード準備中...');
-          spinner.setSpinnerDetail(`対象ファイル: ${fileNames[0]}${fileNames.length > 1 ? ` ほか${fileNames.length - 1}件` : ''}`);
+          spinner.setSpinnerEyebrow(translate('upload.encryption', 'Encryption'));
+          spinner.setSpinnerText(translate('upload.preparing_start', 'Preparing upload...'));
+          spinner.setSpinnerDetail(translate('upload.target_file', 'Target file: {name}').replace('{name}', fileNames[0]) + (fileNames.length > 1 ? translate('upload.target_file_more', ' and {n} more').replace('{n}', String(fileNames.length - 1)) : ''));
           spinner.setProgressScale(0);
           spinner.setUploadProgressScale(0);
           await new Promise(function (resolve) {
@@ -145,18 +152,18 @@
           });
 
           if (cancelRequested) {
-            throw new Error('アップロードをキャンセルしました。');
+            throw new Error(translate('upload.canceled', 'Upload canceled.'));
           }
 
-          spinner.setSpinnerText('暗号化中...');
+          spinner.setSpinnerText(translate('upload.encrypting', 'Encrypting...'));
           var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, id);
           if (cancelRequested) {
-            throw new Error('アップロードをキャンセルしました。');
+            throw new Error(translate('upload.canceled', 'Upload canceled.'));
           }
 
-          spinner.setSpinnerEyebrow('アップロード');
-          spinner.setSpinnerText('送信中...');
-          spinner.setSpinnerDetail(`送信対象: ${fileNames.length}件`);
+          spinner.setSpinnerEyebrow(translate('upload.upload', 'Upload'));
+          spinner.setSpinnerText(translate('upload.sending', 'Sending...'));
+          spinner.setSpinnerDetail(translate('upload.sending_files', 'Sending {n} file(s)').replace('{n}', String(fileNames.length)));
           spinner.startUploadAnimation();
 
           var formData = buildUploadFormData(files, encryptedBlob, id);
@@ -173,7 +180,7 @@
             if (progressEvent.lengthComputable) {
               var uploadProgress = progressEvent.loaded / progressEvent.total;
               spinner.setUploadProgressScale(uploadProgress);
-              spinner.setSpinnerText(`送信中... ${Math.round(uploadProgress * 100)}%`);
+              spinner.setSpinnerText(translate('upload.sending_progress', 'Sending... {percent}%').replace('{percent}', String(Math.round(uploadProgress * 100))));
             }
           };
 
@@ -181,7 +188,7 @@
             if (xhr.status === 200) {
               var result = parseJsonResponse(xhr.responseText, 'fsqr upload response');
               if (!isObjectPayload(result)) {
-                showFormError('アップロードは完了しましたが、レスポンス形式が不正です。画面を再読み込みして確認してください。');
+                showFormError(translate('upload.error_response_format', 'Upload completed, but the response format is invalid. Please reload the page.'));
                 spinner.hideSpinner();
               } else if (
                 result.status === 'ok'
@@ -191,7 +198,7 @@
               ) {
                 window.location.href = result.data.redirect_url;
               } else {
-                showFormError('アップロードは完了しましたが、遷移先を取得できませんでした。画面を再読み込みして確認してください。');
+                showFormError(translate('upload.error_no_redirect', 'Upload completed, but the redirect URL could not be retrieved. Please reload the page.'));
                 spinner.hideSpinner();
               }
             } else {
@@ -199,7 +206,7 @@
               if (isObjectPayload(errorResult) && typeof errorResult.error === 'string' && errorResult.error) {
                 showFormError(errorResult.error);
               } else {
-                showFormError('アップロードに失敗しました。時間をおいて再度お試しください。');
+                showFormError(translate('upload.error_failed', 'Upload failed. Please try again later.'));
               }
               spinner.hideSpinner();
             }
@@ -212,7 +219,7 @@
           };
 
           xhr.onerror = function () {
-            showFormError('送信中にエラーが発生しました。通信状態を確認して再度お試しください。');
+            showFormError(translate('upload.send_error', 'An error occurred while sending. Check your connection and try again.'));
             spinner.hideSpinner();
             if (startUploadBtn) {
               startUploadBtn.disabled = false;
@@ -223,7 +230,7 @@
           };
 
           xhr.onabort = function () {
-            showFormError('アップロードをキャンセルしました。');
+            showFormError(translate('upload.canceled', 'Upload canceled.'));
             spinner.hideSpinner();
             if (startUploadBtn) {
               startUploadBtn.disabled = false;
@@ -235,7 +242,7 @@
 
           xhr.send(formData);
         } catch (error) {
-          showFormError(`処理中にエラーが発生しました。${error.message}`);
+          showFormError(translate('upload.error_processing', 'An error occurred during processing. {message}').replace('{message}', error.message));
           spinner.hideSpinner();
           if (startUploadBtn) {
             startUploadBtn.disabled = false;

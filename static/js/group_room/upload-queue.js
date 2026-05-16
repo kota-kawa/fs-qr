@@ -4,6 +4,7 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('groupRoom');
+  var core = modules.core || {};
 
   function createUploadQueue(options) {
     var uploadArea = options.uploadArea;
@@ -39,19 +40,26 @@
       }
       var totalSize = validation.calculateTotalSize(filesArray);
       var remainingBytes = limits.maxTotalSizeBytes - totalSize;
-      uploadLimitStatus.textContent = `現在 ${filesArray.length} / 最大 ${limits.maxFiles} 件、残り ${formatSize(remainingBytes)}（上限 ${limits.maxTotalSizeMB}MB）`;
+      uploadLimitStatus.textContent = core.formatMessage
+        ? core.formatMessage('upload.limit_status', 'Current {current} / max {max} files, {remaining} remaining (limit {max_size} MB)', {
+          current: filesArray.length,
+          max: limits.maxFiles,
+          remaining: formatSize(remainingBytes),
+          max_size: limits.maxTotalSizeMB
+        })
+        : `Current ${filesArray.length} / max ${limits.maxFiles} files, ${formatSize(remainingBytes)} remaining (limit ${limits.maxTotalSizeMB} MB)`;
       uploadLimitStatus.classList.toggle('is-warning', Boolean(hasInvalid));
     }
 
     function getInvalidReason(file, index, runningSize) {
       if (index >= limits.maxFiles) {
-        return '最大件数を超えています';
+        return core.translate ? core.translate('upload.invalid_max_files_reason', 'Maximum file count exceeded') : 'Maximum file count exceeded';
       }
       if (runningSize > limits.maxTotalSizeBytes) {
-        return '合計サイズの上限を超えています';
+        return core.translate ? core.translate('upload.invalid_total_size_reason', 'Total size limit exceeded') : 'Total size limit exceeded';
       }
       if (validation.findInvalidFilename([file]) !== null) {
-        return 'ファイル名を変更してください';
+        return core.translate ? core.translate('upload.invalid_filename_reason', 'Rename the file') : 'Rename the file';
       }
       return '';
     }
@@ -97,8 +105,8 @@
         deleteBtn.className = 'modern-file-action-btn delete';
         deleteBtn.type = 'button';
         deleteBtn.innerHTML = icons.trash;
-        deleteBtn.setAttribute('aria-label', '削除');
-        deleteBtn.setAttribute('title', '削除');
+        deleteBtn.setAttribute('aria-label', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
+        deleteBtn.setAttribute('title', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
         deleteBtn.addEventListener('click', function () {
           filesArray.splice(index, 1);
           renderFileList();
@@ -123,11 +131,19 @@
 
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          notify(`ファイル数は最大${limits.maxFiles}個までです。現在${filesArray.length}個、追加しようとしているファイルは${result.selectedFilesCount}個です。`);
+          notify(core.formatMessage
+            ? core.formatMessage('upload.error_max_files_with_current', 'You can upload a maximum of {max} files. You currently have {current}, and are trying to add {selected}.', {
+              max: limits.maxFiles,
+              current: filesArray.length,
+              selected: result.selectedFilesCount
+            })
+            : `You can upload a maximum of ${limits.maxFiles} files. You currently have ${filesArray.length}, and are trying to add ${result.selectedFilesCount}.`);
         } else if (result.reason === 'max_total_size') {
-          notify(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
+          notify(core.formatMessage
+            ? core.formatMessage('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.', { max: limits.maxTotalSizeMB, current: result.totalSizeMB })
+            : `The total file size limit is ${limits.maxTotalSizeMB} MB. The current total is ${result.totalSizeMB} MB.`);
         } else if (result.reason === 'invalid_filename') {
-          notify('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          notify(core.translate ? core.translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.') : 'An invalid file name is included. Rename the file and try again.');
         }
       }
 

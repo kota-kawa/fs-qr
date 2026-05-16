@@ -44,7 +44,7 @@
       !previewOverlay || !previewDialog || !previewTitle || !previewBody ||
       !previewCloseButton || !previewDownloadLink
     ) {
-      logger.warn('Group room初期化に必要な要素が見つかりませんでした。');
+      logger.warn('Required elements for group room initialization were not found.');
       return;
     }
 
@@ -52,7 +52,7 @@
     var roomPassword = config.roomPassword;
     var websocketCsrfToken = config.websocketCsrfToken;
     var icons = config.icons || {};
-    var uploadButtonLabel = `${icons.rocket || ''} アップロード`;
+    var uploadButtonLabel = `${icons.rocket || ''} ${core.translate('upload.upload', 'Upload')}`;
     var uploadIconController = core.createUploadIconController(icons);
 
     uploadBtn.innerHTML = uploadButtonLabel;

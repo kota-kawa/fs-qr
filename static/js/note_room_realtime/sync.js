@@ -195,9 +195,9 @@
     function sendSave(currentContent) {
       if (currentContent.length > context.MAX_LENGTH) {
         if (typeof window.showAlertModal === 'function') {
-          window.showAlertModal(`文字数は最大 ${context.MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+          window.showAlertModal(translate("note.char_limit_error", "Character count is limited to {max_length}. Current length is {current_length}.").replace("{max_length}", context.MAX_LENGTH).replace("{current_length}", currentContent.length));
         } else {
-          window.alert(`文字数は最大 ${context.MAX_LENGTH} 文字までです。現在 ${currentContent.length} 文字です。`);
+          window.alert(translate("note.char_limit_error", "Character count is limited to {max_length}. Current length is {current_length}.").replace("{max_length}", context.MAX_LENGTH).replace("{current_length}", currentContent.length));
         }
         setSyncState(SYNC_STATES.IDLE);
         return;
@@ -258,14 +258,14 @@
       ) {
         if (noteStatus === "ok_merged") {
           ui.setStatus(context, "badge bg-info", "Saved (Merged)");
-          ui.setMergeStatus(context, translate("note.conflict_notice_merged", "競合通知: あなたの変更と他ユーザーの変更を自動マージして保存しました。内容を確認してください。"), "success");
+          ui.setMergeStatus(context, translate("note.conflict_notice_merged", "Conflict notice: Your changes and another user's changes were automatically merged and saved. Please review the content."), "success");
         } else {
           ui.setStatus(context, "badge bg-success", "Saved");
           ui.setMergeStatus(context, "", "");
         }
       } else if (normalizedPayload.status === "error" && noteStatus.startsWith("conflict")) {
         ui.setStatus(context, "badge bg-warning text-dark", "Conflict resolved");
-        ui.setMergeStatus(context, translate("note.conflict_notice_overwritten", "競合通知: あなたの未保存変更とサーバー上の最新内容が競合しました。サーバー版を反映しています。必要な内容は再入力してください。"), "warning");
+        ui.setMergeStatus(context, translate("note.conflict_notice_overwritten", "Conflict notice: Your unsaved changes conflicted with the server version. The server version has been applied. Please re-enter any needed content."), "warning");
       } else if (normalizedPayload.status === "error" && normalizedPayload.error) {
         ui.setStatus(context, "badge bg-danger", normalizedPayload.error);
         ui.setMergeStatus(context, "", "");
@@ -305,7 +305,7 @@
             status: updateData.note_status || ""
           });
           ui.setStatus(context, "badge bg-warning text-dark", "Remote update queued");
-          ui.setMergeStatus(context, translate("note.conflict_notice_queued", "競合通知: 他ユーザーの更新を受信しました。あなたのローカル変更を保存した後に反映します。"), "warning");
+          ui.setMergeStatus(context, translate("note.conflict_notice_queued", "Conflict notice: A remote update was received. It will be applied after your local changes are saved."), "warning");
           return;
         }
         selfEditModule.applyServerContent(

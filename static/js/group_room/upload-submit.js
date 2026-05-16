@@ -5,6 +5,13 @@
   }
   var modules = appNamespace.api.getModuleNamespace('groupRoom');
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function createUploadSubmitter(options) {
     var uploadBtn = options.uploadBtn;
     var uploadStatusMessage = options.uploadStatusMessage;
@@ -79,7 +86,7 @@
 
     function validateFiles(filesArray) {
       if (filesArray.length === 0) {
-        notify('アップロードするファイルがありません。');
+        notify(translate('upload.no_files', 'No files to upload.'));
         return false;
       }
 
@@ -88,11 +95,11 @@
       });
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          notify(`ファイル数は最大${limits.maxFiles}個までです。`);
+          notify(translate('upload.error_max_files', 'You can upload a maximum of {max} files.').replace('{max}', String(limits.maxFiles)));
         } else if (result.reason === 'max_total_size') {
-          notify(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
+          notify(translate('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
         } else if (result.reason === 'invalid_filename') {
-          notify('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          notify(translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.'));
         }
         return false;
       }
@@ -111,10 +118,10 @@
     function showUploadProgressStart() {
       core.showElement(uploadProgressContainer);
       core.setProgressScale(uploadProgressBar, 0);
-      core.setElementText(uploadProgressText, 'アップロード中...');
+      core.setElementText(uploadProgressText, translate('upload.uploading', 'Uploading...'));
       resetStatusMessage();
       uploadBtn.disabled = true;
-      uploadBtn.textContent = 'アップロード中...';
+      uploadBtn.textContent = translate('upload.uploading', 'Uploading...');
     }
 
     function showUploadError(xhr) {
@@ -122,7 +129,7 @@
       uploadBtn.disabled = false;
       uploadBtn.innerHTML = uploadButtonLabel;
 
-      var errorMessage = 'アップロード中にエラーが発生しました。';
+      var errorMessage = translate('upload.error_upload', 'An error occurred during upload.');
       if (xhr && xhr.responseText) {
         var responseJson = parseJsonResponse(xhr.responseText, 'group upload error');
         if (responseJson && typeof responseJson.error === 'string' && responseJson.error) {
@@ -135,7 +142,7 @@
 
     function handleUploadResponse(response) {
       core.setProgressScale(uploadProgressBar, 1);
-      core.setElementText(uploadProgressText, 'アップロード完了！');
+      core.setElementText(uploadProgressText, translate('upload.complete', 'Upload complete!'));
 
       setTimeout(function () {
         core.hideElement(uploadProgressContainer);
@@ -146,18 +153,18 @@
         var isError = false;
         var responseData = response.data || {};
         if (response.status === 'ok') {
-          statusMessage = responseData.message || 'ファイルのアップロードが完了しました。';
+          statusMessage = responseData.message || translate('upload.complete_message', 'File upload completed.');
           clearFiles();
           refreshRemoteFiles();
         } else if (response.status === 'error') {
           isError = true;
-          var errorDetails = response.error || responseData.message || 'アップロード中にエラーが発生しました。';
+          var errorDetails = response.error || responseData.message || translate('upload.error_upload', 'An error occurred during upload.');
           if (Array.isArray(responseData.files) && responseData.files.length > 0) {
-            errorDetails += '（対象ファイル: ' + responseData.files.join(', ') + '）';
+            errorDetails += translate('upload.error_file_list', '(Files: {files})').replace('{files}', responseData.files.join(', '));
           }
           statusMessage = errorDetails;
         } else {
-          statusMessage = 'ファイルのアップロードが完了しました。';
+          statusMessage = translate('upload.complete_message', 'File upload completed.');
           clearFiles();
           refreshRemoteFiles();
         }
@@ -187,7 +194,7 @@
         if (evt.lengthComputable) {
           var percentComplete = evt.loaded / evt.total;
           core.setProgressScale(uploadProgressBar, percentComplete);
-          core.setElementText(uploadProgressText, `アップロード中... ${Math.round(percentComplete * 100)}%`);
+          core.setElementText(uploadProgressText, translate('upload.uploading_progress', 'Uploading... {percent}%').replace('{percent}', String(Math.round(percentComplete * 100))));
         }
       }, false);
 

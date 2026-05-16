@@ -4,6 +4,7 @@
     throw new Error('App namespace is not initialized.');
   }
   var modules = appNamespace.api.getModuleNamespace('fsQrUpload');
+  var core = modules.core || {};
 
   function createFileSelectionController(options) {
     var uploadArea = options.uploadArea;
@@ -33,7 +34,14 @@
       }
       var totalSize = validation.calculateTotalSize(files);
       var remainingBytes = limits.maxTotalSizeBytes - totalSize;
-      uploadLimitStatus.textContent = `現在 ${files.length} / 最大 ${limits.maxFiles} 件、残り ${formatSize(remainingBytes)}（上限 ${limits.maxTotalSizeMB}MB）`;
+      uploadLimitStatus.textContent = core.formatMessage
+        ? core.formatMessage('upload.limit_status', 'Current {current} / max {max} files, {remaining} remaining (limit {max_size} MB)', {
+          current: files.length,
+          max: limits.maxFiles,
+          remaining: formatSize(remainingBytes),
+          max_size: limits.maxTotalSizeMB
+        })
+        : `Current ${files.length} / max ${limits.maxFiles} files, ${formatSize(remainingBytes)} remaining (limit ${limits.maxTotalSizeMB} MB)`;
       uploadLimitStatus.classList.toggle('is-warning', Boolean(hasInvalid));
     }
 
@@ -43,11 +51,11 @@
         var reason = '';
         runningSize += file.size || 0;
         if (index >= limits.maxFiles) {
-          reason = '最大件数を超えています';
+          reason = core.translate ? core.translate('upload.invalid_max_files_reason', 'Maximum file count exceeded') : 'Maximum file count exceeded';
         } else if (runningSize > limits.maxTotalSizeBytes) {
-          reason = '合計サイズの上限を超えています';
+          reason = core.translate ? core.translate('upload.invalid_total_size_reason', 'Total size limit exceeded') : 'Total size limit exceeded';
         } else if (validation.findInvalidFilename([file]) !== null) {
-          reason = 'ファイル名を変更してください';
+          reason = core.translate ? core.translate('upload.invalid_filename_reason', 'Rename the file') : 'Rename the file';
         }
         return {
           file: file,
@@ -60,11 +68,15 @@
       var result = validation.validateSelection(files, limits, { checkFileName: true });
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          showFormError(`ファイル数は最大${limits.maxFiles}個までです。不要なファイルを外して再度お試しください。`);
+          showFormError(core.formatMessage
+            ? core.formatMessage('upload.error_max_files_remove', 'You can upload a maximum of {max} files. Remove unnecessary files and try again.', { max: limits.maxFiles })
+            : `You can upload a maximum of ${limits.maxFiles} files. Remove unnecessary files and try again.`);
         } else if (result.reason === 'max_total_size') {
-          showFormError(`ファイルの合計サイズは${limits.maxTotalSizeMB}MBまでです。現在の合計は${result.totalSizeMB}MBです。`);
+          showFormError(core.formatMessage
+            ? core.formatMessage('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.', { max: limits.maxTotalSizeMB, current: result.totalSizeMB })
+            : `The total file size limit is ${limits.maxTotalSizeMB} MB. The current total is ${result.totalSizeMB} MB.`);
         } else if (result.reason === 'invalid_filename') {
-          showFormError('不正なファイル名が含まれています。ファイル名を変更して再度お試しください。');
+          showFormError(core.translate ? core.translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.') : 'An invalid file name is included. Rename the file and try again.');
         }
         return false;
       }
@@ -110,8 +122,8 @@
         deleteBtn.className = 'modern-file-action-btn delete';
         deleteBtn.innerHTML = icons.trash;
         deleteBtn.type = 'button';
-        deleteBtn.setAttribute('aria-label', '削除');
-        deleteBtn.setAttribute('title', '削除');
+        deleteBtn.setAttribute('aria-label', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
+        deleteBtn.setAttribute('title', core.translate ? core.translate('common.delete', 'Delete') : 'Delete');
         deleteBtn.onclick = function () {
           selectedFiles.splice(index, 1);
           renderFileList(selectedFiles);

@@ -5,18 +5,26 @@
   }
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
   const ui = modules.ui;
+  const core = modules.core || {};
+
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
 
   function createClipboardHandlers(context) {
     async function handlePasteFromClipboard() {
       if (!navigator.clipboard || !navigator.clipboard.readText) {
-        ui.showEditorFeedback("この環境ではペースト機能を利用できません。", "error");
+        ui.showEditorFeedback(translate("note.clipboard_paste_unavailable", "Paste is not available in this environment."), "error");
         return;
       }
 
       try {
         const clipText = await navigator.clipboard.readText();
         if (!clipText) {
-          ui.showEditorFeedback("クリップボードに貼り付けるテキストがありません。", "error");
+          ui.showEditorFeedback(translate("note.clipboard_empty", "There is no text to paste from the clipboard."), "error");
           return;
         }
 
@@ -27,7 +35,9 @@
         const remain = context.MAX_LENGTH - (before.length + after.length);
 
         if (remain <= 0) {
-          ui.showEditorFeedback(`文字数上限（${context.MAX_LENGTH}文字）に達しています。`, "error");
+          ui.showEditorFeedback(core.formatMessage
+            ? core.formatMessage("note.char_limit_reached", "The character limit ({max_length}) has been reached.", { max_length: context.MAX_LENGTH })
+            : `The character limit (${context.MAX_LENGTH}) has been reached.`, "error");
           return;
         }
 
@@ -40,19 +50,21 @@
         context.editor.focus();
 
         if (insertText.length < clipText.length) {
-          ui.showEditorFeedback(`上限のため${insertText.length}文字のみ貼り付けました。`, "error");
+          ui.showEditorFeedback(core.formatMessage
+            ? core.formatMessage("note.paste_truncated", "Only {count} characters were pasted because of the limit.", { count: insertText.length })
+            : `Only ${insertText.length} characters were pasted because of the limit.`, "error");
         } else {
-          ui.showEditorFeedback("ペーストしました。", "success");
+          ui.showEditorFeedback(translate("note.paste_success", "Pasted."), "success");
         }
       } catch (error) {
-        ui.showEditorFeedback("ペーストに失敗しました。ブラウザの権限設定を確認してください。", "error");
+        ui.showEditorFeedback(translate("note.paste_error", "Paste failed. Check your browser permission settings."), "error");
       }
     }
 
     async function handleCopyAllText() {
       const text = context.editor.value || "";
       if (!text) {
-        ui.showEditorFeedback("コピーするテキストがありません。", "error");
+        ui.showEditorFeedback(translate("note.copy_empty", "There is no text to copy."), "error");
         return;
       }
 
@@ -61,9 +73,9 @@
           throw new Error("Clipboard helper unavailable");
         }
         await copyTextToClipboard(text);
-        ui.showEditorFeedback("ノート全文をコピーしました。", "success");
+        ui.showEditorFeedback(translate("note.copy_success", "Copied the full note."), "success");
       } catch (error) {
-        ui.showEditorFeedback("全文コピーに失敗しました。手動でコピーしてください。", "error");
+        ui.showEditorFeedback(translate("note.copy_error", "Copy failed. Please copy manually."), "error");
       }
     }
 
