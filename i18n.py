@@ -157,6 +157,17 @@ def language_from_ip(ip_address: str) -> str:
 
 
 def resolve_language(request: Request) -> str:
+    # ?lang= クエリパラメータが最優先（hreflang用URLからのアクセスとクローラー対応）
+    query_params = getattr(request, "query_params", None)
+    raw_query_language = (
+        query_params.get("lang") if query_params is not None else None
+    )
+    if isinstance(raw_query_language, str) and raw_query_language.strip():
+        normalized = normalize_language(raw_query_language)
+        raw_normalized = raw_query_language.strip().lower()
+        valid_default_alias = raw_normalized in {"ja", "jp", "ja-jp"}
+        if normalized != DEFAULT_LANGUAGE or valid_default_alias:
+            return normalized
     raw_cookie_language = request.cookies.get(LANGUAGE_COOKIE_NAME)
     cookie_language = normalize_language(raw_cookie_language)
     if isinstance(raw_cookie_language, str) and raw_cookie_language.strip():

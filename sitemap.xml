@@ -58,13 +58,6 @@
     <priority>0.9</priority>
   </url>
 
-  <url>
-    <loc>https://fs-qr.net/search_fs-qr</loc>
-    <lastmod>2026-04-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Group Features -->
   <url>
     <loc>https://fs-qr.net/group_menu</loc>
@@ -87,13 +80,6 @@
     <priority>0.8</priority>
   </url>
 
-  <url>
-    <loc>https://fs-qr.net/search_group</loc>
-    <lastmod>2026-04-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Note Features -->
   <url>
     <loc>https://fs-qr.net/note_menu</loc>
@@ -114,13 +100,6 @@
     <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://fs-qr.net/search_note</loc>
-    <lastmod>2026-04-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
   </url>
 
   <!-- Articles -->
@@ -173,11 +152,5 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- Special Features -->
-  <url>
-    <loc>https://fs-qr.net/all-in-one</loc>
-    <lastmod>2026-04-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- /all-in-one, /search_fs-qr, /search_group, /search_note は noindex のため除外 -->
 </urlset>

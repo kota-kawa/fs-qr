@@ -13,6 +13,130 @@
 {% block twitter_title %}FS!QR 使い方 | QRコードファイル共有の基本的な使用方法{% endblock %}
 {% block twitter_description %}FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": "使い方", "item": "{{ request.url_root }}usage" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "QRコードでファイルを共有する手順",
+  "description": "FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。",
+  "inLanguage": "ja-JP",
+  "totalTime": "PT2M",
+  "supply": [
+    { "@type": "HowToSupply", "name": "共有したいファイル" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "WebブラウザまたはQRコードリーダー搭載端末" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "ファイルをアップロード",
+      "text": "/fs-qr にアクセスし、共有したいファイルを選択してアップロードします。",
+      "url": "{{ request.url_root }}fs-qr"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "QRコードを取得",
+      "text": "アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "受信側がQRコードを読み取り",
+      "text": "受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "パスワードを入力してダウンロード",
+      "text": "画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "リアルタイムでノートを共有する手順",
+  "description": "FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。",
+  "inLanguage": "ja-JP",
+  "totalTime": "PT1M",
+  "tool": [
+    { "@type": "HowToTool", "name": "Webブラウザ" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "ノートルームを作成",
+      "text": "/note で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。",
+      "url": "{{ request.url_root }}note"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "参加者がルームに入る",
+      "text": "参加者はQRコードを読み取るかURLを開いてルームに入り、ノートを編集します。"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "リアルタイムで同時編集",
+      "text": "編集内容はリアルタイムで全員に反映され、自動的に保存されます。"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "グループでファイルを共有する手順",
+  "description": "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。",
+  "inLanguage": "ja-JP",
+  "totalTime": "PT2M",
+  "tool": [
+    { "@type": "HowToTool", "name": "Webブラウザ" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "グループルームを作成",
+      "text": "/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。",
+      "url": "{{ request.url_root }}group"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "メンバーが参加",
+      "text": "メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "自動削除で一時利用",
+      "text": "ルーム内のファイルは一定期間後に自動削除されるため、一時的なやり取りに適しています。"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="info-page">
   <div class="info-box">

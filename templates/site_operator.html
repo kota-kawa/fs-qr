@@ -12,6 +12,19 @@
 {% block twitter_title %}サイト運営者情報 | FS!QR{% endblock %}
 {% block twitter_description %}FS!QRの運営者「こうた」の想いや活動を紹介します。{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": "サイト運営者情報", "item": "{{ request.url_root }}site-operator" }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block contents %}
 <div class="info-page operator-page">
   <div class="info-box">

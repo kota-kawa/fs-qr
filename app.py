@@ -197,10 +197,21 @@ app.include_router(top_search_router)
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query:
-        url = request.url.replace(query="")
-        return RedirectResponse(str(url), status_code=301)
-    return None
+    # ?lang=ja|en|zh-CN は hreflang 用に許可、それ以外のクエリは正規化のため301
+    query = request.url.query
+    if not query:
+        return None
+    allowed_langs = {"ja", "en", "zh-CN", "zh-cn"}
+    lang = request.query_params.get("lang", "").strip()
+    params = list(request.query_params.multi_items())
+    if (
+        len(params) == 1
+        and params[0][0] == "lang"
+        and lang.lower() in {l.lower() for l in allowed_langs}
+    ):
+        return None
+    url = request.url.replace(query="")
+    return RedirectResponse(str(url), status_code=301)
 
 
 @app.get("/", name="index")
@@ -267,6 +278,7 @@ async def ads_txt():
 @app.get("/sitemap.xml", name="sitemap")
 async def sitemap():
     # lastmod は該当ページのテンプレート/コードを最後に変更した日付に合わせて更新する
+    # NOTE: /all-in-one, /search_fs-qr, /search_group, /search_note は noindex のため除外。
     urls = [
         ("/", "weekly", "1.0", "2026-04-27"),
         ("/about", "monthly", "0.8", "2026-04-26"),
@@ -291,7 +303,7 @@ async def sitemap():
         ("/risk-mitigation", "monthly", "0.6", "2025-08-21"),
     ]
     entries = "\n".join(
-        f"  <url><loc>https://fs-qr.com{path}</loc><lastmod>{lastmod}</lastmod>"
+        f"  <url><loc>https://fs-qr.net{path}</loc><lastmod>{lastmod}</lastmod>"
         f"<changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
         for path, changefreq, priority, lastmod in urls
     )

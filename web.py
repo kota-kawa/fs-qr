@@ -53,6 +53,8 @@ ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
+    SUPPORTED_HREFLANG_LANGS = ("ja", "en", "zh-CN")
+
     def __init__(self, request: Request) -> None:
         self._request = request
 
@@ -61,10 +63,41 @@ class TemplateRequestProxy:
         url = self._request.url
         return str(url.replace(path="/", query=""))
 
+    def _current_lang_param(self) -> str:
+        raw = self._request.query_params.get("lang", "").strip()
+        # 大文字小文字を正規化（zh-cn → zh-CN）
+        if raw.lower() == "zh-cn":
+            return "zh-CN"
+        if raw in self.SUPPORTED_HREFLANG_LANGS:
+            return raw
+        return ""
+
     @property
     def canonical_url(self) -> str:
         url = self._request.url
+        lang = self._current_lang_param()
+        if lang:
+            return str(url.replace(query=f"lang={lang}"))
         return str(url.replace(query=""))
+
+    @property
+    def language_alternates(self) -> list[dict[str, str]]:
+        """hreflang 用の各言語版URLを返す。
+
+        - 既定言語 (ja) は ?lang= なし
+        - その他は ?lang=<code>
+        - x-default は ja と同じURL
+        """
+        base = str(self._request.url.replace(query=""))
+        alternates: list[dict[str, str]] = []
+        for code in self.SUPPORTED_HREFLANG_LANGS:
+            if code == "ja":
+                href = base
+            else:
+                href = f"{base}?lang={code}"
+            alternates.append({"hreflang": code, "href": href})
+        alternates.append({"hreflang": "x-default", "href": base})
+        return alternates
 
     def __getattr__(self, name: str):
         return getattr(self._request, name)

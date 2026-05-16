@@ -35,6 +35,9 @@
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.canonical_url }}" />
+    {% for alt in request.language_alternates %}
+    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
+    {% endfor %}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="priority" content="1.0" />
@@ -112,13 +115,6 @@
       "author": {
         "@type": "Organization",
         "name": "FS!QR"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "250",
-        "bestRating": "5",
-        "worstRating": "1"
       }
     }
     </script>
