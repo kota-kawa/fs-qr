@@ -62,7 +62,17 @@
     "note.saved": "Saved",
     "note.saving": "Saving...",
     "note.up_to_date": "Up to date",
-    "note.reconnecting": "Reconnecting..."
+    "note.reconnecting": "Reconnecting...",
+    "note.conflict_resolved": "Conflict resolved",
+    "note.offline_reconnecting": "Offline (reconnecting...)",
+    "note.remote_update_queued": "Remote update queued",
+    "note.saved_merged": "Saved (merged)",
+    "note.sync_timeout": "Sync timeout (retrying)",
+    "note.last_sync_just_now": "Last synced: just now",
+    "note.last_sync_minutes_ago": "Last synced: {n} min ago",
+    "note.conflict_notice_merged": "Conflict notice: Your changes and another user's changes were automatically merged and saved. Please review the content.",
+    "note.conflict_notice_overwritten": "Conflict notice: Your unsaved changes conflicted with the server version. The server version has been applied. Please re-enter any needed content.",
+    "note.conflict_notice_queued": "Conflict notice: A remote update was received. It will be applied after your local changes are saved."
   },
   "phrases": {
     "!-- Bootstrap JSと依存関係 --": "!-- Bootstrap JS and dependencies --",

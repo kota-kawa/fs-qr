@@ -8,6 +8,13 @@
   const selfEditModule = modules.selfEdit;
   const SYNC_STATES = modules.core.SYNC_STATES;
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   function createSyncHandlers(context) {
     const logger = context.logger || { log: function () {}, warn: function () {}, error: function () {} };
     const core = modules.core;
@@ -251,14 +258,14 @@
       ) {
         if (noteStatus === "ok_merged") {
           ui.setStatus(context, "badge bg-info", "Saved (Merged)");
-          ui.setMergeStatus(context, "競合通知: あなたの変更と他ユーザーの変更を自動マージして保存しました。内容を確認してください。", "success");
+          ui.setMergeStatus(context, translate("note.conflict_notice_merged", "競合通知: あなたの変更と他ユーザーの変更を自動マージして保存しました。内容を確認してください。"), "success");
         } else {
           ui.setStatus(context, "badge bg-success", "Saved");
           ui.setMergeStatus(context, "", "");
         }
       } else if (normalizedPayload.status === "error" && noteStatus.startsWith("conflict")) {
         ui.setStatus(context, "badge bg-warning text-dark", "Conflict resolved");
-        ui.setMergeStatus(context, "競合通知: あなたの未保存変更とサーバー上の最新内容が競合しました。サーバー版を反映しています。必要な内容は再入力してください。", "warning");
+        ui.setMergeStatus(context, translate("note.conflict_notice_overwritten", "競合通知: あなたの未保存変更とサーバー上の最新内容が競合しました。サーバー版を反映しています。必要な内容は再入力してください。"), "warning");
       } else if (normalizedPayload.status === "error" && normalizedPayload.error) {
         ui.setStatus(context, "badge bg-danger", normalizedPayload.error);
         ui.setMergeStatus(context, "", "");
@@ -298,7 +305,7 @@
             status: updateData.note_status || ""
           });
           ui.setStatus(context, "badge bg-warning text-dark", "Remote update queued");
-          ui.setMergeStatus(context, "競合通知: 他ユーザーの更新を受信しました。あなたのローカル変更を保存した後に反映します。", "warning");
+          ui.setMergeStatus(context, translate("note.conflict_notice_queued", "競合通知: 他ユーザーの更新を受信しました。あなたのローカル変更を保存した後に反映します。"), "warning");
           return;
         }
         selfEditModule.applyServerContent(

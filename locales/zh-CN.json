@@ -62,7 +62,17 @@
     "note.saved": "已保存",
     "note.saving": "保存中...",
     "note.up_to_date": "已是最新",
-    "note.reconnecting": "重新连接中..."
+    "note.reconnecting": "重新连接中...",
+    "note.conflict_resolved": "冲突已解决",
+    "note.offline_reconnecting": "离线（重新连接中）",
+    "note.remote_update_queued": "等待同步其他用户的编辑",
+    "note.saved_merged": "已保存（已合并）",
+    "note.sync_timeout": "同步超时（重试中）",
+    "note.last_sync_just_now": "最后同步：刚刚",
+    "note.last_sync_minutes_ago": "最后同步：{n} 分钟前",
+    "note.conflict_notice_merged": "冲突提示：您的修改与其他用户的修改已自动合并保存，请确认内容。",
+    "note.conflict_notice_overwritten": "冲突提示：您的未保存修改与服务器内容冲突，已应用服务器版本，请重新输入所需内容。",
+    "note.conflict_notice_queued": "冲突提示：收到其他用户的更新，将在保存您的本地修改后应用。"
   },
   "phrases": {
     "!-- Bootstrap JSと依存関係 --": "!-- Bootstrap JS 和依赖项 --",
