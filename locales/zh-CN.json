@@ -44,6 +44,7 @@
     "common.delete": "删除",
     "common.download": "下载",
     "common.processing": "处理中...",
+    "retention.auto_delete_at": "将在 {time} 左右自动删除",
     "upload.start": "开始上传",
     "upload.upload": "上传",
     "upload.uploading": "上传中...",

@@ -44,6 +44,7 @@
     "common.delete": "Delete",
     "common.download": "Download",
     "common.processing": "Processing...",
+    "retention.auto_delete_at": "Will be automatically deleted around {time}",
     "upload.start": "Start upload",
     "upload.upload": "Upload",
     "upload.uploading": "Uploading...",

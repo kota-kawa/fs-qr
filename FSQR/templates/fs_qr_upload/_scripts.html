@@ -12,6 +12,9 @@
             cloudUpload: {{ icons.icon('cloud_upload', size='xxl') | tojson }},
             check: {{ icons.icon('check_circle', size='xxl') | tojson }},
             rocket: {{ icons.icon('rocket', size='lg', with_text=True) | tojson }}
+        }),
+        messages: Object.freeze({
+            retentionAutoDeleteAt: {{ frontend_messages.get('retention.auto_delete_at', '{time} ごろに自動削除されます') | tojson }}
         })
     }));
 </script>

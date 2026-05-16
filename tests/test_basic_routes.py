@@ -1,6 +1,11 @@
+import json
 from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
+
+
+def _json_escaped(value: str) -> str:
+    return json.dumps(value, ensure_ascii=True)[1:-1]
 
 
 def test_index(test_client: TestClient):
@@ -52,6 +57,25 @@ def test_fsqr_upload_page_uses_translated_upload_limit_hint(test_client: TestCli
     assert response.status_code == 200
     assert "* You can upload up to 10 files, with a total of 500 MB." in response.text
     assert "※最大10ファイル、合計500MBまで扱えます。" not in response.text
+
+
+def test_retention_preview_message_is_translated_for_english(test_client: TestClient):
+    for path in ("/fs-qr", "/create_room", "/create_note_room"):
+        response = test_client.get(path, headers={"Cookie": "fsqr_language=en"})
+        assert response.status_code == 200
+        assert "Will be automatically deleted around {time}" in response.text
+        assert "ごろに自動削除されます" not in response.text
+        assert _json_escaped("ごろに自動削除されます") not in response.text
+
+
+def test_retention_preview_message_is_translated_for_chinese(test_client: TestClient):
+    translated = "将在 {time} 左右自动删除"
+    for path in ("/fs-qr", "/create_room", "/create_note_room"):
+        response = test_client.get(path, headers={"Cookie": "fsqr_language=zh-CN"})
+        assert response.status_code == 200
+        assert translated in response.text or _json_escaped(translated) in response.text
+        assert "ごろに自動削除されます" not in response.text
+        assert _json_escaped("ごろに自動削除されます") not in response.text
 
 
 def test_about(test_client: TestClient):

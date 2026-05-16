@@ -44,6 +44,7 @@
     "common.delete": "削除",
     "common.download": "ダウンロード",
     "common.processing": "処理中...",
+    "retention.auto_delete_at": "{time} ごろに自動削除されます",
     "upload.start": "アップロード開始",
     "upload.upload": "アップロード",
     "upload.uploading": "アップロード中...",

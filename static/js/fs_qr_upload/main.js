@@ -28,7 +28,8 @@
 
   var retentionController = modules.retention.createRetentionPreviewController({
     retentionSelect: elements.retentionSelect,
-    retentionPreviewTime: elements.retentionPreviewTime
+    retentionPreviewTime: elements.retentionPreviewTime,
+    retentionAutoDeleteTemplate: (config.messages || {}).retentionAutoDeleteAt
   });
 
   var idModeController = modules.idMode.createIdModeController({

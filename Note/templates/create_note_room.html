@@ -341,6 +341,7 @@
     const retentionSelect = document.getElementById('retention');
     const retentionPreviewTime = document.getElementById('retentionPreviewTime');
     const inlineError = document.getElementById('createRoomInlineError');
+    const retentionAutoDeleteTemplate = {{ frontend_messages.get('retention.auto_delete_at', '{time} ごろに自動削除されます') | tojson }};
 
     function isPlainObject(value) {
         return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -420,6 +421,10 @@
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
+    function formatRetentionAutoDeleteText(timeText) {
+        return retentionAutoDeleteTemplate.replace('{time}', timeText);
+    }
+
     function updateRetentionPreview() {
         if (!retentionSelect || !retentionPreviewTime) {
             return;
@@ -427,7 +432,7 @@
         const retentionDays = Number(retentionSelect.value || 7);
         const deletionDate = new Date();
         deletionDate.setDate(deletionDate.getDate() + retentionDays);
-        retentionPreviewTime.textContent = `${formatDateTime(deletionDate)} ごろに自動削除されます`;
+        retentionPreviewTime.textContent = formatRetentionAutoDeleteText(formatDateTime(deletionDate));
     }
 
     // ID生成関数
