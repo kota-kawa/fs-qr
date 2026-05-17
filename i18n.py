@@ -166,6 +166,26 @@ SCHEMA_LANGUAGE_MAP = {
     "sw": "sw",
     "ar": "ar",
 }
+# 言語ごとの代表的な地域 (geo.region は ISO 3166-1 alpha-2)。
+# 元のテンプレートは JP 固定だったが、各言語の主要な利用地域に対応させる。
+GEO_REGION_MAP = {
+    "ja": ("JP", "Japan"),
+    "en": ("US", "United States"),
+    "zh-CN": ("CN", "China"),
+    "zh-TW": ("TW", "Taiwan"),
+    "ko": ("KR", "South Korea"),
+    "fr": ("FR", "France"),
+    "es": ("ES", "Spain"),
+    "de": ("DE", "Germany"),
+    "vi": ("VN", "Vietnam"),
+    "th": ("TH", "Thailand"),
+    "id": ("ID", "Indonesia"),
+    "tr": ("TR", "Türkiye"),
+    "uk": ("UA", "Ukraine"),
+    "pl": ("PL", "Poland"),
+    "sw": ("TZ", "Tanzania"),
+    "ar": ("SA", "Saudi Arabia"),
+}
 LANGUAGE_FALLBACKS = {
     "ja": (),
     "en": (),
@@ -196,6 +216,12 @@ _OG_LOCALE_RE = re.compile(
     r"<meta\s+property=[\"']og:locale[\"']\s+content=[\"'][^\"']*[\"']", re.I
 )
 _SCHEMA_LANG_RE = re.compile(r"\"inLanguage\":\s*\"[^\"]*\"", re.I)
+_GEO_REGION_RE = re.compile(
+    r"<meta\s+name=[\"']geo\.region[\"']\s+content=[\"'][^\"']*[\"']", re.I
+)
+_GEO_PLACENAME_RE = re.compile(
+    r"<meta\s+name=[\"']geo\.placename[\"']\s+content=[\"'][^\"']*[\"']", re.I
+)
 
 
 @lru_cache(maxsize=1)
@@ -484,7 +510,19 @@ def translate_rendered_html(content: str, language: str) -> str:
     schema_lang = SCHEMA_LANGUAGE_MAP.get(normalized_language, normalized_language)
     content = _SCHEMA_LANG_RE.sub(f'"inLanguage": "{schema_lang}"', content)
 
-    # 5. Translate phrases
+    # 5. Update geo.region / geo.placename so the page advertises the locale's
+    #    primary region instead of hard-coded JP/Japan from the template.
+    region, placename = GEO_REGION_MAP.get(
+        normalized_language, GEO_REGION_MAP[DEFAULT_LANGUAGE]
+    )
+    content = _GEO_REGION_RE.sub(
+        f'<meta name="geo.region" content="{region}"', content
+    )
+    content = _GEO_PLACENAME_RE.sub(
+        f'<meta name="geo.placename" content="{placename}"', content
+    )
+
+    # 6. Translate phrases
     phrases = {}
     fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
     for fallback_language in reversed(fallbacks):

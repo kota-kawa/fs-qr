@@ -1031,6 +1031,26 @@
     "閉じる": "Close",
     "隠す": "Hide",
     "高さ（px）": "height (px)",
-    "（日後）": "(days later)"
+    "（日後）": "(days later)",
+    "/fs-qr にアクセスし、共有したいファイルを選択してアップロードします。": "Open /fs-qr, choose the file you want to share, and upload it.",
+    "/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Create a shared room on /group and the QR code for the room URL will appear.",
+    "/note で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Enter any room name on /note to create a note room. An access QR code is shown after creation.",
+    "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。": "How to use FS!QR's group feature to create a shared room and exchange files with multiple people.",
+    "FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。": "How to share a note room that multiple people can edit simultaneously using FS!QR's note feature.",
+    "FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。": "How to share files via QR code with just a browser using FS!QR.",
+    "QRコードでファイルを共有する手順": "Steps to share a file with a QR code",
+    "QRコードを取得": "Get the QR code",
+    "Webブラウザ": "Web browser",
+    "WebブラウザまたはQRコードリーダー搭載端末": "Web browser or a device with a QR code reader",
+    "アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。": "After the upload completes, the download URL, password, and access QR code are displayed.",
+    "グループでファイルを共有する手順": "Steps to share files within a group",
+    "パスワードを入力してダウンロード": "Enter the password and download",
+    "メンバーが参加": "Members join",
+    "リアルタイムでノートを共有する手順": "Steps to share notes in real time",
+    "リアルタイムで同時編集": "Edit together in real time",
+    "共有したいファイル": "File you want to share",
+    "参加者がルームに入る": "Participants enter the room",
+    "受信側がQRコードを読み取り": "The recipient scans the QR code",
+    "自動削除で一時利用": "Temporary use with automatic deletion"
   }
 }

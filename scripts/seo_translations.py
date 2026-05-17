@@ -1,0 +1,437 @@
+"""SEO 用 JSON-LD / meta タグの未翻訳文字列を全 15 言語に補完するためのデータと適用スクリプト。
+
+実行: python3 scripts/seo_translations.py --apply
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from typing import Dict
+
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOCALES_DIR = os.path.join(REPO_ROOT, "locales")
+
+LANGUAGES = (
+    "en",
+    "zh-CN",
+    "zh-TW",
+    "ko",
+    "fr",
+    "es",
+    "de",
+    "vi",
+    "th",
+    "id",
+    "tr",
+    "uk",
+    "pl",
+    "sw",
+    "ar",
+)
+
+
+# 全 15 言語に共通で欠落していた SEO 文字列 (JSON-LD HowTo step/description/feature 等)
+# 各値は { language_code: translation } の dict
+COMMON: Dict[str, Dict[str, str]] = {
+    "/fs-qr にアクセスし、共有したいファイルを選択してアップロードします。": {
+        "en": "Open /fs-qr, choose the file you want to share, and upload it.",
+        "zh-CN": "访问 /fs-qr，选择要共享的文件并上传。",
+        "zh-TW": "前往 /fs-qr，選擇要分享的檔案並上傳。",
+        "ko": "/fs-qr에 접속해 공유할 파일을 선택한 후 업로드합니다.",
+        "fr": "Ouvrez /fs-qr, sélectionnez le fichier à partager puis envoyez-le.",
+        "es": "Accede a /fs-qr, selecciona el archivo que quieres compartir y súbelo.",
+        "de": "Öffne /fs-qr, wähle die gewünschte Datei aus und lade sie hoch.",
+        "vi": "Truy cập /fs-qr, chọn tệp muốn chia sẻ và tải lên.",
+        "th": "ไปที่ /fs-qr เลือกไฟล์ที่ต้องการแชร์แล้วอัปโหลด",
+        "id": "Buka /fs-qr, pilih file yang ingin dibagikan, lalu unggah.",
+        "tr": "/fs-qr adresine gidin, paylaşmak istediğiniz dosyayı seçip yükleyin.",
+        "uk": "Перейдіть на /fs-qr, виберіть потрібний файл і завантажте його.",
+        "pl": "Otwórz /fs-qr, wybierz plik do udostępnienia i prześlij go.",
+        "sw": "Fungua /fs-qr, chagua faili unayotaka kushiriki kisha uipakie.",
+        "ar": "افتح /fs-qr، اختر الملف الذي تريد مشاركته ثم قم برفعه.",
+    },
+    "/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": {
+        "en": "Create a shared room on /group and the QR code for the room URL will appear.",
+        "zh-CN": "在 /group 创建共享房间后，会显示房间 URL 的二维码。",
+        "zh-TW": "在 /group 建立分享房間後，會顯示房間 URL 的 QR Code。",
+        "ko": "/group에서 공유 룸을 만들면 룸 URL의 QR 코드가 표시됩니다.",
+        "fr": "Créez une salle de partage sur /group : le QR code de l'URL s'affiche.",
+        "es": "Crea una sala de uso compartido en /group y se mostrará el código QR de su URL.",
+        "de": "Erstelle auf /group einen Freigaberaum; der QR-Code der Raum-URL wird angezeigt.",
+        "vi": "Tạo phòng chia sẻ trên /group, mã QR cho URL phòng sẽ hiển thị.",
+        "th": "สร้างห้องแชร์ที่ /group แล้วระบบจะแสดง QR Code ของ URL ห้อง",
+        "id": "Buat ruang berbagi di /group; kode QR untuk URL ruang akan ditampilkan.",
+        "tr": "/group üzerinde paylaşım odası oluşturun; oda URL'sinin QR kodu görüntülenir.",
+        "uk": "Створіть спільну кімнату на /group — з'явиться QR-код її URL.",
+        "pl": "Utwórz pokój udostępniania na /group, a pojawi się kod QR z adresem URL pokoju.",
+        "sw": "Tengeneza chumba cha kushiriki kwenye /group; nambari ya QR ya URL ya chumba itaonyeshwa.",
+        "ar": "أنشئ غرفة مشاركة على /group، وسيظهر رمز QR لرابط الغرفة.",
+    },
+    "/note で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": {
+        "en": "Enter any room name on /note to create a note room. An access QR code is shown after creation.",
+        "zh-CN": "在 /note 输入任意房间名以创建笔记房间，创建后将显示访问用二维码。",
+        "zh-TW": "在 /note 輸入任意房間名稱建立筆記房間，建立後會顯示存取用 QR Code。",
+        "ko": "/note에서 원하는 룸 이름을 입력해 노트 룸을 만들면, 만든 후 접속용 QR 코드가 표시됩니다.",
+        "fr": "Saisissez un nom de salle sur /note pour créer une salle de notes ; un QR code d'accès s'affiche ensuite.",
+        "es": "Introduce un nombre en /note para crear una sala de notas; después se mostrará el código QR de acceso.",
+        "de": "Gib auf /note einen Raumnamen ein, um einen Notiz-Raum anzulegen; danach erscheint der Zugriffs-QR-Code.",
+        "vi": "Nhập tên phòng tùy ý trên /note để tạo phòng ghi chú; sau khi tạo, mã QR truy cập sẽ hiển thị.",
+        "th": "พิมพ์ชื่อห้องที่ /note เพื่อสร้างห้องโน้ต หลังจากสร้างจะแสดง QR Code สำหรับเข้าถึง",
+        "id": "Masukkan nama ruang di /note untuk membuat ruang catatan; setelah dibuat, kode QR akses akan ditampilkan.",
+        "tr": "/note adresinde istediğiniz oda adını girerek not odası oluşturun; oluşturma sonrası erişim QR kodu görüntülenir.",
+        "uk": "Введіть будь-яку назву кімнати на /note, щоб створити нотаткову кімнату; після створення з'явиться QR-код доступу.",
+        "pl": "Wpisz dowolną nazwę pokoju na /note, aby utworzyć pokój notatek; po utworzeniu wyświetli się kod QR dostępu.",
+        "sw": "Andika jina lolote la chumba kwenye /note kuunda chumba cha kumbukumbu; baada ya kuunda, nambari ya QR ya kufikia itaonyeshwa.",
+        "ar": "أدخل أي اسم غرفة في /note لإنشاء غرفة ملاحظات؛ سيظهر رمز QR للوصول بعد الإنشاء.",
+    },
+    "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。": {
+        "en": "How to use FS!QR's group feature to create a shared room and exchange files with multiple people.",
+        "zh-CN": "使用 FS!QR 群组功能创建共享房间并与多人交换文件的方法。",
+        "zh-TW": "使用 FS!QR 群組功能建立分享房間並與多人交換檔案的方法。",
+        "ko": "FS!QR의 그룹 기능을 사용해 공유 룸을 만들고 여러 사람과 파일을 주고받는 방법.",
+        "fr": "Comment utiliser la fonction de groupe de FS!QR pour créer une salle partagée et échanger des fichiers à plusieurs.",
+        "es": "Cómo usar la función de grupo de FS!QR para crear una sala compartida e intercambiar archivos entre varias personas.",
+        "de": "So nutzt du die Gruppenfunktion von FS!QR, um einen Freigaberaum zu erstellen und Dateien mit mehreren Personen auszutauschen.",
+        "vi": "Cách dùng tính năng nhóm của FS!QR để tạo phòng chia sẻ và trao đổi tệp với nhiều người.",
+        "th": "วิธีใช้ฟีเจอร์กลุ่มของ FS!QR สร้างห้องแชร์และแลกเปลี่ยนไฟล์กับหลายคน",
+        "id": "Cara menggunakan fitur grup FS!QR untuk membuat ruang berbagi dan bertukar file dengan banyak orang.",
+        "tr": "FS!QR'nin grup özelliğini kullanarak paylaşım odası oluşturma ve birden fazla kişiyle dosya alışverişi yapma yöntemi.",
+        "uk": "Як за допомогою функції груп FS!QR створити спільну кімнату й обмінюватися файлами з кількома людьми.",
+        "pl": "Jak za pomocą funkcji grupy FS!QR utworzyć wspólny pokój i wymieniać pliki z wieloma osobami.",
+        "sw": "Jinsi ya kutumia kipengele cha kikundi cha FS!QR kuunda chumba cha kushiriki na kubadilishana faili na watu wengi.",
+        "ar": "كيفية استخدام ميزة المجموعات في FS!QR لإنشاء غرفة مشتركة وتبادل الملفات مع عدة أشخاص.",
+    },
+    "FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。": {
+        "en": "How to share a note room that multiple people can edit simultaneously using FS!QR's note feature.",
+        "zh-CN": "使用 FS!QR 笔记功能共享可多人同时编辑的笔记房间的方法。",
+        "zh-TW": "使用 FS!QR 筆記功能分享多人同時編輯筆記房間的方法。",
+        "ko": "FS!QR의 노트 기능으로 여러 사람이 동시에 편집할 수 있는 노트 룸을 공유하는 방법.",
+        "fr": "Comment partager une salle de notes éditable simultanément à plusieurs avec la fonction note de FS!QR.",
+        "es": "Cómo compartir una sala de notas editable por varias personas simultáneamente con la función de notas de FS!QR.",
+        "de": "So teilst du mit der Notiz-Funktion von FS!QR einen Notiz-Raum, den mehrere Personen gleichzeitig bearbeiten können.",
+        "vi": "Cách chia sẻ phòng ghi chú để nhiều người cùng chỉnh sửa đồng thời bằng tính năng ghi chú của FS!QR.",
+        "th": "วิธีแชร์ห้องโน้ตที่หลายคนแก้ไขพร้อมกันได้ด้วยฟีเจอร์โน้ตของ FS!QR",
+        "id": "Cara berbagi ruang catatan yang dapat disunting banyak orang secara bersamaan dengan fitur catatan FS!QR.",
+        "tr": "FS!QR'nin not özelliğiyle birden fazla kişinin aynı anda düzenleyebildiği not odasını paylaşma yöntemi.",
+        "uk": "Як поділитися нотатковою кімнатою для одночасного редагування кількома людьми за допомогою функції нотаток FS!QR.",
+        "pl": "Jak udostępnić pokój notatek edytowany jednocześnie przez wiele osób, korzystając z funkcji notatek FS!QR.",
+        "sw": "Jinsi ya kushiriki chumba cha kumbukumbu ambacho watu wengi wanaweza kuhariri kwa pamoja kwa kipengele cha noti cha FS!QR.",
+        "ar": "كيفية مشاركة غرفة ملاحظات يمكن لعدة أشخاص تحريرها في الوقت نفسه باستخدام ميزة الملاحظات في FS!QR.",
+    },
+    "FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。": {
+        "en": "How to share files via QR code with just a browser using FS!QR.",
+        "zh-CN": "使用 FS!QR，仅通过浏览器以二维码方式共享文件的方法。",
+        "zh-TW": "使用 FS!QR 僅透過瀏覽器以 QR Code 分享檔案的方法。",
+        "ko": "FS!QR을 사용해 브라우저만으로 QR 코드를 통해 파일을 공유하는 방법.",
+        "fr": "Comment partager des fichiers via QR code en utilisant uniquement un navigateur avec FS!QR.",
+        "es": "Cómo compartir archivos mediante código QR usando solo un navegador con FS!QR.",
+        "de": "So teilst du Dateien mit FS!QR allein im Browser per QR-Code.",
+        "vi": "Cách chia sẻ tệp qua mã QR chỉ với trình duyệt bằng FS!QR.",
+        "th": "วิธีแชร์ไฟล์ผ่าน QR Code ด้วยเบราว์เซอร์เพียงอย่างเดียวโดยใช้ FS!QR",
+        "id": "Cara membagikan file melalui kode QR hanya dengan browser menggunakan FS!QR.",
+        "tr": "Yalnızca tarayıcı ile FS!QR kullanarak dosyaları QR kod aracılığıyla paylaşma yöntemi.",
+        "uk": "Як ділитися файлами через QR-код, маючи лише браузер, за допомогою FS!QR.",
+        "pl": "Jak udostępniać pliki za pomocą kodu QR, używając tylko przeglądarki i FS!QR.",
+        "sw": "Jinsi ya kushiriki faili kwa nambari ya QR kwa kivinjari pekee ukitumia FS!QR.",
+        "ar": "كيفية مشاركة الملفات عبر رمز QR من المتصفح فقط باستخدام FS!QR.",
+    },
+    "QRコードでファイルを共有する手順": {
+        "en": "Steps to share a file with a QR code",
+        "zh-CN": "通过二维码共享文件的步骤",
+        "zh-TW": "透過 QR Code 分享檔案的步驟",
+        "ko": "QR 코드로 파일을 공유하는 단계",
+        "fr": "Étapes pour partager un fichier via QR code",
+        "es": "Pasos para compartir un archivo con código QR",
+        "de": "Schritte zum Teilen einer Datei per QR-Code",
+        "vi": "Các bước chia sẻ tệp bằng mã QR",
+        "th": "ขั้นตอนการแชร์ไฟล์ด้วย QR Code",
+        "id": "Langkah membagikan file melalui kode QR",
+        "tr": "QR kod ile dosya paylaşma adımları",
+        "uk": "Кроки для обміну файлами через QR-код",
+        "pl": "Kroki udostępniania pliku za pomocą kodu QR",
+        "sw": "Hatua za kushiriki faili kwa nambari ya QR",
+        "ar": "خطوات مشاركة ملف عبر رمز QR",
+    },
+    "QRコードを取得": {
+        "en": "Get the QR code",
+        "zh-CN": "获取二维码",
+        "zh-TW": "取得 QR Code",
+        "ko": "QR 코드 받기",
+        "fr": "Obtenir le QR code",
+        "es": "Obtener el código QR",
+        "de": "QR-Code abrufen",
+        "vi": "Lấy mã QR",
+        "th": "รับ QR Code",
+        "id": "Dapatkan kode QR",
+        "tr": "QR kodu alın",
+        "uk": "Отримати QR-код",
+        "pl": "Pobierz kod QR",
+        "sw": "Pata nambari ya QR",
+        "ar": "احصل على رمز QR",
+    },
+    "Webブラウザ": {
+        "en": "Web browser",
+        "zh-CN": "Web 浏览器",
+        "zh-TW": "Web 瀏覽器",
+        "ko": "웹 브라우저",
+        "fr": "Navigateur web",
+        "es": "Navegador web",
+        "de": "Webbrowser",
+        "vi": "Trình duyệt web",
+        "th": "เว็บเบราว์เซอร์",
+        "id": "Peramban web",
+        "tr": "Web tarayıcısı",
+        "uk": "Веб-браузер",
+        "pl": "Przeglądarka internetowa",
+        "sw": "Kivinjari cha wavuti",
+        "ar": "متصفح ويب",
+    },
+    "WebブラウザまたはQRコードリーダー搭載端末": {
+        "en": "Web browser or a device with a QR code reader",
+        "zh-CN": "Web 浏览器或具备二维码扫描功能的设备",
+        "zh-TW": "Web 瀏覽器或具備 QR Code 讀取功能的裝置",
+        "ko": "웹 브라우저 또는 QR 코드 리더가 탑재된 단말",
+        "fr": "Navigateur web ou appareil équipé d'un lecteur de QR code",
+        "es": "Navegador web o dispositivo con lector de códigos QR",
+        "de": "Webbrowser oder Gerät mit QR-Code-Scanner",
+        "vi": "Trình duyệt web hoặc thiết bị có trình quét mã QR",
+        "th": "เว็บเบราว์เซอร์หรืออุปกรณ์ที่มีเครื่องอ่าน QR Code",
+        "id": "Peramban web atau perangkat dengan pemindai kode QR",
+        "tr": "Web tarayıcısı veya QR kod okuyuculu cihaz",
+        "uk": "Веб-браузер або пристрій із сканером QR-кодів",
+        "pl": "Przeglądarka internetowa lub urządzenie z czytnikiem kodów QR",
+        "sw": "Kivinjari cha wavuti au kifaa chenye kichunguza nambari ya QR",
+        "ar": "متصفح ويب أو جهاز مزوّد بقارئ رمز QR",
+    },
+    "アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。": {
+        "en": "After the upload completes, the download URL, password, and access QR code are displayed.",
+        "zh-CN": "上传完成后会显示下载用 URL、密码以及访问用二维码。",
+        "zh-TW": "上傳完成後會顯示下載用 URL、密碼以及存取用 QR Code。",
+        "ko": "업로드가 완료되면 다운로드 URL과 비밀번호, 접속용 QR 코드가 표시됩니다.",
+        "fr": "Une fois l'envoi terminé, l'URL de téléchargement, le mot de passe et le QR code d'accès s'affichent.",
+        "es": "Tras la subida se muestran la URL de descarga, la contraseña y el código QR de acceso.",
+        "de": "Nach Abschluss des Uploads werden Download-URL, Passwort und Zugriffs-QR-Code angezeigt.",
+        "vi": "Sau khi tải lên hoàn tất, URL tải xuống, mật khẩu và mã QR truy cập sẽ hiển thị.",
+        "th": "เมื่ออัปโหลดเสร็จ จะแสดง URL ดาวน์โหลด รหัสผ่าน และ QR Code สำหรับเข้าถึง",
+        "id": "Setelah pengunggahan selesai, URL unduhan, kata sandi, dan kode QR akses akan ditampilkan.",
+        "tr": "Yükleme tamamlandığında indirme URL'si, şifre ve erişim QR kodu görüntülenir.",
+        "uk": "Після завершення завантаження з'являться URL для скачування, пароль і QR-код доступу.",
+        "pl": "Po zakończeniu wgrywania wyświetlają się adres URL pobierania, hasło i kod QR dostępu.",
+        "sw": "Baada ya kupakia kumalizika, URL ya kupakua, nenosiri na nambari ya QR ya kufikia huonyeshwa.",
+        "ar": "بعد اكتمال الرفع، يتم عرض رابط التنزيل وكلمة المرور ورمز QR للوصول.",
+    },
+    "グループでファイルを共有する手順": {
+        "en": "Steps to share files within a group",
+        "zh-CN": "在群组中共享文件的步骤",
+        "zh-TW": "在群組中分享檔案的步驟",
+        "ko": "그룹에서 파일을 공유하는 단계",
+        "fr": "Étapes pour partager des fichiers dans un groupe",
+        "es": "Pasos para compartir archivos dentro de un grupo",
+        "de": "Schritte zum Teilen von Dateien in einer Gruppe",
+        "vi": "Các bước chia sẻ tệp trong nhóm",
+        "th": "ขั้นตอนการแชร์ไฟล์ในกลุ่ม",
+        "id": "Langkah berbagi file dalam grup",
+        "tr": "Grupta dosya paylaşma adımları",
+        "uk": "Кроки для обміну файлами в групі",
+        "pl": "Kroki udostępniania plików w grupie",
+        "sw": "Hatua za kushiriki faili katika kikundi",
+        "ar": "خطوات مشاركة الملفات داخل مجموعة",
+    },
+    "パスワードを入力してダウンロード": {
+        "en": "Enter the password and download",
+        "zh-CN": "输入密码并下载",
+        "zh-TW": "輸入密碼後下載",
+        "ko": "비밀번호를 입력하여 다운로드",
+        "fr": "Saisir le mot de passe et télécharger",
+        "es": "Introduce la contraseña y descarga",
+        "de": "Passwort eingeben und herunterladen",
+        "vi": "Nhập mật khẩu để tải xuống",
+        "th": "ป้อนรหัสผ่านเพื่อดาวน์โหลด",
+        "id": "Masukkan kata sandi lalu unduh",
+        "tr": "Şifreyi girip indirin",
+        "uk": "Введіть пароль і завантажте",
+        "pl": "Wpisz hasło i pobierz",
+        "sw": "Ingiza nenosiri kisha pakua",
+        "ar": "أدخل كلمة المرور ثم نزِّل الملف",
+    },
+    "メンバーが参加": {
+        "en": "Members join",
+        "zh-CN": "成员加入",
+        "zh-TW": "成員加入",
+        "ko": "멤버가 참여",
+        "fr": "Les membres rejoignent",
+        "es": "Los miembros se unen",
+        "de": "Mitglieder treten bei",
+        "vi": "Thành viên tham gia",
+        "th": "สมาชิกเข้าร่วม",
+        "id": "Anggota bergabung",
+        "tr": "Üyeler katılır",
+        "uk": "Учасники приєднуються",
+        "pl": "Członkowie dołączają",
+        "sw": "Wanachama wanajiunga",
+        "ar": "ينضم الأعضاء",
+    },
+    "リアルタイムでノートを共有する手順": {
+        "en": "Steps to share notes in real time",
+        "zh-CN": "实时共享笔记的步骤",
+        "zh-TW": "即時分享筆記的步驟",
+        "ko": "실시간으로 노트를 공유하는 단계",
+        "fr": "Étapes pour partager des notes en temps réel",
+        "es": "Pasos para compartir notas en tiempo real",
+        "de": "Schritte zum Teilen von Notizen in Echtzeit",
+        "vi": "Các bước chia sẻ ghi chú theo thời gian thực",
+        "th": "ขั้นตอนการแชร์โน้ตแบบเรียลไทม์",
+        "id": "Langkah berbagi catatan secara waktu nyata",
+        "tr": "Notları gerçek zamanlı paylaşma adımları",
+        "uk": "Кроки для обміну нотатками в реальному часі",
+        "pl": "Kroki udostępniania notatek w czasie rzeczywistym",
+        "sw": "Hatua za kushiriki kumbukumbu kwa wakati halisi",
+        "ar": "خطوات مشاركة الملاحظات في الوقت الفعلي",
+    },
+    "リアルタイムで同時編集": {
+        "en": "Edit together in real time",
+        "zh-CN": "实时协同编辑",
+        "zh-TW": "即時同步編輯",
+        "ko": "실시간 동시 편집",
+        "fr": "Édition simultanée en temps réel",
+        "es": "Edición simultánea en tiempo real",
+        "de": "Gleichzeitig in Echtzeit bearbeiten",
+        "vi": "Cùng chỉnh sửa theo thời gian thực",
+        "th": "แก้ไขพร้อมกันแบบเรียลไทม์",
+        "id": "Suntingan bersama secara waktu nyata",
+        "tr": "Gerçek zamanlı eş zamanlı düzenleme",
+        "uk": "Спільне редагування в реальному часі",
+        "pl": "Wspólna edycja w czasie rzeczywistym",
+        "sw": "Hariri kwa pamoja kwa wakati halisi",
+        "ar": "تحرير متزامن في الوقت الفعلي",
+    },
+    "共有したいファイル": {
+        "en": "File you want to share",
+        "zh-CN": "想要共享的文件",
+        "zh-TW": "想要分享的檔案",
+        "ko": "공유할 파일",
+        "fr": "Fichier à partager",
+        "es": "Archivo que quieres compartir",
+        "de": "Zu teilende Datei",
+        "vi": "Tệp muốn chia sẻ",
+        "th": "ไฟล์ที่ต้องการแชร์",
+        "id": "File yang ingin dibagikan",
+        "tr": "Paylaşmak istediğiniz dosya",
+        "uk": "Файл, яким хочете поділитися",
+        "pl": "Plik, który chcesz udostępnić",
+        "sw": "Faili unayotaka kushiriki",
+        "ar": "الملف الذي تريد مشاركته",
+    },
+    "参加者がルームに入る": {
+        "en": "Participants enter the room",
+        "zh-CN": "参与者进入房间",
+        "zh-TW": "參與者進入房間",
+        "ko": "참여자가 룸에 입장",
+        "fr": "Les participants rejoignent la salle",
+        "es": "Los participantes entran en la sala",
+        "de": "Teilnehmer betreten den Raum",
+        "vi": "Người tham gia vào phòng",
+        "th": "ผู้เข้าร่วมเข้าห้อง",
+        "id": "Peserta memasuki ruang",
+        "tr": "Katılımcılar odaya girer",
+        "uk": "Учасники входять у кімнату",
+        "pl": "Uczestnicy dołączają do pokoju",
+        "sw": "Washiriki wanaingia chumbani",
+        "ar": "ينضم المشاركون إلى الغرفة",
+    },
+    "受信側がQRコードを読み取り": {
+        "en": "The recipient scans the QR code",
+        "zh-CN": "接收方扫描二维码",
+        "zh-TW": "接收方掃描 QR Code",
+        "ko": "수신자가 QR 코드를 스캔",
+        "fr": "Le destinataire scanne le QR code",
+        "es": "El destinatario escanea el código QR",
+        "de": "Empfänger scannt den QR-Code",
+        "vi": "Người nhận quét mã QR",
+        "th": "ผู้รับสแกน QR Code",
+        "id": "Penerima memindai kode QR",
+        "tr": "Alıcı QR kodu tarar",
+        "uk": "Отримувач сканує QR-код",
+        "pl": "Odbiorca skanuje kod QR",
+        "sw": "Mpokeaji anachunguza nambari ya QR",
+        "ar": "يقوم المستلم بمسح رمز QR",
+    },
+    "自動削除で一時利用": {
+        "en": "Temporary use with automatic deletion",
+        "zh-CN": "通过自动删除实现临时使用",
+        "zh-TW": "透過自動刪除進行臨時使用",
+        "ko": "자동 삭제로 일시 사용",
+        "fr": "Utilisation temporaire avec suppression automatique",
+        "es": "Uso temporal con eliminación automática",
+        "de": "Temporäre Nutzung mit automatischer Löschung",
+        "vi": "Sử dụng tạm thời với tự động xóa",
+        "th": "ใช้ชั่วคราวพร้อมการลบอัตโนมัติ",
+        "id": "Penggunaan sementara dengan penghapusan otomatis",
+        "tr": "Otomatik silme ile geçici kullanım",
+        "uk": "Тимчасове використання з автоматичним видаленням",
+        "pl": "Tymczasowe użytkowanie z automatycznym usuwaniem",
+        "sw": "Matumizi ya muda na ufutaji wa kiotomatiki",
+        "ar": "استخدام مؤقت مع حذف تلقائي",
+    },
+}
+
+
+# 特定言語で追加で欠落していた文字列
+EXTRAS: Dict[str, Dict[str, str]] = {
+    "ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。": {
+        "es": "Cifra los archivos y conviértelos en código QR. Compartición de archivos segura y sencilla con la máxima seguridad, gratis.",
+        "vi": "Mã hóa tệp thành mã QR. Cung cấp miễn phí dịch vụ chia sẻ tệp an toàn và đơn giản với mức bảo mật cao nhất.",
+        "id": "Enkripsi file dan ubah menjadi kode QR. Berbagi file aman dan mudah dengan keamanan tingkat tertinggi, gratis.",
+    },
+    "FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。": {
+        "th": "FS!QR Note คือบริการแชร์โน้ตและแก้ไขร่วมกันแบบเรียลไทม์ฟรี เหมาะสำหรับการแก้ไขโน้ตออนไลน์หลายคน การจัดการโปรเจกต์ การสนับสนุนการเรียนรู้ และการบันทึกการประชุม เครื่องมือทำงานร่วมกันที่รองรับหลายภาษา เริ่มใช้ได้ทันทีด้วยเบราว์เซอร์",
+        "id": "FS!QR Note adalah layanan berbagi catatan dan pengeditan kolaboratif waktu nyata yang gratis. Cocok untuk pengeditan catatan online bersama, manajemen proyek, dukungan belajar, dan catatan rapat. Alat kolaborasi multibahasa yang bisa langsung dipakai hanya dengan browser.",
+    },
+    "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム": {
+        "vi": "chia sẻ tệp, mã QR, chia sẻ nhóm, chia sẻ ghi chú, FS QR, chia sẻ tệp miễn phí, lưu trữ đám mây, truyền dữ liệu, đa ngôn ngữ, an toàn, mã hóa, thời gian thực",
+        "id": "berbagi file, kode QR, berbagi grup, berbagi catatan, FS QR, berbagi file gratis, penyimpanan cloud, transfer data, multibahasa, aman, enkripsi, waktu nyata",
+    },
+    "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, ホーム": {
+        "vi": "chia sẻ tệp, mã QR, chia sẻ nhóm, chia sẻ ghi chú, FS QR, chia sẻ tệp miễn phí, lưu trữ đám mây, truyền dữ liệu, đa ngôn ngữ, an toàn, mã hóa, thời gian thực, trang chủ",
+        "id": "berbagi file, kode QR, berbagi grup, berbagi catatan, FS QR, berbagi file gratis, penyimpanan cloud, transfer data, multibahasa, aman, enkripsi, waktu nyata, beranda",
+    },
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習": {
+        "vi": "chia sẻ ghi chú thời gian thực, chỉnh sửa đồng thời, cộng tác trực tuyến, tạo ghi chú, quản lý phòng, FS QR Note, công cụ cộng tác, ghi chú cuộc họp, quản lý dự án, hỗ trợ học tập, ứng dụng ghi chú miễn phí, đa ngôn ngữ, chỉnh sửa trên trình duyệt, làm việc nhóm, học nhóm",
+        "id": "berbagi catatan waktu nyata, suntingan bersama, kolaborasi online, pembuatan catatan, manajemen ruang, FS QR Note, alat kolaborasi, catatan rapat, manajemen proyek, dukungan belajar, aplikasi catatan gratis, multibahasa, suntingan browser, kerja tim, belajar kelompok",
+    },
+}
+
+
+def apply(dry_run: bool) -> None:
+    summary = {}
+    for lang in LANGUAGES:
+        path = os.path.join(LOCALES_DIR, f"{lang}.json")
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+        phrases = data.setdefault("phrases", {})
+        added = 0
+        for src, translations in COMMON.items():
+            if src not in phrases and lang in translations:
+                phrases[src] = translations[lang]
+                added += 1
+        for src, translations in EXTRAS.items():
+            if lang in translations and src not in phrases:
+                phrases[src] = translations[lang]
+                added += 1
+        summary[lang] = added
+        if not dry_run:
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump(data, fh, ensure_ascii=False, indent=2)
+                fh.write("\n")
+    print(("DRY-RUN: would add" if dry_run else "APPLIED:"), summary)
+
+
+def main() -> None:
+    apply(dry_run="--apply" not in sys.argv)
+
+
+if __name__ == "__main__":
+    main()
