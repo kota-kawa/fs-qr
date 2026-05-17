@@ -17,7 +17,9 @@ from i18n import (
     get_language_options,
     get_frontend_messages,
     make_translator,
+    normalize_language,
     resolve_language,
+    SUPPORTED_LANGUAGES,
     translate_rendered_html,
 )
 
@@ -55,7 +57,7 @@ ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
-    SUPPORTED_HREFLANG_LANGS = ("ja", "en", "zh-CN", "zh-TW", "ko")
+    SUPPORTED_HREFLANG_LANGS = SUPPORTED_LANGUAGES
 
     def __init__(self, request: Request) -> None:
         self._request = request
@@ -67,13 +69,14 @@ class TemplateRequestProxy:
 
     def _current_lang_param(self) -> str:
         raw = self._request.query_params.get("lang", "").strip()
-        # 大文字小文字を正規化（zh-cn → zh-CN, zh-tw → zh-TW）
-        if raw.lower() == "zh-cn":
-            return "zh-CN"
-        if raw.lower() == "zh-tw":
-            return "zh-TW"
-        if raw in self.SUPPORTED_HREFLANG_LANGS:
-            return raw
+        if not raw:
+            return ""
+        lowered = raw.lower()
+        if lowered.startswith("ja") or lowered.startswith("jp"):
+            return "ja"
+        normalized = normalize_language(raw)
+        if normalized != "ja" and normalized in self.SUPPORTED_HREFLANG_LANGS:
+            return normalized
         return ""
 
     @property

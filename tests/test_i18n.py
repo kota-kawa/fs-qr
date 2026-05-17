@@ -1,3 +1,4 @@
+from pathlib import Path
 from types import SimpleNamespace
 
 
@@ -204,6 +205,18 @@ def test_language_query_only_accepts_supported_language_aliases():
         DummyRequest(query_params=DummyQueryParams([("lang", "es")]))
     )
     assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "de-DE")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "vi-VN")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "th-TH")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "id-ID")]))
+    )
+    assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "tr")]))
     )
     assert i18n.is_language_query_only(
@@ -218,6 +231,13 @@ def test_language_query_only_accepts_supported_language_aliases():
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "en"), ("page", "1")]))
     )
+
+
+def test_cookie_consent_script_uses_rendered_supported_language_list():
+    source = Path("static/cookie-consent.js").read_text(encoding="utf-8")
+
+    assert "supportedLanguages" in source
+    assert "['ja', 'en', 'zh-CN', 'zh-TW', 'ko']" not in source
 
 
 def test_non_default_frontend_messages_do_not_fallback_to_japanese():

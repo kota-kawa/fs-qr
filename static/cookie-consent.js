@@ -25,8 +25,23 @@
     setCookie(CONSENT_COOKIE_NAME, normalizedValue);
   }
 
+  function getSupportedLanguageValues() {
+    const configuredLanguages = window.FSQR_I18N && window.FSQR_I18N.supportedLanguages;
+    if (Array.isArray(configuredLanguages) && configuredLanguages.length) {
+      return configuredLanguages;
+    }
+    return Array.from(document.querySelectorAll('[data-language-select] option'))
+      .map((option) => option.value)
+      .filter(Boolean);
+  }
+
+  function getSupportedLanguageValue(value, fallback = '') {
+    const supportedLanguages = getSupportedLanguageValues();
+    return supportedLanguages.includes(value) ? value : fallback;
+  }
+
   function setLanguageCookie(value) {
-    if (['ja', 'en', 'zh-CN', 'zh-TW', 'ko'].includes(value)) {
+    if (getSupportedLanguageValue(value)) {
       setCookie(LANGUAGE_COOKIE_NAME, value);
     }
   }
@@ -231,10 +246,11 @@
     const settingsFocus = overlay.querySelector('[data-cookie-consent-settings-focus]');
     const toggles = overlay.querySelectorAll('[data-cookie-consent-toggle]');
     const languageSelect = overlay.querySelector('[data-language-select]');
-    const initialLanguage =
+    const initialLanguage = getSupportedLanguageValue(
       (window.FSQR_I18N && window.FSQR_I18N.language) ||
-      getCookie(LANGUAGE_COOKIE_NAME) ||
-      'ja';
+      getCookie(LANGUAGE_COOKIE_NAME),
+      'ja'
+    );
 
     if (languageSelect) {
       languageSelect.value = initialLanguage;

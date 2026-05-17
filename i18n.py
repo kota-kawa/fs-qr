@@ -340,36 +340,10 @@ def is_language_query_only(request: Request) -> bool:
         return False
 
     lowered = lang.lower()
-    if lowered in SUPPORTED_LANGUAGES:
-        return True
-
-    # Handle aliases
     if lowered.startswith("ja") or lowered.startswith("jp"):
         return True
-    if lowered in {"zh-cn", "zh_cn", "zh-hans", "zh_hans", "cn"}:
-        return True
-    if lowered in {"zh-tw", "zh_tw", "zh-hant", "zh_hant", "tw", "hk", "mo"}:
-        return True
-    if lowered.startswith("ko") or lowered == "kr":
-        return True
-    if lowered.startswith("fr"):
-        return True
-    if lowered.startswith("es"):
-        return True
-    if lowered.startswith("tr"):
-        return True
-    if lowered.startswith("uk"):
-        return True
-    if lowered.startswith("pl"):
-        return True
-    if lowered.startswith("sw"):
-        return True
-    if lowered.startswith("ar"):
-        return True
-    if lowered.startswith("en"):
-        return True
-
-    return False
+    normalized = normalize_language(lang)
+    return normalized in SUPPORTED_LANGUAGES and normalized != DEFAULT_LANGUAGE
 
 
 def get_country_code(ip: str) -> str | None:

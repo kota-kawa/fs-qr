@@ -120,6 +120,29 @@ def test_index_uses_korean_language_cookie(test_client: TestClient):
     assert response.headers["content-language"] == "ko"
 
 
+def test_index_accepts_every_supported_language_cookie(test_client: TestClient):
+    from i18n import SUPPORTED_LANGUAGES
+
+    for language in SUPPORTED_LANGUAGES:
+        response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
+        assert response.status_code == 200
+        assert f'lang="{language}"' in response.text
+        assert response.headers["content-language"] == language
+
+
+def test_settings_language_switcher_exposes_every_supported_language(
+    test_client: TestClient,
+):
+    from i18n import SUPPORTED_LANGUAGES
+
+    response = test_client.get("/")
+    assert response.status_code == 200
+
+    for language in SUPPORTED_LANGUAGES:
+        assert f'value="{language}"' in response.text
+        assert f'data-value="{language}"' in response.text
+
+
 def test_index_localizes_language_option_labels_for_english(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
