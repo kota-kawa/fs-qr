@@ -28,6 +28,8 @@
     "language.option.ja": "Japanese",
     "language.option.en": "English",
     "language.option.zh-CN": "Chinese (Simplified)",
+    "language.option.zh-TW": "Chinese (Traditional)",
+    "language.option.ko": "Korean",
     "note.editor.label": "Shared note (up to {max_length} characters)",
     "note.editor.max_length_hint": "You can enter up to {max_length} characters.",
     "note.editor.demo_placeholder": "Typing here syncs every second...\n\nDemo text:\nAll members can edit the same note in real time like this.\n\n- Your input is synced to other members immediately\n- Up to {max_length} characters\n- Edit status updates in real time",

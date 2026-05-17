@@ -26,7 +26,7 @@
   }
 
   function setLanguageCookie(value) {
-    if (['ja', 'en', 'zh-CN'].includes(value)) {
+    if (['ja', 'en', 'zh-CN', 'zh-TW', 'ko'].includes(value)) {
       setCookie(LANGUAGE_COOKIE_NAME, value);
     }
   }

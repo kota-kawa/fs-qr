@@ -13,7 +13,7 @@ from settings import BASE_DIR, GEOIP_DB_PATH
 
 logger = logging.getLogger(__name__)
 
-SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN")
+SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko")
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
@@ -22,21 +22,55 @@ LANGUAGE_OPTIONS = (
     {"code": "ja", "label": "日本語", "flag": "🇯🇵"},
     {"code": "en", "label": "English", "flag": "🇺🇸"},
     {"code": "zh-CN", "label": "简体中文", "flag": "🇨🇳"},
+    {"code": "zh-TW", "label": "繁體中文", "flag": "🇹🇼"},
+    {"code": "ko", "label": "한국어", "flag": "🇰🇷"},
 )
 
 COUNTRY_LANGUAGE_MAP = {
     "JP": "ja",
     "CN": "zh-CN",
     "SG": "zh-CN",
-    "HK": "zh-CN",
-    "MO": "zh-CN",
-    "TW": "zh-CN",
+    "HK": "zh-TW",
+    "MO": "zh-TW",
+    "TW": "zh-TW",
+    "KR": "ko",
 }
 
-HTML_LANG_MAP = {"ja": "ja", "en": "en", "zh-CN": "zh-CN"}
-META_LANGUAGE_MAP = {"ja": "ja", "en": "en", "zh-CN": "zh-CN"}
-OG_LOCALE_MAP = {"ja": "ja_JP", "en": "en_US", "zh-CN": "zh_CN"}
-SCHEMA_LANGUAGE_MAP = {"ja": "ja-JP", "en": "en", "zh-CN": "zh-CN"}
+HTML_LANG_MAP = {
+    "ja": "ja",
+    "en": "en",
+    "zh-CN": "zh-CN",
+    "zh-TW": "zh-TW",
+    "ko": "ko",
+}
+META_LANGUAGE_MAP = {
+    "ja": "ja",
+    "en": "en",
+    "zh-CN": "zh-CN",
+    "zh-TW": "zh-TW",
+    "ko": "ko",
+}
+OG_LOCALE_MAP = {
+    "ja": "ja_JP",
+    "en": "en_US",
+    "zh-CN": "zh_CN",
+    "zh-TW": "zh_TW",
+    "ko": "ko_KR",
+}
+SCHEMA_LANGUAGE_MAP = {
+    "ja": "ja-JP",
+    "en": "en",
+    "zh-CN": "zh-CN",
+    "zh-TW": "zh-TW",
+    "ko": "ko",
+}
+LANGUAGE_FALLBACKS = {
+    "ja": (),
+    "en": (),
+    "zh-CN": ("en",),
+    "zh-TW": ("zh-CN", "en"),
+    "ko": ("en",),
+}
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
 
@@ -60,6 +94,10 @@ def normalize_language(value: Any) -> str:
     lowered = value.lower()
     if lowered in {"zh", "zh-cn", "zh_hans", "zh-hans", "cn"}:
         return "zh-CN"
+    if lowered in {"zh-tw", "zh_tw", "zh-hant", "zh_hant", "tw", "hk", "mo"}:
+        return "zh-TW"
+    if lowered.startswith("ko") or lowered == "kr":
+        return "ko"
     if lowered.startswith("en"):
         return "en"
     if lowered.startswith("ja") or lowered.startswith("jp"):
@@ -210,28 +248,20 @@ def _load_translations() -> dict[str, dict[str, Any]]:
 def get_translation_value(language: str, section: str, key: str) -> str:
     language = normalize_language(language)
     translations = _load_translations()
-    value = translations.get(language, {}).get(section, {}).get(key)
-    if isinstance(value, str):
-        return value
-    if language != DEFAULT_LANGUAGE:
-        fallback = translations.get("en", {}).get(section, {}).get(key)
-        if isinstance(fallback, str):
-            return fallback
-    elif language == DEFAULT_LANGUAGE:
-        fallback = translations.get(DEFAULT_LANGUAGE, {}).get(section, {}).get(key)
-        if isinstance(fallback, str):
-            return fallback
+    for code in (language, *LANGUAGE_FALLBACKS.get(language, ())):
+        value = translations.get(code, {}).get(section, {}).get(key)
+        if isinstance(value, str):
+            return value
     return key
 
 
 def get_frontend_messages(language: str) -> dict[str, str]:
     language = normalize_language(language)
     translations = _load_translations()
-    if language == DEFAULT_LANGUAGE:
-        messages = dict(translations.get(DEFAULT_LANGUAGE, {}).get("js", {}))
-    else:
-        messages = dict(translations.get("en", {}).get("js", {}))
-        messages.update(translations.get(language, {}).get("js", {}))
+    messages: dict[str, Any] = {}
+    for fallback_language in LANGUAGE_FALLBACKS.get(language, ()):
+        messages.update(translations.get(fallback_language, {}).get("js", {}))
+    messages.update(translations.get(language, {}).get("js", {}))
     return {key: value for key, value in messages.items() if isinstance(value, str)}
 
 
@@ -256,6 +286,8 @@ def get_language_options(language: str) -> tuple[dict[str, str], ...]:
         "ja": translate("language.option.ja"),
         "en": translate("language.option.en"),
         "zh-CN": translate("language.option.zh-CN"),
+        "zh-TW": translate("language.option.zh-TW"),
+        "ko": translate("language.option.ko"),
     }
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
@@ -316,8 +348,16 @@ def translate_rendered_html(content: str, language: str) -> str:
     if language == DEFAULT_LANGUAGE:
         return content
 
-    phrases = _load_translations().get(language, {}).get("phrases", {})
-    if not isinstance(phrases, dict):
+    translations = _load_translations()
+    phrases: dict[str, Any] = {}
+    for fallback_language in LANGUAGE_FALLBACKS.get(language, ()):
+        fallback_phrases = translations.get(fallback_language, {}).get("phrases", {})
+        if isinstance(fallback_phrases, dict):
+            phrases.update(fallback_phrases)
+    language_phrases = translations.get(language, {}).get("phrases", {})
+    if isinstance(language_phrases, dict):
+        phrases.update(language_phrases)
+    if not phrases:
         return content
 
     for source in sorted(phrases, key=len, reverse=True):

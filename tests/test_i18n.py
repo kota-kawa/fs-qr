@@ -59,6 +59,18 @@ def test_language_from_country_maps_china_to_simplified_chinese():
     assert language_from_country("CN") == "zh-CN"
 
 
+def test_language_from_country_maps_taiwan_to_traditional_chinese():
+    from i18n import language_from_country
+
+    assert language_from_country("TW") == "zh-TW"
+
+
+def test_language_from_country_maps_korea_to_korean():
+    from i18n import language_from_country
+
+    assert language_from_country("KR") == "ko"
+
+
 def test_resolve_language_prefers_cookie_over_geoip(monkeypatch):
     import i18n
 
@@ -138,6 +150,12 @@ def test_language_query_only_accepts_supported_language_aliases():
     assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "zh-cn")]))
     )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "zh-tw")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "ko")]))
+    )
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "fr")]))
     )
@@ -154,3 +172,11 @@ def test_non_default_frontend_messages_do_not_fallback_to_japanese():
     assert messages["alert.notice"] == "Notice"
     assert messages.get("missing.key") is None
     assert "お知らせ" not in messages.values()
+
+
+def test_normalize_language_supports_new_aliases():
+    import i18n
+
+    assert i18n.normalize_language("zh-tw") == "zh-TW"
+    assert i18n.normalize_language("zh_hant") == "zh-TW"
+    assert i18n.normalize_language("kr") == "ko"

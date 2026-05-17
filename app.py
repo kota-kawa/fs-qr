@@ -198,7 +198,7 @@ app.include_router(top_search_router)
 
 
 def _canonical_redirect(request: Request):
-    # ?lang=ja|en|zh-CN は hreflang 用に許可、それ以外のクエリは正規化のため301
+    # ?lang=<supported> は hreflang 用に許可、それ以外のクエリは正規化のため301
     query = request.url.query
     if not query:
         return None

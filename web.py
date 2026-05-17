@@ -55,7 +55,7 @@ ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
-    SUPPORTED_HREFLANG_LANGS = ("ja", "en", "zh-CN")
+    SUPPORTED_HREFLANG_LANGS = ("ja", "en", "zh-CN", "zh-TW", "ko")
 
     def __init__(self, request: Request) -> None:
         self._request = request
@@ -67,9 +67,11 @@ class TemplateRequestProxy:
 
     def _current_lang_param(self) -> str:
         raw = self._request.query_params.get("lang", "").strip()
-        # 大文字小文字を正規化（zh-cn → zh-CN）
+        # 大文字小文字を正規化（zh-cn → zh-CN, zh-tw → zh-TW）
         if raw.lower() == "zh-cn":
             return "zh-CN"
+        if raw.lower() == "zh-tw":
+            return "zh-TW"
         if raw in self.SUPPORTED_HREFLANG_LANGS:
             return raw
         return ""

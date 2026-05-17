@@ -104,11 +104,29 @@ def test_index_uses_simplified_chinese_language_cookie(test_client: TestClient):
     assert response.headers["content-language"] == "zh-CN"
 
 
+def test_index_uses_traditional_chinese_language_cookie(test_client: TestClient):
+    response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-TW"})
+    assert response.status_code == 200
+    assert 'lang="zh-TW"' in response.text
+    assert "檔案共享選單" in response.text
+    assert response.headers["content-language"] == "zh-TW"
+
+
+def test_index_uses_korean_language_cookie(test_client: TestClient):
+    response = test_client.get("/", headers={"Cookie": "fsqr_language=ko"})
+    assert response.status_code == 200
+    assert 'lang="ko"' in response.text
+    assert "파일 공유 메뉴" in response.text
+    assert response.headers["content-language"] == "ko"
+
+
 def test_index_localizes_language_option_labels_for_english(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
     assert ">Japanese<" in response.text
     assert ">Chinese (Simplified)<" in response.text
+    assert ">Chinese (Traditional)<" in response.text
+    assert ">Korean<" in response.text
     assert "日本語" not in response.text
 
 
@@ -151,6 +169,8 @@ def test_retention_preview_message_is_translated_for_chinese(test_client: TestCl
     [
         ("en", re.compile(r"[ぁ-んァ-ヶ一-龠々ー]")),
         ("zh-CN", re.compile(r"[ぁ-んァ-ヶ々ー]")),
+        ("zh-TW", re.compile(r"[ぁ-んァ-ヶ々ー]")),
+        ("ko", re.compile(r"[ぁ-んァ-ヶ一-龠々ー]")),
     ],
 )
 def test_localized_public_pages_do_not_render_japanese_text(
