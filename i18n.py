@@ -13,7 +13,7 @@ from settings import BASE_DIR, GEOIP_DB_PATH
 
 logger = logging.getLogger(__name__)
 
-SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko", "fr", "es", "de")
+SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko", "fr", "es", "de", "vi", "th", "id")
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
@@ -27,6 +27,9 @@ LANGUAGE_OPTIONS = (
     {"code": "fr", "label": "Français", "flag": "🇫🇷"},
     {"code": "es", "label": "Español", "flag": "🇪🇸"},
     {"code": "de", "label": "Deutsch", "flag": "🇩🇪"},
+    {"code": "vi", "label": "Tiếng Việt", "flag": "🇻🇳"},
+    {"code": "th", "label": "ไทย", "flag": "🇹🇭"},
+    {"code": "id", "label": "Bahasa Indonesia", "flag": "🇮🇩"},
 )
 
 COUNTRY_LANGUAGE_MAP = {
@@ -52,6 +55,9 @@ COUNTRY_LANGUAGE_MAP = {
     "DE": "de",
     "AT": "de",
     "CH": "de",
+    "VN": "vi",
+    "TH": "th",
+    "ID": "id",
 }
 
 HTML_LANG_MAP = {
@@ -63,6 +69,9 @@ HTML_LANG_MAP = {
     "fr": "fr",
     "es": "es",
     "de": "de",
+    "vi": "vi",
+    "th": "th",
+    "id": "id",
 }
 META_LANGUAGE_MAP = {
     "ja": "ja",
@@ -73,6 +82,9 @@ META_LANGUAGE_MAP = {
     "fr": "fr",
     "es": "es",
     "de": "de",
+    "vi": "vi",
+    "th": "th",
+    "id": "id",
 }
 OG_LOCALE_MAP = {
     "ja": "ja_JP",
@@ -83,6 +95,9 @@ OG_LOCALE_MAP = {
     "fr": "fr_FR",
     "es": "es_ES",
     "de": "de_DE",
+    "vi": "vi_VN",
+    "th": "th_TH",
+    "id": "id_ID",
 }
 SCHEMA_LANGUAGE_MAP = {
     "ja": "ja-JP",
@@ -93,6 +108,9 @@ SCHEMA_LANGUAGE_MAP = {
     "fr": "fr",
     "es": "es",
     "de": "de",
+    "vi": "vi",
+    "th": "th",
+    "id": "id",
 }
 LANGUAGE_FALLBACKS = {
     "ja": (),
@@ -103,6 +121,9 @@ LANGUAGE_FALLBACKS = {
     "fr": ("en",),
     "es": ("en",),
     "de": ("en",),
+    "vi": ("en",),
+    "th": ("en",),
+    "id": ("en",),
 }
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
@@ -189,6 +210,12 @@ def normalize_language(language: str) -> str:
         return "es"
     if lowered.startswith("de"):
         return "de"
+    if lowered.startswith("vi"):
+        return "vi"
+    if lowered.startswith("th"):
+        return "th"
+    if lowered.startswith("id"):
+        return "id"
     if lowered.startswith("en"):
         return "en"
 
@@ -356,6 +383,9 @@ def get_language_options(language: str) -> tuple[dict[str, str], ...]:
         "fr": translate("language.option.fr"),
         "es": translate("language.option.es"),
         "de": translate("language.option.de"),
+        "vi": translate("language.option.vi"),
+        "th": translate("language.option.th"),
+        "id": translate("language.option.id"),
     }
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
@@ -423,4 +453,6 @@ def translate_rendered_html(content: str, language: str) -> str:
             continue
         content = content.replace(source, translated)
         content = content.replace(escape(source), escape(translated))
+    return content
+content.replace(escape(source), escape(translated))
     return content
