@@ -13,7 +13,19 @@ from settings import BASE_DIR, GEOIP_DB_PATH
 
 logger = logging.getLogger(__name__)
 
-SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko", "fr", "es", "de", "vi", "th", "id")
+SUPPORTED_LANGUAGES = (
+    "ja",
+    "en",
+    "zh-CN",
+    "zh-TW",
+    "ko",
+    "fr",
+    "es",
+    "de",
+    "vi",
+    "th",
+    "id",
+)
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
@@ -261,7 +273,9 @@ def resolve_language(request: Request) -> str:
 def is_language_query_only(request: Request) -> bool:
     params = request.query_params
     # Use multi_items() if available (for DummyQueryParams in tests)
-    items = params.multi_items() if hasattr(params, "multi_items") else list(params.items())
+    items = (
+        params.multi_items() if hasattr(params, "multi_items") else list(params.items())
+    )
     if len(items) != 1:
         return False
     lang = params.get("lang")
@@ -298,8 +312,6 @@ def get_country_code(ip: str) -> str | None:
             return None
     except ValueError:
         return None
-
-    import maxminddb
 
     reader = _get_geoip_reader()
     if not reader:
@@ -418,7 +430,10 @@ def translate_rendered_html(content: str, language: str) -> str:
 
     def _replace_meta_lang(match):
         original = match.group(0)
-        if 'name="language"' in original.lower() or "name='language'" in original.lower():
+        if (
+            'name="language"' in original.lower()
+            or "name='language'" in original.lower()
+        ):
             return f'<meta name="language" content="{meta_lang}"'
         return f'<meta http-equiv="content-language" content="{meta_lang}"'
 
@@ -453,6 +468,4 @@ def translate_rendered_html(content: str, language: str) -> str:
             continue
         content = content.replace(source, translated)
         content = content.replace(escape(source), escape(translated))
-    return content
-content.replace(escape(source), escape(translated))
     return content
