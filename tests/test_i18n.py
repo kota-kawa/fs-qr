@@ -2,10 +2,27 @@ from types import SimpleNamespace
 
 
 class DummyRequest:
-    def __init__(self, cookies=None, headers=None, client_host="8.8.8.8"):
+    def __init__(
+        self, cookies=None, headers=None, client_host="8.8.8.8", query_params=None
+    ):
         self.cookies = cookies or {}
         self.headers = headers or {}
         self.client = SimpleNamespace(host=client_host)
+        self.query_params = query_params or DummyQueryParams([])
+
+
+class DummyQueryParams:
+    def __init__(self, items):
+        self._items = list(items)
+
+    def get(self, key, default=None):
+        for item_key, item_value in self._items:
+            if item_key == key:
+                return item_value
+        return default
+
+    def multi_items(self):
+        return list(self._items)
 
 
 class DummyGeoIPReader:
@@ -110,3 +127,30 @@ def test_translate_rendered_html_updates_language_metadata():
     assert '<meta property="og:locale" content="en_US">' in translated
     assert '"inLanguage": "en"' in translated
     assert "Home" in translated
+
+
+def test_language_query_only_accepts_supported_language_aliases():
+    import i18n
+
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "en")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "zh-cn")]))
+    )
+    assert not i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "fr")]))
+    )
+    assert not i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "en"), ("page", "1")]))
+    )
+
+
+def test_non_default_frontend_messages_do_not_fallback_to_japanese():
+    import i18n
+
+    messages = i18n.get_frontend_messages("en")
+
+    assert messages["alert.notice"] == "Notice"
+    assert messages.get("missing.key") is None
+    assert "お知らせ" not in messages.values()

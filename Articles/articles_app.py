@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Request
 from starlette.responses import RedirectResponse
 
+from i18n import is_language_query_only
 from web import render_template
 
 router = APIRouter()
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query:
+    if request.url.query and not is_language_query_only(request):
         url = request.url.replace(query="")
         return RedirectResponse(str(url), status_code=301)
     return None

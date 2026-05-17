@@ -33,6 +33,7 @@ from settings import (
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
 )
+from i18n import is_language_query_only
 from web import render_template, wants_json_response
 from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
@@ -201,10 +202,7 @@ def _canonical_redirect(request: Request):
     query = request.url.query
     if not query:
         return None
-    allowed_langs = {"ja", "en", "zh-cn"}
-    lang = request.query_params.get("lang", "").strip()
-    params = list(request.query_params.multi_items())
-    if len(params) == 1 and params[0][0] == "lang" and lang.lower() in allowed_langs:
+    if is_language_query_only(request):
         return None
     url = request.url.replace(query="")
     return RedirectResponse(str(url), status_code=301)

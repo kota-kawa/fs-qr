@@ -17,6 +17,7 @@ from file_validation import (
     sanitize_download_filename,
     validate_upload_limits,
 )
+from i18n import is_language_query_only
 from models import FsqrUploadInput, RoomSearchInput
 from rate_limit import (
     SCOPE_QR,
@@ -48,7 +49,7 @@ FSQR_UPLOAD_FILE_TYPES = frozenset({"single", "multiple"})
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query:
+    if request.url.query and not is_language_query_only(request):
         url = request.url.replace(query="")
         return RedirectResponse(str(url), status_code=301)
     return None

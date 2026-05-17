@@ -69,7 +69,7 @@
     }
 
     if (type === 'file') {
-      return translate('accessibility.choose_file', 'ファイルを選択');
+      return translate('accessibility.choose_file', 'Choose file');
     }
 
     if (type === 'submit' || type === 'button' || type === 'reset') {
@@ -98,11 +98,11 @@
     }
 
     if (element.tagName.toLowerCase() === 'a') {
-      return translate('accessibility.open_link', 'リンクを開く');
+      return translate('accessibility.open_link', 'Open link');
     }
 
     if (element.tagName.toLowerCase() === 'button') {
-      return translate('accessibility.button', 'ボタン');
+      return translate('accessibility.button', 'Button');
     }
 
     return '';

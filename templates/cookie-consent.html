@@ -4,7 +4,13 @@
       language: {{ current_language | tojson }},
       messages: Object.freeze({{ frontend_messages | tojson }}),
       t: function (key, fallback) {
-        return this.messages[key] || fallback || key;
+        if (this.messages[key]) {
+          return this.messages[key];
+        }
+        if (this.language !== 'ja' && /[\u3040-\u30ff]/.test(fallback || '')) {
+          return key;
+        }
+        return fallback || key;
       }
     });
   </script>

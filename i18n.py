@@ -67,6 +67,24 @@ def normalize_language(value: Any) -> str:
     return DEFAULT_LANGUAGE
 
 
+def is_language_query_only(request: Request) -> bool:
+    query_params = getattr(request, "query_params", None)
+    if query_params is None or not hasattr(query_params, "multi_items"):
+        return False
+    params = list(query_params.multi_items())
+    if len(params) != 1 or params[0][0] != "lang":
+        return False
+
+    raw_language = params[0][1]
+    if not isinstance(raw_language, str) or not raw_language.strip():
+        return False
+
+    normalized = normalize_language(raw_language)
+    raw_normalized = raw_language.strip().lower()
+    valid_default_alias = raw_normalized in {"ja", "jp", "ja-jp"}
+    return normalized != DEFAULT_LANGUAGE or valid_default_alias
+
+
 def _get_client_ip(request: Request) -> str:
     forwarded = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
     if forwarded:
@@ -195,17 +213,25 @@ def get_translation_value(language: str, section: str, key: str) -> str:
     value = translations.get(language, {}).get(section, {}).get(key)
     if isinstance(value, str):
         return value
-    fallback = translations.get(DEFAULT_LANGUAGE, {}).get(section, {}).get(key)
-    if isinstance(fallback, str):
-        return fallback
+    if language != DEFAULT_LANGUAGE:
+        fallback = translations.get("en", {}).get(section, {}).get(key)
+        if isinstance(fallback, str):
+            return fallback
+    elif language == DEFAULT_LANGUAGE:
+        fallback = translations.get(DEFAULT_LANGUAGE, {}).get(section, {}).get(key)
+        if isinstance(fallback, str):
+            return fallback
     return key
 
 
 def get_frontend_messages(language: str) -> dict[str, str]:
     language = normalize_language(language)
     translations = _load_translations()
-    messages = dict(translations.get(DEFAULT_LANGUAGE, {}).get("js", {}))
-    messages.update(translations.get(language, {}).get("js", {}))
+    if language == DEFAULT_LANGUAGE:
+        messages = dict(translations.get(DEFAULT_LANGUAGE, {}).get("js", {}))
+    else:
+        messages = dict(translations.get("en", {}).get("js", {}))
+        messages.update(translations.get(language, {}).get("js", {}))
     return {key: value for key, value in messages.items() if isinstance(value, str)}
 
 

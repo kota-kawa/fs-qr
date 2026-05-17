@@ -14,7 +14,7 @@
             rocket: {{ icons.icon('rocket', size='lg', with_text=True) | tojson }}
         }),
         messages: Object.freeze({
-            retentionAutoDeleteAt: {{ frontend_messages.get('retention.auto_delete_at', '{time} ごろに自動削除されます') | tojson }}
+            retentionAutoDeleteAt: {{ frontend_messages.get('retention.auto_delete_at', 'Will be automatically deleted around {time}') | tojson }}
         })
     }));
 </script>

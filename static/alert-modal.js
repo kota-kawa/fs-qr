@@ -67,10 +67,10 @@
       const normalizedOptions = options || {};
       previousActiveElement = document.activeElement;
       closeValue = false;
-      title.textContent = normalizedOptions.title || translate("alert.notice", "お知らせ");
+      title.textContent = normalizedOptions.title || translate("alert.notice", "Notice");
       message.textContent = String(text ?? "");
       closeButton.textContent = normalizedOptions.confirmLabel || "OK";
-      cancelButton.textContent = normalizedOptions.cancelLabel || translate("alert.cancel", "キャンセル");
+      cancelButton.textContent = normalizedOptions.cancelLabel || translate("alert.cancel", "Cancel");
       cancelButton.hidden = normalizedOptions.showCancel !== true;
       Object.assign(overlay.style, {
         position: "fixed",
@@ -96,9 +96,9 @@
       return new Promise(function (resolve) {
         activeResolver = resolve;
         openModal(text, Object.assign({
-          title: translate("alert.confirm", "確認"),
-          confirmLabel: translate("alert.delete", "削除する"),
-          cancelLabel: translate("alert.cancel", "キャンセル"),
+          title: translate("alert.confirm", "Confirm"),
+          confirmLabel: translate("alert.delete", "Delete"),
+          cancelLabel: translate("alert.cancel", "Cancel"),
           showCancel: true
         }, options || {}));
       });

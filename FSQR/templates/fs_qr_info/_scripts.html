@@ -40,6 +40,13 @@
       feedback.className = `share-feedback is-visible is-${kind}`;
     }
 
+    function translate(key, fallback) {
+      if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+        return window.FSQR_I18N.t(key, fallback);
+      }
+      return fallback || key;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.reveal-value-button').forEach((button) => {
         button.addEventListener('click', () => {
@@ -55,8 +62,8 @@
           target.textContent = isMasked ? visibleValue : maskedValue;
           target.classList.toggle('is-masked', !isMasked);
           button.innerHTML = isMasked
-            ? (button.getAttribute('data-hide-label') || '隠す')
-            : (button.getAttribute('data-show-label') || '表示');
+            ? (button.getAttribute('data-hide-label') || translate('common.hide', 'Hide'))
+            : (button.getAttribute('data-show-label') || translate('common.show', 'Show'));
         });
       });
 
@@ -69,8 +76,8 @@
           if (!text) {
             return;
           }
-          const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
-          const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
+          const defaultLabel = button.getAttribute('data-default-label') || translate('common.copy', 'Copy');
+          const copiedLabel = button.getAttribute('data-copied-label') || translate('common.copied', 'Copied');
           if (!button.hasAttribute('aria-label')) {
             button.setAttribute('aria-label', defaultLabel);
           }
@@ -85,7 +92,7 @@
             if (button.hasAttribute('title')) {
               button.setAttribute('title', copiedLabel);
             }
-            setShareFeedback('コピーしました。相手にそのまま送れます。', 'success');
+            setShareFeedback(translate('share.copy_success', 'Copied. You can send it as-is.'), 'success');
             setTimeout(() => {
               button.classList.remove('copied');
               button.setAttribute('aria-label', defaultLabel);
@@ -94,7 +101,7 @@
               }
             }, 2000);
           } catch (error) {
-            setShareFeedback('コピーに失敗しました。表示して手動でコピーしてください。', 'error');
+            setShareFeedback(translate('share.copy_manual_error', 'Copy failed. Display it and copy it manually.'), 'error');
           }
         });
       });
@@ -107,9 +114,9 @@
           }
           try {
             await copyTextToClipboard(text);
-            setShareFeedback('コピーしました。相手にそのまま共有できます。', 'success');
+            setShareFeedback(translate('share.copy_share_success', 'Copied. You can share it as-is.'), 'success');
           } catch (error) {
-            setShareFeedback('コピーに失敗しました。表示内容を手動でコピーしてください。', 'error');
+            setShareFeedback(translate('share.copy_content_manual_error', 'Copy failed. Copy the displayed content manually.'), 'error');
           }
         });
       });
@@ -132,6 +139,21 @@
     const statusEyebrow = document.getElementById('statusEyebrow');
     const secureId = {{ secure_id | tojson }};
     const decryptionKey = secureId.split('-')[0];
+
+    function translate(key, fallback) {
+      if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+        return window.FSQR_I18N.t(key, fallback);
+      }
+      return fallback || key;
+    }
+
+    function formatMessage(key, fallback, replacements) {
+      let message = translate(key, fallback);
+      Object.keys(replacements || {}).forEach((name) => {
+        message = message.replace(`{${name}}`, String(replacements[name]));
+      });
+      return message;
+    }
 
     function setPhase(phase) {
       if (!container) {
@@ -191,7 +213,7 @@
       try {
         return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);
       } catch (error) {
-        console.error('復号エラー:', error);
+        console.error('Decryption error:', error);
         return null;
       }
     }
@@ -202,7 +224,7 @@
         const iv = arrayBuffer.slice(0, 12);
         const encryptedContent = arrayBuffer.slice(12);
         if (statusText) {
-          statusText.textContent = '復号中... 35%';
+          statusText.textContent = formatMessage('download.decrypting_progress', 'Decrypting... {percent}%', { percent: 35 });
         }
         setProgress(0.35);
         const decryptedContent = await decryptFile(encryptedContent, key, iv);
@@ -212,12 +234,12 @@
         }
 
         if (statusText) {
-          statusText.textContent = '復号中... 100%';
+          statusText.textContent = formatMessage('download.decrypting_progress', 'Decrypting... {percent}%', { percent: 100 });
         }
         setProgress(1);
         return new Blob([decryptedContent]);
       } catch (error) {
-        console.error('単一ファイル復号エラー:', error);
+        console.error('Single-file decryption error:', error);
         return null;
       }
     }
@@ -247,7 +269,11 @@
         decryptedZip.file(fileName.replace(/\.enc$/i, ''), decryptedContent);
         processedFiles += 1;
         if (statusText) {
-          statusText.textContent = `復号中... ${Math.round((processedFiles / totalFiles) * 100)}%`;
+          statusText.textContent = formatMessage(
+            'download.decrypting_progress',
+            'Decrypting... {percent}%',
+            { percent: Math.round((processedFiles / totalFiles) * 100) }
+          );
         }
         setProgress(totalFiles ? processedFiles / totalFiles : 1);
       }
@@ -271,7 +297,11 @@
             const percent = event.loaded / event.total;
             setProgress(percent);
             if (statusText) {
-              statusText.textContent = `ダウンロード中... ${Math.round(percent * 100)}%`;
+              statusText.textContent = formatMessage(
+                'download.downloading_progress',
+                'Downloading... {percent}%',
+                { percent: Math.round(percent * 100) }
+              );
             }
           }
         };
@@ -285,11 +315,11 @@
             });
             return;
           }
-          reject(new Error('ダウンロードに失敗しました。'));
+          reject(new Error(translate('download.failed', 'Download failed.')));
         };
 
         xhr.onerror = function () {
-          reject(new Error('ダウンロードに失敗しました。'));
+          reject(new Error(translate('download.failed', 'Download failed.')));
         };
 
         xhr.send();
@@ -298,7 +328,7 @@
 
     downloadForm.addEventListener('submit', async function (event) {
       event.preventDefault();
-      showSpinner('ダウンロード中... 0%', 'receiving');
+      showSpinner(formatMessage('download.downloading_progress', 'Downloading... {percent}%', { percent: 0 }), 'receiving');
       setProgress(0);
 
       try {
@@ -307,7 +337,7 @@
         const fileType = downloadResult.fileType;
         const originalFilename = downloadResult.originalFilename;
 
-        showSpinner('復号中... 0%', 'decrypting');
+        showSpinner(formatMessage('download.decrypting_progress', 'Decrypting... {percent}%', { percent: 0 }), 'decrypting');
         setProgress(0);
 
         let decryptedBlob;
@@ -322,7 +352,7 @@
         }
 
         if (!decryptedBlob) {
-          throw new Error('復号に失敗しました。');
+          throw new Error(translate('download.decrypt_failed', 'Decryption failed.'));
         }
 
         const objectUrl = URL.createObjectURL(decryptedBlob);
@@ -333,14 +363,14 @@
         link.click();
         document.body.removeChild(link);
         if (statusText) {
-          statusText.textContent = 'ダウンロード完了！';
+          statusText.textContent = translate('download.complete', 'Download complete!');
         }
         setProgress(1);
         window.setTimeout(function () {
           URL.revokeObjectURL(objectUrl);
         }, 1000);
       } catch (error) {
-        window.showAlertModal(error instanceof Error ? error.message : '復号に失敗しました。');
+        window.showAlertModal(error instanceof Error ? error.message : translate('download.decrypt_failed', 'Decryption failed.'));
       } finally {
         hideSpinner();
       }

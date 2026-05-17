@@ -36,6 +36,13 @@
     feedback.className = `share-feedback is-visible is-${kind}`;
   }
 
+  function translate(key, fallback) {
+    if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+      return window.FSQR_I18N.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.copy-url-button').forEach((button) => {
       button.addEventListener('click', async () => {
@@ -47,8 +54,8 @@
           return;
         }
 
-        const defaultLabel = button.getAttribute('data-default-label') || 'コピー';
-        const copiedLabel = button.getAttribute('data-copied-label') || 'コピー済み';
+        const defaultLabel = button.getAttribute('data-default-label') || translate('common.copy', 'Copy');
+        const copiedLabel = button.getAttribute('data-copied-label') || translate('common.copied', 'Copied');
         if (!button.hasAttribute('aria-label')) {
           button.setAttribute('aria-label', defaultLabel);
         }
@@ -61,14 +68,14 @@
           button.classList.add('copied');
           button.setAttribute('aria-label', copiedLabel);
           button.setAttribute('title', copiedLabel);
-          setShareFeedback('コピーしました。参加者にそのまま送れます。', 'success');
+          setShareFeedback(translate('share.copy_participant_success', 'Copied. You can send it to participants as-is.'), 'success');
           setTimeout(() => {
             button.classList.remove('copied');
             button.setAttribute('aria-label', defaultLabel);
             button.setAttribute('title', defaultLabel);
           }, 2000);
         } catch (error) {
-          setShareFeedback('コピーに失敗しました。表示して手動でコピーしてください。', 'error');
+          setShareFeedback(translate('share.copy_manual_error', 'Copy failed. Display it and copy it manually.'), 'error');
         }
       });
     });

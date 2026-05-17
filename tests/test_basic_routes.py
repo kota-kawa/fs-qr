@@ -1,11 +1,79 @@
 import json
+import re
+from html.parser import HTMLParser
 from unittest.mock import AsyncMock, patch
 
+import pytest
 from starlette.testclient import TestClient
 
 
 def _json_escaped(value: str) -> str:
     return json.dumps(value, ensure_ascii=True)[1:-1]
+
+
+class VisibleTextScanner(HTMLParser):
+    LOCALIZED_ATTRS = {
+        "alt",
+        "aria-label",
+        "content",
+        "data-copied-label",
+        "data-default-label",
+        "placeholder",
+        "title",
+        "value",
+    }
+    SKIP_TAGS = {"script", "style", "noscript"}
+
+    def __init__(self):
+        super().__init__()
+        self._skip_stack = []
+        self.values = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.SKIP_TAGS:
+            self._skip_stack.append(tag)
+            return
+        if self._skip_stack:
+            return
+        for name, value in attrs:
+            if name in self.LOCALIZED_ATTRS and value:
+                self.values.append(value)
+
+    def handle_endtag(self, tag):
+        if self._skip_stack and self._skip_stack[-1] == tag:
+            self._skip_stack.pop()
+
+    def handle_data(self, data):
+        if not self._skip_stack and data.strip():
+            self.values.append(data.strip())
+
+
+LOCALIZED_PUBLIC_PATHS = (
+    "/",
+    "/fs-qr_menu",
+    "/fs-qr",
+    "/search_fs-qr",
+    "/group_menu",
+    "/group",
+    "/create_room",
+    "/search_group",
+    "/note_menu",
+    "/note",
+    "/create_note_room",
+    "/search_note",
+    "/about",
+    "/usage",
+    "/contact",
+    "/privacy-policy",
+    "/site-operator",
+    "/articles",
+    "/fs-qr-concept",
+    "/safe-sharing",
+    "/encryption",
+    "/business",
+    "/education",
+    "/risk-mitigation",
+)
 
 
 def test_index(test_client: TestClient):
@@ -76,6 +144,31 @@ def test_retention_preview_message_is_translated_for_chinese(test_client: TestCl
         assert translated in response.text or _json_escaped(translated) in response.text
         assert "ごろに自動削除されます" not in response.text
         assert _json_escaped("ごろに自動削除されます") not in response.text
+
+
+@pytest.mark.parametrize(
+    ("language", "japanese_pattern"),
+    [
+        ("en", re.compile(r"[ぁ-んァ-ヶ一-龠々ー]")),
+        ("zh-CN", re.compile(r"[ぁ-んァ-ヶ々ー]")),
+    ],
+)
+def test_localized_public_pages_do_not_render_japanese_text(
+    test_client: TestClient, language: str, japanese_pattern: re.Pattern
+):
+    for path in LOCALIZED_PUBLIC_PATHS:
+        response = test_client.get(f"{path}?lang={language}")
+        assert response.status_code == 200, path
+        assert response.headers["content-language"] == language
+
+        scanner = VisibleTextScanner()
+        scanner.feed(response.text)
+        leaks = [
+            " ".join(value.split())
+            for value in scanner.values
+            if japanese_pattern.search(value)
+        ]
+        assert leaks == [], f"{path} leaked Japanese text: {leaks[:3]}"
 
 
 def test_about(test_client: TestClient):

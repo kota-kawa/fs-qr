@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
+from i18n import is_language_query_only
 from models import RoomCreateInput, RoomSearchInput
 from rate_limit import (
     SCOPE_NOTE,
@@ -64,7 +65,7 @@ async def _room_id_exists_with_schema_repair(room_id: str) -> bool:
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query:
+    if request.url.query and not is_language_query_only(request):
         url = request.url.replace(query="")
         return RedirectResponse(str(url), status_code=301)
     return None
