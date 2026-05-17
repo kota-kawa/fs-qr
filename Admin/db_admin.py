@@ -108,7 +108,9 @@ async def safe_recent(sess, table, time_col, limit=10):
 
 
 async def _get_record(secure_id):
-    data = await fs_data.get_data(secure_id)
+    # DB管理画面ではハッシュ済み password 列を含む生のレコードが必要なので、
+    # password を strip するキャッシュ層を経由せず DB を直接参照する。
+    data = await fs_data.get_data_direct(secure_id)
     if not data:
         return None
     return data[0]
@@ -132,7 +134,8 @@ def _resolve_file_path(record):
 
 
 async def _get_room_record(room_id):
-    data = await group_data.get_data(room_id)
+    # password 列を含む生のレコードが必要なため、キャッシュ層をバイパスする。
+    data = await group_data.get_data_direct(room_id)
     if not data:
         return None
     return data[0]

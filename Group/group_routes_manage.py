@@ -28,7 +28,7 @@ def _register_manage_rooms_post(router: APIRouter):
         if not is_session_authenticated(request.session, "management_authenticated"):
             return render_template(request, "manage_rooms_login.html")
 
-        rooms = await group_data.get_all()
+        rooms = await group_data.get_all_direct()
         return render_template(request, "manage_rooms.html", rooms=rooms)
 
 
@@ -38,7 +38,7 @@ def _register_manage_rooms_get(router: APIRouter):
         if not is_session_authenticated(request.session, "management_authenticated"):
             return render_template(request, "manage_rooms_login.html")
 
-        rooms = await group_data.get_all()
+        rooms = await group_data.get_all_direct()
         return render_template(request, "manage_rooms.html", rooms=rooms)
 
 

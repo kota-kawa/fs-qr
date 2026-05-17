@@ -146,9 +146,9 @@ async def create_room(id_, password, room_id, retention_days=7):
         """,
         {"i": id_, "p": hashed_password, "r": room_id, "retention": retention_days},
     )
-    await invalidate_cache_entry("get_room_meta", room_id)
-    await invalidate_cache_entry("get_room_meta", room_id, password=password)
-    await invalidate_cache_entry("pick_room_id", id_, password)
+    await invalidate_cache_entry(get_room_meta, room_id)
+    await invalidate_cache_entry(get_room_meta, room_id, password=password)
+    await invalidate_cache_entry(pick_room_id, id_, password)
 
 
 # ────────────────────────────────────────────
@@ -171,7 +171,7 @@ async def get_room_meta_direct(room_id, password=None):
     return row
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, strip_keys=("password",))
 async def get_room_meta(room_id, password=None):
     return await get_room_meta_direct(room_id, password=password)
 
@@ -271,11 +271,11 @@ async def remove_expired_rooms():
                 "DELETE FROM note_content WHERE room_id = :r", {"r": rid}
             )
             await execute_query("DELETE FROM note_room WHERE room_id = :r", {"r": rid})
-            await invalidate_cache_entry("get_room_meta", rid)
+            await invalidate_cache_entry(get_room_meta, rid)
             if meta:
-                await invalidate_cache_prefix("pick_room_id")
+                await invalidate_cache_prefix(pick_room_id)
             logger.info(f"Expired note room removed: {rid}")
-        await invalidate_cache_prefix("get_room_meta")
-        await invalidate_cache_prefix("pick_room_id")
+        await invalidate_cache_prefix(get_room_meta)
+        await invalidate_cache_prefix(pick_room_id)
     except Exception as e:
         logger.error(f"Failed to remove expired note rooms: {e}")

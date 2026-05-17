@@ -1,3 +1,4 @@
+import hashlib
 import hmac
 import logging
 import os
@@ -11,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 from starlette.responses import HTMLResponse
 
+from cache_utils import redis_client
 from i18n import (
     get_language_options,
     get_frontend_messages,
@@ -279,6 +281,75 @@ def render_template(request: Request, template_name: str, **context: Any):
     except Exception as e:
         logger.exception(f"Error rendering template {template_name}: {e}")
         raise e
+
+
+RENDER_CACHE_KEY_PREFIX = "render_cache"
+RENDER_CACHE_CSRF_PLACEHOLDER = "__FSQR_CSRF_TOKEN_PLACEHOLDER__"
+
+
+def _render_cache_key(template_name: str, language: str, request: Request) -> str:
+    # ?lang= の有無で canonical_url が変わるため、クエリの生値もキーに含める
+    raw_lang = ""
+    qp = getattr(request, "query_params", None)
+    if qp is not None:
+        raw_lang = (qp.get("lang") or "").strip().lower()
+    payload = f"{template_name}|{language}|{raw_lang}|{int(bool(FRONTEND_DEBUG))}"
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    return f"{RENDER_CACHE_KEY_PREFIX}:{digest}"
+
+
+async def render_cached_template(
+    request: Request,
+    template_name: str,
+    *,
+    ttl: int = 300,
+    **context: Any,
+):
+    """フォーム送信を伴わない静的ページ向けのキャッシュ付きレンダラ。
+
+    レンダリング結果（多言語変換後の HTML）を Redis に保存し、再リクエスト時の
+    Jinja2 レンダ＋多言語置換（数百フレーズ）を省略する。
+
+    セッション依存の CSRF トークンはプレースホルダに置換して保存し、配信時に
+    リクエスト毎のトークンへ差し替える。``context`` を渡した呼び出しは
+    動的データを含む可能性があるためキャッシュをバイパスする。
+    """
+    if context:
+        return render_template(request, template_name, **context)
+
+    language = resolve_language(request)
+    cache_key = _render_cache_key(template_name, language, request)
+    csrf_value = get_or_create_csrf_token(request)
+
+    cached_body: str | None = None
+    try:
+        cached_body = await redis_client.get(cache_key)
+    except Exception as exc:
+        logger.warning("Render cache GET failed (%s): %s", cache_key, exc)
+
+    if cached_body is not None:
+        body = cached_body.replace(RENDER_CACHE_CSRF_PLACEHOLDER, csrf_value)
+        return HTMLResponse(
+            body,
+            headers={
+                "Vary": "Cookie",
+                "Content-Language": language,
+                "X-Render-Cache": "HIT",
+            },
+        )
+
+    response = render_template(request, template_name)
+    body = response.body.decode("utf-8")
+
+    if csrf_value and RENDER_CACHE_CSRF_PLACEHOLDER not in body:
+        cacheable_body = body.replace(csrf_value, RENDER_CACHE_CSRF_PLACEHOLDER)
+        try:
+            await redis_client.setex(cache_key, ttl, cacheable_body)
+        except Exception as exc:
+            logger.warning("Render cache SETEX failed (%s): %s", cache_key, exc)
+
+    response.headers["X-Render-Cache"] = "MISS"
+    return response
 
 
 def build_url(request: Request, name: str, **params: Any) -> str:

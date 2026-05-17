@@ -34,7 +34,7 @@ from settings import (
     SESSION_MAX_AGE_SECONDS,
 )
 from i18n import is_language_query_only
-from web import render_template, wants_json_response
+from web import render_cached_template, render_template, wants_json_response
 from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
 
@@ -213,7 +213,7 @@ async def index(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "index.html")
+    return await render_cached_template(request, "index.html")
 
 
 @app.get("/privacy-policy", name="privacy_policy")
@@ -221,7 +221,7 @@ async def privacy_policy(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "privacy.html")
+    return await render_cached_template(request, "privacy.html")
 
 
 @app.get("/about", name="about")
@@ -229,7 +229,7 @@ async def about(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "about.html")
+    return await render_cached_template(request, "about.html")
 
 
 @app.get("/contact", name="contact")
@@ -237,7 +237,7 @@ async def contact(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "contact.html")
+    return await render_cached_template(request, "contact.html")
 
 
 @app.get("/usage", name="usage")
@@ -245,7 +245,7 @@ async def usage(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "usage.html")
+    return await render_cached_template(request, "usage.html")
 
 
 @app.get("/site-operator", name="site_operator")
@@ -253,7 +253,7 @@ async def site_operator(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "site_operator.html")
+    return await render_cached_template(request, "site_operator.html")
 
 
 @app.get("/all-in-one", name="all_in_one")
@@ -261,7 +261,7 @@ async def all_in_one(request: Request):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
-    return render_template(request, "all-in-one-gpt.html")
+    return await render_cached_template(request, "all-in-one-gpt.html")
 
 
 @app.get("/ads.txt", name="ads_txt")

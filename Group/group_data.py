@@ -36,9 +36,9 @@ async def create_room(id, password, room_id, retention_days=7):
             "retention_days": retention_days,
         },
     )
-    await invalidate_cache_entry("pich_room_id", id, password)
-    await invalidate_cache_entry("get_data", room_id)
-    await invalidate_cache_entry("get_all")
+    await invalidate_cache_entry(pich_room_id, id, password)
+    await invalidate_cache_entry(get_data, room_id)
+    await invalidate_cache_entry(get_all)
 
 
 # ログイン処理
@@ -80,13 +80,13 @@ async def get_data_by_room_credentials(room_id: str, password: str):
     return record
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, strip_keys=("password",))
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
 # 全てのデータを取得する
-@cache_data(ttl=300)
+@cache_data(ttl=300, strip_keys=("password",))
 async def get_all():
     return await get_all_direct()
 
@@ -132,10 +132,10 @@ async def remove_data(secure_id):
     """)
     await execute_query(query, {"secure_id": secure_id})
     await group_ws_hub.close_room(secure_id, code=1001)
-    await invalidate_cache_entry("get_data", secure_id)
-    await invalidate_cache_entry("get_all")
+    await invalidate_cache_entry(get_data, secure_id)
+    await invalidate_cache_entry(get_all)
     if room_record:
-        await invalidate_cache_prefix("pich_room_id")
+        await invalidate_cache_prefix(pich_room_id)
 
 
 # 全てのデータを削除
@@ -169,9 +169,9 @@ async def all_remove():
     # 最後に、データベースから全ルームのレコードを削除
     query = text("DELETE FROM room")
     await execute_query(query)
-    await invalidate_cache_prefix("pich_room_id")
-    await invalidate_cache_prefix("get_data")
-    await invalidate_cache_prefix("get_all")
+    await invalidate_cache_prefix(pich_room_id)
+    await invalidate_cache_prefix(get_data)
+    await invalidate_cache_prefix(get_all)
 
 
 # 1週間以上経過したルームを削除する関数

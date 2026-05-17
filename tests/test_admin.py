@@ -155,7 +155,9 @@ def test_db_admin_file_detail_requires_session(test_client):
 
 def test_db_admin_file_detail_not_found(test_client):
     """認証済みでも secure_id が存在しない場合は 404 を返す"""
-    with patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=None):
+    with patch(
+        "FSQR.fsqr_data.get_data_direct", new_callable=AsyncMock, return_value=None
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/file/nonexistent")
     assert response.status_code == 404
@@ -179,7 +181,9 @@ def test_db_admin_file_detail_found(test_client):
         }
     ]
     with patch(
-        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+        "FSQR.fsqr_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_data,
     ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/file/abc123-uid-file")
@@ -200,7 +204,9 @@ def test_db_admin_room_detail_requires_session(test_client):
 
 def test_db_admin_room_detail_not_found(test_client):
     """認証済みでも room_id が存在しない場合は 404 を返す"""
-    with patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=None):
+    with patch(
+        "Group.group_data.get_data_direct", new_callable=AsyncMock, return_value=None
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/room/nonexistent")
     assert response.status_code == 404
@@ -220,7 +226,9 @@ def test_db_admin_room_detail_found(test_client):
         }
     ]
     with patch(
-        "Group.group_data.get_data", new_callable=AsyncMock, return_value=mock_data
+        "Group.group_data.get_data_direct",
+        new_callable=AsyncMock,
+        return_value=mock_data,
     ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/room/abc123")
@@ -269,7 +277,9 @@ def test_db_admin_file_download_requires_session(test_client):
 
 def test_db_admin_file_download_not_found(test_client):
     """認証済みで secure_id が存在しない場合は 404 を返す"""
-    with patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=None):
+    with patch(
+        "FSQR.fsqr_data.get_data_direct", new_callable=AsyncMock, return_value=None
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/file/nonexistent/download")
     assert response.status_code == 404
@@ -283,7 +293,9 @@ def test_db_admin_room_download_requires_session(test_client):
 
 def test_db_admin_room_download_not_found(test_client):
     """認証済みで room_id が存在しない場合は 404 を返す"""
-    with patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=None):
+    with patch(
+        "Group.group_data.get_data_direct", new_callable=AsyncMock, return_value=None
+    ):
         _login_db_admin(test_client)
         response = test_client.get("/admin/room/nonexistent/download")
     assert response.status_code == 404

@@ -43,10 +43,10 @@ async def save_file(
                 "retention_days": retention_days,
             },
         )
-        await invalidate_cache_entry("try_login", id, password)
-        await invalidate_cache_entry("get_data_by_credentials", id, password)
-        await invalidate_cache_entry("get_data", secure_id)
-        await invalidate_cache_entry("get_all")
+        await invalidate_cache_entry(try_login, id, password)
+        await invalidate_cache_entry(get_data_by_credentials, id, password)
+        await invalidate_cache_entry(get_data, secure_id)
+        await invalidate_cache_entry(get_all)
         logger.info("File saved successfully.")
     except Exception as e:
         logger.error(f"Failed to save file: {e}")
@@ -69,7 +69,7 @@ async def try_login(id, password) -> Optional[str]:
 
 
 # 資格情報でデータを取得
-@cache_data(ttl=60)
+@cache_data(ttl=60, strip_keys=("password",))
 async def get_data_by_credentials(id, password):
     try:
         record = await _find_record_by_credentials(id, password)
@@ -92,13 +92,13 @@ async def get_data_direct(secure_id):
         raise
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, strip_keys=("password",))
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
 # 全てのデータを取得する
-@cache_data(ttl=300)
+@cache_data(ttl=300, strip_keys=("password",))
 async def get_all():
     return await get_all_direct()
 
@@ -141,11 +141,11 @@ async def remove_data(secure_id):
             DELETE FROM fsqr WHERE secure_id = :secure_id
         """)
         await execute_query(query, {"secure_id": secure_id})
-        await invalidate_cache_entry("get_data", secure_id)
-        await invalidate_cache_entry("get_all")
+        await invalidate_cache_entry(get_data, secure_id)
+        await invalidate_cache_entry(get_all)
         if record:
-            await invalidate_cache_prefix("try_login")
-            await invalidate_cache_prefix("get_data_by_credentials")
+            await invalidate_cache_prefix(try_login)
+            await invalidate_cache_prefix(get_data_by_credentials)
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
@@ -158,10 +158,10 @@ async def all_remove():
             DELETE FROM fsqr
         """)
         await execute_query(query)
-        await invalidate_cache_prefix("try_login")
-        await invalidate_cache_prefix("get_data_by_credentials")
-        await invalidate_cache_prefix("get_data")
-        await invalidate_cache_prefix("get_all")
+        await invalidate_cache_prefix(try_login)
+        await invalidate_cache_prefix(get_data_by_credentials)
+        await invalidate_cache_prefix(get_data)
+        await invalidate_cache_prefix(get_all)
     except Exception as e:
         logger.error(f"Failed to remove all data: {e}")
         raise

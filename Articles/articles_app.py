@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from starlette.responses import RedirectResponse
 
 from i18n import is_language_query_only
-from web import render_template
+from web import render_cached_template, render_template
 
 router = APIRouter()
 
@@ -32,29 +32,29 @@ async def articles(request: Request):
 
 @router.get("/fs-qr-concept", name="articles.fs_qr_concept")
 async def fs_qr_concept(request: Request):
-    return render_template(request, "fs-qr-concept.html")
+    return await render_cached_template(request, "fs-qr-concept.html")
 
 
 @router.get("/safe-sharing", name="articles.safe_sharing")
 async def safe_sharing(request: Request):
-    return render_template(request, "safe-sharing.html")
+    return await render_cached_template(request, "safe-sharing.html")
 
 
 @router.get("/encryption", name="articles.encryption")
 async def encryption(request: Request):
-    return render_template(request, "encryption.html")
+    return await render_cached_template(request, "encryption.html")
 
 
 @router.get("/education", name="articles.education")
 async def education(request: Request):
-    return render_template(request, "education.html")
+    return await render_cached_template(request, "education.html")
 
 
 @router.get("/business", name="articles.business")
 async def business(request: Request):
-    return render_template(request, "business.html")
+    return await render_cached_template(request, "business.html")
 
 
 @router.get("/risk-mitigation", name="articles.risk_mitigation")
 async def risk_mitigation(request: Request):
-    return render_template(request, "risk-mitigation.html")
+    return await render_cached_template(request, "risk-mitigation.html")
