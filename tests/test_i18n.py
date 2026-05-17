@@ -254,8 +254,7 @@ def test_language_options_fallback_to_native_labels_when_missing_translation():
     import i18n
 
     labels = {
-        option["code"]: option["label"]
-        for option in i18n.get_language_options("ja")
+        option["code"]: option["label"] for option in i18n.get_language_options("ja")
     }
 
     assert labels["vi"] == "Tiếng Việt"
