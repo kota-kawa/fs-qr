@@ -151,7 +151,10 @@
       list.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
       const selectedOpt = list.querySelector('[aria-selected="true"]') || list.querySelector('.lang-select-option');
-      if (selectedOpt) selectedOpt.focus();
+      if (selectedOpt) {
+        selectedOpt.scrollIntoView({ block: 'nearest' });
+        selectedOpt.focus();
+      }
     }
 
     function closeList(options = {}) {

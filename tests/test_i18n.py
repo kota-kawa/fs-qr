@@ -240,6 +240,16 @@ def test_cookie_consent_script_uses_rendered_supported_language_list():
     assert "['ja', 'en', 'zh-CN', 'zh-TW', 'ko']" not in source
 
 
+def test_language_dropdown_is_scrollable_for_many_languages():
+    source = Path("static/cookie-consent.css").read_text(encoding="utf-8")
+
+    assert ".lang-select-list" in source
+    assert "max-height:" in source
+    assert "overflow-y: auto" in source
+    assert ".lang-quick-pick" in source
+    assert "overflow-x: auto" in source
+
+
 def test_non_default_frontend_messages_do_not_fallback_to_japanese():
     import i18n
 
