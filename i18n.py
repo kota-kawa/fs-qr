@@ -427,31 +427,17 @@ def make_translator(language: str):
 
 def get_language_options(language: str) -> tuple[dict[str, str], ...]:
     translate = make_translator(language)
-    labels = {
-        "ja": translate("language.option.ja"),
-        "en": translate("language.option.en"),
-        "zh-CN": translate("language.option.zh-CN"),
-        "zh-TW": translate("language.option.zh-TW"),
-        "ko": translate("language.option.ko"),
-        "fr": translate("language.option.fr"),
-        "es": translate("language.option.es"),
-        "de": translate("language.option.de"),
-        "vi": translate("language.option.vi"),
-        "th": translate("language.option.th"),
-        "id": translate("language.option.id"),
-        "tr": translate("language.option.tr"),
-        "uk": translate("language.option.uk"),
-        "pl": translate("language.option.pl"),
-        "sw": translate("language.option.sw"),
-        "ar": translate("language.option.ar"),
-    }
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
         code = option["code"]
+        translation_key = f"language.option.{code}"
+        label = translate(translation_key)
+        if label == translation_key:
+            label = option["label"]
         options.append(
             {
                 "code": code,
-                "label": labels.get(code, option["label"]),
+                "label": label,
                 "flag": option["flag"],
             }
         )

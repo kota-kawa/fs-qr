@@ -240,6 +240,28 @@ def test_cookie_consent_script_uses_rendered_supported_language_list():
     assert "['ja', 'en', 'zh-CN', 'zh-TW', 'ko']" not in source
 
 
+def test_language_options_never_expose_translation_keys():
+    import i18n
+
+    for language in i18n.SUPPORTED_LANGUAGES:
+        options = i18n.get_language_options(language)
+        assert len(options) == len(i18n.SUPPORTED_LANGUAGES)
+        for option in options:
+            assert not option["label"].startswith("language.option.")
+
+
+def test_language_options_fallback_to_native_labels_when_missing_translation():
+    import i18n
+
+    labels = {
+        option["code"]: option["label"]
+        for option in i18n.get_language_options("ja")
+    }
+
+    assert labels["vi"] == "Tiếng Việt"
+    assert labels["th"] == "ไทย"
+
+
 def test_language_dropdown_is_scrollable_for_many_languages():
     source = Path("static/cookie-consent.css").read_text(encoding="utf-8")
 
