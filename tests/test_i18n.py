@@ -15,6 +15,9 @@ class DummyQueryParams:
     def __init__(self, items):
         self._items = list(items)
 
+    def __len__(self):
+        return len(self._items)
+
     def get(self, key, default=None):
         for item_key, item_value in self._items:
             if item_key == key:
@@ -156,8 +159,14 @@ def test_language_query_only_accepts_supported_language_aliases():
     assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "ko")]))
     )
-    assert not i18n.is_language_query_only(
+    assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "fr")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "es")]))
+    )
+    assert not i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "xyz")]))
     )
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "en"), ("page", "1")]))

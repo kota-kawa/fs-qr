@@ -13,7 +13,7 @@ from settings import BASE_DIR, GEOIP_DB_PATH
 
 logger = logging.getLogger(__name__)
 
-SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko")
+SUPPORTED_LANGUAGES = ("ja", "en", "zh-CN", "zh-TW", "ko", "fr", "es", "de")
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
@@ -24,6 +24,9 @@ LANGUAGE_OPTIONS = (
     {"code": "zh-CN", "label": "简体中文", "flag": "🇨🇳"},
     {"code": "zh-TW", "label": "繁體中文", "flag": "🇹🇼"},
     {"code": "ko", "label": "한국어", "flag": "🇰🇷"},
+    {"code": "fr", "label": "Français", "flag": "🇫🇷"},
+    {"code": "es", "label": "Español", "flag": "🇪🇸"},
+    {"code": "de", "label": "Deutsch", "flag": "🇩🇪"},
 )
 
 COUNTRY_LANGUAGE_MAP = {
@@ -34,6 +37,21 @@ COUNTRY_LANGUAGE_MAP = {
     "MO": "zh-TW",
     "TW": "zh-TW",
     "KR": "ko",
+    "FR": "fr",
+    "ES": "es",
+    "MX": "es",
+    "AR": "es",
+    "CL": "es",
+    "CO": "es",
+    "PE": "es",
+    "US": "en",
+    "GB": "en",
+    "AU": "en",
+    "CA": "en",
+    "NZ": "en",
+    "DE": "de",
+    "AT": "de",
+    "CH": "de",
 }
 
 HTML_LANG_MAP = {
@@ -42,6 +60,9 @@ HTML_LANG_MAP = {
     "zh-CN": "zh-CN",
     "zh-TW": "zh-TW",
     "ko": "ko",
+    "fr": "fr",
+    "es": "es",
+    "de": "de",
 }
 META_LANGUAGE_MAP = {
     "ja": "ja",
@@ -49,6 +70,9 @@ META_LANGUAGE_MAP = {
     "zh-CN": "zh-CN",
     "zh-TW": "zh-TW",
     "ko": "ko",
+    "fr": "fr",
+    "es": "es",
+    "de": "de",
 }
 OG_LOCALE_MAP = {
     "ja": "ja_JP",
@@ -56,6 +80,9 @@ OG_LOCALE_MAP = {
     "zh-CN": "zh_CN",
     "zh-TW": "zh_TW",
     "ko": "ko_KR",
+    "fr": "fr_FR",
+    "es": "es_ES",
+    "de": "de_DE",
 }
 SCHEMA_LANGUAGE_MAP = {
     "ja": "ja-JP",
@@ -63,6 +90,9 @@ SCHEMA_LANGUAGE_MAP = {
     "zh-CN": "zh-CN",
     "zh-TW": "zh-TW",
     "ko": "ko",
+    "fr": "fr",
+    "es": "es",
+    "de": "de",
 }
 LANGUAGE_FALLBACKS = {
     "ja": (),
@@ -70,199 +100,234 @@ LANGUAGE_FALLBACKS = {
     "zh-CN": ("en",),
     "zh-TW": ("zh-CN", "en"),
     "ko": ("en",),
+    "fr": ("en",),
+    "es": ("en",),
+    "de": ("en",),
 }
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
 
 _HTML_LANG_RE = re.compile(r"<html(?P<attrs>[^>]*)\blang=[\"'][^\"']*[\"']", re.I)
-_META_LANGUAGE_RE = re.compile(
-    r'(<meta\s+name=["\']language["\']\s+content=["\'])[^"\']*(["\'])', re.I
-)
-_OG_LOCALE_RE = re.compile(
-    r'(<meta\s+property=["\']og:locale["\']\s+content=["\'])[^"\']*(["\'])',
+_META_LANG_RE = re.compile(
+    r"<meta\s+(?:http-equiv=[\"']content-language[\"']|name=[\"']language[\"'])\s+content=[\"'][^\"']*[\"']",
     re.I,
 )
-_SCHEMA_LANGUAGE_RE = re.compile(r'("inLanguage"\s*:\s*")[^"]*(")')
+_OG_LOCALE_RE = re.compile(
+    r"<meta\s+property=[\"']og:locale[\"']\s+content=[\"'][^\"']*[\"']", re.I
+)
+_SCHEMA_LANG_RE = re.compile(r"\"inLanguage\":\s*\"[^\"]*\"", re.I)
 
 
-def normalize_language(value: Any) -> str:
-    if not isinstance(value, str):
-        return DEFAULT_LANGUAGE
-    value = value.strip()
-    if value in SUPPORTED_LANGUAGES:
+@lru_cache(maxsize=1)
+def load_translations():
+    translations = {}
+    locales_dir = os.path.join(BASE_DIR, "locales")
+    for lang in SUPPORTED_LANGUAGES:
+        file_path = os.path.join(locales_dir, f"{lang}.json")
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    translations[lang] = json.load(f)
+            except Exception as e:
+                logger.error(f"Error loading translation for {lang}: {e}")
+                translations[lang] = {}
+        else:
+            translations[lang] = {}
+    return translations
+
+
+def get_translation_value(language: str, section: str, key: str) -> str:
+    translations = load_translations()
+    normalized_language = normalize_language(language)
+
+    # 1. Try specified language
+    value = translations.get(normalized_language, {}).get(section, {}).get(key)
+    if value:
         return value
-    lowered = value.lower()
-    if lowered in {"zh", "zh-cn", "zh_hans", "zh-hans", "cn"}:
+
+    # 2. Try fallbacks
+    fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
+    for fallback in fallbacks:
+        value = translations.get(fallback, {}).get(section, {}).get(key)
+        if value:
+            return value
+
+    # 3. Try English if not already tried
+    if normalized_language != "en" and "en" not in fallbacks:
+        value = translations.get("en", {}).get(section, {}).get(key)
+        if value:
+            return value
+
+    # 4. Try Japanese if not already tried
+    if normalized_language != "ja" and "ja" not in fallbacks:
+        value = translations.get("ja", {}).get(section, {}).get(key)
+        if value:
+            return value
+
+    return key
+
+
+def normalize_language(language: str) -> str:
+    if not language:
+        return DEFAULT_LANGUAGE
+    lowered = language.lower()
+    if lowered in SUPPORTED_LANGUAGES:
+        return lowered
+
+    # Handle aliases and variants
+    if lowered.startswith("ja") or lowered.startswith("jp"):
+        return "ja"
+    if lowered in {"zh-cn", "zh_cn", "zh-hans", "zh_hans", "cn"}:
         return "zh-CN"
     if lowered in {"zh-tw", "zh_tw", "zh-hant", "zh_hant", "tw", "hk", "mo"}:
         return "zh-TW"
     if lowered.startswith("ko") or lowered == "kr":
         return "ko"
+    if lowered.startswith("fr"):
+        return "fr"
+    if lowered.startswith("es"):
+        return "es"
+    if lowered.startswith("de"):
+        return "de"
     if lowered.startswith("en"):
         return "en"
-    if lowered.startswith("ja") or lowered.startswith("jp"):
-        return "ja"
+
+    return DEFAULT_LANGUAGE
+
+
+def language_from_country(country_code: str) -> str:
+    if not country_code:
+        return DEFAULT_LANGUAGE
+    return COUNTRY_LANGUAGE_MAP.get(country_code.upper(), DEFAULT_LANGUAGE)
+
+
+def resolve_language(request: Request) -> str:
+    # 1. Query parameter (highest priority for switching)
+    language = request.query_params.get("lang")
+    if language and language in SUPPORTED_LANGUAGES:
+        return language
+    # Also support aliases in query params
+    if language:
+        normalized = normalize_language(language)
+        if normalized in SUPPORTED_LANGUAGES and normalized != DEFAULT_LANGUAGE:
+            return normalized
+        if language.lower() in ("ja", "jp") and "ja" in SUPPORTED_LANGUAGES:
+            return "ja"
+
+    # 2. Cookie
+    language = request.cookies.get(LANGUAGE_COOKIE_NAME)
+    if language and language in SUPPORTED_LANGUAGES:
+        return language
+
+    # 3. GeoIP
+    ip = request.client.host if request.client else None
+    if ip:
+        country_code = get_country_code(ip)
+        if country_code:
+            language = language_from_country(country_code)
+            if language in SUPPORTED_LANGUAGES:
+                return language
+
     return DEFAULT_LANGUAGE
 
 
 def is_language_query_only(request: Request) -> bool:
-    query_params = getattr(request, "query_params", None)
-    if query_params is None or not hasattr(query_params, "multi_items"):
+    params = request.query_params
+    # Use multi_items() if available (for DummyQueryParams in tests)
+    items = params.multi_items() if hasattr(params, "multi_items") else list(params.items())
+    if len(items) != 1:
         return False
-    params = list(query_params.multi_items())
-    if len(params) != 1 or params[0][0] != "lang":
-        return False
-
-    raw_language = params[0][1]
-    if not isinstance(raw_language, str) or not raw_language.strip():
+    lang = params.get("lang")
+    if not lang:
         return False
 
-    normalized = normalize_language(raw_language)
-    raw_normalized = raw_language.strip().lower()
-    valid_default_alias = raw_normalized in {"ja", "jp", "ja-jp"}
-    return normalized != DEFAULT_LANGUAGE or valid_default_alias
+    lowered = lang.lower()
+    if lowered in SUPPORTED_LANGUAGES:
+        return True
+
+    # Handle aliases
+    if lowered.startswith("ja") or lowered.startswith("jp"):
+        return True
+    if lowered in {"zh-cn", "zh_cn", "zh-hans", "zh_hans", "cn"}:
+        return True
+    if lowered in {"zh-tw", "zh_tw", "zh-hant", "zh_hant", "tw", "hk", "mo"}:
+        return True
+    if lowered.startswith("ko") or lowered == "kr":
+        return True
+    if lowered.startswith("fr"):
+        return True
+    if lowered.startswith("es"):
+        return True
+    if lowered.startswith("en"):
+        return True
+
+    return False
 
 
-def _get_client_ip(request: Request) -> str:
-    forwarded = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
-    if forwarded:
-        return forwarded
-    real_ip = request.headers.get("X-Real-IP", "").strip()
-    if real_ip:
-        return real_ip
-    if getattr(request, "client", None) and request.client:
-        return request.client.host
-    return ""
-
-
-def _is_public_ip(value: str) -> bool:
+def get_country_code(ip: str) -> str | None:
     try:
-        ip = ipaddress.ip_address(value)
+        addr = ipaddress.ip_address(ip)
+        if addr.is_private:
+            return None
     except ValueError:
-        return False
-    return not (
-        ip.is_private
-        or ip.is_loopback
-        or ip.is_link_local
-        or ip.is_multicast
-        or ip.is_reserved
-        or ip.is_unspecified
-    )
+        return None
+
+    import maxminddb
+
+    reader = _get_geoip_reader()
+    if not reader:
+        return None
+
+    try:
+        # maxminddb returns a dict
+        record = reader.get(ip)
+        if not record:
+            return None
+        # Support both standard GeoIP2/GeoLite2 (record['country']['iso_code'])
+        # and flat schemas (record['country_code']) used in some DBs/tests
+        if "country" in record and isinstance(record["country"], dict):
+            return record["country"].get("iso_code")
+        return record.get("country_code")
+    except Exception:
+        return None
 
 
 def _get_geoip_reader():
-    db_path = GEOIP_DB_PATH
-    if not db_path:
+    if not os.path.exists(GEOIP_DB_PATH):
         return None
-    if not os.path.isabs(db_path):
-        db_path = os.path.join(BASE_DIR, db_path)
-    if not os.path.exists(db_path):
-        logger.info("GeoIP database not found at %s; falling back to Japanese", db_path)
-        return None
-    try:
-        import maxminddb
-    except ImportError:
-        logger.warning("maxminddb is not installed; GeoIP language detection disabled")
-        return None
-    mtime = os.path.getmtime(db_path)
-    cached_reader = _geoip_reader_cache.get("reader")
+
+    current_mtime = os.path.getmtime(GEOIP_DB_PATH)
     if (
-        cached_reader is not None
-        and _geoip_reader_cache.get("path") == db_path
-        and _geoip_reader_cache.get("mtime") == mtime
+        _geoip_reader_cache["path"] == GEOIP_DB_PATH
+        and _geoip_reader_cache["mtime"] == current_mtime
     ):
-        return cached_reader
+        return _geoip_reader_cache["reader"]
 
-    if cached_reader is not None and hasattr(cached_reader, "close"):
-        try:
-            cached_reader.close()
-        except Exception:
-            pass
+    import maxminddb
 
     try:
-        reader = maxminddb.open_database(db_path)
-        _geoip_reader_cache.update({"path": db_path, "mtime": mtime, "reader": reader})
+        reader = maxminddb.open_database(GEOIP_DB_PATH)
+        _geoip_reader_cache["path"] = GEOIP_DB_PATH
+        _geoip_reader_cache["mtime"] = current_mtime
+        _geoip_reader_cache["reader"] = reader
         return reader
-    except Exception as exc:  # pragma: no cover - depends on local DB integrity
-        logger.warning("Failed to open GeoIP database %s: %s", db_path, exc)
-        return None
-
-
-def language_from_country(country_code: Any) -> str:
-    if not isinstance(country_code, str):
-        return DEFAULT_LANGUAGE
-    normalized = country_code.strip().upper()
-    if not normalized:
-        return DEFAULT_LANGUAGE
-    return COUNTRY_LANGUAGE_MAP.get(normalized, "en")
-
-
-def language_from_ip(ip_address: str) -> str:
-    if not ip_address or not _is_public_ip(ip_address):
-        return DEFAULT_LANGUAGE
-    reader = _get_geoip_reader()
-    if reader is None:
-        return DEFAULT_LANGUAGE
-    try:
-        record = reader.get(ip_address)
     except Exception:
-        return DEFAULT_LANGUAGE
-    country = (record or {}).get("country", {})
-    country_code = country.get("iso_code") or (record or {}).get("country_code")
-    return language_from_country(country_code)
-
-
-def resolve_language(request: Request) -> str:
-    # ?lang= クエリパラメータが最優先（hreflang用URLからのアクセスとクローラー対応）
-    query_params = getattr(request, "query_params", None)
-    raw_query_language = query_params.get("lang") if query_params is not None else None
-    if isinstance(raw_query_language, str) and raw_query_language.strip():
-        normalized = normalize_language(raw_query_language)
-        raw_normalized = raw_query_language.strip().lower()
-        valid_default_alias = raw_normalized in {"ja", "jp", "ja-jp"}
-        if normalized != DEFAULT_LANGUAGE or valid_default_alias:
-            return normalized
-    raw_cookie_language = request.cookies.get(LANGUAGE_COOKIE_NAME)
-    cookie_language = normalize_language(raw_cookie_language)
-    if isinstance(raw_cookie_language, str) and raw_cookie_language.strip():
-        raw_normalized = raw_cookie_language.strip().lower()
-        valid_default_alias = raw_normalized in {"ja", "jp", "ja-jp"}
-        if cookie_language != DEFAULT_LANGUAGE or valid_default_alias:
-            return cookie_language
-    return language_from_ip(_get_client_ip(request))
-
-
-@lru_cache(maxsize=1)
-def _load_translations() -> dict[str, dict[str, Any]]:
-    translations: dict[str, dict[str, Any]] = {}
-    for language in SUPPORTED_LANGUAGES:
-        path = os.path.join(BASE_DIR, "locales", f"{language}.json")
-        try:
-            with open(path, encoding="utf-8") as fp:
-                translations[language] = json.load(fp)
-        except FileNotFoundError:
-            translations[language] = {}
-    return translations
-
-
-def get_translation_value(language: str, section: str, key: str) -> str:
-    language = normalize_language(language)
-    translations = _load_translations()
-    for code in (language, *LANGUAGE_FALLBACKS.get(language, ())):
-        value = translations.get(code, {}).get(section, {}).get(key)
-        if isinstance(value, str):
-            return value
-    return key
+        return None
 
 
 def get_frontend_messages(language: str) -> dict[str, str]:
-    language = normalize_language(language)
-    translations = _load_translations()
-    messages: dict[str, Any] = {}
-    for fallback_language in LANGUAGE_FALLBACKS.get(language, ()):
-        messages.update(translations.get(fallback_language, {}).get("js", {}))
-    messages.update(translations.get(language, {}).get("js", {}))
-    return {key: value for key, value in messages.items() if isinstance(value, str)}
+    translations = load_translations()
+    normalized_language = normalize_language(language)
+    messages = {}
+
+    # 1. English as base if not current language
+    if normalized_language != "en":
+        messages.update(translations.get("en", {}).get("js", {}))
+
+    # 2. Current language overrides
+    messages.update(translations.get(normalized_language, {}).get("js", {}))
+
+    return messages
 
 
 def make_translator(language: str):
@@ -288,6 +353,9 @@ def get_language_options(language: str) -> tuple[dict[str, str], ...]:
         "zh-CN": translate("language.option.zh-CN"),
         "zh-TW": translate("language.option.zh-TW"),
         "ko": translate("language.option.ko"),
+        "fr": translate("language.option.fr"),
+        "es": translate("language.option.es"),
+        "de": translate("language.option.de"),
     }
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
@@ -302,55 +370,44 @@ def get_language_options(language: str) -> tuple[dict[str, str], ...]:
     return tuple(options)
 
 
-def _replace_language_metadata(content: str, language: str) -> str:
-    html_lang = HTML_LANG_MAP.get(language, DEFAULT_LANGUAGE)
-    meta_language = META_LANGUAGE_MAP.get(language, DEFAULT_LANGUAGE)
-    og_locale = OG_LOCALE_MAP.get(language, OG_LOCALE_MAP[DEFAULT_LANGUAGE])
-    schema_language = SCHEMA_LANGUAGE_MAP.get(
-        language, SCHEMA_LANGUAGE_MAP[DEFAULT_LANGUAGE]
-    )
-
-    def replace_html_lang(match: re.Match[str]) -> str:
-        attrs = match.group("attrs").rstrip()
-        return f'<html{attrs} lang="{html_lang}"'
-
-    content = _HTML_LANG_RE.sub(replace_html_lang, content, count=1)
-    content = _META_LANGUAGE_RE.sub(
-        lambda match: f"{match.group(1)}{meta_language}{match.group(2)}", content
-    )
-    content = _OG_LOCALE_RE.sub(
-        lambda match: f"{match.group(1)}{og_locale}{match.group(2)}", content
-    )
-    content = _SCHEMA_LANGUAGE_RE.sub(
-        lambda match: f"{match.group(1)}{schema_language}{match.group(2)}", content
-    )
-    return content
-
-
-def _ensure_geoip_attribution(content: str) -> str:
-    if "https://db-ip.com" in content:
-        return content
-    attribution = (
-        '<div class="geoip-attribution" '
-        'style="font-size:0.75rem;text-align:center;padding:0.5rem;color:inherit;">'
-        '<a href="https://db-ip.com" target="_blank" rel="noopener noreferrer">'
-        "IP Geolocation by DB-IP"
-        "</a></div>"
-    )
-    if "</body>" in content:
-        return content.replace("</body>", f"{attribution}</body>", 1)
-    return f"{content}{attribution}"
-
-
 def translate_rendered_html(content: str, language: str) -> str:
-    language = normalize_language(language)
-    content = _replace_language_metadata(content, language)
-    if language == DEFAULT_LANGUAGE:
-        return content
+    normalized_language = normalize_language(language)
+    translations = load_translations()
 
-    translations = _load_translations()
-    phrases: dict[str, Any] = {}
-    for fallback_language in LANGUAGE_FALLBACKS.get(language, ()):
+    # 1. Update <html lang="...">
+    html_lang = HTML_LANG_MAP.get(normalized_language, normalized_language)
+
+    def _replace_html_lang(match):
+        attrs = match.group("attrs")
+        return f'<html{attrs}lang="{html_lang}"'
+
+    content = _HTML_LANG_RE.sub(_replace_html_lang, content)
+
+    # 2. Update <meta http-equiv="content-language" content="..."> or <meta name="language" content="...">
+    meta_lang = META_LANGUAGE_MAP.get(normalized_language, normalized_language)
+
+    def _replace_meta_lang(match):
+        original = match.group(0)
+        if 'name="language"' in original.lower() or "name='language'" in original.lower():
+            return f'<meta name="language" content="{meta_lang}"'
+        return f'<meta http-equiv="content-language" content="{meta_lang}"'
+
+    content = _META_LANG_RE.sub(_replace_meta_lang, content)
+
+    # 3. Update <meta property="og:locale" content="...">
+    og_locale = OG_LOCALE_MAP.get(normalized_language, "en_US")
+    content = _OG_LOCALE_RE.sub(
+        f'<meta property="og:locale" content="{og_locale}"', content
+    )
+
+    # 4. Update "inLanguage": "..." (Schema.org)
+    schema_lang = SCHEMA_LANGUAGE_MAP.get(normalized_language, normalized_language)
+    content = _SCHEMA_LANG_RE.sub(f'"inLanguage": "{schema_lang}"', content)
+
+    # 5. Translate phrases
+    phrases = {}
+    fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
+    for fallback_language in reversed(fallbacks):
         fallback_phrases = translations.get(fallback_language, {}).get("phrases", {})
         if isinstance(fallback_phrases, dict):
             phrases.update(fallback_phrases)
