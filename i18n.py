@@ -515,9 +515,7 @@ def translate_rendered_html(content: str, language: str) -> str:
     region, placename = GEO_REGION_MAP.get(
         normalized_language, GEO_REGION_MAP[DEFAULT_LANGUAGE]
     )
-    content = _GEO_REGION_RE.sub(
-        f'<meta name="geo.region" content="{region}"', content
-    )
+    content = _GEO_REGION_RE.sub(f'<meta name="geo.region" content="{region}"', content)
     content = _GEO_PLACENAME_RE.sub(
         f'<meta name="geo.placename" content="{placename}"', content
     )

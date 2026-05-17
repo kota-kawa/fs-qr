@@ -296,7 +296,9 @@ SITEMAP_URLS = (
 )
 
 
-def _build_sitemap_entry(path: str, changefreq: str, priority: str, lastmod: str) -> str:
+def _build_sitemap_entry(
+    path: str, changefreq: str, priority: str, lastmod: str
+) -> str:
     loc = f"{SITEMAP_BASE_URL}{path}"
     alternates = []
     for code in SUPPORTED_LANGUAGES:

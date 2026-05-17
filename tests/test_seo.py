@@ -118,9 +118,7 @@ def test_home_geo_region_adapts_to_locale(test_client: TestClient):
     region_re = re.compile(r'<meta name="geo\.region" content="([^"]+)"')
 
     for language, region in expected_regions.items():
-        response = test_client.get(
-            "/", headers={"Cookie": f"fsqr_language={language}"}
-        )
+        response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         match = region_re.search(response.text)
         assert match, f"{language}: no geo.region meta"
@@ -151,9 +149,7 @@ def test_home_jsonld_inlanguage_matches_request_locale(test_client: TestClient):
     pattern = re.compile(r'"inLanguage":\s*"([^"]+)"')
 
     for language, in_language in expected.items():
-        response = test_client.get(
-            "/", headers={"Cookie": f"fsqr_language={language}"}
-        )
+        response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         matches = pattern.findall(response.text)
         assert matches, f"{language}: no JSON-LD inLanguage"
@@ -166,7 +162,7 @@ def test_arabic_renders_with_rtl_direction(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=ar"})
     assert response.status_code == 200
     assert re.search(r'<html[^>]*\blang="ar"[^>]*\bdir="rtl"', response.text), (
-        "Arabic responses must include dir=\"rtl\" on the <html> element"
+        'Arabic responses must include dir="rtl" on the <html> element'
     )
 
 
@@ -178,9 +174,7 @@ def test_home_hreflang_alternates_include_every_supported_language(
     response = test_client.get("/")
     assert response.status_code == 200
 
-    hreflangs = set(
-        re.findall(r'rel="alternate"\s+hreflang="([^"]+)"', response.text)
-    )
+    hreflangs = set(re.findall(r'rel="alternate"\s+hreflang="([^"]+)"', response.text))
     for language in SUPPORTED_LANGUAGES:
         assert language in hreflangs, f"missing hreflang alternate for {language}"
     assert "x-default" in hreflangs

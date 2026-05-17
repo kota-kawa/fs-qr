@@ -76,7 +76,9 @@ def build_canonical_index(en_phrases: dict) -> dict:
     return index
 
 
-def fuzzy_match(key: str, en_keys_normalized: list[tuple[str, str]], threshold: float = 0.88) -> str | None:
+def fuzzy_match(
+    key: str, en_keys_normalized: list[tuple[str, str]], threshold: float = 0.88
+) -> str | None:
     """Return the canonical en key whose normalized form has highest ratio above threshold."""
     nk = normalize_for_match(key)
     best_ratio = 0.0
