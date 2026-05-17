@@ -25,6 +25,11 @@ SUPPORTED_LANGUAGES = (
     "vi",
     "th",
     "id",
+    "tr",
+    "uk",
+    "pl",
+    "sw",
+    "ar",
 )
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
@@ -42,6 +47,11 @@ LANGUAGE_OPTIONS = (
     {"code": "vi", "label": "Tiếng Việt", "flag": "🇻🇳"},
     {"code": "th", "label": "ไทย", "flag": "🇹🇭"},
     {"code": "id", "label": "Bahasa Indonesia", "flag": "🇮🇩"},
+    {"code": "tr", "label": "Türkçe", "flag": "🇹🇷"},
+    {"code": "uk", "label": "Українська", "flag": "🇺🇦"},
+    {"code": "pl", "label": "Polski", "flag": "🇵🇱"},
+    {"code": "sw", "label": "Kiswahili", "flag": "🇹🇿"},
+    {"code": "ar", "label": "العربية", "flag": "🇸🇦"},
 )
 
 COUNTRY_LANGUAGE_MAP = {
@@ -70,6 +80,18 @@ COUNTRY_LANGUAGE_MAP = {
     "VN": "vi",
     "TH": "th",
     "ID": "id",
+    "TR": "tr",
+    "UA": "uk",
+    "PL": "pl",
+    "TZ": "sw",
+    "KE": "sw",
+    "UG": "sw",
+    "SA": "ar",
+    "AE": "ar",
+    "EG": "ar",
+    "JO": "ar",
+    "KW": "ar",
+    "QA": "ar",
 }
 
 HTML_LANG_MAP = {
@@ -84,6 +106,11 @@ HTML_LANG_MAP = {
     "vi": "vi",
     "th": "th",
     "id": "id",
+    "tr": "tr",
+    "uk": "uk",
+    "pl": "pl",
+    "sw": "sw",
+    "ar": "ar",
 }
 META_LANGUAGE_MAP = {
     "ja": "ja",
@@ -97,6 +124,11 @@ META_LANGUAGE_MAP = {
     "vi": "vi",
     "th": "th",
     "id": "id",
+    "tr": "tr",
+    "uk": "uk",
+    "pl": "pl",
+    "sw": "sw",
+    "ar": "ar",
 }
 OG_LOCALE_MAP = {
     "ja": "ja_JP",
@@ -110,6 +142,11 @@ OG_LOCALE_MAP = {
     "vi": "vi_VN",
     "th": "th_TH",
     "id": "id_ID",
+    "tr": "tr_TR",
+    "uk": "uk_UA",
+    "pl": "pl_PL",
+    "sw": "sw_TZ",
+    "ar": "ar_SA",
 }
 SCHEMA_LANGUAGE_MAP = {
     "ja": "ja-JP",
@@ -123,6 +160,11 @@ SCHEMA_LANGUAGE_MAP = {
     "vi": "vi",
     "th": "th",
     "id": "id",
+    "tr": "tr",
+    "uk": "uk",
+    "pl": "pl",
+    "sw": "sw",
+    "ar": "ar",
 }
 LANGUAGE_FALLBACKS = {
     "ja": (),
@@ -136,6 +178,11 @@ LANGUAGE_FALLBACKS = {
     "vi": ("en",),
     "th": ("en",),
     "id": ("en",),
+    "tr": ("en",),
+    "uk": ("en",),
+    "pl": ("en",),
+    "sw": ("en",),
+    "ar": ("en",),
 }
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
@@ -228,6 +275,16 @@ def normalize_language(language: str) -> str:
         return "th"
     if lowered.startswith("id"):
         return "id"
+    if lowered.startswith("tr"):
+        return "tr"
+    if lowered.startswith("uk"):
+        return "uk"
+    if lowered.startswith("pl"):
+        return "pl"
+    if lowered.startswith("sw"):
+        return "sw"
+    if lowered.startswith("ar"):
+        return "ar"
     if lowered.startswith("en"):
         return "en"
 
@@ -298,6 +355,16 @@ def is_language_query_only(request: Request) -> bool:
     if lowered.startswith("fr"):
         return True
     if lowered.startswith("es"):
+        return True
+    if lowered.startswith("tr"):
+        return True
+    if lowered.startswith("uk"):
+        return True
+    if lowered.startswith("pl"):
+        return True
+    if lowered.startswith("sw"):
+        return True
+    if lowered.startswith("ar"):
         return True
     if lowered.startswith("en"):
         return True
@@ -398,6 +465,11 @@ def get_language_options(language: str) -> tuple[dict[str, str], ...]:
         "vi": translate("language.option.vi"),
         "th": translate("language.option.th"),
         "id": translate("language.option.id"),
+        "tr": translate("language.option.tr"),
+        "uk": translate("language.option.uk"),
+        "pl": translate("language.option.pl"),
+        "sw": translate("language.option.sw"),
+        "ar": translate("language.option.ar"),
     }
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
@@ -416,12 +488,15 @@ def translate_rendered_html(content: str, language: str) -> str:
     normalized_language = normalize_language(language)
     translations = load_translations()
 
-    # 1. Update <html lang="...">
+    # 1. Update <html lang="..."> and handle dir="rtl" for Arabic
     html_lang = HTML_LANG_MAP.get(normalized_language, normalized_language)
+    html_dir = "rtl" if normalized_language == "ar" else "ltr"
 
     def _replace_html_lang(match):
         attrs = match.group("attrs")
-        return f'<html{attrs}lang="{html_lang}"'
+        # Remove existing dir attribute if any
+        attrs = re.sub(r"\s*dir=[\"'][^\"']*[\"']", "", attrs, flags=re.I)
+        return f'<html{attrs.rstrip()} lang="{html_lang}" dir="{html_dir}"'
 
     content = _HTML_LANG_RE.sub(_replace_html_lang, content)
 

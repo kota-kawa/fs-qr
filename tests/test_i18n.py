@@ -74,6 +74,36 @@ def test_language_from_country_maps_korea_to_korean():
     assert language_from_country("KR") == "ko"
 
 
+def test_language_from_country_maps_turkey_to_turkish():
+    from i18n import language_from_country
+
+    assert language_from_country("TR") == "tr"
+
+
+def test_language_from_country_maps_ukraine_to_ukrainian():
+    from i18n import language_from_country
+
+    assert language_from_country("UA") == "uk"
+
+
+def test_language_from_country_maps_poland_to_polish():
+    from i18n import language_from_country
+
+    assert language_from_country("PL") == "pl"
+
+
+def test_language_from_country_maps_tanzania_to_swahili():
+    from i18n import language_from_country
+
+    assert language_from_country("TZ") == "sw"
+
+
+def test_language_from_country_maps_saudi_arabia_to_arabic():
+    from i18n import language_from_country
+
+    assert language_from_country("SA") == "ar"
+
+
 def test_resolve_language_prefers_cookie_over_geoip(monkeypatch):
     import i18n
 
@@ -135,13 +165,21 @@ def test_translate_rendered_html_updates_language_metadata():
         "</head><body>ホーム</body></html>"
     )
 
-    translated = translate_rendered_html(content, "en")
+    # Test English (LTR)
+    translated_en = translate_rendered_html(content, "en")
+    assert '<html lang="en" dir="ltr">' in translated_en
+    assert '<meta name="language" content="en">' in translated_en
+    assert '<meta property="og:locale" content="en_US">' in translated_en
+    assert '"inLanguage": "en"' in translated_en
+    assert "Home" in translated_en
 
-    assert '<html lang="en">' in translated
-    assert '<meta name="language" content="en">' in translated
-    assert '<meta property="og:locale" content="en_US">' in translated
-    assert '"inLanguage": "en"' in translated
-    assert "Home" in translated
+    # Test Arabic (RTL)
+    translated_ar = translate_rendered_html(content, "ar")
+    assert '<html lang="ar" dir="rtl">' in translated_ar
+    assert '<meta name="language" content="ar">' in translated_ar
+    assert '<meta property="og:locale" content="ar_SA">' in translated_ar
+    assert '"inLanguage": "ar"' in translated_ar
+    assert "الرئيسية" in translated_ar
 
 
 def test_language_query_only_accepts_supported_language_aliases():
@@ -164,6 +202,15 @@ def test_language_query_only_accepts_supported_language_aliases():
     )
     assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "es")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "tr")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "uk")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "pl")]))
     )
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "xyz")]))
