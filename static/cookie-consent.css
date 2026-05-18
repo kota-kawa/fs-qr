@@ -376,55 +376,12 @@ body > #cookieConsent.cookie-consent-overlay {
   font-weight: 600;
 }
 
-/* ─── Language quick-pick (summary view) ─────────── */
-.lang-quick-pick {
+/* ─── Language select row (summary view) ─────────── */
+.lang-select-summary-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: flex-end;
   margin-bottom: 1rem;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  padding: 0.1rem 0 0.35rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(14, 165, 233, 0.38) transparent;
-}
-
-.lang-quick-option {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  flex: 0 0 auto;
-  min-height: 2.55rem;
-  padding: 0.45rem 0.85rem;
-  border: 1.5px solid rgba(15, 23, 42, 0.14);
-  border-radius: 10px;
-  background: #f8fafc;
-  color: #475569;
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
-  white-space: nowrap;
-}
-
-.lang-quick-option:hover {
-  border-color: rgba(14, 165, 233, 0.45);
-  background: #f0f9ff;
-  color: #0284c7;
-}
-
-.lang-quick-option[data-selected="true"] {
-  border-color: #0ea5e9;
-  background: #e0f2fe;
-  color: #0369a1;
-  font-weight: 600;
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
-}
-
-.lang-quick-option:focus-visible {
-  outline: 3px solid rgba(14, 165, 233, 0.4);
-  outline-offset: 2px;
 }
 
 /* ─── Language custom dropdown ────────────────────── */
@@ -720,6 +677,10 @@ body > #cookieConsent.cookie-consent-overlay {
     width: 100%;
   }
 
+  .lang-select-summary-row {
+    justify-content: stretch;
+  }
+
   .lang-select-list {
     left: 0;
     right: 0;
@@ -764,9 +725,6 @@ body > #cookieConsent.cookie-consent-overlay {
     flex: 1;
   }
 
-  .lang-quick-option {
-    max-width: 12rem;
-  }
 }
 
 @media (max-width: 380px) {
@@ -784,7 +742,6 @@ body > #cookieConsent.cookie-consent-overlay {
   .cookie-consent-toggle-slider::before,
   .lang-select-chevron,
   .lang-select-list,
-  .lang-quick-option,
   .cookie-consent-setting {
     animation: none !important;
     transition: none !important;

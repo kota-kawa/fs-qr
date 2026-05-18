@@ -209,26 +209,6 @@
     return { update: updateDisplay };
   }
 
-  function initLangQuickPick(wrapper, nativeSelect, onSelect) {
-    const options = wrapper.querySelectorAll('.lang-quick-option');
-
-    function select(value, selectOptions = {}) {
-      options.forEach((opt) => {
-        const selected = opt.dataset.value === value;
-        opt.dataset.selected = selected ? 'true' : '';
-        opt.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      });
-      if (nativeSelect) nativeSelect.value = value;
-      if (!selectOptions.silent && onSelect) onSelect(value);
-    }
-
-    options.forEach((opt) => {
-      opt.addEventListener('click', () => select(opt.dataset.value));
-    });
-
-    return { update: select };
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
     const overlay = document.getElementById('cookieConsent');
 
@@ -259,23 +239,18 @@
       languageSelect.value = initialLanguage;
     }
 
-    const langSelectWrapper = overlay.querySelector('[data-lang-select]');
-    const langQuickPickWrapper = overlay.querySelector('[data-lang-quick-pick]');
-    let langSelectApi = null;
-    let langQuickPickApi = null;
+    const langSelectWrappers = Array.from(overlay.querySelectorAll('[data-lang-select]'));
+    const langSelectApis = [];
     let settingsBackAction = 'summary';
 
-    if (langSelectWrapper) {
-      langSelectApi = initLangSelect(langSelectWrapper, languageSelect, initialLanguage, (value) => {
-        if (langQuickPickApi) langQuickPickApi.update(value, { silent: true });
+    langSelectWrappers.forEach((wrapper, i) => {
+      const api = initLangSelect(wrapper, languageSelect, initialLanguage, (value) => {
+        langSelectApis.forEach((otherApi, j) => {
+          if (j !== i) otherApi.update(value, { silent: true });
+        });
       });
-    }
-
-    if (langQuickPickWrapper) {
-      langQuickPickApi = initLangQuickPick(langQuickPickWrapper, languageSelect, (value) => {
-        if (langSelectApi) langSelectApi.update(value, { silent: true });
-      });
-    }
+      langSelectApis.push(api);
+    });
 
     function syncTogglesFromStoredConsent() {
       const storedSettings = getStoredConsentSettings();
