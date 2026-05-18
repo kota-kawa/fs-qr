@@ -267,8 +267,9 @@ def test_language_dropdown_is_scrollable_for_many_languages():
     assert ".lang-select-list" in source
     assert "max-height:" in source
     assert "overflow-y: auto" in source
-    assert ".lang-quick-pick" in source
-    assert "overflow-x: auto" in source
+    # 言語選択は summary / settings 両ビューともドロップダウン方式
+    assert ".lang-select-trigger" in source
+    assert ".lang-select-option" in source
 
 
 def test_non_default_frontend_messages_do_not_fallback_to_japanese():
