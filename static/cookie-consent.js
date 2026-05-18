@@ -83,13 +83,32 @@
   }
 
   let lastFocusedElement = null;
+  let scrollLockY = 0;
+
+  function lockBodyScroll() {
+    scrollLockY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollLockY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function unlockBodyScroll() {
+    document.body.style.removeProperty('position');
+    document.body.style.removeProperty('top');
+    document.body.style.removeProperty('left');
+    document.body.style.removeProperty('right');
+    document.body.style.removeProperty('overflow');
+    window.scrollTo(0, scrollLockY);
+  }
 
   function hideOverlay(overlay, options = {}) {
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
     overlay.removeAttribute('data-cookie-consent-closeable');
-    document.body.style.removeProperty('overflow');
+    unlockBodyScroll();
 
     if (options.restoreFocus !== false && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
       lastFocusedElement.focus();
@@ -109,7 +128,7 @@
     setCloseable(overlay, Boolean(options.closeable));
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
   }
 
   function switchView(overlay, viewName) {
@@ -147,9 +166,42 @@
       if (!displayOptions.silent && onSelect) onSelect(value);
     }
 
+    function positionList() {
+      const tRect = trigger.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const gap = 6;
+      const maxListH = 288;
+      const spaceBelow = vh - tRect.bottom - gap;
+      const spaceAbove = tRect.top - gap;
+      const listH = Math.min(maxListH, Math.max(spaceBelow, spaceAbove, 80));
+
+      list.style.maxHeight = listH + 'px';
+      list.style.minWidth = tRect.width + 'px';
+      list.style.maxWidth = Math.min(352, vw - 24) + 'px';
+
+      if (spaceBelow >= spaceAbove || spaceBelow >= 120) {
+        list.style.top = (tRect.bottom + gap) + 'px';
+        list.style.bottom = 'auto';
+      } else {
+        list.style.bottom = (vh - tRect.top + gap) + 'px';
+        list.style.top = 'auto';
+      }
+
+      const rightGap = vw - tRect.right;
+      if (rightGap >= 0) {
+        list.style.right = rightGap + 'px';
+        list.style.left = 'auto';
+      } else {
+        list.style.left = Math.max(0, tRect.left) + 'px';
+        list.style.right = 'auto';
+      }
+    }
+
     function openList() {
       list.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
+      positionList();
       const selectedOpt = list.querySelector('[aria-selected="true"]') || list.querySelector('.lang-select-option');
       if (selectedOpt) {
         selectedOpt.scrollIntoView({ block: 'nearest' });
@@ -160,6 +212,7 @@
     function closeList(options = {}) {
       if (list.hidden) return;
       list.hidden = true;
+      list.style.cssText = '';
       trigger.setAttribute('aria-expanded', 'false');
       if (options.restoreFocus !== false) trigger.focus();
     }
@@ -384,7 +437,8 @@
       }
     });
 
-    overlay.addEventListener('transitionend', function onTransitionEnd() {
+    overlay.addEventListener('transitionend', function onTransitionEnd(e) {
+      if (e.target !== overlay) return;
       if (!overlay.classList.contains('is-visible')) {
         overlay.removeEventListener('transitionend', onTransitionEnd);
         overlay.removeAttribute('data-cookie-consent-active-view');

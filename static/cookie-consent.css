@@ -7,28 +7,33 @@
     rgba(15, 23, 42, 0.62);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   z-index: var(--z-modal);
+  /* visibility transition: fade out then hide; fade in immediately */
+  visibility: hidden;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  overscroll-behavior: contain;
+  transition: opacity 0.28s ease, visibility 0s linear 0.28s;
 }
 
 /* Keep the consent modal anchored to the viewport across all layouts. */
 body > #cookieConsent.cookie-consent-overlay {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   margin: 0;
   z-index: var(--z-modal);
 }
 
 .cookie-consent-overlay.is-visible {
-  display: flex;
+  visibility: visible;
+  pointer-events: auto;
   opacity: 1;
+  transition: opacity 0.28s ease, visibility 0s linear 0s;
 }
 
 /* ─── Dialog ─────────────────────────────────────── */
@@ -169,9 +174,27 @@ body > #cookieConsent.cookie-consent-overlay {
 
 .cookie-consent-view {
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   min-height: 0;
-  padding: 1.5rem 1.75rem 1.5rem;
+  padding: 1.5rem 1.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 165, 233, 0.38) transparent;
+}
+
+/* Settings view: flex column so footer stays pinned below scrollable area */
+.cookie-consent-view--settings {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.cookie-consent-settings-body {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem 1.75rem 0.75rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(14, 165, 233, 0.38) transparent;
 }
@@ -204,8 +227,8 @@ body > #cookieConsent.cookie-consent-overlay {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
+  flex-shrink: 0;
+  padding: 0.9rem 1.75rem 1.25rem;
   border-top: 1px solid rgba(15, 23, 42, 0.07);
   background: #ffffff;
 }
@@ -311,7 +334,7 @@ body > #cookieConsent.cookie-consent-overlay {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .cookie-consent-setting {
@@ -443,13 +466,8 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 .lang-select-list {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  width: max-content;
-  min-width: 100%;
-  max-width: min(22rem, calc(100vw - 3rem));
-  max-height: min(18rem, calc(100dvh - 14rem));
+  /* position/top/right/min-width/max-height are set by JS (fixed to viewport) */
+  position: fixed;
   overflow-y: auto;
   overscroll-behavior: contain;
   margin: 0;
@@ -461,7 +479,7 @@ body > #cookieConsent.cookie-consent-overlay {
   box-shadow:
     0 4px 6px rgba(15, 23, 42, 0.04),
     0 12px 32px rgba(15, 23, 42, 0.13);
-  z-index: 20;
+  z-index: calc(var(--z-modal, 1000) + 10);
   animation: lang-list-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
   scrollbar-width: thin;
   scrollbar-color: rgba(14, 165, 233, 0.42) transparent;
@@ -664,7 +682,11 @@ body > #cookieConsent.cookie-consent-overlay {
   }
 
   .cookie-consent-view {
-    padding: 1.15rem 1.1rem 1.15rem;
+    padding: 1.15rem 1.1rem;
+  }
+
+  .cookie-consent-settings-body {
+    padding: 1.15rem 1.1rem 0.5rem;
   }
 
   .cookie-consent-setting {
@@ -679,14 +701,6 @@ body > #cookieConsent.cookie-consent-overlay {
 
   .lang-select-summary-row {
     justify-content: stretch;
-  }
-
-  .lang-select-list {
-    left: 0;
-    right: 0;
-    width: auto;
-    max-width: none;
-    max-height: min(15rem, calc(100dvh - 16rem));
   }
 
   .lang-select-option {
@@ -709,10 +723,7 @@ body > #cookieConsent.cookie-consent-overlay {
   .cookie-consent-settings-footer {
     grid-template-columns: 1fr;
     gap: 0.75rem;
-    position: sticky;
-    bottom: -1.15rem;
-    margin: 0 -1.1rem -1.15rem;
-    padding: 0.85rem 1.1rem 1.15rem;
+    padding: 0.85rem 1.1rem 1.1rem;
   }
 
   .cookie-consent-settings-actions {
@@ -724,7 +735,6 @@ body > #cookieConsent.cookie-consent-overlay {
   .cookie-consent-settings-actions .cookie-consent-button {
     flex: 1;
   }
-
 }
 
 @media (max-width: 380px) {

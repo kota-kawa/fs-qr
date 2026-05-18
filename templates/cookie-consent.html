@@ -105,74 +105,76 @@
       aria-live="polite"
       hidden
     >
-      <p class="cookie-consent-subtext">
-        {{ t('settings.cookie.description') }}
-      </p>
-      <div class="cookie-consent-settings">
-        <div class="cookie-consent-setting">
-          <div>
-            <h3>{{ t('settings.language.title') }}</h3>
-            <p>{{ t('settings.language.description') }}</p>
+      <div class="cookie-consent-settings-body">
+        <p class="cookie-consent-subtext">
+          {{ t('settings.cookie.description') }}
+        </p>
+        <div class="cookie-consent-settings">
+          <div class="cookie-consent-setting">
+            <div>
+              <h3>{{ t('settings.language.title') }}</h3>
+              <p>{{ t('settings.language.description') }}</p>
+            </div>
+            <div class="lang-select" data-lang-select>
+              <select data-language-select hidden aria-hidden="true" tabindex="-1">
+                {% for option in language_options %}
+                  <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+              </select>
+              <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ t('settings.language.title') }}">
+                <span class="lang-select-flag-current" aria-hidden="true"></span>
+                <span class="lang-select-label-current"></span>
+                <svg class="lang-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul class="lang-select-list" role="listbox" hidden>
+                {% for option in language_options %}
+                  <li class="lang-select-option" role="option" data-value="{{ option.code }}" data-flag="{{ option.flag }}" tabindex="-1" {% if option.code == current_language %}aria-selected="true"{% else %}aria-selected="false"{% endif %}>
+                    <span class="lang-select-flag" aria-hidden="true">{{ option.flag }}</span>
+                    <span>{{ option.label }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
-          <div class="lang-select" data-lang-select>
-            <select data-language-select hidden aria-hidden="true" tabindex="-1">
-              {% for option in language_options %}
-                <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>{{ option.label }}</option>
-              {% endfor %}
-            </select>
-            <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ t('settings.language.title') }}">
-              <span class="lang-select-flag-current" aria-hidden="true"></span>
-              <span class="lang-select-label-current"></span>
-              <svg class="lang-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="lang-select-list" role="listbox" hidden>
-              {% for option in language_options %}
-                <li class="lang-select-option" role="option" data-value="{{ option.code }}" data-flag="{{ option.flag }}" tabindex="-1" {% if option.code == current_language %}aria-selected="true"{% else %}aria-selected="false"{% endif %}>
-                  <span class="lang-select-flag" aria-hidden="true">{{ option.flag }}</span>
-                  <span>{{ option.label }}</span>
-                </li>
-              {% endfor %}
-            </ul>
+          <div class="cookie-consent-setting">
+            <div>
+              <h3>{{ t('settings.cookie.necessary.title') }}</h3>
+              <p>{{ t('settings.cookie.necessary.description') }}</p>
+            </div>
+            <span class="cookie-consent-setting-state">{{ t('settings.cookie.always_on') }}</span>
           </div>
+          <label class="cookie-consent-setting cookie-consent-setting--toggle">
+            <div>
+              <h3>
+                {{ t('settings.cookie.analytics.title') }}
+                <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
+              </h3>
+              <p>{{ t('settings.cookie.analytics.description') }}</p>
+            </div>
+            <span class="cookie-consent-toggle">
+              <input
+                type="checkbox"
+                data-cookie-consent-toggle="analytics"
+                aria-label="{{ t('settings.cookie.analytics.aria') }}"
+                data-cookie-consent-settings-focus
+              />
+              <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
+            </span>
+          </label>
+          <label class="cookie-consent-setting cookie-consent-setting--toggle">
+            <div>
+              <h3>
+                {{ t('settings.cookie.marketing.title') }}
+                <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
+              </h3>
+              <p>{{ t('settings.cookie.marketing.description') }}</p>
+            </div>
+            <span class="cookie-consent-toggle">
+              <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="{{ t('settings.cookie.marketing.aria') }}" />
+              <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
+            </span>
+          </label>
         </div>
-        <div class="cookie-consent-setting">
-          <div>
-            <h3>{{ t('settings.cookie.necessary.title') }}</h3>
-            <p>{{ t('settings.cookie.necessary.description') }}</p>
-          </div>
-          <span class="cookie-consent-setting-state">{{ t('settings.cookie.always_on') }}</span>
-        </div>
-        <label class="cookie-consent-setting cookie-consent-setting--toggle">
-          <div>
-            <h3>
-              {{ t('settings.cookie.analytics.title') }}
-              <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
-            </h3>
-            <p>{{ t('settings.cookie.analytics.description') }}</p>
-          </div>
-          <span class="cookie-consent-toggle">
-            <input
-              type="checkbox"
-              data-cookie-consent-toggle="analytics"
-              aria-label="{{ t('settings.cookie.analytics.aria') }}"
-              data-cookie-consent-settings-focus
-            />
-            <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
-          </span>
-        </label>
-        <label class="cookie-consent-setting cookie-consent-setting--toggle">
-          <div>
-            <h3>
-              {{ t('settings.cookie.marketing.title') }}
-              <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
-            </h3>
-            <p>{{ t('settings.cookie.marketing.description') }}</p>
-          </div>
-          <span class="cookie-consent-toggle">
-            <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="{{ t('settings.cookie.marketing.aria') }}" />
-            <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
-          </span>
-        </label>
       </div>
       <div class="cookie-consent-settings-footer">
         <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ t('settings.privacy') }}</a>
