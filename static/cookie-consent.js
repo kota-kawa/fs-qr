@@ -154,8 +154,15 @@
     const flagCurrent = wrapper.querySelector('.lang-select-flag-current');
     const labelCurrent = wrapper.querySelector('.lang-select-label-current');
 
+    // Portal the list to <body> so its position:fixed is relative to the
+    // viewport, not to a transformed ancestor (the dialog animation creates
+    // a containing block that would otherwise mis-position the list).
+    if (list && list.parentNode !== document.body) {
+      document.body.appendChild(list);
+    }
+
     function updateDisplay(value, displayOptions = {}) {
-      const selected = wrapper.querySelector(`.lang-select-option[data-value="${value}"]`);
+      const selected = list.querySelector(`.lang-select-option[data-value="${value}"]`);
       if (!selected) return;
       if (flagCurrent) flagCurrent.textContent = selected.dataset.flag || '';
       if (labelCurrent) labelCurrent.textContent = selected.querySelector('span:last-child').textContent.trim();
@@ -171,16 +178,18 @@
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const gap = 6;
-      const maxListH = 288;
-      const spaceBelow = vh - tRect.bottom - gap;
-      const spaceAbove = tRect.top - gap;
-      const listH = Math.min(maxListH, Math.max(spaceBelow, spaceAbove, 80));
+      const margin = 12;
+      const spaceBelow = vh - tRect.bottom - gap - margin;
+      const spaceAbove = tRect.top - gap - margin;
+      const openDown = spaceBelow >= spaceAbove || spaceBelow >= 200;
+      const availableH = Math.max(openDown ? spaceBelow : spaceAbove, 120);
+      const listH = Math.min(360, availableH);
 
       list.style.maxHeight = listH + 'px';
-      list.style.minWidth = tRect.width + 'px';
-      list.style.maxWidth = Math.min(352, vw - 24) + 'px';
+      list.style.minWidth = Math.min(tRect.width, vw - 2 * margin) + 'px';
+      list.style.maxWidth = (vw - 2 * margin) + 'px';
 
-      if (spaceBelow >= spaceAbove || spaceBelow >= 120) {
+      if (openDown) {
         list.style.top = (tRect.bottom + gap) + 'px';
         list.style.bottom = 'auto';
       } else {
@@ -188,14 +197,27 @@
         list.style.top = 'auto';
       }
 
-      const rightGap = vw - tRect.right;
-      if (rightGap >= 0) {
+      // Horizontal: align list's right edge to trigger's right edge by default;
+      // if that pushes the list off-screen on the left, clamp to viewport margin.
+      const rightGap = Math.max(margin, vw - tRect.right);
+      const leftIfRight = vw - rightGap - Math.min(tRect.width, vw - 2 * margin);
+      if (leftIfRight >= margin) {
         list.style.right = rightGap + 'px';
         list.style.left = 'auto';
       } else {
-        list.style.left = Math.max(0, tRect.left) + 'px';
-        list.style.right = 'auto';
+        list.style.left = margin + 'px';
+        list.style.right = margin + 'px';
       }
+    }
+
+    let repositionScheduled = false;
+    function scheduleReposition() {
+      if (list.hidden || repositionScheduled) return;
+      repositionScheduled = true;
+      requestAnimationFrame(() => {
+        repositionScheduled = false;
+        if (!list.hidden) positionList();
+      });
     }
 
     function openList() {
@@ -209,12 +231,12 @@
       }
     }
 
-    function closeList(options = {}) {
+    function closeList(opts = {}) {
       if (list.hidden) return;
       list.hidden = true;
       list.style.cssText = '';
       trigger.setAttribute('aria-expanded', 'false');
-      if (options.restoreFocus !== false) trigger.focus();
+      if (opts.restoreFocus !== false) trigger.focus();
     }
 
     updateDisplay(initialLanguage);
@@ -256,8 +278,13 @@
     });
 
     document.addEventListener('click', (e) => {
-      if (!wrapper.contains(e.target)) closeList({ restoreFocus: false });
+      if (list.hidden) return;
+      if (wrapper.contains(e.target) || list.contains(e.target)) return;
+      closeList({ restoreFocus: false });
     });
+
+    window.addEventListener('resize', scheduleReposition);
+    window.addEventListener('scroll', scheduleReposition, true);
 
     return { update: updateDisplay };
   }
