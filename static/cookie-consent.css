@@ -177,16 +177,20 @@ body > #cookieConsent.cookie-consent-overlay {
   scrollbar-color: rgba(14, 165, 233, 0.38) transparent;
 }
 
-/* Settings view: flex column so footer stays pinned below scrollable area */
+/* Settings view: flex column so footer stays pinned below scrollable area.
+   flex:1 1 auto + min-height:0 ensures the view takes all remaining space
+   in the dialog (after the header) and allows the body to shrink/scroll. */
 .cookie-consent-view--settings {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
   padding: 0;
 }
 
 .cookie-consent-settings-body {
-  flex: 1 1 0;
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -660,6 +664,14 @@ body > #cookieConsent.cookie-consent-overlay {
     border-radius: 16px;
     max-height: calc(100vh - 2rem);
     max-height: calc(100dvh - 2rem);
+  }
+
+  /* On mobile, force the settings dialog to fill the viewport so the
+     scrollable body has a usable height (otherwise content collapses
+     between the header and footer). Summary view stays content-sized. */
+  .cookie-consent-overlay[data-cookie-consent-active-view="settings"] .cookie-consent-dialog {
+    height: calc(100vh - 2rem);
+    height: calc(100dvh - 2rem);
   }
 
   .cookie-consent-header {
