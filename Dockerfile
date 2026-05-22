@@ -9,6 +9,10 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends libmagic1 \
     && rm -rf /var/lib/apt/lists/*
 
+# Upgrade packaging tools to patch vendored CVEs in base image
+# (jaraco.context CVE-2026-23949, wheel CVE-2026-24049)
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
