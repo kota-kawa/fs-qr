@@ -80,9 +80,12 @@
   transition: color 0.15s, background 0.15s;
 }
 
-.room-info-value-row .copy-inline-btn:hover {
+.room-info-value-row .copy-inline-btn:hover,
+.room-info-value-row .copy-inline-btn:focus-visible {
   color: var(--theme-note-inline-hover-color);
   background: var(--theme-note-inline-hover-bg);
+  transform: none;
+  box-shadow: none;
 }
 
 .room-info-value-row .copy-inline-btn.copied {
