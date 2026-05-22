@@ -199,6 +199,7 @@ async def fs_qr_upload(request: Request):
 async def upload(
     request: Request,
     name: str = Form(""),
+    download_password: str = Form(""),
     file_type: str = Form("multiple"),
     original_filename: str = Form(""),
     retention_days: str = Form(""),
@@ -224,7 +225,15 @@ async def upload(
         except ValueError as exc:
             return json_or_msg(request, str(exc))
 
-    password = str(secrets.randbelow(10**6)).zfill(6)
+    download_password = (download_password or "").strip()
+    if download_password:
+        try:
+            RoomSearchInput(room_id=id_val, password=download_password)
+        except ValidationError:
+            return json_or_msg(request, "パスワード形式が不正です。")
+        password = download_password
+    else:
+        password = str(secrets.randbelow(10**6)).zfill(6)
     share_token = secrets.token_urlsafe(32)
 
     secure_id_base = f"{id_val}-{uid}-"
@@ -327,6 +336,7 @@ async def upload_complete(request: Request, secure_id: str):
     share_url = ""
     if access and access["id"] == id_val:
         share_token = access.get("share_token", "")
+        password_val = access["password"]
         if share_token:
             share_url = build_url(
                 request,
@@ -334,14 +344,12 @@ async def upload_complete(request: Request, secure_id: str):
                 share_token=share_token,
                 _external=True,
             )
-        else:
-            password_val = access["password"]
     elif isinstance(row.get("password"), str) and not is_password_hashed(
         row["password"]
     ):
         password_val = row["password"]
 
-    if password_val:
+    if password_val and not share_url:
         share_url = build_url(
             request,
             "fsqr.fs_qr_room",

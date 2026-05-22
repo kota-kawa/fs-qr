@@ -103,6 +103,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
             },
             data={
                 "name": "abc123",
+                "download_password": "SearchPass123",
                 "file_type": "single",
                 "original_filename": "report.pdf",
                 "retention_days": "7",
@@ -124,7 +125,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
     save_mock.assert_awaited_once_with(
         uid="1234567890",
         id="abc123",
-        password="123456",
+        password="SearchPass123",
         secure_id="abc123-1234567890-report.pdf",
         file_type="single",
         original_filename="report.pdf",
@@ -159,6 +160,7 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
             },
             data={
                 "name": "abc123",
+                "download_password": "SearchPass123",
                 "file_type": "single",
                 "original_filename": "memo.enc.txt",
                 "retention_days": "7",
@@ -175,6 +177,7 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     assert os.path.exists(tmp_path / f"{secure_id}.enc")
     save_mock.assert_awaited_once()
     assert save_mock.await_args.kwargs["secure_id"] == secure_id
+    assert save_mock.await_args.kwargs["password"] == "SearchPass123"
     assert save_mock.await_args.kwargs["share_token"] == (
         "share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     )
@@ -272,6 +275,59 @@ def test_upload_complete_uses_share_token_url_from_session(
     assert response.status_code == 200
     assert f"/fs-qr/s/{share_token}" in response.text
     assert "scrypt:hashed-password" not in response.text
+
+
+def test_upload_complete_keeps_password_for_id_password_search(
+    test_client: TestClient, tmp_path
+):
+    """新方式でもID/Password検索用のパスワードを完了画面に残す"""
+    share_token = "share-token-for-password-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    secure_id = "abc123-1234567890-report.pdf"
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_app.secrets.token_urlsafe", return_value=share_token),
+        patch("FSQR.fsqr_data.save_file", new_callable=AsyncMock),
+    ):
+        upload_response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "download_password": "SearchPass123",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+
+    assert upload_response.status_code == 200
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "scrypt:hashed-password",
+            "secure_id": secure_id,
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": None,
+        }
+    ]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.get(f"/upload_complete/{secure_id}")
+
+    assert response.status_code == 200
+    assert "SearchPass123" in response.text
+    assert f"/fs-qr/s/{share_token}" in response.text
 
 
 def test_upload_rejects_plain_single_file(test_client: TestClient, tmp_path):

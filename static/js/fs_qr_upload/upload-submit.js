@@ -34,6 +34,7 @@
     var core = modules.core;
     var activeXhr = null;
     var cancelRequested = false;
+    var PASSWORD_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     function parseJsonResponse(rawText, label) {
       return core.safeParseJson(rawText, logger, label);
@@ -100,9 +101,19 @@
         formData.append('file_type', 'multiple');
       }
       formData.append('name', id);
+      formData.append('download_password', encryptionService.getLastEncryptionKey());
       formData.append('original_filename', files[0].name);
       formData.append('retention_days', retentionSelect.value);
       return formData;
+    }
+
+    function generateDownloadPassword() {
+      var bytes = crypto.getRandomValues(new Uint8Array(16));
+      var password = '';
+      for (var i = 0; i < bytes.length; i += 1) {
+        password += PASSWORD_CHARS[bytes[i] % PASSWORD_CHARS.length];
+      }
+      return password;
     }
 
     function bindUpload() {
@@ -156,7 +167,8 @@
           }
 
           spinner.setSpinnerText(translate('upload.encrypting', 'Encrypting...'));
-          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files);
+          var downloadPassword = generateDownloadPassword();
+          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, downloadPassword, 'password');
           var shareKey = typeof encryptionService.getLastEncryptionKey === 'function'
             ? encryptionService.getLastEncryptionKey()
             : '';
@@ -200,7 +212,7 @@
                 && result.data.redirect_url
               ) {
                 window.location.href = result.data.redirect_url
-                  + (shareKey ? `#key=${encodeURIComponent(shareKey)}` : '');
+                  + (shareKey ? `#pw=${encodeURIComponent(shareKey)}` : '');
               } else {
                 showFormError(translate('upload.error_no_redirect', 'Upload completed, but the redirect URL could not be retrieved. Please reload the page.'));
                 spinner.hideSpinner();

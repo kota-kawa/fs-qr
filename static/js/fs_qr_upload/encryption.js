@@ -48,7 +48,11 @@
       return base64UrlEncode(bytes);
     }
 
-    async function importEncryptionKey(key) {
+    async function importEncryptionKey(key, mode) {
+      if (mode === 'password') {
+        var keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+        return crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+      }
       var rawKey = base64UrlDecode(key);
       if (rawKey.length !== 32) {
         throw new Error(translate('upload.error_processing', 'Encryption key is invalid.'));
@@ -56,9 +60,10 @@
       return crypto.subtle.importKey('raw', rawKey, { name: 'AES-GCM' }, false, ['encrypt']);
     }
 
-    async function encryptAndZipFilesWithProgress(files) {
-      lastEncryptionKey = generateEncryptionKey();
-      var cryptoKey = await importEncryptionKey(lastEncryptionKey);
+    async function encryptAndZipFilesWithProgress(files, key, mode) {
+      lastEncryptionKey = key || generateEncryptionKey();
+      var keyMode = mode || (key ? 'password' : 'raw');
+      var cryptoKey = await importEncryptionKey(lastEncryptionKey, keyMode);
 
       if (files.length === 1) {
         var singleFile = files[0];
