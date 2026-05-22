@@ -46,6 +46,7 @@ from Note.note_realtime import startup as note_realtime_startup
 from Note.note_ws import router as note_ws_router
 from Admin.db_admin import router as db_admin_router
 from Admin.admin_app import router as admin_router
+from FSQR import fsqr_data as fsqr_cleanup_data
 from FSQR.fsqr_app import router as fsqr_router
 from Articles.articles_app import router as articles_router
 from top_search import router as top_search_router
@@ -137,6 +138,11 @@ async def startup():
         else:
             logger.critical(message)
             raise RuntimeError(message)
+    try:
+        fsqr_cleanup_stats = await fsqr_cleanup_data.remove_expired_files()
+        logger.info("FSQR startup expiration cleanup completed: %s", fsqr_cleanup_stats)
+    except Exception:
+        logger.exception("FSQR startup expiration cleanup failed")
     await note_realtime_startup()
     await db_session.remove()
 

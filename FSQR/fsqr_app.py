@@ -2,7 +2,7 @@ import os
 import re
 import secrets
 import uuid
-from datetime import timedelta
+from datetime import datetime, timedelta
 import shutil
 import logging
 from typing import List, Optional
@@ -61,6 +61,8 @@ async def _get_room_by_credentials(room_id, password):
     if not data:
         return None, None
     record = data[0]
+    if await _remove_if_expired(record):
+        return None, None
     return record.get("secure_id"), record
 
 
@@ -113,6 +115,38 @@ def _calculate_deletion_context(record):
         except Exception:
             deletion_date = None
     return retention_days, deletion_date
+
+
+def _is_record_expired(record, now=None) -> bool:
+    created_at = record.get("time")
+    if not created_at:
+        return False
+    try:
+        retention_days = int(record.get("retention_days", 7))
+        current_time = now or datetime.now(tz=created_at.tzinfo)
+        return created_at + timedelta(days=retention_days) <= current_time
+    except Exception:
+        return False
+
+
+async def _remove_if_expired(record) -> bool:
+    if not _is_record_expired(record):
+        return False
+    secure_id = record.get("secure_id")
+    if secure_id:
+        await fs_data.remove_data(secure_id)
+        logger.info("Expired FSQR record removed during access: secure_id=%s", secure_id)
+    return True
+
+
+async def _get_active_data(secure_id):
+    data = await fs_data.get_data(secure_id)
+    if not data:
+        return None
+    record = data[0]
+    if await _remove_if_expired(record):
+        return None
+    return data
 
 
 def _strip_upload_suffix(filename: str, suffix: str) -> str:
@@ -278,7 +312,7 @@ async def upload(
 
 @router.get("/upload_complete/{secure_id}", name="fsqr.upload_complete")
 async def upload_complete(request: Request, secure_id: str):
-    data = await fs_data.get_data(secure_id)
+    data = await _get_active_data(secure_id)
     if not data:
         raise HTTPException(status_code=404)
 
@@ -330,7 +364,7 @@ async def upload_complete(request: Request, secure_id: str):
 
 @router.get("/download/{secure_id}", name="fsqr.download")
 async def download(request: Request, secure_id: str):
-    data = await fs_data.get_data(secure_id)
+    data = await _get_active_data(secure_id)
     if not data:
         raise HTTPException(status_code=404)
     row = data[0]
@@ -374,6 +408,8 @@ async def fs_qr_share(request: Request, share_token: str):
         _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
+        raise HTTPException(status_code=404)
+    if await _remove_if_expired(data[0]):
         raise HTTPException(status_code=404)
 
     await register_success(SCOPE_QR, ip)
@@ -450,6 +486,8 @@ async def fs_qr_share_download(request: Request, share_token: str):
     data = await fs_data.get_data_by_share_token(share_token)
     if not data:
         raise HTTPException(status_code=404)
+    if await _remove_if_expired(data[0]):
+        raise HTTPException(status_code=404)
     return await _send_file_response(request, data[0]["secure_id"])
 
 
@@ -463,7 +501,7 @@ async def fs_qr_download(request: Request, room_id: str, password: str):
 
 
 async def _send_file_response(request: Request, secure_id: str):
-    data = await fs_data.get_data(secure_id)
+    data = await _get_active_data(secure_id)
     if not data:
         return msg(request, "パラメータが不正です")
 
@@ -526,6 +564,9 @@ async def kekka(request: Request):
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDかパスワードが間違っています")
+
+    if not await _get_active_data(secure_id):
+        return msg(request, "ファイルの保存期間が終了しました", 404)
 
     await register_success(SCOPE_QR, ip)
 

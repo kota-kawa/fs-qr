@@ -370,10 +370,23 @@ def test_try_login_not_found(test_client: TestClient):
 
 def test_try_login_success_redirects(test_client: TestClient):
     """認証成功時は 302 でルームページへリダイレクトする"""
+    from datetime import datetime
+
     with patch(
         "FSQR.fsqr_data.try_login",
         new_callable=AsyncMock,
         return_value="abc123-uid-file",
+    ), patch(
+        "FSQR.fsqr_data.get_data",
+        new_callable=AsyncMock,
+        return_value=[
+            {
+                "id": "abc123",
+                "secure_id": "abc123-uid-file",
+                "retention_days": 7,
+                "time": datetime(2099, 1, 1),
+            }
+        ],
     ):
         response = test_client.post(
             "/try_login", data={"name": "abc123", "pw": "654321"}
@@ -393,7 +406,7 @@ def test_upload_complete_found(test_client: TestClient):
             "id": "abc123",
             "password": "654321",
             "retention_days": 7,
-            "time": datetime(2026, 1, 1, 0, 0),
+            "time": datetime(2099, 1, 1, 0, 0),
         }
     ]
     with patch(
@@ -415,7 +428,7 @@ def test_upload_complete_shows_original_filename_for_single_file(
             "file_type": "single",
             "original_filename": "report.pdf",
             "retention_days": 7,
-            "time": datetime(2026, 1, 1, 0, 0),
+            "time": datetime(2099, 1, 1, 0, 0),
         }
     ]
     with patch(
@@ -439,7 +452,7 @@ def test_fs_qr_room_found_returns_200(test_client: TestClient):
             "password": "654321",
             "secure_id": "abc123-uid-file",
             "retention_days": 7,
-            "time": datetime(2026, 1, 1),
+            "time": datetime(2099, 1, 1),
         }
     ]
     with (
@@ -470,7 +483,7 @@ def test_fs_qr_room_shows_original_filename_for_single_file(test_client: TestCli
             "file_type": "single",
             "original_filename": "report.pdf",
             "retention_days": 7,
-            "time": datetime(2026, 1, 1),
+            "time": datetime(2099, 1, 1),
         }
     ]
     with (
@@ -491,6 +504,43 @@ def test_fs_qr_room_shows_original_filename_for_single_file(test_client: TestCli
     assert "report.pdf" in response.text
 
 
+def test_fs_qr_room_expired_record_is_removed_and_404(test_client: TestClient):
+    from datetime import datetime
+
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "654321",
+            "secure_id": "abc123-uid-file",
+            "retention_days": 1,
+            "time": datetime(2000, 1, 1),
+        }
+    ]
+    remove_mock = AsyncMock()
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data_by_credentials",
+            new_callable=AsyncMock,
+            return_value=mock_data,
+        ),
+        patch("FSQR.fsqr_data.remove_data", remove_mock),
+        patch(
+            "FSQR.fsqr_app.register_failure",
+            new_callable=AsyncMock,
+            return_value=(None, None),
+        ),
+    ):
+        response = test_client.get("/fs-qr/abc123/654321")
+
+    assert response.status_code == 404
+    remove_mock.assert_awaited_once_with("abc123-uid-file")
+
+
 def test_fs_qr_share_token_route_returns_download_page(test_client: TestClient):
     from datetime import datetime
 
@@ -502,7 +552,7 @@ def test_fs_qr_share_token_route_returns_download_page(test_client: TestClient):
             "file_type": "single",
             "original_filename": "report.pdf",
             "retention_days": 7,
-            "time": datetime(2026, 1, 1),
+            "time": datetime(2099, 1, 1),
         }
     ]
     with (

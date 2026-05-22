@@ -203,6 +203,7 @@ def test_client():
         patch("Note.note_realtime.startup", new_callable=AsyncMock),
         patch("Note.note_realtime.shutdown", new_callable=AsyncMock),
         patch("Note.note_data.get_room_meta_direct", new_callable=AsyncMock),
+        patch("FSQR.fsqr_data.remove_expired_files", new_callable=AsyncMock),
         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock),
         patch("Group.group_data.get_data_direct", new_callable=AsyncMock),
     ):

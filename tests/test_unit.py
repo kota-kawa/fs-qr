@@ -213,6 +213,45 @@ def test_calculate_deletion_context_1day():
     assert date_str == "2026-03-02 00:00"
 
 
+def test_is_record_expired_true_for_elapsed_retention():
+    from FSQR.fsqr_app import _is_record_expired
+
+    record = {"retention_days": 1, "time": datetime(2026, 3, 1, 0, 0)}
+    assert _is_record_expired(record, now=datetime(2026, 3, 2, 0, 0)) is True
+
+
+def test_is_record_expired_false_before_retention():
+    from FSQR.fsqr_app import _is_record_expired
+
+    record = {"retention_days": 7, "time": datetime(2026, 3, 1, 0, 0)}
+    assert _is_record_expired(record, now=datetime(2026, 3, 7, 23, 59)) is False
+
+
+def test_remove_expired_files_returns_stats_and_records_status():
+    from FSQR import fsqr_data
+
+    expired_rows = [{"secure_id": "old-file-1"}, {"secure_id": "old-file-2"}]
+    with (
+        patch(
+            "FSQR.fsqr_data.execute_query",
+            new_callable=AsyncMock,
+            return_value=expired_rows,
+        ),
+        patch("FSQR.fsqr_data.remove_data", new_callable=AsyncMock) as remove_mock,
+        patch(
+            "FSQR.fsqr_data.record_expiration_cleanup_status",
+            new_callable=AsyncMock,
+        ) as status_mock,
+    ):
+        stats = asyncio.run(fsqr_data.remove_expired_files())
+
+    assert stats["checked"] == 2
+    assert stats["removed"] == 2
+    assert stats["failed"] == 0
+    assert remove_mock.await_count == 2
+    status_mock.assert_awaited_once()
+
+
 # ---------------------------------------------------------------------------
 # rate_limit – get_block_message エッジケース
 # ---------------------------------------------------------------------------

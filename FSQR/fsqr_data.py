@@ -1,6 +1,8 @@
 import hashlib
 import hmac
+import json
 import os
+from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import text
 import logging
@@ -8,13 +10,19 @@ import logging
 import log_config  # noqa: F401
 from password_security import hash_password, verify_password
 from database import execute_query
-from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
+from cache_utils import (
+    cache_data,
+    invalidate_cache_entry,
+    invalidate_cache_prefix,
+    redis_client,
+)
 from settings import FSQR_UPLOAD_DIR, SECRET_KEY
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
 STATIC = FSQR_UPLOAD_DIR
+EXPIRATION_CLEANUP_STATUS_KEY = "fsqr:expiration_cleanup:last_result"
 
 
 def hash_share_token(share_token: str) -> str:
@@ -207,8 +215,13 @@ async def all_remove():
         raise
 
 
-# 1週間以上経過したファイルレコードと関連ファイルを削除する関数
 async def remove_expired_files():
+    stats = {
+        "checked": 0,
+        "removed": 0,
+        "failed": 0,
+        "ran_at": datetime.now(timezone.utc).isoformat(),
+    }
     try:
         query = text(
             """
@@ -218,13 +231,41 @@ async def remove_expired_files():
             """
         )
         expired_records = await execute_query(query, fetch=True)
+        stats["checked"] = len(expired_records)
         for record in expired_records:
             secure_id = record.get("secure_id")
-            if secure_id:
+            if not secure_id:
+                continue
+            try:
                 await remove_data(secure_id)
+                stats["removed"] += 1
                 logger.info(f"Expired record removed: {secure_id}")
-    except Exception as e:
-        logger.error(f"Failed to remove expired files: {e}")
+            except Exception:
+                stats["failed"] += 1
+                logger.exception("Failed to remove expired FSQR record: %s", secure_id)
+        await record_expiration_cleanup_status(stats)
+        if stats["failed"]:
+            raise RuntimeError(
+                f"Failed to remove {stats['failed']} expired FSQR record(s)"
+            )
+        return stats
+    except Exception:
+        if not stats["failed"]:
+            stats["failed"] = 1
+        await record_expiration_cleanup_status(stats)
+        logger.exception("Failed to remove expired files")
+        raise
+
+
+async def record_expiration_cleanup_status(stats):
+    try:
+        await redis_client.setex(
+            EXPIRATION_CLEANUP_STATUS_KEY,
+            7 * 86400,
+            json.dumps(stats, ensure_ascii=False, sort_keys=True),
+        )
+    except Exception:
+        logger.warning("Failed to record FSQR expiration cleanup status", exc_info=True)
 
 
 async def _find_record_by_credentials(id_val: str, password: str):
