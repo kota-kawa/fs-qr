@@ -135,7 +135,9 @@ async def _remove_if_expired(record) -> bool:
     secure_id = record.get("secure_id")
     if secure_id:
         await fs_data.remove_data(secure_id)
-        logger.info("Expired FSQR record removed during access: secure_id=%s", secure_id)
+        logger.info(
+            "Expired FSQR record removed during access: secure_id=%s", secure_id
+        )
     return True
 
 
@@ -287,7 +289,9 @@ async def upload(
                     "FSQR upload metadata rollback failed: secure_id=%s", secure_id
                 )
         else:
-            logger.exception("FSQR upload metadata save failed: secure_id=%s", secure_id)
+            logger.exception(
+                "FSQR upload metadata save failed: secure_id=%s", secure_id
+            )
         for orphan_path in (temp_path, final_path):
             try:
                 if os.path.exists(orphan_path):
@@ -425,9 +429,7 @@ async def fs_qr_share(request: Request, share_token: str):
         secure_id=record["secure_id"],
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),
-        url=build_url(
-            request, "fsqr.fs_qr_share_download", share_token=share_token
-        ),
+        url=build_url(request, "fsqr.fs_qr_share_download", share_token=share_token),
         retention_days=retention_days,
         deletion_date=deletion_date,
     )
@@ -476,9 +478,7 @@ async def download_go(request: Request, secure_id: str):
     return await _send_file_response(request, secure_id)
 
 
-@router.post(
-    "/fs-qr/s/{share_token}/download", name="fsqr.fs_qr_share_download"
-)
+@router.post("/fs-qr/s/{share_token}/download", name="fsqr.fs_qr_share_download")
 async def fs_qr_share_download(request: Request, share_token: str):
     await enforce_csrf(request)
     if not _is_valid_share_token(share_token):

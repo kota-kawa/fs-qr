@@ -28,9 +28,7 @@ EXPIRATION_CLEANUP_STATUS_KEY = "fsqr:expiration_cleanup:last_result"
 def hash_share_token(share_token: str) -> str:
     secret = (SECRET_KEY or "").encode("utf-8")
     if secret:
-        return hmac.new(
-            secret, share_token.encode("utf-8"), hashlib.sha256
-        ).hexdigest()
+        return hmac.new(secret, share_token.encode("utf-8"), hashlib.sha256).hexdigest()
     return hashlib.sha256(share_token.encode("utf-8")).hexdigest()
 
 

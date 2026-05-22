@@ -372,21 +372,24 @@ def test_try_login_success_redirects(test_client: TestClient):
     """認証成功時は 302 でルームページへリダイレクトする"""
     from datetime import datetime
 
-    with patch(
-        "FSQR.fsqr_data.try_login",
-        new_callable=AsyncMock,
-        return_value="abc123-uid-file",
-    ), patch(
-        "FSQR.fsqr_data.get_data",
-        new_callable=AsyncMock,
-        return_value=[
-            {
-                "id": "abc123",
-                "secure_id": "abc123-uid-file",
-                "retention_days": 7,
-                "time": datetime(2099, 1, 1),
-            }
-        ],
+    with (
+        patch(
+            "FSQR.fsqr_data.try_login",
+            new_callable=AsyncMock,
+            return_value="abc123-uid-file",
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data",
+            new_callable=AsyncMock,
+            return_value=[
+                {
+                    "id": "abc123",
+                    "secure_id": "abc123-uid-file",
+                    "retention_days": 7,
+                    "time": datetime(2099, 1, 1),
+                }
+            ],
+        ),
     ):
         response = test_client.post(
             "/try_login", data={"name": "abc123", "pw": "654321"}
