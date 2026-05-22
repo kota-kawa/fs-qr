@@ -156,7 +156,10 @@
           }
 
           spinner.setSpinnerText(translate('upload.encrypting', 'Encrypting...'));
-          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, id);
+          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files);
+          var shareKey = typeof encryptionService.getLastEncryptionKey === 'function'
+            ? encryptionService.getLastEncryptionKey()
+            : '';
           if (cancelRequested) {
             throw new Error(translate('upload.canceled', 'Upload canceled.'));
           }
@@ -196,7 +199,8 @@
                 && typeof result.data.redirect_url === 'string'
                 && result.data.redirect_url
               ) {
-                window.location.href = result.data.redirect_url;
+                window.location.href = result.data.redirect_url
+                  + (shareKey ? `#key=${encodeURIComponent(shareKey)}` : '');
               } else {
                 showFormError(translate('upload.error_no_redirect', 'Upload completed, but the redirect URL could not be retrieved. Please reload the page.'));
                 spinner.hideSpinner();

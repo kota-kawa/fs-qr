@@ -2,6 +2,7 @@
   <!-- Hidden elements for download functionality -->
   <div id="fileContent"></div>
 
+  <script src="{{staticfile('qrcode.min.js')}}"></script>
   <script>
     async function copyTextToClipboard(text) {
       if (navigator.clipboard && window.isSecureContext) {
@@ -48,6 +49,51 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+      function shareHash() {
+        if (!window.location.hash || !window.location.hash.startsWith('#key=')) {
+          return '';
+        }
+        return window.location.hash;
+      }
+
+      function shareUrlWithKey(baseUrl) {
+        const keyHash = shareHash();
+        if (!baseUrl || !keyHash) {
+          return baseUrl || '';
+        }
+        return `${baseUrl}${keyHash}`;
+      }
+
+      function renderShareQrCode(url) {
+        const qrContainer = document.getElementById('shareQrCode');
+        if (!qrContainer || !url || typeof QRCode !== 'function') {
+          return;
+        }
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+          text: url,
+          width: 160,
+          height: 160,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+
+      const shareRoomUrl = document.getElementById('shareRoomUrl');
+      if (shareRoomUrl) {
+        const baseShareUrl = shareRoomUrl.getAttribute('data-visible-value') || shareRoomUrl.textContent.trim();
+        const fullShareUrl = shareUrlWithKey(baseShareUrl);
+        if (fullShareUrl) {
+          shareRoomUrl.textContent = fullShareUrl;
+          shareRoomUrl.setAttribute('data-visible-value', fullShareUrl);
+          const urlRow = shareRoomUrl.closest('.room-info-value-row');
+          const urlCopyButton = urlRow ? urlRow.querySelector('.copy-url-button') : null;
+          if (urlCopyButton) {
+            urlCopyButton.setAttribute('data-copy-value', fullShareUrl);
+          }
+          renderShareQrCode(fullShareUrl);
+        }
+      }
+
       document.querySelectorAll('.reveal-value-button').forEach((button) => {
         button.addEventListener('click', () => {
           const targetId = button.getAttribute('data-target');
@@ -138,7 +184,10 @@
     const statusText = document.getElementById('statusText');
     const statusEyebrow = document.getElementById('statusEyebrow');
     const secureId = {{ secure_id | tojson }};
-    const decryptionKey = secureId.split('-')[0];
+    const shareParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+    const fragmentKey = shareParams.get('key') || '';
+    const decryptionKey = fragmentKey || secureId.split('-')[0];
+    const decryptionKeyMode = fragmentKey ? 'raw-base64url' : 'legacy-id';
 
     function translate(key, fallback) {
       if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
@@ -200,15 +249,33 @@
       setProgress(0);
     }
 
-    async function decryptFile(encryptedBuffer, key, iv) {
+    function base64UrlDecode(value) {
+      let normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+      while (normalized.length % 4) {
+        normalized += '=';
+      }
+      const binary = atob(normalized);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
+    async function importDecryptionKey(key) {
+      if (decryptionKeyMode === 'raw-base64url') {
+        const rawKey = base64UrlDecode(key);
+        if (rawKey.length !== 32) {
+          throw new Error(translate('download.decrypt_failed', 'Decryption failed.'));
+        }
+        return crypto.subtle.importKey('raw', rawKey, { name: 'AES-GCM' }, false, ['decrypt']);
+      }
       const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-      const cryptoKey = await crypto.subtle.importKey(
-        'raw',
-        keyBuffer,
-        { name: 'AES-GCM' },
-        false,
-        ['decrypt']
-      );
+      return crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
+    }
+
+    async function decryptFile(encryptedBuffer, key, iv) {
+      const cryptoKey = await importDecryptionKey(key);
 
       try {
         return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);

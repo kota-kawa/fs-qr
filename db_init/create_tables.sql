@@ -5,10 +5,12 @@ CREATE TABLE fsqr (
     id VARCHAR(255) NOT NULL,             -- ユーザーID
     password VARCHAR(255) NOT NULL,       -- パスワード
     secure_id VARCHAR(255) NOT NULL,      -- ファイルのセキュアID
+    share_token_hash VARCHAR(64) DEFAULT NULL, -- 共有URLトークンのハッシュ
     file_type VARCHAR(20) DEFAULT 'multiple', -- ファイルタイプ: single or multiple
     original_filename VARCHAR(255) DEFAULT NULL, -- 単一ファイルの元のファイル名
     retention_days INT NOT NULL DEFAULT 7, -- 自動削除までの日数
     UNIQUE KEY uq_fsqr_uuid (uuid),
+    UNIQUE KEY uq_fsqr_share_token_hash (share_token_hash),
     INDEX idx_fsqr_id_password (id, password),
     INDEX idx_fsqr_secure_id (secure_id),
     INDEX idx_fsqr_time (time)

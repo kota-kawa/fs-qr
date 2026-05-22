@@ -50,6 +50,10 @@ ALLOW_START_WITHOUT_DB = _env_flag("ALLOW_START_WITHOUT_DB", default=False)
 UPLOAD_MAX_FILES = _env_int("UPLOAD_MAX_FILES", default=10, minimum=1)
 UPLOAD_MAX_TOTAL_SIZE_MB = _env_int("UPLOAD_MAX_TOTAL_SIZE_MB", default=500, minimum=1)
 UPLOAD_MAX_TOTAL_SIZE_BYTES = UPLOAD_MAX_TOTAL_SIZE_MB * 1024 * 1024
+FSQR_UPLOAD_DIR = os.getenv(
+    "FSQR_UPLOAD_DIR",
+    os.path.join(BASE_DIR, "storage", "fsqr_uploads"),
+)
 
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS = _env_int(
     "GROUP_FILE_LIST_REQUEST_TIMEOUT_MS", default=10_000, minimum=1

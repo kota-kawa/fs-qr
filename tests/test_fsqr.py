@@ -86,6 +86,10 @@ def test_upload_single_encrypted_file_returns_redirect_url(
         patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
         patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
         patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch(
+            "FSQR.fsqr_app.secrets.token_urlsafe",
+            return_value="share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        ),
         patch("FSQR.fsqr_data.save_file", save_mock),
     ):
         response = test_client.post(
@@ -125,6 +129,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
         file_type="single",
         original_filename="report.pdf",
         retention_days=7,
+        share_token="share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     )
 
 
@@ -137,6 +142,10 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
         patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
         patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
         patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch(
+            "FSQR.fsqr_app.secrets.token_urlsafe",
+            return_value="share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        ),
         patch("FSQR.fsqr_data.save_file", save_mock),
     ):
         response = test_client.post(
@@ -166,6 +175,63 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     assert os.path.exists(tmp_path / f"{secure_id}.enc")
     save_mock.assert_awaited_once()
     assert save_mock.await_args.kwargs["secure_id"] == secure_id
+    assert save_mock.await_args.kwargs["share_token"] == (
+        "share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    )
+
+
+def test_upload_complete_uses_share_token_url_from_session(
+    test_client: TestClient, tmp_path
+):
+    """新規アップロード後の完了画面は長い共有トークンURLを表示する"""
+    share_token = "share-token-for-complete-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    secure_id = "abc123-1234567890-report.pdf"
+    save_mock = AsyncMock()
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch("FSQR.fsqr_app.secrets.token_urlsafe", return_value=share_token),
+        patch("FSQR.fsqr_data.save_file", save_mock),
+    ):
+        upload_response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+
+    assert upload_response.status_code == 200
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "scrypt:hashed-password",
+            "secure_id": secure_id,
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": None,
+        }
+    ]
+    with patch(
+        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    ):
+        response = test_client.get(f"/upload_complete/{secure_id}")
+
+    assert response.status_code == 200
+    assert f"/fs-qr/s/{share_token}" in response.text
+    assert "scrypt:hashed-password" not in response.text
 
 
 def test_upload_rejects_plain_single_file(test_client: TestClient, tmp_path):
@@ -385,6 +451,41 @@ def test_fs_qr_room_shows_original_filename_for_single_file(test_client: TestCli
     assert "report.pdf" in response.text
 
 
+def test_fs_qr_share_token_route_returns_download_page(test_client: TestClient):
+    from datetime import datetime
+
+    share_token = "share-token-route-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    mock_data = [
+        {
+            "id": "abc123",
+            "secure_id": "abc123-uid-file",
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": datetime(2026, 1, 1),
+        }
+    ]
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data_by_share_token",
+            new_callable=AsyncMock,
+            return_value=mock_data,
+        ),
+        patch("FSQR.fsqr_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get(f"/fs-qr/s/{share_token}")
+
+    assert response.status_code == 200
+    assert "report.pdf" in response.text
+    assert f"/fs-qr/s/{share_token}/download" in response.text
+    assert "downloadPasswordValue" not in response.text
+
+
 def test_fs_qr_room_rate_limited_returns_429(test_client: TestClient):
     """レートリミット超過で 429 を返す"""
     with patch(
@@ -433,8 +534,11 @@ def test_download_go_single_sets_attachment_headers(test_client, monkeypatch, tm
             "original_filename": "report.pdf",
         }
     ]
-    with patch(
-        "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+    with (
+        patch("FSQR.fsqr_app._get_fsqr_access", return_value={"id": "abc123"}),
+        patch(
+            "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+        ),
     ):
         response = test_client.post(f"/download_go/{secure_id}")
 

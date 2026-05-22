@@ -1,3 +1,5 @@
+import hashlib
+import hmac
 import os
 from typing import Optional
 from sqlalchemy import text
@@ -7,12 +9,21 @@ import log_config  # noqa: F401
 from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
+from settings import FSQR_UPLOAD_DIR, SECRET_KEY
 
 # ログ設定
 logger = logging.getLogger(__name__)
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-STATIC = os.path.join(BASE_DIR, "static", "upload")
+STATIC = FSQR_UPLOAD_DIR
+
+
+def hash_share_token(share_token: str) -> str:
+    secret = (SECRET_KEY or "").encode("utf-8")
+    if secret:
+        return hmac.new(
+            secret, share_token.encode("utf-8"), hashlib.sha256
+        ).hexdigest()
+    return hashlib.sha256(share_token.encode("utf-8")).hexdigest()
 
 
 # ファイルを保存
@@ -24,12 +35,20 @@ async def save_file(
     file_type="multiple",
     original_filename=None,
     retention_days=7,
+    share_token=None,
 ):
     try:
         hashed_password = hash_password(password)
+        share_token_hash = hash_share_token(share_token) if share_token else None
         query = text("""
-            INSERT INTO fsqr (time, uuid, id, password, secure_id, file_type, original_filename, retention_days)
-            VALUES (NOW(), :uid, :id, :password, :secure_id, :file_type, :original_filename, :retention_days)
+            INSERT INTO fsqr (
+                time, uuid, id, password, secure_id, share_token_hash,
+                file_type, original_filename, retention_days
+            )
+            VALUES (
+                NOW(), :uid, :id, :password, :secure_id, :share_token_hash,
+                :file_type, :original_filename, :retention_days
+            )
         """)
         await execute_query(
             query,
@@ -38,6 +57,7 @@ async def save_file(
                 "id": id,
                 "password": hashed_password,
                 "secure_id": secure_id,
+                "share_token_hash": share_token_hash,
                 "file_type": file_type,
                 "original_filename": original_filename,
                 "retention_days": retention_days,
@@ -46,6 +66,8 @@ async def save_file(
         await invalidate_cache_entry(try_login, id, password)
         await invalidate_cache_entry(get_data_by_credentials, id, password)
         await invalidate_cache_entry(get_data, secure_id)
+        if share_token:
+            await invalidate_cache_entry(get_data_by_share_token, share_token)
         await invalidate_cache_entry(get_all)
         logger.info("File saved successfully.")
     except Exception as e:
@@ -92,13 +114,29 @@ async def get_data_direct(secure_id):
         raise
 
 
-@cache_data(ttl=60, strip_keys=("password",))
+@cache_data(ttl=60, strip_keys=("password", "share_token_hash"))
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
+@cache_data(ttl=60, strip_keys=("password", "share_token_hash"))
+async def get_data_by_share_token(share_token):
+    try:
+        token_hash = hash_share_token(share_token)
+        query = text("""
+            SELECT * FROM fsqr WHERE share_token_hash = :share_token_hash
+        """)
+        result = await execute_query(
+            query, {"share_token_hash": token_hash}, fetch=True
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Failed to fetch data by share token: {e}")
+        raise
+
+
 # 全てのデータを取得する
-@cache_data(ttl=300, strip_keys=("password",))
+@cache_data(ttl=300, strip_keys=("password", "share_token_hash"))
 async def get_all():
     return await get_all_direct()
 
@@ -146,6 +184,7 @@ async def remove_data(secure_id):
         if record:
             await invalidate_cache_prefix(try_login)
             await invalidate_cache_prefix(get_data_by_credentials)
+            await invalidate_cache_prefix(get_data_by_share_token)
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
@@ -160,6 +199,7 @@ async def all_remove():
         await execute_query(query)
         await invalidate_cache_prefix(try_login)
         await invalidate_cache_prefix(get_data_by_credentials)
+        await invalidate_cache_prefix(get_data_by_share_token)
         await invalidate_cache_prefix(get_data)
         await invalidate_cache_prefix(get_all)
     except Exception as e:

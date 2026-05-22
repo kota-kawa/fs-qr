@@ -26,10 +26,12 @@ def upgrade() -> None:
             id VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
             secure_id VARCHAR(255) NOT NULL,
+            share_token_hash VARCHAR(64) DEFAULT NULL,
             file_type VARCHAR(20) DEFAULT 'multiple',
             original_filename VARCHAR(255) DEFAULT NULL,
             retention_days INT NOT NULL DEFAULT 7,
             UNIQUE KEY uq_fsqr_uuid (uuid),
+            UNIQUE KEY uq_fsqr_share_token_hash (share_token_hash),
             INDEX idx_fsqr_id_password (id, password),
             INDEX idx_fsqr_secure_id (secure_id),
             INDEX idx_fsqr_time (time)
@@ -79,6 +81,14 @@ def upgrade() -> None:
         """
     )
 
+    _add_column_if_missing(
+        table_name="fsqr",
+        column_name="share_token_hash",
+        ddl=(
+            "ALTER TABLE fsqr ADD COLUMN share_token_hash VARCHAR(64) DEFAULT NULL "
+            "COMMENT 'Hash of bearer share token for FSQR share URLs'"
+        ),
+    )
     _add_column_if_missing(
         table_name="fsqr",
         column_name="file_type",
@@ -131,6 +141,14 @@ def upgrade() -> None:
         table_name="fsqr",
         index_name="uq_fsqr_uuid",
         ddl="ALTER TABLE fsqr ADD UNIQUE KEY uq_fsqr_uuid (uuid)",
+    )
+    _add_unique_if_missing(
+        table_name="fsqr",
+        index_name="uq_fsqr_share_token_hash",
+        ddl=(
+            "ALTER TABLE fsqr ADD UNIQUE KEY uq_fsqr_share_token_hash "
+            "(share_token_hash)"
+        ),
     )
     _add_index_if_missing(
         table_name="fsqr",

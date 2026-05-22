@@ -34,6 +34,7 @@
                   </span>
                 </span>
               </div>
+              {% if password %}
               <div class="room-info-row">
                 <span class="room-info-label">パスワード</span>
                 <span class="room-info-value">
@@ -49,6 +50,7 @@
                   </span>
                 </span>
               </div>
+              {% endif %}
               <div class="room-info-row">
                 <span class="room-info-label">URL</span>
                 <span class="room-info-value">
@@ -90,9 +92,8 @@
             </div>
           </div>
 
-          <div class="qr-code-container">
-            <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
-                 alt="共有用QRコード" style="width: 160px; height: 160px;" loading="lazy" decoding="async">
+          <div class="qr-code-container" id="shareQrCode" data-share-url="{{ url | e }}" aria-label="共有用QRコード">
+            <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
           </div>
         </div>
         

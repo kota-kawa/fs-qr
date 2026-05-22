@@ -17,10 +17,48 @@
     var setStatusText = typeof options.setStatusText === 'function'
       ? options.setStatusText
       : function () {};
+    var lastEncryptionKey = '';
 
-    async function encryptAndZipFilesWithProgress(files, key) {
-      var keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-      var cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['encrypt']);
+    function base64UrlEncode(bytes) {
+      var binary = '';
+      for (var i = 0; i < bytes.length; i += 1) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+    }
+
+    function base64UrlDecode(value) {
+      var normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+      while (normalized.length % 4) {
+        normalized += '=';
+      }
+      var binary = atob(normalized);
+      var bytes = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i += 1) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
+    function generateEncryptionKey() {
+      var bytes = crypto.getRandomValues(new Uint8Array(32));
+      return base64UrlEncode(bytes);
+    }
+
+    async function importEncryptionKey(key) {
+      var rawKey = base64UrlDecode(key);
+      if (rawKey.length !== 32) {
+        throw new Error(translate('upload.error_processing', 'Encryption key is invalid.'));
+      }
+      return crypto.subtle.importKey('raw', rawKey, { name: 'AES-GCM' }, false, ['encrypt']);
+    }
+
+    async function encryptAndZipFilesWithProgress(files) {
+      lastEncryptionKey = generateEncryptionKey();
+      var cryptoKey = await importEncryptionKey(lastEncryptionKey);
 
       if (files.length === 1) {
         var singleFile = files[0];
@@ -59,7 +97,10 @@
     }
 
     return {
-      encryptAndZipFilesWithProgress: encryptAndZipFilesWithProgress
+      encryptAndZipFilesWithProgress: encryptAndZipFilesWithProgress,
+      getLastEncryptionKey: function () {
+        return lastEncryptionKey;
+      }
     };
   }
 

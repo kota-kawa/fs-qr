@@ -39,6 +39,9 @@ static/upload/*
 static/group_uploads/*
 !static/group_uploads/.gitkeep
 
+storage/*
+!storage/.gitkeep
+
 logs/*
 
 geoip/*

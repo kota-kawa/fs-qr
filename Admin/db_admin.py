@@ -22,7 +22,7 @@ from session_auth import (
     mark_session_authenticated,
 )
 from web import build_url, enforce_csrf, flash_message, render_template
-from settings import DB_ADMIN_PASSWORD
+from settings import DB_ADMIN_PASSWORD, FSQR_UPLOAD_DIR
 
 fs_db = db_session
 grp_db = db_session
@@ -31,7 +31,7 @@ ADMIN_DB_PW = DB_ADMIN_PASSWORD
 DB_ADMIN_SESSION_KEY = "db_admin_authenticated"
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-UPLOAD_DIR = os.path.join(BASE_DIR, "static", "upload")
+UPLOAD_DIR = FSQR_UPLOAD_DIR
 GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
 
 router = APIRouter(prefix="/admin")
