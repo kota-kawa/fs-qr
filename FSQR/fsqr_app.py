@@ -196,7 +196,7 @@ async def fs_qr_upload(request: Request):
 
 
 @router.post("/upload", name="fsqr.upload")
-async def upload(
+async def upload(  # noqa: C901
     request: Request,
     name: str = Form(""),
     download_password: str = Form(""),

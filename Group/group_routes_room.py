@@ -50,7 +50,7 @@ def register_group_room_access_route(router: APIRouter):
                         ),
                         status_code=302,
                     )
-            except Exception:
+            except Exception:  # noqa: S110
                 pass
             _, block_label = await register_failure(SCOPE_GROUP, ip)
             if block_label:

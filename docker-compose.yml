@@ -18,6 +18,12 @@ services:
         condition: service_healthy
     ports:
       - "5000:5000"  # ホストの5000番ポートをDockerのwebサービスにマッピング
+    healthcheck:
+      test: ["CMD", "python3", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:5000/').close()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       - app-network
 
@@ -45,6 +51,12 @@ services:
       - --
       - python
       - scheduler.py
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'scheduler.py'"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     networks:
       - app-network
 

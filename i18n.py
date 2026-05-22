@@ -273,7 +273,7 @@ def get_translation_value(language: str, section: str, key: str) -> str:
     return key
 
 
-def normalize_language(language: str) -> str:
+def normalize_language(language: str) -> str:  # noqa: C901
     if not language:
         return DEFAULT_LANGUAGE
     lowered = language.lower()

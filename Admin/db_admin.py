@@ -72,7 +72,7 @@ async def table_exists(sess, table_name):
     exists = bool(result.scalar())
     try:
         await sess.rollback()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     return exists
 
@@ -87,7 +87,7 @@ async def safe_count(sess, table):
     count = result.scalar()
     try:
         await sess.rollback()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     return count
 
@@ -102,7 +102,7 @@ async def safe_recent(sess, table, time_col, limit=10):
     rows = result.mappings().all()
     try:
         await sess.rollback()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     return rows
 

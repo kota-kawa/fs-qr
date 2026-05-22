@@ -249,7 +249,7 @@ async def _pubsub_loop():
                 continue
             try:
                 payload = json.loads(data)
-            except Exception:
+            except Exception:  # noqa: S112
                 continue
             if payload.get("source") == INSTANCE_ID:
                 continue
@@ -267,7 +267,7 @@ async def _pubsub_loop():
     finally:
         try:
             await pubsub.close()
-        except Exception:
+        except Exception:  # noqa: S110
             pass
 
 
@@ -298,6 +298,6 @@ async def shutdown():
     if _redis_client is not None:
         try:
             await _redis_client.close()
-        except Exception:
+        except Exception:  # noqa: S110
             pass
         _redis_client = None

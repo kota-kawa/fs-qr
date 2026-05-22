@@ -3,8 +3,28 @@ line-length = 88
 target-version = "py311"
 
 [tool.ruff.lint]
-# ruff デフォルト相当を明示して、バージョンアップ時の意図しないルール追加を防ぐ
-select = ["E4", "E7", "E9", "F"]
+select = ["E4", "E7", "E9", "F", "S", "C90"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "S107", "S314"]
+"alembic/**" = ["S608"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+follow_imports = "silent"
+files = [
+    "settings.py", "database.py", "models.py",
+    "cache_utils.py", "rate_limit.py", "session_auth.py",
+    "file_validation.py", "password_security.py", "api_response.py",
+    "web.py", "i18n.py",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -44,12 +44,12 @@ CREATE TABLE IF NOT EXISTS note_content(
 ADD_NOTE_ROOM_IDX_ID_PASSWORD = """
 ALTER TABLE note_room
 ADD INDEX idx_note_room_id_password (id, password)
-"""
+"""  # noqa: S105
 
 ADD_NOTE_ROOM_IDX_ROOM_ID_PASSWORD = """
 ALTER TABLE note_room
 ADD INDEX idx_note_room_room_id_password (room_id, password)
-"""
+"""  # noqa: S105
 
 ADD_NOTE_ROOM_IDX_TIME = """
 ALTER TABLE note_room
@@ -115,7 +115,7 @@ async def ensure_tables():
     # 既存テーブルをマイクロ秒精度に更新
     try:
         await execute_query("ALTER TABLE note_content MODIFY updated_at DATETIME(6)")
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     await ensure_index(
         "note_room", "idx_note_room_id_password", ADD_NOTE_ROOM_IDX_ID_PASSWORD

@@ -53,7 +53,7 @@ class GroupRoomHub:
         for websocket in sockets:
             try:
                 await websocket.close(code=code)
-            except Exception:
+            except Exception:  # noqa: S112
                 continue
 
 

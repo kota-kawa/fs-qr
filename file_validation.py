@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 try:
     import magic
 except ImportError:  # pragma: no cover - production dependency guard
-    magic = None
+    magic = None  # type: ignore[assignment]
 
 _DANGEROUS_FILENAME_PATTERNS = ("..", "/", "\\", "\x00", "\r", "\n")
 _DISALLOWED_UPLOAD_EXTENSIONS = {".html", ".htm", ".xhtml", ".svg", ".svgz"}

@@ -62,15 +62,15 @@ def is_retryable_db_error(exc) -> bool:
 async def reset_db_connection():
     try:
         await db_session.rollback()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     try:
         await db_session.remove()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
     try:
         await engine.dispose()
-    except Exception:
+    except Exception:  # noqa: S110
         pass
 
 
@@ -83,11 +83,11 @@ async def execute_query(query, params=None, fetch=False, retries=2):
                 rows = result.mappings().all()
                 try:
                     await db_session.rollback()
-                except Exception:
+                except Exception:  # noqa: S110
                     pass
                 return rows
             await db_session.commit()
-            return result.rowcount
+            return result.rowcount  # type: ignore[attr-defined]
         except Exception as e:
             if is_retryable_db_error(e) and attempt < retries:
                 logger.warning(
@@ -99,7 +99,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             logger.error("Database query failed: %s", _sanitize_db_exception(e))
             try:
                 await db_session.rollback()
-            except Exception:
+            except Exception:  # noqa: S110
                 pass
             raise
 

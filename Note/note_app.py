@@ -93,7 +93,7 @@ async def create_note_room_page(request: Request):
 
 
 @router.post("/create_note_room", name="note.create_note_room")
-async def create_note_room(request: Request):
+async def create_note_room(request: Request):  # noqa: C901
     await enforce_csrf(request)
     json_data = {}
     form_data = {}

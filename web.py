@@ -120,7 +120,7 @@ def staticfile(fname: str) -> str:
 
 @pass_context
 def url_for(context: Dict[str, Any], name: str, **params: Any) -> str:
-    request: Request = context.get("request")
+    request: Request = context.get("request")  # type: ignore[assignment]
     if request is None:
         return ""
     external = bool(params.pop("_external", False))
@@ -132,7 +132,7 @@ def url_for(context: Dict[str, Any], name: str, **params: Any) -> str:
 
 @pass_context
 def get_flashed_messages(context: Dict[str, Any]) -> Iterable[str]:
-    request: Request = context.get("request")
+    request: Request = context.get("request")  # type: ignore[assignment]
     if request is None:
         return []
     messages = request.session.pop("_flashes", [])
@@ -211,13 +211,13 @@ async def enforce_csrf(request: Request) -> None:
 def _extract_websocket_csrf_token(websocket: WebSocket) -> str:
     query_params = getattr(websocket, "query_params", None)
     if hasattr(query_params, "get"):
-        query_token = _normalize_csrf_token(query_params.get(CSRF_FORM_FIELD))
+        query_token = _normalize_csrf_token(query_params.get(CSRF_FORM_FIELD))  # type: ignore[union-attr]
         if query_token:
             return query_token
 
     headers = getattr(websocket, "headers", None)
     if hasattr(headers, "get"):
-        header_token = _normalize_csrf_token(headers.get(CSRF_HEADER_NAME))
+        header_token = _normalize_csrf_token(headers.get(CSRF_HEADER_NAME))  # type: ignore[union-attr]
         if header_token:
             return header_token
 
@@ -253,7 +253,7 @@ def validate_websocket_csrf(websocket: WebSocket) -> bool:
 
 @pass_context
 def csrf_token(context: Dict[str, Any]) -> str:
-    request: Request = context.get("request")
+    request: Request = context.get("request")  # type: ignore[assignment]
     if request is None:
         return ""
     return get_or_create_csrf_token(request)

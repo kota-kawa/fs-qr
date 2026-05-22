@@ -69,7 +69,7 @@ def cache_data(ttl=60, key_prefix="", strip_keys: Optional[Iterable[str]] = None
 
             return result
 
-        wrapper._cache_prefix = prefix
+        wrapper._cache_prefix = prefix  # type: ignore[attr-defined]
         return wrapper
 
     return decorator
@@ -100,7 +100,7 @@ def _strip_dict(value, strip_set: frozenset):
 def _build_cache_key(key_prefix: str, args, kwargs) -> str:
     arg_data = [args, kwargs]
     arg_str = json.dumps(arg_data, sort_keys=True, default=str)
-    key_hash = hashlib.md5(arg_str.encode()).hexdigest()
+    key_hash = hashlib.md5(arg_str.encode()).hexdigest()  # noqa: S324
     return f"db_cache:{key_prefix}:{key_hash}"
 
 

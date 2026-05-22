@@ -97,7 +97,7 @@ def _file_lock(lock_path: str, wait_seconds: int = GEOIP_LOCK_WAIT_SECONDS):
 
 
 def _download(url: str, destination: str) -> str:
-    request = urllib.request.Request(
+    request = urllib.request.Request(  # noqa: S310
         url,
         headers={
             "User-Agent": "fs-qr-geoip-updater/1.0 (+https://fs-qr.com)",
@@ -105,7 +105,7 @@ def _download(url: str, destination: str) -> str:
         },
     )
     digest = hashlib.sha256()
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310
         with open(destination, "wb") as fp:
             while True:
                 chunk = response.read(1024 * 1024)
