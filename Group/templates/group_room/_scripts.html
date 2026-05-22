@@ -80,6 +80,23 @@
         });
     });
 </script>
+<script src="{{staticfile('qrcode.min.js')}}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const qrContainer = document.getElementById('groupShareQrCode');
+        const shareUrl = qrContainer ? qrContainer.getAttribute('data-share-url') : '';
+        if (!qrContainer || !shareUrl || typeof QRCode !== 'function') {
+            return;
+        }
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+            text: shareUrl,
+            width: 160,
+            height: 160,
+            correctLevel: QRCode.CorrectLevel.M
+        });
+    });
+</script>
 {% import "macros/icons.html" as icons %}
 <script src="{{staticfile('js/shared/app-namespace.js')}}"></script>
 <script>

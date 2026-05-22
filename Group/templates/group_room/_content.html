@@ -1,4 +1,5 @@
 {% import "macros/icons.html" as icons %}
+{% set share_url = url_for('group.group_room', room_id=room_id, password=password, _external=True) %}
 <div class="modern-page-container">
     <div class="modern-content-card">
         <div class="modern-card-header">
@@ -43,8 +44,8 @@
                             <span class="room-info-label">URL</span>
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
-                                    <span class="room-info-url-text">{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ url_for('group.group_room', room_id=room_id, password=password, _external=True) }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー">
+                                    <span class="room-info-url-text">{{ share_url }}</span>
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー">
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
@@ -64,9 +65,8 @@
                     </div>
                 </div>
 
-                <div class="qr-code-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url_for('group.group_room', room_id=room_id, password=password, _external=True) | urlencode }}"
-                         alt="共有用QRコード" style="width: 160px; height: 160px;" loading="lazy" decoding="async">
+                <div class="qr-code-container" id="groupShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
+                    <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
                 </div>
             </div>
 

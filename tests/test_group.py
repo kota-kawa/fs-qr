@@ -203,6 +203,10 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
     assert "maxTotalSizeBytes" in html
     assert "fileListRequestTimeoutMs" in html
     assert "groupPreviewOverlay" in html
+    assert 'id="groupShareQrCode"' in html
+    assert 'data-share-url="http://testserver/group/abc123/000000"' in html
+    assert "/static/qrcode.min.js" in html
+    assert "api.qrserver.com" not in html
     assert "function handleFiles(files)" not in html
     assert "function fetchAndDisplayOtherFiles()" not in html
 

@@ -132,6 +132,10 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
     assert "maxContentLength" in html
     assert "selfEditTimeoutMs" in html
     assert "mergeStatus" in html
+    assert 'id="noteShareQrCode"' in html
+    assert 'data-share-url="http://testserver/note/abc123/000000"' in html
+    assert "/static/qrcode.min.js" in html
+    assert "api.qrserver.com" not in html
 
 
 def test_note_direct_not_found(test_client: TestClient):
