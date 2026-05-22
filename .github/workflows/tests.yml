@@ -93,7 +93,7 @@ jobs:
           docker build --tag fs-qr-ci:${{ github.sha }} .
 
       - name: Scan Docker image with Trivy
-        uses: aquasecurity/trivy-action@0.31.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: fs-qr-ci:${{ github.sha }}
           format: table
