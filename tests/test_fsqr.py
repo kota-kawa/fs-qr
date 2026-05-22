@@ -180,6 +180,46 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     )
 
 
+def test_upload_metadata_failure_removes_staged_file(test_client: TestClient, tmp_path):
+    """DB保存に失敗した場合は一時ファイルも正式ファイルも残さない"""
+    save_mock = AsyncMock(side_effect=RuntimeError("db down"))
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_app.secrets.randbelow", return_value=123456),
+        patch("FSQR.fsqr_app.secrets.token_hex", return_value="tempmarker"),
+        patch(
+            "FSQR.fsqr_app.secrets.token_urlsafe",
+            return_value="share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        ),
+        patch("FSQR.fsqr_data.save_file", save_mock),
+    ):
+        response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+
+    assert response.status_code == 500
+    assert not any(tmp_path.iterdir())
+    save_mock.assert_awaited_once()
+
+
 def test_upload_complete_uses_share_token_url_from_session(
     test_client: TestClient, tmp_path
 ):

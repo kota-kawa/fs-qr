@@ -213,26 +213,23 @@ async def upload(
     if payload_error:
         return json_or_msg(request, payload_error)
 
-    uploaded_files = []
-    saved_paths = []
-
-    for file in upfile:
-        filename = normalize_upload_filename(file.filename or "")
-        if not filename:
-            return json_or_msg(request, "不正なファイル名です")
-
-        save_path = os.path.join(STATIC, secure_id_base + filename)
-
-        with open(save_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        uploaded_files.append(filename)
-        saved_paths.append(save_path)
+    file = upfile[0]
+    filename = normalize_upload_filename(file.filename or "")
+    if not filename:
+        return json_or_msg(request, "不正なファイル名です")
 
     if file_type == "single":
-        secure_id = secure_id_base + _strip_upload_suffix(uploaded_files[-1], ".enc")
+        secure_id = secure_id_base + _strip_upload_suffix(filename, ".enc")
+        final_path = os.path.join(STATIC, secure_id + ".enc")
     else:
-        secure_id = secure_id_base + _strip_upload_suffix(uploaded_files[-1], ".zip")
+        secure_id = secure_id_base + _strip_upload_suffix(filename, ".zip")
+        final_path = os.path.join(STATIC, secure_id + ".zip")
 
+    temp_path = os.path.join(STATIC, f".{secure_id}.{secrets.token_hex(8)}.uploading")
+    with open(temp_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    metadata_saved = False
     try:
         await fs_data.save_file(
             uid=uid,
@@ -244,14 +241,25 @@ async def upload(
             retention_days=retention_days_int,
             share_token=share_token,
         )
+        metadata_saved = True
+        os.replace(temp_path, final_path)
     except Exception:
-        logger.exception("FSQR upload metadata save failed: secure_id=%s", secure_id)
-        for saved_path in saved_paths:
+        if metadata_saved:
+            logger.exception("FSQR upload activation failed: secure_id=%s", secure_id)
             try:
-                if os.path.exists(saved_path):
-                    os.remove(saved_path)
+                await fs_data.remove_data(secure_id)
+            except Exception:
+                logger.exception(
+                    "FSQR upload metadata rollback failed: secure_id=%s", secure_id
+                )
+        else:
+            logger.exception("FSQR upload metadata save failed: secure_id=%s", secure_id)
+        for orphan_path in (temp_path, final_path):
+            try:
+                if os.path.exists(orphan_path):
+                    os.remove(orphan_path)
             except OSError:
-                logger.warning("Failed to remove orphaned upload: %s", saved_path)
+                logger.warning("Failed to remove orphaned upload: %s", orphan_path)
         return json_or_msg(
             request,
             "アップロード情報の保存に失敗しました。時間をおいて再度お試しください。",
