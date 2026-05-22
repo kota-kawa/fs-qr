@@ -68,7 +68,6 @@
           button.classList.add('copied');
           button.setAttribute('aria-label', copiedLabel);
           button.setAttribute('title', copiedLabel);
-          setShareFeedback(translate('share.copy_participant_success', 'Copied. You can send it to participants as-is.'), 'success');
           setTimeout(() => {
             button.classList.remove('copied');
             button.setAttribute('aria-label', defaultLabel);
