@@ -17,7 +17,9 @@
     {% if mode == 'upload' %}
     <div class="card-body info-box-content">
       <div class="text-center info-content-inner">
-        <div class="room-info-container room-info-container--single">
+        <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
+
+        <div class="room-info-container">
           <div class="room-info-card">
             <div class="room-info-header">ダウンロード先の情報</div>
             <div class="room-info-body">
@@ -26,6 +28,9 @@
                 <span class="room-info-value">
                   <span class="room-info-value-row">
                     <span class="room-info-value-text">{{ id | e }}</span>
+                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ id | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="IDをコピー" title="IDをコピー">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    </button>
                   </span>
                 </span>
               </div>
@@ -38,9 +43,9 @@
                       class="room-info-value-text sensitive-value"
                       data-visible-value="{{ password | e }}"
                     >{{ password | e }}</span>
-                    <span class="sensitive-actions room-info-value-actions">
-                      <button type="button" class="copy-url-button" data-copy-value="{{ password | e }}" data-default-label="PWをコピー" data-copied-label="コピー済み" aria-label="PWをコピー" title="PWをコピー"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.75 3.75a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h7.5Z"/><path fill="currentColor" d="M5.25 7.5a.75.75 0 0 1 1.5 0v8.25A2.25 2.25 0 0 0 9 18h8.25a.75.75 0 0 1 0 1.5H9a3.75 3.75 0 0 1-3.75-3.75V7.5Z"/></svg><span class="sr-only">PWをコピー</span></button>
-                    </span>
+                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー" title="パスワードをコピー">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    </button>
                   </span>
                 </span>
               </div>
@@ -53,14 +58,9 @@
                       class="sensitive-value room-info-url-text"
                       data-visible-value="{{ url }}"
                     >{{ url }}</span>
-                    <span class="sensitive-actions room-info-value-actions">
-                      <button type="button" class="copy-url-button" data-copy-value="{{ url }}" data-default-label="URLをコピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                          <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/>
-                        </svg>
-                        <span class="sr-only">URLをコピー</span>
-                      </button>
-                    </span>
+                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ url }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー" title="URLをコピー">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    </button>
                   </span>
                 </span>
               </div>
@@ -89,13 +89,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
-
-        <div class="text-center mt-4">
-          <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
-               class="img-fluid" style="max-width: 200px; height: auto; border-radius: 12px; box-shadow: var(--shadow-md);" alt="共有用QRコード" loading="lazy" decoding="async">
+          <div class="qr-code-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code?size=200x200&data={{ url | urlencode }}"
+                 alt="共有用QRコード" style="width: 160px; height: 160px;" loading="lazy" decoding="async">
+          </div>
         </div>
         
         <div class="text-center mt-4">

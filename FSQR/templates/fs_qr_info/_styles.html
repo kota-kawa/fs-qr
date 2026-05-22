@@ -76,6 +76,7 @@
 
 .room-info-card {
   --room-info-header-gradient: var(--theme-fsqr-gradient);
+  text-align: left;
 }
 
 .room-info-container--single {
@@ -110,6 +111,37 @@
   word-break: break-all;
   color: var(--text-dark);
   min-width: 0;
+}
+
+.room-info-value-row .copy-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-inline-action-button);
+  height: var(--size-inline-action-button);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.room-info-value-row .copy-inline-btn:hover,
+.room-info-value-row .copy-inline-btn:focus-visible {
+  color: var(--theme-fsqr-accent);
+  background: rgba(35, 195, 223, 0.12);
+}
+
+.room-info-value-row .copy-inline-btn.copied {
+  color: var(--theme-fsqr-start);
+}
+
+.room-info-value-row .copy-inline-btn svg {
+  width: var(--size-inline-action-icon);
+  height: var(--size-inline-action-icon);
 }
 
 .room-info-url-text {
@@ -228,10 +260,11 @@
 
 .share-feedback {
   display: none;
-  margin-top: 0.9rem;
+  margin-bottom: 1rem;
   padding: 0.85rem 1rem;
   border-radius: var(--radius-lg);
   font-weight: 600;
+  text-align: left;
 }
 
 .share-feedback.is-visible {
