@@ -270,6 +270,7 @@ def test_language_dropdown_is_scrollable_for_many_languages():
     assert "overflow-y: auto" in source
     assert "z-index: 1110" in source
     assert "z-index: calc(var(--z-modal, 1100) + 10)" in source
+    assert "body > .lang-select-list.lang-select-list" in source
     assert "closeOpenLangSelects" in script
     # 言語選択は summary / settings 両ビューともドロップダウン方式
     assert ".lang-select-trigger" in source

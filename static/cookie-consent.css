@@ -488,6 +488,13 @@ body > #cookieConsent.cookie-consent-overlay {
   scrollbar-color: rgba(14, 165, 233, 0.42) transparent;
 }
 
+body > .lang-select-list.lang-select-list {
+  /* The list is portaled to body; section page child rules must not re-stack it. */
+  position: fixed;
+  z-index: 1110;
+  z-index: calc(var(--z-modal, 1100) + 10);
+}
+
 @keyframes lang-list-in {
   from { opacity: 0; transform: translateY(-6px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
