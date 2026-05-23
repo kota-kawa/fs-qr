@@ -111,6 +111,34 @@ import pytest  # noqa: E402
 import httpx  # noqa: E402
 
 
+class AppLifespan:
+    def __init__(self, app):
+        self.app = app
+        self.loop = asyncio.new_event_loop()
+        self.lifespan_context = None
+
+    def __enter__(self):
+        asyncio.set_event_loop(self.loop)
+        if hasattr(self.app.router, "startup"):
+            self.loop.run_until_complete(self.app.router.startup())
+        else:
+            self.lifespan_context = self.app.router.lifespan_context(self.app)
+            self.loop.run_until_complete(self.lifespan_context.__aenter__())
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            if self.lifespan_context is not None:
+                self.loop.run_until_complete(
+                    self.lifespan_context.__aexit__(exc_type, exc, tb)
+                )
+            elif hasattr(self.app.router, "shutdown"):
+                self.loop.run_until_complete(self.app.router.shutdown())
+        finally:
+            self.loop.close()
+            asyncio.set_event_loop(None)
+
+
 class SimpleASGITestClient:
     SAFE_METHODS = {"GET", "HEAD", "OPTIONS", "TRACE"}
     CSRF_TOKEN_PATH_CANDIDATES = ("/fs-qr", "/group", "/note", "/admin/")
@@ -210,8 +238,5 @@ def test_client():
         # appのインポートはモック設定後に行う
         from app import app
 
-        asyncio.run(app.router.startup())
-        try:
+        with AppLifespan(app):
             yield SimpleASGITestClient(app)
-        finally:
-            asyncio.run(app.router.shutdown())
