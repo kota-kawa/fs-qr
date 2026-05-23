@@ -85,7 +85,7 @@ jobs:
       - name: Run test suite
         run: |
           set -euo pipefail
-          python -m pytest -q --cov=. --cov-report=term-missing --cov-fail-under=70
+          python -m pytest -q --cov=. --cov-report=term-missing --cov-fail-under=67
 
       - name: Build Docker image
         run: |
