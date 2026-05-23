@@ -84,6 +84,11 @@
 
   let lastFocusedElement = null;
   let scrollLockY = 0;
+  const langSelectClosers = [];
+
+  function closeOpenLangSelects() {
+    langSelectClosers.forEach((close) => close({ restoreFocus: false }));
+  }
 
   function lockBodyScroll() {
     scrollLockY = window.scrollY;
@@ -104,6 +109,7 @@
   }
 
   function hideOverlay(overlay, options = {}) {
+    closeOpenLangSelects();
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
@@ -132,6 +138,7 @@
   }
 
   function switchView(overlay, viewName) {
+    closeOpenLangSelects();
     const views = overlay.querySelectorAll('[data-cookie-consent-view]');
     views.forEach((view) => {
       const isActive = view.getAttribute('data-cookie-consent-view') === viewName;
@@ -285,6 +292,7 @@
 
     window.addEventListener('resize', scheduleReposition);
     window.addEventListener('scroll', scheduleReposition, true);
+    langSelectClosers.push(closeList);
 
     return { update: updateDisplay };
   }

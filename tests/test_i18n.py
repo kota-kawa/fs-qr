@@ -263,10 +263,14 @@ def test_language_options_fallback_to_native_labels_when_missing_translation():
 
 def test_language_dropdown_is_scrollable_for_many_languages():
     source = Path("static/cookie-consent.css").read_text(encoding="utf-8")
+    script = Path("static/cookie-consent.js").read_text(encoding="utf-8")
 
     assert ".lang-select-list" in source
     assert "max-height:" in source
     assert "overflow-y: auto" in source
+    assert "z-index: 1110" in source
+    assert "z-index: calc(var(--z-modal, 1100) + 10)" in source
+    assert "closeOpenLangSelects" in script
     # 言語選択は summary / settings 両ビューともドロップダウン方式
     assert ".lang-select-trigger" in source
     assert ".lang-select-option" in source
