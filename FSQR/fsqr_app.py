@@ -228,7 +228,10 @@ async def upload(  # noqa: C901
         try:
             RoomSearchInput(room_id=id_val, password=download_password)
         except ValidationError:
-            return json_or_msg(request, "パスワード形式が不正です。")
+            return json_or_msg(
+                request,
+                "アップロード用パスワードの生成に失敗しました。画面を再読み込みして再度お試しください。",
+            )
         password = download_password
     else:
         password = str(secrets.randbelow(10**6)).zfill(6)

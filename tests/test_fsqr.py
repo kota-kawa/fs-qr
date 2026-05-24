@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
@@ -17,6 +18,16 @@ def test_fsqr_upload_page(test_client: TestClient):
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
     assert "maxTotalSizeMB" in html
+
+
+def test_fsqr_upload_generated_password_matches_server_policy():
+    """ブラウザ側の自動生成パスワードはサーバ検証と同じ6桁数字に揃える"""
+    script = Path("static/js/fs_qr_upload/upload-submit.js").read_text(
+        encoding="utf-8"
+    )
+    assert "PASSWORD_DIGITS = '0123456789'" in script
+    assert "new Uint8Array(6)" in script
+    assert "PASSWORD_DIGITS[bytes[i] % PASSWORD_DIGITS.length]" in script
 
 
 def test_fsqr_search_page(test_client: TestClient):
@@ -63,6 +74,34 @@ def test_upload_wrong_id_length(test_client: TestClient):
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
+
+
+def test_upload_invalid_generated_password_message(test_client: TestClient):
+    """アップロード用パスワードの形式不一致は再読み込みを促す"""
+    response = test_client.post(
+        "/upload",
+        files={
+            "upfile": (
+                "report.pdf.enc",
+                b"encrypted-by-browser",
+                "application/octet-stream",
+            )
+        },
+        data={
+            "name": "abc123",
+            "download_password": "abcDEF123",
+            "file_type": "single",
+            "original_filename": "report.pdf",
+        },
+        headers={
+            "X-Requested-With": "XMLHttpRequest",
+            "Accept": "application/json",
+        },
+    )
+    assert response.status_code == 400
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert "画面を再読み込み" in payload["error"]
 
 
 def test_upload_too_many_files(test_client: TestClient):

@@ -34,7 +34,7 @@
     var core = modules.core;
     var activeXhr = null;
     var cancelRequested = false;
-    var PASSWORD_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var PASSWORD_DIGITS = '0123456789';
 
     function parseJsonResponse(rawText, label) {
       return core.safeParseJson(rawText, logger, label);
@@ -108,10 +108,10 @@
     }
 
     function generateDownloadPassword() {
-      var bytes = crypto.getRandomValues(new Uint8Array(16));
+      var bytes = crypto.getRandomValues(new Uint8Array(6));
       var password = '';
       for (var i = 0; i < bytes.length; i += 1) {
-        password += PASSWORD_CHARS[bytes[i] % PASSWORD_CHARS.length];
+        password += PASSWORD_DIGITS[bytes[i] % PASSWORD_DIGITS.length];
       }
       return password;
     }
