@@ -71,7 +71,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     create_mock = AsyncMock()
     with (
         patch(
-            "Group.group_routes_room.secrets.token_urlsafe", return_value="Strong_pw1"
+            "Group.group_routes_room.secrets.randbelow", return_value=42
         ),
         patch(
             "Group.group_routes_room.group_data.get_data",
@@ -90,10 +90,10 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     assert response.status_code == 200
     payload = response.json()
     assert payload["status"] == "ok"
-    assert payload["data"]["redirect_url"] == "/group/abc123/Strong_pw1"
+    assert payload["data"]["redirect_url"] == "/group/abc123/000042"
     create_mock.assert_awaited_once_with(
         id="abc123",
-        password="Strong_pw1",
+        password="000042",
         room_id="abc123",
         retention_days=7,
     )
@@ -328,11 +328,11 @@ def test_create_group_room_auto_duplicate(test_client: TestClient):
     assert payload["data"]["retry_auto"] is True
 
 
-def test_create_group_room_generates_urlsafe_password(test_client: TestClient):
+def test_create_group_room_generates_numeric_password(test_client: TestClient):
     create_mock = AsyncMock()
     with (
         patch(
-            "Group.group_routes_room.secrets.token_urlsafe", return_value="Strong_pw1"
+            "Group.group_routes_room.secrets.randbelow", return_value=42
         ),
         patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=None),
         patch("Group.group_data.create_room", create_mock),
@@ -344,9 +344,9 @@ def test_create_group_room_generates_urlsafe_password(test_client: TestClient):
         )
 
     assert response.status_code == 302
-    assert response.headers["location"] == "/group/abc123/Strong_pw1"
+    assert response.headers["location"] == "/group/abc123/000042"
     create_mock.assert_awaited_once()
-    assert create_mock.await_args.kwargs["password"] == "Strong_pw1"
+    assert create_mock.await_args.kwargs["password"] == "000042"
 
 
 def test_delete_all_rooms_requires_management_auth(test_client: TestClient):

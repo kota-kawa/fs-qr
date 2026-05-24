@@ -103,7 +103,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
             },
             data={
                 "name": "abc123",
-                "download_password": "SearchPass123",
+                "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
                 "retention_days": "7",
@@ -125,7 +125,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
     save_mock.assert_awaited_once_with(
         uid="1234567890",
         id="abc123",
-        password="SearchPass123",
+        password="123456",
         secure_id="abc123-1234567890-report.pdf",
         file_type="single",
         original_filename="report.pdf",
@@ -160,7 +160,7 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
             },
             data={
                 "name": "abc123",
-                "download_password": "SearchPass123",
+                "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "memo.enc.txt",
                 "retention_days": "7",
@@ -177,7 +177,7 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     assert os.path.exists(tmp_path / f"{secure_id}.enc")
     save_mock.assert_awaited_once()
     assert save_mock.await_args.kwargs["secure_id"] == secure_id
-    assert save_mock.await_args.kwargs["password"] == "SearchPass123"
+    assert save_mock.await_args.kwargs["password"] == "123456"
     assert save_mock.await_args.kwargs["share_token"] == (
         "share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     )
@@ -300,7 +300,7 @@ def test_upload_complete_keeps_password_for_id_password_search(
             },
             data={
                 "name": "abc123",
-                "download_password": "SearchPass123",
+                "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
                 "retention_days": "7",
@@ -326,7 +326,7 @@ def test_upload_complete_keeps_password_for_id_password_search(
         response = test_client.get(f"/upload_complete/{secure_id}")
 
     assert response.status_code == 200
-    assert "SearchPass123" in response.text
+    assert "123456" in response.text
     assert f"/fs-qr/s/{share_token}" in response.text
 
 

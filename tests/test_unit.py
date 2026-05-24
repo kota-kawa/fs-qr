@@ -46,25 +46,27 @@ def test_get_block_message_unknown_label():
     assert isinstance(msg, str) and len(msg) > 0
 
 
-def test_get_client_ip_from_forwarded_header():
-    from rate_limit import get_client_ip
-
-    req = _FakeRequest(forwarded="203.0.113.1, 192.168.1.1")
-    assert get_client_ip(req) == "203.0.113.1"
-
-
-def test_get_client_ip_single_ip_in_header():
-    from rate_limit import get_client_ip
-
-    req = _FakeRequest(forwarded="10.0.0.5")
-    assert get_client_ip(req) == "10.0.0.5"
-
-
-def test_get_client_ip_from_client():
+def test_get_client_ip_uses_client_host():
     from rate_limit import get_client_ip
 
     req = _FakeRequest(client_host="172.16.0.1")
     assert get_client_ip(req) == "172.16.0.1"
+
+
+def test_get_client_ip_ignores_forwarded_header():
+    # X-Forwarded-For は読まない。client.host がなければ "unknown"
+    from rate_limit import get_client_ip
+
+    req = _FakeRequest(forwarded="203.0.113.1, 192.168.1.1")
+    assert get_client_ip(req) == "unknown"
+
+
+def test_get_client_ip_client_host_takes_priority_over_header():
+    # client.host が設定されていれば X-Forwarded-For より優先
+    from rate_limit import get_client_ip
+
+    req = _FakeRequest(forwarded="1.2.3.4", client_host="10.0.0.1")
+    assert get_client_ip(req) == "10.0.0.1"
 
 
 def test_get_client_ip_unknown():
@@ -286,14 +288,15 @@ def test_is_valid_room_id_unicode():
 # ---------------------------------------------------------------------------
 
 
-def test_get_client_ip_whitespace_forwarded_uses_client():
+def test_get_client_ip_uses_client_host_when_header_present():
+    # X-Forwarded-For ヘッダーがあっても client.host を返す
     from rate_limit import get_client_ip
 
     req = type(
         "R",
         (),
         {
-            "headers": {"X-Forwarded-For": "   "},
+            "headers": {"X-Forwarded-For": "1.2.3.4"},
             "client": type("C", (), {"host": "10.1.2.3"})(),
         },
     )()
@@ -548,13 +551,13 @@ def test_register_failure_below_threshold_no_block():
     mock_r = AsyncMock()
     mock_r.get = AsyncMock(return_value=None)
     mock_r.incr = AsyncMock(return_value=1)
-    mock_r.expire = AsyncMock()
 
     with patch("rate_limit.get_redis_client", return_value=mock_r):
         until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
 
     assert until is None
     assert label is None
+    mock_r.expire.assert_awaited_once()
 
 
 def test_register_failure_10_triggers_30min_block():
@@ -564,31 +567,60 @@ def test_register_failure_10_triggers_30min_block():
     mock_r = AsyncMock()
     mock_r.get = AsyncMock(return_value=None)
     mock_r.incr = AsyncMock(return_value=10)
-    mock_r.set = AsyncMock()
-    mock_r.delete = AsyncMock()
 
     with patch("rate_limit.get_redis_client", return_value=mock_r):
         until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
 
     assert label == "30分"
     assert until is not None
+    # カウントはリセットしない（エスカレーション維持のため）
+    mock_r.delete.assert_not_called()
 
 
 def test_register_failure_50_triggers_1day_block():
-    """50回失敗 → 1日ブロック"""
+    """50回失敗 → 1日ブロック（エスカレーション）"""
     from rate_limit import register_failure
 
     mock_r = AsyncMock()
     mock_r.get = AsyncMock(return_value=None)
     mock_r.incr = AsyncMock(return_value=50)
-    mock_r.set = AsyncMock()
-    mock_r.delete = AsyncMock()
 
     with patch("rate_limit.get_redis_client", return_value=mock_r):
         until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
 
     assert label == "1日"
     assert until is not None
+    mock_r.delete.assert_not_called()
+
+
+def test_register_failure_count_between_thresholds_still_30min():
+    """10〜49回の失敗は30分ブロックが継続（カウントリセットなし）"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=25)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    assert label == "30分"
+    assert until is not None
+    mock_r.delete.assert_not_called()
+
+
+def test_register_failure_expire_called_on_every_failure():
+    """失敗のたびに TTL を更新して累積カウントが消えないようにする"""
+    from rate_limit import register_failure
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=5)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        asyncio.run(register_failure("qr", "10.0.0.1"))
+
+    mock_r.expire.assert_awaited_once()
 
 
 def test_register_failure_already_blocked_returns_existing():

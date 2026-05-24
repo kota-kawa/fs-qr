@@ -136,7 +136,7 @@ def register_group_create_room_route(router: APIRouter):
                 status_code=409,
             )
 
-        password = secrets.token_urlsafe(8)
+        password = str(secrets.randbelow(10**6)).zfill(6)
 
         folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(folder_path, exist_ok=True)

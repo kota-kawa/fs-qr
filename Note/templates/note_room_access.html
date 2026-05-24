@@ -93,14 +93,14 @@
                             <label for="noteJoinPassword" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">パスワード</label>
                             <div class="password-field">
                                 <input type="password" id="noteJoinPassword" name="password" placeholder="パスワードを入力" required
-                                       minlength="6" maxlength="64" pattern="(?:[0-9]{6}|[A-Za-z0-9_-]{8,64})"
-                                       title="6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
+                                       minlength="6" maxlength="6" pattern="[0-9]{6}"
+                                       title="6桁の数字で入力してください"
                                        autocomplete="current-password" inputmode="numeric"
                                        aria-describedby="noteJoinPasswordHelp"
                                        style="width: 100%; padding: 0.75rem 6.5rem 0.75rem 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
                                 <button type="button" class="password-toggle" data-password-toggle="noteJoinPassword" aria-controls="noteJoinPassword" aria-label="パスワードを表示">表示</button>
                             </div>
-                            <small id="noteJoinPasswordHelp" class="field-help">6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアを入力してください。</small>
+                            <small id="noteJoinPasswordHelp" class="field-help">6桁の数字で入力してください</small>
                         </div>
                     <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加

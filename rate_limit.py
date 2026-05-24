@@ -74,23 +74,15 @@ async def register_failure(
             if ttl > 0:
                 return datetime.utcnow() + timedelta(seconds=ttl), block_label
 
-        # Increment count
+        # Increment and refresh TTL on every failure so the counter stays alive
+        # across block periods, enabling graduated escalation (10→30min, 50→1day).
         count = await r.incr(count_key)
-
-        # Set a long expiry for the count itself so it doesn't leak forever
-        # (Only set it on first increment to avoid resetting TTL constantly,
-        # though incr doesn't change TTL, so we check if count==1 or just ttl check)
-        if count == 1:
-            # Keep count for 30 days max if inactive
-            await r.expire(count_key, 30 * 86400)
+        await r.expire(count_key, 30 * 86400)
 
         now = datetime.utcnow()
         for threshold, duration, label in THRESHOLDS:
             if count >= threshold:
-                # Block!
                 await r.set(block_key, label, ex=duration)
-                # Reset count so users start fresh after block expires
-                await r.delete(count_key)
                 return now + duration, label
 
     except Exception as e:
@@ -177,9 +169,9 @@ def get_block_message(label: Optional[str]) -> str:
 
 
 def get_client_ip(request) -> str:
-    forwarded = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
-    if forwarded:
-        return forwarded
-    if getattr(request, "client", None) and request.client:
+    # Use request.client.host, which ProxyHeadersMiddleware has already resolved
+    # from trusted proxy headers. Reading X-Forwarded-For directly would allow
+    # clients to spoof their IP and bypass rate limiting.
+    if getattr(request, "client", None) and request.client.host:
         return request.client.host
     return "unknown"
