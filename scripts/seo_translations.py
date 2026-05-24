@@ -94,7 +94,7 @@ COMMON: Dict[str, Dict[str, str]] = {
         "ar": "أدخل أي اسم غرفة في /note لإنشاء غرفة ملاحظات؛ سيظهر رمز QR للوصول بعد الإنشاء.",
         "pt": "Introduza qualquer nome de sala em /note para criar uma sala de notas. Um código QR de acesso é apresentado após a criação.",
         "it": "Inserisci un nome per la stanza su /note per creare una stanza delle note. Un codice QR di accesso viene mostrato dopo la creazione.",
-        },
+    },
     "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。": {
         "en": "How to use FS!QR's group feature to create a shared room and exchange files with multiple people.",
         "zh-CN": "使用 FS!QR 群组功能创建共享房间并与多人交换文件的方法。",
