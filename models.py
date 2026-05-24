@@ -41,9 +41,7 @@ class RoomSearchInput(BaseModel):
     def validate_password(cls, v: str) -> str:
         v = v.strip()
         if not _PASSWORD_RE.match(v):
-            raise ValueError(
-                "パスワードは6桁の数字で入力してください。"
-            )
+            raise ValueError("パスワードは6桁の数字で入力してください。")
         return v
 
 

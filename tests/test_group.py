@@ -70,9 +70,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     """fetch からの作成は画面遷移先を JSON で返す"""
     create_mock = AsyncMock()
     with (
-        patch(
-            "Group.group_routes_room.secrets.randbelow", return_value=42
-        ),
+        patch("Group.group_routes_room.secrets.randbelow", return_value=42),
         patch(
             "Group.group_routes_room.group_data.get_data",
             new_callable=AsyncMock,
@@ -331,9 +329,7 @@ def test_create_group_room_auto_duplicate(test_client: TestClient):
 def test_create_group_room_generates_numeric_password(test_client: TestClient):
     create_mock = AsyncMock()
     with (
-        patch(
-            "Group.group_routes_room.secrets.randbelow", return_value=42
-        ),
+        patch("Group.group_routes_room.secrets.randbelow", return_value=42),
         patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=None),
         patch("Group.group_data.create_room", create_mock),
         patch("Group.group_routes_room.os.makedirs"),
