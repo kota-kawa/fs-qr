@@ -36,6 +36,8 @@
     "language.option.tr": "Турецька",
     "language.option.uk": "Українська",
     "language.option.pl": "Польська",
+    "language.option.pt": "Португальська",
+    "language.option.it": "Італійська",
     "note.editor.label": "Спільна замітка (до {max_length} символів)",
     "note.editor.max_length_hint": "Ви можете ввести до {max_length} символів.",
     "note.editor.demo_placeholder": "Текст синхронізується щосекунди...\n\nДемонстраційний текст:\nУсі учасники можуть редагувати цю замітку в реальному часі.\n\n- Ваші зміни миттєво бачать інші учасники\n- До {max_length} символів\n- Статус редагування оновлюється в реальному часі",

@@ -40,6 +40,8 @@ TARGET_LANGS = (
     "th",
     "id",
     "zh-CN",
+    "pt",
+    "it",
 )
 
 

@@ -33,6 +33,8 @@
     "language.option.fr": "Français",
     "language.option.es": "Espagnol",
     "language.option.de": "Allemand",
+    "language.option.pt": "Portugais",
+    "language.option.it": "Italien",
     "note.editor.label": "Note partagée (jusqu'à {max_length} caractères)",
     "note.editor.max_length_hint": "Vous pouvez saisir jusqu'à {max_length} caractères.",
     "note.editor.demo_placeholder": "La saisie ici se synchronise chaque seconde...\n\nTexte de démonstration :\nTous les membres peuvent modifier la même note en temps réel comme ceci.\n\n- Votre saisie est synchronisée immédiatement avec les autres membres\n- Jusqu'à {max_length} caractères\n- Les mises à jour du statut d'édition se font en temps réel",

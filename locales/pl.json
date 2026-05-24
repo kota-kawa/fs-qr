@@ -36,6 +36,8 @@
     "language.option.tr": "Turecki",
     "language.option.uk": "Ukraiński",
     "language.option.pl": "Polski",
+    "language.option.pt": "Portugalski",
+    "language.option.it": "Włoski",
     "note.editor.label": "Współdzielona notatka (do {max_length} znaków)",
     "note.editor.max_length_hint": "Możesz wprowadzić do {max_length} znaków.",
     "note.editor.demo_placeholder": "Wpisywany tekst synchronizuje się co sekundę...\n\nTekst demonstracyjny:\nWszyscy członkowie mogą edytować tę samą notatkę w czasie rzeczywistym w ten sposób.\n\n- Twoje zmiany są natychmiast widoczne dla innych\n- Do {max_length} znaków\n- Status edycji aktualizuje się na bieżąco",

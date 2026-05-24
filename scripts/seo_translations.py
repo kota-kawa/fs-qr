@@ -30,6 +30,8 @@ LANGUAGES = (
     "pl",
     "sw",
     "ar",
+    "pt",
+    "it",
 )
 
 
@@ -52,6 +54,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Otwórz /fs-qr, wybierz plik do udostępnienia i prześlij go.",
         "sw": "Fungua /fs-qr, chagua faili unayotaka kushiriki kisha uipakie.",
         "ar": "افتح /fs-qr، اختر الملف الذي تريد مشاركته ثم قم برفعه.",
+        "pt": "Aceda a /fs-qr, selecione o ficheiro que deseja partilhar e carregue-o.",
+        "it": "Accedi a /fs-qr, seleziona il file che desideri condividere e caricalo.",
     },
     "/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": {
         "en": "Create a shared room on /group and the QR code for the room URL will appear.",
@@ -69,6 +73,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Utwórz pokój udostępniania na /group, a pojawi się kod QR z adresem URL pokoju.",
         "sw": "Tengeneza chumba cha kushiriki kwenye /group; nambari ya QR ya URL ya chumba itaonyeshwa.",
         "ar": "أنشئ غرفة مشاركة على /group، وسيظهر رمز QR لرابط الغرفة.",
+        "pt": "Crie uma sala de partilha em /group e o código QR para o URL da sala aparecerá.",
+        "it": "Crea una stanza condivisa su /group e apparirà il codice QR per l'URL della stanza.",
     },
     "/note で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": {
         "en": "Enter any room name on /note to create a note room. An access QR code is shown after creation.",
@@ -86,7 +92,9 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Wpisz dowolną nazwę pokoju na /note, aby utworzyć pokój notatek; po utworzeniu wyświetli się kod QR dostępu.",
         "sw": "Andika jina lolote la chumba kwenye /note kuunda chumba cha kumbukumbu; baada ya kuunda, nambari ya QR ya kufikia itaonyeshwa.",
         "ar": "أدخل أي اسم غرفة في /note لإنشاء غرفة ملاحظات؛ سيظهر رمز QR للوصول بعد الإنشاء.",
-    },
+        "pt": "Introduza qualquer nome de sala em /note para criar uma sala de notas. Um código QR de acesso é apresentado após a criação.",
+        "it": "Inserisci un nome per la stanza su /note per creare una stanza delle note. Un codice QR di accesso viene mostrato dopo la creazione.",
+        },
     "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。": {
         "en": "How to use FS!QR's group feature to create a shared room and exchange files with multiple people.",
         "zh-CN": "使用 FS!QR 群组功能创建共享房间并与多人交换文件的方法。",
@@ -103,6 +111,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Jak za pomocą funkcji grupy FS!QR utworzyć wspólny pokój i wymieniać pliki z wieloma osobami.",
         "sw": "Jinsi ya kutumia kipengele cha kikundi cha FS!QR kuunda chumba cha kushiriki na kubadilishana faili na watu wengi.",
         "ar": "كيفية استخدام ميزة المجموعات في FS!QR لإنشاء غرفة مشتركة وتبادل الملفات مع عدة أشخاص.",
+        "pt": "Como utilizar a funcionalidade de grupo do FS!QR para criar uma sala partilhada e trocar ficheiros com várias pessoas.",
+        "it": "Come utilizzare la funzionalità di gruppo di FS!QR per creare una stanza condivisa e scambiare file con più persone.",
     },
     "FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。": {
         "en": "How to share a note room that multiple people can edit simultaneously using FS!QR's note feature.",
@@ -120,6 +130,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Jak udostępnić pokój notatek edytowany jednocześnie przez wiele osób, korzystając z funkcji notatek FS!QR.",
         "sw": "Jinsi ya kushiriki chumba cha kumbukumbu ambacho watu wengi wanaweza kuhariri kwa pamoja kwa kipengele cha noti cha FS!QR.",
         "ar": "كيفية مشاركة غرفة ملاحظات يمكن لعدة أشخاص تحريرها في الوقت نفسه باستخدام ميزة الملاحظات في FS!QR.",
+        "pt": "Como partilhar uma sala de notas que várias pessoas podem editar simultaneamente utilizando a funcionalidade de notas do FS!QR.",
+        "it": "Come condividere una stanza delle note che più persone possono modificare simultaneamente utilizzando la funzionalità note di FS!QR.",
     },
     "FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。": {
         "en": "How to share files via QR code with just a browser using FS!QR.",
@@ -137,6 +149,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Jak udostępniać pliki za pomocą kodu QR, używając tylko przeglądarki i FS!QR.",
         "sw": "Jinsi ya kushiriki faili kwa nambari ya QR kwa kivinjari pekee ukitumia FS!QR.",
         "ar": "كيفية مشاركة الملفات عبر رمز QR من المتصفح فقط باستخدام FS!QR.",
+        "pt": "Como partilhar ficheiros através de código QR utilizando apenas um navegador com o FS!QR.",
+        "it": "Come condividere file tramite codice QR utilizzando solo un browser con FS!QR.",
     },
     "QRコードでファイルを共有する手順": {
         "en": "Steps to share a file with a QR code",
@@ -154,6 +168,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Kroki udostępniania pliku za pomocą kodu QR",
         "sw": "Hatua za kushiriki faili kwa nambari ya QR",
         "ar": "خطوات مشاركة ملف عبر رمز QR",
+        "pt": "Passos para partilhar um ficheiro com um código QR",
+        "it": "Passaggi per condividere un file con un codice QR",
     },
     "QRコードを取得": {
         "en": "Get the QR code",
@@ -171,6 +187,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Pobierz kod QR",
         "sw": "Pata nambari ya QR",
         "ar": "احصل على رمز QR",
+        "pt": "Obter o código QR",
+        "it": "Ottieni il codice QR",
     },
     "Webブラウザ": {
         "en": "Web browser",
@@ -188,6 +206,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Przeglądarka internetowa",
         "sw": "Kivinjari cha wavuti",
         "ar": "متصفح ويب",
+        "pt": "Navegador Web",
+        "it": "Browser Web",
     },
     "WebブラウザまたはQRコードリーダー搭載端末": {
         "en": "Web browser or a device with a QR code reader",
@@ -205,6 +225,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Przeglądarka internetowa lub urządzenie z czytnikiem kodów QR",
         "sw": "Kivinjari cha wavuti au kifaa chenye kichunguza nambari ya QR",
         "ar": "متصفح ويب أو جهاز مزوّد بقارئ رمز QR",
+        "pt": "Navegador Web ou dispositivo com leitor de códigos QR",
+        "it": "Browser Web o dispositivo con lettore di codici QR",
     },
     "アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。": {
         "en": "After the upload completes, the download URL, password, and access QR code are displayed.",
@@ -222,6 +244,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Po zakończeniu wgrywania wyświetlają się adres URL pobierania, hasło i kod QR dostępu.",
         "sw": "Baada ya kupakia kumalizika, URL ya kupakua, nenosiri na nambari ya QR ya kufikia huonyeshwa.",
         "ar": "بعد اكتمال الرفع، يتم عرض رابط التنزيل وكلمة المرور ورمز QR للوصول.",
+        "pt": "Após o carregamento estar concluído, são apresentados o URL de transferência, a palavra-passe e o código QR de acesso.",
+        "it": "Al termine del caricamento, vengono visualizzati l'URL di download, la password e il codice QR di accesso.",
     },
     "グループでファイルを共有する手順": {
         "en": "Steps to share files within a group",
@@ -239,6 +263,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Kroki udostępniania plików w grupie",
         "sw": "Hatua za kushiriki faili katika kikundi",
         "ar": "خطوات مشاركة الملفات داخل مجموعة",
+        "pt": "Passos para partilhar ficheiros num grupo",
+        "it": "Passaggi per condividere file all'interno di un gruppo",
     },
     "パスワードを入力してダウンロード": {
         "en": "Enter the password and download",
@@ -256,6 +282,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Wpisz hasło i pobierz",
         "sw": "Ingiza nenosiri kisha pakua",
         "ar": "أدخل كلمة المرور ثم نزِّل الملف",
+        "pt": "Introduza a palavra-passe e transfira",
+        "it": "Inserisci la password e scarica",
     },
     "メンバーが参加": {
         "en": "Members join",
@@ -273,6 +301,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Członkowie dołączają",
         "sw": "Wanachama wanajiunga",
         "ar": "ينضم الأعضاء",
+        "pt": "Os membros juntam-se",
+        "it": "I membri si uniscono",
     },
     "リアルタイムでノートを共有する手順": {
         "en": "Steps to share notes in real time",
@@ -290,6 +320,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Kroki udostępniania notatek w czasie rzeczywistym",
         "sw": "Hatua za kushiriki kumbukumbu kwa wakati halisi",
         "ar": "خطوات مشاركة الملاحظات في الوقت الفعلي",
+        "pt": "Passos para partilhar notas em tempo real",
+        "it": "Passaggi per condividere le note in tempo reale",
     },
     "リアルタイムで同時編集": {
         "en": "Edit together in real time",
@@ -307,6 +339,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Wspólna edycja w czasie rzeczywistym",
         "sw": "Hariri kwa pamoja kwa wakati halisi",
         "ar": "تحرير متزامن في الوقت الفعلي",
+        "pt": "Editar em conjunto em tempo real",
+        "it": "Modifica insieme in tempo reale",
     },
     "共有したいファイル": {
         "en": "File you want to share",
@@ -324,6 +358,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Plik, który chcesz udostępnić",
         "sw": "Faili unayotaka kushiriki",
         "ar": "الملف الذي تريد مشاركته",
+        "pt": "Ficheiro que deseja partilhar",
+        "it": "File che desideri condividere",
     },
     "参加者がルームに入る": {
         "en": "Participants enter the room",
@@ -341,6 +377,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Uczestnicy dołączają do pokoju",
         "sw": "Washiriki wanaingia chumbani",
         "ar": "ينضم المشاركون إلى الغرفة",
+        "pt": "Os participantes entram na sala",
+        "it": "I partecipanti entrano nella stanza",
     },
     "受信側がQRコードを読み取り": {
         "en": "The recipient scans the QR code",
@@ -358,6 +396,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Odbiorca skanuje kod QR",
         "sw": "Mpokeaji anachunguza nambari ya QR",
         "ar": "يقوم المستلم بمسح رمز QR",
+        "pt": "O destinatário lê o código QR",
+        "it": "Il destinatario scansiona il codice QR",
     },
     "自動削除で一時利用": {
         "en": "Temporary use with automatic deletion",
@@ -375,6 +415,8 @@ COMMON: Dict[str, Dict[str, str]] = {
         "pl": "Tymczasowe użytkowanie z automatycznym usuwaniem",
         "sw": "Matumizi ya muda na ufutaji wa kiotomatiki",
         "ar": "استخدام مؤقت مع حذف تلقائي",
+        "pt": "Utilização temporária com eliminação automática",
+        "it": "Uso temporaneo con eliminazione automatica",
     },
 }
 

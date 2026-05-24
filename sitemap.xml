@@ -22,6 +22,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/" />
   </url>
   <url>
@@ -45,6 +47,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/about?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/about?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/about?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/about?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/about?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/about" />
   </url>
   <url>
@@ -68,6 +72,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/contact?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/contact?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/contact?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/contact?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/contact?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/contact" />
   </url>
   <url>
@@ -91,6 +97,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/usage?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/usage?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/usage?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/usage?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/usage?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/usage" />
   </url>
   <url>
@@ -114,6 +122,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/privacy-policy?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/privacy-policy?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/privacy-policy?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/privacy-policy?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/privacy-policy?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/privacy-policy" />
   </url>
   <url>
@@ -137,6 +147,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/site-operator?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/site-operator?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/site-operator?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/site-operator?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/site-operator?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/site-operator" />
   </url>
   <url>
@@ -160,6 +172,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/articles?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/articles?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/articles?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/articles?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/articles?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/articles" />
   </url>
   <url>
@@ -183,6 +197,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/fs-qr_menu?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/fs-qr_menu?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/fs-qr_menu?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/fs-qr_menu?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/fs-qr_menu?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/fs-qr_menu" />
   </url>
   <url>
@@ -206,6 +222,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/fs-qr?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/fs-qr?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/fs-qr?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/fs-qr?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/fs-qr?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/fs-qr" />
   </url>
   <url>
@@ -229,6 +247,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/group_menu?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/group_menu?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/group_menu?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/group_menu?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/group_menu?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/group_menu" />
   </url>
   <url>
@@ -252,6 +272,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/group?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/group?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/group?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/group?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/group?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/group" />
   </url>
   <url>
@@ -275,6 +297,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/create_room?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/create_room?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/create_room?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/create_room?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/create_room?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/create_room" />
   </url>
   <url>
@@ -298,6 +322,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/note_menu?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/note_menu?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/note_menu?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/note_menu?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/note_menu?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/note_menu" />
   </url>
   <url>
@@ -321,6 +347,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/note?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/note?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/note?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/note?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/note?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/note" />
   </url>
   <url>
@@ -344,6 +372,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/create_note_room?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/create_note_room?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/create_note_room?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/create_note_room?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/create_note_room?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/create_note_room" />
   </url>
   <url>
@@ -367,6 +397,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/fs-qr-concept?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/fs-qr-concept?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/fs-qr-concept?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/fs-qr-concept?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/fs-qr-concept?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/fs-qr-concept" />
   </url>
   <url>
@@ -390,6 +422,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/safe-sharing?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/safe-sharing?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/safe-sharing?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/safe-sharing?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/safe-sharing?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/safe-sharing" />
   </url>
   <url>
@@ -413,6 +447,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/encryption?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/encryption?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/encryption?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/encryption?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/encryption?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/encryption" />
   </url>
   <url>
@@ -436,6 +472,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/education?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/education?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/education?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/education?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/education?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/education" />
   </url>
   <url>
@@ -459,6 +497,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/business?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/business?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/business?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/business?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/business?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/business" />
   </url>
   <url>
@@ -482,6 +522,8 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/risk-mitigation?lang=pl" />
     <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/risk-mitigation?lang=sw" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/risk-mitigation?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/risk-mitigation?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/risk-mitigation?lang=it" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/risk-mitigation" />
   </url>
 </urlset>
