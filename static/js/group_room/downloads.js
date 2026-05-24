@@ -7,7 +7,6 @@
 
   function createDownloadHandlers(options) {
     var roomId = options.roomId;
-    var roomPassword = options.roomPassword;
     var downloadAllBtn = options.downloadAllBtn;
     var core = options.core;
 
@@ -45,7 +44,7 @@
       core.showDownloadProgress(formatMessage('download.single_progress', 'Downloading {name}... {percent}%', { name: file.name, percent: 0 }));
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', `/download/${roomId}/${roomPassword}/${encodedFilename}`, true);
+      xhr.open('GET', `/download/${roomId}/${encodedFilename}`, true);
       xhr.responseType = 'blob';
 
       xhr.onprogress = function (event) {
@@ -92,7 +91,7 @@
       core.showDownloadProgress(formatMessage('download.all_progress', 'Downloading all files... {percent}%', { percent: 0 }));
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', `/download/all/${roomId}/${roomPassword}`, true);
+      xhr.open('GET', `/download/all/${roomId}`, true);
       xhr.responseType = 'blob';
 
       xhr.onprogress = function (event) {

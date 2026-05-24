@@ -49,7 +49,6 @@
     }
 
     var roomId = config.roomId;
-    var roomPassword = config.roomPassword;
     var websocketCsrfToken = config.websocketCsrfToken;
     var icons = config.icons || {};
     var uploadButtonLabel = `${icons.rocket || ''} ${core.translate('upload.upload', 'Upload')}`;
@@ -59,14 +58,12 @@
 
     var downloadHandlers = modules.downloads.createDownloadHandlers({
       roomId: roomId,
-      roomPassword: roomPassword,
       downloadAllBtn: downloadAllBtn,
       core: core
     });
 
     var previewManager = modules.preview.createPreviewManager({
       roomId: roomId,
-      roomPassword: roomPassword,
       overlay: previewOverlay,
       dialog: previewDialog,
       title: previewTitle,
@@ -78,7 +75,6 @@
 
     var remoteFileListManager = modules.remoteFiles.createRemoteFileListManager({
       roomId: roomId,
-      roomPassword: roomPassword,
       websocketCsrfToken: websocketCsrfToken,
       csrfToken: csrfToken,
       icons: icons,
@@ -103,7 +99,6 @@
       uploadStatusMessage: uploadStatusMessage,
       uploadButtonLabel: uploadButtonLabel,
       roomId: roomId,
-      roomPassword: roomPassword,
       csrfToken: csrfToken,
       core: core,
       logger: logger,

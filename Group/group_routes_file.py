@@ -32,7 +32,7 @@ from rate_limit import (
     register_exponential_backoff_failure,
 )
 from .group_common import (
-    get_room_if_valid,
+    get_room_if_active,
     has_group_room_access,
 )
 from .group_storage import (
@@ -107,19 +107,22 @@ def get_preview_metadata(filename: str) -> dict[str, str | bool]:
 
 
 def register_group_upload_route(router: APIRouter):
-    @router.post("/group_upload/{room_id}/{password}", name="group.group_upload")
+    @router.post("/group_upload/{room_id}", name="group.group_upload")
     async def group_upload(
         request: Request,
         room_id: str,
-        password: str,
         upfile: Optional[list[UploadFile]] = File(None),
     ):
         await enforce_csrf(request)
-        record = await get_room_if_valid(room_id, password)
-        if not record:
+        if not has_group_room_access(request, room_id):
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
-                status_code=400,
+                "ルームセッションが確認できません。共有URLから入り直してください。",
+                status_code=403,
+            )
+        if not await get_room_if_active(room_id):
+            return api_error_response(
+                "ルームが見つかりません。",
+                status_code=404,
             )
 
         if not upfile:
@@ -201,11 +204,16 @@ def register_group_upload_route(router: APIRouter):
 
 
 def register_group_list_files_route(router: APIRouter):
-    @router.get("/check/{room_id}/{password}", name="group.list_files")
-    async def list_files(request: Request, room_id: str, password: str):
-        if not await get_room_if_valid(room_id, password):
+    @router.get("/check/{room_id}", name="group.list_files")
+    async def list_files(request: Request, room_id: str):
+        if not has_group_room_access(request, room_id):
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
+                "ルームセッションが確認できません。共有URLから入り直してください。",
+                status_code=403,
+            )
+        if not await get_room_if_active(room_id):
+            return api_error_response(
+                "ルームが見つかりません。",
                 status_code=404,
             )
 
@@ -228,11 +236,16 @@ def register_group_list_files_route(router: APIRouter):
 
 
 def register_group_download_all_route(router: APIRouter):
-    @router.get("/download/all/{room_id}/{password}", name="group.download_all_files")
-    async def download_all_files(request: Request, room_id: str, password: str):
-        if not await get_room_if_valid(room_id, password):
+    @router.get("/download/all/{room_id}", name="group.download_all_files")
+    async def download_all_files(request: Request, room_id: str):
+        if not has_group_room_access(request, room_id):
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
+                "ルームセッションが確認できません。共有URLから入り直してください。",
+                status_code=403,
+            )
+        if not await get_room_if_active(room_id):
+            return api_error_response(
+                "ルームが見つかりません。",
                 status_code=404,
             )
 
@@ -264,21 +277,22 @@ def register_group_download_all_route(router: APIRouter):
 
 
 def register_group_download_file_route(router: APIRouter):
-    @router.get(
-        "/download/{room_id}/{password}/{filename:path}", name="group.download_file"
-    )
-    async def download_file(
-        request: Request, room_id: str, password: str, filename: str
-    ):
+    @router.get("/download/{room_id}/{filename:path}", name="group.download_file")
+    async def download_file(request: Request, room_id: str, filename: str):
         decoded_filename = urllib.parse.unquote(filename)
 
         filename_error = validate_requested_filename(decoded_filename)
         if filename_error:
             return api_error_response(filename_error, status_code=400)
 
-        if not await get_room_if_valid(room_id, password):
+        if not has_group_room_access(request, room_id):
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
+                "ルームセッションが確認できません。共有URLから入り直してください。",
+                status_code=403,
+            )
+        if not await get_room_if_active(room_id):
+            return api_error_response(
+                "ルームが見つかりません。",
                 status_code=404,
             )
 
@@ -303,21 +317,22 @@ def register_group_download_file_route(router: APIRouter):
 
 
 def register_group_preview_file_route(router: APIRouter):
-    @router.get(
-        "/preview/{room_id}/{password}/{filename:path}", name="group.preview_file"
-    )
-    async def preview_file(
-        request: Request, room_id: str, password: str, filename: str
-    ):
+    @router.get("/preview/{room_id}/{filename:path}", name="group.preview_file")
+    async def preview_file(request: Request, room_id: str, filename: str):
         decoded_filename = urllib.parse.unquote(filename)
 
         filename_error = validate_requested_filename(decoded_filename)
         if filename_error:
             return api_error_response(filename_error, status_code=400)
 
-        if not await get_room_if_valid(room_id, password):
+        if not has_group_room_access(request, room_id):
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
+                "ルームセッションが確認できません。共有URLから入り直してください。",
+                status_code=403,
+            )
+        if not await get_room_if_active(room_id):
+            return api_error_response(
+                "ルームが見つかりません。",
                 status_code=404,
             )
 
@@ -353,8 +368,8 @@ def register_group_preview_file_route(router: APIRouter):
 
 
 def register_group_delete_file_route(router: APIRouter):
-    @router.delete("/delete/{room_id}/{password}/{filename}", name="group.delete_file")
-    async def delete_file(request: Request, room_id: str, password: str, filename: str):
+    @router.delete("/delete/{room_id}/{filename}", name="group.delete_file")
+    async def delete_file(request: Request, room_id: str, filename: str):
         await enforce_csrf(request)
         decoded_filename = urllib.parse.unquote(filename)
 
@@ -382,12 +397,12 @@ def register_group_delete_file_route(router: APIRouter):
                 status_code=403,
             )
 
-        if not await get_room_if_valid(room_id, password):
+        if not await get_room_if_active(room_id):
             await register_exponential_backoff_failure(
                 SCOPE_GROUP_FILE_DELETE, backoff_key
             )
             return api_error_response(
-                "ルームが見つからないか、パスワードが間違っています。",
+                "ルームが見つかりません。",
                 status_code=404,
             )
         await clear_exponential_backoff(SCOPE_GROUP_FILE_DELETE, backoff_key)

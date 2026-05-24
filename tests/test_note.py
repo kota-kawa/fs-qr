@@ -1,4 +1,4 @@
-from unittest.mock import ANY, AsyncMock, patch
+from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
 
@@ -187,7 +187,7 @@ def test_create_note_room_generates_urlsafe_password(test_client: TestClient):
     assert response.status_code == 302
     assert response.headers["location"] == "/note/r/abc123"
     create_mock.assert_awaited_once_with(
-        "abc123", "Strong_pw1", "abc123", retention_days=7, share_token_hash=ANY
+        "abc123", "Strong_pw1", "abc123", retention_days=7
     )
 
 
@@ -218,7 +218,7 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["data"]["redirect_url"] == "/note/r/abc123"
     assert payload["data"]["share_url"] == "http://testserver/note/s/Strong_pw1"
     create_mock.assert_awaited_once_with(
-        "abc123", "Strong_pw1", "abc123", retention_days=7, share_token_hash=ANY
+        "abc123", "Strong_pw1", "abc123", retention_days=7
     )
 
 

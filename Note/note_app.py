@@ -18,8 +18,14 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from share_links import (
+    ServiceKey,
+    build_room_url,
+    build_share_url,
+    create_share_link,
+    resolve_share_link,
+)
 from web import (
-    build_url,
     enforce_csrf,
     get_or_create_csrf_token,
     render_template,
@@ -171,8 +177,6 @@ async def create_note_room(request: Request):  # noqa: C901
 
     room_id = id_val
 
-    share_token = secrets.token_urlsafe(32)
-    share_token_hash = nd.hash_share_token(share_token)
     legacy_pw = secrets.token_urlsafe(16)
     try:
         await nd.create_room(
@@ -180,7 +184,6 @@ async def create_note_room(request: Request):  # noqa: C901
             legacy_pw,
             room_id,
             retention_days=retention_days,
-            share_token_hash=share_token_hash,
         )
         created = await _get_room_if_valid(room_id)
     except IntegrityError:
@@ -201,9 +204,27 @@ async def create_note_room(request: Request):  # noqa: C901
             "ルーム作成に失敗しました。時間をおいて再試行してください。",
             status_code=500,
         )
+    try:
+        share_token = await create_share_link(
+            service_key=ServiceKey.NOTE,
+            resource_id=room_id,
+            expires_at=created.get("expires_at"),
+        )
+    except Exception:
+        logger.exception("Failed to create Note share link: room_id=%s", room_id)
+        try:
+            await nd.remove_room(room_id)
+        except Exception:
+            logger.exception("Failed to roll back Note room: room_id=%s", room_id)
+        return api_error_response(
+            "共有URLの作成に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
     remember_note_room_access(request, room_id, share_token)
-    redirect_url = build_url(request, "note.note_room", room_id=room_id)
-    share_url = build_url(request, "note.note_share", token=share_token, _external=True)
+    redirect_url = build_room_url(
+        request, service_key=ServiceKey.NOTE, resource_id=room_id
+    )
+    share_url = build_share_url(request, service_key=ServiceKey.NOTE, token=share_token)
     if wants_json_response(request):
         return api_ok_response(
             {
@@ -226,7 +247,7 @@ async def note_room_access(request: Request):
     return render_template(request, "note_room_access.html")
 
 
-@router.get("/note/s/{token}", name="note.note_share")
+@router.get("/note/s/{token}", name="note.share_entry")
 async def note_share(request: Request, token: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
@@ -250,8 +271,8 @@ async def note_share(request: Request, token: str):
         response.status_code = 404
         return response
 
-    meta = await nd.get_room_meta_by_share_token_hash(nd.hash_share_token(token))
-    if not meta:
+    link = await resolve_share_link(token, service_key=ServiceKey.NOTE)
+    if not link:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             response = render_template(
@@ -268,10 +289,15 @@ async def note_share(request: Request, token: str):
         return response
 
     await register_success(SCOPE_NOTE, ip)
-    room_id = meta["room_id"]
+    room_id = link["resource_id"]
+    meta = await _get_room_if_valid(room_id)
+    if not meta:
+        return _gone_response(
+            request, "このノートルームは期限切れ、または削除済みです。"
+        )
     remember_note_room_access(request, room_id, token)
     return RedirectResponse(
-        build_url(request, "note.note_room", room_id=room_id),
+        build_room_url(request, service_key=ServiceKey.NOTE, resource_id=room_id),
         status_code=302,
     )
 
@@ -319,7 +345,7 @@ async def note_room(request: Request, room_id: str):
 
     share_token = get_note_room_share_token(request, room_id)
     share_url = (
-        build_url(request, "note.note_share", token=share_token, _external=True)
+        build_share_url(request, service_key=ServiceKey.NOTE, token=share_token)
         if share_token
         else ""
     )

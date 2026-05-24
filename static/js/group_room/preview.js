@@ -8,7 +8,6 @@
 
   function createPreviewManager(options) {
     var roomId = options.roomId;
-    var roomPassword = options.roomPassword;
     var overlay = options.overlay;
     var dialog = options.dialog;
     var title = options.title;
@@ -31,11 +30,11 @@
     }
 
     function getPreviewUrl(file) {
-      return `/preview/${roomId}/${roomPassword}/${encodeFilename(file.name)}`;
+      return `/preview/${roomId}/${encodeFilename(file.name)}`;
     }
 
     function getDownloadUrl(file) {
-      return `/download/${roomId}/${roomPassword}/${encodeFilename(file.name)}`;
+      return `/download/${roomId}/${encodeFilename(file.name)}`;
     }
 
     function clearPreviewBody() {

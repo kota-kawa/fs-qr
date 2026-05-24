@@ -161,6 +161,8 @@ async def get_all_direct():
 # アップロードされたファイルとメタ情報の削除
 async def remove_data(secure_id):
     try:
+        from share_links import ServiceKey, revoke_resource_links
+
         # まずデータベースからファイル情報を取得
         data = await get_data_direct(secure_id)
         file_type = "multiple"  # デフォルト値
@@ -191,6 +193,16 @@ async def remove_data(secure_id):
             await invalidate_cache_prefix(try_login)
             await invalidate_cache_prefix(get_data_by_credentials)
             await invalidate_cache_prefix(get_data_by_share_token)
+        try:
+            await revoke_resource_links(
+                service_key=ServiceKey.FSQR, resource_id=secure_id
+            )
+        except Exception:
+            logger.warning(
+                "Failed to revoke FSQR share links: secure_id=%s",
+                secure_id,
+                exc_info=True,
+            )
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
@@ -199,10 +211,19 @@ async def remove_data(secure_id):
 # 全てのデータを削除
 async def all_remove():
     try:
+        from share_links import ServiceKey, revoke_resource_links
+
+        rows = await get_all_direct()
         query = text("""
             DELETE FROM fsqr
         """)
         await execute_query(query)
+        for row in rows:
+            secure_id = row.get("secure_id")
+            if secure_id:
+                await revoke_resource_links(
+                    service_key=ServiceKey.FSQR, resource_id=secure_id
+                )
         await invalidate_cache_prefix(try_login)
         await invalidate_cache_prefix(get_data_by_credentials)
         await invalidate_cache_prefix(get_data_by_share_token)

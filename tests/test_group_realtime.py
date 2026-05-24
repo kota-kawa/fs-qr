@@ -55,10 +55,10 @@ def test_group_files_ws_rejects_invalid_auth():
 
     async def scenario():
         with patch(
-            "Group.group_routes_ws.get_room_if_valid",
+            "Group.group_routes_ws.get_room_if_active",
             new=AsyncMock(return_value=None),
         ):
-            await endpoint(websocket=websocket, room_id="abc123", password="000000")
+            await endpoint(websocket=websocket, room_id="abc123")
 
     asyncio.run(scenario())
     websocket.close.assert_awaited_once_with(code=1008)
@@ -70,13 +70,16 @@ def test_group_files_ws_connects_and_disconnects_on_client_close():
     endpoint = router.routes[0].endpoint
     websocket = MagicMock()
     websocket.query_params = {"csrf_token": "csrf-test-token"}
-    websocket.session = {"_csrf_token": "csrf-test-token"}
+    websocket.session = {
+        "_csrf_token": "csrf-test-token",
+        "group_room_access": {"abc123": {}},
+    }
     websocket.receive_text = AsyncMock(side_effect=WebSocketDisconnect())
 
     async def scenario():
         with (
             patch(
-                "Group.group_routes_ws.get_room_if_valid",
+                "Group.group_routes_ws.get_room_if_active",
                 new=AsyncMock(return_value={"id": "abc123"}),
             ),
             patch("Group.group_routes_ws.hub.connect", new=AsyncMock()) as connect_mock,
@@ -84,7 +87,7 @@ def test_group_files_ws_connects_and_disconnects_on_client_close():
                 "Group.group_routes_ws.hub.disconnect", new=AsyncMock()
             ) as disconnect_mock,
         ):
-            await endpoint(websocket=websocket, room_id="abc123", password="000000")
+            await endpoint(websocket=websocket, room_id="abc123")
             connect_mock.assert_awaited_once_with("abc123", websocket)
             disconnect_mock.assert_awaited_once_with("abc123", websocket)
 
@@ -101,7 +104,7 @@ def test_group_files_ws_rejects_missing_websocket_csrf():
     websocket.close = AsyncMock()
 
     async def scenario():
-        await endpoint(websocket=websocket, room_id="abc123", password="000000")
+        await endpoint(websocket=websocket, room_id="abc123")
 
     asyncio.run(scenario())
     websocket.close.assert_awaited_once_with(code=1008)

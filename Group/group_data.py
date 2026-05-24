@@ -133,6 +133,16 @@ async def remove_data(secure_id):
         DELETE FROM room WHERE room_id = :secure_id
     """)
     await execute_query(query, {"secure_id": secure_id})
+    try:
+        from share_links import ServiceKey, revoke_resource_links
+
+        await revoke_resource_links(service_key=ServiceKey.GROUP, resource_id=secure_id)
+    except Exception:
+        logger.warning(
+            "Failed to revoke Group share links: room_id=%s",
+            secure_id,
+            exc_info=True,
+        )
     await group_ws_hub.close_room(secure_id, code=1001)
     await invalidate_cache_entry(get_data, secure_id)
     await invalidate_cache_entry(get_all)

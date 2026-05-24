@@ -34,8 +34,13 @@ from settings import (
     UPLOAD_MAX_TOTAL_SIZE_BYTES,
     UPLOAD_MAX_TOTAL_SIZE_MB,
 )
+from share_links import (
+    ServiceKey,
+    build_share_url,
+    create_share_link,
+    resolve_share_link,
+)
 from web import build_url, enforce_csrf, render_template
-from password_security import is_password_hashed
 import room_access
 from . import fsqr_data as fs_data
 
@@ -70,14 +75,11 @@ async def _get_room_by_credentials(room_id, password):
 def _remember_fsqr_access(
     request: Request, secure_id: str, id_val: str, password: str, share_token: str = ""
 ) -> None:
-    # FSQR stores the plaintext credentials in the session because the DB only
-    # holds the password hash, yet the upload-complete page must show the
-    # (often auto-generated) password and share link back to the uploader.
     room_access.grant_access(
         request.session,
         FSQR_UPLOAD_ACCESS_SESSION_KEY,
         secure_id,
-        payload={"id": id_val, "password": password, "share_token": share_token},
+        payload={"id": id_val, "share_token": share_token},
     )
 
 
@@ -88,13 +90,12 @@ def _get_fsqr_access(request: Request, secure_id: str):
     if not entry:
         return None
     id_val = entry.get("id")
-    password = entry.get("password")
-    if not isinstance(id_val, str) or not isinstance(password, str):
+    if not isinstance(id_val, str):
         return None
     share_token = entry.get("share_token", "")
     if not isinstance(share_token, str):
         share_token = ""
-    return {"id": id_val, "password": password, "share_token": share_token}
+    return {"id": id_val, "share_token": share_token}
 
 
 def _is_valid_share_token(share_token: str) -> bool:
@@ -235,8 +236,6 @@ async def upload(  # noqa: C901
         password = download_password
     else:
         password = str(secrets.randbelow(10**6)).zfill(6)
-    share_token = secrets.token_urlsafe(32)
-
     secure_id_base = f"{id_val}-{uid}-"
 
     if not upfile:
@@ -276,6 +275,7 @@ async def upload(  # noqa: C901
         shutil.copyfileobj(file.file, buffer)
 
     metadata_saved = False
+    share_token = ""
     try:
         await fs_data.save_file(
             uid=uid,
@@ -285,9 +285,14 @@ async def upload(  # noqa: C901
             file_type=file_type,
             original_filename=original_filename,
             retention_days=retention_days_int,
-            share_token=share_token,
         )
         metadata_saved = True
+        share_token = await create_share_link(
+            service_key=ServiceKey.FSQR,
+            resource_id=secure_id,
+            expires_at=datetime.now() + timedelta(days=retention_days_int),
+            metadata={"id": id_val},
+        )
         os.replace(temp_path, final_path)
     except Exception:
         if metadata_saved:
@@ -337,27 +342,10 @@ async def upload_complete(request: Request, secure_id: str):
     share_url = ""
     if access and access["id"] == id_val:
         share_token = access.get("share_token", "")
-        password_val = access["password"]
         if share_token:
-            share_url = build_url(
-                request,
-                "fsqr.fs_qr_share",
-                share_token=share_token,
-                _external=True,
+            share_url = build_share_url(
+                request, service_key=ServiceKey.FSQR, token=share_token
             )
-    elif isinstance(row.get("password"), str) and not is_password_hashed(
-        row["password"]
-    ):
-        password_val = row["password"]
-
-    if password_val and not share_url:
-        share_url = build_url(
-            request,
-            "fsqr.fs_qr_room",
-            room_id=id_val,
-            password=password_val,
-            _external=True,
-        )
     retention_days, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
@@ -382,41 +370,36 @@ async def download(request: Request, secure_id: str):
         raise HTTPException(status_code=404)
     row = data[0]
     access = _get_fsqr_access(request, secure_id)
-    password = None
     if access and access["id"] == row["id"]:
         share_token = access.get("share_token", "")
         if share_token:
             return RedirectResponse(
-                build_url(request, "fsqr.fs_qr_share", share_token=share_token),
+                build_url(request, "fsqr.share_entry", token=share_token),
                 status_code=302,
             )
-        password = access["password"]
-    elif isinstance(row.get("password"), str) and not is_password_hashed(
-        row["password"]
-    ):
-        password = row["password"]
-    if not password:
-        raise HTTPException(status_code=404)
-    return RedirectResponse(
-        build_url(request, "fsqr.fs_qr_room", room_id=row["id"], password=password),
-        status_code=302,
-    )
+    raise HTTPException(status_code=404)
 
 
-@router.get("/fs-qr/s/{share_token}", name="fsqr.fs_qr_share")
-async def fs_qr_share(request: Request, share_token: str):
+@router.get("/fs-qr/s/{token}", name="fsqr.share_entry")
+async def fs_qr_share(request: Request, token: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
     if not allowed:
         return msg(request, get_block_message(block_label), 429)
 
-    if not _is_valid_share_token(share_token):
+    if not _is_valid_share_token(token):
         _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         raise HTTPException(status_code=404)
 
-    data = await fs_data.get_data_by_share_token(share_token)
+    link = await resolve_share_link(token, service_key=ServiceKey.FSQR)
+    if not link:
+        _, block_label = await register_failure(SCOPE_QR, ip)
+        if block_label:
+            return msg(request, get_block_message(block_label), 429)
+        raise HTTPException(status_code=404)
+    data = await fs_data.get_data(link["resource_id"])
     if not data:
         _, block_label = await register_failure(SCOPE_QR, ip)
         if block_label:
@@ -438,44 +421,18 @@ async def fs_qr_share(request: Request, share_token: str):
         secure_id=record["secure_id"],
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),
-        url=build_url(request, "fsqr.fs_qr_share_download", share_token=share_token),
+        url=build_url(request, "fsqr.share_download", token=token),
         retention_days=retention_days,
         deletion_date=deletion_date,
     )
 
 
-@router.get("/fs-qr/{room_id}/{password}", name="fsqr.fs_qr_room")
+@router.get("/fs-qr/{room_id}/{password}", name="fsqr.legacy_room")
 async def fs_qr_room(request: Request, room_id: str, password: str):
-    ip = get_client_ip(request)
-    allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
-    if not allowed:
-        return msg(request, get_block_message(block_label), 429)
-
-    secure_id, record = await _get_room_by_credentials(room_id, password)
-    if not secure_id:
-        _, block_label = await register_failure(SCOPE_QR, ip)
-        if block_label:
-            return msg(request, get_block_message(block_label), 429)
-        return msg(request, "IDかパスワードが間違っています", 404)
-
-    await register_success(SCOPE_QR, ip)
-
-    retention_days, deletion_date = _calculate_deletion_context(record)
-
-    return render_template(
+    return msg(
         request,
-        "info.html",
-        mode="download",
-        id=record["id"],
-        password=password,
-        secure_id=secure_id,
-        file_type=record.get("file_type", "multiple"),
-        original_filename=record.get("original_filename", ""),
-        url=build_url(
-            request, "fsqr.fs_qr_download", room_id=room_id, password=password
-        ),
-        retention_days=retention_days,
-        deletion_date=deletion_date,
+        "旧形式のFSQR URLは停止しました。新しい共有URLからアクセスしてください。",
+        410,
     )
 
 
@@ -487,12 +444,15 @@ async def download_go(request: Request, secure_id: str):
     return await _send_file_response(request, secure_id)
 
 
-@router.post("/fs-qr/s/{share_token}/download", name="fsqr.fs_qr_share_download")
-async def fs_qr_share_download(request: Request, share_token: str):
+@router.post("/fs-qr/s/{token}/download", name="fsqr.share_download")
+async def fs_qr_share_download(request: Request, token: str):
     await enforce_csrf(request)
-    if not _is_valid_share_token(share_token):
+    if not _is_valid_share_token(token):
         raise HTTPException(status_code=404)
-    data = await fs_data.get_data_by_share_token(share_token)
+    link = await resolve_share_link(token, service_key=ServiceKey.FSQR)
+    if not link:
+        raise HTTPException(status_code=404)
+    data = await fs_data.get_data(link["resource_id"])
     if not data:
         raise HTTPException(status_code=404)
     if await _remove_if_expired(data[0]):
@@ -500,13 +460,14 @@ async def fs_qr_share_download(request: Request, share_token: str):
     return await _send_file_response(request, data[0]["secure_id"])
 
 
-@router.post("/fs-qr/{room_id}/{password}/download", name="fsqr.fs_qr_download")
+@router.post("/fs-qr/{room_id}/{password}/download", name="fsqr.legacy_download")
 async def fs_qr_download(request: Request, room_id: str, password: str):
     await enforce_csrf(request)
-    secure_id, _ = await _get_room_by_credentials(room_id, password)
-    if not secure_id:
-        return msg(request, "IDかパスワードが間違っています")
-    return await _send_file_response(request, secure_id)
+    return msg(
+        request,
+        "旧形式のFSQRダウンロードは停止しました。新しい共有URLを使用してください。",
+        410,
+    )
 
 
 async def _send_file_response(request: Request, secure_id: str):
@@ -548,40 +509,10 @@ async def search_fs_qr(request: Request):
 @router.post("/try_login", name="fsqr.kekka")
 async def kekka(request: Request):
     await enforce_csrf(request)
-    form = await request.form()
-    id_val = (form.get("name") or "").strip()
-    password = (form.get("pw") or "").strip()
-
-    ip = get_client_ip(request)
-    allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
-    if not allowed:
-        return msg(request, get_block_message(block_label), 429)
-
-    try:
-        inp = RoomSearchInput(room_id=id_val, password=password)
-    except ValidationError:
-        _, block_label = await register_failure(SCOPE_QR, ip)
-        if block_label:
-            return msg(request, get_block_message(block_label), 429)
-        return msg(request, "IDまたはパスワードに不正な文字が含まれています。")
-    id_val, password = inp.room_id, inp.password
-
-    secure_id = await fs_data.try_login(id_val, password)
-
-    if not secure_id:
-        _, block_label = await register_failure(SCOPE_QR, ip)
-        if block_label:
-            return msg(request, get_block_message(block_label), 429)
-        return msg(request, "IDかパスワードが間違っています")
-
-    if not await _get_active_data(secure_id):
-        return msg(request, "ファイルの保存期間が終了しました", 404)
-
-    await register_success(SCOPE_QR, ip)
-
-    return RedirectResponse(
-        build_url(request, "fsqr.fs_qr_room", room_id=id_val, password=password),
-        status_code=302,
+    return msg(
+        request,
+        "IDとパスワードによるFSQR検索は停止しました。共有URLを使用してください。",
+        410,
     )
 
 

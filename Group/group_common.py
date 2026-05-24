@@ -19,15 +19,27 @@ async def get_room_if_valid(room_id, password):
     return await group_data.get_data_by_room_credentials(room_id, password)
 
 
-def remember_group_room_access(request: Request, room_id: str) -> None:
-    # Record only that this session entered the room. The password is not
-    # stored: callers (e.g. file delete) re-validate the supplied password
-    # against the database on every request, so persisting it would add a
-    # plaintext credential to the session store for no security benefit.
-    room_access.grant_access(request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id)
+async def get_room_if_active(room_id):
+    rows = await group_data.get_data(room_id)
+    return rows[0] if rows else None
+
+
+def remember_group_room_access(
+    request: Request, room_id: str, share_token: str | None = None
+) -> None:
+    payload = {"share_token": share_token} if share_token else None
+    room_access.grant_access(
+        request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id, payload=payload
+    )
 
 
 def has_group_room_access(request: Request, room_id: str) -> bool:
     return room_access.has_access(
         request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id
+    )
+
+
+def get_group_room_share_token(request: Request, room_id: str) -> str:
+    return room_access.get_access_field(
+        request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id, "share_token", ""
     )

@@ -13,6 +13,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # これにより、aiomysqlなどのドライバがなくてもapp.pyをインポート可能にする
 mock_database = MagicMock()
 mock_database.db_session = MagicMock()
+mock_database.execute_query = AsyncMock(return_value=[])
 # await db_session.remove() に対応するための非同期モック
 mock_database.db_session.remove = AsyncMock()
 mock_database.engine = AsyncMock()

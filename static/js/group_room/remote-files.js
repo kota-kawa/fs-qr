@@ -8,7 +8,6 @@
 
   function createRemoteFileListManager(options) {
     var roomId = options.roomId;
-    var roomPassword = options.roomPassword;
     var websocketCsrfToken = options.websocketCsrfToken;
     var csrfToken = options.csrfToken;
     var icons = options.icons;
@@ -168,7 +167,7 @@
           }
 
           var xhr = new window.XMLHttpRequest();
-          xhr.open('DELETE', `/delete/${roomId}/${roomPassword}/${encodedFilename}`, true);
+          xhr.open('DELETE', `/delete/${roomId}/${encodedFilename}`, true);
           if (csrfToken) {
             xhr.setRequestHeader('X-CSRF-Token', csrfToken);
           }
@@ -215,7 +214,7 @@
 
       isFetchingFileList = true;
       var xhr = new window.XMLHttpRequest();
-      xhr.open('GET', `/check/${roomId}/${roomPassword}`, true);
+      xhr.open('GET', `/check/${roomId}`, true);
       xhr.timeout = fileListRequestTimeoutMs;
       xhr.onload = function () {
         if (!(xhr.status >= 200 && xhr.status < 300)) {
@@ -300,7 +299,7 @@
 
     function connectFileListWebSocket() {
       var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      var wsUrl = new URL(`${protocol}://${window.location.host}/ws/group/${roomId}/${roomPassword}`);
+      var wsUrl = new URL(`${protocol}://${window.location.host}/ws/group/${roomId}`);
       if (websocketCsrfToken) {
         wsUrl.searchParams.set('csrf_token', websocketCsrfToken);
       }

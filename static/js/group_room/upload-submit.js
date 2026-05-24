@@ -17,7 +17,6 @@
     var uploadStatusMessage = options.uploadStatusMessage;
     var uploadButtonLabel = options.uploadButtonLabel;
     var roomId = options.roomId;
-    var roomPassword = options.roomPassword;
     var csrfToken = options.csrfToken;
     var core = options.core;
     var getFiles = options.getFiles;
@@ -185,7 +184,7 @@
       showUploadProgressStart();
 
       var xhr = new window.XMLHttpRequest();
-      xhr.open('POST', `/group_upload/${roomId}/${roomPassword}`, true);
+      xhr.open('POST', `/group_upload/${roomId}`, true);
       if (csrfToken) {
         xhr.setRequestHeader('X-CSRF-Token', csrfToken);
       }

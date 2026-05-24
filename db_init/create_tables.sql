@@ -16,6 +16,22 @@ CREATE TABLE fsqr (
     INDEX idx_fsqr_time (time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE share_links (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    service_key VARCHAR(20) NOT NULL,
+    resource_id VARCHAR(255) NOT NULL,
+    token_hash VARCHAR(64) NOT NULL,
+    scope VARCHAR(50) NOT NULL DEFAULT 'read',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at DATETIME NULL,
+    revoked_at DATETIME NULL,
+    metadata JSON NULL,
+    UNIQUE KEY uq_share_links_token_hash (token_hash),
+    INDEX idx_share_links_resource (service_key, resource_id),
+    INDEX idx_share_links_expires_at (expires_at),
+    INDEX idx_share_links_active (service_key, scope, revoked_at, expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE room (
     suji INT AUTO_INCREMENT PRIMARY KEY,  -- 自動増分の主キー
     time DATETIME NOT NULL,               -- レコードの挿入時間

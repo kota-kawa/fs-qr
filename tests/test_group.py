@@ -88,7 +88,8 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     assert response.status_code == 200
     payload = response.json()
     assert payload["status"] == "ok"
-    assert payload["data"]["redirect_url"] == "/group/abc123/000042"
+    assert payload["data"]["redirect_url"] == "/group/r/abc123"
+    assert payload["data"]["share_url"].startswith("http://testserver/group/s/")
     create_mock.assert_awaited_once_with(
         id="abc123",
         password="000042",
@@ -101,24 +102,24 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
 
 
 def test_search_group_invalid_id_chars(test_client: TestClient):
-    """ID に無効な文字があると 400 JSON エラーを返す"""
+    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_group_process",
         data={"id": "bad!!", "password": "123456"},
     )
-    assert response.status_code == 400
+    assert response.status_code == 410
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
 
 
 def test_search_group_invalid_password_chars(test_client: TestClient):
-    """短すぎるパスワードは 400 JSON エラーを返す"""
+    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_group_process",
         data={"id": "abc123", "password": "abc"},
     )
-    assert response.status_code == 400
+    assert response.status_code == 410
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
@@ -130,13 +131,13 @@ def test_search_group_invalid_password_chars(test_client: TestClient):
 def test_download_file_dotdot_filename(test_client: TestClient):
     """ ".." を含むファイル名の download は 400 を返す"""
     # "..malicious.txt" は URL 正規化の対象にならず、アプリ層でブロックされる
-    response = test_client.get("/download/roomid/000000/..malicious.txt")
+    response = test_client.get("/download/roomid/..malicious.txt")
     assert response.status_code == 400
 
 
 def test_delete_file_dotdot_filename(test_client: TestClient):
     """ ".." を含むファイル名の delete は 400 を返す"""
-    response = test_client.delete("/delete/roomid/000000/..malicious.txt")
+    response = test_client.delete("/delete/roomid/..malicious.txt")
     assert response.status_code == 400
 
 
@@ -144,14 +145,9 @@ def test_delete_file_dotdot_filename(test_client: TestClient):
 
 
 def test_group_room_not_found(test_client: TestClient):
-    """認証情報が一致せず Note ルームでもない場合は 404 を返す"""
-    with patch(
-        "Note.note_data.get_room_meta_direct",
-        new_callable=AsyncMock,
-        return_value=None,
-    ):
-        response = test_client.get("/group/abc123/000000")
-    assert response.status_code == 404
+    """旧ID/Password URLは停止済みなので 410 を返す"""
+    response = test_client.get("/group/abc123/000000")
+    assert response.status_code == 410
 
 
 def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
@@ -166,17 +162,21 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
             return_value=(True, None, None),
         ),
         patch(
-            "Group.group_routes_room.get_room_if_valid",
+            "Group.group_routes_room.get_room_if_active",
             new_callable=AsyncMock,
             return_value=mock_room,
+        ),
+        patch("Group.group_routes_room.has_group_room_access", return_value=True),
+        patch(
+            "Group.group_routes_room.get_group_room_share_token",
+            return_value="group-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         ),
         patch(
             "Group.group_routes_room.register_success",
             new_callable=AsyncMock,
         ),
-        patch("Group.group_routes_room.remember_group_room_access"),
     ):
-        response = test_client.get("/group/abc123/000000")
+        response = test_client.get("/group/r/abc123")
 
     assert response.status_code == 200
     html = response.text
@@ -205,7 +205,10 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
     assert "fileListRequestTimeoutMs" in html
     assert "groupPreviewOverlay" in html
     assert 'id="groupShareQrCode"' in html
-    assert 'data-share-url="http://testserver/group/abc123/000000"' in html
+    assert (
+        'data-share-url="http://testserver/group/s/group-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"'
+        in html
+    )
     assert "/static/qrcode.min.js" in html
     assert "api.qrserver.com" not in html
     assert "function handleFiles(files)" not in html
@@ -216,17 +219,17 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
 
 
 def test_group_upload_invalid_auth(test_client: TestClient):
-    """認証情報が一致しない場合はファイルアップロードを拒否する (400)"""
+    """セッションがない場合はファイルアップロードを拒否する"""
     with patch(
         "Group.group_data.get_data_direct",
         new_callable=AsyncMock,
         return_value=None,
     ):
         response = test_client.post(
-            "/group_upload/abc123/000000",
+            "/group_upload/abc123",
             files={"upfile": ("test.txt", b"hello", "text/plain")},
         )
-    assert response.status_code == 400
+    assert response.status_code == 404
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
@@ -235,12 +238,15 @@ def test_group_upload_invalid_auth(test_client: TestClient):
 def test_group_upload_no_files(test_client: TestClient):
     """認証は通るがファイルが送られない場合は 400 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
-    with patch(
-        "Group.group_data.get_data_direct",
-        new_callable=AsyncMock,
-        return_value=mock_room,
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
-        response = test_client.post("/group_upload/abc123/000000")
+        response = test_client.post("/group_upload/abc123")
     assert response.status_code == 400
     payload = response.json()
     assert payload["status"] == "error"
@@ -259,9 +265,10 @@ def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
         ),
         patch("file_validation._MIME_DETECTOR", detector),
         patch("Group.group_routes_file.os.makedirs"),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
         response = test_client.post(
-            "/group_upload/abc123/000000",
+            "/group_upload/abc123",
             files={"upfile": ("safe.txt", b"<html>bad</html>", "text/plain")},
         )
 
@@ -276,13 +283,13 @@ def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
 
 
 def test_list_files_invalid_auth(test_client: TestClient):
-    """認証情報が一致しない場合はファイル一覧取得を拒否する (404)"""
+    """セッションがない場合はファイル一覧取得を拒否する"""
     with patch(
         "Group.group_data.get_data_direct",
         new_callable=AsyncMock,
         return_value=None,
     ):
-        response = test_client.get("/check/abc123/000000")
+        response = test_client.get("/check/abc123")
     assert response.status_code == 404
     payload = response.json()
     assert payload["status"] == "error"
@@ -293,13 +300,13 @@ def test_list_files_invalid_auth(test_client: TestClient):
 
 
 def test_download_all_invalid_auth(test_client: TestClient):
-    """認証情報が一致しない場合は全ファイルダウンロードを拒否する (404)"""
+    """セッションがない場合は全ファイルダウンロードを拒否する"""
     with patch(
         "Group.group_data.get_data_direct",
         new_callable=AsyncMock,
         return_value=None,
     ):
-        response = test_client.get("/download/all/abc123/000000")
+        response = test_client.get("/download/all/abc123")
     assert response.status_code == 404
     payload = response.json()
     assert payload["status"] == "error"
@@ -340,7 +347,7 @@ def test_create_group_room_generates_numeric_password(test_client: TestClient):
         )
 
     assert response.status_code == 302
-    assert response.headers["location"] == "/group/abc123/000042"
+    assert response.headers["location"] == "/group/r/abc123"
     create_mock.assert_awaited_once()
     assert create_mock.await_args.kwargs["password"] == "000042"
 
@@ -398,10 +405,11 @@ def test_list_files_auth_success_no_dir(test_client: TestClient, tmp_path):
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path / "current")),
         patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(legacy_root)),
     ):
-        response = test_client.get("/check/nodir1/000000")
+        response = test_client.get("/check/nodir1")
     # 認証通過 → ディレクトリなし → 404
     assert response.status_code == 404
     payload = response.json()
@@ -423,9 +431,10 @@ def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path)
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
     ):
-        response = test_client.get("/check/abc123/000000")
+        response = test_client.get("/check/abc123")
 
     assert response.status_code == 200
     files = {item["name"]: item for item in response.json()["data"]["files"]}
@@ -437,12 +446,15 @@ def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path)
 def test_download_file_not_found_after_auth(test_client: TestClient):
     """認証成功でもファイルが存在しない場合は 404 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
-    with patch(
-        "Group.group_data.get_data_direct",
-        new_callable=AsyncMock,
-        return_value=mock_room,
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
-        response = test_client.get("/download/abc123/000000/notexist.txt")
+        response = test_client.get("/download/abc123/notexist.txt")
     assert response.status_code == 404
 
 
@@ -459,9 +471,10 @@ def test_preview_file_returns_inline_response(test_client: TestClient, tmp_path)
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
     ):
-        response = test_client.get("/preview/abc123/000000/memo.txt")
+        response = test_client.get("/preview/abc123/memo.txt")
 
     assert response.status_code == 200
     assert response.text == "hello"
@@ -482,9 +495,10 @@ def test_preview_file_rejects_unsupported_type(test_client: TestClient, tmp_path
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
     ):
-        response = test_client.get("/preview/abc123/000000/archive.zip")
+        response = test_client.get("/preview/abc123/archive.zip")
 
     assert response.status_code == 415
     assert response.json()["status"] == "error"
@@ -513,7 +527,7 @@ def test_delete_file_not_found_after_auth(test_client: TestClient):
             return_value=mock_room,
         ),
     ):
-        response = test_client.delete("/delete/abc123/000000/notexist.txt")
+        response = test_client.delete("/delete/abc123/notexist.txt")
     assert response.status_code == 404
 
 
@@ -530,9 +544,10 @@ def test_delete_file_requires_room_session(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=(None, "2秒"),
         ) as backoff_mock,
+        patch("Group.group_routes_file.has_group_room_access", return_value=False),
         patch("Group.group_routes_file.os.remove") as remove_mock,
     ):
-        response = test_client.delete("/delete/abc123/000000/test.txt")
+        response = test_client.delete("/delete/abc123/test.txt")
 
     assert response.status_code == 403
     assert backoff_mock.await_count >= 1
@@ -549,7 +564,7 @@ def test_delete_file_backoff_returns_429(test_client: TestClient):
         ),
         patch("Group.group_routes_file.os.remove") as remove_mock,
     ):
-        response = test_client.delete("/delete/abc123/000000/test.txt")
+        response = test_client.delete("/delete/abc123/test.txt")
 
     assert response.status_code == 429
     remove_mock.assert_not_called()
@@ -564,9 +579,10 @@ def test_download_all_auth_success_no_dir(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.os.path.exists", return_value=False),
     ):
-        response = test_client.get("/download/all/abc123/000000")
+        response = test_client.get("/download/all/abc123")
     assert response.status_code == 404
 
 
@@ -574,13 +590,16 @@ def test_group_upload_too_many_files(test_client: TestClient):
     """ファイル数が 10 を超えると 400 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
     files = [("upfile", (f"file{i}.txt", b"x", "text/plain")) for i in range(11)]
-    with patch(
-        "Group.group_data.get_data_direct",
-        new_callable=AsyncMock,
-        return_value=mock_room,
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
         response = test_client.post(
-            "/group_upload/abc123/000000",
+            "/group_upload/abc123",
             files=files,
         )
     assert response.status_code == 400
@@ -591,7 +610,7 @@ def test_group_upload_too_many_files(test_client: TestClient):
 
 def test_download_file_empty_filename_returns_400(test_client: TestClient):
     """空のファイル名は 400 を返す"""
-    response = test_client.get("/download/abc123/000000/ ")
+    response = test_client.get("/download/abc123/ ")
     assert response.status_code == 400
 
 
@@ -610,9 +629,10 @@ def test_group_upload_notifies_realtime_when_saved_files_exist(test_client: Test
         patch("Group.group_routes_file.open", mock_open(), create=True),
         patch("Group.group_routes_file.shutil.copyfileobj"),
         patch("Group.group_routes_file.os.path.getsize", return_value=1),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
         response = test_client.post(
-            "/group_upload/abc123/000000",
+            "/group_upload/abc123",
             files={"upfile": ("test.txt", b"hello", "text/plain")},
         )
     assert response.status_code == 200
@@ -640,10 +660,11 @@ def test_list_files_uses_legacy_folder_fallback(test_client: TestClient, tmp_pat
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(current_root)),
         patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(legacy_root)),
     ):
-        response = test_client.get("/check/abc123/000000")
+        response = test_client.get("/check/abc123")
 
     assert response.status_code == 200
     assert response.json()["data"]["files"][0]["name"] == "old.txt"
@@ -680,7 +701,7 @@ def test_group_delete_notifies_realtime_on_success(test_client: TestClient, tmp_
         patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
         patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(tmp_path / "legacy")),
     ):
-        response = test_client.delete("/delete/abc123/000000/test.txt")
+        response = test_client.delete("/delete/abc123/test.txt")
 
     assert response.status_code == 200
     assert not target_file.exists()
