@@ -4,7 +4,6 @@ from fastapi import Request
 from starlette.responses import RedirectResponse
 
 from i18n import is_language_query_only
-from .group_storage import UPLOAD_FOLDER, is_safe_path
 from . import group_data
 
 GROUP_ROOM_ACCESS_SESSION_KEY = "group_room_access"

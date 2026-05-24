@@ -32,14 +32,14 @@ from rate_limit import (
     register_exponential_backoff_failure,
 )
 from .group_common import (
-    UPLOAD_FOLDER,
     get_room_if_valid,
     has_group_room_access,
-    is_safe_path,
 )
 from .group_storage import (
+    UPLOAD_FOLDER,
     collect_room_files,
     existing_room_folders,
+    is_safe_path,
     resolve_room_file,
     room_folder,
     unique_room_filename,
@@ -343,8 +343,8 @@ def register_group_preview_file_route(router: APIRouter):
                 file_path,
                 media_type=str(preview_metadata["preview_mime_type"]),
             )
-            response.headers["Content-Disposition"] = (
-                build_content_disposition_inline(decoded_filename)
+            response.headers["Content-Disposition"] = build_content_disposition_inline(
+                decoded_filename
             )
             response.headers["X-Content-Type-Options"] = "nosniff"
             return response

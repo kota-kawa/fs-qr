@@ -16,7 +16,7 @@ from database import db_session
 from file_validation import build_content_disposition_attachment
 from FSQR import fsqr_data as fs_data
 from Group import group_data
-from Group.group_storage import collect_room_files, existing_room_folders
+from Group.group_storage import collect_room_files, existing_room_folders, room_folder
 from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
@@ -149,9 +149,9 @@ def _get_room_folder(room_id):
     if not room_id:
         return None
     folders = existing_room_folders(room_id, primary_root=GROUP_UPLOAD_DIR)
-    if not folders:
-        return None
-    return folders[0][1]
+    if folders:
+        return folders[0][1]
+    return room_folder(room_id, root=GROUP_UPLOAD_DIR)
 
 
 def _collect_room_files(room_id):

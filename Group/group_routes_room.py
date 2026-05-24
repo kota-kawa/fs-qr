@@ -22,8 +22,9 @@ from web import enforce_csrf
 from web import wants_json_response
 
 from . import group_data
-from .group_common import UPLOAD_FOLDER, get_room_if_valid, remember_group_room_access
+from .group_common import get_room_if_valid, remember_group_room_access
 from .group_responses import group_block_response, room_msg
+from .group_storage import UPLOAD_FOLDER
 
 
 def register_group_room_access_route(router: APIRouter):
