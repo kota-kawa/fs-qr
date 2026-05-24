@@ -54,7 +54,13 @@ services:
       - python
       - scheduler.py
     healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep -v grep | grep -q 'scheduler.py'"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "from pathlib import Path; raise SystemExit(0 if 'scheduler.py' in Path('/proc/1/cmdline').read_text(errors='ignore') else 1)",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3

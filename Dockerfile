@@ -36,7 +36,13 @@ RUN apt-get update \
 
 # Upgrade system packaging tools shipped in the base image because Trivy scans
 # their metadata even though the app itself runs from /opt/venv.
-RUN /usr/local/bin/python -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN /usr/local/bin/python -m pip install \
+        --no-cache-dir \
+        --root-user-action=ignore \
+        --upgrade \
+        pip \
+        setuptools \
+        wheel
 
 COPY --from=builder /opt/venv /opt/venv
 
