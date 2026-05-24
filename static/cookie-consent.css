@@ -208,7 +208,7 @@ body > #cookieConsent.cookie-consent-overlay {
 /* ─── Primary actions (同意する / 拒否する) ──────── */
 .cookie-consent-actions {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   align-items: center;
 }
