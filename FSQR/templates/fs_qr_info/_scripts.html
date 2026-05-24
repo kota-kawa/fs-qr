@@ -138,16 +138,11 @@
             await copyTextToClipboard(text);
             button.classList.add('copied');
             button.setAttribute('aria-label', copiedLabel);
-            if (button.hasAttribute('title')) {
-              button.setAttribute('title', copiedLabel);
-            }
-            setShareFeedback(translate('share.copy_success', 'Copied. You can send it as-is.'), 'success');
+            button.setAttribute('title', copiedLabel);
             setTimeout(() => {
               button.classList.remove('copied');
               button.setAttribute('aria-label', defaultLabel);
-              if (button.hasAttribute('title')) {
-                button.setAttribute('title', defaultLabel);
-              }
+              button.setAttribute('title', defaultLabel);
             }, 2000);
           } catch (error) {
             setShareFeedback(translate('share.copy_manual_error', 'Copy failed. Display it and copy it manually.'), 'error');
