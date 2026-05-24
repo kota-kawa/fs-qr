@@ -373,7 +373,7 @@ def register_group_delete_file_route(router: APIRouter):
                 status_code=429,
             )
 
-        if not has_group_room_access(request, room_id, password):
+        if not has_group_room_access(request, room_id):
             await register_exponential_backoff_failure(
                 SCOPE_GROUP_FILE_DELETE, backoff_key
             )

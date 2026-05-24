@@ -1,8 +1,7 @@
-import hmac
-
 from fastapi import Request
 from starlette.responses import RedirectResponse
 
+import room_access
 from i18n import is_language_query_only
 from . import group_data
 
@@ -20,21 +19,15 @@ async def get_room_if_valid(room_id, password):
     return await group_data.get_data_by_room_credentials(room_id, password)
 
 
-def remember_group_room_access(request: Request, room_id: str, password: str) -> None:
-    rooms = request.session.get(GROUP_ROOM_ACCESS_SESSION_KEY)
-    if not isinstance(rooms, dict):
-        rooms = {}
-    rooms[str(room_id)] = str(password)
-    if len(rooms) > 20:
-        rooms = dict(list(rooms.items())[-20:])
-    request.session[GROUP_ROOM_ACCESS_SESSION_KEY] = rooms
+def remember_group_room_access(request: Request, room_id: str) -> None:
+    # Record only that this session entered the room. The password is not
+    # stored: callers (e.g. file delete) re-validate the supplied password
+    # against the database on every request, so persisting it would add a
+    # plaintext credential to the session store for no security benefit.
+    room_access.grant_access(request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id)
 
 
-def has_group_room_access(request: Request, room_id: str, password: str) -> bool:
-    rooms = request.session.get(GROUP_ROOM_ACCESS_SESSION_KEY)
-    if not isinstance(rooms, dict):
-        return False
-    stored_password = rooms.get(str(room_id))
-    if not isinstance(stored_password, str):
-        return False
-    return hmac.compare_digest(stored_password, str(password))
+def has_group_room_access(request: Request, room_id: str) -> bool:
+    return room_access.has_access(
+        request.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id
+    )

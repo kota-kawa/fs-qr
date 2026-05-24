@@ -49,7 +49,7 @@ def register_group_room_access_route(router: APIRouter):
             )
 
         await register_success(SCOPE_GROUP, ip)
-        remember_group_room_access(request, room_id, password)
+        remember_group_room_access(request, room_id)
 
         user_id = record.get("id", "不明")
         retention_days = record.get("retention_days", 7)

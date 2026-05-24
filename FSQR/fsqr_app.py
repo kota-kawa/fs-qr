@@ -36,6 +36,7 @@ from settings import (
 )
 from web import build_url, enforce_csrf, render_template
 from password_security import is_password_hashed
+import room_access
 from . import fsqr_data as fs_data
 
 router = APIRouter()
@@ -69,25 +70,22 @@ async def _get_room_by_credentials(room_id, password):
 def _remember_fsqr_access(
     request: Request, secure_id: str, id_val: str, password: str, share_token: str = ""
 ) -> None:
-    payload = request.session.get(FSQR_UPLOAD_ACCESS_SESSION_KEY)
-    if not isinstance(payload, dict):
-        payload = {}
-    payload[str(secure_id)] = {
-        "id": str(id_val),
-        "password": str(password),
-        "share_token": str(share_token),
-    }
-    if len(payload) > 20:
-        payload = dict(list(payload.items())[-20:])
-    request.session[FSQR_UPLOAD_ACCESS_SESSION_KEY] = payload
+    # FSQR stores the plaintext credentials in the session because the DB only
+    # holds the password hash, yet the upload-complete page must show the
+    # (often auto-generated) password and share link back to the uploader.
+    room_access.grant_access(
+        request.session,
+        FSQR_UPLOAD_ACCESS_SESSION_KEY,
+        secure_id,
+        payload={"id": id_val, "password": password, "share_token": share_token},
+    )
 
 
 def _get_fsqr_access(request: Request, secure_id: str):
-    payload = request.session.get(FSQR_UPLOAD_ACCESS_SESSION_KEY)
-    if not isinstance(payload, dict):
-        return None
-    entry = payload.get(str(secure_id))
-    if not isinstance(entry, dict):
+    entry = room_access.get_access(
+        request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id
+    )
+    if not entry:
         return None
     id_val = entry.get("id")
     password = entry.get("password")

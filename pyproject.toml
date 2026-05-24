@@ -23,7 +23,7 @@ files = [
     "settings.py", "database.py", "models.py",
     "cache_utils.py", "rate_limit.py", "session_auth.py",
     "file_validation.py", "password_security.py", "api_response.py",
-    "web.py", "i18n.py",
+    "web.py", "i18n.py", "room_access.py",
 ]
 
 [tool.pytest.ini_options]
