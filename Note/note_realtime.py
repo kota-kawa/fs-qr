@@ -93,8 +93,8 @@ class RoomHub:
         for ws in sockets:
             try:
                 await ws.close(code=code)
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Failed to close websocket for room %s: %s", room_id, exc)
 
     async def _register_connection(self, room_id, connection_id):
         client = await get_redis()
