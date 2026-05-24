@@ -35,7 +35,9 @@
     "language.option.de": "Deutsch",
     "language.option.pt": "Portugiesisch",
     "language.option.it": "Italienisch",
-    "note.editor.label": "Geteilte Notiz (bis zu {max_length} Zeichen)",
+    "language.option.ru": "Russisch",
+    "language.option.nl": "Niederländisch",
+    "note.editor.label": "Gemeinsame Notiz (bis zu {max_length} Zeichen)",
     "note.editor.max_length_hint": "Sie können bis zu {max_length} Zeichen eingeben.",
     "note.editor.demo_placeholder": "Eingaben hier werden jede Sekunde synchronisiert...\n\nDemo-Text:\nAlle Mitglieder können dieselbe Notiz in Echtzeit wie folgt bearbeiten.\n\n- Ihre Eingabe wird sofort mit anderen Mitgliedern synchronisiert\n- Bis zu {max_length} Zeichen\n- Der Bearbeitungsstatus wird in Echtzeit aktualisiert",
     "upload.usage.limit_hint": "* Sie können bis zu {max_files} Dateien mit insgesamt {max_total_mb} MB hochladen."

@@ -29,6 +29,8 @@ SUPPORTED_LANGUAGES = (
     "id",
     "tr",
     "uk",
+    "ru",
+    "nl",
     "pl",
     "sw",
     "ar",
@@ -48,6 +50,8 @@ LANGUAGE_OPTIONS = (
     {"code": "de", "label": "Deutsch", "flag": "🇩🇪"},
     {"code": "pt", "label": "Português", "flag": "🇵🇹"},
     {"code": "it", "label": "Italiano", "flag": "🇮🇹"},
+    {"code": "ru", "label": "Русский", "flag": "🇷🇺"},
+    {"code": "nl", "label": "Nederlands", "flag": "🇳🇱"},
     {"code": "vi", "label": "Tiếng Việt", "flag": "🇻🇳"},
     {"code": "th", "label": "ไทย", "flag": "🇹🇭"},
     {"code": "id", "label": "Bahasa Indonesia", "flag": "🇮🇩"},
@@ -84,6 +88,12 @@ COUNTRY_LANGUAGE_MAP = {
     "PT": "pt",
     "BR": "pt",
     "IT": "it",
+    "RU": "ru",
+    "BY": "ru",
+    "KZ": "ru",
+    "KG": "ru",
+    "NL": "nl",
+    "BE": "nl",
     "VN": "vi",
     "TH": "th",
     "ID": "id",
@@ -112,6 +122,8 @@ HTML_LANG_MAP = {
     "de": "de",
     "pt": "pt",
     "it": "it",
+    "ru": "ru",
+    "nl": "nl",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -132,6 +144,8 @@ META_LANGUAGE_MAP = {
     "de": "de",
     "pt": "pt",
     "it": "it",
+    "ru": "ru",
+    "nl": "nl",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -152,6 +166,8 @@ OG_LOCALE_MAP = {
     "de": "de_DE",
     "pt": "pt_PT",
     "it": "it_IT",
+    "ru": "ru_RU",
+    "nl": "nl_NL",
     "vi": "vi_VN",
     "th": "th_TH",
     "id": "id_ID",
@@ -172,6 +188,8 @@ SCHEMA_LANGUAGE_MAP = {
     "de": "de",
     "pt": "pt",
     "it": "it",
+    "ru": "ru",
+    "nl": "nl",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -194,6 +212,8 @@ GEO_REGION_MAP = {
     "de": ("DE", "Germany"),
     "pt": ("PT", "Portugal"),
     "it": ("IT", "Italy"),
+    "ru": ("RU", "Russia"),
+    "nl": ("NL", "Netherlands"),
     "vi": ("VN", "Vietnam"),
     "th": ("TH", "Thailand"),
     "id": ("ID", "Indonesia"),
@@ -214,6 +234,8 @@ LANGUAGE_FALLBACKS = {
     "de": ("en",),
     "pt": ("en",),
     "it": ("en",),
+    "ru": ("en",),
+    "nl": ("en",),
     "vi": ("en",),
     "th": ("en",),
     "id": ("en",),
@@ -318,6 +340,10 @@ def normalize_language(language: str) -> str:  # noqa: C901
         return "pt"
     if lowered.startswith("it"):
         return "it"
+    if lowered.startswith("ru"):
+        return "ru"
+    if lowered.startswith("nl"):
+        return "nl"
     if lowered.startswith("vi"):
         return "vi"
     if lowered.startswith("th"):

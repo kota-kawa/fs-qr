@@ -40,6 +40,8 @@
     "language.option.ar": "العربية",
     "language.option.pt": "البرتغالية",
     "language.option.it": "الإيطالية",
+    "language.option.ru": "الروسية",
+    "language.option.nl": "الهولندية",
     "note.editor.label": "ملاحظة مشتركة (بحد أقصى {max_length} حرفاً)",
     "note.editor.max_length_hint": "يمكنك إدخال ما يصل إلى {max_length} حرفاً.",
     "note.editor.demo_placeholder": "تتم مزامنة ما يكتب هنا كل ثانية...\n\nمثال نصي:\nيمكن لجميع الأعضاء تحرير نفس الملاحظة في الوقت الفعلي بهذه الطريقة.\n\n- تتم مزامنة إدخالاتك فوراً مع الأعضاء الآخرين\n- بحد أقصى {max_length} حرفاً\n- يتم تحديث حالة التحرير في الوقت الفعلي",

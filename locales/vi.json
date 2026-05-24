@@ -38,6 +38,8 @@
     "language.option.id": "Tiếng Indonesia",
     "language.option.pt": "Tiếng Bồ Đào Nha",
     "language.option.it": "Tiếng Ý",
+    "language.option.ru": "Tiếng Nga",
+    "language.option.nl": "Tiếng Hà Lan",
     "note.editor.label": "Ghi chú chia sẻ (tối đa {max_length} ký tự)",
     "note.editor.max_length_hint": "Bạn có thể nhập tối đa {max_length} ký tự.",
     "note.editor.demo_placeholder": "Nhập liệu tại đây sẽ đồng bộ mỗi giây...\n\nĐoạn văn mẫu:\nTất cả thành viên có thể chỉnh sửa cùng một ghi chú trong thời gian thực như thế này.\n\n- Nội dung nhập của bạn được đồng bộ đến các thành viên khác ngay lập tức\n- Tối đa {max_length} ký tự\n- Trạng thái chỉnh sửa cập nhật trong thời gian thực",

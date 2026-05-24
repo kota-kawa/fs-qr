@@ -35,6 +35,8 @@
     "language.option.de": "Alemão",
     "language.option.pt": "Português",
     "language.option.it": "Italiano",
+    "language.option.ru": "Russo",
+    "language.option.nl": "Holandês",
     "note.editor.label": "Nota partilhada (até {max_length} caracteres)",
     "note.editor.max_length_hint": "Pode introduzir até {max_length} caracteres.",
     "note.editor.demo_placeholder": "Escrever aqui sincroniza a cada segundo...\n\nTexto de demonstração:\nTodos os membros podem editar a mesma nota em tempo real desta forma.\n\n- A sua entrada é sincronizada imediatamente com os outros membros\n- Até {max_length} caracteres\n- O estado da edição é atualizado em tempo real",
