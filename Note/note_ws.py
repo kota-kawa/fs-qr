@@ -14,6 +14,7 @@ from rate_limit import (
 )
 from web import validate_websocket_csrf
 from . import note_data as nd
+from .note_access import has_note_room_access_session
 from .note_realtime import hub, publish_room_update
 from .note_sync import sync_note_content
 
@@ -31,8 +32,8 @@ def _ws_client_ip(websocket: WebSocket) -> str:
     return "unknown"
 
 
-@router.websocket("/ws/note/{room_id}/{password}")
-async def note_ws(websocket: WebSocket, room_id: str, password: str):
+@router.websocket("/ws/note/{room_id}")
+async def note_ws(websocket: WebSocket, room_id: str):
     ip = _ws_client_ip(websocket)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
@@ -43,12 +44,14 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
         await websocket.close(code=1008)
         return
 
-    meta = await nd.get_room_meta_direct(room_id, password=password)
-    if not meta:
-        fallback_room_id = await nd.pick_room_id_direct(room_id, password)
-        if fallback_room_id:
-            room_id = fallback_room_id
-            meta = await nd.get_room_meta_direct(room_id, password=password)
+    session = getattr(websocket, "session", None)
+    if session is None and isinstance(getattr(websocket, "scope", None), dict):
+        session = websocket.scope.get("session")
+    if not session or not has_note_room_access_session(session, room_id):
+        await websocket.close(code=1008)
+        return
+
+    meta = await nd.get_room_meta_direct(room_id)
     if not meta:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
@@ -64,6 +67,12 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
     await hub.connect(room_id, websocket)
     try:
         row = await nd.get_row(room_id)
+        if not row:
+            await websocket.send_json(
+                {"type": "error", "error": "Room has expired or was deleted."}
+            )
+            await websocket.close(code=1008)
+            return
         await websocket.send_json(
             {
                 "type": "init",
@@ -71,6 +80,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 "updated_at": row["updated_at"].isoformat(
                     sep=" ", timespec="microseconds"
                 ),
+                "version": row["version"],
             }
         )
         await remove_db_session()
@@ -83,14 +93,14 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                 continue
             client_content = message.content
             client_request_id = message.request_id
-            client_last_known_updated_at = message.last_known_updated_at
+            client_base_version = message.base_version
             client_original_content = message.original_content
 
             try:
                 payload, status_code, changed = await sync_note_content(
                     room_id,
                     client_content,
-                    client_last_known_updated_at,
+                    client_base_version,
                     client_original_content,
                 )
             except Exception as exc:
@@ -105,6 +115,9 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
             if client_request_id:
                 payload_with_type["request_id"] = client_request_id
             await websocket.send_json(payload_with_type)
+            if status_code == 410:
+                await websocket.close(code=1008)
+                return
 
             if changed and status_code == 200:
                 payload_data = payload.get("data", {})
@@ -116,6 +129,7 @@ async def note_ws(websocket: WebSocket, room_id: str, password: str):
                     "data": {
                         "content": payload_data.get("content"),
                         "updated_at": payload_data.get("updated_at"),
+                        "version": payload_data.get("version"),
                         "note_status": payload_data.get("note_status"),
                     },
                     "error": None,

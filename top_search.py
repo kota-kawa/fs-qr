@@ -8,7 +8,6 @@ from starlette.responses import RedirectResponse
 
 from FSQR import fsqr_data
 from Group import group_data
-from Note import note_data
 from models import RoomSearchInput
 from rate_limit import (
     SCOPE_TOP_SEARCH,
@@ -75,22 +74,6 @@ async def _collect_search_matches(
                     request,
                     "group.group_room",
                     room_id=group_room_id,
-                    password=password,
-                ),
-            }
-        )
-
-    note_room_id = await note_data.pick_room_id_direct(room_id, password)
-    if note_room_id:
-        matches.append(
-            {
-                "service_key": "note",
-                "service_name": "ノート共有",
-                "description": "リアルタイムノートルームを開きます。",
-                "url": build_url(
-                    request,
-                    "note.note_room",
-                    room_id=note_room_id,
                     password=password,
                 ),
             }

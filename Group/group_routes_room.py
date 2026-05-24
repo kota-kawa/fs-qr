@@ -37,22 +37,6 @@ def register_group_room_access_route(router: APIRouter):
 
         record = await get_room_if_valid(room_id, password)
         if not record:
-            try:
-                from Note import note_data as note_data
-
-                meta = await note_data.get_room_meta_direct(room_id, password=password)
-                if meta:
-                    return RedirectResponse(
-                        build_url(
-                            request,
-                            "note.note_room",
-                            room_id=room_id,
-                            password=password,
-                        ),
-                        status_code=302,
-                    )
-            except Exception:  # noqa: S110
-                pass
             _, block_label = await register_failure(SCOPE_GROUP, ip)
             if block_label:
                 return room_msg(

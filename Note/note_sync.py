@@ -32,7 +32,7 @@ def _error_payload(error, status_text, data=None):
 
 
 async def sync_note_content(
-    room_id, client_content, client_last_known_updated_at, client_original_content
+    room_id, client_content, client_base_version, client_original_content
 ):
     if len(client_content) > MAX_CONTENT_LENGTH:
         return (
@@ -44,37 +44,43 @@ async def sync_note_content(
             False,
         )
 
-    if client_last_known_updated_at is None or client_original_content is None:
-        logger.warning(
-            "Missing required parameters for room %s, using fallback", room_id
-        )
-        await nd.save_content(room_id, client_content)
-        row = await nd.get_row(room_id)
+    if client_base_version is None or client_original_content is None:
         return (
-            _ok_payload(
-                {
-                    "updated_at": _format_updated_at(row["updated_at"]),
-                    "content": row["content"],
-                },
-                "ok_unconditional_fallback",
+            _error_payload("base_version and original_content are required.", "error"),
+            400,
+            False,
+        )
+
+    if len(client_original_content) > MAX_CONTENT_LENGTH:
+        return (
+            _error_payload(
+                f"Original content exceeds max length of {MAX_CONTENT_LENGTH} characters.",
+                "error",
             ),
-            200,
-            True,
+            400,
+            False,
         )
 
     for attempt in range(MAX_RETRY_ATTEMPTS):
         try:
             rowcount = await nd.save_content(
-                room_id, client_content, client_last_known_updated_at
+                room_id, client_content, client_base_version
             )
 
             if rowcount > 0:
                 row = await nd.get_row(room_id)
+                if not row:
+                    return (
+                        _error_payload("Room has expired or was deleted.", "room_expired"),
+                        410,
+                        False,
+                    )
                 return (
                     _ok_payload(
                         {
                             "updated_at": _format_updated_at(row["updated_at"]),
                             "content": row["content"],
+                            "version": row["version"],
                         },
                         "ok",
                     ),
@@ -93,6 +99,12 @@ async def sync_note_content(
                 await asyncio.sleep(0.1 * (attempt + 1))
                 continue
             final_row = await nd.get_row(room_id)
+            if not final_row:
+                return (
+                    _error_payload("Room has expired or was deleted.", "room_expired"),
+                    410,
+                    False,
+                )
             return (
                 _error_payload(
                     "Unable to resolve conflict after multiple attempts. Please refresh and try again.",
@@ -100,6 +112,7 @@ async def sync_note_content(
                     data={
                         "updated_at": _format_updated_at(final_row["updated_at"]),
                         "content": final_row["content"],
+                        "version": final_row["version"],
                     },
                 ),
                 409,
@@ -119,8 +132,14 @@ async def sync_note_content(
 async def attempt_merge(room_id, client_content, client_original_content):
     try:
         current_db_row = await nd.get_row(room_id)
+        if not current_db_row:
+            return (
+                _error_payload("Room has expired or was deleted.", "room_expired"),
+                410,
+                False,
+            )
         server_text = current_db_row["content"]
-        server_timestamp = _format_updated_at(current_db_row["updated_at"])
+        server_version = current_db_row["version"]
 
         dmp = dmp_module.diff_match_patch()
         patches = dmp.patch_make(client_original_content, client_content)
@@ -128,15 +147,24 @@ async def attempt_merge(room_id, client_content, client_original_content):
 
         if all(patch_results):
             merged_rowcount = await nd.save_content(
-                room_id, merged_text, server_timestamp
+                room_id, merged_text, server_version
             )
             if merged_rowcount > 0:
                 final_row = await nd.get_row(room_id)
+                if not final_row:
+                    return (
+                        _error_payload(
+                            "Room has expired or was deleted.", "room_expired"
+                        ),
+                        410,
+                        False,
+                    )
                 return (
                     _ok_payload(
                         {
                             "updated_at": _format_updated_at(final_row["updated_at"]),
                             "content": final_row["content"],
+                            "version": final_row["version"],
                         },
                         "ok_merged",
                     ),
@@ -147,6 +175,12 @@ async def attempt_merge(room_id, client_content, client_original_content):
             return None
 
         final_row = await nd.get_row(room_id)
+        if not final_row:
+            return (
+                _error_payload("Room has expired or was deleted.", "room_expired"),
+                410,
+                False,
+            )
         return (
             _error_payload(
                 "Automatic merge failed. Please review the latest content.",
@@ -154,6 +188,7 @@ async def attempt_merge(room_id, client_content, client_original_content):
                 data={
                     "updated_at": _format_updated_at(final_row["updated_at"]),
                     "content": final_row["content"],
+                    "version": final_row["version"],
                 },
             ),
             409,

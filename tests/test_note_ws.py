@@ -11,7 +11,10 @@ def test_note_ws_ack_includes_request_id():
     websocket = MagicMock()
     websocket.headers = {}
     websocket.query_params = {"csrf_token": "csrf-test-token"}
-    websocket.session = {"_csrf_token": "csrf-test-token"}
+    websocket.session = {
+        "_csrf_token": "csrf-test-token",
+        "note_room_access": {"abc123": {"share_token": "token"}},
+    }
     websocket.client = type("Client", (), {"host": "127.0.0.1"})()
     websocket.send_json = AsyncMock()
     websocket.receive_json = AsyncMock(
@@ -20,7 +23,7 @@ def test_note_ws_ack_includes_request_id():
                 "type": "save",
                 "request_id": "save-1",
                 "content": "hello",
-                "last_known_updated_at": "2026-01-01 00:00:00.000000",
+                "base_version": 0,
                 "original_content": "hi",
             },
             WebSocketDisconnect(),
@@ -30,12 +33,14 @@ def test_note_ws_ack_includes_request_id():
     initial_row = {
         "content": "initial",
         "updated_at": datetime(2026, 1, 1, 0, 0, 0, 0),
+        "version": 0,
     }
     sync_payload = {
         "status": "ok",
         "data": {
             "content": "hello",
             "updated_at": "2026-01-01 00:00:01.000000",
+            "version": 1,
             "note_status": "ok",
         },
         "error": None,
@@ -63,7 +68,7 @@ def test_note_ws_ack_includes_request_id():
             ),
             patch("Note.note_ws.remove_db_session", new=AsyncMock()),
         ):
-            await note_ws(websocket=websocket, room_id="abc123", password="000000")
+            await note_ws(websocket=websocket, room_id="abc123")
 
     asyncio.run(scenario())
 
@@ -90,7 +95,7 @@ def test_note_ws_rejects_missing_websocket_csrf():
             "Note.note_ws.check_rate_limit",
             new=AsyncMock(return_value=(True, None, None)),
         ):
-            await note_ws(websocket=websocket, room_id="abc123", password="000000")
+            await note_ws(websocket=websocket, room_id="abc123")
 
     asyncio.run(scenario())
     websocket.close.assert_awaited_once_with(code=1008)

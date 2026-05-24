@@ -87,6 +87,15 @@ class RoomHub:
 
         await self._clear_instance_connections()
 
+    async def close_room(self, room_id, code=1008):
+        async with self._lock:
+            sockets = list(self._rooms.get(room_id, {}).keys())
+        for ws in sockets:
+            try:
+                await ws.close(code=code)
+            except Exception:
+                pass
+
     async def _register_connection(self, room_id, connection_id):
         client = await get_redis()
         if not client:
@@ -231,6 +240,29 @@ async def publish_room_update(room_id, payload):
         return False
 
 
+async def publish_room_expired(room_id):
+    payload = {
+        "type": "room_expired",
+        "status": "error",
+        "data": {},
+        "error": "Room has expired or was deleted.",
+    }
+    client = await get_redis()
+    if not client:
+        return False
+    message = {
+        "room_id": room_id,
+        "payload": payload,
+        "source": INSTANCE_ID,
+    }
+    try:
+        await client.publish(f"note:room:{room_id}", json.dumps(message))
+        return True
+    except Exception as exc:
+        logger.warning("Failed to publish redis expiration update: %s", exc)
+        return False
+
+
 async def _pubsub_loop():
     client = await get_redis()
     if not client:
@@ -260,6 +292,8 @@ async def _pubsub_loop():
             room_payload = payload.get("payload")
             if room_id and room_payload:
                 await hub.broadcast(room_id, room_payload)
+                if room_payload.get("type") == "room_expired":
+                    await hub.close_room(room_id)
     except asyncio.CancelledError:
         raise
     except Exception as exc:

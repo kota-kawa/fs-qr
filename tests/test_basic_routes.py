@@ -277,11 +277,6 @@ def test_search_all_fsqr_single_match_redirects(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=None,
         ),
-        patch(
-            "top_search.note_data.pick_room_id_direct",
-            new_callable=AsyncMock,
-            return_value=None,
-        ),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
@@ -309,11 +304,6 @@ def test_search_all_group_single_match_redirects(test_client: TestClient):
             new_callable=AsyncMock,
             return_value="grp123",
         ),
-        patch(
-            "top_search.note_data.pick_room_id_direct",
-            new_callable=AsyncMock,
-            return_value=None,
-        ),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
@@ -323,14 +313,18 @@ def test_search_all_group_single_match_redirects(test_client: TestClient):
     assert response.headers["location"] == "/group/grp123/654321"
 
 
-def test_search_all_note_single_match_redirects(test_client: TestClient):
+def test_search_all_no_longer_matches_note_password_rooms(test_client: TestClient):
     with (
         patch(
             "top_search.check_rate_limit",
             new_callable=AsyncMock,
             return_value=(True, None, None),
         ),
-        patch("top_search.register_success", new_callable=AsyncMock),
+        patch(
+            "top_search.register_failure",
+            new_callable=AsyncMock,
+            return_value=(None, None),
+        ),
         patch(
             "top_search.fsqr_data.get_data_by_credentials",
             new_callable=AsyncMock,
@@ -341,18 +335,12 @@ def test_search_all_note_single_match_redirects(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=None,
         ),
-        patch(
-            "top_search.note_data.pick_room_id_direct",
-            new_callable=AsyncMock,
-            return_value="not123",
-        ),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 302
-    assert response.headers["location"] == "/note/not123/654321"
+    assert response.status_code == 404
 
 
 def test_search_all_multiple_matches_returns_choice_page(test_client: TestClient):
@@ -373,11 +361,6 @@ def test_search_all_multiple_matches_returns_choice_page(test_client: TestClient
             new_callable=AsyncMock,
             return_value="grp123",
         ),
-        patch(
-            "top_search.note_data.pick_room_id_direct",
-            new_callable=AsyncMock,
-            return_value="not123",
-        ),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
@@ -386,10 +369,8 @@ def test_search_all_multiple_matches_returns_choice_page(test_client: TestClient
     assert response.status_code == 200
     assert "QRコード共有" in response.text
     assert "グループ共有" in response.text
-    assert "ノート共有" in response.text
     assert 'href="/fs-qr/abc123/654321"' in response.text
     assert 'href="/group/grp123/654321"' in response.text
-    assert 'href="/note/not123/654321"' in response.text
     assert "noindex, nofollow" in response.text
 
 
@@ -412,11 +393,6 @@ def test_search_all_no_match_returns_404(test_client: TestClient):
         ),
         patch(
             "top_search.group_data.pich_room_id_direct",
-            new_callable=AsyncMock,
-            return_value=None,
-        ),
-        patch(
-            "top_search.note_data.pick_room_id_direct",
             new_callable=AsyncMock,
             return_value=None,
         ),

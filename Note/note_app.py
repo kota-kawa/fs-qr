@@ -1,7 +1,6 @@
 import logging
 import re
 import secrets
-from datetime import timedelta
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
@@ -10,7 +9,7 @@ from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
 from i18n import is_language_query_only
-from models import RoomCreateInput, RoomSearchInput
+from models import RoomCreateInput
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -22,12 +21,16 @@ from rate_limit import (
 from web import (
     build_url,
     enforce_csrf,
-    flash_message,
     get_or_create_csrf_token,
     render_template,
     wants_json_response,
 )
 from . import note_data as nd
+from .note_access import (
+    get_note_room_share_token,
+    has_note_room_access,
+    remember_note_room_access,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -51,19 +54,6 @@ async def _room_id_exists(room_id: str) -> bool:
     return bool(rows)
 
 
-async def _ensure_note_tables() -> None:
-    await nd.ensure_tables()
-
-
-async def _room_id_exists_with_schema_repair(room_id: str) -> bool:
-    try:
-        return await _room_id_exists(room_id)
-    except Exception:
-        logger.exception("Failed to check note room ID; repairing note schema")
-        await _ensure_note_tables()
-        return await _room_id_exists(room_id)
-
-
 def _canonical_redirect(request: Request):
     if request.url.query and not is_language_query_only(request):
         url = request.url.replace(query="")
@@ -71,11 +61,16 @@ def _canonical_redirect(request: Request):
     return None
 
 
-async def _get_room_if_valid(room_id, password):
-    meta = await nd.get_room_meta_direct(room_id, password=password)
+def _gone_response(request: Request, message: str = "このノートルームは利用できません。"):
+    response = render_template(request, "error.html", message=message)
+    response.status_code = 410
+    return response
+
+
+async def _get_room_if_valid(room_id):
+    meta = await nd.get_room_meta_direct(room_id)
     if not meta:
         return None
-    await nd.get_row(room_id)
     return meta
 
 
@@ -138,39 +133,54 @@ async def create_note_room(request: Request):  # noqa: C901
         except ValueError as exc:
             return api_error_response(str(exc), status_code=400)
 
-    if id_mode == "auto":
-        if id_val and await _room_id_exists_with_schema_repair(id_val):
-            return api_error_response(
-                "生成されたIDが重複しています。新しいIDで再試行してください。",
-                status_code=409,
-                data={"retry_auto": True},
-            )
-        if not id_val:
-            generated = None
-            for _ in range(10):
-                candidate = _generate_room_id()
-                if not await _room_id_exists_with_schema_repair(candidate):
-                    generated = candidate
-                    break
-            if not generated:
+    try:
+        if id_mode == "auto":
+            if id_val and await _room_id_exists(id_val):
                 return api_error_response(
-                    "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
-                    status_code=500,
+                    "生成されたIDが重複しています。新しいIDで再試行してください。",
+                    status_code=409,
+                    data={"retry_auto": True},
                 )
-            id_val = generated
-    else:
-        if await _room_id_exists_with_schema_repair(id_val):
-            return api_error_response(
-                "このIDは既に使用されています。別のIDを使用してください。",
-                status_code=409,
-            )
+            if not id_val:
+                generated = None
+                for _ in range(10):
+                    candidate = _generate_room_id()
+                    if not await _room_id_exists(candidate):
+                        generated = candidate
+                        break
+                if not generated:
+                    return api_error_response(
+                        "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
+                        status_code=500,
+                    )
+                id_val = generated
+        else:
+            if await _room_id_exists(id_val):
+                return api_error_response(
+                    "このIDは既に使用されています。別のIDを使用してください。",
+                    status_code=409,
+                )
+    except Exception:
+        logger.exception("Failed to check note room ID")
+        return api_error_response(
+            "ルーム作成に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
 
     room_id = id_val
 
-    pw = secrets.token_urlsafe(8)
+    share_token = secrets.token_urlsafe(32)
+    share_token_hash = nd.hash_share_token(share_token)
+    legacy_pw = secrets.token_urlsafe(16)
     try:
-        await nd.create_room(room_id, pw, room_id, retention_days=retention_days)
-        created = await _get_room_if_valid(room_id, pw)
+        await nd.create_room(
+            room_id,
+            legacy_pw,
+            room_id,
+            retention_days=retention_days,
+            share_token_hash=share_token_hash,
+        )
+        created = await _get_room_if_valid(room_id)
     except IntegrityError:
         logger.info("Note room ID conflict while creating room_id=%s", room_id)
         return api_error_response(
@@ -179,43 +189,30 @@ async def create_note_room(request: Request):  # noqa: C901
             data={"retry_auto": id_mode == "auto"},
         )
     except Exception:
-        logger.exception("Failed to create note room; repairing note schema")
-        try:
-            await _ensure_note_tables()
-            if await _room_id_exists(room_id):
-                created = await _get_room_if_valid(room_id, pw)
-                if not created:
-                    return api_error_response(
-                        "このIDは既に使用されています。別のIDを使用してください。",
-                        status_code=409,
-                        data={"retry_auto": id_mode == "auto"},
-                    )
-            else:
-                await nd.create_room(
-                    room_id, pw, room_id, retention_days=retention_days
-                )
-                created = await _get_room_if_valid(room_id, pw)
-        except IntegrityError:
-            logger.info("Note room ID conflict while retrying room_id=%s", room_id)
-            return api_error_response(
-                "このIDは既に使用されています。別のIDを使用してください。",
-                status_code=409,
-                data={"retry_auto": id_mode == "auto"},
-            )
-        except Exception:
-            logger.exception("Failed to create note room after schema repair")
-            return api_error_response(
-                "ルーム作成に失敗しました。時間をおいて再度お試しください。",
-                status_code=500,
-            )
+        logger.exception("Failed to create note room")
+        return api_error_response(
+            "ルーム作成に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
+        )
     if not created:
         return api_error_response(
             "ルーム作成に失敗しました。時間をおいて再試行してください。",
             status_code=500,
         )
-    redirect_url = build_url(request, "note.note_room", room_id=room_id, password=pw)
+    remember_note_room_access(request, room_id, share_token)
+    redirect_url = build_url(request, "note.note_room", room_id=room_id)
+    share_url = build_url(request, "note.note_share", token=share_token, _external=True)
     if wants_json_response(request):
-        return api_ok_response({"redirect_url": redirect_url})
+        return api_ok_response(
+            {
+                "redirect_url": redirect_url,
+                "share_url": share_url,
+                "room_id": room_id,
+                "expires_at": created.get("expires_at").isoformat(sep=" ")
+                if created.get("expires_at")
+                else None,
+            }
+        )
     return RedirectResponse(redirect_url, status_code=302)
 
 
@@ -227,8 +224,8 @@ async def note_room_access(request: Request):
     return render_template(request, "note_room_access.html")
 
 
-@router.get("/note/{room_id}/{password}", name="note.note_room")
-async def note_room(request: Request, room_id: str, password: str):
+@router.get("/note/s/{token}", name="note.note_share")
+async def note_share(request: Request, token: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
@@ -238,20 +235,21 @@ async def note_room(request: Request, room_id: str, password: str):
         response.status_code = 429
         return response
 
-    meta = await _get_room_if_valid(room_id, password)
-    if not meta:
-        fallback_room_id = await nd.pick_room_id_direct(room_id, password)
-        if fallback_room_id:
-            await register_success(SCOPE_NOTE, ip)
-            return RedirectResponse(
-                build_url(
-                    request,
-                    "note.note_room",
-                    room_id=fallback_room_id,
-                    password=password,
-                ),
-                status_code=302,
+    token = (token or "").strip()
+    if len(token) < 32:
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            response = render_template(
+                request, "error.html", message=get_block_message(block_label)
             )
+            response.status_code = 429
+            return response
+        response = render_template(request, "error.html", message="共有URLが無効です。")
+        response.status_code = 404
+        return response
+
+    meta = await nd.get_room_meta_by_share_token_hash(nd.hash_share_token(token))
+    if not meta:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
             response = render_template(
@@ -262,33 +260,80 @@ async def note_room(request: Request, room_id: str, password: str):
         response = render_template(
             request,
             "error.html",
-            message="指定されたルームが見つからないか、パスワードが間違っています",
+            message="指定されたノートルームが見つからないか、期限切れです。",
         )
         response.status_code = 404
         return response
 
     await register_success(SCOPE_NOTE, ip)
+    room_id = meta["room_id"]
+    remember_note_room_access(request, room_id, token)
+    return RedirectResponse(
+        build_url(request, "note.note_room", room_id=room_id),
+        status_code=302,
+    )
+
+
+@router.get("/note/r/{room_id}", name="note.note_room")
+async def note_room(request: Request, room_id: str):
+    ip = get_client_ip(request)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
+    if not allowed:
+        response = render_template(
+            request, "error.html", message=get_block_message(block_label)
+        )
+        response.status_code = 429
+        return response
+
+    if not has_note_room_access(request, room_id):
+        response = render_template(request, "error.html", message="共有URLからアクセスしてください。")
+        response.status_code = 404
+        return response
+
+    meta = await _get_room_if_valid(room_id)
+    if not meta:
+        return _gone_response(request, "このノートルームは期限切れ、または削除済みです。")
+
+    row = await nd.get_row(room_id)
+    if not row:
+        return _gone_response(request, "このノートルームは期限切れ、または削除済みです。")
+
+    await register_success(SCOPE_NOTE, ip)
 
     retention_days = meta.get("retention_days", 7)
-    created_at = meta.get("time")
+    expires_at = meta.get("expires_at")
     deletion_date = None
-    if created_at:
+    if expires_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
-                "%Y-%m-%d %H:%M"
-            )
+            deletion_date = expires_at.strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
+
+    share_token = get_note_room_share_token(request, room_id)
+    share_url = (
+        build_url(request, "note.note_share", token=share_token, _external=True)
+        if share_token
+        else ""
+    )
 
     return render_template(
         request,
         "note_room.html",
         room_id=room_id,
         user_id=meta["id"],
-        password=password,
+        password="",
+        share_url=share_url,
         retention_days=retention_days,
         deletion_date=deletion_date,
         websocket_csrf_token=get_or_create_csrf_token(request),
+    )
+
+
+@router.get("/note/{room_id}/{password}", name="note.note_legacy_room")
+async def note_legacy_room(request: Request, room_id: str, password: str):
+    return _gone_response(
+        request,
+        "旧形式のノートURLは停止しました。新しい共有URLからアクセスしてください。",
     )
 
 
@@ -300,83 +345,15 @@ async def search_note_room_page(request: Request):
 @router.post("/search_note_process", name="note.search_note_room")
 async def search_note_room(request: Request):
     await enforce_csrf(request)
-    form = await request.form()
-    id_val = (form.get("id") or "").strip()
-    pw = (form.get("password") or "").strip()
-
-    ip = get_client_ip(request)
-    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
-    if not allowed:
-        flash_message(request, get_block_message(block_label))
-        return RedirectResponse("/search_note", status_code=302)
-    try:
-        inp = RoomSearchInput(room_id=id_val, password=pw)
-        id_val, pw = inp.room_id, inp.password
-    except ValidationError:
-        _, block_label = await register_failure(SCOPE_NOTE, ip)
-        if block_label:
-            flash_message(request, get_block_message(block_label))
-        else:
-            flash_message(request, "ID またはパスワードが不正です。")
-        return RedirectResponse("/search_note", status_code=302)
-    room_id = await nd.pich_room_id(id_val, pw)
-    if not room_id:
-        _, block_label = await register_failure(SCOPE_NOTE, ip)
-        if block_label:
-            flash_message(request, get_block_message(block_label))
-        else:
-            flash_message(request, "ID かパスワードが間違っています。")
-        return RedirectResponse("/search_note", status_code=302)
-    await register_success(SCOPE_NOTE, ip)
-    return RedirectResponse(
-        build_url(request, "note.note_room", room_id=room_id, password=pw),
-        status_code=302,
+    return _gone_response(
+        request,
+        "IDとパスワードによるノート検索は停止しました。共有URLを使用してください。",
     )
 
 
 @router.get("/note_direct/{room_id}/{password}", name="note.note_direct_access")
 async def note_direct_access(request: Request, room_id: str, password: str):
-    ip = get_client_ip(request)
-    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
-    if not allowed:
-        response = render_template(
-            request, "error.html", message=get_block_message(block_label)
-        )
-        response.status_code = 429
-        return response
-
-    meta = await _get_room_if_valid(room_id, password)
-    if not meta:
-        fallback_room_id = await nd.pick_room_id_direct(room_id, password)
-        if fallback_room_id:
-            await register_success(SCOPE_NOTE, ip)
-            return RedirectResponse(
-                build_url(
-                    request,
-                    "note.note_room",
-                    room_id=fallback_room_id,
-                    password=password,
-                ),
-                status_code=302,
-            )
-        _, block_label = await register_failure(SCOPE_NOTE, ip)
-        if block_label:
-            response = render_template(
-                request, "error.html", message=get_block_message(block_label)
-            )
-            response.status_code = 429
-            return response
-        response = render_template(
-            request,
-            "error.html",
-            message="指定されたルームが見つからないか、パスワードが間違っています",
-        )
-        response.status_code = 404
-        return response
-
-    await register_success(SCOPE_NOTE, ip)
-
-    return RedirectResponse(
-        build_url(request, "note.note_room", room_id=room_id, password=password),
-        status_code=302,
+    return _gone_response(
+        request,
+        "旧形式のノート直接アクセスは停止しました。新しい共有URLを使用してください。",
     )

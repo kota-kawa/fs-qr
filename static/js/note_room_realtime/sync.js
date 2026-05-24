@@ -48,9 +48,12 @@
       if (payload.data && payload.data.content !== undefined && typeof payload.data.content !== "string") {
         return null;
       }
-      if (payload.data && payload.data.updated_at !== undefined && typeof payload.data.updated_at !== "string") {
-        return null;
-      }
+	      if (payload.data && payload.data.updated_at !== undefined && typeof payload.data.updated_at !== "string") {
+	        return null;
+	      }
+	      if (payload.data && payload.data.version !== undefined && !Number.isFinite(Number(payload.data.version))) {
+	        return null;
+	      }
       if (payload.data && payload.data.note_status !== undefined && typeof payload.data.note_status !== "string") {
         return null;
       }
@@ -67,9 +70,9 @@
       if (payload.data !== undefined && !isPlainObject(payload.data)) {
         return null;
       }
-      if (!payload.data || typeof payload.data.content !== "string" || typeof payload.data.updated_at !== "string") {
-        return null;
-      }
+	      if (!payload.data || typeof payload.data.content !== "string" || typeof payload.data.updated_at !== "string" || !Number.isFinite(Number(payload.data.version))) {
+	        return null;
+	      }
       if (payload.data.note_status !== undefined && typeof payload.data.note_status !== "string") {
         return null;
       }
@@ -80,9 +83,9 @@
       if (!isPlainObject(payload)) {
         return null;
       }
-      if (typeof payload.content !== "string" || typeof payload.updated_at !== "string") {
-        return null;
-      }
+	      if (typeof payload.content !== "string" || typeof payload.updated_at !== "string" || !Number.isFinite(Number(payload.version))) {
+	        return null;
+	      }
       return payload;
     }
 
@@ -111,11 +114,11 @@
       context.saveSequence += 1;
       const requestId = `save-${context.saveSequence}`;
       const envelope = {
-        type: "save",
-        request_id: requestId,
-        content: currentContent,
-        last_known_updated_at: context.lastStamp,
-        original_content: context.pendingBaseContent || context.contentAtLastSync
+	        type: "save",
+	        request_id: requestId,
+	        content: currentContent,
+	        base_version: context.baseVersion,
+	        original_content: context.pendingBaseContent || context.contentAtLastSync
       };
       context.inFlightSave = {
         requestId: requestId,
@@ -250,7 +253,7 @@
       var noteStatus = typeof ackData.note_status === "string" ? ackData.note_status : "";
       var hasServerContent = ackData.content !== undefined && ackData.updated_at;
       if (hasServerContent && (normalizedPayload.status === "ok" || noteStatus.startsWith("conflict"))) {
-        selfEditModule.applyServerContent(context, ackData.content, ackData.updated_at);
+	        selfEditModule.applyServerContent(context, ackData.content, ackData.updated_at, ackData.version);
       }
 
       if (
@@ -300,9 +303,10 @@
         const hasUnsyncedEditor = context.editor.value !== context.contentAtLastSync;
         if (hasLocalDraft || hasUnsyncedEditor) {
           selfEditModule.queuePendingRemoteUpdate(context, {
-            content: updateData.content,
-            updated_at: updateData.updated_at,
-            status: updateData.note_status || ""
+	            content: updateData.content,
+	            updated_at: updateData.updated_at,
+	            version: updateData.version,
+	            status: updateData.note_status || ""
           });
           ui.setStatus(context, "badge bg-warning text-dark", "Remote update queued");
           ui.setMergeStatus(context, translate("note.conflict_notice_queued", "Conflict notice: A remote update was received. It will be applied after your local changes are saved."), "warning");
@@ -310,10 +314,11 @@
         }
         selfEditModule.applyServerContent(
           context,
-          updateData.content,
-          updateData.updated_at,
-          "Updated by others"
-        );
+	          updateData.content,
+	          updateData.updated_at,
+	          updateData.version,
+	          "Updated by others"
+	        );
         ui.setMergeStatus(context, "", "");
       }
     }
@@ -328,7 +333,8 @@
       context.editor.value = normalizedPayload.content;
       ui.updateCharCount(context, context.editor.value);
       context.contentAtLastSync = context.editor.value;
-      context.lastStamp = normalizedPayload.updated_at;
+	      context.lastStamp = normalizedPayload.updated_at;
+	      context.baseVersion = Number(normalizedPayload.version);
       context.pendingContent = null;
       context.pendingBaseContent = null;
       context.pendingRemoteUpdate = null;

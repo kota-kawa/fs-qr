@@ -56,7 +56,7 @@
     return oldContext === newContext || lengthDiff < 10;
   }
 
-  function applyServerContent(context, newContent, updatedAt, message) {
+  function applyServerContent(context, newContent, updatedAt, version, message) {
     if (newContent === undefined || updatedAt === undefined) {
       return;
     }
@@ -84,6 +84,9 @@
     }
 
     context.lastStamp = updatedAt;
+    if (Number.isFinite(Number(version))) {
+      context.baseVersion = Number(version);
+    }
     context.contentAtLastSync = newContent;
 
     if (message) {
@@ -98,6 +101,7 @@
       || Array.isArray(payload)
       || typeof payload.content !== "string"
       || typeof payload.updated_at !== "string"
+      || !Number.isFinite(Number(payload.version))
     ) {
       return;
     }
@@ -111,6 +115,7 @@
     context.pendingRemoteUpdate = {
       content: payload.content,
       updatedAt: payload.updated_at,
+      version: Number(payload.version),
       status: typeof payload.status === "string" ? payload.status : ""
     };
   }
@@ -122,7 +127,13 @@
     const queued = context.pendingRemoteUpdate;
     context.pendingRemoteUpdate = null;
     if (isStampNewer(queued.updatedAt, context.lastStamp)) {
-      applyServerContent(context, queued.content, queued.updatedAt, defaultMessage || "Updated by others");
+      applyServerContent(
+        context,
+        queued.content,
+        queued.updatedAt,
+        queued.version,
+        defaultMessage || "Updated by others"
+      );
       return true;
     }
     return false;

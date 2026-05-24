@@ -25,9 +25,9 @@
 
     function connectWebSocket() {
       const proto = window.location.protocol === "https:" ? "wss" : "ws";
-      const wsUrl = new URL(
-        `${proto}://${window.location.host}/ws/note/${context.room}/${context.roomPassword}`
-      );
+	      const wsUrl = new URL(
+	        `${proto}://${window.location.host}/ws/note/${context.room}`
+	      );
       if (context.websocketCsrfToken) {
         wsUrl.searchParams.set("csrf_token", context.websocketCsrfToken);
       }

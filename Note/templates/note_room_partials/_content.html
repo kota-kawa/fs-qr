@@ -1,5 +1,5 @@
 {% import "macros/icons.html" as icons %}
-{% set share_url = url_for('note.note_room', room_id=room_id, password=password, _external=True) %}
+{% set share_url = share_url if share_url else '' %}
 <div class="modern-page-container">
     <div class="modern-content-card">
         <div class="modern-card-header">
@@ -22,18 +22,6 @@
                                 <span class="room-info-value-row">
                                     <span class="room-info-value-text">{{ room_id }}</span>
                                     <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー">
-                                        <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
-                                        <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                                    </button>
-                                </span>
-                            </span>
-                        </div>
-                        <div class="room-info-row">
-                            <span class="room-info-label">パスワード</span>
-                            <span class="room-info-value">
-                                <span class="room-info-value-row">
-                                    <span class="room-info-value-text">{{ password }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー">
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
@@ -101,7 +89,7 @@
   <div class="usage-section-content">
     <p>
       このルームではテキストをリアルタイムに共有できます。<br>
-      上記のIDとパスワード、URL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
+	      上記のURL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
       エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
       {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
     </p>

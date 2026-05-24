@@ -860,28 +860,17 @@ def test_sync_note_content_too_long_returns_400():
     assert "error" in payload
 
 
-def test_sync_note_content_missing_params_uses_fallback():
-    """last_known_updated_at が None の場合は無条件フォールバックを使う"""
-    from datetime import datetime
-
+def test_sync_note_content_missing_params_returns_400():
+    """base_version が None の場合は 400 を返す"""
     from Note.note_sync import sync_note_content
 
-    mock_row = {"content": "saved", "updated_at": datetime(2026, 1, 1)}
+    payload, status, changed = asyncio.run(
+        sync_note_content("room1", "new content", None, None)
+    )
 
-    with (
-        patch("Note.note_sync.nd.save_content", new_callable=AsyncMock),
-        patch(
-            "Note.note_sync.nd.get_row", new_callable=AsyncMock, return_value=mock_row
-        ),
-    ):
-        payload, status, changed = asyncio.run(
-            sync_note_content("room1", "new content", None, None)
-        )
-
-    assert status == 200
-    assert payload["status"] == "ok"
-    assert payload["data"]["note_status"] == "ok_unconditional_fallback"
-    assert changed is True
+    assert status == 400
+    assert payload["status"] == "error"
+    assert changed is False
 
 
 def test_sync_note_content_successful_save_returns_ok():
@@ -890,7 +879,11 @@ def test_sync_note_content_successful_save_returns_ok():
 
     from Note.note_sync import sync_note_content
 
-    mock_row = {"content": "new content", "updated_at": datetime(2026, 1, 1)}
+    mock_row = {
+        "content": "new content",
+        "updated_at": datetime(2026, 1, 1),
+        "version": 1,
+    }
 
     with (
         patch("Note.note_sync.nd.save_content", new_callable=AsyncMock, return_value=1),
@@ -902,7 +895,7 @@ def test_sync_note_content_successful_save_returns_ok():
             sync_note_content(
                 "room1",
                 "new content",
-                "2026-01-01 00:00:00.000000",
+                0,
                 "original",
             )
         )
@@ -910,6 +903,7 @@ def test_sync_note_content_successful_save_returns_ok():
     assert status == 200
     assert payload["status"] == "ok"
     assert payload["data"]["note_status"] == "ok"
+    assert payload["data"]["version"] == 1
     assert changed is True
 
 
@@ -919,7 +913,11 @@ def test_sync_note_content_conflict_max_retries_returns_409():
 
     from Note.note_sync import sync_note_content
 
-    mock_row = {"content": "server content", "updated_at": datetime(2026, 1, 1)}
+    mock_row = {
+        "content": "server content",
+        "updated_at": datetime(2026, 1, 1),
+        "version": 2,
+    }
 
     with (
         patch("Note.note_sync.nd.save_content", new_callable=AsyncMock, return_value=0),
@@ -935,7 +933,7 @@ def test_sync_note_content_conflict_max_retries_returns_409():
             sync_note_content(
                 "room1",
                 "client content",
-                "2026-01-01 00:00:00.000000",
+                0,
                 "original",
             )
         )

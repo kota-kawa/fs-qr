@@ -13,6 +13,7 @@ from FSQR import fsqr_data
 from Group import group_data
 from migration_runner import run_migrations
 from Note import note_data
+from Note.note_realtime import publish_room_expired
 from settings import REDIS_URL
 
 logger = logging.getLogger(__name__)
@@ -71,7 +72,9 @@ def remove_expired_group_rooms():
 
 async def _remove_expired_note_rooms_async():
     try:
-        await note_data.remove_expired_rooms()
+        stats = await note_data.remove_expired_rooms()
+        for room_id in stats.get("expired_room_ids", []):
+            await publish_room_expired(room_id)
     finally:
         await reset_db_connection()
 

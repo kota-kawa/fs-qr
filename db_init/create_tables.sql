@@ -42,17 +42,27 @@ CREATE TABLE note_room (
     password VARCHAR(255) NOT NULL,
     room_id VARCHAR(255) NOT NULL,
     retention_days INT NOT NULL DEFAULT 7,
+    expires_at DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'active',
+    deleted_at DATETIME NULL,
+    share_token_hash VARCHAR(64) DEFAULT NULL,
     UNIQUE KEY uq_note_room_room_id (room_id),
+    UNIQUE KEY uq_note_room_share_token_hash (share_token_hash),
     INDEX idx_note_room_id_password (id, password),
     INDEX idx_note_room_room_id_password (room_id, password),
-    INDEX idx_note_room_time (time)
+    INDEX idx_note_room_time (time),
+    INDEX idx_note_room_expires_status (status, expires_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 各ルームに 1 行だけ、最新ノート本文を保持
 CREATE TABLE note_content (
     room_id VARCHAR(255) PRIMARY KEY,
     content LONGTEXT,
-    updated_at DATETIME,
-    INDEX idx_note_content_updated_at (updated_at)
+    updated_at DATETIME(6),
+    version BIGINT NOT NULL DEFAULT 0,
+    INDEX idx_note_content_updated_at (updated_at),
+    CONSTRAINT fk_note_content_room_id
+        FOREIGN KEY (room_id) REFERENCES note_room(room_id)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -125,22 +125,22 @@ class FsqrUploadInput(BaseModel):
 class NoteWsMessage(BaseModel):
     """WebSocket から受信するノート保存メッセージのバリデーション。
 
-    使用箇所: Note /ws/note/{room_id}/{password}
+    使用箇所: Note /ws/note/{room_id}
     """
 
     type: Literal["save"]
     request_id: Optional[str] = Field(default=None, max_length=64)
     content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
-    last_known_updated_at: Optional[str] = None
-    original_content: Optional[str] = None
+    base_version: int = Field(ge=0)
+    original_content: str = Field(max_length=NOTE_MAX_CONTENT_LENGTH)
 
 
 class NoteSyncInput(BaseModel):
     """ノート同期 API の POST ボディのバリデーション。
 
-    使用箇所: Note /api/note/{room_id}/{password} (POST)
+    使用箇所: Note /api/note/{room_id} (POST)
     """
 
     content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
-    last_known_updated_at: Optional[str] = None
-    original_content: Optional[str] = None
+    base_version: int = Field(ge=0)
+    original_content: str = Field(max_length=NOTE_MAX_CONTENT_LENGTH)
