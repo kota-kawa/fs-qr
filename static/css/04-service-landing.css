@@ -380,6 +380,7 @@
   font-size: 0.9rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  margin-bottom: calc(2rem + env(safe-area-inset-bottom));
 }
 
 .simple-footer a {
