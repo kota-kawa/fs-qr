@@ -336,6 +336,10 @@
         langSelectApis.forEach((otherApi, j) => {
           if (j !== i) otherApi.update(value, { silent: true });
         });
+        if (value && value !== initialLanguage) {
+          setLanguageCookie(value);
+          window.location.reload();
+        }
       });
       langSelectApis.push(api);
     });
