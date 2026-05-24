@@ -1,23 +1,47 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11
+FROM python:3.11-slim-bookworm AS builder
 
-# Set the working directory to /app
-WORKDIR /app
+WORKDIR /build
 
-# Install system dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libmagic1 \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        default-libmysqlclient-dev \
+        pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade packaging tools to patch vendored CVEs in base image
-# (jaraco.context CVE-2026-23949, wheel CVE-2026-24049)
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt gunicorn
+
+
+FROM python:3.11-slim-bookworm
+
+WORKDIR /app
+ENV PATH="/opt/venv/bin:$PATH" \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Keep the runtime image small and avoid carrying build-only packages such as
+# linux-libc-dev into production, where Trivy scans the final image.
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+        libmagic1 \
+        libmariadb3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade system packaging tools shipped in the base image because Trivy scans
+# their metadata even though the app itself runs from /opt/venv.
+RUN /usr/local/bin/python -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
+COPY --from=builder /opt/venv /opt/venv
 
 # Copy the current directory contents into the container at /app
 COPY . /app
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 # Add wait-for-it script for database readiness
 COPY wait-for-it.sh /usr/local/bin/wait-for-it
