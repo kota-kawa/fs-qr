@@ -66,21 +66,19 @@ def test_create_note_room_wrong_length(test_client: TestClient):
 
 
 def test_search_note_invalid_id_chars(test_client: TestClient):
-    """ID/Password 検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_note_process",
         data={"id": "bad!!", "password": "123456"},
     )
-    assert response.status_code == 410
+    assert response.status_code == 400
 
 
 def test_search_note_invalid_password_chars(test_client: TestClient):
-    """ID/Password 検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_note_process",
         data={"id": "abc123", "password": "abc"},
     )
-    assert response.status_code == 410
+    assert response.status_code == 400
 
 
 # --- note_room: ルームが見つからない → 404 ---
@@ -165,9 +163,10 @@ def test_create_note_room_auto_duplicate(test_client: TestClient):
     assert payload["data"]["retry_auto"] is True
 
 
-def test_create_note_room_generates_urlsafe_password(test_client: TestClient):
+def test_create_note_room_generates_numeric_password(test_client: TestClient):
     create_mock = AsyncMock()
     with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
         patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
         patch(
             "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
@@ -186,15 +185,14 @@ def test_create_note_room_generates_urlsafe_password(test_client: TestClient):
 
     assert response.status_code == 302
     assert response.headers["location"] == "/note/r/abc123"
-    create_mock.assert_awaited_once_with(
-        "abc123", "Strong_pw1", "abc123", retention_days=7
-    )
+    create_mock.assert_awaited_once_with("abc123", "000042", "abc123", retention_days=7)
 
 
 def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     """fetch からの作成は画面遷移先を JSON で返す"""
     create_mock = AsyncMock()
     with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
         patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
         patch(
             "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
@@ -217,9 +215,8 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["status"] == "ok"
     assert payload["data"]["redirect_url"] == "/note/r/abc123"
     assert payload["data"]["share_url"] == "http://testserver/note/s/Strong_pw1"
-    create_mock.assert_awaited_once_with(
-        "abc123", "Strong_pw1", "abc123", retention_days=7
-    )
+    assert payload["data"]["password"] == "000042"
+    create_mock.assert_awaited_once_with("abc123", "000042", "abc123", retention_days=7)
 
 
 def test_create_note_room_room_check_error_returns_json(test_client: TestClient):

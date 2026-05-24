@@ -260,72 +260,117 @@ def test_session_middleware_order():
 
 
 def test_search_all_fsqr_single_match_redirects(test_client: TestClient):
-    with patch(
-        "top_search.check_rate_limit",
-        new_callable=AsyncMock,
-        return_value=(True, None, None),
+    with (
+        patch(
+            "top_search.check_rate_limit", AsyncMock(return_value=(True, None, None))
+        ),
+        patch(
+            "top_search.fsqr_data.get_data_by_credentials",
+            AsyncMock(return_value=[{"secure_id": "abc123-uid-file"}]),
+        ),
+        patch("top_search.group_data.pich_room_id", AsyncMock(return_value=None)),
+        patch("top_search.note_data.pick_room_id", AsyncMock(return_value=None)),
+        patch("top_search.register_success", AsyncMock()),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 410
-    assert "共有URL" in response.text
+    assert response.status_code == 302
+    assert response.headers["location"] == "/download/abc123-uid-file"
 
 
 def test_search_all_group_single_match_redirects(test_client: TestClient):
-    with patch(
-        "top_search.check_rate_limit",
-        new_callable=AsyncMock,
-        return_value=(True, None, None),
+    with (
+        patch(
+            "top_search.check_rate_limit", AsyncMock(return_value=(True, None, None))
+        ),
+        patch(
+            "top_search.fsqr_data.get_data_by_credentials", AsyncMock(return_value=[])
+        ),
+        patch("top_search.group_data.pich_room_id", AsyncMock(return_value="abc123")),
+        patch(
+            "top_search.get_room_if_active", AsyncMock(return_value={"id": "abc123"})
+        ),
+        patch("top_search.note_data.pick_room_id", AsyncMock(return_value=None)),
+        patch("top_search.register_success", AsyncMock()),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 410
-    assert "共有URL" in response.text
+    assert response.status_code == 302
+    assert response.headers["location"] == "/group/r/abc123"
 
 
-def test_search_all_no_longer_matches_note_password_rooms(test_client: TestClient):
-    with patch(
-        "top_search.check_rate_limit",
-        new_callable=AsyncMock,
-        return_value=(True, None, None),
+def test_search_all_note_single_match_redirects(test_client: TestClient):
+    with (
+        patch(
+            "top_search.check_rate_limit", AsyncMock(return_value=(True, None, None))
+        ),
+        patch(
+            "top_search.fsqr_data.get_data_by_credentials", AsyncMock(return_value=[])
+        ),
+        patch("top_search.group_data.pich_room_id", AsyncMock(return_value=None)),
+        patch("top_search.note_data.pick_room_id", AsyncMock(return_value="abc123")),
+        patch(
+            "top_search.note_data.get_room_meta_direct",
+            AsyncMock(return_value={"id": "abc123"}),
+        ),
+        patch("top_search.register_success", AsyncMock()),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 410
+    assert response.status_code == 302
+    assert response.headers["location"] == "/note/r/abc123"
 
 
 def test_search_all_multiple_matches_returns_choice_page(test_client: TestClient):
-    with patch(
-        "top_search.check_rate_limit",
-        new_callable=AsyncMock,
-        return_value=(True, None, None),
+    with (
+        patch(
+            "top_search.check_rate_limit", AsyncMock(return_value=(True, None, None))
+        ),
+        patch(
+            "top_search.fsqr_data.get_data_by_credentials",
+            AsyncMock(return_value=[{"secure_id": "abc123-uid-file"}]),
+        ),
+        patch("top_search.group_data.pich_room_id", AsyncMock(return_value="abc123")),
+        patch(
+            "top_search.get_room_if_active", AsyncMock(return_value={"id": "abc123"})
+        ),
+        patch("top_search.note_data.pick_room_id", AsyncMock(return_value=None)),
+        patch("top_search.register_success", AsyncMock()),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 410
+    assert response.status_code == 200
     assert "noindex, nofollow" in response.text
+    assert "FSQR" in response.text
+    assert "Group" in response.text
 
 
 def test_search_all_no_match_returns_404(test_client: TestClient):
-    with patch(
-        "top_search.check_rate_limit",
-        new_callable=AsyncMock,
-        return_value=(True, None, None),
+    with (
+        patch(
+            "top_search.check_rate_limit", AsyncMock(return_value=(True, None, None))
+        ),
+        patch(
+            "top_search.fsqr_data.get_data_by_credentials", AsyncMock(return_value=[])
+        ),
+        patch("top_search.group_data.pich_room_id", AsyncMock(return_value=None)),
+        patch("top_search.note_data.pick_room_id", AsyncMock(return_value=None)),
+        patch("top_search.register_failure", AsyncMock(return_value=(None, None))),
     ):
         response = test_client.post(
             "/search_all", data={"id": "abc123", "password": "654321"}
         )
 
-    assert response.status_code == 410
-    assert "共有URL" in response.text
+    assert response.status_code == 404
+    assert "見つかりません" in response.text
 
 
 def test_search_all_invalid_input_returns_400(test_client: TestClient):
@@ -338,8 +383,8 @@ def test_search_all_invalid_input_returns_400(test_client: TestClient):
             "/search_all", data={"id": "bad!!", "password": "654321"}
         )
 
-    assert response.status_code == 410
-    assert "共有URL" in response.text
+    assert response.status_code == 400
+    assert "ID" in response.text
 
 
 def test_search_all_rate_limited_returns_429(test_client: TestClient):

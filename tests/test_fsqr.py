@@ -314,7 +314,7 @@ def test_upload_complete_uses_share_token_url_from_session(
 def test_upload_complete_hides_password_for_token_url(
     test_client: TestClient, tmp_path
 ):
-    """共有トークンURL方式ではサーバ応答に復号パスワードを表示しない"""
+    """アップロード完了画面ではID検索用の6桁パスワードを表示する"""
     share_token = "share-token-for-password-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     secure_id = "abc123-1234567890-report.pdf"
     with (
@@ -360,7 +360,8 @@ def test_upload_complete_hides_password_for_token_url(
         response = test_client.get(f"/upload_complete/{secure_id}")
 
     assert response.status_code == 200
-    assert "sharePasswordValue" not in response.text
+    assert "sharePasswordValue" in response.text
+    assert "123456" in response.text
     assert f"/fs-qr/s/{share_token}" in response.text
 
 
@@ -391,16 +392,14 @@ def test_upload_rejects_plain_single_file(test_client: TestClient, tmp_path):
 
 
 def test_try_login_invalid_id_chars(test_client: TestClient):
-    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post("/try_login", data={"name": "bad!@#", "pw": "123456"})
-    assert response.status_code == 410
+    assert response.status_code == 400
     assert "text/html" in response.headers["content-type"]
 
 
 def test_try_login_invalid_pw_chars(test_client: TestClient):
-    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post("/try_login", data={"name": "abc123", "pw": "abc"})
-    assert response.status_code == 410
+    assert response.status_code == 400
     assert "text/html" in response.headers["content-type"]
 
 
@@ -444,27 +443,24 @@ def test_fs_qr_room_not_found(test_client: TestClient):
 
 
 def test_try_login_not_found(test_client: TestClient):
-    """ID/Password検索は停止済みなので 410 を返す"""
-    with patch("FSQR.fsqr_data.try_login", new_callable=AsyncMock, return_value=False):
+    with patch(
+        "FSQR.fsqr_data.get_data_by_credentials",
+        new_callable=AsyncMock,
+        return_value=[],
+    ):
         response = test_client.post(
             "/try_login", data={"name": "abc123", "pw": "654321"}
         )
-    assert response.status_code == 410
+    assert response.status_code == 404
     assert "text/html" in response.headers["content-type"]
 
 
 def test_try_login_success_redirects(test_client: TestClient):
-    """ID/Password検索は停止済みなので認証成功相当でも 410 を返す"""
     from datetime import datetime
 
     with (
         patch(
-            "FSQR.fsqr_data.try_login",
-            new_callable=AsyncMock,
-            return_value="abc123-uid-file",
-        ),
-        patch(
-            "FSQR.fsqr_data.get_data",
+            "FSQR.fsqr_data.get_data_by_credentials",
             new_callable=AsyncMock,
             return_value=[
                 {
@@ -479,7 +475,8 @@ def test_try_login_success_redirects(test_client: TestClient):
         response = test_client.post(
             "/try_login", data={"name": "abc123", "pw": "654321"}
         )
-    assert response.status_code == 410
+    assert response.status_code == 302
+    assert response.headers["location"] == "/download/abc123-uid-file"
 
 
 # --- upload_complete: データが存在する場合 → 200 ---
@@ -633,7 +630,6 @@ def test_download_go_single_sets_attachment_headers(test_client, monkeypatch, tm
 
 
 def test_try_login_rate_limited_returns_429(test_client: TestClient):
-    """ID/Password検索は停止済みなのでレート制限前に 410 を返す"""
     with patch(
         "FSQR.fsqr_app.check_rate_limit",
         new_callable=AsyncMock,
@@ -642,4 +638,4 @@ def test_try_login_rate_limited_returns_429(test_client: TestClient):
         response = test_client.post(
             "/try_login", data={"name": "abc123", "pw": "654321"}
         )
-    assert response.status_code == 410
+    assert response.status_code == 429

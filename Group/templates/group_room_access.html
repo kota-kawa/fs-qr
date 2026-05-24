@@ -79,13 +79,28 @@
                 
                 <!-- Join Form -->
                 <div id="join-tab">
-                    <form id="groupShareUrlForm">
+                    <form method="POST" action="/search_group_process">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div style="margin-bottom: 1rem;">
-                            <label for="groupJoinShareUrl" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">共有URL</label>
-                            <input type="url" id="groupJoinShareUrl" placeholder="https://fs-qr.net/group/s/..." required
-                                   aria-describedby="groupJoinShareUrlHelp"
+                            <label for="groupJoinRoomId" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID</label>
+                            <input type="text" id="groupJoinRoomId" name="id" placeholder="ルームIDを入力" required
+                                   minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                                   aria-describedby="groupJoinRoomIdHelp"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
-                            <small id="groupJoinShareUrlHelp" class="field-help">Open the shared URL to join the room.</small>
+                            <small id="groupJoinRoomIdHelp" class="field-help">共有された6文字のルームIDを入力してください。</small>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label for="groupJoinPassword" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">パスワード</label>
+                            <div class="password-field">
+                                <input type="password" id="groupJoinPassword" name="password" placeholder="パスワードを入力" required
+                                       minlength="6" maxlength="6" pattern="[0-9]{6}"
+                                       title="6桁の数字で入力してください"
+                                       autocomplete="current-password" inputmode="numeric"
+                                       aria-describedby="groupJoinPasswordHelp"
+                                       style="width: 100%; padding: 0.75rem 6.5rem 0.75rem 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                                <button type="button" class="password-toggle" data-password-toggle="groupJoinPassword" aria-controls="groupJoinPassword" aria-label="パスワードを表示">表示</button>
+                            </div>
+                            <small id="groupJoinPasswordHelp" class="field-help">6桁の数字で入力してください。</small>
                         </div>
                         <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                             {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
@@ -315,23 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
     // Add form submission handlers
-    document.querySelector('#join-tab form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const value = document.getElementById('groupJoinShareUrl').value.trim();
-        let url;
-        try {
-            url = new URL(value, window.location.origin);
-        } catch (error) {
-            window.showAlertModal('共有URLを確認してください。');
-            return;
-        }
-        if (url.origin !== window.location.origin || !url.pathname.startsWith('/group/s/')) {
-            window.showAlertModal('グループ共有URLを入力してください。');
-            return;
-        }
-        window.location.href = url.toString();
-    });
-    
     document.querySelector('#create-tab form').addEventListener('submit', function(e) {
         e.preventDefault();
         

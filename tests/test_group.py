@@ -70,7 +70,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     """fetch からの作成は画面遷移先を JSON で返す"""
     create_mock = AsyncMock()
     with (
-        patch("Group.group_routes_room.secrets.randbelow", return_value=42),
+        patch("Group.group_routes_room.generate_room_password", return_value="000042"),
         patch(
             "Group.group_routes_room.group_data.get_data",
             new_callable=AsyncMock,
@@ -90,6 +90,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["status"] == "ok"
     assert payload["data"]["redirect_url"] == "/group/r/abc123"
     assert payload["data"]["share_url"].startswith("http://testserver/group/s/")
+    assert payload["data"]["password"] == "000042"
     create_mock.assert_awaited_once_with(
         id="abc123",
         password="000042",
@@ -102,27 +103,21 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
 
 
 def test_search_group_invalid_id_chars(test_client: TestClient):
-    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_group_process",
         data={"id": "bad!!", "password": "123456"},
     )
-    assert response.status_code == 410
-    payload = response.json()
-    assert payload["status"] == "error"
-    assert isinstance(payload["error"], str)
+    assert response.status_code == 400
+    assert "ID" in response.text
 
 
 def test_search_group_invalid_password_chars(test_client: TestClient):
-    """ID/Password検索は停止済みなので 410 を返す"""
     response = test_client.post(
         "/search_group_process",
         data={"id": "abc123", "password": "abc"},
     )
-    assert response.status_code == 410
-    payload = response.json()
-    assert payload["status"] == "error"
-    assert isinstance(payload["error"], str)
+    assert response.status_code == 400
+    assert "パスワード" in response.text
 
 
 # --- group ファイル操作: 不正パス ---
@@ -336,7 +331,7 @@ def test_create_group_room_auto_duplicate(test_client: TestClient):
 def test_create_group_room_generates_numeric_password(test_client: TestClient):
     create_mock = AsyncMock()
     with (
-        patch("Group.group_routes_room.secrets.randbelow", return_value=42),
+        patch("Group.group_routes_room.generate_room_password", return_value="000042"),
         patch("Group.group_data.get_data", new_callable=AsyncMock, return_value=None),
         patch("Group.group_data.create_room", create_mock),
         patch("Group.group_routes_room.os.makedirs"),

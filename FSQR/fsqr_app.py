@@ -8,7 +8,6 @@ import logging
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
-from pydantic import ValidationError
 from starlette.responses import FileResponse, RedirectResponse
 
 from api_response import api_error_response, api_ok_response
@@ -19,7 +18,7 @@ from file_validation import (
     validate_upload_limits,
 )
 from i18n import is_language_query_only
-from models import FsqrUploadInput, RoomSearchInput
+from models import FsqrUploadInput
 from rate_limit import (
     SCOPE_QR,
     check_rate_limit,
@@ -28,6 +27,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from room_credentials import generate_room_password, validate_room_credentials
 from settings import (
     FSQR_UPLOAD_DIR,
     UPLOAD_MAX_FILES,
@@ -79,7 +79,7 @@ def _remember_fsqr_access(
         request.session,
         FSQR_UPLOAD_ACCESS_SESSION_KEY,
         secure_id,
-        payload={"id": id_val, "share_token": share_token},
+        payload={"id": id_val, "password": password, "share_token": share_token},
     )
 
 
@@ -95,7 +95,10 @@ def _get_fsqr_access(request: Request, secure_id: str):
     share_token = entry.get("share_token", "")
     if not isinstance(share_token, str):
         share_token = ""
-    return {"id": id_val, "share_token": share_token}
+    password = entry.get("password", "")
+    if not isinstance(password, str):
+        password = ""
+    return {"id": id_val, "password": password, "share_token": share_token}
 
 
 def _is_valid_share_token(share_token: str) -> bool:
@@ -227,15 +230,15 @@ async def upload(  # noqa: C901
     download_password = (download_password or "").strip()
     if download_password:
         try:
-            RoomSearchInput(room_id=id_val, password=download_password)
-        except ValidationError:
+            _, download_password = validate_room_credentials(id_val, download_password)
+        except ValueError:
             return json_or_msg(
                 request,
                 "アップロード用パスワードの生成に失敗しました。画面を再読み込みして再度お試しください。",
             )
         password = download_password
     else:
-        password = str(secrets.randbelow(10**6)).zfill(6)
+        password = generate_room_password()
     secure_id_base = f"{id_val}-{uid}-"
 
     if not upfile:
@@ -341,6 +344,7 @@ async def upload_complete(request: Request, secure_id: str):
     password_val = ""
     share_url = ""
     if access and access["id"] == id_val:
+        password_val = access.get("password", "")
         share_token = access.get("share_token", "")
         if share_token:
             share_url = build_share_url(
@@ -377,6 +381,20 @@ async def download(request: Request, secure_id: str):
                 build_url(request, "fsqr.share_entry", token=share_token),
                 status_code=302,
             )
+        retention_days, deletion_date = _calculate_deletion_context(row)
+        return render_template(
+            request,
+            "info.html",
+            mode="download",
+            id=row["id"],
+            password=access.get("password", ""),
+            secure_id=secure_id,
+            file_type=row.get("file_type", "multiple"),
+            original_filename=row.get("original_filename", ""),
+            url=build_url(request, "fsqr.download_go", secure_id=secure_id),
+            retention_days=retention_days,
+            deletion_date=deletion_date,
+        )
     raise HTTPException(status_code=404)
 
 
@@ -509,10 +527,32 @@ async def search_fs_qr(request: Request):
 @router.post("/try_login", name="fsqr.kekka")
 async def kekka(request: Request):
     await enforce_csrf(request)
-    return msg(
-        request,
-        "IDとパスワードによるFSQR検索は停止しました。共有URLを使用してください。",
-        410,
+    form = await request.form()
+    id_val = (form.get("name") or "").strip()
+    password = (form.get("pw") or "").strip()
+
+    ip = get_client_ip(request)
+    allowed, _, block_label = await check_rate_limit(SCOPE_QR, ip)
+    if not allowed:
+        return msg(request, get_block_message(block_label), 429)
+
+    try:
+        id_val, password = validate_room_credentials(id_val, password)
+    except ValueError as exc:
+        return msg(request, str(exc), 400)
+
+    secure_id, record = await _get_room_by_credentials(id_val, password)
+    if not secure_id or not record:
+        _, block_label = await register_failure(SCOPE_QR, ip)
+        if block_label:
+            return msg(request, get_block_message(block_label), 429)
+        return msg(request, "IDまたはパスワードが違います。", 404)
+
+    await register_success(SCOPE_QR, ip)
+    _remember_fsqr_access(request, secure_id, id_val, password)
+    return RedirectResponse(
+        build_url(request, "fsqr.download", secure_id=secure_id),
+        status_code=302,
     )
 
 

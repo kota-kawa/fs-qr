@@ -1,6 +1,5 @@
 import logging
 import os
-import secrets
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request
@@ -17,6 +16,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from room_credentials import generate_room_password, validate_room_credentials
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -30,6 +30,7 @@ from web import wants_json_response
 
 from . import group_data
 from .group_common import (
+    get_group_room_password,
     get_group_room_share_token,
     get_room_if_active,
     has_group_room_access,
@@ -95,6 +96,7 @@ def register_group_room_access_route(router: APIRouter):
         user_id = record.get("id", "不明")
         retention_days = record.get("retention_days", 7)
         share_token = get_group_room_share_token(request, room_id)
+        password = get_group_room_password(request, room_id)
         share_url = (
             build_share_url(request, service_key=ServiceKey.GROUP, token=share_token)
             if share_token
@@ -115,6 +117,7 @@ def register_group_room_access_route(router: APIRouter):
             "group_room.html",
             room_id=room_id,
             user_id=user_id,
+            password=password,
             share_url=share_url,
             retention_days=retention_days,
             deletion_date=deletion_date,
@@ -191,7 +194,7 @@ def register_group_create_room_route(router: APIRouter):
                 status_code=409,
             )
 
-        password = str(secrets.randbelow(10**6)).zfill(6)
+        password = generate_room_password()
 
         folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(folder_path, exist_ok=True)
@@ -219,7 +222,9 @@ def register_group_create_room_route(router: APIRouter):
                 "共有URLの作成に失敗しました。時間をおいて再度お試しください。",
                 status_code=500,
             )
-        remember_group_room_access(request, room_id, share_token)
+        remember_group_room_access(
+            request, room_id, share_token=share_token, password=password
+        )
         redirect_url = build_room_url(
             request, service_key=ServiceKey.GROUP, resource_id=room_id
         )
@@ -230,6 +235,7 @@ def register_group_create_room_route(router: APIRouter):
                     "share_url": build_share_url(
                         request, service_key=ServiceKey.GROUP, token=share_token
                     ),
+                    "password": password,
                 }
             )
         return RedirectResponse(redirect_url, status_code=302)
@@ -239,9 +245,40 @@ def register_group_search_process_route(router: APIRouter):
     @router.post("/search_group_process", name="group.search_room")
     async def search_room(request: Request):
         await enforce_csrf(request)
-        return api_error_response(
-            "IDとパスワードによるグループ検索は停止しました。共有URLを使用してください。",
-            status_code=410,
+        form = await request.form()
+        id_val = (form.get("id") or "").strip()
+        password = (form.get("password") or "").strip()
+
+        ip = get_client_ip(request)
+        allowed, _, block_label = await check_rate_limit(SCOPE_GROUP, ip)
+        if not allowed:
+            return room_msg(request, get_block_message(block_label), status_code=429)
+
+        try:
+            id_val, password = validate_room_credentials(id_val, password)
+        except ValueError as exc:
+            return room_msg(request, str(exc), status_code=400)
+
+        room_id = await group_data.pich_room_id(id_val, password)
+        if not room_id:
+            _, block_label = await register_failure(SCOPE_GROUP, ip)
+            if block_label:
+                return room_msg(
+                    request, get_block_message(block_label), status_code=429
+                )
+            return room_msg(request, "IDまたはパスワードが違います。", status_code=404)
+
+        record = await get_room_if_active(room_id)
+        if not record:
+            return room_msg(
+                request, "指定されたルームが見つかりません", status_code=404
+            )
+
+        await register_success(SCOPE_GROUP, ip)
+        remember_group_room_access(request, room_id, password=password)
+        return RedirectResponse(
+            build_room_url(request, service_key=ServiceKey.GROUP, resource_id=room_id),
+            status_code=302,
         )
 
 

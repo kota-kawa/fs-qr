@@ -18,6 +18,7 @@ from rate_limit import (
     register_failure,
     register_success,
 )
+from room_credentials import generate_room_password, validate_room_credentials
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -33,6 +34,7 @@ from web import (
 )
 from . import note_data as nd
 from .note_access import (
+    get_note_room_password,
     get_note_room_share_token,
     has_note_room_access,
     remember_note_room_access,
@@ -177,11 +179,11 @@ async def create_note_room(request: Request):  # noqa: C901
 
     room_id = id_val
 
-    legacy_pw = secrets.token_urlsafe(16)
+    password = generate_room_password()
     try:
         await nd.create_room(
             room_id,
-            legacy_pw,
+            password,
             room_id,
             retention_days=retention_days,
         )
@@ -220,7 +222,9 @@ async def create_note_room(request: Request):  # noqa: C901
             "共有URLの作成に失敗しました。時間をおいて再度お試しください。",
             status_code=500,
         )
-    remember_note_room_access(request, room_id, share_token)
+    remember_note_room_access(
+        request, room_id, share_token=share_token, password=password
+    )
     redirect_url = build_room_url(
         request, service_key=ServiceKey.NOTE, resource_id=room_id
     )
@@ -230,6 +234,7 @@ async def create_note_room(request: Request):  # noqa: C901
             {
                 "redirect_url": redirect_url,
                 "share_url": share_url,
+                "password": password,
                 "room_id": room_id,
                 "expires_at": created.get("expires_at").isoformat(sep=" ")
                 if created.get("expires_at")
@@ -295,7 +300,7 @@ async def note_share(request: Request, token: str):
         return _gone_response(
             request, "このノートルームは期限切れ、または削除済みです。"
         )
-    remember_note_room_access(request, room_id, token)
+    remember_note_room_access(request, room_id, share_token=token)
     return RedirectResponse(
         build_room_url(request, service_key=ServiceKey.NOTE, resource_id=room_id),
         status_code=302,
@@ -344,6 +349,7 @@ async def note_room(request: Request, room_id: str):
             deletion_date = None
 
     share_token = get_note_room_share_token(request, room_id)
+    password = get_note_room_password(request, room_id)
     share_url = (
         build_share_url(request, service_key=ServiceKey.NOTE, token=share_token)
         if share_token
@@ -355,7 +361,7 @@ async def note_room(request: Request, room_id: str):
         "note_room.html",
         room_id=room_id,
         user_id=meta["id"],
-        password="",
+        password=password,
         share_url=share_url,
         retention_days=retention_days,
         deletion_date=deletion_date,
@@ -379,9 +385,52 @@ async def search_note_room_page(request: Request):
 @router.post("/search_note_process", name="note.search_note_room")
 async def search_note_room(request: Request):
     await enforce_csrf(request)
-    return _gone_response(
-        request,
-        "IDとパスワードによるノート検索は停止しました。共有URLを使用してください。",
+    form = await request.form()
+    id_val = (form.get("id") or "").strip()
+    password = (form.get("password") or "").strip()
+
+    ip = get_client_ip(request)
+    allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
+    if not allowed:
+        response = render_template(
+            request, "error.html", message=get_block_message(block_label)
+        )
+        response.status_code = 429
+        return response
+
+    try:
+        id_val, password = validate_room_credentials(id_val, password)
+    except ValueError as exc:
+        response = render_template(request, "error.html", message=str(exc))
+        response.status_code = 400
+        return response
+
+    room_id = await nd.pick_room_id(id_val, password)
+    if not room_id:
+        _, block_label = await register_failure(SCOPE_NOTE, ip)
+        if block_label:
+            response = render_template(
+                request, "error.html", message=get_block_message(block_label)
+            )
+            response.status_code = 429
+            return response
+        response = render_template(
+            request, "error.html", message="IDまたはパスワードが違います。"
+        )
+        response.status_code = 404
+        return response
+
+    meta = await _get_room_if_valid(room_id)
+    if not meta:
+        return _gone_response(
+            request, "このノートルームは期限切れ、または削除済みです。"
+        )
+
+    await register_success(SCOPE_NOTE, ip)
+    remember_note_room_access(request, room_id, password=password)
+    return RedirectResponse(
+        build_room_url(request, service_key=ServiceKey.NOTE, resource_id=room_id),
+        status_code=302,
     )
 
 

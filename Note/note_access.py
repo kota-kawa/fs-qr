@@ -10,14 +10,21 @@ NOTE_ROOM_ACCESS_SESSION_KEY = "note_room_access"
 
 
 def remember_note_room_access(
-    request: Request, room_id: str, share_token: str | None = None
+    request: Request,
+    room_id: str,
+    share_token: str | None = None,
+    password: str | None = None,
 ) -> None:
-    payload = {"share_token": share_token} if share_token else None
+    payload = {}
+    if share_token:
+        payload["share_token"] = share_token
+    if password:
+        payload["password"] = password
     room_access.grant_access(
         request.session,
         NOTE_ROOM_ACCESS_SESSION_KEY,
         room_id,
-        payload=payload,
+        payload=payload or None,
     )
 
 
@@ -34,4 +41,10 @@ def has_note_room_access(request: Request, room_id: str) -> bool:
 def get_note_room_share_token(request: Request, room_id: str) -> str:
     return room_access.get_access_field(
         request.session, NOTE_ROOM_ACCESS_SESSION_KEY, room_id, "share_token", ""
+    )
+
+
+def get_note_room_password(request: Request, room_id: str) -> str:
+    return room_access.get_access_field(
+        request.session, NOTE_ROOM_ACCESS_SESSION_KEY, room_id, "password", ""
     )
