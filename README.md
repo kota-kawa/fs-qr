@@ -45,6 +45,7 @@ ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
 UPLOAD_MAX_FILES=10
 UPLOAD_MAX_TOTAL_SIZE_MB=500
+GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
@@ -139,6 +140,7 @@ Language auto-detection uses the local DB-IP Lite Country MMDB database under `.
 The app downloads it on startup when missing or stale, then refreshes it in the background according to `GEOIP_UPDATE_INTERVAL_HOURS` (default: 24). You can also run `python3 scripts/update_geoip_db.py` manually. DB-IP Lite is CC BY 4.0 data, so the app automatically renders the required `IP Geolocation by DB-IP` attribution link.
 
 Upload- and note-related limits are also centrally managed via `.env`, and the same values are shared between the frontend `*Config` and backend validation.
+Group room files are stored outside `/static` by `GROUP_UPLOAD_DIR` so they are only served through authenticated download and preview routes.
 
 Note WebSocket sync uses an explicit client-side state machine (`bootstrapping/idle/dirty/saving/saving_dirty/offline_dirty`) to handle conflicts.  
 If updates from other users arrive while a save is in flight, they are queued instead of being discarded immediately, and applied after the ACK.  
@@ -230,6 +232,7 @@ ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
 UPLOAD_MAX_FILES=10
 UPLOAD_MAX_TOTAL_SIZE_MB=500
+GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000

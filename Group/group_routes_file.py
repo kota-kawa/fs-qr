@@ -37,6 +37,13 @@ from .group_common import (
     has_group_room_access,
     is_safe_path,
 )
+from .group_storage import (
+    collect_room_files,
+    existing_room_folders,
+    resolve_room_file,
+    room_folder,
+    unique_room_filename,
+)
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
 
@@ -134,8 +141,8 @@ def register_group_upload_route(router: APIRouter):
 
         error_files = []
         rejected_files = []
-        saved_files_count = 0
-        save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
+        saved_files = []
+        save_path = room_folder(room_id, root=UPLOAD_FOLDER)
         os.makedirs(save_path, exist_ok=True)
 
         for file in upfile:
@@ -147,7 +154,11 @@ def register_group_upload_route(router: APIRouter):
                 rejected_files.append(file.filename)
                 continue
 
-            safe_filename = sanitize_group_upload_filename(file.filename)
+            safe_filename = unique_room_filename(
+                room_id,
+                sanitize_group_upload_filename(file.filename),
+                primary_root=UPLOAD_FOLDER,
+            )
 
             file_path = os.path.join(save_path, safe_filename)
 
@@ -158,12 +169,12 @@ def register_group_upload_route(router: APIRouter):
                     error_files.append(file.filename)
                     os.remove(file_path)
                 else:
-                    saved_files_count += 1
+                    saved_files.append(safe_filename)
             except Exception:
                 error_files.append(file.filename)
 
         if rejected_files:
-            if saved_files_count > 0:
+            if saved_files:
                 await notify_group_files_updated(room_id)
             return api_error_response(
                 "HTML/SVG ファイルはアップロードできません。",
@@ -172,7 +183,7 @@ def register_group_upload_route(router: APIRouter):
             )
 
         if error_files:
-            if saved_files_count > 0:
+            if saved_files:
                 await notify_group_files_updated(room_id)
             return api_error_response(
                 "以下のファイルが保存できませんでした。",
@@ -181,7 +192,12 @@ def register_group_upload_route(router: APIRouter):
             )
 
         await notify_group_files_updated(room_id)
-        return api_ok_response({"message": "ファイルが正常にアップロードされました。"})
+        return api_ok_response(
+            {
+                "message": "ファイルが正常にアップロードされました。",
+                "saved_files": saved_files,
+            }
+        )
 
 
 def register_group_list_files_route(router: APIRouter):
@@ -193,20 +209,18 @@ def register_group_list_files_route(router: APIRouter):
                 status_code=404,
             )
 
-        target_directory = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        if not os.path.exists(target_directory):
+        room_files = collect_room_files(room_id, primary_root=UPLOAD_FOLDER)
+        if not room_files and not existing_room_folders(
+            room_id, primary_root=UPLOAD_FOLDER
+        ):
             return api_error_response(
                 "ルームIDのディレクトリが見つかりません。", status_code=404
             )
 
-        if not is_safe_path(UPLOAD_FOLDER, target_directory):
-            return api_error_response("不正なパスが検出されました。", status_code=400)
-
         try:
             files = [
                 {"name": file_name, **get_preview_metadata(file_name)}
-                for file_name in os.listdir(target_directory)
-                if os.path.isfile(os.path.join(target_directory, file_name))
+                for file_name in sorted(room_files.keys(), key=str.lower)
             ]
             return api_ok_response({"files": files})
         except Exception as e:
@@ -222,8 +236,8 @@ def register_group_download_all_route(router: APIRouter):
                 status_code=404,
             )
 
-        room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        if not os.path.exists(room_folder):
+        room_files = collect_room_files(room_id, primary_root=UPLOAD_FOLDER)
+        if not room_files:
             return api_error_response(
                 "指定されたルームIDのファイルが見つかりません。",
                 status_code=404,
@@ -232,13 +246,9 @@ def register_group_download_all_route(router: APIRouter):
         try:
             zip_stream = io.BytesIO()
             with zipfile.ZipFile(zip_stream, "w", zipfile.ZIP_DEFLATED) as zipf:
-                for filename in os.listdir(room_folder):
-                    file_path = os.path.join(room_folder, filename)
-                    if os.path.isfile(file_path) and is_safe_path(
-                        room_folder, file_path
-                    ):
-                        with open(file_path, "rb") as f:
-                            zipf.writestr(filename, f.read())
+                for filename, file_path in room_files.items():
+                    with open(file_path, "rb") as f:
+                        zipf.writestr(filename, f.read())
             zip_stream.seek(0)
             download_name = secure_filename(f"{room_id}_files.zip") or "room_files.zip"
             headers = {
@@ -272,20 +282,22 @@ def register_group_download_file_route(router: APIRouter):
                 status_code=404,
             )
 
-        room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        file_path = os.path.join(room_folder, decoded_filename)
+        source_folder, file_path = resolve_room_file(
+            room_id, decoded_filename, primary_root=UPLOAD_FOLDER
+        )
 
-        if not is_safe_path(room_folder, file_path):
+        if not source_folder or not file_path:
+            return api_error_response("ファイルが見つかりません。", status_code=404)
+
+        if not is_safe_path(source_folder, file_path):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
-            if os.path.exists(file_path):
-                response = FileResponse(file_path)
-                response.headers["Content-Disposition"] = (
-                    build_content_disposition_attachment(decoded_filename)
-                )
-                return response
-            return api_error_response("ファイルが見つかりません。", status_code=404)
+            response = FileResponse(file_path)
+            response.headers["Content-Disposition"] = (
+                build_content_disposition_attachment(decoded_filename)
+            )
+            return response
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
@@ -316,24 +328,26 @@ def register_group_preview_file_route(router: APIRouter):
                 status_code=415,
             )
 
-        room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        file_path = os.path.join(room_folder, decoded_filename)
+        source_folder, file_path = resolve_room_file(
+            room_id, decoded_filename, primary_root=UPLOAD_FOLDER
+        )
 
-        if not is_safe_path(room_folder, file_path):
+        if not source_folder or not file_path:
+            return api_error_response("ファイルが見つかりません。", status_code=404)
+
+        if not is_safe_path(source_folder, file_path):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
-            if os.path.exists(file_path):
-                response = FileResponse(
-                    file_path,
-                    media_type=str(preview_metadata["preview_mime_type"]),
-                )
-                response.headers["Content-Disposition"] = (
-                    build_content_disposition_inline(decoded_filename)
-                )
-                response.headers["X-Content-Type-Options"] = "nosniff"
-                return response
-            return api_error_response("ファイルが見つかりません。", status_code=404)
+            response = FileResponse(
+                file_path,
+                media_type=str(preview_metadata["preview_mime_type"]),
+            )
+            response.headers["Content-Disposition"] = (
+                build_content_disposition_inline(decoded_filename)
+            )
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            return response
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
@@ -378,19 +392,21 @@ def register_group_delete_file_route(router: APIRouter):
             )
         await clear_exponential_backoff(SCOPE_GROUP_FILE_DELETE, backoff_key)
 
-        room_folder = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        file_path = os.path.join(room_folder, decoded_filename)
+        source_folder, file_path = resolve_room_file(
+            room_id, decoded_filename, primary_root=UPLOAD_FOLDER
+        )
 
-        if not is_safe_path(room_folder, file_path):
+        if not source_folder or not file_path:
+            return api_error_response("ファイルが見つかりません。", status_code=404)
+
+        if not is_safe_path(source_folder, file_path):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                await notify_group_files_updated(room_id)
-                return api_ok_response(
-                    {"message": "ファイルが削除されました。"}, status_code=200
-                )
-            return api_error_response("ファイルが見つかりません。", status_code=404)
+            os.remove(file_path)
+            await notify_group_files_updated(room_id)
+            return api_ok_response(
+                {"message": "ファイルが削除されました。"}, status_code=200
+            )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)

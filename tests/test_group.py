@@ -1,7 +1,10 @@
+import asyncio
 import re
 from unittest.mock import AsyncMock, mock_open, patch
 
 from starlette.testclient import TestClient
+
+from Group import group_data
 
 
 def test_group_menu(test_client: TestClient):
@@ -364,21 +367,45 @@ def test_delete_room_requires_management_auth(test_client: TestClient):
     remove_mock.assert_not_awaited()
 
 
+def test_remove_data_keeps_db_record_when_folder_delete_fails():
+    """フォルダ削除に失敗した場合はDBレコードを削除しない"""
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=[{"room_id": "abc123"}],
+        ),
+        patch(
+            "Group.group_data.iter_room_folders",
+            return_value=iter([("/uploads", "/uploads/abc123")]),
+        ),
+        patch("Group.group_data.os.path.exists", return_value=True),
+        patch("Group.group_data.shutil.rmtree", side_effect=OSError("denied")),
+        patch("Group.group_data.execute_query", new_callable=AsyncMock) as query_mock,
+    ):
+        result = asyncio.run(group_data.remove_data("abc123"))
+
+    assert result is False
+    query_mock.assert_not_awaited()
+
+
 # --- ファイル操作: 認証成功後のフロー ---
 
 
-def test_list_files_auth_success_no_dir(test_client: TestClient):
+def test_list_files_auth_success_no_dir(test_client: TestClient, tmp_path):
     """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    legacy_root = tmp_path / "legacy"
     with (
         patch(
             "Group.group_data.get_data_direct",
             new_callable=AsyncMock,
             return_value=mock_room,
         ),
-        patch("Group.group_routes_file.os.path.exists", return_value=False),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path / "current")),
+        patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(legacy_root)),
     ):
-        response = test_client.get("/check/abc123/000000")
+        response = test_client.get("/check/nodir1/000000")
     # 認証通過 → ディレクトリなし → 404
     assert response.status_code == 404
     payload = response.json()
@@ -596,10 +623,44 @@ def test_group_upload_notifies_realtime_when_saved_files_exist(test_client: Test
     notify_mock.assert_awaited_once_with("abc123")
 
 
-def test_group_delete_notifies_realtime_on_success(test_client: TestClient):
+def test_static_group_uploads_are_not_public(test_client: TestClient):
+    response = test_client.get("/static/group_uploads/abc123/test.txt")
+
+    assert response.status_code == 404
+
+
+def test_list_files_uses_legacy_folder_fallback(test_client: TestClient, tmp_path):
+    """旧 static/group_uploads 相当の既存ファイルも認証APIでは参照できる"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    current_root = tmp_path / "current"
+    legacy_root = tmp_path / "legacy"
+    legacy_room = legacy_root / "abc123"
+    legacy_room.mkdir(parents=True)
+    (legacy_room / "old.txt").write_text("old", encoding="utf-8")
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(current_root)),
+        patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(legacy_root)),
+    ):
+        response = test_client.get("/check/abc123/000000")
+
+    assert response.status_code == 200
+    assert response.json()["data"]["files"][0]["name"] == "old.txt"
+
+
+def test_group_delete_notifies_realtime_on_success(test_client: TestClient, tmp_path):
     """ファイル削除成功時は realtime 通知を送る"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
     notify_mock = AsyncMock()
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    target_file = room_dir / "test.txt"
+    target_file.write_text("content", encoding="utf-8")
     with (
         patch(
             "Group.group_routes_file.has_group_room_access",
@@ -620,10 +681,11 @@ def test_group_delete_notifies_realtime_on_success(test_client: TestClient):
             return_value=mock_room,
         ),
         patch("Group.group_routes_file.notify_group_files_updated", notify_mock),
-        patch("Group.group_routes_file.os.path.exists", return_value=True),
-        patch("Group.group_routes_file.os.remove"),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+        patch("Group.group_storage.LEGACY_UPLOAD_FOLDER", str(tmp_path / "legacy")),
     ):
         response = test_client.delete("/delete/abc123/000000/test.txt")
 
     assert response.status_code == 200
+    assert not target_file.exists()
     notify_mock.assert_awaited_once_with("abc123")

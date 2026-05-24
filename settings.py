@@ -54,6 +54,10 @@ FSQR_UPLOAD_DIR = os.getenv(
     "FSQR_UPLOAD_DIR",
     os.path.join(BASE_DIR, "storage", "fsqr_uploads"),
 )
+GROUP_UPLOAD_DIR = os.getenv(
+    "GROUP_UPLOAD_DIR",
+    os.path.join(BASE_DIR, "storage", "group_uploads"),
+)
 
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS = _env_int(
     "GROUP_FILE_LIST_REQUEST_TIMEOUT_MS", default=10_000, minimum=1

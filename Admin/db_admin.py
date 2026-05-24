@@ -16,13 +16,18 @@ from database import db_session
 from file_validation import build_content_disposition_attachment
 from FSQR import fsqr_data as fs_data
 from Group import group_data
+from Group.group_storage import collect_room_files, existing_room_folders
 from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
     mark_session_authenticated,
 )
 from web import build_url, enforce_csrf, flash_message, render_template
-from settings import DB_ADMIN_PASSWORD, FSQR_UPLOAD_DIR
+from settings import (
+    DB_ADMIN_PASSWORD,
+    FSQR_UPLOAD_DIR,
+    GROUP_UPLOAD_DIR as SETTINGS_GROUP_UPLOAD_DIR,
+)
 
 fs_db = db_session
 grp_db = db_session
@@ -30,9 +35,8 @@ grp_db = db_session
 ADMIN_DB_PW = DB_ADMIN_PASSWORD
 DB_ADMIN_SESSION_KEY = "db_admin_authenticated"
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_DIR = FSQR_UPLOAD_DIR
-GROUP_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "group_uploads")
+GROUP_UPLOAD_DIR = SETTINGS_GROUP_UPLOAD_DIR
 
 router = APIRouter(prefix="/admin")
 
@@ -144,29 +148,26 @@ async def _get_room_record(room_id):
 def _get_room_folder(room_id):
     if not room_id:
         return None
-    folder_name = secure_filename(str(room_id))
-    if not folder_name:
+    folders = existing_room_folders(room_id, primary_root=GROUP_UPLOAD_DIR)
+    if not folders:
         return None
-    return os.path.join(GROUP_UPLOAD_DIR, folder_name)
+    return folders[0][1]
 
 
 def _collect_room_files(room_id):
-    folder = _get_room_folder(room_id)
-    if not folder or not os.path.isdir(folder):
-        return []
-
     files = []
     try:
-        for name in os.listdir(folder):
-            file_path = os.path.join(folder, name)
-            if os.path.isfile(file_path):
-                files.append(
-                    {
-                        "stored_name": name,
-                        "display_name": name,
-                        "size": os.path.getsize(file_path),
-                    }
-                )
+        for name, file_path in collect_room_files(
+            room_id, primary_root=GROUP_UPLOAD_DIR
+        ).items():
+            files.append(
+                {
+                    "stored_name": name,
+                    "display_name": name,
+                    "size": os.path.getsize(file_path),
+                    "_path": file_path,
+                }
+            )
     except OSError:
         return []
 
@@ -295,7 +296,10 @@ async def room_detail(request: Request, room_id: str):
     if hasattr(created_at, "isoformat"):
         created_at = created_at.isoformat(sep=" ")
 
-    files = _collect_room_files(record.get("room_id"))
+    files = [
+        {key: value for key, value in entry.items() if not key.startswith("_")}
+        for entry in _collect_room_files(record.get("room_id"))
+    ]
 
     return api_ok_response(
         {
@@ -329,7 +333,7 @@ async def room_download(request: Request, room_id: str):
     archive = io.BytesIO()
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zipf:
         for entry in file_entries:
-            file_path = os.path.join(folder, entry["stored_name"])
+            file_path = entry.get("_path") or os.path.join(folder, entry["stored_name"])
             zipf.write(file_path, arcname=entry["display_name"])
 
     archive.seek(0)

@@ -96,6 +96,8 @@ app.mount(
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
+    if request.url.path.startswith("/static/group_uploads"):
+        return Response(status_code=404)
     try:
         response = await call_next(request)
         return response

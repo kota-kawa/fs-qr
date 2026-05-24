@@ -5,12 +5,12 @@ from typing import Optional
 
 import log_config  # noqa: F401
 from sqlalchemy import text
-from werkzeug.utils import secure_filename
 
 from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 from .group_realtime import hub as group_ws_hub
+from .group_storage import iter_room_folders
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -104,27 +104,29 @@ async def remove_data(secure_id):
     指定されたルームのデータベースレコードと、
     関連するアップロードフォルダおよびその他のファイル（ZIPファイル、QRコード画像など）を削除します。
     """
-    # secure_id の検証は room_id にハイフンなどが含まれることがあるため、ここでは省略
-
-    # グループアップロードフォルダのパスを計算（group_app.py と同様の処理）
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    PARENT_DIR = os.path.dirname(BASE_DIR)
-    group_uploads = os.path.join(PARENT_DIR, "static", "group_uploads")
-    room_folder = os.path.join(group_uploads, secure_filename(secure_id))
-
     room_data = await get_data_direct(secure_id)
     room_record = room_data[0] if room_data else None
 
-    # ルームに紐づくアップロードフォルダを削除
-    if os.path.exists(room_folder):
+    deletion_failed = False
+    for _, room_folder in iter_room_folders(secure_id):
+        if not os.path.exists(room_folder):
+            continue
         try:
             shutil.rmtree(room_folder)
         except Exception as e:
+            deletion_failed = True
             logger.error(
                 "アップロードフォルダの削除に失敗しました: %s. エラー: %s",
                 room_folder,
                 e,
             )
+
+    if deletion_failed:
+        logger.error(
+            "ファイル削除に失敗したためDBレコードを保持します: room_id=%s",
+            secure_id,
+        )
+        return False
 
     # データベースから該当ルームのレコードを削除
     query = text("""
@@ -136,42 +138,21 @@ async def remove_data(secure_id):
     await invalidate_cache_entry(get_all)
     if room_record:
         await invalidate_cache_prefix(pich_room_id)
+    return True
 
 
 # 全てのデータを削除
 async def all_remove():
-    # 全ルーム情報を取得
     rooms = await get_all_direct()
-
-    # グループアップロードフォルダのパス（group_app.py と同じパスを想定）
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    PARENT_DIR = os.path.dirname(BASE_DIR)
-    group_uploads = os.path.join(PARENT_DIR, "static", "group_uploads")
+    all_removed = True
 
     for room in rooms:
         room_id = room.get("room_id")
         if not room_id:
             continue
-
-        # ルームに対応するアップロードフォルダの削除
-        room_folder = os.path.join(group_uploads, secure_filename(room_id))
-        if os.path.exists(room_folder):
-            try:
-                shutil.rmtree(room_folder)
-            except Exception as e:
-                logger.error(
-                    "アップロードフォルダの削除に失敗しました: %s. エラー: %s",
-                    room_folder,
-                    e,
-                )
-        await group_ws_hub.close_room(room_id, code=1001)
-
-    # 最後に、データベースから全ルームのレコードを削除
-    query = text("DELETE FROM room")
-    await execute_query(query)
-    await invalidate_cache_prefix(pich_room_id)
-    await invalidate_cache_prefix(get_data)
-    await invalidate_cache_prefix(get_all)
+        removed = await remove_data(room_id)
+        all_removed = all_removed and removed
+    return all_removed
 
 
 # 1週間以上経過したルームを削除する関数
