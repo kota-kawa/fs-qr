@@ -5,7 +5,11 @@
   box-sizing: border-box;
 }
 
-html,
+html {
+  max-width: 100%;
+  scrollbar-gutter: stable;
+}
+
 body {
   max-width: 100%;
   overflow-x: hidden;
