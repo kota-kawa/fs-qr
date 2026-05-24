@@ -398,7 +398,10 @@ async def remove_expired_rooms():
             logger.info(f"Expired note room removed: {rid}")
         await invalidate_cache_prefix(get_room_meta)
         await invalidate_cache_prefix(pick_room_id)
-        return {"expired_count": len(expired_room_ids), "expired_room_ids": expired_room_ids}
+        return {
+            "expired_count": len(expired_room_ids),
+            "expired_room_ids": expired_room_ids,
+        }
     except Exception as e:
         logger.error(f"Failed to remove expired note rooms: {e}")
         return {"expired_count": 0, "expired_room_ids": [], "error": str(e)}

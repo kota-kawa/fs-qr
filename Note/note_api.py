@@ -16,7 +16,9 @@ router = APIRouter(prefix="/api")
 
 
 def _format_updated_at(updated_at):
-    return updated_at.isoformat(sep=" ", timespec="microseconds") if updated_at else None
+    return (
+        updated_at.isoformat(sep=" ", timespec="microseconds") if updated_at else None
+    )
 
 
 @router.api_route("/note/{room_id}", methods=["GET", "POST"], name="note.note_sync")

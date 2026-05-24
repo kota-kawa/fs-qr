@@ -119,7 +119,9 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=mock_meta,
         ),
-        patch("Note.note_app.nd.get_row", new_callable=AsyncMock, return_value=mock_row),
+        patch(
+            "Note.note_app.nd.get_row", new_callable=AsyncMock, return_value=mock_row
+        ),
         patch("Note.note_app.register_success", new_callable=AsyncMock),
     ):
         response = test_client.get("/note/r/abc123")

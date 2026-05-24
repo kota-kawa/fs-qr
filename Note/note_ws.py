@@ -81,9 +81,7 @@ async def _send_initial_state(websocket: WebSocket, room_id: str) -> bool:
         {
             "type": "init",
             "content": row["content"],
-            "updated_at": row["updated_at"].isoformat(
-                sep=" ", timespec="microseconds"
-            ),
+            "updated_at": row["updated_at"].isoformat(sep=" ", timespec="microseconds"),
             "version": row["version"],
         }
     )
@@ -112,7 +110,9 @@ async def _handle_note_messages(websocket: WebSocket, room_id: str) -> None:
             )
         except Exception as exc:
             logger.error("Critical error in note_ws for room %s: %s", room_id, exc)
-            await websocket.send_json({"type": "error", "error": "Internal server error"})
+            await websocket.send_json(
+                {"type": "error", "error": "Internal server error"}
+            )
             await remove_db_session()
             continue
 

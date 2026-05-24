@@ -61,7 +61,9 @@ def _canonical_redirect(request: Request):
     return None
 
 
-def _gone_response(request: Request, message: str = "このノートルームは利用できません。"):
+def _gone_response(
+    request: Request, message: str = "このノートルームは利用できません。"
+):
     response = render_template(request, "error.html", message=message)
     response.status_code = 410
     return response
@@ -286,17 +288,23 @@ async def note_room(request: Request, room_id: str):
         return response
 
     if not has_note_room_access(request, room_id):
-        response = render_template(request, "error.html", message="共有URLからアクセスしてください。")
+        response = render_template(
+            request, "error.html", message="共有URLからアクセスしてください。"
+        )
         response.status_code = 404
         return response
 
     meta = await _get_room_if_valid(room_id)
     if not meta:
-        return _gone_response(request, "このノートルームは期限切れ、または削除済みです。")
+        return _gone_response(
+            request, "このノートルームは期限切れ、または削除済みです。"
+        )
 
     row = await nd.get_row(room_id)
     if not row:
-        return _gone_response(request, "このノートルームは期限切れ、または削除済みです。")
+        return _gone_response(
+            request, "このノートルームは期限切れ、または削除済みです。"
+        )
 
     await register_success(SCOPE_NOTE, ip)
 

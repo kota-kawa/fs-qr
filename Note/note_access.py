@@ -26,7 +26,9 @@ def remember_note_room_access(
     request.session[NOTE_ROOM_ACCESS_SESSION_KEY] = rooms
 
 
-def has_note_room_access_session(session: MutableMapping[str, Any], room_id: str) -> bool:
+def has_note_room_access_session(
+    session: MutableMapping[str, Any], room_id: str
+) -> bool:
     rooms = session.get(NOTE_ROOM_ACCESS_SESSION_KEY)
     return isinstance(rooms, dict) and room_id in rooms
 

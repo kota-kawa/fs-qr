@@ -17,7 +17,11 @@ _ALLOWED_TABLES = {"note_room", "note_content"}
 
 
 def upgrade() -> None:
-    _add_column_if_missing("note_room", "expires_at", "ALTER TABLE note_room ADD COLUMN expires_at DATETIME NULL")
+    _add_column_if_missing(
+        "note_room",
+        "expires_at",
+        "ALTER TABLE note_room ADD COLUMN expires_at DATETIME NULL",
+    )
     op.execute(
         "UPDATE note_room SET expires_at = DATE_ADD(time, INTERVAL retention_days DAY) "
         "WHERE expires_at IS NULL"
@@ -143,7 +147,11 @@ def _add_index_if_missing(table_name: str, index_name: str, ddl: str) -> None:
 
 
 def _add_foreign_key_if_missing(name: str, ddl: str) -> None:
-    if _table_exists("note_content") and _table_exists("note_room") and not _foreign_key_exists(name):
+    if (
+        _table_exists("note_content")
+        and _table_exists("note_room")
+        and not _foreign_key_exists(name)
+    ):
         op.execute(ddl)
 
 

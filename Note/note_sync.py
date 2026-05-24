@@ -71,7 +71,9 @@ async def sync_note_content(
                 row = await nd.get_row(room_id)
                 if not row:
                     return (
-                        _error_payload("Room has expired or was deleted.", "room_expired"),
+                        _error_payload(
+                            "Room has expired or was deleted.", "room_expired"
+                        ),
                         410,
                         False,
                     )
