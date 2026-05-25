@@ -1043,6 +1043,18 @@
     "共有したいファイル": "File you want to share",
     "参加者がルームに入る": "Participants enter the room",
     "受信側がQRコードを読み取り": "The recipient scans the QR code",
-    "自動削除で一時利用": "Temporary use with automatic deletion"
+    "自動削除で一時利用": "Temporary use with automatic deletion",
+    "記事を検索…": "Search articles…",
+    "記事を検索": "Search articles",
+    "すべての記事": "All articles",
+    "件の記事": "articles",
+    "該当する記事が見つかりませんでした。": "No matching articles found.",
+    "解説記事一覧へ戻る": "Back to all articles",
+    "スマホでファイルを受け取る方法": "How to Receive Files on Your Smartphone",
+    "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "A beginner-friendly guide to receiving shared files on your smartphone, from scanning the QR code to downloading.",
+    "サービス解説ガイド": "Service Guides",
+    "FS!QRの考え方と使い方の基本": "The basics of how FS!QR works and how to use it",
+    "新着記事": "Latest Articles",
+    "新しく公開した記事": "Recently published articles"
   }
 }

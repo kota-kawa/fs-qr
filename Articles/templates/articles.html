@@ -30,7 +30,7 @@
     color: white;
     padding: 3rem 2rem;
     border-radius: 20px;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     box-shadow: var(--shadow-xl);
   }
   .articles-title {
@@ -45,21 +45,89 @@
     opacity: 0.9;
     margin: 0;
   }
+
+  /* ── ツールバー(検索 + カテゴリ絞り込み) ── */
+  .articles-toolbar {
+    margin-bottom: 2rem;
+  }
+  .articles-search {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto 1.25rem auto;
+  }
+  .articles-search i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-medium);
+    pointer-events: none;
+  }
+  .articles-search input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.7rem;
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    font-size: 1rem;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.08));
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .articles-search input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+  }
+  .articles-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  .filter-chip {
+    border: 1px solid var(--border-light);
+    background: var(--bg-white);
+    color: var(--text-medium);
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .filter-chip:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+  .filter-chip.active {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: transparent;
+  }
+
+  .articles-count {
+    text-align: center;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
   .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
     padding: 0;
   }
   .article-card {
     background-color: var(--bg-white);
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 18px;
+    padding: 1.75rem;
     box-shadow: var(--shadow-lg);
-    transition: all 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--border-light);
     position: relative;
     overflow: hidden;
@@ -67,37 +135,65 @@
   .article-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 4px;
     background: var(--primary-gradient);
   }
   .article-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-xl);
     text-decoration: none;
     color: inherit;
   }
+  .article-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
   .article-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--primary-color);
-    margin-bottom: 1.5rem;
     display: block;
   }
+  .article-new-badge {
+    background: var(--accent-color, #f97316);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+  }
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.78rem;
+    color: var(--text-medium);
+  }
+  .article-category {
+    background: rgba(99,102,241,0.1);
+    color: var(--primary-color);
+    padding: 0.15rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 600;
+  }
   .article-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     line-height: 1.4;
     font-family: 'Kaisei Opti', serif;
   }
   .article-description {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-medium);
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
   }
   .read-more {
     display: inline-flex;
@@ -105,41 +201,59 @@
     color: var(--primary-color);
     font-weight: 500;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
   }
   .read-more i {
     margin-left: 8px;
     transition: transform 0.3s ease;
   }
-  .article-card:hover .read-more {
-    color: var(--accent-color);
+  .article-card:hover .read-more { color: var(--accent-color); }
+  .article-card:hover .read-more i { transform: translateX(5px); }
+
+  /* ── セクション(ガイド / 新着記事) ── */
+  .articles-section { margin-bottom: 2.5rem; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--border-light);
   }
-  .article-card:hover .read-more i {
-    transform: translateX(5px);
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+    font-family: 'Kaisei Opti', serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  
-  /* Mobile responsiveness */
+  .section-title i { color: var(--primary-color); font-size: 1.2rem; }
+  .section-desc {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin: 0;
+  }
+
+  .articles-empty {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-medium);
+  }
+  .articles-empty i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+
   @media (max-width: 768px) {
-    .articles-page {
-      padding: 1rem 0.5rem;
-    }
-    .articles-header {
-      padding: 2rem 1rem;
-      margin-bottom: 2rem;
-    }
-    .articles-title {
-      font-size: 2rem;
-    }
-    .articles-subtitle {
-      font-size: 1rem;
-    }
-    .articles-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .article-card {
-      padding: 1.5rem;
-    }
+    .section-header { flex-direction: column; gap: 0.25rem; }
+    .section-title { font-size: 1.25rem; }
+    .articles-page { padding: 1rem 0.5rem; }
+    .articles-header { padding: 2rem 1rem; margin-bottom: 1.5rem; }
+    .articles-title { font-size: 2rem; }
+    .articles-subtitle { font-size: 1rem; }
+    .articles-grid { grid-template-columns: 1fr; gap: 18px; }
+    .article-card { padding: 1.5rem; }
   }
 </style>
 
@@ -149,42 +263,133 @@
       <h1 class="articles-title">解説記事</h1>
       <p class="articles-subtitle">FS!QRをより深く理解するための詳細情報</p>
     </div>
-    <div class="articles-grid">
-      {% for art in articles %}
-      <a href="{{ art.url }}" class="article-card">
-        {% if art.url == '/fs-qr-concept' %}
-          <i class="fas fa-lightbulb article-icon"></i>
+
+    <div class="articles-toolbar">
+      <div class="articles-search">
+        <i class="fas fa-search"></i>
+        <input type="search" id="article-search" placeholder="記事を検索…" aria-label="記事を検索">
+      </div>
+      <div class="articles-filters" id="article-filters">
+        <button type="button" class="filter-chip active" data-category="">すべての記事</button>
+        {% for category in categories %}
+        <button type="button" class="filter-chip" data-category="{{ category }}">{{ category }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <p class="articles-count"><span id="articles-count">{{ (guides|length) + (articles|length) }}</span> <span class="articles-count-unit">件の記事</span></p>
+
+    {# ── サービス解説ガイド(エバーグリーン・常に上部固定) ── #}
+    {% if guides %}
+    <section class="articles-section" data-section="guides">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-book-open"></i>サービス解説ガイド</h2>
+        <p class="section-desc">FS!QRの考え方と使い方の基本</p>
+      </div>
+      <div class="articles-grid">
+        {% for art in guides %}
+        <a href="/{{ art.slug }}"
+           class="article-card"
+           data-category="{{ art.category }}"
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+          <div class="article-card-top">
+            <i class="fas {{ art.icon }} article-icon"></i>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">{{ art.category }}</span>
+          </div>
           <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">FS!QRの設計思想や技術的な考え方について、開発背景とコンセプトを詳しく解説します。</p>
-        {% elif art.url == '/safe-sharing' %}
-          <i class="fas fa-shield-alt article-icon"></i>
+          <p class="article-description">{{ art.description }}</p>
+          <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ── 新着記事(日次・新しい順) ── #}
+    {% if articles %}
+    <section class="articles-section" data-section="articles">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-newspaper"></i>新着記事</h2>
+        <p class="section-desc">新しく公開した記事</p>
+      </div>
+      <div class="articles-grid">
+        {% for art in articles %}
+        <a href="/{{ art.slug }}"
+           class="article-card"
+           data-category="{{ art.category }}"
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+          <div class="article-card-top">
+            <i class="fas {{ art.icon }} article-icon"></i>
+            {% if art.is_new %}<span class="article-new-badge">NEW</span>{% endif %}
+          </div>
+          <div class="article-meta">
+            <span class="article-category">{{ art.category }}</span>
+            <span class="article-date">{{ art.date }}</span>
+          </div>
           <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">ファイル共有を安全に行うためのベストプラクティスとセキュリティのポイントを解説します。</p>
-        {% elif art.url == '/encryption' %}
-          <i class="fas fa-lock article-icon"></i>
-          <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">FS!QRで使用されている暗号化技術について、わかりやすく基礎から説明します。</p>
-        {% elif art.url == '/education' %}
-          <i class="fas fa-graduation-cap article-icon"></i>
-          <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">学校や教育機関でFS!QRを効果的に活用するための具体的な事例を紹介します。</p>
-        {% elif art.url == '/business' %}
-          <i class="fas fa-briefcase article-icon"></i>
-          <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">ビジネス現場でFS!QRを活用して業務効率を向上させる方法を実例とともに解説します。</p>
-        {% elif art.url == '/risk-mitigation' %}
-          <i class="fas fa-exclamation-triangle article-icon"></i>
-          <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">ファイル共有におけるリスクを理解し、適切な対策を講じるための考え方を学びます。</p>
-        {% else %}
-          <i class="fas fa-file-alt article-icon"></i>
-          <h3 class="article-title">{{ art.title }}</h3>
-          <p class="article-description">詳細な解説記事をお読みいただけます。</p>
-        {% endif %}
-        <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
-      </a>
-      {% endfor %}
+          <p class="article-description">{{ art.description }}</p>
+          <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <div class="articles-empty" id="articles-empty">
+      <i class="fas fa-magnifying-glass"></i>
+      <p>該当する記事が見つかりませんでした。</p>
     </div>
   </div>
 </div>
+
+<script>
+  (function () {
+    var searchInput = document.getElementById('article-search');
+    var filterBar = document.getElementById('article-filters');
+    var emptyState = document.getElementById('articles-empty');
+    var countLabel = document.getElementById('articles-count');
+    var sections = Array.prototype.slice.call(document.querySelectorAll('.articles-section'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.article-card'));
+    var activeCategory = '';
+
+    function applyFilters() {
+      var query = (searchInput.value || '').trim().toLowerCase();
+      var visible = 0;
+      cards.forEach(function (card) {
+        var matchesCategory = !activeCategory || card.dataset.category === activeCategory;
+        var matchesQuery = !query || (card.dataset.search || '').indexOf(query) !== -1;
+        var show = matchesCategory && matchesQuery;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      // 中身が0件になったセクションは見出しごと隠す
+      sections.forEach(function (section) {
+        var shown = section.querySelectorAll('.article-card').length
+          ? Array.prototype.some.call(
+              section.querySelectorAll('.article-card'),
+              function (c) { return c.style.display !== 'none'; }
+            )
+          : false;
+        section.style.display = shown ? '' : 'none';
+      });
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+      countLabel.textContent = visible;
+    }
+
+    filterBar.addEventListener('click', function (e) {
+      var chip = e.target.closest('.filter-chip');
+      if (!chip) return;
+      activeCategory = chip.dataset.category;
+      filterBar.querySelectorAll('.filter-chip').forEach(function (c) {
+        c.classList.toggle('active', c === chip);
+      });
+      applyFilters();
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    applyFilters();
+  })();
+</script>
 {% endblock %}

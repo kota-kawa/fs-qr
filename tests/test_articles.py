@@ -1,4 +1,14 @@
+import pytest
 from starlette.testclient import TestClient
+
+from Articles.articles_registry import (
+    ARTICLES,
+    TYPE_ARTICLE,
+    TYPE_GUIDE,
+    get_article_by_slug,
+    get_blog_articles_sorted,
+    get_guides,
+)
 
 
 def test_articles_index(test_client: TestClient):
@@ -6,31 +16,68 @@ def test_articles_index(test_client: TestClient):
     assert response.status_code == 200
 
 
-def test_fs_qr_concept(test_client: TestClient):
-    response = test_client.get("/fs-qr-concept")
+def test_articles_index_lists_all_articles(test_client: TestClient):
+    response = test_client.get("/articles")
+    assert response.status_code == 200
+    body = response.text
+    for article in ARTICLES:
+        assert f"/{article['slug']}" in body
+        assert article["title"] in body
+
+
+@pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
+def test_registered_article_route(test_client: TestClient, article):
+    response = test_client.get(f"/{article['slug']}")
     assert response.status_code == 200
 
 
-def test_safe_sharing(test_client: TestClient):
-    response = test_client.get("/safe-sharing")
+def test_default_articles_present():
+    """既存6記事がデフォルトとして維持されていること。"""
+    default_slugs = {a["slug"] for a in ARTICLES if a.get("default")}
+    expected = {
+        "fs-qr-concept",
+        "safe-sharing",
+        "encryption",
+        "education",
+        "business",
+        "risk-mitigation",
+    }
+    assert expected <= default_slugs
+
+
+def test_article_sitemap_entries(test_client: TestClient):
+    response = test_client.get("/sitemap.xml")
     assert response.status_code == 200
+    for article in ARTICLES:
+        assert f"https://fs-qr.net/{article['slug']}" in response.text
 
 
-def test_encryption(test_client: TestClient):
-    response = test_client.get("/encryption")
-    assert response.status_code == 200
+def test_get_article_by_slug():
+    assert get_article_by_slug("fs-qr-concept") is not None
+    assert get_article_by_slug("does-not-exist") is None
 
 
-def test_education(test_client: TestClient):
-    response = test_client.get("/education")
-    assert response.status_code == 200
+def test_guides_are_the_default_evergreen_set():
+    guides = get_guides()
+    assert {g["slug"] for g in guides} == {
+        "fs-qr-concept",
+        "safe-sharing",
+        "encryption",
+        "education",
+        "business",
+        "risk-mitigation",
+    }
+    assert all(g["type"] == TYPE_GUIDE for g in guides)
 
 
-def test_business(test_client: TestClient):
-    response = test_client.get("/business")
-    assert response.status_code == 200
+def test_blog_articles_sorted_newest_first():
+    blog = get_blog_articles_sorted()
+    assert all(a["type"] == TYPE_ARTICLE for a in blog)
+    dates = [a["date"] for a in blog]
+    assert dates == sorted(dates, reverse=True)
 
 
-def test_risk_mitigation(test_client: TestClient):
-    response = test_client.get("/risk-mitigation")
-    assert response.status_code == 200
+def test_articles_index_renders_both_sections(test_client: TestClient):
+    body = test_client.get("/articles").text
+    assert "サービス解説ガイド" in body
+    assert "新着記事" in body
