@@ -238,10 +238,7 @@ def test_group_share_entry_renders_room_without_redirect(test_client: TestClient
     assert "location" not in response.headers
     html = response.text
     assert "グループファイル共有" in html
-    assert (
-        f'data-share-url="http://testserver/group/s/{share_token}"'
-        in html
-    )
+    assert f'data-share-url="http://testserver/group/s/{share_token}"' in html
 
 
 # --- group_upload: 認証失敗 → 400 ---
