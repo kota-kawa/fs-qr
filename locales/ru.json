@@ -37,6 +37,8 @@
     "language.option.it": "Итальянский",
     "language.option.ru": "Русский",
     "language.option.nl": "Нидерландский",
+    "language.option.hi": "Хинди",
+    "language.option.bn": "Бенгальский",
     "note.editor.label": "Общая заметка (до {max_length} символов)",
     "note.editor.max_length_hint": "Вы можете ввести до {max_length} символов.",
     "note.editor.demo_placeholder": "Ввод здесь синхронизируется каждую секунду...\n\nДемо-текст:\nВсе участники могут редактировать одну заметку в реальном времени.\n\n- Ваш ввод мгновенно виден другим участникам\n- До {max_length} символов\n- Статус редактирования обновляется в реальном времени",

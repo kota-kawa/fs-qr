@@ -37,6 +37,8 @@
     "language.option.it": "Italiaans",
     "language.option.ru": "Russisch",
     "language.option.nl": "Nederlands",
+    "language.option.hi": "Hindi",
+    "language.option.bn": "Bengaals",
     "note.editor.label": "Gedeelde notitie (maximaal {max_length} tekens)",
     "note.editor.max_length_hint": "U kunt maximaal {max_length} tekens invoeren.",
     "note.editor.demo_placeholder": "Typen hier wordt elke seconde gesynchroniseerd...\n\nDemotekst:\nAlle leden kunnen in real-time dezelfde notitie bewerken.\n\n- Uw invoer wordt onmiddellijk gesynchroniseerd met andere leden\n- Maximaal {max_length} tekens\n- Bewerkingsstatus wordt in real-time bijgewerkt",

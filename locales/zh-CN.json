@@ -37,6 +37,8 @@
     "language.option.it": "意大利语",
     "language.option.ru": "俄语",
     "language.option.nl": "荷兰语",
+    "language.option.hi": "印地语",
+    "language.option.bn": "孟加拉语",
     "note.editor.label": "共享笔记（最多 {max_length} 个字符）",
     "note.editor.max_length_hint": "最多可输入 {max_length} 个字符。",
     "note.editor.demo_placeholder": "在此输入后将每秒同步…\n\n演示文本：\n所有成员都可以像这样实时编辑同一条笔记。\n\n・输入内容会立即同步给其他成员\n・最多可输入 {max_length} 个字符\n・编辑状态会实时显示",

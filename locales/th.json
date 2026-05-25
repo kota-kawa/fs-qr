@@ -40,6 +40,8 @@
     "language.option.it": "อิตาลี",
     "language.option.ru": "รัสเซีย",
     "language.option.nl": "ดัตช์",
+    "language.option.hi": "ฮินดี",
+    "language.option.bn": "เบงกาลี",
     "note.editor.label": "โน้ตที่แชร์ (สูงสุด {max_length} ตัวอักษร)",
     "note.editor.max_length_hint": "คุณสามารถป้อนได้สูงสุด {max_length} ตัวอักษร",
     "note.editor.demo_placeholder": "การพิมพ์ที่นี่จะซิงค์ทุกวินาที...\n\nข้อความตัวอย่าง:\nสมาชิกทุกคนสามารถแก้ไขโน้ตเดียวกันแบบเรียลไทม์ได้เช่นนี้\n\n- สิ่งที่คุณพิมพ์จะซิงค์กับสมาชิกคนอื่นทันที\n- สูงสุด {max_length} ตัวอักษร\n- อัปเดตสถานะการแก้ไขแบบเรียลไทม์",

@@ -37,6 +37,8 @@
     "language.option.it": "Italiano",
     "language.option.ru": "Ruso",
     "language.option.nl": "Holandés",
+    "language.option.hi": "Hindi",
+    "language.option.bn": "Bengalí",
     "note.editor.label": "Nota compartida (hasta {max_length} caracteres)",
     "note.editor.max_length_hint": "Puedes introducir hasta {max_length} caracteres.",
     "note.editor.demo_placeholder": "Lo que escribas aquí se sincroniza cada segundo...\n\nTexto de demostración:\nTodos los miembros pueden editar la misma nota en tiempo real como esta.\n\n- Tu entrada se sincroniza con otros miembros inmediatamente\n- Hasta {max_length} caracteres\n- El estado de edición se actualiza en tiempo real",

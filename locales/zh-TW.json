@@ -37,6 +37,8 @@
     "language.option.it": "義大利語",
     "language.option.ru": "俄語",
     "language.option.nl": "荷蘭語",
+    "language.option.hi": "印地語",
+    "language.option.bn": "孟加拉語",
     "note.editor.label": "共享筆記（最多 {max_length} 個字元）",
     "note.editor.max_length_hint": "最多可輸入 {max_length} 個字元。",
     "note.editor.demo_placeholder": "在此輸入將每秒同步...\n\n演示文字：\n所有成員都可以像這樣即時編輯同一份筆記。\n\n・文字輸入後將立即同步給其他成員\n・最多可輸入 {max_length} 個字元\n・編輯狀態會即時顯示",

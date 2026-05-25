@@ -31,6 +31,8 @@ SUPPORTED_LANGUAGES = (
     "uk",
     "ru",
     "nl",
+    "hi",
+    "bn",
     "pl",
     "sw",
     "ar",
@@ -52,6 +54,8 @@ LANGUAGE_OPTIONS = (
     {"code": "it", "label": "Italiano", "flag": "🇮🇹"},
     {"code": "ru", "label": "Русский", "flag": "🇷🇺"},
     {"code": "nl", "label": "Nederlands", "flag": "🇳🇱"},
+    {"code": "hi", "label": "हिन्दी", "flag": "🇮🇳"},
+    {"code": "bn", "label": "বাংলা", "flag": "🇧🇩"},
     {"code": "vi", "label": "Tiếng Việt", "flag": "🇻🇳"},
     {"code": "th", "label": "ไทย", "flag": "🇹🇭"},
     {"code": "id", "label": "Bahasa Indonesia", "flag": "🇮🇩"},
@@ -94,6 +98,8 @@ COUNTRY_LANGUAGE_MAP = {
     "KG": "ru",
     "NL": "nl",
     "BE": "nl",
+    "IN": "hi",
+    "BD": "bn",
     "VN": "vi",
     "TH": "th",
     "ID": "id",
@@ -124,6 +130,8 @@ HTML_LANG_MAP = {
     "it": "it",
     "ru": "ru",
     "nl": "nl",
+    "hi": "hi",
+    "bn": "bn",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -146,6 +154,8 @@ META_LANGUAGE_MAP = {
     "it": "it",
     "ru": "ru",
     "nl": "nl",
+    "hi": "hi",
+    "bn": "bn",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -168,6 +178,8 @@ OG_LOCALE_MAP = {
     "it": "it_IT",
     "ru": "ru_RU",
     "nl": "nl_NL",
+    "hi": "hi_IN",
+    "bn": "bn_BD",
     "vi": "vi_VN",
     "th": "th_TH",
     "id": "id_ID",
@@ -190,6 +202,8 @@ SCHEMA_LANGUAGE_MAP = {
     "it": "it",
     "ru": "ru",
     "nl": "nl",
+    "hi": "hi",
+    "bn": "bn",
     "vi": "vi",
     "th": "th",
     "id": "id",
@@ -214,6 +228,8 @@ GEO_REGION_MAP = {
     "it": ("IT", "Italy"),
     "ru": ("RU", "Russia"),
     "nl": ("NL", "Netherlands"),
+    "hi": ("IN", "India"),
+    "bn": ("BD", "Bangladesh"),
     "vi": ("VN", "Vietnam"),
     "th": ("TH", "Thailand"),
     "id": ("ID", "Indonesia"),
@@ -236,6 +252,8 @@ LANGUAGE_FALLBACKS = {
     "it": ("en",),
     "ru": ("en",),
     "nl": ("en",),
+    "hi": ("en",),
+    "bn": ("en",),
     "vi": ("en",),
     "th": ("en",),
     "id": ("en",),
@@ -245,6 +263,7 @@ LANGUAGE_FALLBACKS = {
     "sw": ("en",),
     "ar": ("en",),
 }
+
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
 
@@ -344,6 +363,10 @@ def normalize_language(language: str) -> str:  # noqa: C901
         return "ru"
     if lowered.startswith("nl"):
         return "nl"
+    if lowered.startswith("hi"):
+        return "hi"
+    if lowered.startswith("bn"):
+        return "bn"
     if lowered.startswith("vi"):
         return "vi"
     if lowered.startswith("th"):

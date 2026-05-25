@@ -40,6 +40,8 @@
     "language.option.it": "İtalyanca",
     "language.option.ru": "Rusça",
     "language.option.nl": "Felemenkçe",
+    "language.option.hi": "Hintçe",
+    "language.option.bn": "Bengalice",
     "note.editor.label": "Paylaşılan not (en fazla {max_length} karakter)",
     "note.editor.max_length_hint": "En fazla {max_length} karakter girebilirsiniz.",
     "note.editor.demo_placeholder": "Buraya yazılanlar her saniye senkronize edilir...\n\nÖrnek metin:\nTüm üyeler aynı notu bu şekilde gerçek zamanlı olarak düzenleyebilir.\n\n- Girişiniz diğer üyelere anında senkronize edilir\n- En fazla {max_length} karakter\n- Düzenleme durumu gerçek zamanlı olarak güncellenir",
