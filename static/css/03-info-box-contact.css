@@ -155,7 +155,7 @@
 .contact-form-link {
   display: inline-flex;
   align-items: center;
-  background: var(--primary-gradient);
+  background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
   color: white;
   padding: 1rem 2rem;
   border-radius: 50px;
@@ -168,6 +168,7 @@
 }
 
 .contact-form-link:hover {
+  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
   color: white;

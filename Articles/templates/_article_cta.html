@@ -16,27 +16,33 @@
     "name": "FS!QR",
     "url": "/fs-qr_menu",
     "icon": "fa-qrcode",
+    "tag": "ファイル共有",
     "desc": "QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。"
   },
   "group": {
     "name": "Group",
     "url": "/group_menu",
     "icon": "fa-users",
+    "tag": "グループ共有",
     "desc": "複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。"
   },
   "note": {
     "name": "Note",
     "url": "/note_menu",
     "icon": "fa-pen-to-square",
+    "tag": "共同編集",
     "desc": "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。"
   }
 } %}
 {% set _c = _services.get(_svc, _services["fsqr"]) %}
-<aside class="article-cta">
-  <div class="article-cta-icon"><i class="fas {{ _c.icon }}"></i></div>
+<aside class="article-cta article-cta--{{ _svc }}">
+  <div class="article-cta-icon" aria-hidden="true"><i class="fas {{ _c.icon }}"></i></div>
   <div class="article-cta-body">
-    <p class="article-cta-eyebrow">関連サービス</p>
-    <h3 class="article-cta-title">{{ _c.name }}</h3>
+    <div class="article-cta-meta">
+      <span class="article-cta-eyebrow">関連サービス</span>
+      <span class="article-cta-tag">{{ _c.tag }}</span>
+    </div>
+    <h3 class="article-cta-title">{{ _c.name }}を使ってみる</h3>
     <p class="article-cta-desc">{{ _c.desc }}</p>
   </div>
   <a class="article-cta-button" href="{{ _c.url }}">
@@ -45,43 +51,78 @@
 </aside>
 <style>
   .article-cta {
-    display: flex;
+    --article-cta-accent: #075985;
+    --article-cta-accent-strong: #0f766e;
+    --article-cta-accent-soft: rgba(7, 89, 133, 0.09);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1.25rem;
+    gap: 1rem 1.25rem;
     margin-top: 2.5rem;
-    padding: 1.75rem;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
-    border: 1px solid var(--border-light);
+    padding: 1.35rem 1.45rem;
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, var(--article-cta-accent-soft) 0 5px, transparent 5px),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  }
+  .article-cta--group {
+    --article-cta-accent: #166534;
+    --article-cta-accent-strong: #15803d;
+    --article-cta-accent-soft: rgba(22, 101, 52, 0.1);
+  }
+  .article-cta--note {
+    --article-cta-accent: #4d7c0f;
+    --article-cta-accent-strong: #3f6212;
+    --article-cta-accent-soft: rgba(77, 124, 15, 0.11);
   }
   .article-cta-icon {
-    flex: 0 0 auto;
     width: 56px;
     height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
-    background: var(--primary-gradient);
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--article-cta-accent) 0%, var(--article-cta-accent-strong) 100%);
     color: #fff;
     font-size: 1.5rem;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
   }
   .article-cta-body {
-    flex: 1 1 240px;
     min-width: 0;
   }
+  .article-cta-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 0.35rem;
+  }
+  .article-cta-eyebrow,
+  .article-cta-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.45rem;
+  }
   .article-cta-eyebrow {
-    margin: 0 0 0.2rem;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--primary-color);
+    color: var(--article-cta-accent);
+  }
+  .article-cta-tag {
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    background: var(--article-cta-accent-soft);
+    color: var(--article-cta-accent);
+    font-size: 0.72rem;
+    font-weight: 700;
   }
   .article-cta-title {
     margin: 0 0 0.35rem;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-dark);
     font-family: 'Kaisei Opti', serif;
@@ -99,24 +140,40 @@
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
-    background: var(--primary-gradient);
+    background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
     color: #fff;
     font-weight: 600;
     text-decoration: none;
+    border-bottom: 0;
     white-space: nowrap;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 22px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
   .article-cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
+    box-shadow: 0 14px 28px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
     color: #fff;
     text-decoration: none;
+    border-bottom-color: transparent;
+  }
+  .info-box-content .article-cta-button,
+  .info-box-content .article-cta-button:hover {
+    border-bottom-color: transparent;
+    color: #fff;
   }
   .article-cta-button i { transition: transform 0.2s ease; }
   .article-cta-button:hover i { transform: translateX(4px); }
 
   @media (max-width: 600px) {
-    .article-cta { padding: 1.5rem; }
-    .article-cta-button { width: 100%; justify-content: center; }
+    .article-cta {
+      grid-template-columns: auto minmax(0, 1fr);
+      padding: 1.25rem;
+    }
+    .article-cta-button {
+      grid-column: 1 / -1;
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

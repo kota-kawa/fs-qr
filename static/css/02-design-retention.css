@@ -3,6 +3,10 @@
   --primary-color: rgb(0, 109, 128);
   --primary-light: rgba(0, 109, 128, 0.1);
   --primary-gradient: linear-gradient(135deg, rgb(0, 109, 128) 0%, rgb(32, 178, 170) 100%);
+  --primary-action-gradient: linear-gradient(135deg, #075985 0%, #0f766e 100%);
+  --primary-action-gradient-hover: linear-gradient(135deg, #064e7a 0%, #115e59 100%);
+  --primary-action-shadow: rgba(7, 89, 133, 0.28);
+  --primary-action-shadow-hover: rgba(7, 89, 133, 0.38);
   --focus-ring-color: rgba(37, 99, 235, 0.32);
   --focus-ring-strong: 0 0 0 3px var(--focus-ring-color);
   --focus-ring-offset: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 0 7px var(--focus-ring-color);
