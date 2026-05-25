@@ -49,6 +49,7 @@ from Admin.admin_app import router as admin_router
 from FSQR import fsqr_data as fsqr_cleanup_data
 from FSQR.fsqr_app import router as fsqr_router
 from Articles.articles_app import router as articles_router
+from Articles.articles_registry import get_articles_sorted
 from top_search import router as top_search_router
 
 MASTER_PW = ADMIN_KEY
@@ -295,12 +296,13 @@ SITEMAP_URLS = (
     ("/note_menu", "weekly", "0.9", "2026-04-27"),
     ("/note", "weekly", "0.9", "2026-04-27"),
     ("/create_note_room", "weekly", "0.8", "2026-04-27"),
-    ("/fs-qr-concept", "monthly", "0.6", "2025-08-31"),
-    ("/safe-sharing", "monthly", "0.6", "2025-08-31"),
-    ("/encryption", "monthly", "0.6", "2025-08-21"),
-    ("/education", "monthly", "0.6", "2025-08-21"),
-    ("/business", "monthly", "0.6", "2025-08-21"),
-    ("/risk-mitigation", "monthly", "0.6", "2025-08-21"),
+)
+
+# 解説記事の sitemap エントリはレジストリから自動生成する。
+# 記事を追加すると sitemap.xml にも自動で反映される。
+SITEMAP_URLS += tuple(
+    (f"/{article['slug']}", "monthly", "0.6", article["date"])
+    for article in get_articles_sorted()
 )
 
 
