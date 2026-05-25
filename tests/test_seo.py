@@ -70,6 +70,10 @@ def test_home_meta_description_is_translated_for_every_locale(
         "de": "kostenlos",
         "pt": "gratuito",
         "it": "gratuito",
+        "ru": "бесплат",
+        "nl": "gratis",
+        "hi": "मुफ्त",
+        "bn": "বিনামূল্যে",
         "vi": "miễn phí",
         "th": "ฟรี",
         "id": "gratis",
@@ -99,29 +103,12 @@ def test_home_meta_description_is_translated_for_every_locale(
 
 
 def test_home_geo_region_adapts_to_locale(test_client: TestClient):
-    expected_regions = {
-        "ja": "JP",
-        "en": "US",
-        "zh-CN": "CN",
-        "zh-TW": "TW",
-        "ko": "KR",
-        "fr": "FR",
-        "es": "ES",
-        "de": "DE",
-        "pt": "PT",
-        "it": "IT",
-        "vi": "VN",
-        "th": "TH",
-        "id": "ID",
-        "tr": "TR",
-        "uk": "UA",
-        "pl": "PL",
-        "sw": "TZ",
-        "ar": "SA",
-    }
+    from i18n import GEO_REGION_MAP, SUPPORTED_LANGUAGES
+
     region_re = re.compile(r'<meta name="geo\.region" content="([^"]+)"')
 
-    for language, region in expected_regions.items():
+    for language in SUPPORTED_LANGUAGES:
+        region = GEO_REGION_MAP[language][0]
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         match = region_re.search(response.text)
@@ -132,29 +119,12 @@ def test_home_geo_region_adapts_to_locale(test_client: TestClient):
 
 
 def test_home_jsonld_inlanguage_matches_request_locale(test_client: TestClient):
-    expected = {
-        "ja": "ja-JP",
-        "en": "en",
-        "zh-CN": "zh-CN",
-        "zh-TW": "zh-TW",
-        "ko": "ko",
-        "fr": "fr",
-        "es": "es",
-        "de": "de",
-        "pt": "pt",
-        "it": "it",
-        "vi": "vi",
-        "th": "th",
-        "id": "id",
-        "tr": "tr",
-        "uk": "uk",
-        "pl": "pl",
-        "sw": "sw",
-        "ar": "ar",
-    }
+    from i18n import SCHEMA_LANGUAGE_MAP, SUPPORTED_LANGUAGES
+
     pattern = re.compile(r'"inLanguage":\s*"([^"]+)"')
 
-    for language, in_language in expected.items():
+    for language in SUPPORTED_LANGUAGES:
+        in_language = SCHEMA_LANGUAGE_MAP[language]
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         matches = pattern.findall(response.text)
