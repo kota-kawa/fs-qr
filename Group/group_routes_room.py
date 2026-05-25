@@ -42,6 +42,39 @@ from .group_storage import UPLOAD_FOLDER
 logger = logging.getLogger(__name__)
 
 
+def _render_group_room(request: Request, room_id: str, record: dict):
+    user_id = record.get("id", "不明")
+    retention_days = record.get("retention_days", 7)
+    share_token = get_group_room_share_token(request, room_id)
+    password = get_group_room_password(request, room_id)
+    share_url = (
+        build_share_url(request, service_key=ServiceKey.GROUP, token=share_token)
+        if share_token
+        else ""
+    )
+    created_at = record.get("time")
+    deletion_date = None
+    if created_at:
+        try:
+            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
+                "%Y-%m-%d %H:%M"
+            )
+        except Exception:
+            deletion_date = None
+
+    return render_template(
+        request,
+        "group_room.html",
+        room_id=room_id,
+        user_id=user_id,
+        password=password,
+        share_url=share_url,
+        retention_days=retention_days,
+        deletion_date=deletion_date,
+        websocket_csrf_token=get_or_create_csrf_token(request),
+    )
+
+
 def register_group_room_access_route(router: APIRouter):
     @router.get("/group/s/{token}", name="group.share_entry")
     async def group_share_entry(request: Request, token: str):
@@ -68,10 +101,7 @@ def register_group_room_access_route(router: APIRouter):
 
         await register_success(SCOPE_GROUP, ip)
         remember_group_room_access(request, room_id, token)
-        return RedirectResponse(
-            build_room_url(request, service_key=ServiceKey.GROUP, resource_id=room_id),
-            status_code=302,
-        )
+        return _render_group_room(request, room_id, record)
 
     @router.get("/group/r/{room_id}", name="group.group_room")
     async def group_room(request: Request, room_id: str):
@@ -92,37 +122,7 @@ def register_group_room_access_route(router: APIRouter):
             )
 
         await register_success(SCOPE_GROUP, ip)
-
-        user_id = record.get("id", "不明")
-        retention_days = record.get("retention_days", 7)
-        share_token = get_group_room_share_token(request, room_id)
-        password = get_group_room_password(request, room_id)
-        share_url = (
-            build_share_url(request, service_key=ServiceKey.GROUP, token=share_token)
-            if share_token
-            else ""
-        )
-        created_at = record.get("time")
-        deletion_date = None
-        if created_at:
-            try:
-                deletion_date = (created_at + timedelta(days=retention_days)).strftime(
-                    "%Y-%m-%d %H:%M"
-                )
-            except Exception:
-                deletion_date = None
-
-        return render_template(
-            request,
-            "group_room.html",
-            room_id=room_id,
-            user_id=user_id,
-            password=password,
-            share_url=share_url,
-            retention_days=retention_days,
-            deletion_date=deletion_date,
-            websocket_csrf_token=get_or_create_csrf_token(request),
-        )
+        return _render_group_room(request, room_id, record)
 
     @router.get("/group/{room_id}/{password}", name="group.group_legacy_room")
     async def group_legacy_room(request: Request, room_id: str, password: str):
