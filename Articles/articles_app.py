@@ -8,7 +8,9 @@ from web import render_cached_template, render_template
 
 from Articles.articles_registry import (
     CATEGORIES,
-    get_articles_sorted,
+    get_all_articles,
+    get_blog_articles_sorted,
+    get_guides,
 )
 
 router = APIRouter()
@@ -45,7 +47,8 @@ async def articles(request: Request):
     return render_template(
         request,
         "articles.html",
-        articles=_with_new_flag(get_articles_sorted()),
+        guides=get_guides(),
+        articles=_with_new_flag(get_blog_articles_sorted()),
         categories=CATEGORIES,
     )
 
@@ -59,7 +62,7 @@ def _make_article_handler(template_name: str):
 
 # レジストリの各記事を /<slug> で配信するルートを動的に登録する。
 # 記事を追加するときは articles_registry.ARTICLES にエントリを足すだけでよい。
-for _article in get_articles_sorted():
+for _article in get_all_articles():
     router.add_api_route(
         f"/{_article['slug']}",
         _make_article_handler(_article["template"]),

@@ -11,25 +11,36 @@
 記事エントリがすべて自動生成される。個別ルートや一覧ページのカード定義を
 手で書き足す必要はない。
 
+種別(``type``):
+    "guide"   サービスの考え方・使い方を説明する普遍的(エバーグリーン)な解説。
+              一覧では「サービス解説ガイド」セクションに常に上部固定で表示され、
+              公開日や NEW バッジは出さない。初期の6件がこれにあたる。
+    "article" 日付つきで増えていくブログ的な記事。一覧では「新着記事」セクションに
+              新しい順で並び、公開から一定期間は NEW バッジが付く。
+
 フィールド:
     slug:        URL パス。``/<slug>`` で配信される(先頭スラッシュは付けない)。
     title:       一覧カードと構造化データに使うタイトル。
     description: 一覧カードの説明文。
     icon:        Font Awesome のアイコンクラス(例: ``fa-lightbulb``)。
     category:    一覧ページの絞り込みに使うカテゴリ名。
-    date:        公開日(``YYYY-MM-DD``)。一覧は新しい順に並び、sitemap の
+    date:        公開日(``YYYY-MM-DD``)。article は新しい順に並び、sitemap の
                  lastmod にも使われる。
     template:    ``Articles/templates/`` 配下の本文テンプレートファイル名。
-    default:     初期(デフォルト)記事かどうか。True の6件は既存記事で、
-                 一覧では並び順に関わらず常に表示される基本セット。
+    type:        "guide" または "article"(上記参照)。
+    default:     初期(デフォルト)記事かどうか。True の6件は既存のガイドで、
+                 常に維持する基本セット。
 """
 
 from __future__ import annotations
 
 from typing import Any
 
-# 既存の6記事をデフォルト(初期セット)として保持する。
-# 以降の日次追加はこのリストの末尾に append していくだけでよい。
+TYPE_GUIDE = "guide"
+TYPE_ARTICLE = "article"
+
+# 既存の6件はサービス解説ガイド(エバーグリーン)としてデフォルト保持する。
+# 日次で増やすブログ記事は type="article" でこのリスト末尾に append していく。
 ARTICLES: list[dict[str, Any]] = [
     {
         "slug": "fs-qr-concept",
@@ -39,6 +50,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "サービス紹介",
         "date": "2025-08-31",
         "template": "fs-qr-concept.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
     {
@@ -49,6 +61,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "セキュリティ",
         "date": "2025-08-31",
         "template": "safe-sharing.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
     {
@@ -59,6 +72,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "セキュリティ",
         "date": "2025-08-21",
         "template": "encryption.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
     {
@@ -69,6 +83,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "活用事例",
         "date": "2025-08-21",
         "template": "education.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
     {
@@ -79,6 +94,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "活用事例",
         "date": "2025-08-21",
         "template": "business.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
     {
@@ -89,9 +105,10 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "セキュリティ",
         "date": "2025-08-21",
         "template": "risk-mitigation.html",
+        "type": TYPE_GUIDE,
         "default": True,
     },
-    # ── 日次で追加する記事はここから下に1件ずつ append する ──
+    # ── 日次で追加するブログ記事(type="article")はここから下に1件ずつ append する ──
     {
         "slug": "smartphone-receiving",
         "title": "スマホでファイルを受け取る方法",
@@ -100,6 +117,7 @@ ARTICLES: list[dict[str, Any]] = [
         "category": "活用事例",
         "date": "2026-05-26",
         "template": "smartphone-receiving.html",
+        "type": TYPE_ARTICLE,
         "default": False,
     },
 ]
@@ -114,11 +132,27 @@ for _article in ARTICLES:
         CATEGORIES.append(_category)
 
 
-def get_articles_sorted() -> list[dict[str, Any]]:
-    """新しい順(同日ならデフォルト記事を優先)に並べたコピーを返す。"""
+def get_all_articles() -> list[dict[str, Any]]:
+    """登録済みの全エントリ(ガイド + 記事)のコピーを返す。
+
+    ルーティング登録や sitemap 生成など、種別を問わず全件を扱う用途で使う。
+    """
+    return list(ARTICLES)
+
+
+def get_guides() -> list[dict[str, Any]]:
+    """サービス解説ガイド(type="guide")を登録順で返す。
+
+    エバーグリーンな基本コンテンツなので日付では並べ替えず、登録順を保つ。
+    """
+    return [a for a in ARTICLES if a.get("type", TYPE_ARTICLE) == TYPE_GUIDE]
+
+
+def get_blog_articles_sorted() -> list[dict[str, Any]]:
+    """ブログ記事(type="article")を新しい順に並べて返す。"""
     return sorted(
-        ARTICLES,
-        key=lambda a: (a["date"], a.get("default", False)),
+        (a for a in ARTICLES if a.get("type", TYPE_ARTICLE) == TYPE_ARTICLE),
+        key=lambda a: a["date"],
         reverse=True,
     )
 

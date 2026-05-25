@@ -210,6 +210,33 @@
   .article-card:hover .read-more { color: var(--accent-color); }
   .article-card:hover .read-more i { transform: translateX(5px); }
 
+  /* ── セクション(ガイド / 新着記事) ── */
+  .articles-section { margin-bottom: 2.5rem; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--border-light);
+  }
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+    font-family: 'Kaisei Opti', serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title i { color: var(--primary-color); font-size: 1.2rem; }
+  .section-desc {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin: 0;
+  }
+
   .articles-empty {
     display: none;
     text-align: center;
@@ -219,6 +246,8 @@
   .articles-empty i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
 
   @media (max-width: 768px) {
+    .section-header { flex-direction: column; gap: 0.25rem; }
+    .section-title { font-size: 1.25rem; }
     .articles-page { padding: 1rem 0.5rem; }
     .articles-header { padding: 2rem 1rem; margin-bottom: 1.5rem; }
     .articles-title { font-size: 2rem; }
@@ -248,28 +277,65 @@
       </div>
     </div>
 
-    <p class="articles-count"><span id="articles-count">{{ articles|length }}</span> <span class="articles-count-unit">件の記事</span></p>
+    <p class="articles-count"><span id="articles-count">{{ (guides|length) + (articles|length) }}</span> <span class="articles-count-unit">件の記事</span></p>
 
-    <div class="articles-grid" id="articles-grid">
-      {% for art in articles %}
-      <a href="/{{ art.slug }}"
-         class="article-card"
-         data-category="{{ art.category }}"
-         data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
-        <div class="article-card-top">
-          <i class="fas {{ art.icon }} article-icon"></i>
-          {% if art.is_new %}<span class="article-new-badge">NEW</span>{% endif %}
-        </div>
-        <div class="article-meta">
-          <span class="article-category">{{ art.category }}</span>
-          <span class="article-date">{{ art.date }}</span>
-        </div>
-        <h3 class="article-title">{{ art.title }}</h3>
-        <p class="article-description">{{ art.description }}</p>
-        <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
-      </a>
-      {% endfor %}
-    </div>
+    {# ── サービス解説ガイド(エバーグリーン・常に上部固定) ── #}
+    {% if guides %}
+    <section class="articles-section" data-section="guides">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-book-open"></i>サービス解説ガイド</h2>
+        <p class="section-desc">FS!QRの考え方と使い方の基本</p>
+      </div>
+      <div class="articles-grid">
+        {% for art in guides %}
+        <a href="/{{ art.slug }}"
+           class="article-card"
+           data-category="{{ art.category }}"
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+          <div class="article-card-top">
+            <i class="fas {{ art.icon }} article-icon"></i>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">{{ art.category }}</span>
+          </div>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">{{ art.description }}</p>
+          <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ── 新着記事(日次・新しい順) ── #}
+    {% if articles %}
+    <section class="articles-section" data-section="articles">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-newspaper"></i>新着記事</h2>
+        <p class="section-desc">新しく公開した記事</p>
+      </div>
+      <div class="articles-grid">
+        {% for art in articles %}
+        <a href="/{{ art.slug }}"
+           class="article-card"
+           data-category="{{ art.category }}"
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+          <div class="article-card-top">
+            <i class="fas {{ art.icon }} article-icon"></i>
+            {% if art.is_new %}<span class="article-new-badge">NEW</span>{% endif %}
+          </div>
+          <div class="article-meta">
+            <span class="article-category">{{ art.category }}</span>
+            <span class="article-date">{{ art.date }}</span>
+          </div>
+          <h3 class="article-title">{{ art.title }}</h3>
+          <p class="article-description">{{ art.description }}</p>
+          <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
 
     <div class="articles-empty" id="articles-empty">
       <i class="fas fa-magnifying-glass"></i>
@@ -282,10 +348,10 @@
   (function () {
     var searchInput = document.getElementById('article-search');
     var filterBar = document.getElementById('article-filters');
-    var grid = document.getElementById('articles-grid');
     var emptyState = document.getElementById('articles-empty');
     var countLabel = document.getElementById('articles-count');
-    var cards = Array.prototype.slice.call(grid.querySelectorAll('.article-card'));
+    var sections = Array.prototype.slice.call(document.querySelectorAll('.articles-section'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.article-card'));
     var activeCategory = '';
 
     function applyFilters() {
@@ -297,6 +363,16 @@
         var show = matchesCategory && matchesQuery;
         card.style.display = show ? '' : 'none';
         if (show) visible++;
+      });
+      // 中身が0件になったセクションは見出しごと隠す
+      sections.forEach(function (section) {
+        var shown = section.querySelectorAll('.article-card').length
+          ? Array.prototype.some.call(
+              section.querySelectorAll('.article-card'),
+              function (c) { return c.style.display !== 'none'; }
+            )
+          : false;
+        section.style.display = shown ? '' : 'none';
       });
       emptyState.style.display = visible === 0 ? 'block' : 'none';
       countLabel.textContent = visible;

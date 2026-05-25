@@ -1,7 +1,14 @@
 import pytest
 from starlette.testclient import TestClient
 
-from Articles.articles_registry import ARTICLES, get_article_by_slug
+from Articles.articles_registry import (
+    ARTICLES,
+    TYPE_ARTICLE,
+    TYPE_GUIDE,
+    get_article_by_slug,
+    get_blog_articles_sorted,
+    get_guides,
+)
 
 
 def test_articles_index(test_client: TestClient):
@@ -48,3 +55,29 @@ def test_article_sitemap_entries(test_client: TestClient):
 def test_get_article_by_slug():
     assert get_article_by_slug("fs-qr-concept") is not None
     assert get_article_by_slug("does-not-exist") is None
+
+
+def test_guides_are_the_default_evergreen_set():
+    guides = get_guides()
+    assert {g["slug"] for g in guides} == {
+        "fs-qr-concept",
+        "safe-sharing",
+        "encryption",
+        "education",
+        "business",
+        "risk-mitigation",
+    }
+    assert all(g["type"] == TYPE_GUIDE for g in guides)
+
+
+def test_blog_articles_sorted_newest_first():
+    blog = get_blog_articles_sorted()
+    assert all(a["type"] == TYPE_ARTICLE for a in blog)
+    dates = [a["date"] for a in blog]
+    assert dates == sorted(dates, reverse=True)
+
+
+def test_articles_index_renders_both_sections(test_client: TestClient):
+    body = test_client.get("/articles").text
+    assert "サービス解説ガイド" in body
+    assert "新着記事" in body
