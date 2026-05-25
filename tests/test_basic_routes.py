@@ -35,6 +35,12 @@ class VisibleTextScanner(HTMLParser):
             return
         if self._skip_stack:
             return
+        # 言語切り替えドロップダウンは各言語をその言語自身の名称（自称名）で
+        # 表示するため、英語/韓国語ページでも「日本語」「简体中文」などが
+        # 意図的に現れる。これらは翻訳漏れではないのでスキャン対象外にする。
+        if any(name == "data-lang-select" for name, _ in attrs):
+            self._skip_stack.append(tag)
+            return
         for name, value in attrs:
             if name in self.LOCALIZED_ATTRS and value:
                 self.values.append(value)
@@ -143,14 +149,25 @@ def test_settings_language_switcher_exposes_every_supported_language(
         assert f'data-value="{language}"' in response.text
 
 
-def test_index_localizes_language_option_labels_for_english(test_client: TestClient):
-    response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
-    assert response.status_code == 200
-    assert ">Japanese<" in response.text
-    assert ">Chinese (Simplified)<" in response.text
-    assert ">Chinese (Traditional)<" in response.text
-    assert ">Korean<" in response.text
-    assert "日本語" not in response.text
+def test_index_uses_native_language_labels_regardless_of_ui_language(
+    test_client: TestClient,
+):
+    # 言語ドロップダウンは現在のUI言語に関わらず、各言語をその言語自身の
+    # 名称（自称名）で統一表示する。英語UIでも日本語は「日本語」、
+    # 韓国語は「한국어」のように表示され、表示内容が言語ごとに変わらない。
+    for cookie_lang in ("en", "ja", "ko"):
+        response = test_client.get(
+            "/", headers={"Cookie": f"fsqr_language={cookie_lang}"}
+        )
+        assert response.status_code == 200
+        assert ">日本語<" in response.text
+        assert ">English<" in response.text
+        assert ">简体中文<" in response.text
+        assert ">繁體中文<" in response.text
+        assert ">한국어<" in response.text
+        # UI言語に翻訳された呼称（例: "Japanese" / "日本語" 以外の和名）は使わない
+        assert ">Japanese<" not in response.text
+        assert ">Korean<" not in response.text
 
 
 def test_note_page_uses_translated_editor_helper_text(test_client: TestClient):

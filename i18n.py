@@ -524,18 +524,17 @@ def make_translator(language: str):
 
 
 def get_language_options(language: str) -> tuple[dict[str, str], ...]:
-    translate = make_translator(language)
+    # 言語切り替えドロップダウンは、現在のUI言語に関わらず各言語を
+    # その言語自身の名称（自称・endonym。例: English, 日本語, 한국어）で
+    # 統一して表示する。こうすることで表示内容が言語ごとに変わらず、
+    # 自分の言語を読めないユーザーでも自言語を見つけやすくなる。
+    # `language` 引数は将来の利用（並び順など）のために残している。
     options: list[dict[str, str]] = []
     for option in LANGUAGE_OPTIONS:
-        code = option["code"]
-        translation_key = f"language.option.{code}"
-        label = translate(translation_key)
-        if label == translation_key:
-            label = option["label"]
         options.append(
             {
-                "code": code,
-                "label": label,
+                "code": option["code"],
+                "label": option["label"],
                 "flag": option["flag"],
             }
         )
