@@ -31,6 +31,19 @@ def test_registered_article_route(test_client: TestClient, article):
     assert response.status_code == 200
 
 
+# fsqr / group / note いずれかのサービス入口URL
+SERVICE_MENU_URLS = ("/fs-qr_menu", "/group_menu", "/note_menu")
+
+
+@pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
+def test_article_links_to_a_service(test_client: TestClient, article):
+    """全ての記事が fsqr / note / group のいずれかへの導線を持つこと。"""
+    body = test_client.get(f"/{article['slug']}").text
+    assert any(f'href="{url}"' in body for url in SERVICE_MENU_URLS), (
+        f"{article['slug']} has no service CTA"
+    )
+
+
 def test_default_articles_present():
     """既存6記事がデフォルトとして維持されていること。"""
     default_slugs = {a["slug"] for a in ARTICLES if a.get("default")}
