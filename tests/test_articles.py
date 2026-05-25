@@ -107,3 +107,9 @@ def test_articles_index_renders_both_sections(test_client: TestClient):
     body = test_client.get("/articles").text
     assert "サービス解説ガイド" in body
     assert "新着記事" in body
+
+
+def test_articles_index_does_not_render_new_badge(test_client: TestClient):
+    body = test_client.get("/articles").text
+    assert "article-new-badge" not in body
+    assert ">NEW<" not in body
