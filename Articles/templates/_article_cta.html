@@ -1,0 +1,122 @@
+{#
+  記事末尾に表示するサービス導線(CTA)。
+
+  使い方: 呼び出し側で cta_service を "fsqr" / "group" / "note" のいずれかに
+  set してから include する。未指定時は "fsqr"。
+
+    {% set cta_service = "group" %}
+    {% include "_article_cta.html" %}
+
+  _article_base.html を継承した記事は、テンプレート冒頭で cta_service を set すれば
+  自動で末尾に表示される(set しなければ FS!QR への導線になる)。
+#}
+{% set _svc = cta_service | default("fsqr") %}
+{% set _services = {
+  "fsqr": {
+    "name": "FS!QR",
+    "url": "/fs-qr_menu",
+    "icon": "fa-qrcode",
+    "desc": "QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。"
+  },
+  "group": {
+    "name": "Group",
+    "url": "/group_menu",
+    "icon": "fa-users",
+    "desc": "複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。"
+  },
+  "note": {
+    "name": "Note",
+    "url": "/note_menu",
+    "icon": "fa-pen-to-square",
+    "desc": "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。"
+  }
+} %}
+{% set _c = _services.get(_svc, _services["fsqr"]) %}
+<aside class="article-cta">
+  <div class="article-cta-icon"><i class="fas {{ _c.icon }}"></i></div>
+  <div class="article-cta-body">
+    <p class="article-cta-eyebrow">関連サービス</p>
+    <h3 class="article-cta-title">{{ _c.name }}</h3>
+    <p class="article-cta-desc">{{ _c.desc }}</p>
+  </div>
+  <a class="article-cta-button" href="{{ _c.url }}">
+    今すぐ使ってみる <i class="fas fa-arrow-right"></i>
+  </a>
+</aside>
+<style>
+  .article-cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
+    border: 1px solid var(--border-light);
+  }
+  .article-cta-icon {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: 1.5rem;
+  }
+  .article-cta-body {
+    flex: 1 1 240px;
+    min-width: 0;
+  }
+  .article-cta-eyebrow {
+    margin: 0 0 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+  }
+  .article-cta-title {
+    margin: 0 0 0.35rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-family: 'Kaisei Opti', serif;
+  }
+  .article-cta-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-medium);
+  }
+  .article-cta-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .article-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: #fff;
+    text-decoration: none;
+  }
+  .article-cta-button i { transition: transform 0.2s ease; }
+  .article-cta-button:hover i { transform: translateX(4px); }
+
+  @media (max-width: 600px) {
+    .article-cta { padding: 1.5rem; }
+    .article-cta-button { width: 100%; justify-content: center; }
+  }
+</style>
