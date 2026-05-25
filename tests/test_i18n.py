@@ -261,6 +261,27 @@ def test_language_options_fallback_to_native_labels_when_missing_translation():
     assert labels["th"] == "ไทย"
 
 
+def test_language_options_labels_are_identical_across_ui_languages():
+    import i18n
+
+    # ドロップダウンの表示内容を統一するため、各言語のラベルは現在のUI言語に
+    # 依存せず、常に同じ自称名（endonym）になる。
+    baseline = i18n.get_language_options(i18n.DEFAULT_LANGUAGE)
+    expected = {option["code"]: option["label"] for option in baseline}
+
+    for language in i18n.SUPPORTED_LANGUAGES:
+        labels = {
+            option["code"]: option["label"]
+            for option in i18n.get_language_options(language)
+        }
+        assert labels == expected
+
+    # 代表的な自称名が使われていることを確認する。
+    assert expected["ja"] == "日本語"
+    assert expected["en"] == "English"
+    assert expected["ko"] == "한국어"
+
+
 def test_language_dropdown_is_scrollable_for_many_languages():
     source = Path("static/cookie-consent.css").read_text(encoding="utf-8")
     script = Path("static/cookie-consent.js").read_text(encoding="utf-8")
