@@ -15,28 +15,30 @@
   "fsqr": {
     "name": "FS!QR",
     "url": "/fs-qr_menu",
-    "icon": "fa-qrcode",
+    "image": "/static/fsqr.png",
     "tag": "ファイル共有",
     "desc": "QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。"
   },
   "group": {
     "name": "Group",
     "url": "/group_menu",
-    "icon": "fa-users",
+    "image": "/static/group.png",
     "tag": "グループ共有",
     "desc": "複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。"
   },
   "note": {
     "name": "Note",
     "url": "/note_menu",
-    "icon": "fa-pen-to-square",
+    "image": "/static/note.png",
     "tag": "共同編集",
     "desc": "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。"
   }
 } %}
 {% set _c = _services.get(_svc, _services["fsqr"]) %}
 <aside class="article-cta article-cta--{{ _svc }}">
-  <div class="article-cta-icon" aria-hidden="true"><i class="fas {{ _c.icon }}"></i></div>
+  <div class="article-cta-icon" aria-hidden="true">
+    <img src="{{ _c.image }}" alt="" loading="lazy" decoding="async">
+  </div>
   <div class="article-cta-body">
     <div class="article-cta-meta">
       <span class="article-cta-eyebrow">関連サービス</span>
@@ -88,6 +90,13 @@
     color: #fff;
     font-size: 1.5rem;
     box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  }
+  .article-cta-icon img {
+    display: block;
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(15, 23, 42, 0.24));
   }
   .article-cta-body {
     min-width: 0;

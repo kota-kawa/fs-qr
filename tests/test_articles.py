@@ -33,6 +33,11 @@ def test_registered_article_route(test_client: TestClient, article):
 
 # fsqr / group / note いずれかのサービス入口URL
 SERVICE_MENU_URLS = ("/fs-qr_menu", "/group_menu", "/note_menu")
+SERVICE_CTA_IMAGES = {
+    "fs-qr-concept": "/static/fsqr.png",
+    "education": "/static/group.png",
+    "business": "/static/note.png",
+}
 
 
 @pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
@@ -42,6 +47,14 @@ def test_article_links_to_a_service(test_client: TestClient, article):
     assert any(f'href="{url}"' in body for url in SERVICE_MENU_URLS), (
         f"{article['slug']} has no service CTA"
     )
+
+
+@pytest.mark.parametrize("slug,image_path", SERVICE_CTA_IMAGES.items())
+def test_article_service_cta_renders_service_image(
+    test_client: TestClient, slug, image_path
+):
+    body = test_client.get(f"/{slug}").text
+    assert f'src="{image_path}"' in body
 
 
 def test_default_articles_present():
@@ -94,3 +107,9 @@ def test_articles_index_renders_both_sections(test_client: TestClient):
     body = test_client.get("/articles").text
     assert "サービス解説ガイド" in body
     assert "新着記事" in body
+
+
+def test_articles_index_does_not_render_new_badge(test_client: TestClient):
+    body = test_client.get("/articles").text
+    assert "article-new-badge" not in body
+    assert ">NEW<" not in body

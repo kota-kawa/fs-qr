@@ -156,15 +156,6 @@
     color: var(--primary-color);
     display: block;
   }
-  .article-new-badge {
-    background: var(--accent-color, #f97316);
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-  }
   .article-meta {
     display: flex;
     align-items: center;
@@ -322,7 +313,6 @@
            data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
           <div class="article-card-top">
             <i class="fas {{ art.icon }} article-icon"></i>
-            {% if art.is_new %}<span class="article-new-badge">NEW</span>{% endif %}
           </div>
           <div class="article-meta">
             <span class="article-category">{{ art.category }}</span>
