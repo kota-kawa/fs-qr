@@ -55,9 +55,23 @@
       }
     }
 
+    function scrollSpinnerIntoCenter() {
+      if (!spinnerRoot || typeof spinnerRoot.scrollIntoView !== 'function') {
+        return;
+      }
+      window.requestAnimationFrame(function () {
+        try {
+          spinnerRoot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (error) {
+          spinnerRoot.scrollIntoView(true);
+        }
+      });
+    }
+
     function showSpinner() {
       if (spinnerRoot) {
         spinnerRoot.style.display = 'grid';
+        scrollSpinnerIntoCenter();
       }
     }
 
