@@ -21,7 +21,7 @@ def test_articles_index_lists_all_articles(test_client: TestClient):
     assert response.status_code == 200
     body = response.text
     for article in ARTICLES:
-        assert f'/{article["slug"]}' in body
+        assert f"/{article['slug']}" in body
         assert article["title"] in body
 
 
