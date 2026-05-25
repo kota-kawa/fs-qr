@@ -142,7 +142,7 @@
 }
 
 .upload-button-modern {
-  background: var(--primary-gradient);
+  background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
   color: white;
   border: none;
   border-radius: 12px;
@@ -151,12 +151,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 109, 128, 0.3);
+  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
 }
 
 .upload-button-modern:hover {
+  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 109, 128, 0.4);
+  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
 }
 
 /* ===============================================
@@ -335,7 +336,7 @@
 }
 
 .modern-btn {
-  background: var(--primary-gradient);
+  background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
   color: white;
   border: none;
   border-radius: 12px;
@@ -344,7 +345,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 109, 128, 0.3);
+  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -352,8 +353,9 @@
 }
 
 .modern-btn:hover {
+  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 109, 128, 0.4);
+  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
   color: white;
   text-decoration: none;
 }
