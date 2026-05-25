@@ -114,6 +114,19 @@
       return formData;
     }
 
+    function scrollProgressIntoCenter() {
+      if (!uploadProgressContainer || typeof uploadProgressContainer.scrollIntoView !== 'function') {
+        return;
+      }
+      window.requestAnimationFrame(function () {
+        try {
+          uploadProgressContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (error) {
+          uploadProgressContainer.scrollIntoView(true);
+        }
+      });
+    }
+
     function showUploadProgressStart() {
       core.showElement(uploadProgressContainer);
       core.setProgressScale(uploadProgressBar, 0);
@@ -121,6 +134,7 @@
       resetStatusMessage();
       uploadBtn.disabled = true;
       uploadBtn.textContent = translate('upload.uploading', 'Uploading...');
+      scrollProgressIntoCenter();
     }
 
     function showUploadError(xhr) {
