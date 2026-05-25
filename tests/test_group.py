@@ -210,6 +210,37 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
     assert "function fetchAndDisplayOtherFiles()" not in html
 
 
+def test_group_share_entry_renders_room_without_redirect(test_client: TestClient):
+    """QRの共有URLはスマホのブラウザ移動で壊れないよう直接ルームを表示する"""
+    mock_room = {"id": "tester", "retention_days": 7, "time": None}
+    share_token = "group-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    with (
+        patch(
+            "Group.group_routes_room.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "Group.group_routes_room.resolve_share_link",
+            new_callable=AsyncMock,
+            return_value={"service_key": "group", "resource_id": "grp999"},
+        ),
+        patch(
+            "Group.group_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_room.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get(f"/group/s/{share_token}")
+
+    assert response.status_code == 200
+    assert "location" not in response.headers
+    html = response.text
+    assert "グループファイル共有" in html
+    assert f'data-share-url="http://testserver/group/s/{share_token}"' in html
+
+
 # --- group_upload: 認証失敗 → 400 ---
 
 

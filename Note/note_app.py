@@ -84,6 +84,37 @@ async def _get_room_if_valid(room_id):
     return meta
 
 
+def _render_note_room(request: Request, room_id: str, meta: dict):
+    retention_days = meta.get("retention_days", 7)
+    expires_at = meta.get("expires_at")
+    deletion_date = None
+    if expires_at:
+        try:
+            deletion_date = expires_at.strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            deletion_date = None
+
+    share_token = get_note_room_share_token(request, room_id)
+    password = get_note_room_password(request, room_id)
+    share_url = (
+        build_share_url(request, service_key=ServiceKey.NOTE, token=share_token)
+        if share_token
+        else ""
+    )
+
+    return render_template(
+        request,
+        "note_room.html",
+        room_id=room_id,
+        user_id=meta["id"],
+        password=password,
+        share_url=share_url,
+        retention_days=retention_days,
+        deletion_date=deletion_date,
+        websocket_csrf_token=get_or_create_csrf_token(request),
+    )
+
+
 @router.get("/note_menu", name="note.note_menu")
 async def note_menu(request: Request):
     canonical = _canonical_redirect(request)
@@ -300,11 +331,13 @@ async def note_share(request: Request, token: str):
         return _gone_response(
             request, "このノートルームは期限切れ、または削除済みです。"
         )
+    row = await nd.get_row(room_id)
+    if not row:
+        return _gone_response(
+            request, "このノートルームは期限切れ、または削除済みです。"
+        )
     remember_note_room_access(request, room_id, share_token=token)
-    return RedirectResponse(
-        build_room_url(request, service_key=ServiceKey.NOTE, resource_id=room_id),
-        status_code=302,
-    )
+    return _render_note_room(request, room_id, meta)
 
 
 @router.get("/note/r/{room_id}", name="note.note_room")
@@ -338,35 +371,7 @@ async def note_room(request: Request, room_id: str):
         )
 
     await register_success(SCOPE_NOTE, ip)
-
-    retention_days = meta.get("retention_days", 7)
-    expires_at = meta.get("expires_at")
-    deletion_date = None
-    if expires_at:
-        try:
-            deletion_date = expires_at.strftime("%Y-%m-%d %H:%M")
-        except Exception:
-            deletion_date = None
-
-    share_token = get_note_room_share_token(request, room_id)
-    password = get_note_room_password(request, room_id)
-    share_url = (
-        build_share_url(request, service_key=ServiceKey.NOTE, token=share_token)
-        if share_token
-        else ""
-    )
-
-    return render_template(
-        request,
-        "note_room.html",
-        room_id=room_id,
-        user_id=meta["id"],
-        password=password,
-        share_url=share_url,
-        retention_days=retention_days,
-        deletion_date=deletion_date,
-        websocket_csrf_token=get_or_create_csrf_token(request),
-    )
+    return _render_note_room(request, room_id, meta)
 
 
 @router.get("/note/{room_id}/{password}", name="note.note_legacy_room")

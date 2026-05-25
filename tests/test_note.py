@@ -137,6 +137,51 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
     assert "api.qrserver.com" not in html
 
 
+def test_note_share_entry_renders_room_without_redirect(test_client: TestClient):
+    """QRの共有URLはスマホのブラウザ移動で壊れないよう直接ルームを表示する"""
+    from datetime import datetime
+
+    share_token = "note-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    mock_meta = {
+        "id": "tester",
+        "retention_days": 7,
+        "expires_at": datetime(2026, 1, 8, 0, 0, 0),
+    }
+    mock_row = {
+        "content": "",
+        "updated_at": datetime(2026, 1, 1, 0, 0, 0),
+        "version": 0,
+    }
+    with (
+        patch(
+            "Note.note_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "Note.note_app.resolve_share_link",
+            new_callable=AsyncMock,
+            return_value={"service_key": "note", "resource_id": "not999"},
+        ),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value=mock_meta,
+        ),
+        patch(
+            "Note.note_app.nd.get_row", new_callable=AsyncMock, return_value=mock_row
+        ),
+        patch("Note.note_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get(f"/note/s/{share_token}")
+
+    assert response.status_code == 200
+    assert "location" not in response.headers
+    html = response.text
+    assert "リアルタイムノート" in html
+    assert f'data-share-url="http://testserver/note/s/{share_token}"' in html
+
+
 def test_note_direct_not_found(test_client: TestClient):
     """note_direct_access は停止済みなので 410 を返す"""
     response = test_client.get("/note_direct/abc123/000000")
