@@ -98,6 +98,26 @@
       });
     });
   });
+
+    if (navigator.share) {
+        document.querySelectorAll('.share-url-button').forEach((button) => {
+            button.style.display = 'inline-flex';
+            button.addEventListener('click', async () => {
+                const url = button.getAttribute('data-share-url') || '';
+                if (!url) {
+                    return;
+                }
+                try {
+                    await navigator.share({
+                        title: 'FS!QR ノート共有',
+                        url: url
+                    });
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                }
+            });
+        });
+    }
 </script>
 
 <script src="{{staticfile('qrcode.min.js')}}"></script>

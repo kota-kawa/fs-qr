@@ -14,7 +14,8 @@
   --usage-header-accent: var(--theme-note-accent);
 }
 
-.copy-url-button {
+.copy-url-button,
+.share-url-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -29,19 +30,23 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.copy-url-button svg {
+.copy-url-button svg,
+.share-url-button svg {
   width: var(--size-action-icon);
   height: var(--size-action-icon);
   flex: none;
 }
 
 .copy-url-button:hover,
-.copy-url-button:focus-visible {
+.copy-url-button:focus-visible,
+.share-url-button:hover,
+.share-url-button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 10px 15px -8px var(--theme-note-shadow-soft);
 }
 
-.copy-url-button:active {
+.copy-url-button:active,
+.share-url-button:active {
   transform: translateY(0);
 }
 
