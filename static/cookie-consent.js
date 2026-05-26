@@ -362,6 +362,10 @@
       syncTogglesFromStoredConsent();
       settingsBackAction = options.backAction || 'summary';
       switchView(overlay, 'settings');
+      const settingsBody = overlay.querySelector('.cookie-consent-settings-body');
+      if (settingsBody) {
+        settingsBody.scrollTop = 0;
+      }
       focusOnTarget(settingsFocus || toggles[0]);
     }
 

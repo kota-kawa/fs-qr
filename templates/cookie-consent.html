@@ -121,7 +121,14 @@
                   <option value="{{ option.code }}" {% if option.code == current_language %}selected{% endif %}>{{ option.label }}</option>
                 {% endfor %}
               </select>
-              <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ t('settings.language.title') }}">
+              <button
+                type="button"
+                class="lang-select-trigger"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-label="{{ t('settings.language.title') }}"
+                data-cookie-consent-settings-focus
+              >
                 <span class="lang-select-flag-current" aria-hidden="true"></span>
                 <span class="lang-select-label-current"></span>
                 <svg class="lang-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -156,7 +163,6 @@
                 type="checkbox"
                 data-cookie-consent-toggle="analytics"
                 aria-label="{{ t('settings.cookie.analytics.aria') }}"
-                data-cookie-consent-settings-focus
               />
               <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
             </span>
