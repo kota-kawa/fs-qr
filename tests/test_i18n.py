@@ -195,7 +195,7 @@ def test_translate_rendered_html_does_not_corrupt_script_blocks():
     from i18n import translate_rendered_html
 
     content = (
-        "<html lang=\"ja\"><head>"
+        '<html lang="ja"><head>'
         '<script type="application/ld+json">'
         '{"name": "URLをコピー", "inLanguage": "ja-JP"}'
         "</script></head><body>"

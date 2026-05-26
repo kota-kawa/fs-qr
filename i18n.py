@@ -635,14 +635,20 @@ def _apply_phrase_replacements(content: str, phrases: dict[str, Any]) -> str:
     last = 0
     for block in _PROTECTED_BLOCK_RE.finditer(content):
         # Regular HTML before the protected block is translated normally.
-        result.append(_replace_phrases_in_html(content[last : block.start()], sources, phrases))
-        result.append(_replace_phrases_in_protected_block(block.group(0), sources, phrases))
+        result.append(
+            _replace_phrases_in_html(content[last : block.start()], sources, phrases)
+        )
+        result.append(
+            _replace_phrases_in_protected_block(block.group(0), sources, phrases)
+        )
         last = block.end()
     result.append(_replace_phrases_in_html(content[last:], sources, phrases))
     return "".join(result)
 
 
-def _replace_phrases_in_html(segment: str, sources: list[str], phrases: dict[str, Any]) -> str:
+def _replace_phrases_in_html(
+    segment: str, sources: list[str], phrases: dict[str, Any]
+) -> str:
     if not segment:
         return segment
     for source in sources:
