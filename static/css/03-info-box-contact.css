@@ -191,9 +191,14 @@
  * ボタン内は白文字・下線なしを明示的に維持して視認性を確保する。
  */
 .info-box-content .contact-form-link,
-.info-box-content .contact-form-link:hover {
-  color: #fff;
-  border-bottom-color: transparent;
+.info-box-content .contact-form-link:hover,
+.info-box-content .modern-btn,
+.info-box-content .modern-btn:hover,
+.info-box-content .modern-btn-success,
+.info-box-content .modern-btn-success:hover {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
 }
 
 /* Responsive design */
