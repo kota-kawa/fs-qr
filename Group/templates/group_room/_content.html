@@ -24,9 +24,6 @@
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
-                                    <button type="button" class="copy-inline-btn share-url-button" data-share-url="{{ share_url | e }}" aria-label="URLを共有" style="display: none;">
-                                        {{ icons.icon('share', size='md') }}
-                                    </button>
                                 </span>
                             </span>
                         </div>
@@ -72,6 +69,14 @@
                 <div class="qr-code-container" id="groupShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
                     <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
                 </div>
+            </div>
+
+            <!-- 共有ボタン -->
+            <div class="share-action">
+                <button type="button" class="share-action-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR グループ共有" aria-label="このグループを共有する">
+                    {{ icons.icon('arrow_up', size='md') }}
+                    <span>このグループを共有</span>
+                </button>
             </div>
 
             <!-- Upload Area -->
