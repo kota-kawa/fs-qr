@@ -99,25 +99,32 @@
     });
   });
 
-    if (navigator.share) {
-        document.querySelectorAll('.share-url-button').forEach((button) => {
-            button.style.display = 'inline-flex';
-            button.addEventListener('click', async () => {
-                const url = button.getAttribute('data-share-url') || '';
-                if (!url) {
-                    return;
-                }
+    document.querySelectorAll('.share-url-button').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const url = button.getAttribute('data-share-url') || '';
+            if (!url) {
+                return;
+            }
+            const title = button.getAttribute('data-share-title') || document.title;
+            if (navigator.share) {
                 try {
-                    await navigator.share({
-                        title: 'FS!QR ノート共有',
-                        url: url
-                    });
+                    await navigator.share({ title: title, url: url });
                 } catch (error) {
+                    if (error && error.name === 'AbortError') {
+                        return;
+                    }
                     console.error('Error sharing:', error);
                 }
-            });
+                return;
+            }
+            try {
+                await copyTextToClipboard(url);
+                setShareFeedback(translate('share.copied_to_clipboard', 'URLをコピーしました。貼り付けて共有できます。'), 'success');
+            } catch (error) {
+                setShareFeedback(translate('share.copy_manual_error', 'コピーに失敗しました。URLを表示して手動でコピーしてください。'), 'error');
+            }
         });
-    }
+    });
 </script>
 
 <script src="{{staticfile('qrcode.min.js')}}"></script>
