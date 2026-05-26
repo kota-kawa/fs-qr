@@ -53,9 +53,12 @@
 </aside>
 <style>
   .article-cta {
-    --article-cta-accent: #075985;
-    --article-cta-accent-strong: #0f766e;
-    --article-cta-accent-soft: rgba(7, 89, 133, 0.09);
+    /* FS!QR のサービスページ(fs-qr.html)と同じ配色をデフォルトにする */
+    --article-cta-accent: #1f3fcf;
+    --article-cta-accent-strong: #132e9d;
+    --article-cta-accent-soft: rgba(35, 195, 223, 0.16);
+    --article-cta-accent-shadow: rgba(19, 46, 157, 0.28);
+    --article-cta-accent-shadow-strong: rgba(19, 46, 157, 0.4);
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
@@ -70,14 +73,20 @@
     box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
   }
   .article-cta--group {
-    --article-cta-accent: #166534;
-    --article-cta-accent-strong: #15803d;
-    --article-cta-accent-soft: rgba(22, 101, 52, 0.1);
+    /* Group のサービスページ(group.html)と同じ配色 */
+    --article-cta-accent: #0f7a2c;
+    --article-cta-accent-strong: #06561d;
+    --article-cta-accent-soft: rgba(14, 122, 41, 0.16);
+    --article-cta-accent-shadow: rgba(6, 86, 29, 0.28);
+    --article-cta-accent-shadow-strong: rgba(6, 86, 29, 0.4);
   }
   .article-cta--note {
-    --article-cta-accent: #4d7c0f;
-    --article-cta-accent-strong: #3f6212;
-    --article-cta-accent-soft: rgba(77, 124, 15, 0.11);
+    /* Note のサービスページ(note_menu.html)と同じ配色 */
+    --article-cta-accent: #7cae1c;
+    --article-cta-accent-strong: #5f8614;
+    --article-cta-accent-soft: rgba(149, 212, 32, 0.18);
+    --article-cta-accent-shadow: rgba(95, 134, 20, 0.28);
+    --article-cta-accent-shadow-strong: rgba(95, 134, 20, 0.4);
   }
   .article-cta-icon {
     width: 56px;
@@ -119,13 +128,13 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--article-cta-accent);
+    color: var(--article-cta-accent-strong);
   }
   .article-cta-tag {
     padding: 0 0.5rem;
     border-radius: 999px;
     background: var(--article-cta-accent-soft);
-    color: var(--article-cta-accent);
+    color: var(--article-cta-accent-strong);
     font-size: 0.72rem;
     font-weight: 700;
   }
@@ -149,19 +158,19 @@
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
-    background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
+    background: linear-gradient(135deg, var(--article-cta-accent) 0%, var(--article-cta-accent-strong) 100%);
     color: #fff;
     font-weight: 600;
     text-decoration: none;
     border-bottom: 0;
     white-space: nowrap;
-    box-shadow: 0 10px 22px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 10px 22px var(--article-cta-accent-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   }
   .article-cta-button:hover {
     transform: translateY(-2px);
-    background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
-    box-shadow: 0 14px 28px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
+    filter: brightness(1.08);
+    box-shadow: 0 14px 28px var(--article-cta-accent-shadow-strong);
     color: #fff;
     text-decoration: none;
     border-bottom-color: transparent;

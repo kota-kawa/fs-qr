@@ -17,6 +17,7 @@ env:
   RUFF_VERSION: "0.15.4"
   PIP_AUDIT_VERSION: "2.10.0"
   MYPY_VERSION: "1.15.0"
+  TRIVY_IMAGE: "aquasec/trivy:0.68.1"
 
 jobs:
   lint:
@@ -25,7 +26,22 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            checkout_ref="refs/pull/${PR_NUMBER}/merge"
+          else
+            checkout_ref="${GITHUB_SHA}"
+          fi
+
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c protocol.version=2 fetch --no-tags --prune --depth=1 origin "${checkout_ref}"
+          git checkout --detach FETCH_HEAD
 
       - uses: actions/setup-python@v5
         with:
@@ -47,7 +63,22 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            checkout_ref="refs/pull/${PR_NUMBER}/merge"
+          else
+            checkout_ref="${GITHUB_SHA}"
+          fi
+
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c protocol.version=2 fetch --no-tags --prune --depth=1 origin "${checkout_ref}"
+          git checkout --detach FETCH_HEAD
 
       - uses: actions/setup-python@v5
         with:
@@ -58,7 +89,7 @@ jobs:
         run: python -m pip install pip-audit==${{ env.PIP_AUDIT_VERSION }}
 
       - name: Run pip-audit
-        run: pip-audit -r requirements.txt
+        run: pip-audit -r requirements.txt --no-deps --disable-pip
 
   test:
     name: Pytest (Python 3.11)
@@ -68,7 +99,22 @@ jobs:
       PYTHONFAULTHANDLER: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            checkout_ref="refs/pull/${PR_NUMBER}/merge"
+          else
+            checkout_ref="${GITHUB_SHA}"
+          fi
+
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c protocol.version=2 fetch --no-tags --prune --depth=1 origin "${checkout_ref}"
+          git checkout --detach FETCH_HEAD
 
       - uses: actions/setup-python@v5
         with:
@@ -93,14 +139,21 @@ jobs:
           docker build --tag fs-qr-ci:${{ github.sha }} .
 
       - name: Scan Docker image with Trivy
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          image-ref: fs-qr-ci:${{ github.sha }}
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL,HIGH
+        run: |
+          set -euo pipefail
+          mkdir -p "${HOME}/.cache/trivy"
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "${HOME}/.cache/trivy:/root/.cache/" \
+            "${TRIVY_IMAGE}" image \
+            --scanners vuln \
+            --format table \
+            --exit-code 1 \
+            --ignore-unfixed \
+            --pkg-types os,library \
+            --severity CRITICAL,HIGH \
+            --skip-version-check \
+            fs-qr-ci:${{ github.sha }}
 
   typecheck:
     name: mypy (static type checking)
@@ -108,7 +161,22 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            checkout_ref="refs/pull/${PR_NUMBER}/merge"
+          else
+            checkout_ref="${GITHUB_SHA}"
+          fi
+
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c protocol.version=2 fetch --no-tags --prune --depth=1 origin "${checkout_ref}"
+          git checkout --detach FETCH_HEAD
 
       - uses: actions/setup-python@v5
         with:

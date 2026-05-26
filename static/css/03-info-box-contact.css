@@ -185,6 +185,17 @@
   transform: translateX(4px);
 }
 
+/*
+ * .info-box-content a の方が詳細度が高く、ボタン上の文字色が
+ * リンク色(濃いティール)に上書きされて背景と同化してしまうため、
+ * ボタン内は白文字・下線なしを明示的に維持して視認性を確保する。
+ */
+.info-box-content .contact-form-link,
+.info-box-content .contact-form-link:hover {
+  color: #fff;
+  border-bottom-color: transparent;
+}
+
 /* Responsive design */
 @media (max-width: 767.98px) {
   .info-page {
