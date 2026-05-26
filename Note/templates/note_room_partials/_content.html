@@ -14,7 +14,12 @@
             <!-- Room Info + QR Code -->
             <div class="room-info-container">
                 <div class="room-info-card">
-                    <div class="room-info-header">Room情報</div>
+                    <div class="room-info-header">
+                        <span class="room-info-header-title">Room情報</span>
+                        <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR ノート共有" aria-label="このノートを共有する" title="共有">
+                            {{ icons.icon('arrow_up', size='md') }}
+                        </button>
+                    </div>
                     <div class="room-info-body">
                         <div class="room-info-row">
                             <span class="room-info-label">ルームID</span>
@@ -70,14 +75,6 @@
                 <div class="qr-code-container" id="noteShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
                     <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
                 </div>
-            </div>
-
-            <!-- 共有ボタン -->
-            <div class="share-action">
-                <button type="button" class="share-action-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR ノート共有" aria-label="このノートを共有する">
-                    {{ icons.icon('arrow_up', size='md') }}
-                    <span>このノートを共有</span>
-                </button>
             </div>
 
             <!-- Editor -->

@@ -182,8 +182,12 @@
 }
 
 .room-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   color: white;
-  padding: 0.7rem 1.25rem;
+  padding: 0.55rem 0.7rem 0.55rem 1.25rem;
   font-weight: 600;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
@@ -192,6 +196,39 @@
   border-top-right-radius: inherit;
   position: relative;
   isolation: isolate;
+}
+
+/* カードヘッダー右上のアイコンのみ共有ボタン */
+.room-info-share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.room-info-share-button svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.room-info-share-button:hover,
+.room-info-share-button:focus-visible {
+  background: rgba(255, 255, 255, 0.38);
+  transform: translateY(-1px);
+}
+
+.room-info-share-button:active {
+  transform: translateY(0);
 }
 
 .room-info-header::before {
