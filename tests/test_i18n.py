@@ -183,6 +183,43 @@ def test_translate_rendered_html_updates_language_metadata():
     assert "الرئيسية" in translated_ar
 
 
+def test_translate_rendered_html_does_not_corrupt_script_blocks():
+    """Phrase replacement must never rewrite text inside <script>/<style>.
+
+    The French translation of "URLをコピー" is "Copier l'URL"; injecting that
+    apostrophe into a JS string literal used to break the whole <script> block,
+    which stopped buttons from working and QR codes from rendering.
+    """
+    import json
+
+    from i18n import translate_rendered_html
+
+    content = (
+        "<html lang=\"ja\"><head>"
+        '<script type="application/ld+json">'
+        '{"name": "URLをコピー", "inLanguage": "ja-JP"}'
+        "</script></head><body>"
+        '<button class="share">URLをコピー</button>'
+        "<script>\n"
+        "  setShareFeedback('URLをコピーしました。', 'success');\n"
+        "</script>"
+        "</body></html>"
+    )
+
+    translated = translate_rendered_html(content, "fr")
+
+    # Body text outside scripts is still translated.
+    assert ">Copier l'URL<" in translated
+    # The executable script keeps its Japanese fallback literal verbatim, so the
+    # apostrophe is never injected and the block stays valid JavaScript.
+    assert "setShareFeedback('URLをコピーしました。', 'success');" in translated
+    assert "l'URL" not in translated.split("<script>")[-1]
+    # JSON-LD is still translated, but escaped so it remains valid JSON.
+    ld_json = translated.split('application/ld+json">')[1].split("</script>")[0]
+    parsed = json.loads(ld_json)
+    assert parsed["name"] == "Copier l'URL"
+
+
 def test_language_query_only_accepts_supported_language_aliases():
     import i18n
 
