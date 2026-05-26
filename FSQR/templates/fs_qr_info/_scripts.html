@@ -189,7 +189,7 @@
 
       document.querySelectorAll('.share-url-button').forEach((button) => {
         button.addEventListener('click', async () => {
-          const url = button.getAttribute('data-share-url') || '';
+          const url = button.getAttribute('data-share-url') || window.location.href;
           if (!url) {
             return;
           }

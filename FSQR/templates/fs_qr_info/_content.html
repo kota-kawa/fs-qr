@@ -21,7 +21,12 @@
 
         <div class="room-info-container room-info-container--stacked">
           <div class="room-info-card">
-            <div class="room-info-header">ダウンロード先の情報</div>
+            <div class="room-info-header">
+              <span class="room-info-header-title">ダウンロード先の情報</span>
+              <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ url }}" data-share-title="FS!QR ファイル共有" aria-label="このファイルを共有する" title="共有">
+                {{ icons.icon('arrow_up', size='md') }}
+              </button>
+            </div>
             <div class="room-info-body">
               <div class="room-info-row">
                 <span class="room-info-label">ID</span>
@@ -100,14 +105,6 @@
           </div>
         </div>
 
-        <!-- 共有ボタン -->
-        <div class="share-action">
-          <button type="button" class="share-action-button share-url-button" data-share-url="{{ url }}" data-share-title="FS!QR ファイル共有" aria-label="このファイルを共有する">
-            {{ icons.icon('arrow_up', size='md') }}
-            <span>このファイルを共有</span>
-          </button>
-        </div>
-
         <div class="text-center mt-4">
           <a href="/fs-qr" class="modern-btn modern-btn-success">→他のファイルをアップロード</a>
         </div>
@@ -118,6 +115,7 @@
     {% else %}
     <div class="card-body info-box-content">
       <div class="text-center info-content-inner">
+        <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
         <div class="share-priority-card">
           <strong>この画面を開けていれば受け取り準備は完了です</strong>
           共有リンクから開いた場合は、追加の入力なしでそのままダウンロードできます。
@@ -125,7 +123,12 @@
 
         <div class="room-info-container room-info-container--stacked">
           <div class="room-info-card">
-            <div class="room-info-header">ファイル情報</div>
+            <div class="room-info-header">
+              <span class="room-info-header-title">ファイル情報</span>
+              <button type="button" class="room-info-share-button share-url-button" data-share-title="FS!QR ファイル共有" aria-label="このファイルを共有する" title="共有">
+                {{ icons.icon('arrow_up', size='md') }}
+              </button>
+            </div>
             <div class="room-info-body">
               <div class="room-info-row">
                 <span class="room-info-label">ID</span>
