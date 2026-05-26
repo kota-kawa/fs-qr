@@ -4,7 +4,6 @@ import logging
 import os
 import re
 from functools import lru_cache
-from html import escape
 from typing import Any
 
 from fastapi import Request
@@ -281,6 +280,17 @@ _GEO_REGION_RE = re.compile(
 )
 _GEO_PLACENAME_RE = re.compile(
     r"<meta\s+name=[\"']geo\.placename[\"']\s+content=[\"'][^\"']*[\"']", re.I
+)
+# <script>/<style> blocks are protected from plain phrase replacement: blindly
+# substituting a Japanese source string that happens to live inside JavaScript or
+# CSS can inject quote characters from the translation (e.g. French "Copier l'URL")
+# and break the surrounding string literal, which kills the whole block. When a
+# block stops executing, buttons stop responding and QR codes never render.
+_PROTECTED_BLOCK_RE = re.compile(
+    r"<(?P<tag>script|style)\b[^>]*>.*?</(?P=tag)\s*>", re.I | re.S
+)
+_LD_JSON_OPEN_RE = re.compile(
+    r"<script\b[^>]*\btype=[\"']application/ld\+json[\"']", re.I
 )
 
 
@@ -598,16 +608,65 @@ def translate_rendered_html(content: str, language: str) -> str:
         fallback_phrases = translations.get(fallback_language, {}).get("phrases", {})
         if isinstance(fallback_phrases, dict):
             phrases.update(fallback_phrases)
-    language_phrases = translations.get(language, {}).get("phrases", {})
+    language_phrases = translations.get(normalized_language, {}).get("phrases", {})
     if isinstance(language_phrases, dict):
         phrases.update(language_phrases)
     if not phrases:
         return content
 
-    for source in sorted(phrases, key=len, reverse=True):
-        translated = phrases.get(source)
-        if not isinstance(translated, str):
-            continue
-        content = content.replace(source, translated)
-        content = content.replace(escape(source), escape(translated))
-    return content
+    return _apply_phrase_replacements(content, phrases)
+
+
+def _json_string_escape(text: str) -> str:
+    """Escape a value for safe embedding inside a JSON string literal."""
+    return json.dumps(text, ensure_ascii=False)[1:-1]
+
+
+def _apply_phrase_replacements(content: str, phrases: dict[str, Any]) -> str:
+    sources = [
+        source
+        for source in sorted(phrases, key=len, reverse=True)
+        if isinstance(phrases.get(source), str)
+    ]
+    if not sources:
+        return content
+
+    result: list[str] = []
+    last = 0
+    for block in _PROTECTED_BLOCK_RE.finditer(content):
+        # Regular HTML before the protected block is translated normally.
+        result.append(
+            _replace_phrases_in_html(content[last : block.start()], sources, phrases)
+        )
+        result.append(
+            _replace_phrases_in_protected_block(block.group(0), sources, phrases)
+        )
+        last = block.end()
+    result.append(_replace_phrases_in_html(content[last:], sources, phrases))
+    return "".join(result)
+
+
+def _replace_phrases_in_html(
+    segment: str, sources: list[str], phrases: dict[str, Any]
+) -> str:
+    if not segment:
+        return segment
+    for source in sources:
+        segment = segment.replace(source, phrases[source])
+    return segment
+
+
+def _replace_phrases_in_protected_block(
+    block: str, sources: list[str], phrases: dict[str, Any]
+) -> str:
+    if not _LD_JSON_OPEN_RE.match(block):
+        # Executable <script> / <style>: never substitute. User-facing strings in
+        # these blocks are localized at runtime via window.FSQR_I18N (see
+        # templates/cookie-consent.html), so the Japanese source text is only an
+        # inert fallback here.
+        return block
+    # JSON-LD structured data: still translate, but escape each translation so the
+    # embedded JSON stays syntactically valid even when it contains quotes.
+    for source in sources:
+        block = block.replace(source, _json_string_escape(phrases[source]))
+    return block
