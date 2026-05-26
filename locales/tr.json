@@ -1043,6 +1043,12 @@
     "共有したいファイル": "Paylaşmak istediğiniz dosya",
     "参加者がルームに入る": "Katılımcılar odaya girer",
     "受信側がQRコードを読み取り": "Alıcı QR kodu tarar",
-    "自動削除で一時利用": "Otomatik silme ile geçici kullanım"
+    "自動削除で一時利用": "Otomatik silme ile geçici kullanım",
+    "テキスト共有": "metin paylaşımı",
+    "テキスト共有アプリ": "metin paylaşım uygulaması",
+    "オンラインメモ共有": "çevrimiçi not paylaşımı",
+    "グループ活動": "grup etkinlikleri",
+    "グループでの活動": "grupta etkinlikler",
+    "グループワーク": "grup çalışması"
   }
 }

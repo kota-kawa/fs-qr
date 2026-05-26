@@ -1081,6 +1081,12 @@
     "共同編集": "Collaborative editing",
     "QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。": "Share files easily and securely with QR codes. No app required—everything works in your browser.",
     "複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。": "A shared room where multiple people can upload and download files. Convenient for handing out materials in class or on a team.",
-    "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。": "A shared note you can edit together in real time. Useful for collaborative memos and meeting minutes."
+    "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。": "A shared note you can edit together in real time. Useful for collaborative memos and meeting minutes.",
+    "テキスト共有": "text sharing",
+    "テキスト共有アプリ": "text sharing app",
+    "オンラインメモ共有": "online note sharing",
+    "グループ活動": "group activities",
+    "グループでの活動": "activities in a group",
+    "グループワーク": "group work"
   }
 }

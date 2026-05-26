@@ -1047,6 +1047,12 @@
     "FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。": "FS!QR Note adalah layanan berbagi catatan dan pengeditan kolaboratif waktu nyata yang gratis. Cocok untuk pengeditan catatan online bersama, manajemen proyek, dukungan belajar, dan catatan rapat. Alat kolaborasi multibahasa yang bisa langsung dipakai hanya dengan browser.",
     "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム": "berbagi file, kode QR, berbagi grup, berbagi catatan, FS QR, berbagi file gratis, penyimpanan cloud, transfer data, multibahasa, aman, enkripsi, waktu nyata",
     "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, ホーム": "berbagi file, kode QR, berbagi grup, berbagi catatan, FS QR, berbagi file gratis, penyimpanan cloud, transfer data, multibahasa, aman, enkripsi, waktu nyata, beranda",
-    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習": "berbagi catatan waktu nyata, suntingan bersama, kolaborasi online, pembuatan catatan, manajemen ruang, FS QR Note, alat kolaborasi, catatan rapat, manajemen proyek, dukungan belajar, aplikasi catatan gratis, multibahasa, suntingan browser, kerja tim, belajar kelompok"
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習": "berbagi catatan waktu nyata, suntingan bersama, kolaborasi online, pembuatan catatan, manajemen ruang, FS QR Note, alat kolaborasi, catatan rapat, manajemen proyek, dukungan belajar, aplikasi catatan gratis, multibahasa, suntingan browser, kerja tim, belajar kelompok",
+    "テキスト共有": "berbagi teks",
+    "テキスト共有アプリ": "aplikasi berbagi teks",
+    "オンラインメモ共有": "berbagi catatan online",
+    "グループ活動": "aktivitas grup",
+    "グループでの活動": "aktivitas dalam grup",
+    "グループワーク": "kerja kelompok"
   }
 }

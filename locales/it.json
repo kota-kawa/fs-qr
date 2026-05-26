@@ -1043,6 +1043,12 @@
     "共有したいファイル": "File che vuoi condividere",
     "参加者がルームに入る": "I partecipanti entrano nella stanza",
     "受信側がQRコードを読み取り": "Il destinatario inquadra il codice QR",
-    "自動削除で一時利用": "Uso temporaneo con eliminazione automatica"
+    "自動削除で一時利用": "Uso temporaneo con eliminazione automatica",
+    "テキスト共有": "condivisione di testo",
+    "テキスト共有アプリ": "app di condivisione testo",
+    "オンラインメモ共有": "condivisione note online",
+    "グループ活動": "attività di gruppo",
+    "グループでの活動": "attività nel gruppo",
+    "グループワーク": "lavoro di gruppo"
   }
 }

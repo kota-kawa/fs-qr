@@ -1043,6 +1043,12 @@
     "共有したいファイル": "Faili unayotaka kushiriki",
     "参加者がルームに入る": "Washiriki wanaingia chumbani",
     "受信側がQRコードを読み取り": "Mpokeaji anachunguza nambari ya QR",
-    "自動削除で一時利用": "Matumizi ya muda na ufutaji wa kiotomatiki"
+    "自動削除で一時利用": "Matumizi ya muda na ufutaji wa kiotomatiki",
+    "テキスト共有": "kushiriki maandishi",
+    "テキスト共有アプリ": "programu ya kushiriki maandishi",
+    "オンラインメモ共有": "kushiriki madokezo mtandaoni",
+    "グループ活動": "shughuli za kikundi",
+    "グループでの活動": "shughuli katika kikundi",
+    "グループワーク": "kazi ya kikundi"
   }
 }

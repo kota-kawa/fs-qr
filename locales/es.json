@@ -1044,6 +1044,12 @@
     "参加者がルームに入る": "Los participantes entran en la sala",
     "受信側がQRコードを読み取り": "El destinatario escanea el código QR",
     "自動削除で一時利用": "Uso temporal con eliminación automática",
-    "ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。": "Cifra los archivos y conviértelos en código QR. Compartición de archivos segura y sencilla con la máxima seguridad, gratis."
+    "ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。": "Cifra los archivos y conviértelos en código QR. Compartición de archivos segura y sencilla con la máxima seguridad, gratis.",
+    "テキスト共有": "compartir texto",
+    "テキスト共有アプリ": "aplicación para compartir texto",
+    "オンラインメモ共有": "compartir notas en línea",
+    "グループ活動": "actividades de grupo",
+    "グループでの活動": "actividades en grupo",
+    "グループワーク": "trabajo en grupo"
   }
 }
