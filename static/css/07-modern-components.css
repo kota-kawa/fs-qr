@@ -198,37 +198,47 @@
   isolation: isolate;
 }
 
-/* カードヘッダー右上のアイコンのみ共有ボタン */
+/* カードヘッダー右端のアイコンのみ共有ボタン */
 .room-info-share-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
+  margin: 0;
   padding: 0;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.room-info-share-button .svg-icon,
+.room-info-share-button .svg-icon svg,
 .room-info-share-button svg {
-  width: 18px;
-  height: 18px;
+  width: 19px;
+  height: 19px;
   flex: none;
 }
 
 .room-info-share-button:hover,
 .room-info-share-button:focus-visible {
-  background: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.28);
   transform: translateY(-1px);
+  outline: none;
 }
 
 .room-info-share-button:active {
   transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
 }
 
 .room-info-header::before {
