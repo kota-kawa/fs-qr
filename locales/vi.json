@@ -1047,6 +1047,12 @@
     "ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。": "Mã hóa tệp thành mã QR. Cung cấp miễn phí dịch vụ chia sẻ tệp an toàn và đơn giản với mức bảo mật cao nhất.",
     "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム": "chia sẻ tệp, mã QR, chia sẻ nhóm, chia sẻ ghi chú, FS QR, chia sẻ tệp miễn phí, lưu trữ đám mây, truyền dữ liệu, đa ngôn ngữ, an toàn, mã hóa, thời gian thực",
     "ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, ホーム": "chia sẻ tệp, mã QR, chia sẻ nhóm, chia sẻ ghi chú, FS QR, chia sẻ tệp miễn phí, lưu trữ đám mây, truyền dữ liệu, đa ngôn ngữ, an toàn, mã hóa, thời gian thực, trang chủ",
-    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習": "chia sẻ ghi chú thời gian thực, chỉnh sửa đồng thời, cộng tác trực tuyến, tạo ghi chú, quản lý phòng, FS QR Note, công cụ cộng tác, ghi chú cuộc họp, quản lý dự án, hỗ trợ học tập, ứng dụng ghi chú miễn phí, đa ngôn ngữ, chỉnh sửa trên trình duyệt, làm việc nhóm, học nhóm"
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習": "chia sẻ ghi chú thời gian thực, chỉnh sửa đồng thời, cộng tác trực tuyến, tạo ghi chú, quản lý phòng, FS QR Note, công cụ cộng tác, ghi chú cuộc họp, quản lý dự án, hỗ trợ học tập, ứng dụng ghi chú miễn phí, đa ngôn ngữ, chỉnh sửa trên trình duyệt, làm việc nhóm, học nhóm",
+    "テキスト共有": "chia sẻ văn bản",
+    "テキスト共有アプリ": "ứng dụng chia sẻ văn bản",
+    "オンラインメモ共有": "chia sẻ ghi chú trực tuyến",
+    "グループ活動": "hoạt động nhóm",
+    "グループでの活動": "hoạt động trong nhóm",
+    "グループワーク": "làm việc nhóm"
   }
 }

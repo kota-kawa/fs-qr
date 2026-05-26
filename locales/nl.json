@@ -1043,6 +1043,12 @@
     "共有したいファイル": "Bestand dat u wilt delen",
     "参加者がルームに入る": "Deelnemers gaan de kamer binnen",
     "受信側がQRコードを読み取り": "De ontvanger scant de QR-code",
-    "自動削除で一時利用": "Tijdelijk gebruik met automatische verwijdering"
+    "自動削除で一時利用": "Tijdelijk gebruik met automatische verwijdering",
+    "テキスト共有": "tekst delen",
+    "テキスト共有アプリ": "tekst delen-app",
+    "オンラインメモ共有": "online notities delen",
+    "グループ活動": "groepsactiviteiten",
+    "グループでの活動": "activiteiten in een groep",
+    "グループワーク": "groepswerk"
   }
 }
