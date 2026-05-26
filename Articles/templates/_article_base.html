@@ -26,23 +26,23 @@
 {% set _published_iso = article_published ~ "T00:00:00+09:00" %}
 {% set _modified_iso = _modified ~ "T00:00:00+09:00" %}
 
-{% block page_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
+{% block page_title %}{{ t(article_title) }} | {{ t('解説記事') }}{% endblock %}
 
-{% block meta_description %}{{ article_description }}{% endblock %}
-{% block meta_keywords %}{{ article_keywords | default("FS QR, ファイル共有, 解説記事") }}{% endblock %}
+{% block meta_description %}{{ t(article_description) }}{% endblock %}
+{% block meta_keywords %}{{ t(article_keywords | default('FS QR, ファイル共有, 解説記事')) }}{% endblock %}
 
-{% block og_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
-{% block og_description %}{{ article_description }}{% endblock %}
+{% block og_title %}{{ t(article_title) }} | {{ t('解説記事') }}{% endblock %}
+{% block og_description %}{{ t(article_description) }}{% endblock %}
 
-{% block twitter_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
-{% block twitter_description %}{{ article_description }}{% endblock %}
+{% block twitter_title %}{{ t(article_title) }} | {{ t('解説記事') }}{% endblock %}
+{% block twitter_description %}{{ t(article_description) }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
 <meta property="article:published_time" content="{{ _published_iso }}" />
 <meta property="article:modified_time" content="{{ _modified_iso }}" />
 <meta property="article:author" content="FS!QR" />
-<meta property="article:section" content="{{ article_section | default('解説記事') }}" />
+<meta property="article:section" content="{{ t(article_section | default('解説記事')) }}" />
 {% endblock %}
 
 {% block extra_head %}
@@ -50,8 +50,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": {{ article_title | tojson }},
-  "description": {{ article_description | tojson }},
+  "headline": {{ t(article_title) | tojson }},
+  "description": {{ t(article_description) | tojson }},
   "datePublished": "{{ _published_iso }}",
   "dateModified": "{{ _modified_iso }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
@@ -71,9 +71,9 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
-    { "@type": "ListItem", "position": 3, "name": {{ article_title | tojson }}, "item": "{{ request.url_root }}{{ article_slug }}" }
+    { "@type": "ListItem", "position": 1, "name": "{{ t('ホーム') }}", "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": "{{ t('解説記事') }}", "item": "{{ request.url_root }}articles" },
+    { "@type": "ListItem", "position": 3, "name": {{ t(article_title) | tojson }}, "item": "{{ request.url_root }}{{ article_slug }}" }
   ]
 }
 </script>
@@ -85,16 +85,16 @@
   <div class="info-box">
     <div class="info-box-content">
       <nav class="article-breadcrumb" aria-label="パンくずリスト">
-        <a href="/">ホーム</a>
+        <a href="/">{{ t('ホーム') }}</a>
         <span aria-hidden="true">/</span>
-        <a href="/articles">解説記事</a>
+        <a href="/articles">{{ t('解説記事') }}</a>
       </nav>
-      <h2 class="mb-4">{{ _heading }}</h2>
+      <h2 class="mb-4">{{ t(_heading) }}</h2>
       {% block article_body %}{% endblock %}
       {% include "_article_cta.html" %}
       <div class="article-footer-nav">
         <a href="/articles" class="article-back-link">
-          <i class="fas fa-arrow-left"></i> 解説記事一覧へ戻る
+          <i class="fas fa-arrow-left"></i> {{ t('解説記事一覧へ戻る') }}
         </a>
       </div>
     </div>
