@@ -1230,6 +1230,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "Efficiency in remote work is not determined by conferencing and chat tools alone. Delivering the necessary materials to the people who need them at the right time supports our daily work speed. Just by setting file names, sharing methods, deadlines, and receipt confirmations, you can greatly reduce the chances of omissions in confirmations and confusion over versions.",
     "チャットには目的、期限、受け取り後の行動を書く": "In the chat, write the purpose, deadline, and actions to take after receiving the item",
     "ブラウザ完結だからこその手軽さ": "Convenience due to being completely browser-based",
-    "安全な運用のコツ：別ルートで伝える": "Tips for safe operation: Communicate through a different route"
+    "安全な運用のコツ：別ルートで伝える": "Tips for safe operation: Communicate through a different route",
+    "大容量ファイル送信": "Large file transfer",
+    "ファイル転送": "File transfer",
+    "パスワード付き": "Password protected",
+    "パスワード保護": "Password protection",
+    "スマホ対応": "Mobile friendly",
+    "共有フォルダ": "Shared folder",
+    "ファイル置き場": "File storage",
+    "複数人 ファイル共有": "Multi-user file sharing",
+    "社内共有": "Internal sharing",
+    "複数人": "Multiple people",
+    "Webメモ": "Web memo",
+    "議事録 共有": "Shared meeting minutes",
+    "共同作業": "Collaboration",
+    "メモ帳 共有": "Shared notepad"
   }
 }
