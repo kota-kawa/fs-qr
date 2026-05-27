@@ -1193,6 +1193,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "La eficiencia del teletrabajo no se decide únicamente por las herramientas de conferencia o de chat. Entregar los documentos necesarios a las personas adecuadas en el momento oportuno respalda el ritmo de trabajo diario. Con solo normalizar los nombres de archivos, los métodos de uso compartido, los plazos y las confirmaciones de recepción, se reducen enormemente las posibilidades de omisiones de verificación y las confusiones de versiones.",
     "チャットには目的、期限、受け取り後の行動を書く": "En el chat, escriba el propósito, el plazo y las acciones a tomar después de recibir el documento",
     "ブラウザ完結だからこその手軽さ": "Sencillez debido a que se realiza completamente basado en navegador",
-    "安全な運用のコツ：別ルートで伝える": "Consejos para una operación segura: Comunicar a través de una ruta diferente"
+    "安全な運用のコツ：別ルートで伝える": "Consejos para una operación segura: Comunicar a través de una ruta diferente",
+    "大容量ファイル送信": "Transmisión de archivos grandes",
+    "ファイル転送": "transferencia de archivos",
+    "パスワード付き": "con contraseña",
+    "パスワード保護": "protección con contraseña",
+    "スマホ対応": "Compatible con teléfonos inteligentes",
+    "共有フォルダ": "carpeta compartida",
+    "ファイル置き場": "almacenamiento de archivos",
+    "複数人 ファイル共有": "Intercambio de archivos entre varias personas",
+    "社内共有": "Compartir internamente",
+    "複数人": "varias personas",
+    "メモ帳 共有": "compartir bloc de notas",
+    "Webメモ": "nota web",
+    "議事録 共有": "Compartir minutos",
+    "共同作業": "trabajo colaborativo"
   }
 }

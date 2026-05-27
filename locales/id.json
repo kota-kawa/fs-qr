@@ -1196,6 +1196,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "Efisiensi kerja remote tidak ditentukan oleh alat konferensi atau chat saja. Menyampaikan materi yang diperlukan ke orang-orang yang membutuhkannya pada waktu yang tepat mendukung kecepatan kerja sehari-hari kita. Hanya dengan mengatur nama file, metode berbagi, tenggat waktu, dan konfirmasi tanda terima, Anda dapat sangat mengurangi kemungkinan kelalaian dalam konfirmasi dan kebingungan versi.",
     "チャットには目的、期限、受け取り後の行動を書く": "Di chat, tulis tujuan, tenggat waktu, dan tindakan yang harus diambil setelah menerima dokumen",
     "ブラウザ完結だからこその手軽さ": "Kemudahan karena dilakukan sepenuhnya berbasis browser",
-    "安全な運用のコツ：別ルートで伝える": "Tips untuk operasi aman: Berkomunikasi melalui jalur yang berbeda"
+    "安全な運用のコツ：別ルートで伝える": "Tips untuk operasi aman: Berkomunikasi melalui jalur yang berbeda",
+    "大容量ファイル送信": "Transfer file besar",
+    "ファイル転送": "Pemindahan berkas",
+    "パスワード付き": "Dilindungi kata sandi",
+    "パスワード保護": "Perlindungan kata sandi",
+    "スマホ対応": "Ramah seluler",
+    "共有フォルダ": "Folder bersama",
+    "ファイル置き場": "Penyimpanan berkas",
+    "複数人 ファイル共有": "Berbagi file multi-pengguna",
+    "社内共有": "Berbagi internal",
+    "複数人": "Banyak orang",
+    "メモ帳 共有": "Buku catatan bersama",
+    "Webメモ": "Memo web",
+    "議事録 共有": "Notulen rapat bersama",
+    "共同作業": "Kolaborasi"
   }
 }

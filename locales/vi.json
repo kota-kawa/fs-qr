@@ -1196,6 +1196,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "Hiệu quả làm việc từ xa không chỉ được quyết định bởi công cụ họp trực tuyến hay ứng dụng chat. Việc tài liệu cần thiết được gửi đến đúng người, đúng thời điểm đóng vai trò hỗ trợ cho tốc độ công việc hàng ngày. Chỉ bằng việc chuẩn hóa tên tệp, phương thức chia sẻ, thời hạn và xác nhận nhận tệp, bạn sẽ giảm thiểu tối đa các lỗi bỏ sót kiểm tra hoặc hỗn loạn phiên bản tài liệu.",
     "チャットには目的、期限、受け取り後の行動を書く": "Trong cuộc trò chuyện, hãy viết rõ mục đích, thời hạn và hành động cần thực hiện sau khi nhận tài liệu",
     "ブラウザ完結だからこその手軽さ": "Sự tiện lợi đến từ việc hoàn thành hoàn toàn trên trình duyệt",
-    "安全な運用のコツ：別ルートで伝える": "Bí quyết vận hành an toàn: Thông báo thông tin qua một đường truyền khác"
+    "安全な運用のコツ：別ルートで伝える": "Bí quyết vận hành an toàn: Thông báo thông tin qua một đường truyền khác",
+    "大容量ファイル送信": "Truyền tập tin lớn",
+    "ファイル転送": "Truyền tập tin",
+    "パスワード付き": "Mật khẩu được bảo vệ",
+    "パスワード保護": "Bảo vệ bằng mật khẩu",
+    "スマホ対応": "Thân thiện với thiết bị di động",
+    "共有フォルダ": "Thư mục chia sẻ",
+    "ファイル置き場": "Lưu trữ tập tin",
+    "複数人 ファイル共有": "Chia sẻ tập tin nhiều người dùng",
+    "社内共有": "Chia sẻ nội bộ",
+    "複数人": "Nhiều người",
+    "メモ帳 共有": "sổ ghi chú được chia sẻ",
+    "Webメモ": "Bản ghi nhớ trên web",
+    "議事録 共有": "Biên bản họp chia sẻ",
+    "共同作業": "Sự hợp tác"
   }
 }

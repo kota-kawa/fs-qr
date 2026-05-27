@@ -1192,6 +1192,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "Uzaktan çalışmanın verimliliği yalnızca çevrimiçi toplantı araçları veya sohbet uygulamaları ile belirlenmez. Gerekli belgelerin doğru kişiye, doğru zamanda ulaştırılması günlük iş akışının hızını destekler. Yalnızca dosya adını, paylaşım yöntemini, süreyi ve alındı teyidini standartlaştırarak, belge doğrulama hatalarını veya sürüm karmaşasını büyük ölçüde azaltırsınız.",
     "チャットには目的、期限、受け取り後の行動を書く": "Sohbette amacı, süreyi ve belgeyi aldıktan sonra yapılacak işlemleri belirtin",
     "ブラウザ完結だからこその手軽さ": "Tamamen tarayıcı üzerinden tamamlandığından sağladığı kolaylık",
-    "安全な運用のコツ：別ルートで伝える": "Güvenli operasyonun püf noktaları: Bilgiyi başka bir kanal üzerinden bildirin"
+    "安全な運用のコツ：別ルートで伝える": "Güvenli operasyonun püf noktaları: Bilgiyi başka bir kanal üzerinden bildirin",
+    "大容量ファイル送信": "Büyük dosya aktarımı",
+    "ファイル転送": "Dosya aktarımı",
+    "パスワード付き": "Şifre korumalı",
+    "パスワード保護": "Şifre koruması",
+    "スマホ対応": "Mobil uyumlu",
+    "共有フォルダ": "Paylaşılan klasör",
+    "ファイル置き場": "Dosya depolama",
+    "複数人 ファイル共有": "Çok kullanıcılı dosya paylaşımı",
+    "社内共有": "Dahili paylaşım",
+    "複数人": "Birden fazla kişi",
+    "メモ帳 共有": "Paylaşılan not defteri",
+    "Webメモ": "Web notu",
+    "議事録 共有": "Paylaşılan toplantı tutanakları",
+    "共同作業": "İşbirliği"
   }
 }

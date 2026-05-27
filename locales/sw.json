@@ -1192,6 +1192,20 @@
     "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "Ufanisi katika kazi ya mbali hauamuliwi tu na zana za mikutano na gumzo. Kutoa vifaa muhimu kwa watu wanaohitaji kwa wakati unaofaa kunasaidia kasi yetu ya kila siku ya kazi. Kwa kuweka tu majina ya faili, mbinu za kushiriki, tarehe za mwisho na uthibitishaji wa kupokea, unaweza kupunguza kwa kiasi kikubwa uwezekano wa kuachwa katika uthibitishaji na kuchanganyikiwa kwa matoleo.",
     "チャットには目的、期限、受け取り後の行動を書く": "Katika gumzo, andika madhumuni, tarehe ya mwisho na hatua za kuchukua baada ya kupokea bidhaa.",
     "ブラウザ完結だからこその手軽さ": "Urahisi kwa sababu ya msingi wa kivinjari",
-    "安全な運用のコツ：別ルートで伝える": "Vidokezo vya uendeshaji salama: Wasiliana kupitia njia tofauti"
+    "安全な運用のコツ：別ルートで伝える": "Vidokezo vya uendeshaji salama: Wasiliana kupitia njia tofauti",
+    "大容量ファイル送信": "Uhamisho mkubwa wa faili",
+    "ファイル転送": "Uhamisho wa faili",
+    "パスワード付き": "Nenosiri limelindwa",
+    "パスワード保護": "Ulinzi wa nenosiri",
+    "スマホ対応": "Simu ya kirafiki",
+    "共有フォルダ": "Folda iliyoshirikiwa",
+    "ファイル置き場": "Hifadhi ya faili",
+    "複数人 ファイル共有": "Kushiriki faili kwa watumiaji wengi",
+    "社内共有": "Kushiriki kwa ndani",
+    "複数人": "Watu wengi",
+    "メモ帳 共有": "Notepad iliyoshirikiwa",
+    "Webメモ": "Memo ya wavuti",
+    "議事録 共有": "Dakika za mkutano zilizoshirikiwa",
+    "共同作業": "Ushirikiano"
   }
 }
