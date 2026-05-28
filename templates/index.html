@@ -40,7 +40,7 @@
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   
-  <title>FS!QR | 無料で簡単なQRコードファイル共有サービス - ホーム</title>
+  <title>無料QRコードファイル共有サービス｜アプリ不要でPC・スマホ間転送 - FS!QR</title>
   <link rel="icon" href="{{staticfile('favicon3.ico')}}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
   <!-- Bootstrap CSS -->
@@ -325,6 +325,153 @@
         margin-bottom: 10px;
       }
     }
+
+    /* SEO コンテンツセクション */
+    .top-seo-section {
+      background: #f8f9fa;
+      padding: 60px 20px 40px;
+    }
+    .top-seo-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+    .top-seo-inner h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1a1a2e;
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid #342ae3;
+    }
+    .top-seo-about p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #444;
+      margin: 0;
+    }
+
+    /* 3機能グリッド */
+    .top-seo-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .top-seo-feature-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    }
+    .top-seo-feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin: 12px 0 8px;
+      color: #1a1a2e;
+    }
+    .top-seo-feature-card p {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #555;
+      margin: 0;
+    }
+    .top-seo-feature-icon {
+      font-size: 2rem;
+    }
+    .top-seo-feature-icon.fs-qr-color { color: #4082dd; }
+    .top-seo-feature-icon.group-color  { color: #4aba95; }
+    .top-seo-feature-icon.note-color   { color: #64ba4a; }
+
+    /* ユースケース */
+    .top-seo-usecase-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .top-seo-usecase-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: #444;
+    }
+    .top-seo-usecase-list li i {
+      margin-top: 3px;
+      color: #342ae3;
+      flex-shrink: 0;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* 安全性 */
+    .top-seo-security-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 24px;
+    }
+    .top-seo-security-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #444;
+    }
+    .top-seo-security-list li i {
+      margin-top: 3px;
+      color: #23cf32;
+      flex-shrink: 0;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* FAQ */
+    .top-seo-faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+    }
+    .top-seo-faq-item {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+    }
+    .top-seo-faq-item:last-child { border-bottom: none; }
+    .top-seo-faq-item dt {
+      font-weight: bold;
+      color: #1a1a2e;
+      font-size: 0.97rem;
+      margin-bottom: 6px;
+    }
+    .top-seo-faq-item dt::before {
+      content: "Q. ";
+      color: #342ae3;
+    }
+    .top-seo-faq-item dd {
+      margin: 0;
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: #555;
+      padding-left: 1.6em;
+    }
+
+    @media (max-width: 700px) {
+      .top-seo-feature-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-seo-security-list {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -387,21 +534,101 @@
         </li>
       </ul>
     </main>
-    <footer class="simple-footer service-footer">
-      <nav aria-label="フッターナビゲーション">
-        <a href="/">ホーム</a>
-        <a href="/about">サイト概要</a>
-        <a href="/privacy-policy">プライバシーポリシー</a>
-        <a href="/terms">利用規約</a>
-        <a href="/contact">お問い合わせ</a>
-        <a href="/usage">使い方</a>
-        <a href="/site-operator">サイト運営者情報</a>
-        <a href="/articles">解説記事</a>
-        <button type="button" class="footer-link-button" data-cookie-settings>設定</button>
-      </nav>
-      <small>Copyright &copy;2026 FS!QR, All Rights Reserved.</small>
-    </footer>
   </div>
+
+  <!-- SEO コンテンツセクション -->
+  <section class="top-seo-section" aria-label="サービス説明">
+    <div class="top-seo-inner">
+
+      <div class="top-seo-about">
+        <h2>FS!QRとは？</h2>
+        <p>FS!QR（エフエスQR）は、アプリ・アカウント不要で無料から使えるWebブラウザベースのファイル共有サービスです。QRコード・グループルーム・ノートルームの3つの方法で、PC・スマートフォン・タブレット間のファイル転送やテキスト共有が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。</p>
+      </div>
+
+      <div class="top-seo-features">
+        <h2>3つの共有方法</h2>
+        <div class="top-seo-feature-grid">
+          <div class="top-seo-feature-card">
+            <div class="top-seo-feature-icon fs-qr-color"><i class="fas fa-qrcode" aria-hidden="true"></i></div>
+            <h3>QRコード共有</h3>
+            <p>ファイルをアップロードするとQRコードが自動生成されます。スマホのカメラでかざすだけでダウンロード完了。PCとスマホ間の素早いファイル転送に最適です。合計500MBまで対応。</p>
+          </div>
+          <div class="top-seo-feature-card">
+            <div class="top-seo-feature-icon group-color"><i class="fas fa-users" aria-hidden="true"></i></div>
+            <h3>グループ共有</h3>
+            <p>複数人が参加できる共有ルームを作成できます。同じIDとパスワードを知っていれば何人でも参加でき、ファイルをまとめてアップロード・ダウンロードできます。職場・学校・チーム作業向けです。</p>
+          </div>
+          <div class="top-seo-feature-card">
+            <div class="top-seo-feature-icon note-color"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
+            <h3>ノート共有</h3>
+            <p>テキストをリアルタイムで複数人が同時編集できるノートルームです。会議メモ、URLの受け渡し、コードスニペットの共有に。WebSocketによる即時同期が可能です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-seo-usecases">
+        <h2>主なユースケース</h2>
+        <ul class="top-seo-usecase-list">
+          <li><i class="fas fa-mobile-alt" aria-hidden="true"></i> PCからスマホ（またはその逆）への素早いファイル転送。ケーブルもアプリも不要。</li>
+          <li><i class="fas fa-users" aria-hidden="true"></i> 職場・学校でのグループ作業。資料や画像をまとめてチームに配布。</li>
+          <li><i class="fas fa-plane" aria-hidden="true"></i> 出張先・外出先での急なファイル共有。ブラウザさえあれば即使える。</li>
+          <li><i class="fas fa-sticky-note" aria-hidden="true"></i> 会議中のリアルタイム議事録作成やURL・テキストの受け渡し。</li>
+        </ul>
+      </div>
+
+      <div class="top-seo-security">
+        <h2>安全性への取り組み</h2>
+        <ul class="top-seo-security-list">
+          <li><i class="fas fa-lock" aria-hidden="true"></i> QRコード共有ではファイルをブラウザ上でAES-256暗号化してからサーバーに保存</li>
+          <li><i class="fas fa-key" aria-hidden="true"></i> 6桁のルームID＋6桁のパスワードによる二重保護</li>
+          <li><i class="fas fa-trash-alt" aria-hidden="true"></i> ファイルは設定した保存期間（最大7日）経過後に自動削除</li>
+          <li><i class="fas fa-shield-alt" aria-hidden="true"></i> すべての通信をHTTPS（TLS）で暗号化</li>
+        </ul>
+      </div>
+
+      <div class="top-seo-faq">
+        <h2>よくある質問（FAQ）</h2>
+        <dl class="top-seo-faq-list">
+          <div class="top-seo-faq-item">
+            <dt>費用はかかりますか？</dt>
+            <dd>完全無料でご利用いただけます。登録・課金なしで全機能を使えます。</dd>
+          </div>
+          <div class="top-seo-faq-item">
+            <dt>アプリのインストールは必要ですか？</dt>
+            <dd>不要です。iOS・Android・Windows・Macのブラウザから直接アクセスできます。</dd>
+          </div>
+          <div class="top-seo-faq-item">
+            <dt>送れるファイルの上限は？</dt>
+            <dd>1回のアップロードで合計500MBまで対応しています。</dd>
+          </div>
+          <div class="top-seo-faq-item">
+            <dt>ファイルはいつ削除されますか？</dt>
+            <dd>アップロード時に選択した保存期間（最大7日）が経過すると自動削除されます。</dd>
+          </div>
+          <div class="top-seo-faq-item">
+            <dt>会員登録・ログインは必要ですか？</dt>
+            <dd>不要です。URLを開いてIDとパスワードを共有するだけで使い始められます。</dd>
+          </div>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="simple-footer service-footer">
+    <nav aria-label="フッターナビゲーション">
+      <a href="/">ホーム</a>
+      <a href="/about">サイト概要</a>
+      <a href="/privacy-policy">プライバシーポリシー</a>
+      <a href="/terms">利用規約</a>
+      <a href="/contact">お問い合わせ</a>
+      <a href="/usage">使い方</a>
+      <a href="/site-operator">サイト運営者情報</a>
+      <a href="/articles">解説記事</a>
+      <button type="button" class="footer-link-button" data-cookie-settings>設定</button>
+    </nav>
+    <small>Copyright &copy;2026 FS!QR, All Rights Reserved.</small>
+  </footer>
 
   {% include 'cookie-consent.html' %}
 
