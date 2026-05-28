@@ -1272,6 +1272,19 @@
     "第14条（言語）": "Điều 14 (Ngôn ngữ)",
     "本規約は日本語を正文とします。本規約の翻訳版が提供される場合であっても、日本語版と翻訳版との間に相違が生じたときは、日本語版が優先して適用されます。": "Bản gốc chính thức của Điều khoản này là tiếng Nhật. Trong trường hợp có bản dịch và phát sinh bất kỳ sự mâu thuẫn hay khác biệt nào giữa bản tiếng Nhật và bản dịch, bản tiếng Nhật sẽ luôn được ưu tiên áp dụng.",
     "本規約に関してご不明な点がございましたら、お気軽にお問い合わせください。": "Nếu quý khách có bất kỳ thắc mắc nào liên quan đến Điều khoản này, xin vui lòng liên hệ với chúng tôi.",
-    "制定日：2026年5月28日": "Ngày ban hành: 28/05/2026"
+    "制定日：2026年5月28日": "Ngày ban hành: 28/05/2026",
+    "学校・会議・授業でのファイル共有具体例": "Ví dụ thực tế về chia sẻ tệp tại trường học, cuộc họp và lớp học",
+    "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Giới thiệu các ví dụ thực tế về cách sử dụng hiệu quả FS!QR trong các lớp học, cuộc họp kinh doanh và hội thảo. Hướng dẫn cách chia sẻ tệp không cần giấy tờ bằng mã QR và ghi chú cộng tác.",
+    "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "trường học, cuộc họp, lớp học, ví dụ thực tế, chia sẻ tệp, chỉnh sửa đồng thời, không cần giấy, hỗ trợ giảng dạy, mã QR",
+    "学校の授業での活用例": "Ví dụ ứng dụng trong lớp học",
+    "学校や大学の授業では、プリントやデジタル教材の配布が日常的に行われます。教員が黒板やスクリーンにFS!QRで生成したQRコードを表示すれば、生徒は個々のスマホやタブレットで瞬時に資料をダウンロードできます。印刷の手間が省け、授業の進行が非常にスムーズになります。": "Tại các trường học và đại học, việc phát tài liệu in hoặc tài liệu số diễn ra hàng ngày. Khi giáo viên hiển thị mã QR do FS!QR tạo lên bảng hoặc màn hình, học sinh có thể tải ngay tài liệu về điện thoại hoặc máy tính bảng cá nhân. Điều này giúp tiết kiệm công in ấn và giúp lớp học diễn ra trơn tru.",
+    "ビジネス会議での活用例": "Ví dụ ứng dụng trong cuộc họp kinh doanh",
+    "会議では、直前の資料の差し替えや追加が頻繁に発生します。FS!QRを活用すれば、プロジェクターにQRコードを表示するだけで、参加者全員が最新の会議資料を手元に揃えられます。また、共同編集ノート機能を使えば、議事録のリアルタイム作成も簡単です。": "Trong các cuộc họp, việc thay đổi hoặc bổ sung tài liệu vào phút chót thường xuyên xảy ra. Bằng cách sử dụng FS!QR, chỉ cần hiển thị mã QR trên máy chiếu là tất cả người tham gia đều có ngay tài liệu họp mới nhất trên tay. Ngoài ra, tính năng ghi chú cộng tác giúp việc tạo biên bản cuộc họp theo thời gian thực trở nên cực kỳ đơn giản.",
+    "ゼミやグループ学習での活用例": "Ví dụ ứng dụng trong hội thảo và học nhóm",
+    "少人数のゼミやグループワークでは、アイデア出しや役割分担、共同発表資料の作成が必要です。FS!QR Noteを使えば、全員で一つの共有ノートに同時に書き込みながら作業を進められます。写真やデータの受け渡しも、ケーブル不要で即座に行うことができます。": "Trong các buổi hội thảo nhỏ hoặc làm việc nhóm, việc thảo luận ý tưởng, phân chia công việc và cùng làm tài liệu thuyết trình là rất cần thiết. Với FS!QR Note, mọi người có thể đồng thời viết vào một ghi chú chung duy nhất. Việc truyền tải ảnh hay dữ liệu cũng diễn ra tức thì mà không cần dây cáp.",
+    "安全で効率的な運用のポイント": "Các lưu ý để vận hành an toàn và hiệu quả",
+    "共有したファイルは自動的に削除されるため、サーバーに余分なデータを残さず安全に運用できます。また、必要に応じてパスワードやID保護を設定することで、無関係な人が資料にアクセスするのを防ぎ、情報の安全性を高めることができます。": "Các tệp được chia sẻ sẽ tự động bị xóa, giúp hệ thống vận hành an toàn mà không để lại dữ liệu thừa trên máy chủ. Đồng thời, bằng cách thiết lập mật khẩu hoặc bảo vệ ID khi cần thiết, bạn có thể ngăn chặn những người không liên quan truy cập tài liệu, nâng cao bảo mật thông tin.",
+    "まとめ：授業や会議をよりスマートに": "Tóm tắt: Giúp lớp học và cuộc họp trở nên thông minh hơn",
+    "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Bằng cách đưa FS!QR vào các lớp học và cuộc họp hàng ngày, bạn có thể rút ngắn đáng kể thời gian chuẩn bị và phân phát tài liệu. Không cần tạo tài khoản hay cài đặt ứng dụng đặc biệt, bất kỳ ai cũng có thể sử dụng thành thạo ngay lập tức. Hãy trải nghiệm thế hệ chia sẻ tệp tiếp theo."
   }
 }

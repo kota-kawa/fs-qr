@@ -1272,6 +1272,19 @@
     "第14条（言語）": "Pasal 14 (Bahasa)",
     "本規約は日本語を正文とします。本規約の翻訳版が提供される場合であっても、日本語版と翻訳版との間に相違が生じたときは、日本語版が優先して適用されます。": "Teks resmi Syarat dan Ketentuan ini adalah bahasa Jepang. Meskipun versi terjemahan dari Ketentuan ini disediakan, jika terdapat perbedaan antara versi bahasa Jepang dan versi terjemahan, maka versi bahasa Jepang akan diutamakan.",
     "本規約に関してご不明な点がございましたら、お気軽にお問い合わせください。": "Jika Anda memiliki pertanyaan mengenai Ketentuan ini, jangan ragu untuk menghubungi kami.",
-    "制定日：2026年5月28日": "Tanggal pendirian: 28 Mei 2026"
+    "制定日：2026年5月28日": "Tanggal pendirian: 28 Mei 2026",
+    "学校・会議・授業でのファイル共有具体例": "Contoh Praktis Berbagi File di Sekolah, Rapat, and Kelas",
+    "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Memperkenalkan contoh praktis pemanfaatan FS!QR secara efektif di kelas sekolah, rapat bisnis, dan seminar. Penjelasan tentang metode berbagi file tanpa kertas menggunakan kode QR dan catatan kolaboratif.",
+    "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "sekolah, rapat, kelas, contoh praktis, berbagi file, edit bersama, tanpa kertas, bantuan belajar, kode QR",
+    "学校の授業での活用例": "Contoh Penerapan di Kelas Sekolah",
+    "学校や大学の授業では、プリントやデジタル教材の配布が日常的に行われます。教員が黒板やスクリーンにFS!QRで生成したQRコードを表示すれば、生徒は個々のスマホやタブレットで瞬時に資料をダウンロードできます。印刷の手間が省け、授業の進行が非常にスムーズになります。": "Di sekolah dan universitas, pembagian lembar kerja dan materi pelajaran digital dilakukan setiap hari. Jika guru menampilkan kode QR yang dibuat oleh FS!QR di papan tulis atau layar, siswa dapat langsung mengunduh materi di ponsel atau tablet masing-masing. Ini menghemat tenaga cetak dan membuat kelas berjalan sangat lancar.",
+    "ビジネス会議での活用例": "Contoh Penerapan di Rapat Bisnis",
+    "会議では、直前の資料の差し替えや追加が頻繁に発生します。FS!QRを活用すれば、プロジェクターにQRコードを表示するだけで、参加者全員が最新の会議資料を手元に揃えられます。また、共同編集ノート機能を使えば、議事録のリアルタイム作成も簡単です。": "Dalam rapat, revisi atau penambahan materi di menit-menit terakhir sering terjadi. Dengan menggunakan FS!QR, cukup tampilkan kode QR di proyektor agar semua peserta rapat segera mendapatkan dokumen terbaru di perangkat masing-masing. Selain itu, fitur catatan kolaboratif memudahkan pembuatan notulen rapat secara waktu nyata.",
+    "ゼミやグループ学習での活用例": "Contoh Penerapan di Seminar dan Belajar Kelompok",
+    "少人数のゼミやグループワークでは、アイデア出しや役割分担、共同発表資料の作成が必要です。FS!QR Noteを使えば、全員で一つの共有ノートに同時に書き込みながら作業を進められます。写真やデータの受け渡しも、ケーブル不要で即座に行うことができます。": "Dalam seminar kecil atau kerja kelompok, curah pendapat, pembagian tugas, dan pembuatan materi presentasi bersama sangat dibutuhkan. Dengan FS!QR Note, semua orang dapat menulis secara bersamaan di satu catatan yang sama. Pengiriman foto dan data juga bisa dilakukan seketika tanpa kabel.",
+    "安全で効率的な運用のポイント": "Poin Penting untuk Operasional yang Aman dan Efisien",
+    "共有したファイルは自動的に削除されるため、サーバーに余分なデータを残さず安全に運用できます。また、必要に応じてパスワードやID保護を設定することで、無関係な人が資料にアクセスするのを防ぎ、情報の安全性を高めることができます。": "File yang dibagikan akan dihapus secara otomatis, sehingga operasional tetap aman tanpa menyisakan data sampah di server. Anda juga bisa mengatur kata sandi atau perlindungan ID jika diperlukan untuk mencegah orang lain mengakses materi, guna meningkatkan keamanan informasi.",
+    "まとめ：授業や会議をよりスマートに": "Ringkasan: Jadikan Kelas dan Rapat Lebih Pintar",
+    "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Dengan mengintegrasikan FS!QR ke dalam kelas dan rapat sehari-hari, waktu untuk menyiapkan dan membagikan materi dapat dipangkas secara signifikan. Karena tidak perlu membuat akun atau memasang aplikasi khusus, siapa saja bisa langsung menggunakannya. Rasakan pengalaman berbagi file generasi baru sekarang juga."
   }
 }
