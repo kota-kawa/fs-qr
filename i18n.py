@@ -266,15 +266,15 @@ LANGUAGE_FALLBACKS = {
 
 _geoip_reader_cache: dict[str, Any] = {"path": None, "mtime": None, "reader": None}
 
-_HTML_LANG_RE = re.compile(r"<html(?P<attrs>[^>]*)\blang=[\"'][^\"']*[\"']", re.I)
+_HTML_LANG_RE = re.compile(r"<html(?P<attrs>[^>]*)>", re.I)
 _META_LANG_RE = re.compile(
-    r"<meta\\s+(?:http-equiv=[\'\"]content-language[\'\"]|name=[\'\"]language[\'\"])\\s+content=[\'\"][^\'\"]*[\'\"]",
+    r"<meta\s+(?:http-equiv=['\"]content-language['\"]|name=['\"]language['\"])\s+content=['\"][^'\"]*['\"][^>]*>",
     re.I,
 )
 
 # New regex for meta description tag
 _META_DESCRIPTION_RE = re.compile(
-    r"<meta\\s+name=[\'\"]description[\'\"]\\s+content=[\'\"]([^\'\"]*)[\'\"]",
+    r"<meta\s+name=['\"]description['\"]\s+content=['\"]([^'\"]*)['\"][^>]*>",
     re.I,
 )
 _OG_LOCALE_RE = re.compile(
@@ -567,7 +567,7 @@ def translate_rendered_html(content: str, language: str) -> str:
 
     def _replace_html_lang(match):
         attrs = match.group("attrs")
-        # Remove existing dir attribute if any
+        attrs = re.sub(r"\s*lang=['\"]?[^'\"\s>]*['\"]?", "", attrs, flags=re.I)
         attrs = re.sub(r"\s*dir=['\"]?[^'\"]*['\"]?", "", attrs, flags=re.I)
         return f'<html{attrs.rstrip()} lang="{html_lang}" dir="{html_dir}">'
 
@@ -579,12 +579,14 @@ def translate_rendered_html(content: str, language: str) -> str:
         # Replace the content attribute while keeping other attributes if any
         def _replace_meta_desc(match):
             # Preserve any additional attributes before name="description" if present
-            return f"<meta name=\"description\" content=\"{meta_desc}\">"
+            return f'<meta name="description" content="{meta_desc}">'
+
         content = _META_DESCRIPTION_RE.sub(_replace_meta_desc, content)
 
     # 2c. Update <meta name="language" content=...> with language code
     def _replace_meta_lang(match):
-        return f"<meta name=\"language\" content=\"{html_lang}\">"
+        return f'<meta name="language" content="{html_lang}">'
+
     content = _META_LANG_RE.sub(_replace_meta_lang, content)
 
     # 3. Update <meta property="og:locale" content="...">

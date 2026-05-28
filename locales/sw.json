@@ -28,7 +28,8 @@
     "note.editor.label": "Kumbukumbu iliyoshirikiwa (hadi herufi {max_length})",
     "note.editor.max_length_hint": "Unaweza kuingiza hadi herufi {max_length}.",
     "note.editor.demo_placeholder": "Yaliyoandikwa hapa yanasawazishwa kila sekunde...\n\nMfano wa maandishi:\nWanachama wote wanaweza kuhariri kumbukumbu sawa kwa wakati halisi hivi.\n\n- Maingizo yako yanasawazishwa papo hapo na wanachama wengine\n- Hadi herufi {max_length}\n- Hali ya uhariri inasasishwa kwa wakati halisi",
-    "upload.usage.limit_hint": "* Unaweza kupakia hadi faili {max_files} kwa jumla ya MB {max_total_mb}."
+    "upload.usage.limit_hint": "* Unaweza kupakia hadi faili {max_files} kwa jumla ya MB {max_total_mb}.",
+    "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo yenye uhamisho wa QR Code, kushiriki kwa vikundi, na madokezo ya wakati halisi."
   },
   "js": {
     "alert.notice": "Ilani",

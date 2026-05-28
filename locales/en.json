@@ -25,11 +25,11 @@
     "settings.close": "Close",
     "settings.optional": "Optional",
     "settings.save": "Save and Close",
-    "note.editor.label": "Shared Note (Max {max_length} characters)",
+    "note.editor.label": "Shared note (up to {max_length} characters)",
     "note.editor.max_length_hint": "You can enter up to {max_length} characters.",
     "note.editor.demo_placeholder": "Type here to sync changes every second...\n\nDemo Text:\nThis is a shared space where all members can edit the same note in real time.\n\n• Your edits are instantly synced to other members\n• Supports up to {max_length} characters\n• Editor status and changes are shown in real time",
-    "upload.usage.limit_hint": "* Up to {max_files} files, {max_total_mb} MB total limit.",
-    "meta.description": "Free file sharing"
+    "upload.usage.limit_hint": "* You can upload up to {max_files} files, with a total of {max_total_mb} MB.",
+    "meta.description": "FS!QR is a free file sharing service for QR code transfers, group file sharing, and real-time note sharing. Send and manage data securely in your browser."
   },
   "js": {
     "alert.notice": "Notice",
@@ -52,7 +52,7 @@
     "share.copy_participant_success": "Copied to clipboard. You can send it to participants directly.",
     "share.copy_manual_error": "Failed to copy. Please display the content and copy it manually.",
     "share.copy_content_manual_error": "Failed to copy. Please copy the displayed content manually.",
-    "retention.auto_delete_at": "Scheduled for auto-deletion around {time}",
+    "retention.auto_delete_at": "Will be automatically deleted around {time}",
     "id.invalid_alnum": "Only alphanumeric characters are allowed.",
     "id.incomplete_length": "Please enter all 6 characters.",
     "upload.start": "Start Upload",

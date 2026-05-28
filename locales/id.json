@@ -28,7 +28,8 @@
     "note.editor.label": "Catatan Bersama (maksimal {max_length} karakter)",
     "note.editor.max_length_hint": "Dapat diisi hingga maksimal {max_length} karakter.",
     "note.editor.demo_placeholder": "Ketik di sini untuk menyinkronkan setiap detik...\n\nTeks demo:\nSemua anggota dapat mengedit catatan yang sama secara real-time seperti ini.\n\n• Karakter yang diketik akan langsung disinkronkan ke anggota lain\n• Dapat diisi hingga {max_length} karakter\n• Status pengeditan ditampilkan secara real-time",
-    "upload.usage.limit_hint": "※ Maksimal {max_files} file, total {max_total_mb} MB."
+    "upload.usage.limit_hint": "※ Maksimal {max_files} file, total {max_total_mb} MB.",
+    "meta.description": "FS!QR adalah layanan berbagi file gratis dengan transfer QR Code, berbagi file grup, dan catatan real-time untuk mengelola data secara aman."
   },
   "js": {
     "alert.notice": "Pemberitahuan",

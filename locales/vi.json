@@ -28,7 +28,8 @@
     "note.editor.label": "Ghi chú chia sẻ (tối đa {max_length} ký tự)",
     "note.editor.max_length_hint": "Có thể nhập tối đa {max_length} ký tự.",
     "note.editor.demo_placeholder": "Nhập vào đây để đồng bộ hóa sau mỗi giây...\n\nGhi chú mẫu:\nTất cả các thành viên có thể chỉnh sửa cùng một ghi chú trong thời gian thực như thế này.\n\n・Nội dung nhập sẽ lập tức đồng bộ với các thành viên khác\n・Có thể nhập tối đa {max_length} ký tự\n・Tình trạng chỉnh sửa được hiển thị theo thời gian thực",
-    "upload.usage.limit_hint": "※ Có thể tải tối đa {max_files} tệp, tổng dung lượng {max_total_mb} MB."
+    "upload.usage.limit_hint": "※ Có thể tải tối đa {max_files} tệp, tổng dung lượng {max_total_mb} MB.",
+    "meta.description": "FS!QR là dịch vụ chia sẻ tệp miễn phí với chuyển bằng mã QR, chia sẻ nhóm và ghi chú thời gian thực để quản lý dữ liệu an toàn."
   },
   "js": {
     "alert.notice": "Thông báo",

@@ -28,7 +28,8 @@
     "note.editor.label": "Wspólna notatka (maksymalnie {max_length} znaków)",
     "note.editor.max_length_hint": "Możesz wprowadzić maksymalnie {max_length} znaków.",
     "note.editor.demo_placeholder": "Wpisz coś tutaj, a tekst będzie synchronizowany co sekundę...\n\nTekst demonstracyjny:\nW ten sposób wszyscy członkowie mogą edytować tę samą notatkę w czasie rzeczywistym.\n\n• Wprowadzane znaki są natychmiast synchronizowane z innymi użytkownikami\n• Można wprowadzić maksymalnie {max_length} znaków\n• Status edycji jest wyświetlany w czasie rzeczywistym",
-    "upload.usage.limit_hint": "※ Maksymalnie {max_files} plików, o łącznym rozmiarze do {max_total_mb} MB."
+    "upload.usage.limit_hint": "※ Maksymalnie {max_files} plików, o łącznym rozmiarze do {max_total_mb} MB.",
+    "meta.description": "FS!QR to darmowa usługa udostępniania plików z kodami QR, udostępnianiem grupowym i notatkami w czasie rzeczywistym."
   },
   "js": {
     "alert.notice": "Powiadomienie",

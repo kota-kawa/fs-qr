@@ -8,7 +8,7 @@ import logging
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
-from starlette.responses import FileResponse, RedirectResponse
+from starlette.responses import RedirectResponse, Response
 
 from api_response import api_error_response, api_ok_response
 from file_validation import (
@@ -508,15 +508,16 @@ async def _send_file_response(request: Request, secure_id: str):
     if not os.path.exists(path):
         return msg(request, "ファイルが存在しません")
 
-    response = FileResponse(path, media_type=mimetype)
-    response.headers["Content-Disposition"] = build_content_disposition_attachment(
-        download_name
-    )
-    response.headers["X-File-Type"] = file_type
+    headers = {
+        "Content-Disposition": build_content_disposition_attachment(download_name),
+        "Content-Length": str(os.path.getsize(path)),
+        "X-File-Type": file_type,
+    }
     safe_original_filename = sanitize_download_filename(original_filename, default="")
     if safe_original_filename:
-        response.headers["X-Original-Filename"] = safe_original_filename
-    return response
+        headers["X-Original-Filename"] = safe_original_filename
+    with open(path, "rb") as file:
+        return Response(content=file.read(), media_type=mimetype, headers=headers)
 
 
 @router.get("/search_fs-qr", name="fsqr.search_fs_qr")
