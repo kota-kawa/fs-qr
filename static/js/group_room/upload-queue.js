@@ -86,16 +86,17 @@
 
         var fileName = document.createElement('div');
         fileName.className = 'modern-file-name';
-        fileName.innerHTML = `${icons.file}<span><span class="modern-file-name-text"></span></span>`;
+        fileName.innerHTML = `${icons.file}<span class="modern-file-name-info"><span class="modern-file-name-text"></span></span>`;
+        var fileNameInfo = fileName.querySelector('.modern-file-name-info');
         var fileNameText = fileName.querySelector('.modern-file-name-text');
         if (fileNameText) {
           fileNameText.textContent = file.name;
         }
-        if (invalidReason) {
+        if (invalidReason && fileNameInfo) {
           var note = document.createElement('span');
           note.className = 'modern-file-item-note';
           note.textContent = invalidReason;
-          fileName.querySelector('span').appendChild(note);
+          fileNameInfo.appendChild(note);
         }
 
         var actions = document.createElement('div');

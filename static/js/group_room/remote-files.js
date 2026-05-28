@@ -110,7 +110,7 @@
 
         var fileName = document.createElement('div');
         fileName.className = 'modern-file-name';
-        fileName.innerHTML = `${icons.file}<span class="modern-file-name-text"></span>`;
+        fileName.innerHTML = `${icons.file}<span class="modern-file-name-info"><span class="modern-file-name-text"></span></span>`;
         var fileNameText = fileName.querySelector('.modern-file-name-text');
         if (fileNameText) {
           fileNameText.textContent = file.name;
