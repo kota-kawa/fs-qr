@@ -233,6 +233,14 @@ async def privacy_policy(request: Request):
     return await render_cached_template(request, "privacy.html")
 
 
+@app.get("/terms", name="terms")
+async def terms(request: Request):
+    canonical = _canonical_redirect(request)
+    if canonical:
+        return canonical
+    return await render_cached_template(request, "terms.html")
+
+
 @app.get("/about", name="about")
 async def about(request: Request):
     canonical = _canonical_redirect(request)
@@ -286,6 +294,7 @@ SITEMAP_URLS = (
     ("/contact", "monthly", "0.7", "2026-04-26"),
     ("/usage", "monthly", "0.8", "2026-04-26"),
     ("/privacy-policy", "monthly", "0.6", "2026-04-26"),
+    ("/terms", "monthly", "0.6", "2026-05-28"),
     ("/site-operator", "monthly", "0.5", "2026-04-26"),
     ("/articles", "monthly", "0.8", "2025-08-31"),
     ("/fs-qr_menu", "weekly", "0.9", "2026-04-27"),
