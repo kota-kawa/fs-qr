@@ -208,6 +208,17 @@ ARTICLES: list[dict[str, Any]] = [
         "type": TYPE_ARTICLE,
         "default": False,
     },
+    {
+        "slug": "school-meeting-class-examples",
+        "title": "学校・会議・授業でのファイル共有具体例",
+        "description": "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。",
+        "icon": "fa-chalkboard-user",
+        "category": "活用事例",
+        "date": "2026-05-29",
+        "template": "school-meeting-class-examples.html",
+        "type": TYPE_ARTICLE,
+        "default": False,
+    },
 ]
 
 # 一覧の絞り込みチップに使う、登録順を保ったカテゴリ一覧。

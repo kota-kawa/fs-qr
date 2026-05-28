@@ -1268,6 +1268,19 @@
     "第14条（言語）": "Kifungu cha 14 (Lugha)",
     "本規約は日本語を正文とします。本規約の翻訳版が提供される場合であっても、日本語版と翻訳版との間に相違が生じたときは、日本語版が優先して適用されます。": "Maandishi rasmi ya Sheria na Masharti haya ni ya Kijapani. Hata kama toleo lililotafsiriwa la Sheria na Masharti haya limetolewa, ikiwa kuna tofauti kati ya toleo la Kijapani na toleo lililotafsiriwa, toleo la Kijapani litachukua nafasi ya kwanza.",
     "本規約に関してご不明な点がございましたら、お気軽にお問い合わせください。": "Ikiwa una maswali yoyote kuhusu Masharti haya, tafadhali jisikie huru kuwasiliana nasi.",
-    "制定日：2026年5月28日": "Tarehe ya kuanzishwa: Mei 28, 2026"
+    "制定日：2026年5月28日": "Tarehe ya kuanzishwa: Mei 28, 2026",
+    "学校・会議・授業でのファイル共有具体例": "Mifano halisi ya kushiriki faili katika shule, mikutano na madarasa",
+    "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Tunaanzisha mifano halisi ya jinsi ya kutumia FS!QR kwa ufanisi katika madarasa ya shule, mikutano ya biashara, na semina. Maelezo kuhusu kushiriki faili bila karatasi kwa kutumia nambari za QR na kumbukumbu za pamoja.",
+    "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "shule, mkutano, darasa, mifano halisi, kushiriki faili, uhariri wa pamoja, bila karatasi, msaada wa darasa, nambari ya QR",
+    "学校の授業での活用例": "Mifano ya matumizi katika madarasa ya shule",
+    "学校や大学の授業では、プリントやデジタル教材の配布が日常的に行われます。教員が黒板やスクリーンにFS!QRで生成したQRコードを表示すれば、生徒は個々のスマホやタブレットで瞬時に資料をダウンロードできます。印刷の手間が省け、授業の進行が非常にスムーズになります。": "Katika shule na vyuo vikuu, usambazaji wa karatasi za kazi na vifaa vya kufundishia vya dijiti ni kawaida ya kila siku. Mwalimu akionyesha nambari ya QR iliyotengenezwa na FS!QR kwenye ubao au skrini, wanafunzi wanaweza kupakua vifaa hivyo mara moja kwenye simu zao au kompyuta kibao. Hii inaokoa juhudi za kuchapisha na kufanya darasa liende vizuri sana.",
+    "ビジネス会議での活用例": "Mifano ya matumizi katika mikutano ya biashara",
+    "会議では、直前の資料の差し替えや追加が頻繁に発生します。FS!QRを活用すれば、プロジェクターにQRコードを表示するだけで、参加者全員が最新の会議資料を手元に揃えられます。また、共同編集ノート機能を使えば、議事録のリアルタイム作成も簡単です。": "Katika mikutano, ubadilishaji au uongezaji wa nyaraka hutokea mara kwa mara dakika za mwisho. Kwa kutumia FS!QR, kuonyesha tu nambari ya QR kwenye projekta kunaruhusu washiriki wote kupata nyaraka za hivi karibuni za mkutano mikononi mwao. Pia, kutumia huduma ya noti ya ushirikiano hufanya uandishi wa muhtasari wa mkutano kuwa rahisi katika muda halisi.",
+    "ゼミやグループ学習での活用例": "Mifano ya matumizi katika semina na masomo ya kikundi",
+    "少人数のゼミやグループワークでは、アイデア出しや役割分担、共同発表資料の作成が必要です。FS!QR Noteを使えば、全員で一つの共有ノートに同時に書き込みながら作業を進められます。写真やデータの受け渡しも、ケーブル不要で即座に行うことができます。": "Katika semina ndogo na kazi za kikundi, kujadiliana mawazo, kugawana majukumu, na kuunda vifaa vya uwasilishaji vya pamoja vinahitajika. Kwa kutumia FS!QR Note, kila mtu anaweza kufanya kazi akifanya uandishi kwa pamoja katika noti moja iliyoshirikiwa. Kutuma picha na data pia kunaweza kufanywa mara moja bila kebo.",
+    "安全で効率的な運用のポイント": "Mambo muhimu kwa operesheni salama na yenye ufanisi",
+    "共有したファイルは自動的に削除されるため、サーバーに余分なデータを残さず安全に運用できます。また、必要に応じてパスワードやID保護を設定することで、無関係な人が資料にアクセスするのを防ぎ、情報の安全性を高めることができます。": "Faili zilizoshirikiwa hufutwa kiotomatiki, na kuruhusu operesheni salama bila kuacha data isiyo ya lazima kwenye seva. Kwa kuongeza, kwa kuweka nywila au ulinzi wa ID kama inavyohitajika, unaweza kuzuia watu wasiohusika kupata vifaa, na kuongeza usalama wa habari.",
+    "まとめ：授業や会議をよりスマートに": "Muhtasari: Fanya madarasa na mikutano kuwa ya kisasa zaidi",
+    "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Kwa kuingiza FS!QR katika madarasa na mikutano ya kila siku, muda unaohitajika kuandaa na kusambaza vifaa unaweza kupunguzwa sana. Kwa kuwa hakuna haja ya kuunda akaunti au kusanikisha programu maalum, mtu yeyote anaweza kuanza kutumia mara moja. Tafadhali jaribu kizazi kipya cha kushiriki faili."
   }
 }

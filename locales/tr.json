@@ -1268,6 +1268,19 @@
     "第14条（言語）": "Madde 14 (Dil)",
     "本規約は日本語を正文とします。本規約の翻訳版が提供される場合であっても、日本語版と翻訳版との間に相違が生じたときは、日本語版が優先して適用されます。": "Bu Hüküm ve Koşulların resmi metni Japoncadır. Bu Koşulların tercüme edilmiş bir versiyonu sağlansa bile, Japonca versiyon ile tercüme edilmiş versiyon arasında bir tutarsızlık olması durumunda, Japonca versiyon öncelikli olacaktır.",
     "本規約に関してご不明な点がございましたら、お気軽にお問い合わせください。": "Bu Koşullara ilişkin herhangi bir sorunuz varsa lütfen bizimle iletişime geçmekten çekinmeyin.",
-    "制定日：2026年5月28日": "Kuruluş tarihi: 28 Mayıs 2026"
+    "制定日：2026年5月28日": "Kuruluş tarihi: 28 Mayıs 2026",
+    "学校・会議・授業でのファイル共有具体例": "Okullarda, Toplantılarda ve Derslerde Dosya Paylaşımına İlişkin Somut Örnekler",
+    "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "FS!QR'ın okul derslerinde, iş toplantılarında ve seminerlerde etkili kullanımına yönelik somut örnekler. QR kodları ve ortak notları kullanarak kağıtsız dosya paylaşım yöntemleri anlatılmaktadır.",
+    "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "okul, toplantı, ders, somut örnekler, dosya paylaşımı, ortak düzenleme, kağıtsız, ders desteği, QR kodu",
+    "学校の授業での活用例": "Okul Derslerindeki Uygulama Örnekleri",
+    "学校や大学の授業では、プリントやデジタル教材の配布が日常的に行われます。教員が黒板やスクリーンにFS!QRで生成したQRコードを表示すれば、生徒は個々のスマホやタブレットで瞬時に資料をダウンロードできます。印刷の手間が省け、授業の進行が非常にスムーズになります。": "Okullarda ve üniversitelerde ders notlarının ve dijital materyallerin dağıtılması günlük bir rutindir. Öğretmen, FS!QR tarafından oluşturulan QR kodunu tahtada veya ekranda gösterdiğinde, öğrenciler materyalleri kendi akıllı telefonlarına veya tabletlerine anında indirebilirler. Bu sayede yazdırma zahmetinden kurtulunur ve ders akışı oldukça sorunsuz hale gelir.",
+    "ビジネス会議での活用例": "İş Toplantılarındaki Uygulama Örnekleri",
+    "会議では、直前の資料の差し替えや追加が頻繁に発生します。FS!QRを活用すれば、プロジェクターにQRコードを表示するだけで、参加者全員が最新の会議資料を手元に揃えられます。また、共同編集ノート機能を使えば、議事録のリアルタイム作成も簡単です。": "Toplantılarda, son dakikada belgelerin değiştirilmesi veya eklenmesi sıkça yaşanır. FS!QR kullanılarak QR kodunun projektörde gösterilmesi, tüm katılımcıların en güncel toplantı materyallerine anında erişmesini sağlar. Ayrıca, ortak not düzenleme özelliği sayesinde toplantı tutanaklarının gerçek zamanlı olarak tutulması da oldukça kolaylaşır.",
+    "ゼミやグループ学習での活用例": "Seminerler ve Grup Çalışmalarındaki Uygulama Örnekleri",
+    "少人数のゼミやグループワークでは、アイデア出しや役割分担、共同発表資料の作成が必要です。FS!QR Noteを使えば、全員で一つの共有ノートに同時に書き込みながら作業を進められます。写真やデータの受け渡しも、ケーブル不要で即座に行うことができます。": "Küçük seminerlerde veya grup çalışmalarında beyin fırtınası yapmak, görev dağılımı yapmak ve ortak sunum materyalleri hazırlamak gerekir. FS!QR Note ile herkes tek bir paylaşılan nota aynı anda yazarak çalışabilir. Fotoğraf ve veri aktarımı da kabloya ihtiyaç duymadan anında gerçekleştirilebilir.",
+    "安全で効率的な運用のポイント": "Güvenli ve Verimli Çalışma İçin İpuçları",
+    "共有したファイルは自動的に削除されるため、サーバーに余分なデータを残さず安全に運用できます。また、必要に応じてパスワードやID保護を設定することで、無関係な人が資料にアクセスするのを防ぎ、情報の安全性を高めることができます。": "Paylaşılan dosyalar otomatik olarak silindiği için sunucuda gereksiz veri bırakmadan güvenli bir çalışma ortamı sağlanır. Ayrıca, gerektiğinde şifre veya kimlik koruması ayarlayarak ilgisiz kişilerin materyallere erişmesini önleyebilir ve bilgi güvenliğini artırabilirsiniz.",
+    "まとめ：授業や会議をよりスマートに": "Özet: Dersleri ve Toplantıları Daha Akıllı Hale Getirin",
+    "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "FS!QR'ı günlük derslerinize ve toplantılarınıza dahil ederek materyal hazırlama ve dağıtma sürelerini büyük ölçüde kısaltabilirsiniz. Hesap oluşturma veya özel uygulama yükleme gerektirmediğinden herkes anında kullanmaya başlayabilir. Yeni nesil dosya paylaşımını hemen deneyimleyin."
   }
 }
