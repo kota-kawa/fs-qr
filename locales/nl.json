@@ -1238,7 +1238,7 @@
     "運営者または第三者になりすます行為": "Handelingen waarbij u zich voordoet als de exploitant of een derde partij",
     "その他、運営者が不適切と合理的に判断する行為": "Overige handelingen die de exploitant redelijkerwijs ongepast acht.",
     "第6条（コンテンツの取り扱いと自動削除）": "Artikel 6 (Afhandeling van inhoud en automatische verwijdering)",
-    "アップロードされたコンテンツは暗号化された状態で一時的に保存され、所定の保存期間の経過後に自動的に削除されます。すべての通信はHTTPSで暗号化されています。データの取り扱いの詳細は": "Geüploade inhoud wordt tijdelijk gecodeerd opgeslagen en na de opgegeven bewaarperiode automatisch verwijderd. Alle communicatie wordt gecodeerd met HTTPS. Voor meer informatie over gegevensverwerking,",
+    "アップロードされたコンテンツは所定の保存期間の経過後に自動的に削除されます。FS!QR（QRコード共有）でアップロードされたファイルは、利用者のブラウザ上でAESにより暗号化されたうえでサーバーに保存されます。グループルームおよびノートルームのコンテンツは、サーバー上では暗号化されない状態で保管されます。すべての通信はHTTPSで暗号化されています。データの取り扱いの詳細は": "Geüploade inhoud wordt automatisch verwijderd na de opgegeven bewaartermijn. Bestanden die zijn geüpload met FS!QR (delen van QR-codes) worden gecodeerd met AES in de browser van de gebruiker en vervolgens opgeslagen op de server. De inhoud van de groepsruimte en notitieruimte wordt onversleuteld op de server opgeslagen. Alle communicatie wordt gecodeerd met HTTPS. Voor meer informatie over gegevensverwerking,",
     "に定めるとおりです。": "Zoals bepaald in",
     "運営者は、自動削除されたコンテンツの復旧義務を負わず、保存されたコンテンツの完全性・可用性・永続性についていかなる保証も行いません。": "De exploitant is niet verplicht automatisch verwijderde inhoud te herstellen en garandeert de integriteit, beschikbaarheid of duurzaamheid van opgeslagen inhoud niet.",
     "第7条（知的財産権）": "Artikel 7 (Intellectuele eigendomsrechten)",
@@ -1268,6 +1268,7 @@
     "第14条（言語）": "Artikel 14 (Taal)",
     "本規約は日本語を正文とします。本規約の翻訳版が提供される場合であっても、日本語版と翻訳版との間に相違が生じたときは、日本語版が優先して適用されます。": "De officiële tekst van deze Algemene Voorwaarden is Japans. Zelfs als er een vertaalde versie van deze Voorwaarden wordt verstrekt, zal de Japanse versie voorrang hebben als er een discrepantie bestaat tussen de Japanse versie en de vertaalde versie.",
     "本規約に関してご不明な点がございましたら、お気軽にお問い合わせください。": "Als u vragen heeft over deze voorwaarden, neem dan gerust contact met ons op.",
-    "制定日：2026年5月28日": "Oprichtingsdatum: 28 mei 2026"
+    "制定日：2026年5月28日": "Oprichtingsdatum: 28 mei 2026",
+    "アップロードされたファイルは一定期間後に自動的に削除され、第三者と共有することはありません。FS!QR（QRコード共有）のファイルは利用者のブラウザ上でAESにより暗号化されたうえでサーバーに送信・保存されるため、運営者を含む第三者は内容を復号できません。グループルームおよびノートルームのコンテンツは、サーバー上では暗号化されない状態で保管されます。": "Geüploade bestanden worden na een bepaalde periode automatisch verwijderd en niet met derden gedeeld. FS!QR-bestanden (QR-code delen) worden gecodeerd met behulp van AES in de browser van de gebruiker voordat ze worden verzonden en opgeslagen op de server, zodat derden, inclusief de operator, de inhoud niet kunnen decoderen. De inhoud van de groepsruimte en notitieruimte wordt onversleuteld op de server opgeslagen."
   }
 }
