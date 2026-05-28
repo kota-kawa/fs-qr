@@ -28,7 +28,8 @@
     "note.editor.label": "Shared Note (Max {max_length} characters)",
     "note.editor.max_length_hint": "You can enter up to {max_length} characters.",
     "note.editor.demo_placeholder": "Type here to sync changes every second...\n\nDemo Text:\nThis is a shared space where all members can edit the same note in real time.\n\n• Your edits are instantly synced to other members\n• Supports up to {max_length} characters\n• Editor status and changes are shown in real time",
-    "upload.usage.limit_hint": "* Up to {max_files} files, {max_total_mb} MB total limit."
+    "upload.usage.limit_hint": "* Up to {max_files} files, {max_total_mb} MB total limit.",
+    "meta.description": "Free file sharing"
   },
   "js": {
     "alert.notice": "Notice",
