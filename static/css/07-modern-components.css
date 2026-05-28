@@ -456,6 +456,8 @@
   align-items: center;
   gap: 0.75rem;
   min-width: 0; /* Allow shrinking */
+  min-height: 2.5rem;
+  line-height: 1.4;
 }
 
 .modern-file-name-text {
@@ -472,6 +474,7 @@
 
 .modern-file-actions {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -486,6 +489,10 @@
   padding: 0.5rem;
   border-radius: 6px;
   transition: all 0.2s ease;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 1;
+  flex: 0 0 auto;
 }
 
 .modern-file-action-btn:hover {
