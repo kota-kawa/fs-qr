@@ -672,6 +672,58 @@
   background: var(--theme-group-file-item-hover-bg);
 }
 
+@media (max-width: 575.98px) {
+  #fileList .modern-file-item,
+  #otherFileList .modern-file-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  #fileList .modern-file-name,
+  #otherFileList .modern-file-name {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    min-height: 2.5rem;
+  }
+
+  #fileList .modern-file-name-info,
+  #otherFileList .modern-file-name-info {
+    min-width: 0;
+  }
+
+  #fileList .modern-file-name-text,
+  #otherFileList .modern-file-name-text {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #fileList .modern-file-icon,
+  #otherFileList .modern-file-icon {
+    flex: 0 0 auto;
+  }
+
+  #fileList .modern-file-actions,
+  #otherFileList .modern-file-actions {
+    align-self: center;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+
+  #fileList .modern-file-action-btn,
+  #otherFileList .modern-file-action-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+  }
+}
+
 .modern-btn {
   background: var(--theme-group-gradient);
   box-shadow: var(--theme-group-button-shadow);
