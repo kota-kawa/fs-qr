@@ -28,7 +28,8 @@
     "note.editor.label": "Gedeelde notitie (maximaal {max_length} tekens)",
     "note.editor.max_length_hint": "U kunt maximaal {max_length} tekens invoeren.",
     "note.editor.demo_placeholder": "Typen hier wordt elke seconde gesynchroniseerd...\n\nDemotekst:\nAlle leden kunnen in real-time dezelfde notitie bewerken.\n\n- Uw invoer wordt onmiddellijk gesynchroniseerd met andere leden\n- Maximaal {max_length} tekens\n- Bewerkingsstatus wordt in real-time bijgewerkt",
-    "upload.usage.limit_hint": "* U kunt maximaal {max_files} bestanden uploaden, met een totaal van {max_total_mb} MB."
+    "upload.usage.limit_hint": "* U kunt maximaal {max_files} bestanden uploaden, met een totaal van {max_total_mb} MB.",
+    "meta.description": "FS!QR is een gratis dienst voor bestanden delen met QR-codes, groepsdeling en realtime notities om gegevens veilig in de browser te beheren."
   },
   "js": {
     "alert.notice": "Bericht",

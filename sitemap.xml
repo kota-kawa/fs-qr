@@ -127,6 +127,35 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/privacy-policy" />
   </url>
   <url>
+    <loc>https://fs-qr.net/terms</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://fs-qr.net/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fs-qr.net/terms?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://fs-qr.net/terms?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://fs-qr.net/terms?lang=zh-TW" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://fs-qr.net/terms?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://fs-qr.net/terms?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://fs-qr.net/terms?lang=es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://fs-qr.net/terms?lang=de" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://fs-qr.net/terms?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://fs-qr.net/terms?lang=it" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://fs-qr.net/terms?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://fs-qr.net/terms?lang=th" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://fs-qr.net/terms?lang=id" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://fs-qr.net/terms?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://fs-qr.net/terms?lang=uk" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fs-qr.net/terms?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://fs-qr.net/terms?lang=nl" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://fs-qr.net/terms?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://fs-qr.net/terms?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://fs-qr.net/terms?lang=pl" />
+    <xhtml:link rel="alternate" hreflang="sw" href="https://fs-qr.net/terms?lang=sw" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://fs-qr.net/terms?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fs-qr.net/terms" />
+  </url>
+  <url>
     <loc>https://fs-qr.net/site-operator</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>

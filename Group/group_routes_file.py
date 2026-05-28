@@ -7,7 +7,7 @@ import zipfile
 from typing import Optional
 
 from fastapi import APIRouter, File, Request, UploadFile
-from starlette.responses import FileResponse, StreamingResponse
+from starlette.responses import Response, StreamingResponse
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
@@ -307,11 +307,18 @@ def register_group_download_file_route(router: APIRouter):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
-            response = FileResponse(file_path)
-            response.headers["Content-Disposition"] = (
-                build_content_disposition_attachment(decoded_filename)
-            )
-            return response
+            headers = {
+                "Content-Disposition": build_content_disposition_attachment(
+                    decoded_filename
+                ),
+                "Content-Length": str(os.path.getsize(file_path)),
+            }
+            with open(file_path, "rb") as file:
+                return Response(
+                    content=file.read(),
+                    media_type="application/octet-stream",
+                    headers=headers,
+                )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
@@ -354,15 +361,19 @@ def register_group_preview_file_route(router: APIRouter):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
-            response = FileResponse(
-                file_path,
-                media_type=str(preview_metadata["preview_mime_type"]),
-            )
-            response.headers["Content-Disposition"] = build_content_disposition_inline(
-                decoded_filename
-            )
-            response.headers["X-Content-Type-Options"] = "nosniff"
-            return response
+            headers = {
+                "Content-Disposition": build_content_disposition_inline(
+                    decoded_filename
+                ),
+                "Content-Length": str(os.path.getsize(file_path)),
+                "X-Content-Type-Options": "nosniff",
+            }
+            with open(file_path, "rb") as file:
+                return Response(
+                    content=file.read(),
+                    media_type=str(preview_metadata["preview_mime_type"]),
+                    headers=headers,
+                )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 

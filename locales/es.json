@@ -28,7 +28,8 @@
     "note.editor.label": "Nota compartida (hasta {max_length} caracteres)",
     "note.editor.max_length_hint": "Puedes introducir hasta {max_length} caracteres.",
     "note.editor.demo_placeholder": "Lo que escribas aquí se sincroniza cada segundo...\n\nTexto de demostración:\nTodos los miembros pueden editar la misma nota en tiempo real como esta.\n\n- Tu entrada se sincroniza con otros miembros inmediatamente\n- Hasta {max_length} caracteres\n- El estado de edición se actualiza en tiempo real",
-    "upload.usage.limit_hint": "* Puedes subir hasta {max_files} archivos, con un total de {max_total_mb} MB."
+    "upload.usage.limit_hint": "* Puedes subir hasta {max_files} archivos, con un total de {max_total_mb} MB.",
+    "meta.description": "FS!QR es un servicio gratuito para compartir archivos con códigos QR, grupos y notas en tiempo real. Envía y administra datos de forma segura en el navegador."
   },
   "js": {
     "alert.notice": "Aviso",
@@ -52,7 +53,7 @@
     "share.copy_manual_error": "Error al copiar. Muéstralo y cópialo manualmente.",
     "share.copy_content_manual_error": "Error al copiar. Copia el contenido mostrado manualmente.",
     "retention.auto_delete_at": "Se eliminará automáticamente alrededor de las {time}",
-    "id.invalid_alnum": "Utiliza solo letras y números de ancho medio.",
+    "id.invalid_alnum": "Usa solo letras y números estándar (caracteres alfanuméricos).",
     "id.incomplete_length": "Por favor, introduce los 6 caracteres.",
     "upload.start": "Iniciar subida",
     "upload.upload": "Subir",

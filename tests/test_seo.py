@@ -49,6 +49,15 @@ def test_sitemap_has_hreflang_alternates_for_every_url(test_client: TestClient):
             assert alt.get("href"), f"{loc.text}: missing href"
 
 
+def test_sitemap_includes_terms_page(test_client: TestClient):
+    response = test_client.get("/sitemap.xml")
+    assert response.status_code == 200
+
+    root = ET.fromstring(response.text)
+    locs = {loc.text for loc in root.findall("sm:url/sm:loc", SITEMAP_NS)}
+    assert "https://fs-qr.net/terms" in locs
+
+
 def test_home_meta_description_is_translated_for_every_locale(
     test_client: TestClient,
 ):
