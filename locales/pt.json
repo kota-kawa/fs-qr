@@ -52,7 +52,7 @@
     "share.copy_manual_error": "Falha na cópia. Apresente-o e copie-o manualmente.",
     "share.copy_content_manual_error": "Falha na cópia. Copie o conteúdo apresentado manualmente.",
     "retention.auto_delete_at": "Será eliminado automaticamente por volta de {time}",
-    "id.invalid_alnum": "Utilize apenas letras e números de meia largura.",
+    "id.invalid_alnum": "Utilize apenas letras e números padrão (caracteres alfanuméricos).",
     "id.incomplete_length": "Por favor, introduza os 6 caracteres.",
     "upload.start": "Iniciar carregamento",
     "upload.upload": "Carregar",

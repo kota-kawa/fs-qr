@@ -52,7 +52,7 @@
     "share.copy_manual_error": "Error al copiar. Muéstralo y cópialo manualmente.",
     "share.copy_content_manual_error": "Error al copiar. Copia el contenido mostrado manualmente.",
     "retention.auto_delete_at": "Se eliminará automáticamente alrededor de las {time}",
-    "id.invalid_alnum": "Utiliza solo letras y números de ancho medio.",
+    "id.invalid_alnum": "Usa solo letras y números estándar (caracteres alfanuméricos).",
     "id.incomplete_length": "Por favor, introduce los 6 caracteres.",
     "upload.start": "Iniciar subida",
     "upload.upload": "Subir",
