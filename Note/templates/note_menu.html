@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。" />
+    <meta name="description" content="アカウント不要でリアルタイム同時編集できる無料ノートサービス。URLを共有するだけで複数人がブラウザから同時にテキストを編集・保存できます。会議メモ・議事録・共同作業に最適。" />
     <meta name="keywords" content="リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業" />
     <meta name="geo.region" content="JP" />
     <meta name="geo.placename" content="Japan" />
@@ -46,7 +46,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
-    <title>FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス</title>
+    <title>リアルタイム同時編集ノート｜登録不要・無料で共同作業 - FS!QR Note</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
     <!-- Bootstrap CSS -->
@@ -64,7 +64,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR Note",
-      "url": "{{ request.url_root }}note",
+      "url": "{{ request.url_root }}note_menu",
       "description": "無料のリアルタイムノート共有サービス。複数人で同時編集できるオンラインノートルームを提供。",
       "inLanguage": "ja-JP",
       "isPartOf": {
@@ -202,7 +202,7 @@
           "@type": "ListItem",
           "position": 2,
           "name": "ノート共有",
-          "item": "{{ request.url_root }}note"
+          "item": "{{ request.url_root }}note_menu"
         }
       ]
     }
@@ -223,9 +223,9 @@
         "url": "{{ request.url_root }}contact"
       },
       "sameAs": [
-        "{{ request.url_root }}note",
-        "{{ request.url_root }}group", 
-        "{{ request.url_root }}fs-qr"
+        "{{ request.url_root }}note_menu",
+        "{{ request.url_root }}group_menu",
+        "{{ request.url_root }}fs-qr_menu"
       ]
     }
     </script>
@@ -325,6 +325,73 @@
                         <p>複数人で同時に編集しながらコメントを残し、完了したら履歴やPDF出力で成果を保存しましょう。</p>
                     </li>
                 </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="note-about">
+                <h2 id="note-about" class="section-title">FS!QR Noteとは</h2>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">FS!QR Noteは、アカウント登録なしでリアルタイムに複数人が同時編集できる無料のオンラインノートサービスです。ルームを作成してアクセスキーを共有するだけで始められ、編集内容はリアルタイムで自動保存されます。会議の議事録・アイデア出し・共同執筆など、すぐに始めたい共同作業に最適です。</p>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>会議・打ち合わせの議事録</h3>
+                        <p>会議中に複数人がリアルタイムで議事録を書き込めます。終了後すぐに全員が確認でき、メールへの転送・添付が不要です。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>チームでのアイデア出し</h3>
+                        <p>ブレインストーミング用のルームを作成して全員が同時に書き込み。リアルタイムで互いの意見が見え、議論が活発になります。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>学習グループでのノート共有</h3>
+                        <p>授業・勉強会の内容を共同でまとめられます。スマホからもブラウザで参加でき、アプリのインストールは一切不要です。</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="note-comparison">
+                <h2 id="note-comparison" class="section-title">他のノートサービスとの違い</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>Googleドキュメントとの違い</summary>
+                        <p>GoogleドキュメントはGoogleアカウントが必要で、共有設定が複雑になりがちです。FS!QR NoteはアカウントなしでアクセスキーだけでOK。すぐに使い始められます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Notionとの違い</summary>
+                        <p>Notionはアカウント登録が必要で、無料プランには制限があります。FS!QR Noteは完全無料・登録不要で、シンプルなテキスト共同編集に特化しています。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Slackのメモ・スレッドとの違い</summary>
+                        <p>Slackのスレッドは流れてしまい、後から整理するのが大変です。FS!QR Noteは編集内容を一つのノートとして保持し、変更履歴も確認できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>HackMDとの違い</summary>
+                        <p>HackMDはMarkdown記法が前提で、ITに不慣れな方には敷居が高いです。FS!QR Noteはシンプルなテキストエディタで、誰でもすぐに使えます。</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="content-section" aria-labelledby="note-specs">
+                <h2 id="note-specs" class="section-title">仕様・詳細</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>対応デバイスとブラウザ</summary>
+                        <p>PC・スマートフォン・タブレットに対応しています。Chrome・Safari・Firefox・Edgeなど主要なブラウザで動作します。アプリのインストールは不要です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>同時編集の人数制限</summary>
+                        <p>同時編集できる人数に上限はありません。小規模チームから大人数のワークショップまで対応できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>編集履歴の保存期間</summary>
+                        <p>変更履歴は30日間保存され、過去の版を確認・復元できます。重要なノートはPDFでエクスポートして手元に保存することを推奨します。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>アクセス制限と閲覧専用モード</summary>
+                        <p>ルームにはアクセスキーによる保護が設定されています。必要に応じて閲覧専用モードに切り替えることで、内容の誤編集を防げます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>よくある失敗例</summary>
+                        <p>①アクセスキーを忘れてルームに入れない → 検索ページでルーム名から探せます。②別のメンバーが誤って内容を消してしまった → 変更履歴から復元できます。③スマホから編集しにくい → 横向き（ランドスケープ）にすると編集エリアが広くなります。</p>
+                    </details>
+                </div>
             </section>
         </main>
         
