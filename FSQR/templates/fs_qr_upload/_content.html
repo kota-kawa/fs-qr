@@ -10,6 +10,18 @@
         </div>
         
         <div class="modern-card-body">
+            <section class="operation-intro" aria-labelledby="fsqr-upload-intro-title">
+                <h2 id="fsqr-upload-intro-title" class="operation-intro__title">QRコードでファイルを共有できます</h2>
+                <p class="operation-intro__text">
+                    アプリやアカウントを使わず、PCとスマホ間でファイルを送受信できます。アップロード後に表示される共有リンクやQRコードを相手に渡すだけで、資料や画像をすぐに受け取れます。
+                </p>
+                <ul class="operation-intro__points" aria-label="このページでできること">
+                    <li class="operation-intro__point">複数ファイルをアップロード</li>
+                    <li class="operation-intro__point">共有リンクとQRコードを発行</li>
+                    <li class="operation-intro__point">保存期間を選んで自動削除</li>
+                </ul>
+            </section>
+
             <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <!-- Upload Area -->
@@ -137,7 +149,7 @@
         <div class="usage-section-content">
             <p>
                 1. 上のエリアにファイルをドラッグ＆ドロップするか「ファイルを選択」で追加します。<br>
-                2. 共有用のIDを入力して「アップロード」を押すと、パスワード付きのルームが作成されます。<br>
+                2. 共有用IDと保存期間を確認して「アップロード開始」を押すと、共有用のページが作成されます。<br>
                 3. 完了画面では共有リンクのコピーが最短です。URLを送るだけで相手が受け取れます。<br>
                  {{ t("upload.usage.limit_hint", max_files=upload_max_files, max_total_mb=upload_max_total_size_mb) }}
             </p>

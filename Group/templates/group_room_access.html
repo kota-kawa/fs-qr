@@ -1,19 +1,19 @@
 {% extends "group_layout.html" %}
 {% import "macros/icons.html" as icons %}
 
-{% block page_title %}グループルームアクセス | FS!QR Group - チームファイル共有{% endblock %}
+{% block page_title %}登録不要のグループファイル共有 | FS!QR Group{% endblock %}
 
-{% block meta_description %}FS!QR Groupのチームファイル共有ルームへアクセス。グループルーム作成と参加の両方が可能。複数人で安全にファイルを共有・管理できるチーム協業ツール。{% endblock %}
+{% block meta_description %}FS!QR Groupは登録不要で使えるグループファイル共有ページです。ルームを作成してID・パスワード・QRコードを共有すると、複数人でファイルをアップロード、ダウンロード、管理できます。{% endblock %}
 
 {% block meta_keywords %}グループルームアクセス, チームファイル共有, グループファイル管理, ルーム参加, 企業ファイル共有, チーム協業, FS QR Group{% endblock %}
 
-{% block og_title %}グループルームアクセス | FS!QR Group - チームファイル共有{% endblock %}
+{% block og_title %}登録不要のグループファイル共有 | FS!QR Group{% endblock %}
 
-{% block og_description %}FS!QR Groupのチームファイル共有ルームへアクセス。グループルーム作成と参加の両方が可能。複数人で安全にファイルを共有・管理できるチーム協業ツール。{% endblock %}
+{% block og_description %}ルームを作成してID・パスワード・QRコードを共有。登録不要で複数人がファイルをアップロード、ダウンロード、管理できます。{% endblock %}
 
-{% block twitter_title %}グループルームアクセス | FS!QR Group{% endblock %}
+{% block twitter_title %}登録不要のグループファイル共有 | FS!QR Group{% endblock %}
 
-{% block twitter_description %}チームファイル共有ルームへアクセス。グループルーム作成と参加の両方が可能で、複数人で安全にファイルを共有・管理できます。{% endblock %}
+{% block twitter_description %}登録不要でグループ共有ルームを作成・参加。複数人でファイルをアップロード、ダウンロード、管理できます。{% endblock %}
 
 {% block contents %}
 <style>
@@ -63,6 +63,18 @@
         
         <!-- Body -->
         <div class="glossy-room-body">
+            <section class="operation-intro" aria-labelledby="group-access-intro-title">
+                <h2 id="group-access-intro-title" class="operation-intro__title">複数人で使えるファイル共有ルームを作成できます</h2>
+                <p class="operation-intro__text">
+                    会議資料、授業資料、イベント配布物などを同じルームでやり取りできます。新しくルームを作る場合も、共有されたルームIDとパスワードで参加する場合も、このページから開始できます。
+                </p>
+                <ul class="operation-intro__points" aria-label="このページでできること">
+                    <li class="operation-intro__point">共有ルームを新規作成</li>
+                    <li class="operation-intro__point">IDとパスワードで参加</li>
+                    <li class="operation-intro__point">保存期間を選んで自動削除</li>
+                </ul>
+            </section>
+
             <!-- Access Form Section -->
             <div class="glossy-surface" style="margin-bottom: 2rem;">
                 <h2 style="margin-top: 0; color: #374151; font-size: 1.35rem;">ルームにアクセス</h2>
@@ -227,7 +239,7 @@
         </div>
         <div class="glossy-usage-body">
             <p style="margin: 0; line-height: 1.6;">
-                このルームではメンバー全員がファイルをアップロード／ダウンロードできます。<br>
+                グループルームではメンバー全員がファイルをアップロード／ダウンロードできます。<br>
                 上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
                 ファイルはドラッグ＆ドロップまたはクリックで追加し、「アップロード」ボタンで送信します。<br>
                 他の人のファイルは下のリストから個別にダウンロードや削除ができます。
