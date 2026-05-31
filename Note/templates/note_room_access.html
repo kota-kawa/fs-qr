@@ -1,19 +1,19 @@
 {% extends "note_layout.html" %}
 {% import "macros/icons.html" as icons %}
 
-{% block page_title %}ノートルームアクセス | FS!QR Note - リアルタイム共同編集ノート{% endblock %}
+{% block page_title %}登録不要のリアルタイム共同編集ノート | FS!QR Note{% endblock %}
 
-{% block meta_description %}FS!QR Noteのリアルタイム共同編集ノートへアクセス。ルーム作成と参加の両方が可能。複数人でリアルタイムにノートを編集・共有できるオンラインコラボレーションツール。{% endblock %}
+{% block meta_description %}FS!QR Noteは登録不要で使えるリアルタイム共同編集ノートです。ノートルームを作成してID・パスワード・QRコードを共有すると、複数人で会議メモや議事録を同時編集できます。{% endblock %}
 
 {% block meta_keywords %}ノートルームアクセス, リアルタイムノート共有, オンライン共同編集, ノート参加, 同時編集, コラボレーションツール, FS QR Note{% endblock %}
 
-{% block og_title %}ノートルームアクセス | FS!QR Note - リアルタイム共同編集ノート{% endblock %}
+{% block og_title %}登録不要のリアルタイム共同編集ノート | FS!QR Note{% endblock %}
 
-{% block og_description %}FS!QR Noteのリアルタイム共同編集ノートへアクセス。ルーム作成と参加の両方が可能。複数人でリアルタイムにノートを編集・共有できるオンラインコラボレーションツール。{% endblock %}
+{% block og_description %}ノートルームを作成してID・パスワード・QRコードを共有。登録不要で複数人が会議メモや議事録を同時編集できます。{% endblock %}
 
-{% block twitter_title %}ノートルームアクセス | FS!QR Note{% endblock %}
+{% block twitter_title %}登録不要の共同編集ノート | FS!QR Note{% endblock %}
 
-{% block twitter_description %}リアルタイム共同編集ノートへアクセス。ルーム作成と参加の両方が可能で、複数人でリアルタイムにノートを編集・共有できます。{% endblock %}
+{% block twitter_description %}登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。{% endblock %}
 
 {% block contents %}
 <style>
@@ -63,6 +63,18 @@
         
         <!-- Body -->
         <div class="glossy-room-body">
+            <section class="operation-intro" aria-labelledby="note-access-intro-title">
+                <h2 id="note-access-intro-title" class="operation-intro__title">会議メモや議事録をリアルタイムに共同編集できます</h2>
+                <p class="operation-intro__text">
+                    ノートルームを作成して共有すると、複数人が同じメモをブラウザから同時に編集できます。会議、授業、作業メモなど、短時間で共有したいテキストの整理に向いています。
+                </p>
+                <ul class="operation-intro__points" aria-label="このページでできること">
+                    <li class="operation-intro__point">ノートルームを新規作成</li>
+                    <li class="operation-intro__point">IDとパスワードで参加</li>
+                    <li class="operation-intro__point">自動保存で内容を同期</li>
+                </ul>
+            </section>
+
             <!-- Access Form Section -->
             <div class="glossy-surface" style="margin-bottom: 2rem;">
                 <h2 style="margin-top: 0; color: #374151; font-size: 1.35rem;">ルームにアクセス</h2>
@@ -191,7 +203,7 @@
         </div>
         <div class="glossy-usage-body">
             <p style="margin: 0; line-height: 1.6;">
-                このルームではテキストをリアルタイムに共有できます。<br>
+                ノートルームではテキストをリアルタイムに共有できます。<br>
                 上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
                 エディタに入力すると1秒ごとに自動保存・同期され、変更はすぐに反映されます。<br>
                 {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
