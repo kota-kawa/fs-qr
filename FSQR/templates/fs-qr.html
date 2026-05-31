@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="FS!QRは無料のQRコードファイル共有・暗号化アップロードサービス。ファイルを暗号化してQRコード化、簡単・安全にアップロード・検索・共有できます。個人から企業まで安全にデータを送信できる日本語対応の次世代クラウドサービス。" />
+    <meta name="description" content="QRコードを読み取るだけでファイルを受け取れる無料サービス。アプリ不要・アカウント不要でPCからスマホ、スマホからPCに安全にファイルを送れます。AES-256暗号化・パスワード設定・自動削除対応。" />
     <meta name="keywords" content="QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応" />
     <meta name="geo.region" content="JP" />
     <meta name="geo.placename" content="Japan" />
@@ -46,7 +46,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
-    <title>FS!QR | 無料QRコード暗号化ファイル共有・セキュアアップロードサービス</title>
+    <title>QRコードでファイル共有｜アプリ不要・無料でPC/スマホに送信 - FS!QR</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
       <!-- Bootstrap CSS -->
@@ -64,7 +64,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR",
-      "url": "{{ request.url_root }}fs-qr",
+      "url": "{{ request.url_root }}fs-qr_menu",
       "description": "無料のQRコードファイル共有サービス。ファイルを暗号化してQRコード化、安全にアップロード・共有。",
       "inLanguage": "ja-JP",
       "isPartOf": {
@@ -126,26 +126,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "FS!QRのセキュリティレベルはどの程度ですか？",
+          "name": "QRコードのファイル共有はアプリが必要ですか？",
           "acceptedAnswer": {
-            "@type": "Answer", 
-            "text": "ファイルは高度な暗号化技術で保護され、QRコード化されます。企業レベルのセキュリティを無料で提供しています。"
+            "@type": "Answer",
+            "text": "不要です。ブラウザだけで利用できます。アップロード側・ダウンロード側ともにアプリのインストールは必要ありません。"
           }
         },
         {
           "@type": "Question",
-          "name": "QRコード化したファイルはどこで使えますか？",
+          "name": "PCからスマホにファイルを送るにはどうすればいいですか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "生成されたQRコードはスマートフォン、タブレット、PCなど任意のデバイスで読み取り・ダウンロードが可能です。"
+            "text": "PCでファイルをアップロードするとQRコードが生成されます。そのQRコードをスマホのカメラで読み取るだけでダウンロードできます。アカウント不要・無料です。"
           }
         },
         {
-          "@type": "Question", 
-          "name": "ファイルサイズに制限はありますか？",
+          "@type": "Question",
+          "name": "ファイルサイズの上限はいくつですか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "大容量ファイルにも対応しており、一般的な用途であればファイルサイズを気にせずご利用いただけます。"
+            "text": "1ファイルあたり最大500MBまでアップロードできます。PDF・Word・Excel・画像・動画など主要なファイル形式に対応しています。"
           }
         },
         {
@@ -153,7 +153,23 @@
           "name": "アップロードしたファイルはいつまで保存されますか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "プライバシー保護のため、ファイルは一定期間後に自動削除されます。一時的な共有に特化した設計です。"
+            "text": "アップロードから7日間保存されます。期間終了後はサーバーから自動削除されます。パスワードを設定することでダウンロードを制限できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "QRコードの有効期限は設定できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "アップロード時に自動で7日間の有効期限が設定されます。期限内は何度でもダウンロード可能です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "暗号化の方式は何を使っていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES-256による暗号化を採用しています。サーバー上でも暗号化状態で保持されます。"
           }
         }
       ]
@@ -202,7 +218,7 @@
           "@type": "ListItem",
           "position": 2,
           "name": "QRコード共有",
-          "item": "{{ request.url_root }}fs-qr"
+          "item": "{{ request.url_root }}fs-qr_menu"
         }
       ]
     }
@@ -223,9 +239,9 @@
         "url": "{{ request.url_root }}contact"
       },
       "sameAs": [
-        "{{ request.url_root }}note",
-        "{{ request.url_root }}group", 
-        "{{ request.url_root }}fs-qr"
+        "{{ request.url_root }}note_menu",
+        "{{ request.url_root }}group_menu",
+        "{{ request.url_root }}fs-qr_menu"
       ]
     }
     </script>
@@ -325,6 +341,73 @@
                         <p>ダッシュボードでダウンロード履歴やアクセス元を確認し、安全なファイル配布を継続できます。</p>
                     </li>
                 </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="fsqr-about">
+                <h2 id="fsqr-about" class="section-title">QRコードファイル共有とは</h2>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">QRコードファイル共有とは、ファイルをクラウドにアップロードして生成されたQRコードを読み取るだけでダウンロードできる仕組みです。メールアドレスやアカウントの交換は不要で、スマートフォンのカメラを向けるだけでファイルを受け取れます。FS!QRではアップロード時にAES-256暗号化を自動適用するため、安全性を確保しながら手軽にファイルを共有できます。</p>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>PCからスマホに送る</h3>
+                        <p>PCでファイルをアップロード → QRコードが生成される → スマホのカメラで読み取るだけ。アプリのインストールもアカウント作成も不要です。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>スマホからPCに送る</h3>
+                        <p>スマホでファイルをアップロード → 生成されたダウンロードリンクをPCブラウザで開くだけ。QRコードを画像で共有する方法でも受け取れます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>複数人に一度に共有</h3>
+                        <p>QRコードは何人でも読み取れます。プレゼンや会議でスクリーンに映すだけで全員がダウンロードできます。</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="fsqr-comparison">
+                <h2 id="fsqr-comparison" class="section-title">メール・LINE・Google Driveとの違い</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>メール添付との違い</summary>
+                        <p>メール添付はファイルサイズ制限（多くは25MB以下）があり、相手のメールアドレスが必要です。FS!QRはメールアドレス不要でQRコードを渡すだけ。添付ファイルが受信ボックスに残り続ける心配もありません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>LINEで送るとの違い</summary>
+                        <p>LINEはお互いに友だち登録が必要で、動画など大きなファイルは画質が落ちる場合があります。FS!QRはLINEの友だち登録なしに使え、ファイルは暗号化されたまま保存されます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Google Driveとの違い</summary>
+                        <p>Google DriveはGoogleアカウントが必要で、共有設定の操作を誤ると意図せず公開になるリスクがあります。FS!QRはアカウント不要、パスワードと保存期間を設定してワンタイム共有できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>AirDropとの違い</summary>
+                        <p>AirDropはAppleデバイス同士・近距離のみで使えます。FS!QRはAndroidでもWindowsでもブラウザがあれば動作し、離れた場所でも共有できます。</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="content-section" aria-labelledby="fsqr-specs">
+                <h2 id="fsqr-specs" class="section-title">仕様・詳細</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>使えるファイル形式</summary>
+                        <p>PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>ファイルサイズ上限</summary>
+                        <p>1ファイルあたり最大500MBまでアップロードできます。一般的なドキュメント・画像・短い動画であれば上限に達することはほとんどありません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>保存期間</summary>
+                        <p>アップロードから7日間保存されます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>パスワード・自動削除の仕組み</summary>
+                        <p>アップロード時にパスワードを設定できます。ダウンロード時にパスワードの入力が求められるため、QRコードが第三者に渡っても安全です。ファイルは保存期間終了後に自動削除されます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>よくある失敗例</summary>
+                        <p>①QRコードを保存せずページを閉じてしまった → 検索ページでファイル名から再検索できます。②パスワードを忘れた → パスワードのリセット機能はないため、アップロード時にメモを残してください。③7日を過ぎてダウンロードしようとした → 期限切れのファイルは自動削除済みです。</p>
+                    </details>
+                </div>
             </section>
         </main>
         

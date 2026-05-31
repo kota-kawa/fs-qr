@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。" />
+    <meta name="description" content="アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成してチームでファイルを安全に管理。500MB・10ファイルまでアップロード対応。招待はアクセスキーを渡すだけ。" />
     <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有" />
     <meta name="geo.region" content="JP" />
     <meta name="geo.placename" content="Japan" />
@@ -45,7 +45,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
-    <title>FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス</title>
+    <title>グループでファイル共有｜アカウント不要・無料でチームに共有 - FS!QR Group</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
       <!-- Bootstrap CSS -->
@@ -62,7 +62,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR Group",
-      "url": "{{ request.url_root }}group",
+      "url": "{{ request.url_root }}group_menu",
       "description": "無料のグループファイル共有サービス。ルームを作成して複数人でファイルを安全に共有・管理。",
       "inLanguage": "ja-JP",
       "isPartOf": {
@@ -200,7 +200,7 @@
           "@type": "ListItem", 
           "position": 2,
           "name": "グループ共有",
-          "item": "{{ request.url_root }}group"
+          "item": "{{ request.url_root }}group_menu"
         }
       ]
     }
@@ -221,9 +221,9 @@
         "url": "{{ request.url_root }}contact"
       },
       "sameAs": [
-        "{{ request.url_root }}note",
-        "{{ request.url_root }}group", 
-        "{{ request.url_root }}fs-qr"
+        "{{ request.url_root }}note_menu",
+        "{{ request.url_root }}group_menu",
+        "{{ request.url_root }}fs-qr_menu"
       ]
     }
     </script>
@@ -324,6 +324,73 @@
                         <p>フォルダを作成し、ファイルをアップロード。コメント機能でタスクのやり取りや進捗共有もできます。</p>
                     </li>
                 </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="group-about">
+                <h2 id="group-about" class="section-title">グループルームとは</h2>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">グループルームは、チームメンバー全員がファイルをアップロード・ダウンロードできる共有スペースです。アカウント登録は不要で、ルームを作成してアクセスキーを共有するだけで始められます。社内チームはもちろん、取引先や外部パートナーとの一時的なファイル受け渡しにも活用できます。</p>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>社内チームでの利用</h3>
+                        <p>プロジェクトごとにルームを作成して資料・報告書・画像データを集約。メールの添付ファイルが散らばらず、最新版の管理が容易になります。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>外部パートナーへのファイル受け渡し</h3>
+                        <p>アクセスキーを期限付きで発行し、取引先・外部講師・クライアントに共有。終わったらキーを無効化するだけでアクセスを遮断できます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>学校・学習グループでの活用</h3>
+                        <p>授業資料・課題・参考画像をルームにまとめて配布。学生側はアカウントなしで受け取れるため、導入コストがゼロです。</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="group-comparison">
+                <h2 id="group-comparison" class="section-title">他のファイル共有方法との違い</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>メール一斉送信との違い</summary>
+                        <p>メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームはアクセスキーを一つ渡すだけで何人でも参加でき、ファイルを一か所に集約できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Google Drive・Dropboxとの違い</summary>
+                        <p>Google Drive等はGoogleアカウントが全員に必要です。FS!QR Groupはアカウント不要でアクセスキーだけで参加でき、共有設定ミスによる情報漏洩リスクもありません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>チャットツール（Slack・Teams）との違い</summary>
+                        <p>Slackなどはツール自体への登録が全員に必要で、ファイルの保存期間も有料プランに依存します。FS!QR Groupはブラウザだけで使え、追加コストはかかりません。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>USBメモリでの受け渡しとの違い</summary>
+                        <p>USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはオンラインで安全に共有でき、アクセス履歴も確認できます。</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="content-section" aria-labelledby="group-specs">
+                <h2 id="group-specs" class="section-title">仕様・詳細</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>使えるファイル形式</summary>
+                        <p>PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>ファイルサイズと同時アップロード数</summary>
+                        <p>1回のアップロードで合計500MBまで、最大10ファイルまでアップロードできます。大容量の資料配布にも対応しています。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>メンバー数の上限</summary>
+                        <p>グループルームに参加できるメンバー数に上限はありません。小規模チームから大規模プロジェクトまで利用できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>アクセスキーの管理と無効化</summary>
+                        <p>アクセスキーはルーム作成時に自動生成されます。不要になったキーはいつでも無効化でき、外部パートナーの参加を即座に遮断できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>よくある失敗例</summary>
+                        <p>①アクセスキーを紛失した → ルームの管理画面からキーを再発行できます。②ファイルをどのルームにアップしたか分からなくなった → 検索機能でファイル名から探せます。③古いファイルと新しいファイルが混在する → フォルダで整理することを推奨します。</p>
+                    </details>
+                </div>
             </section>
         </main>
         
