@@ -1,3 +1,5 @@
+import xml.etree.ElementTree as ET
+
 import pytest
 from starlette.testclient import TestClient
 
@@ -76,6 +78,23 @@ def test_article_sitemap_entries(test_client: TestClient):
     assert response.status_code == 200
     for article in ARTICLES:
         assert f"https://fs-qr.net/{article['slug']}" in response.text
+
+
+def test_articles_index_sitemap_lastmod_tracks_newest_article(test_client: TestClient):
+    response = test_client.get("/sitemap.xml")
+    assert response.status_code == 200
+
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    root = ET.fromstring(response.text)
+    for url in root.findall("sm:url", ns):
+        loc = url.find("sm:loc", ns)
+        if loc is not None and loc.text == "https://fs-qr.net/articles":
+            lastmod = url.find("sm:lastmod", ns)
+            assert lastmod is not None
+            assert lastmod.text == max(article["date"] for article in ARTICLES)
+            break
+    else:
+        raise AssertionError("/articles entry is missing from sitemap")
 
 
 def test_get_article_by_slug():

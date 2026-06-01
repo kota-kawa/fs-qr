@@ -1,7 +1,7 @@
 """SEO-related multilingual tests.
 
 These cover:
-- sitemap.xml exposes xhtml:link alternates for every supported language and x-default
+- sitemap.xml lists canonical URLs without sitemap-managed hreflang alternates
 - meta description / og:description / title are translated for every locale on the home page
 - geo.region and geo.placename adapt to the request locale
 - JSON-LD inLanguage matches the request locale
@@ -22,9 +22,9 @@ SITEMAP_NS = {
 }
 
 
-def test_sitemap_has_hreflang_alternates_for_every_url(test_client: TestClient):
-    from i18n import SUPPORTED_LANGUAGES
-
+def test_sitemap_lists_canonical_urls_without_hreflang_alternates(
+    test_client: TestClient,
+):
     response = test_client.get("/sitemap.xml")
     assert response.status_code == 200
     assert response.headers["content-type"].startswith("application/xml")
@@ -36,17 +36,8 @@ def test_sitemap_has_hreflang_alternates_for_every_url(test_client: TestClient):
     for url in urls:
         loc = url.find("sm:loc", SITEMAP_NS)
         assert loc is not None and loc.text
-
-        alternates = url.findall("xhtml:link", SITEMAP_NS)
-        hreflangs = {alt.get("hreflang") for alt in alternates}
-        # Every supported language plus x-default must be present.
-        for lang in SUPPORTED_LANGUAGES:
-            assert lang in hreflangs, f"{loc.text}: missing hreflang={lang}"
-        assert "x-default" in hreflangs
-
-        # Each alternate must point at a valid URL.
-        for alt in alternates:
-            assert alt.get("href"), f"{loc.text}: missing href"
+        assert "?" not in loc.text
+        assert not url.findall("xhtml:link", SITEMAP_NS)
 
 
 def test_sitemap_includes_terms_page(test_client: TestClient):
