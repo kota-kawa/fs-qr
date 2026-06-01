@@ -33,7 +33,7 @@ from settings import (
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
 )
-from i18n import DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES, is_language_query_only
+from i18n import is_language_query_only
 from web import render_cached_template, render_template, wants_json_response
 from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
@@ -288,6 +288,13 @@ async def ads_txt():
 
 SITEMAP_BASE_URL = "https://fs-qr.net"
 
+
+def _articles_lastmod() -> str:
+    return max(
+        (article["date"] for article in get_all_articles()), default="2025-08-31"
+    )
+
+
 SITEMAP_URLS = (
     ("/", "weekly", "1.0", "2026-04-27"),
     ("/about", "monthly", "0.8", "2026-04-26"),
@@ -296,7 +303,7 @@ SITEMAP_URLS = (
     ("/privacy-policy", "monthly", "0.6", "2026-04-26"),
     ("/terms", "monthly", "0.6", "2026-05-28"),
     ("/site-operator", "monthly", "0.5", "2026-04-26"),
-    ("/articles", "monthly", "0.8", "2025-08-31"),
+    ("/articles", "monthly", "0.8", _articles_lastmod()),
     ("/fs-qr_menu", "weekly", "0.9", "2026-04-27"),
     ("/fs-qr", "weekly", "0.9", "2026-04-27"),
     ("/group_menu", "weekly", "0.9", "2026-04-27"),
@@ -319,23 +326,12 @@ def _build_sitemap_entry(
     path: str, changefreq: str, priority: str, lastmod: str
 ) -> str:
     loc = f"{SITEMAP_BASE_URL}{path}"
-    alternates = []
-    for code in SUPPORTED_LANGUAGES:
-        href = loc if code == DEFAULT_LANGUAGE else f"{loc}?lang={code}"
-        alternates.append(
-            f'    <xhtml:link rel="alternate" hreflang="{code}" href="{href}" />'
-        )
-    alternates.append(
-        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{loc}" />'
-    )
-    alt_block = "\n".join(alternates)
     return (
         "  <url>\n"
         f"    <loc>{loc}</loc>\n"
         f"    <lastmod>{lastmod}</lastmod>\n"
         f"    <changefreq>{changefreq}</changefreq>\n"
         f"    <priority>{priority}</priority>\n"
-        f"{alt_block}\n"
         "  </url>"
     )
 
@@ -343,14 +339,12 @@ def _build_sitemap_entry(
 @app.get("/sitemap.xml", name="sitemap")
 async def sitemap():
     # lastmod は該当ページのテンプレート/コードを最後に変更した日付に合わせて更新する。
-    # 各URLについて hreflang による多言語版を xhtml:link で列挙し、Google に
-    # 同一コンテンツの言語別バリアントを通知する。
+    # hreflang は各ページの HTML head で管理し、sitemap は canonical URL の列挙に絞る。
     # NOTE: /all-in-one, /search_fs-qr, /search_group, /search_note は noindex のため除外。
     entries = "\n".join(_build_sitemap_entry(*url) for url in SITEMAP_URLS)
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
-        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         f"{entries}\n"
         "</urlset>\n"
     )
