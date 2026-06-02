@@ -142,6 +142,27 @@ async def resolve_share_link(
     return row
 
 
+def share_link_metadata(link: Mapping[str, Any] | None) -> dict:
+    """Return a share link's metadata as a dict.
+
+    The ``metadata`` column is stored as JSON and may be returned by the driver
+    either as an already-decoded mapping or as a raw JSON string. Normalize both
+    cases and fall back to an empty dict when absent or malformed.
+    """
+    if not link:
+        return {}
+    raw = link.get("metadata")
+    if isinstance(raw, Mapping):
+        return dict(raw)
+    if isinstance(raw, (str, bytes, bytearray)):
+        try:
+            parsed = json.loads(raw)
+        except (ValueError, TypeError):
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
 async def revoke_resource_links(*, service_key: ServiceKey, resource_id: str) -> None:
     query = text("""
         UPDATE share_links

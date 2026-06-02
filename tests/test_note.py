@@ -161,7 +161,11 @@ def test_note_share_entry_renders_room_without_redirect(test_client: TestClient)
         patch(
             "Note.note_app.resolve_share_link",
             new_callable=AsyncMock,
-            return_value={"service_key": "note", "resource_id": "not999"},
+            return_value={
+                "service_key": "note",
+                "resource_id": "not999",
+                "metadata": {"id": "not999", "password": "024680"},
+            },
         ),
         patch(
             "Note.note_app._get_room_if_valid",
@@ -180,6 +184,8 @@ def test_note_share_entry_renders_room_without_redirect(test_client: TestClient)
     html = response.text
     assert "リアルタイムノート" in html
     assert f'data-share-url="http://testserver/note/s/{share_token}"' in html
+    # 共有URLで入った受信者にもパスワードが表示される
+    assert "024680" in html
 
 
 def test_note_direct_not_found(test_client: TestClient):
