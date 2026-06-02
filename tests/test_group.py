@@ -416,8 +416,9 @@ def test_group_delete_room_requires_owner_session(test_client: TestClient):
             new_callable=AsyncMock,
             return_value=[active_room],
         ),
-        patch("Group.group_routes_room.group_data.remove_data", new_callable=AsyncMock)
-        as remove_mock,
+        patch(
+            "Group.group_routes_room.group_data.remove_data", new_callable=AsyncMock
+        ) as remove_mock,
     ):
         response = test_client.post(f"/group/r/{room_id}/delete")
 

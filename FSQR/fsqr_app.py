@@ -118,14 +118,14 @@ def _get_fsqr_access(request: Request, secure_id: str):
 def _can_delete_fsqr_upload(request: Request, secure_id: str, record: dict) -> bool:
     access = _get_fsqr_access(request, secure_id)
     return bool(
-        access
-        and access.get("can_delete")
-        and access.get("id") == record.get("id")
+        access and access.get("can_delete") and access.get("id") == record.get("id")
     )
 
 
 def _forget_fsqr_access(request: Request, secure_id: str) -> None:
-    room_access.revoke_access(request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id)
+    room_access.revoke_access(
+        request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id
+    )
 
 
 def _is_valid_share_token(share_token: str) -> bool:

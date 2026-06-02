@@ -256,12 +256,15 @@ def test_note_owner_session_can_delete_room(test_client: TestClient):
             side_effect=[meta, meta],
         ),
         patch("Note.note_app.nd.remove_room", remove_mock),
-        patch("Note.note_app.note_ws_hub.broadcast", new_callable=AsyncMock)
-        as broadcast_mock,
-        patch("Note.note_app.publish_room_expired", new_callable=AsyncMock)
-        as publish_mock,
-        patch("Note.note_app.note_ws_hub.close_room", new_callable=AsyncMock)
-        as close_mock,
+        patch(
+            "Note.note_app.note_ws_hub.broadcast", new_callable=AsyncMock
+        ) as broadcast_mock,
+        patch(
+            "Note.note_app.publish_room_expired", new_callable=AsyncMock
+        ) as publish_mock,
+        patch(
+            "Note.note_app.note_ws_hub.close_room", new_callable=AsyncMock
+        ) as close_mock,
     ):
         create_response = test_client.post(
             "/create_note_room",

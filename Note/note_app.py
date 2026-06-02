@@ -391,14 +391,18 @@ async def delete_note_room(request: Request, room_id: str):
     if not meta:
         if wants_json_response(request):
             return api_error_response("ルームが見つかりません。", status_code=404)
-        response = render_template(request, "error.html", message="ルームが見つかりません。")
+        response = render_template(
+            request, "error.html", message="ルームが見つかりません。"
+        )
         response.status_code = 404
         return response
 
     if not can_delete_note_room(request, room_id):
         if wants_json_response(request):
             return api_error_response("削除権限がありません。", status_code=403)
-        response = render_template(request, "error.html", message="削除権限がありません。")
+        response = render_template(
+            request, "error.html", message="削除権限がありません。"
+        )
         response.status_code = 403
         return response
 
