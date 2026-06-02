@@ -20,8 +20,7 @@ class OwnerDeletePanelScanner(HTMLParser):
                 break
 
         if "owner-delete-panel" in classes and any(
-            "room-info-card" in parent_classes
-            for parent_classes in self._class_stack
+            "room-info-card" in parent_classes for parent_classes in self._class_stack
         ):
             self.has_owner_delete_panel_inside_room_info_card = True
 
