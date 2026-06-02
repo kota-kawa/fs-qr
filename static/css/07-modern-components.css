@@ -423,18 +423,18 @@
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 12px;
-  background: #fef2f2;
-  color: #dc2626;
+  background: #ef4444;
+  color: white;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modern-btn.modern-btn-danger:hover,
 .modern-btn.modern-btn-danger:focus-visible {
   border-color: transparent;
-  background: #ef4444;
-  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
+  background: #dc2626;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
   transform: translateY(-2px);
   color: white;
   text-decoration: none;
