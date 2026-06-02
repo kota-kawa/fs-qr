@@ -50,6 +50,21 @@ def test_stale_viewers_are_pruned(monkeypatch):
     assert _run(presence.count(scope, key)) == 0
 
 
+def test_stale_viewers_expire_at_window_boundary(monkeypatch):
+    scope, key = "fsqr-share", "token-boundary"
+    base = 1_000_000.0
+    monkeypatch.setattr(presence.time, "time", lambda: base)
+    assert _run(presence.heartbeat(scope, key, "viewer-old")) == 1
+    monkeypatch.setattr(
+        presence.time, "time", lambda: base + presence.PRESENCE_WINDOW_SECONDS
+    )
+    assert _run(presence.count(scope, key)) == 0
+
+
+def test_presence_window_matches_realtime_requirement():
+    assert presence.PRESENCE_WINDOW_SECONDS <= 10
+
+
 def test_validators():
     assert presence.is_valid_scope("group")
     assert not presence.is_valid_scope("unknown-scope")

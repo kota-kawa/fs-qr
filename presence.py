@@ -19,11 +19,12 @@ from cache_utils import redis_client
 
 logger = logging.getLogger(__name__)
 
-# ハートビートが途切れてからこの秒数を過ぎた閲覧者は「離脱」とみなす。
-# フロント側のハートビート間隔（PRESENCE_HEARTBEAT_INTERVAL_MS）より十分長くする。
-PRESENCE_WINDOW_SECONDS = 30
+# ハートビートが途切れてからこの秒数で閲覧者を「離脱」とみなす。
+# フロント側は 4 秒間隔で送るため、1 回失敗しても継続閲覧者を残しつつ、
+# 離脱通知が届かなかった場合の表示遅延を 10 秒以内に抑える。
+PRESENCE_WINDOW_SECONDS = 10
 # Redis キー自体の TTL。全員が離脱すればキーを残さず自動消滅させる。
-PRESENCE_KEY_TTL_SECONDS = 120
+PRESENCE_KEY_TTL_SECONDS = 60
 
 # 不特定多数のページから呼ばれる公開 API のため、scope は許可リストで限定する。
 ALLOWED_SCOPES = frozenset(
@@ -63,7 +64,7 @@ def _redis_key(scope: str, key: str) -> str:
 
 def _local_prune(viewers: dict[str, float], now: float) -> None:
     threshold = now - PRESENCE_WINDOW_SECONDS
-    for viewer_id in [vid for vid, seen in viewers.items() if seen < threshold]:
+    for viewer_id in [vid for vid, seen in viewers.items() if seen <= threshold]:
         viewers.pop(viewer_id, None)
 
 
