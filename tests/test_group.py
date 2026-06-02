@@ -223,7 +223,11 @@ def test_group_share_entry_renders_room_without_redirect(test_client: TestClient
         patch(
             "Group.group_routes_room.resolve_share_link",
             new_callable=AsyncMock,
-            return_value={"service_key": "group", "resource_id": "grp999"},
+            return_value={
+                "service_key": "group",
+                "resource_id": "grp999",
+                "metadata": {"id": "grp999", "password": "024680"},
+            },
         ),
         patch(
             "Group.group_routes_room.get_room_if_active",
@@ -239,6 +243,8 @@ def test_group_share_entry_renders_room_without_redirect(test_client: TestClient
     html = response.text
     assert "グループファイル共有" in html
     assert f'data-share-url="http://testserver/group/s/{share_token}"' in html
+    # 共有URLで入った受信者にもパスワードが表示される
+    assert "024680" in html
 
 
 # --- group_upload: 認証失敗 → 400 ---

@@ -25,6 +25,7 @@ from share_links import (
     build_share_url,
     create_share_link,
     resolve_share_link,
+    share_link_metadata,
 )
 from web import (
     enforce_csrf,
@@ -247,6 +248,7 @@ async def create_note_room(request: Request):  # noqa: C901
             service_key=ServiceKey.NOTE,
             resource_id=room_id,
             expires_at=created.get("expires_at"),
+            metadata={"id": room_id, "password": password},
         )
     except Exception:
         logger.exception("Failed to create Note share link: room_id=%s", room_id)
@@ -345,7 +347,10 @@ async def note_share(request: Request, token: str):
         return _gone_response(
             request, "このノートルームは期限切れ、または削除済みです。"
         )
-    remember_note_room_access(request, room_id, share_token=token)
+    link_password = share_link_metadata(link).get("password")
+    remember_note_room_access(
+        request, room_id, share_token=token, password=link_password
+    )
     return _render_note_room(request, room_id, meta)
 
 
