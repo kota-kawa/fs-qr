@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "You can enter up to {max_length} characters.",
     "note.editor.demo_placeholder": "Type here to sync changes every second...\n\nDemo Text:\nThis is a shared space where all members can edit the same note in real time.\n\n• Your edits are instantly synced to other members\n• Supports up to {max_length} characters\n• Editor status and changes are shown in real time",
     "upload.usage.limit_hint": "* You can upload up to {max_files} files, with a total of {max_total_mb} MB.",
-    "meta.description": "FS!QR is a free file sharing service for QR code transfers, group file sharing, and real-time note sharing. Send and manage data securely in your browser."
+    "meta.description": "FS!QR is a free file sharing service for QR code transfers, group file sharing, and real-time note sharing. Send and manage data securely in your browser.",
+    "fsqr.delete_sharing_title": "End Sharing",
+    "fsqr.delete_sharing_description": "Only the person who uploaded the file can delete it.",
+    "fsqr.delete_confirm_message": "This will delete the file. This action cannot be undone.",
+    "fsqr.delete_file_button": "Delete File",
+    "group.delete_room_title": "End Room",
+    "group.delete_room_description": "Only the creator can delete the room and uploaded files.",
+    "group.delete_room_confirm_message": "This will delete the group room. All files in the room will also be deleted, and this action cannot be undone.",
+    "group.delete_room_button": "Delete Room",
+    "alert.confirm_delete": "Confirm Delete",
+    "alert.delete_action": "Delete"
   },
   "js": {
     "alert.notice": "Notice",

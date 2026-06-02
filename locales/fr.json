@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Vous pouvez saisir jusqu'à {max_length} caractères.",
     "note.editor.demo_placeholder": "La saisie ici se synchronise chaque seconde...\n\nTexte de démonstration :\nTous les membres peuvent modifier la même note en temps réel comme ceci.\n\n- Votre saisie est synchronisée immédiatement avec les autres membres\n- Jusqu'à {max_length} caractères\n- Les mises à jour du statut d'édition se font en temps réel",
     "upload.usage.limit_hint": "* Vous pouvez téléverser jusqu'à {max_files} fichiers, pour un total de {max_total_mb} Mo.",
-    "meta.description": "FS!QR est un service gratuit de partage de fichiers avec transfert par QR code, partage de groupe et notes en temps réel pour gérer les données en sécurité."
+    "meta.description": "FS!QR est un service gratuit de partage de fichiers avec transfert par QR code, partage de groupe et notes en temps réel pour gérer les données en sécurité.",
+    "fsqr.delete_sharing_title": "Arrêter le partage",
+    "fsqr.delete_sharing_description": "Seule la personne ayant téléversé le fichier peut le supprimer.",
+    "fsqr.delete_confirm_message": "Cette action supprimera le fichier. Cette opération est irréversible.",
+    "fsqr.delete_file_button": "Supprimer le fichier",
+    "group.delete_room_title": "Fermer le salon",
+    "group.delete_room_description": "Seul le créateur peut supprimer le salon et les fichiers téléversés.",
+    "group.delete_room_confirm_message": "Cette action supprimera le salon de groupe. Tous les fichiers du salon seront également supprimés et cette opération est irréversible.",
+    "group.delete_room_button": "Supprimer le salon",
+    "alert.confirm_delete": "Confirmer la suppression",
+    "alert.delete_action": "Supprimer"
   },
   "js": {
     "alert.notice": "Avis",

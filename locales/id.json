@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Dapat diisi hingga maksimal {max_length} karakter.",
     "note.editor.demo_placeholder": "Ketik di sini untuk menyinkronkan setiap detik...\n\nTeks demo:\nSemua anggota dapat mengedit catatan yang sama secara real-time seperti ini.\n\n• Karakter yang diketik akan langsung disinkronkan ke anggota lain\n• Dapat diisi hingga {max_length} karakter\n• Status pengeditan ditampilkan secara real-time",
     "upload.usage.limit_hint": "※ Maksimal {max_files} file, total {max_total_mb} MB.",
-    "meta.description": "FS!QR adalah layanan berbagi file gratis dengan transfer QR Code, berbagi file grup, dan catatan real-time untuk mengelola data secara aman."
+    "meta.description": "FS!QR adalah layanan berbagi file gratis dengan transfer QR Code, berbagi file grup, dan catatan real-time untuk mengelola data secara aman.",
+    "fsqr.delete_sharing_title": "Akhiri Berbagi",
+    "fsqr.delete_sharing_description": "Hanya orang yang mengunggah file yang dapat menghapusnya.",
+    "fsqr.delete_confirm_message": "Ini akan menghapus file. Tindakan ini tidak dapat dibatalkan.",
+    "fsqr.delete_file_button": "Hapus File",
+    "group.delete_room_title": "Tutup Ruangan",
+    "group.delete_room_description": "Hanya pembuat yang dapat menghapus ruangan dan file yang diunggah.",
+    "group.delete_room_confirm_message": "Ini akan menghapus ruangan grup. Semua file di dalam ruangan juga akan dihapus, dan tindakan ini tidak dapat dibatalkan.",
+    "group.delete_room_button": "Hapus Ruangan",
+    "alert.confirm_delete": "Konfirmasi Hapus",
+    "alert.delete_action": "Hapus"
   },
   "js": {
     "alert.notice": "Pemberitahuan",

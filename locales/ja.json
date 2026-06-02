@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "最大{max_length}文字まで入力可能です。",
     "note.editor.demo_placeholder": "ここに入力すると1秒ごとに同期されます…\n\nデモテキスト:\nこのようにメンバー全員がリアルタイムで同じノートを編集できます。\n\n・文字を入力すると即座に他のメンバーに同期\n・最大{max_length}文字まで入力可能\n・編集状況がリアルタイムで表示",
     "upload.usage.limit_hint": "※最大{max_files}ファイル、合計{max_total_mb}MBまで扱えます。",
-    "meta.description": "FS!QRは無料で使える日本語ファイル共有サービスです。QRコード生成、グループ共有、リアルタイムノート共有で安全にデータを送信・管理できます。"
+    "meta.description": "FS!QRは無料で使える日本語ファイル共有サービスです。QRコード生成、グループ共有、リアルタイムノート共有で安全にデータを送信・管理できます。",
+    "fsqr.delete_sharing_title": "共有を終了する",
+    "fsqr.delete_sharing_description": "アップロードした本人だけが、このファイルを削除できます。",
+    "fsqr.delete_confirm_message": "このファイルを削除します。この操作は元に戻せません。",
+    "fsqr.delete_file_button": "ファイルを削除",
+    "group.delete_room_title": "ルームを終了する",
+    "group.delete_room_description": "作成者だけが、ルームとアップロード済みファイルを削除できます。",
+    "group.delete_room_confirm_message": "このグループルームを削除します。ルーム内のファイルもすべて削除され、この操作は元に戻せません。",
+    "group.delete_room_button": "ルームを削除",
+    "alert.confirm_delete": "削除の確認",
+    "alert.delete_action": "削除する"
   },
   "js": {
     "alert.notice": "お知らせ",

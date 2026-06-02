@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Pode introduzir até {max_length} caracteres.",
     "note.editor.demo_placeholder": "Escrever aqui sincroniza a cada segundo...\n\nTexto de demonstração:\nTodos os membros podem editar a mesma nota em tempo real desta forma.\n\n- A sua entrada é sincronizada imediatamente com os outros membros\n- Até {max_length} caracteres\n- O estado da edição é atualizado em tempo real",
     "upload.usage.limit_hint": "* Pode carregar até {max_files} ficheiros, num total de {max_total_mb} MB.",
-    "meta.description": "FS!QR é um serviço gratuito de compartilhamento de arquivos com QR Code, grupos e notas em tempo real para enviar e gerenciar dados com segurança."
+    "meta.description": "FS!QR é um serviço gratuito de compartilhamento de arquivos com QR Code, grupos e notas em tempo real para enviar e gerenciar dados com segurança.",
+    "fsqr.delete_sharing_title": "Encerrar partilha",
+    "fsqr.delete_sharing_description": "Apenas a pessoa que carregou o ficheiro o pode eliminar.",
+    "fsqr.delete_confirm_message": "Isto irá eliminar o ficheiro. Esta ação não pode ser desfeita.",
+    "fsqr.delete_file_button": "Eliminar ficheiro",
+    "group.delete_room_title": "Encerrar sala",
+    "group.delete_room_description": "Apenas o criador pode eliminar a sala e os ficheiros carregados.",
+    "group.delete_room_confirm_message": "Isto irá eliminar a sala de grupo. Todos os ficheiros da sala também serão eliminados, e esta ação não pode ser desfeita.",
+    "group.delete_room_button": "Eliminar sala",
+    "alert.confirm_delete": "Confirmar eliminação",
+    "alert.delete_action": "Eliminar"
   },
   "js": {
     "alert.notice": "Aviso",

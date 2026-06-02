@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Możesz wprowadzić maksymalnie {max_length} znaków.",
     "note.editor.demo_placeholder": "Wpisz coś tutaj, a tekst będzie synchronizowany co sekundę...\n\nTekst demonstracyjny:\nW ten sposób wszyscy członkowie mogą edytować tę samą notatkę w czasie rzeczywistym.\n\n• Wprowadzane znaki są natychmiast synchronizowane z innymi użytkownikami\n• Można wprowadzić maksymalnie {max_length} znaków\n• Status edycji jest wyświetlany w czasie rzeczywistym",
     "upload.usage.limit_hint": "※ Maksymalnie {max_files} plików, o łącznym rozmiarze do {max_total_mb} MB.",
-    "meta.description": "FS!QR to darmowa usługa udostępniania plików z kodami QR, udostępnianiem grupowym i notatkami w czasie rzeczywistym."
+    "meta.description": "FS!QR to darmowa usługa udostępniania plików z kodami QR, udostępnianiem grupowym i notatkami w czasie rzeczywistym.",
+    "fsqr.delete_sharing_title": "Zakończ udostępnianie",
+    "fsqr.delete_sharing_description": "Tylko osoba, która przesłała plik, może go usunąć.",
+    "fsqr.delete_confirm_message": "To usunie plik. Tej operacji nie można cofnąć.",
+    "fsqr.delete_file_button": "Usuń plik",
+    "group.delete_room_title": "Zamknij pokój",
+    "group.delete_room_description": "Tylko założyciel może usunąć pokój i przesłane pliki.",
+    "group.delete_room_confirm_message": "To usunie pokój grupowy. Wszystkie pliki w pokoju również zostaną usunięte, a tej operacji nie można cofnąć.",
+    "group.delete_room_button": "Usuń pokój",
+    "alert.confirm_delete": "Potwierdź usunięcie",
+    "alert.delete_action": "Usuń"
   },
   "js": {
     "alert.notice": "Powiadomienie",

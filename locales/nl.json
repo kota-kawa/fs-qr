@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "U kunt maximaal {max_length} tekens invoeren.",
     "note.editor.demo_placeholder": "Typen hier wordt elke seconde gesynchroniseerd...\n\nDemotekst:\nAlle leden kunnen in real-time dezelfde notitie bewerken.\n\n- Uw invoer wordt onmiddellijk gesynchroniseerd met andere leden\n- Maximaal {max_length} tekens\n- Bewerkingsstatus wordt in real-time bijgewerkt",
     "upload.usage.limit_hint": "* U kunt maximaal {max_files} bestanden uploaden, met een totaal van {max_total_mb} MB.",
-    "meta.description": "FS!QR is een gratis dienst voor bestanden delen met QR-codes, groepsdeling en realtime notities om gegevens veilig in de browser te beheren."
+    "meta.description": "FS!QR is een gratis dienst voor bestanden delen met QR-codes, groepsdeling en realtime notities om gegevens veilig in de browser te beheren.",
+    "fsqr.delete_sharing_title": "Delen beëindigen",
+    "fsqr.delete_sharing_description": "Alleen de persoon die het bestand heeft geüpload, kan het verwijderen.",
+    "fsqr.delete_confirm_message": "Dit verwijdert het bestand. Deze actie kan niet ongedaan worden gemaakt.",
+    "fsqr.delete_file_button": "Bestand verwijderen",
+    "group.delete_room_title": "Ruimte beëindigen",
+    "group.delete_room_description": "Alleen de maker kan de ruimte en geüploade bestanden verwijderen.",
+    "group.delete_room_confirm_message": "Dit verwijdert de groepsruimte. Alle bestanden in de ruimte worden ook verwijderd, en deze actie kan niet ongedaan worden gemaakt.",
+    "group.delete_room_button": "Ruimte verwijderen",
+    "alert.confirm_delete": "Verwijdering bevestigen",
+    "alert.delete_action": "Verwijderen"
   },
   "js": {
     "alert.notice": "Bericht",

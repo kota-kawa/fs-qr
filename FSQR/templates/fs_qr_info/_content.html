@@ -111,19 +111,19 @@
         {% if can_delete %}
         <div class="owner-delete-panel owner-delete-panel--standalone">
           <div class="owner-delete-copy">
-            <span class="owner-delete-title">共有を終了する</span>
-            <span class="owner-delete-description">アップロードした本人だけが、このファイルを削除できます。</span>
+            <span class="owner-delete-title">{{ t('fsqr.delete_sharing_title') }}</span>
+            <span class="owner-delete-description">{{ t('fsqr.delete_sharing_description') }}</span>
           </div>
           <form
             action="{{ url_for('fsqr.delete_upload', secure_id=secure_id) }}"
             method="POST"
             class="owner-delete-form"
-            data-confirm-submit="このファイルを削除します。この操作は元に戻せません。"
+            data-confirm-submit="{{ t('fsqr.delete_confirm_message') }}"
           >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="modern-btn modern-btn-danger">
               {{ icons.icon('trash', size='md', with_text=True) }}
-              ファイルを削除
+              {{ t('fsqr.delete_file_button') }}
             </button>
           </form>
         </div>
@@ -205,19 +205,19 @@
         {% if can_delete %}
         <div class="owner-delete-panel owner-delete-panel--standalone">
           <div class="owner-delete-copy">
-            <span class="owner-delete-title">共有を終了する</span>
-            <span class="owner-delete-description">アップロードした本人だけが、このファイルを削除できます。</span>
+            <span class="owner-delete-title">{{ t('fsqr.delete_sharing_title') }}</span>
+            <span class="owner-delete-description">{{ t('fsqr.delete_sharing_description') }}</span>
           </div>
           <form
             action="{{ url_for('fsqr.delete_upload', secure_id=secure_id) }}"
             method="POST"
             class="owner-delete-form"
-            data-confirm-submit="このファイルを削除します。この操作は元に戻せません。"
+            data-confirm-submit="{{ t('fsqr.delete_confirm_message') }}"
           >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="modern-btn modern-btn-danger">
               {{ icons.icon('trash', size='md', with_text=True) }}
-              ファイルを削除
+              {{ t('fsqr.delete_file_button') }}
             </button>
           </form>
         </div>
@@ -241,8 +241,8 @@ document.querySelectorAll('.owner-delete-form[data-confirm-submit]').forEach(fun
     }
     event.preventDefault();
     var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
-      title: '削除の確認',
-      confirmLabel: '削除する'
+      title: {{ t('alert.confirm_delete') | tojson }},
+      confirmLabel: {{ t('alert.delete_action') | tojson }}
     });
     if (confirmed) {
       form.dataset.confirmed = 'true';
