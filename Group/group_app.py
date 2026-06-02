@@ -27,6 +27,7 @@ from .group_routes_pages import (
 )
 from .group_routes_room import (
     register_group_create_room_route,
+    register_group_delete_own_room_route,
     register_group_direct_route,
     register_group_room_access_route,
     register_group_search_process_route,
@@ -48,6 +49,7 @@ register_group_delete_file_route(router)
 register_group_files_ws_route(router)
 register_group_search_page_route(router)
 register_group_search_process_route(router)
+register_group_delete_own_room_route(router)
 register_group_direct_route(router)
 register_group_manage_page_routes(router)
 register_group_logout_management_route(router)

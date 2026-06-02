@@ -34,11 +34,15 @@ from web import (
 )
 from . import note_data as nd
 from .note_access import (
+    can_delete_note_room,
+    forget_note_room_access,
     get_note_room_password,
     get_note_room_share_token,
     has_note_room_access,
     remember_note_room_access,
 )
+from .note_realtime import hub as note_ws_hub
+from .note_realtime import publish_room_expired
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -111,6 +115,7 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         share_url=share_url,
         retention_days=retention_days,
         deletion_date=deletion_date,
+        can_delete=can_delete_note_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
     )
 
@@ -254,7 +259,11 @@ async def create_note_room(request: Request):  # noqa: C901
             status_code=500,
         )
     remember_note_room_access(
-        request, room_id, share_token=share_token, password=password
+        request,
+        room_id,
+        share_token=share_token,
+        password=password,
+        can_delete=True,
     )
     redirect_url = build_room_url(
         request, service_key=ServiceKey.NOTE, resource_id=room_id
@@ -372,6 +381,43 @@ async def note_room(request: Request, room_id: str):
 
     await register_success(SCOPE_NOTE, ip)
     return _render_note_room(request, room_id, meta)
+
+
+@router.post("/note/r/{room_id}/delete", name="note.delete_own_room")
+async def delete_note_room(request: Request, room_id: str):
+    await enforce_csrf(request)
+
+    meta = await _get_room_if_valid(room_id)
+    if not meta:
+        if wants_json_response(request):
+            return api_error_response("ルームが見つかりません。", status_code=404)
+        response = render_template(request, "error.html", message="ルームが見つかりません。")
+        response.status_code = 404
+        return response
+
+    if not can_delete_note_room(request, room_id):
+        if wants_json_response(request):
+            return api_error_response("削除権限がありません。", status_code=403)
+        response = render_template(request, "error.html", message="削除権限がありません。")
+        response.status_code = 403
+        return response
+
+    await nd.remove_room(room_id)
+    forget_note_room_access(request, room_id)
+
+    expired_payload = {
+        "type": "room_expired",
+        "status": "error",
+        "data": {},
+        "error": "Room has expired or was deleted.",
+    }
+    await note_ws_hub.broadcast(room_id, expired_payload)
+    await publish_room_expired(room_id)
+    await note_ws_hub.close_room(room_id)
+
+    if wants_json_response(request):
+        return api_ok_response({"redirect_url": "/remove-succes"})
+    return RedirectResponse("/remove-succes", status_code=302)
 
 
 @router.get("/note/{room_id}/{password}", name="note.note_legacy_room")

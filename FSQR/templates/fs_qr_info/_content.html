@@ -108,6 +108,20 @@
         <div class="text-center mt-4">
           <a href="/fs-qr" class="modern-btn modern-btn-success">→他のファイルをアップロード</a>
         </div>
+        {% if can_delete %}
+        <form
+          action="{{ url_for('fsqr.delete_upload', secure_id=secure_id) }}"
+          method="POST"
+          class="owner-delete-form"
+          data-confirm-submit="このファイルを削除します。この操作は元に戻せません。"
+        >
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="modern-btn modern-btn-danger">
+            {{ icons.icon('trash', size='md', with_text=True) }}
+            ファイルを削除
+          </button>
+        </form>
+        {% endif %}
       </div>
     </div>
 
@@ -182,6 +196,20 @@
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button type="submit" class="modern-btn modern-btn-success">ダウンロード</button>
         </form>
+        {% if can_delete %}
+        <form
+          action="{{ url_for('fsqr.delete_upload', secure_id=secure_id) }}"
+          method="POST"
+          class="owner-delete-form"
+          data-confirm-submit="このファイルを削除します。この操作は元に戻せません。"
+        >
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="modern-btn modern-btn-danger">
+            {{ icons.icon('trash', size='md', with_text=True) }}
+            ファイルを削除
+          </button>
+        </form>
+        {% endif %}
 
         <div class="text-center mt-4">
           <a href="/fs-qr" class="modern-btn">→他のファイルをアップロード</a>
@@ -192,6 +220,25 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+document.querySelectorAll('.owner-delete-form[data-confirm-submit]').forEach(function(form) {
+  form.addEventListener('submit', async function(event) {
+    if (form.dataset.confirmed === 'true') {
+      return;
+    }
+    event.preventDefault();
+    var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
+      title: '削除の確認',
+      confirmLabel: '削除する'
+    });
+    if (confirmed) {
+      form.dataset.confirmed = 'true';
+      form.submit();
+    }
+  });
+});
+</script>
 
 
   <div class="spinner-container fsqr-download-overlay spinner-container--hidden" id="spinnerContainer">
