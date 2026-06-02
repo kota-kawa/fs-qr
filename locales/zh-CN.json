@@ -149,7 +149,8 @@
     "note.paste_error": "粘贴失败。请检查浏览器权限设置。",
     "note.copy_empty": "没有可复制的文本。",
     "note.copy_success": "已复制整篇笔记。",
-    "note.copy_error": "复制整篇笔记失败。请手动复制。"
+    "note.copy_error": "复制整篇笔记失败。请手动复制。",
+    "presence.viewers": "当前 {count} 人正在浏览"
   },
   "phrases": {
     "!-- Bootstrap JSと依存関係 --": "!-- Bootstrap JS 和依赖项 --",

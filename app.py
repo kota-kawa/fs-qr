@@ -51,6 +51,7 @@ from FSQR.fsqr_app import router as fsqr_router
 from Articles.articles_app import router as articles_router
 from Articles.articles_registry import get_all_articles
 from top_search import router as top_search_router
+from presence_api import router as presence_router
 
 MASTER_PW = ADMIN_KEY
 
@@ -204,6 +205,7 @@ app.include_router(admin_router)
 app.include_router(fsqr_router)
 app.include_router(articles_router)
 app.include_router(top_search_router)
+app.include_router(presence_router)
 
 
 def _canonical_redirect(request: Request):

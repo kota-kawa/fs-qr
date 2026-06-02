@@ -119,6 +119,8 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         deletion_date=deletion_date,
         can_delete=can_delete_note_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
+        presence_scope="note",
+        presence_key=room_id,
     )
 
 

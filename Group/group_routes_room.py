@@ -77,6 +77,8 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         deletion_date=deletion_date,
         can_delete=can_delete_group_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
+        presence_scope="group",
+        presence_key=room_id,
     )
 
 
