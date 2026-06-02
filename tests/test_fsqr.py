@@ -1,8 +1,35 @@
 import os
+from html.parser import HTMLParser
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
+
+
+class OwnerDeletePanelScanner(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self._class_stack = []
+        self.has_owner_delete_panel_inside_room_info_card = False
+
+    def handle_starttag(self, tag, attrs):
+        classes = set()
+        for name, value in attrs:
+            if name == "class" and value:
+                classes = set(value.split())
+                break
+
+        if "owner-delete-panel" in classes and any(
+            "room-info-card" in parent_classes for parent_classes in self._class_stack
+        ):
+            self.has_owner_delete_panel_inside_room_info_card = True
+
+        if tag not in {"br", "hr", "img", "input", "link", "meta"}:
+            self._class_stack.append(classes)
+
+    def handle_endtag(self, tag):
+        if self._class_stack:
+            self._class_stack.pop()
 
 
 def test_fsqr_menu(test_client: TestClient):
@@ -262,6 +289,10 @@ def test_fsqr_owner_session_can_delete_uploaded_file(test_client: TestClient, tm
 
     assert upload_response.status_code == 200
     assert "ファイルを削除" in page_response.text
+    scanner = OwnerDeletePanelScanner()
+    scanner.feed(page_response.text)
+    assert scanner.has_owner_delete_panel_inside_room_info_card
+    assert "owner-delete-panel--standalone" not in page_response.text
     assert delete_response.status_code == 302
     assert delete_response.headers["location"] == "/remove-succes"
     remove_mock.assert_awaited_once_with(secure_id)
