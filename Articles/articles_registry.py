@@ -219,6 +219,28 @@ ARTICLES: list[dict[str, Any]] = [
         "type": TYPE_ARTICLE,
         "default": False,
     },
+    {
+        "slug": "send-large-files-free",
+        "title": "大容量ファイルを無料で送る方法と注意点！安全なファイル共有のコツ",
+        "description": "動画や高画質な写真など、メールで送れない大容量ファイルを無料で安全に送る方法を解説。容量制限やセキュリティの注意点も紹介します。",
+        "icon": "fa-paper-plane",
+        "category": "サービス紹介",
+        "date": "2026-06-02",
+        "template": "send-large-files-free.html",
+        "type": TYPE_ARTICLE,
+        "default": False,
+    },
+    {
+        "slug": "no-registration-file-sharing",
+        "title": "会員登録不要！すぐ使えるファイル共有サービスが便利な理由",
+        "description": "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。",
+        "icon": "fa-user-xmark",
+        "category": "サービス紹介",
+        "date": "2026-06-02",
+        "template": "no-registration-file-sharing.html",
+        "type": TYPE_ARTICLE,
+        "default": False,
+    },
 ]
 
 # 一覧の絞り込みチップに使う、登録順を保ったカテゴリ一覧。
