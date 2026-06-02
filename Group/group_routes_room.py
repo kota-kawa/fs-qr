@@ -22,8 +22,9 @@ from share_links import (
     build_room_url,
     build_share_url,
     create_share_link,
+    encrypt_share_password,
     resolve_share_link,
-    share_link_metadata,
+    share_link_password,
 )
 from web import get_or_create_csrf_token, render_template
 from web import enforce_csrf
@@ -104,7 +105,7 @@ def register_group_room_access_route(router: APIRouter):
             )
 
         await register_success(SCOPE_GROUP, ip)
-        link_password = share_link_metadata(link).get("password")
+        link_password = share_link_password(link)
         remember_group_room_access(
             request, room_id, share_token=token, password=link_password
         )
@@ -217,7 +218,10 @@ def register_group_create_room_route(router: APIRouter):
                 service_key=ServiceKey.GROUP,
                 resource_id=room_id,
                 expires_at=datetime.now() + timedelta(days=retention_days),
-                metadata={"id": room_id, "password": password},
+                metadata={
+                    "id": room_id,
+                    "password_enc": encrypt_share_password(password),
+                },
             )
         except Exception:
             logger.exception("Failed to create Group share link: room_id=%s", room_id)
