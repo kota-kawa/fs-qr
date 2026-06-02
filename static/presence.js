@@ -8,7 +8,7 @@
 (function () {
   "use strict";
 
-  var HEARTBEAT_INTERVAL_MS = 10000;
+  var HEARTBEAT_INTERVAL_MS = 4000;
   var STORAGE_KEY = "fsqr_presence_viewer_id";
 
   function t(key, fallback) {
