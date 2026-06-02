@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import hmac
 import json
@@ -8,6 +9,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Mapping
 
+from cryptography.fernet import Fernet, InvalidToken
 from fastapi import Request
 from sqlalchemy import text
 
@@ -52,6 +54,35 @@ def hash_token(token: str) -> str:
     if secret:
         return hmac.new(secret, token.encode("utf-8"), hashlib.sha256).hexdigest()
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+_fernet: Fernet | None = None
+
+
+def _get_fernet() -> Fernet:
+    """Return a process-wide Fernet derived from SECRET_KEY."""
+    global _fernet
+    if _fernet is None:
+        digest = hashlib.sha256((SECRET_KEY or "").encode("utf-8")).digest()
+        _fernet = Fernet(base64.urlsafe_b64encode(digest))
+    return _fernet
+
+
+def encrypt_share_password(password: str) -> str:
+    """Encrypt a room password for at-rest storage in share link metadata."""
+    if not password:
+        return ""
+    return _get_fernet().encrypt(password.encode("utf-8")).decode("ascii")
+
+
+def decrypt_share_password(token: str) -> str:
+    """Decrypt a password produced by :func:`encrypt_share_password`."""
+    if not token:
+        return ""
+    try:
+        return _get_fernet().decrypt(token.encode("utf-8")).decode("utf-8")
+    except (InvalidToken, ValueError, TypeError):
+        return ""
 
 
 def build_share_url(
@@ -161,6 +192,16 @@ def share_link_metadata(link: Mapping[str, Any] | None) -> dict:
             return {}
         return parsed if isinstance(parsed, dict) else {}
     return {}
+
+
+def share_link_password(link: Mapping[str, Any] | None) -> str:
+    """Return the decrypted room password stored in a share link's metadata.
+
+    The password is persisted encrypted under ``password_enc``; only holders of
+    the share token (who already have room access) can have it resolved here.
+    """
+    enc = share_link_metadata(link).get("password_enc")
+    return decrypt_share_password(enc) if isinstance(enc, str) else ""
 
 
 async def revoke_resource_links(*, service_key: ServiceKey, resource_id: str) -> None:

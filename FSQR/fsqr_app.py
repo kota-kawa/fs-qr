@@ -38,7 +38,9 @@ from share_links import (
     ServiceKey,
     build_share_url,
     create_share_link,
+    encrypt_share_password,
     resolve_share_link,
+    share_link_password,
 )
 from web import build_url, enforce_csrf, render_template, wants_json_response
 import room_access
@@ -321,7 +323,7 @@ async def upload(  # noqa: C901
             service_key=ServiceKey.FSQR,
             resource_id=secure_id,
             expires_at=datetime.now() + timedelta(days=retention_days_int),
-            metadata={"id": id_val},
+            metadata={"id": id_val, "password_enc": encrypt_share_password(password)},
         )
         os.replace(temp_path, final_path)
     except Exception:
@@ -460,13 +462,14 @@ async def fs_qr_share(request: Request, token: str):
     await register_success(SCOPE_QR, ip)
     record = data[0]
     retention_days, deletion_date = _calculate_deletion_context(record)
+    link_password = share_link_password(link)
 
     return render_template(
         request,
         "info.html",
         mode="download",
         id=record["id"],
-        password="",
+        password=link_password,
         secure_id=record["secure_id"],
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),

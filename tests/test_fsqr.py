@@ -465,6 +465,55 @@ def test_upload_complete_hides_password_for_token_url(
     assert f"/fs-qr/s/{share_token}" in response.text
 
 
+def test_share_entry_shows_password_to_receiver(test_client: TestClient):
+    """共有URLで入った受信者にも暗号化保存したパスワードを復号して表示する"""
+    from share_links import encrypt_share_password
+
+    share_token = "share-token-receiver-pw-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    secure_id = "abc123-1234567890-report.pdf"
+    mock_data = [
+        {
+            "id": "abc123",
+            "password": "scrypt:hashed-password",
+            "secure_id": secure_id,
+            "file_type": "single",
+            "original_filename": "report.pdf",
+            "retention_days": 7,
+            "time": None,
+        }
+    ]
+    with (
+        patch(
+            "FSQR.fsqr_app.check_rate_limit",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "FSQR.fsqr_app.resolve_share_link",
+            new_callable=AsyncMock,
+            return_value={
+                "service_key": "fsqr",
+                "resource_id": secure_id,
+                "metadata": {
+                    "id": "abc123",
+                    "password_enc": encrypt_share_password("123456"),
+                },
+            },
+        ),
+        patch(
+            "FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=mock_data
+        ),
+        patch("FSQR.fsqr_app.register_success", new_callable=AsyncMock),
+    ):
+        response = test_client.get(f"/fs-qr/s/{share_token}")
+
+    assert response.status_code == 200
+    html = response.text
+    # 復号した平文パスワードが表示される（ハッシュは出ない）
+    assert "123456" in html
+    assert "scrypt:hashed-password" not in html
+
+
 def test_upload_rejects_plain_single_file(test_client: TestClient, tmp_path):
     """暗号化されていない単一ファイルはアップロード処理として拒否する"""
     with patch("FSQR.fsqr_app.STATIC", str(tmp_path)):

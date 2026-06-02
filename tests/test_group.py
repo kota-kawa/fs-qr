@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, mock_open, patch
 from starlette.testclient import TestClient
 
 from Group import group_data
+from share_links import encrypt_share_password
 
 
 def test_group_menu(test_client: TestClient):
@@ -226,7 +227,10 @@ def test_group_share_entry_renders_room_without_redirect(test_client: TestClient
             return_value={
                 "service_key": "group",
                 "resource_id": "grp999",
-                "metadata": {"id": "grp999", "password": "024680"},
+                "metadata": {
+                    "id": "grp999",
+                    "password_enc": encrypt_share_password("024680"),
+                },
             },
         ),
         patch(

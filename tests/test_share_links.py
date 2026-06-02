@@ -40,6 +40,40 @@ def test_hash_token_without_secret_uses_plain_sha256():
         assert share_links.hash_token("token") == hashlib.sha256(b"token").hexdigest()
 
 
+def test_share_password_round_trip_and_not_cleartext():
+    enc = share_links.encrypt_share_password("024680")
+    # 暗号文には平文が含まれない（at-rest で読めない）
+    assert "024680" not in enc
+    assert enc != "024680"
+    assert share_links.decrypt_share_password(enc) == "024680"
+
+
+def test_share_link_password_decrypts_metadata():
+    enc = share_links.encrypt_share_password("135790")
+    link = {"resource_id": "r1", "metadata": {"password_enc": enc}}
+    assert share_links.share_link_password(link) == "135790"
+
+
+def test_share_link_password_absent_or_invalid_returns_empty():
+    assert share_links.share_link_password(None) == ""
+    assert share_links.share_link_password({"metadata": {}}) == ""
+    assert (
+        share_links.share_link_password({"metadata": {"password_enc": "not-a-token"}})
+        == ""
+    )
+
+
+def test_decrypt_with_wrong_key_returns_empty():
+    # 鍵（SECRET_KEY）が異なると復号できない
+    share_links._fernet = None
+    with patch("share_links.SECRET_KEY", "key-a"):
+        enc = share_links.encrypt_share_password("024680")
+    share_links._fernet = None
+    with patch("share_links.SECRET_KEY", "key-b"):
+        assert share_links.decrypt_share_password(enc) == ""
+    share_links._fernet = None
+
+
 def test_build_share_url_and_room_url():
     request = FakeRequest()
 

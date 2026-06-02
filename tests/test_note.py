@@ -2,6 +2,8 @@ from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
 
+from share_links import encrypt_share_password
+
 
 def test_note_menu(test_client: TestClient):
     response = test_client.get("/note_menu")
@@ -164,7 +166,10 @@ def test_note_share_entry_renders_room_without_redirect(test_client: TestClient)
             return_value={
                 "service_key": "note",
                 "resource_id": "not999",
-                "metadata": {"id": "not999", "password": "024680"},
+                "metadata": {
+                    "id": "not999",
+                    "password_enc": encrypt_share_password("024680"),
+                },
             },
         ),
         patch(
