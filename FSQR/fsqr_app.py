@@ -396,6 +396,8 @@ async def upload_complete(request: Request, secure_id: str):
         retention_days=retention_days,
         deletion_date=deletion_date,
         can_delete=_can_delete_fsqr_upload(request, secure_id, row),
+        presence_scope="fsqr-upload",
+        presence_key=secure_id,
     )
 
 
@@ -477,6 +479,8 @@ async def fs_qr_share(request: Request, token: str):
         retention_days=retention_days,
         deletion_date=deletion_date,
         can_delete=_can_delete_fsqr_upload(request, record["secure_id"], record),
+        presence_scope="fsqr-share",
+        presence_key=token,
     )
 
 

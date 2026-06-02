@@ -1,0 +1,14 @@
+{# 現在の閲覧者数バッジ。presence_scope / presence_key が渡されたページでのみ表示する。 #}
+{% if presence_scope and presence_key %}
+<link rel="stylesheet" href="{{ staticfile('presence.css') }}">
+<div class="fsqr-presence"
+     data-presence-scope="{{ presence_scope }}"
+     data-presence-key="{{ presence_key }}"
+     role="status"
+     aria-live="polite"
+     hidden>
+  <span class="fsqr-presence__dot" aria-hidden="true"></span>
+  <span class="fsqr-presence__label"></span>
+</div>
+<script src="{{ staticfile('presence.js') }}" defer></script>
+{% endif %}
