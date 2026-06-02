@@ -233,6 +233,78 @@ def test_create_note_room_generates_numeric_password(test_client: TestClient):
     create_mock.assert_awaited_once_with("abc123", "000042", "abc123", retention_days=7)
 
 
+def test_note_owner_session_can_delete_room(test_client: TestClient):
+    """ルーム作成直後の同一セッションだけNoteルームを削除できる"""
+    from datetime import datetime
+
+    room_id = "ndel01"
+    meta = {
+        "id": room_id,
+        "retention_days": 7,
+        "expires_at": datetime(2026, 1, 8, 0, 0, 0),
+    }
+    remove_mock = AsyncMock()
+    with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", new_callable=AsyncMock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            side_effect=[meta, meta],
+        ),
+        patch("Note.note_app.nd.remove_room", remove_mock),
+        patch(
+            "Note.note_app.note_ws_hub.broadcast", new_callable=AsyncMock
+        ) as broadcast_mock,
+        patch(
+            "Note.note_app.publish_room_expired", new_callable=AsyncMock
+        ) as publish_mock,
+        patch(
+            "Note.note_app.note_ws_hub.close_room", new_callable=AsyncMock
+        ) as close_mock,
+    ):
+        create_response = test_client.post(
+            "/create_note_room",
+            json={"id": room_id, "idMode": "manual"},
+        )
+        delete_response = test_client.post(f"/note/r/{room_id}/delete")
+
+    assert create_response.status_code == 302
+    assert delete_response.status_code == 302
+    assert delete_response.headers["location"] == "/remove-succes"
+    remove_mock.assert_awaited_once_with(room_id)
+    broadcast_mock.assert_awaited_once()
+    publish_mock.assert_awaited_once_with(room_id)
+    close_mock.assert_awaited_once_with(room_id)
+
+
+def test_note_delete_room_requires_owner_session(test_client: TestClient):
+    """作成セッションがないNoteルーム削除は403を返す"""
+    from datetime import datetime
+
+    room_id = "nfor01"
+    meta = {
+        "id": room_id,
+        "retention_days": 7,
+        "expires_at": datetime(2026, 1, 8, 0, 0, 0),
+    }
+    with (
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value=meta,
+        ),
+        patch("Note.note_app.nd.remove_room", new_callable=AsyncMock) as remove_mock,
+    ):
+        response = test_client.post(f"/note/r/{room_id}/delete")
+
+    assert response.status_code == 403
+    remove_mock.assert_not_awaited()
+
+
 def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     """fetch からの作成は画面遷移先を JSON で返す"""
     create_mock = AsyncMock()

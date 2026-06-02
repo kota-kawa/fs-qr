@@ -217,6 +217,75 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     assert "share_token" not in save_mock.await_args.kwargs
 
 
+def test_fsqr_owner_session_can_delete_uploaded_file(test_client: TestClient, tmp_path):
+    """アップロード直後の同一セッションだけFSQRファイルを削除できる"""
+    secure_id = "own123-1234567890-report.pdf"
+    record = {
+        "id": "own123",
+        "secure_id": secure_id,
+        "time": None,
+        "retention_days": 7,
+        "file_type": "single",
+        "original_filename": "report.pdf",
+    }
+    remove_mock = AsyncMock()
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_data.save_file", new_callable=AsyncMock),
+        patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=[record]),
+        patch("FSQR.fsqr_data.remove_data", remove_mock),
+    ):
+        upload_response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "own123",
+                "download_password": "123456",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+        page_response = test_client.get(f"/upload_complete/{secure_id}")
+        delete_response = test_client.post(f"/fs-qr/delete/{secure_id}")
+
+    assert upload_response.status_code == 200
+    assert "ファイルを削除" in page_response.text
+    assert delete_response.status_code == 302
+    assert delete_response.headers["location"] == "/remove-succes"
+    remove_mock.assert_awaited_once_with(secure_id)
+
+
+def test_fsqr_delete_requires_owner_session(test_client: TestClient):
+    """FSQR削除は作成セッションなしでは実行できない"""
+    secure_id = "noown1-1234567890-report.pdf"
+    record = {
+        "id": "noown1",
+        "secure_id": secure_id,
+        "time": None,
+        "retention_days": 7,
+    }
+    with (
+        patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=[record]),
+        patch("FSQR.fsqr_data.remove_data", new_callable=AsyncMock) as remove_mock,
+    ):
+        response = test_client.post(f"/fs-qr/delete/{secure_id}")
+
+    assert response.status_code == 403
+    remove_mock.assert_not_awaited()
+
+
 def test_upload_metadata_failure_removes_staged_file(test_client: TestClient, tmp_path):
     """DB保存に失敗した場合は一時ファイルも正式ファイルも残さない"""
     save_mock = AsyncMock(side_effect=RuntimeError("db down"))

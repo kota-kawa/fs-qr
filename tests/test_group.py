@@ -378,6 +378,54 @@ def test_create_group_room_generates_numeric_password(test_client: TestClient):
     assert create_mock.await_args.kwargs["password"] == "000042"
 
 
+def test_group_owner_session_can_delete_room(test_client: TestClient):
+    """ルーム作成直後の同一セッションだけGroupルームを削除できる"""
+    room_id = "gdel01"
+    active_room = {"id": room_id, "room_id": room_id, "retention_days": 7, "time": None}
+    remove_mock = AsyncMock(return_value=True)
+    with (
+        patch("Group.group_routes_room.generate_room_password", return_value="000042"),
+        patch(
+            "Group.group_routes_room.group_data.get_data",
+            new_callable=AsyncMock,
+            side_effect=[None, [active_room]],
+        ),
+        patch("Group.group_routes_room.group_data.create_room", new_callable=AsyncMock),
+        patch("Group.group_routes_room.group_data.remove_data", remove_mock),
+        patch("Group.group_routes_room.os.makedirs"),
+    ):
+        create_response = test_client.post(
+            "/create_group_room",
+            json={"id": room_id, "idMode": "manual"},
+        )
+        delete_response = test_client.post(f"/group/r/{room_id}/delete")
+
+    assert create_response.status_code == 302
+    assert delete_response.status_code == 302
+    assert delete_response.headers["location"] == "/remove-succes"
+    remove_mock.assert_awaited_once_with(room_id)
+
+
+def test_group_delete_room_requires_owner_session(test_client: TestClient):
+    """作成セッションがないGroupルーム削除は403を返す"""
+    room_id = "gfor01"
+    active_room = {"id": room_id, "room_id": room_id, "retention_days": 7, "time": None}
+    with (
+        patch(
+            "Group.group_routes_room.group_data.get_data",
+            new_callable=AsyncMock,
+            return_value=[active_room],
+        ),
+        patch(
+            "Group.group_routes_room.group_data.remove_data", new_callable=AsyncMock
+        ) as remove_mock,
+    ):
+        response = test_client.post(f"/group/r/{room_id}/delete")
+
+    assert response.status_code == 403
+    remove_mock.assert_not_awaited()
+
+
 def test_delete_all_rooms_requires_management_auth(test_client: TestClient):
     with patch("Group.group_data.all_remove", new_callable=AsyncMock) as remove_mock:
         response = test_client.post("/delete_all_rooms")

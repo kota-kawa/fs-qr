@@ -30,6 +30,8 @@ from web import wants_json_response
 
 from . import group_data
 from .group_common import (
+    can_delete_group_room,
+    forget_group_room_access,
     get_group_room_password,
     get_group_room_share_token,
     get_room_if_active,
@@ -71,6 +73,7 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         share_url=share_url,
         retention_days=retention_days,
         deletion_date=deletion_date,
+        can_delete=can_delete_group_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
     )
 
@@ -223,7 +226,11 @@ def register_group_create_room_route(router: APIRouter):
                 status_code=500,
             )
         remember_group_room_access(
-            request, room_id, share_token=share_token, password=password
+            request,
+            room_id,
+            share_token=share_token,
+            password=password,
+            can_delete=True,
         )
         redirect_url = build_room_url(
             request, service_key=ServiceKey.GROUP, resource_id=room_id
@@ -280,6 +287,41 @@ def register_group_search_process_route(router: APIRouter):
             build_room_url(request, service_key=ServiceKey.GROUP, resource_id=room_id),
             status_code=302,
         )
+
+
+def register_group_delete_own_room_route(router: APIRouter):
+    @router.post("/group/r/{room_id}/delete", name="group.delete_own_room")
+    async def delete_own_room(request: Request, room_id: str):
+        await enforce_csrf(request)
+
+        record = await get_room_if_active(room_id)
+        if not record:
+            if wants_json_response(request):
+                return api_error_response("ルームが見つかりません。", status_code=404)
+            return room_msg(request, "ルームが見つかりません。", status_code=404)
+
+        if not can_delete_group_room(request, room_id):
+            if wants_json_response(request):
+                return api_error_response("削除権限がありません。", status_code=403)
+            return room_msg(request, "削除権限がありません。", status_code=403)
+
+        removed = await group_data.remove_data(room_id)
+        if not removed:
+            if wants_json_response(request):
+                return api_error_response(
+                    "ルーム削除に失敗しました。時間をおいて再度お試しください。",
+                    status_code=500,
+                )
+            return room_msg(
+                request,
+                "ルーム削除に失敗しました。時間をおいて再度お試しください。",
+                status_code=500,
+            )
+
+        forget_group_room_access(request, room_id)
+        if wants_json_response(request):
+            return api_ok_response({"redirect_url": "/remove-succes"})
+        return RedirectResponse("/remove-succes", status_code=302)
 
 
 def register_group_direct_route(router: APIRouter):

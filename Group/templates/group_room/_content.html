@@ -69,6 +69,20 @@
                             </span>
                         </div>
                     </div>
+                    {% if can_delete %}
+                    <form
+                        action="{{ url_for('group.delete_own_room', room_id=room_id) }}"
+                        method="POST"
+                        class="owner-delete-form"
+                        data-confirm-submit="このグループルームを削除します。ルーム内のファイルもすべて削除され、この操作は元に戻せません。"
+                    >
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="modern-btn modern-btn-danger">
+                            {{ icons.icon('trash', size='md', with_text=True) }}
+                            ルームを削除
+                        </button>
+                    </form>
+                    {% endif %}
                 </div>
 
                 <div class="qr-code-container" id="groupShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
@@ -145,6 +159,25 @@
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.owner-delete-form[data-confirm-submit]').forEach(function(form) {
+    form.addEventListener('submit', async function(event) {
+        if (form.dataset.confirmed === 'true') {
+            return;
+        }
+        event.preventDefault();
+        var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
+            title: '削除の確認',
+            confirmLabel: '削除する'
+        });
+        if (confirmed) {
+            form.dataset.confirmed = 'true';
+            form.submit();
+        }
+    });
+});
+</script>
 
 <!-- Download Progress -->
 <div class="spinner-container group-download-overlay" id="downloadSpinnerContainer" style="display: none;">

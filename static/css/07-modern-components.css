@@ -418,6 +418,24 @@
   text-decoration: none;
 }
 
+.modern-btn-danger {
+  background: linear-gradient(135deg, var(--btn-danger) 0%, #ef4444 100%);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.28);
+}
+
+.modern-btn-danger:hover {
+  background: linear-gradient(135deg, var(--btn-danger-hover) 0%, var(--btn-danger) 100%);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.38);
+  color: white;
+  text-decoration: none;
+}
+
+.owner-delete-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 /* ===============================================
    Modern File List System
    =============================================== */

@@ -40,7 +40,7 @@ from share_links import (
     create_share_link,
     resolve_share_link,
 )
-from web import build_url, enforce_csrf, render_template
+from web import build_url, enforce_csrf, render_template, wants_json_response
 import room_access
 from . import fsqr_data as fs_data
 
@@ -73,13 +73,21 @@ async def _get_room_by_credentials(room_id, password):
 
 
 def _remember_fsqr_access(
-    request: Request, secure_id: str, id_val: str, password: str, share_token: str = ""
+    request: Request,
+    secure_id: str,
+    id_val: str,
+    password: str,
+    share_token: str = "",
+    can_delete: bool = False,
 ) -> None:
+    payload = {"id": id_val, "password": password, "share_token": share_token}
+    if can_delete:
+        payload["can_delete"] = "1"
     room_access.grant_access(
         request.session,
         FSQR_UPLOAD_ACCESS_SESSION_KEY,
         secure_id,
-        payload={"id": id_val, "password": password, "share_token": share_token},
+        payload=payload,
     )
 
 
@@ -98,7 +106,26 @@ def _get_fsqr_access(request: Request, secure_id: str):
     password = entry.get("password", "")
     if not isinstance(password, str):
         password = ""
-    return {"id": id_val, "password": password, "share_token": share_token}
+    can_delete = entry.get("can_delete", "") == "1"
+    return {
+        "id": id_val,
+        "password": password,
+        "share_token": share_token,
+        "can_delete": can_delete,
+    }
+
+
+def _can_delete_fsqr_upload(request: Request, secure_id: str, record: dict) -> bool:
+    access = _get_fsqr_access(request, secure_id)
+    return bool(
+        access and access.get("can_delete") and access.get("id") == record.get("id")
+    )
+
+
+def _forget_fsqr_access(request: Request, secure_id: str) -> None:
+    room_access.revoke_access(
+        request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id
+    )
 
 
 def _is_valid_share_token(share_token: str) -> bool:
@@ -321,7 +348,9 @@ async def upload(  # noqa: C901
             "アップロード情報の保存に失敗しました。時間をおいて再度お試しください。",
             status_code=500,
         )
-    _remember_fsqr_access(request, secure_id, id_val, password, share_token)
+    _remember_fsqr_access(
+        request, secure_id, id_val, password, share_token, can_delete=True
+    )
 
     return api_ok_response(
         {
@@ -364,6 +393,7 @@ async def upload_complete(request: Request, secure_id: str):
         url=share_url,
         retention_days=retention_days,
         deletion_date=deletion_date,
+        can_delete=_can_delete_fsqr_upload(request, secure_id, row),
     )
 
 
@@ -394,6 +424,7 @@ async def download(request: Request, secure_id: str):
             url=build_url(request, "fsqr.download_go", secure_id=secure_id),
             retention_days=retention_days,
             deletion_date=deletion_date,
+            can_delete=_can_delete_fsqr_upload(request, secure_id, row),
         )
     raise HTTPException(status_code=404)
 
@@ -442,7 +473,29 @@ async def fs_qr_share(request: Request, token: str):
         url=build_url(request, "fsqr.share_download", token=token),
         retention_days=retention_days,
         deletion_date=deletion_date,
+        can_delete=_can_delete_fsqr_upload(request, record["secure_id"], record),
     )
+
+
+@router.post("/fs-qr/delete/{secure_id}", name="fsqr.delete_upload")
+async def delete_upload(request: Request, secure_id: str):
+    await enforce_csrf(request)
+    data = await _get_active_data(secure_id)
+    if not data:
+        raise HTTPException(status_code=404)
+
+    if not _can_delete_fsqr_upload(request, secure_id, data[0]):
+        if wants_json_response(request):
+            return api_error_response("削除権限がありません。", status_code=403)
+        return msg(request, "削除権限がありません。", status_code=403)
+
+    await fs_data.remove_data(secure_id)
+    _forget_fsqr_access(request, secure_id)
+    if wants_json_response(request):
+        return api_ok_response(
+            {"redirect_url": build_url(request, "fsqr.after_remove")}
+        )
+    return RedirectResponse(build_url(request, "fsqr.after_remove"), status_code=302)
 
 
 @router.get("/fs-qr/{room_id}/{password}", name="fsqr.legacy_room")
