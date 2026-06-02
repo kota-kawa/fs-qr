@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Sie können bis zu {max_length} Zeichen eingeben.",
     "note.editor.demo_placeholder": "Eingaben hier werden jede Sekunde synchronisiert...\n\nDemo-Text:\nAlle Mitglieder können dieselbe Notiz in Echtzeit wie folgt bearbeiten.\n\n- Ihre Eingabe wird sofort mit anderen Mitgliedern synchronisiert\n- Bis zu {max_length} Zeichen\n- Der Bearbeitungsstatus wird in Echtzeit aktualisiert",
     "upload.usage.limit_hint": "* Sie können bis zu {max_files} Dateien mit insgesamt {max_total_mb} MB hochladen.",
-    "meta.description": "FS!QR ist ein kostenloser Dienst zur Dateifreigabe mit QR-Code-Transfer, Gruppenfreigabe und Echtzeitnotizen für sichere Datenverwaltung im Browser."
+    "meta.description": "FS!QR ist ein kostenloser Dienst zur Dateifreigabe mit QR-Code-Transfer, Gruppenfreigabe und Echtzeitnotizen für sichere Datenverwaltung im Browser.",
+    "fsqr.delete_sharing_title": "Freigabe beenden",
+    "fsqr.delete_sharing_description": "Nur die Person, die die Datei hochgeladen hat, kann sie löschen.",
+    "fsqr.delete_confirm_message": "Dies wird die Datei löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "fsqr.delete_file_button": "Datei löschen",
+    "group.delete_room_title": "Raum beenden",
+    "group.delete_room_description": "Nur der Ersteller kann den Raum und die hochgeladenen Dateien löschen.",
+    "group.delete_room_confirm_message": "Dies wird den Gruppenraum löschen. Alle Dateien im Raum werden ebenfalls gelöscht, und diese Aktion kann nicht rückgängig gemacht werden.",
+    "group.delete_room_button": "Raum löschen",
+    "alert.confirm_delete": "Löschen bestätigen",
+    "alert.delete_action": "Löschen"
   },
   "js": {
     "alert.notice": "Hinweis",

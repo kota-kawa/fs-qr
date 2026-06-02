@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "最多可输入 {max_length} 个字符。",
     "note.editor.demo_placeholder": "在此输入内容将每秒自动同步…\n\n演示文本：\n所有成员都可以像这样实时编辑同一条笔记。\n\n・输入内容会立即同步给其他成员\n・最多可输入 {max_length} 个字符\n・编辑状态会实时显示",
     "upload.usage.limit_hint": "※最多可处理 {max_files} 个文件，总计不超过 {max_total_mb} MB。",
-    "meta.description": "FS!QR 是免费文件共享服务，支持二维码传输、群组文件共享和实时笔记共享，可在浏览器中安全发送和管理数据。"
+    "meta.description": "FS!QR 是免费文件共享服务，支持二维码传输、群组文件共享和实时笔记共享，可在浏览器中安全发送和管理数据。",
+    "fsqr.delete_sharing_title": "结束共享",
+    "fsqr.delete_sharing_description": "只有上传者本人可以删除此文件。",
+    "fsqr.delete_confirm_message": "此操作将删除文件，且无法撤销。",
+    "fsqr.delete_file_button": "删除文件",
+    "group.delete_room_title": "关闭房间",
+    "group.delete_room_description": "只有创建者可以删除房间和已上传的文件。",
+    "group.delete_room_confirm_message": "此操作将删除该群组房间。房间内的所有文件也将被删除，且无法撤销。",
+    "group.delete_room_button": "删除房间",
+    "alert.confirm_delete": "确认删除",
+    "alert.delete_action": "删除"
   },
   "js": {
     "alert.notice": "通知",

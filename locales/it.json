@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Puoi inserire fino a {max_length} caratteri.",
     "note.editor.demo_placeholder": "Scrivendo qui la sincronizzazione avviene ogni secondo...\n\nTesto demo:\nTutti i membri possono modificare la stessa nota in tempo reale in questo modo.\n\n- Il tuo input viene sincronizzato immediatamente con gli altri membri\n- Fino a {max_length} caratteri\n- Lo stato della modifica si aggiorna in tempo reale",
     "upload.usage.limit_hint": "* Puoi caricare fino a {max_files} file, per un totale di {max_total_mb} MB.",
-    "meta.description": "FS!QR è un servizio gratuito di condivisione file con QR Code, gruppi e note in tempo reale per inviare e gestire dati in modo sicuro."
+    "meta.description": "FS!QR è un servizio gratuito di condivisione file con QR Code, gruppi e note in tempo reale per inviare e gestire dati in modo sicuro.",
+    "fsqr.delete_sharing_title": "Termina condivisione",
+    "fsqr.delete_sharing_description": "Solo chi ha caricato il file può eliminarlo.",
+    "fsqr.delete_confirm_message": "Questo eliminerà il file. L'azione non può essere annullata.",
+    "fsqr.delete_file_button": "Elimina file",
+    "group.delete_room_title": "Termina stanza",
+    "group.delete_room_description": "Solo il creatore può eliminare la stanza e i file caricati.",
+    "group.delete_room_confirm_message": "Questo eliminerà la stanza di gruppo. Anche tutti i file nella stanza verranno eliminati e l'azione non può essere annullata.",
+    "group.delete_room_button": "Elimina stanza",
+    "alert.confirm_delete": "Conferma eliminazione",
+    "alert.delete_action": "Elimina"
   },
   "js": {
     "alert.notice": "Avviso",

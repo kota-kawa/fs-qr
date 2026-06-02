@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "En fazla {max_length} karakter girilebilir.",
     "note.editor.demo_placeholder": "Buraya yazılanlar her saniye senkronize edilir...\n\nÖrnek metin:\nTüm üyeler aynı notu bu şekilde gerçek zamanlı olarak düzenleyebilir.\n\n・Metin girildiğinde diğer üyelere anında senkronize edilir\n・En fazla {max_length} karakter girilebilir\n・Düzenleme durumu gerçek zamanlı olarak görüntülenir",
     "upload.usage.limit_hint": "※ En fazla {max_files} dosya, toplam {max_total_mb} MB'a kadar yüklenebilir.",
-    "meta.description": "FS!QR, QR kod aktarımı, grup dosya paylaşımı ve gerçek zamanlı not paylaşımı sunan ücretsiz bir dosya paylaşım hizmetidir."
+    "meta.description": "FS!QR, QR kod aktarımı, grup dosya paylaşımı ve gerçek zamanlı not paylaşımı sunan ücretsiz bir dosya paylaşım hizmetidir.",
+    "fsqr.delete_sharing_title": "Paylaşımı Sonlandır",
+    "fsqr.delete_sharing_description": "Yalnızca dosyayı yükleyen kişi silebilir.",
+    "fsqr.delete_confirm_message": "Bu işlem dosyayı silecektir. Bu işlem geri alınamaz.",
+    "fsqr.delete_file_button": "Dosyayı Sil",
+    "group.delete_room_title": "Odayı Sonlandır",
+    "group.delete_room_description": "Yalnızca oluşturan kişi odayı ve yüklenen dosyaları silebilir.",
+    "group.delete_room_confirm_message": "Bu işlem grup odasını silecektir. Odadaki tüm dosyalar da silinecek ve bu işlem geri alınamaz.",
+    "group.delete_room_button": "Odayı Sil",
+    "alert.confirm_delete": "Silmeyi Onayla",
+    "alert.delete_action": "Sil"
   },
   "js": {
     "alert.notice": "Bildirim",

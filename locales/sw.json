@@ -29,7 +29,17 @@
     "note.editor.max_length_hint": "Unaweza kuingiza hadi herufi {max_length}.",
     "note.editor.demo_placeholder": "Yaliyoandikwa hapa yanasawazishwa kila sekunde...\n\nMfano wa maandishi:\nWanachama wote wanaweza kuhariri kumbukumbu sawa kwa wakati halisi hivi.\n\n- Maingizo yako yanasawazishwa papo hapo na wanachama wengine\n- Hadi herufi {max_length}\n- Hali ya uhariri inasasishwa kwa wakati halisi",
     "upload.usage.limit_hint": "* Unaweza kupakia hadi faili {max_files} kwa jumla ya MB {max_total_mb}.",
-    "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo yenye uhamisho wa QR Code, kushiriki kwa vikundi, na madokezo ya wakati halisi."
+    "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo yenye uhamisho wa QR Code, kushiriki kwa vikundi, na madokezo ya wakati halisi.",
+    "fsqr.delete_sharing_title": "Sitisha Ushiriki",
+    "fsqr.delete_sharing_description": "Ni mtu aliyepakia faili pekee anayeweza kuifuta.",
+    "fsqr.delete_confirm_message": "Hii itafuta faili. Kitendo hiki hakiwezi kubatilishwa.",
+    "fsqr.delete_file_button": "Futa Faili",
+    "group.delete_room_title": "Funga Chumba",
+    "group.delete_room_description": "Ni muundaji pekee anayeweza kufuta chumba na faili zilizopakuliwa.",
+    "group.delete_room_confirm_message": "Hii itafuta chumba cha kikundi. Faili zote kwenye chumba pia zitafutwa, na kitendo hiki hakiwezi kubatilishwa.",
+    "group.delete_room_button": "Futa Chumba",
+    "alert.confirm_delete": "Thibitisha Futa",
+    "alert.delete_action": "Futa"
   },
   "js": {
     "alert.notice": "Ilani",

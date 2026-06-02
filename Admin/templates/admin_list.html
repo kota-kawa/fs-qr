@@ -70,8 +70,8 @@ document.querySelectorAll('[data-confirm-submit]').forEach(function(form) {
         }
         event.preventDefault();
         var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
-            title: '削除の確認',
-            confirmLabel: '削除する'
+            title: {{ t('alert.confirm_delete') | tojson }},
+            confirmLabel: {{ t('alert.delete_action') | tojson }}
         });
         if (confirmed) {
             form.dataset.confirmed = 'true';
