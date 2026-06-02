@@ -70,18 +70,24 @@
                         </div>
                     </div>
                     {% if can_delete %}
-                    <form
-                        action="{{ url_for('group.delete_own_room', room_id=room_id) }}"
-                        method="POST"
-                        class="owner-delete-form"
-                        data-confirm-submit="このグループルームを削除します。ルーム内のファイルもすべて削除され、この操作は元に戻せません。"
-                    >
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="modern-btn modern-btn-danger">
-                            {{ icons.icon('trash', size='md', with_text=True) }}
-                            ルームを削除
-                        </button>
-                    </form>
+                    <div class="owner-delete-panel">
+                        <div class="owner-delete-copy">
+                            <span class="owner-delete-title">ルームを終了する</span>
+                            <span class="owner-delete-description">作成者だけが、ルームとアップロード済みファイルを削除できます。</span>
+                        </div>
+                        <form
+                            action="{{ url_for('group.delete_own_room', room_id=room_id) }}"
+                            method="POST"
+                            class="owner-delete-form"
+                            data-confirm-submit="このグループルームを削除します。ルーム内のファイルもすべて削除され、この操作は元に戻せません。"
+                        >
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="modern-btn modern-btn-danger">
+                                {{ icons.icon('trash', size='md', with_text=True) }}
+                                ルームを削除
+                            </button>
+                        </form>
+                    </div>
                     {% endif %}
                 </div>
 
