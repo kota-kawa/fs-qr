@@ -4,7 +4,15 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 from fastapi import WebSocketDisconnect
 
-from Note.note_ws import note_ws
+from Note.note_ws import _ws_client_ip, note_ws
+
+
+def test_ws_client_ip_ignores_forwarded_header():
+    websocket = MagicMock()
+    websocket.headers = {"X-Forwarded-For": "203.0.113.10"}
+    websocket.client = type("Client", (), {"host": "127.0.0.1"})()
+
+    assert _ws_client_ip(websocket) == "127.0.0.1"
 
 
 def test_note_ws_ack_includes_request_id():

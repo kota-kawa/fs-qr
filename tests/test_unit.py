@@ -76,6 +76,26 @@ def test_get_client_ip_unknown():
     assert get_client_ip(req) == "unknown"
 
 
+def test_trusted_proxy_hosts_env_parser_excludes_wildcard(monkeypatch):
+    from settings import _env_csv
+
+    default = ["127.0.0.1", "::1"]
+    monkeypatch.setenv("TRUSTED_PROXY_HOSTS", "*, 10.0.0.0/8")
+    assert _env_csv("TRUSTED_PROXY_HOSTS", default) == ["10.0.0.0/8"]
+
+    monkeypatch.setenv("TRUSTED_PROXY_HOSTS", "*")
+    assert _env_csv("TRUSTED_PROXY_HOSTS", default) == default
+
+
+def test_secure_compare_secret():
+    from session_auth import secure_compare_secret
+
+    assert secure_compare_secret("secret", "secret") is True
+    assert secure_compare_secret("wrong", "secret") is False
+    assert secure_compare_secret(None, "secret") is False
+    assert secure_compare_secret("secret", None) is False
+
+
 # ---------------------------------------------------------------------------
 # FSQR.fsqr_app – pure helper functions
 # ---------------------------------------------------------------------------

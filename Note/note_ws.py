@@ -24,9 +24,6 @@ router = APIRouter()
 
 
 def _ws_client_ip(websocket: WebSocket) -> str:
-    forwarded = websocket.headers.get("X-Forwarded-For", "").split(",")[0].strip()
-    if forwarded:
-        return forwarded
     if websocket.client:
         return websocket.client.host
     return "unknown"

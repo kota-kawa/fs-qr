@@ -34,6 +34,17 @@ def _env_int(name: str, default: int, minimum: int = 0) -> int:
     return parsed
 
 
+def _env_csv(name: str, default: list[str]) -> list[str]:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    items = [item.strip() for item in value.split(",") if item.strip()]
+    # Never allow the wildcard here: trusting every direct client lets callers
+    # spoof X-Forwarded-For and bypass IP-based protections.
+    items = [item for item in items if item != "*"]
+    return items or default
+
+
 GEOIP_DB_PATH = os.getenv(
     "GEOIP_DB_PATH",
     os.path.join(BASE_DIR, "geoip", "dbip-country-lite.mmdb"),
@@ -74,4 +85,9 @@ NOTE_SELF_EDIT_TIMEOUT_MS = _env_int(
 SESSION_MAX_AGE_SECONDS = _env_int("SESSION_MAX_AGE_SECONDS", default=3600, minimum=60)
 AUTH_SESSION_TIMEOUT_SECONDS = _env_int(
     "AUTH_SESSION_TIMEOUT_SECONDS", default=1800, minimum=60
+)
+
+TRUSTED_PROXY_HOSTS = _env_csv(
+    "TRUSTED_PROXY_HOSTS",
+    ["127.0.0.1", "::1"],
 )

@@ -22,6 +22,9 @@ SCOPE_NOTE = "note"
 SCOPE_GROUP = "group"
 SCOPE_TOP_SEARCH = "top_search"
 SCOPE_GROUP_FILE_DELETE = "group_file_delete"
+SCOPE_ADMIN = "admin"
+SCOPE_DB_ADMIN = "db_admin"
+SCOPE_MANAGEMENT = "management"
 
 _redis_client: Optional[redis.Redis] = None
 
@@ -169,9 +172,9 @@ def get_block_message(label: Optional[str]) -> str:
 
 
 def get_client_ip(request) -> str:
-    # Use request.client.host, which ProxyHeadersMiddleware has already resolved
-    # from trusted proxy headers. Reading X-Forwarded-For directly would allow
-    # clients to spoof their IP and bypass rate limiting.
+    # Use request.client.host after ProxyHeadersMiddleware has processed headers
+    # from configured trusted proxies only. Do not read X-Forwarded-For here:
+    # client-supplied values can be spoofed and would bypass rate limiting.
     if getattr(request, "client", None) and request.client.host:
         return request.client.host
     return "unknown"

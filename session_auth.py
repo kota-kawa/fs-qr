@@ -1,4 +1,5 @@
 import time
+from secrets import compare_digest
 from typing import MutableMapping, Any
 
 from settings import AUTH_SESSION_TIMEOUT_SECONDS
@@ -36,3 +37,10 @@ def is_session_authenticated(session: MutableMapping[str, Any], auth_key: str) -
         return False
 
     return True
+
+
+def secure_compare_secret(provided: object, expected: object) -> bool:
+    """Compare configured login secrets without content-dependent timing."""
+    provided_text = provided if isinstance(provided, str) else ""
+    expected_text = expected if isinstance(expected, str) else ""
+    return compare_digest(provided_text, expected_text)
