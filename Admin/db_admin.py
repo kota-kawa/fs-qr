@@ -1,13 +1,13 @@
-import io
 import os
+import tempfile
 import zipfile
 
 from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import text
+from starlette.background import BackgroundTask
 from starlette.responses import (
     FileResponse,
     RedirectResponse,
-    StreamingResponse,
 )
 from werkzeug.utils import secure_filename
 
@@ -48,6 +48,14 @@ UPLOAD_DIR = FSQR_UPLOAD_DIR
 GROUP_UPLOAD_DIR = SETTINGS_GROUP_UPLOAD_DIR
 
 router = APIRouter(prefix="/admin")
+
+
+def _remove_temp_file(path: str):
+    try:
+        os.remove(path)
+    except OSError:
+        pass
+
 
 COUNT_QUERIES = {
     "fsqr": text("SELECT COUNT(*) FROM fsqr"),
@@ -356,13 +364,19 @@ async def room_download(request: Request, room_id: str):
     if not file_entries:
         raise HTTPException(status_code=404)
 
-    archive = io.BytesIO()
-    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zipf:
-        for entry in file_entries:
-            file_path = entry.get("_path") or os.path.join(folder, entry["stored_name"])
-            zipf.write(file_path, arcname=entry["display_name"])
-
-    archive.seek(0)
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as archive:
+            archive_path = archive.name
+        with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+            for entry in file_entries:
+                file_path = entry.get("_path") or os.path.join(
+                    folder, entry["stored_name"]
+                )
+                zipf.write(file_path, arcname=entry["display_name"])
+    except Exception:
+        if "archive_path" in locals():
+            _remove_temp_file(archive_path)
+        raise
 
     download_name = (
         secure_filename(f"{record.get('room_id')}_files.zip") or "room_files.zip"
@@ -370,7 +384,12 @@ async def room_download(request: Request, room_id: str):
     headers = {
         "Content-Disposition": build_content_disposition_attachment(download_name)
     }
-    return StreamingResponse(archive, media_type="application/zip", headers=headers)
+    return FileResponse(
+        archive_path,
+        media_type="application/zip",
+        headers=headers,
+        background=BackgroundTask(_remove_temp_file, archive_path),
+    )
 
 
 @router.get("/db/logout", name="db_admin.logout")
