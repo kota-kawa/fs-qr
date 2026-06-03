@@ -1,13 +1,14 @@
-import io
 import mimetypes
 import os
 import shutil
+import tempfile
 import urllib
 import zipfile
 from typing import Optional
 
 from fastapi import APIRouter, File, Request, UploadFile
-from starlette.responses import Response, StreamingResponse
+from starlette.background import BackgroundTask
+from starlette.responses import FileResponse
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
@@ -104,6 +105,13 @@ def get_preview_metadata(filename: str) -> dict[str, str | bool]:
         "preview_type": "",
         "preview_mime_type": "",
     }
+
+
+def _remove_temp_file(path: str):
+    try:
+        os.remove(path)
+    except OSError:
+        pass
 
 
 def register_group_upload_route(router: APIRouter):
@@ -257,22 +265,26 @@ def register_group_download_all_route(router: APIRouter):
             )
 
         try:
-            zip_stream = io.BytesIO()
-            with zipfile.ZipFile(zip_stream, "w", zipfile.ZIP_DEFLATED) as zipf:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as archive:
+                archive_path = archive.name
+            with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as zipf:
                 for filename, file_path in room_files.items():
-                    with open(file_path, "rb") as f:
-                        zipf.writestr(filename, f.read())
-            zip_stream.seek(0)
+                    zipf.write(file_path, arcname=filename)
             download_name = secure_filename(f"{room_id}_files.zip") or "room_files.zip"
             headers = {
                 "Content-Disposition": build_content_disposition_attachment(
                     download_name
                 )
             }
-            return StreamingResponse(
-                zip_stream, media_type="application/zip", headers=headers
+            return FileResponse(
+                archive_path,
+                media_type="application/zip",
+                headers=headers,
+                background=BackgroundTask(_remove_temp_file, archive_path),
             )
         except Exception as e:
+            if "archive_path" in locals():
+                _remove_temp_file(archive_path)
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
 
@@ -313,12 +325,11 @@ def register_group_download_file_route(router: APIRouter):
                 ),
                 "Content-Length": str(os.path.getsize(file_path)),
             }
-            with open(file_path, "rb") as file:
-                return Response(
-                    content=file.read(),
-                    media_type="application/octet-stream",
-                    headers=headers,
-                )
+            return FileResponse(
+                file_path,
+                media_type="application/octet-stream",
+                headers=headers,
+            )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
@@ -368,12 +379,11 @@ def register_group_preview_file_route(router: APIRouter):
                 "Content-Length": str(os.path.getsize(file_path)),
                 "X-Content-Type-Options": "nosniff",
             }
-            with open(file_path, "rb") as file:
-                return Response(
-                    content=file.read(),
-                    media_type=str(preview_metadata["preview_mime_type"]),
-                    headers=headers,
-                )
+            return FileResponse(
+                file_path,
+                media_type=str(preview_metadata["preview_mime_type"]),
+                headers=headers,
+            )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 

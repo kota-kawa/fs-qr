@@ -8,7 +8,7 @@ import logging
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
-from starlette.responses import RedirectResponse, Response
+from starlette.responses import FileResponse, RedirectResponse
 
 from api_response import api_error_response, api_ok_response
 from file_validation import (
@@ -576,8 +576,7 @@ async def _send_file_response(request: Request, secure_id: str):
     safe_original_filename = sanitize_download_filename(original_filename, default="")
     if safe_original_filename:
         headers["X-Original-Filename"] = safe_original_filename
-    with open(path, "rb") as file:
-        return Response(content=file.read(), media_type=mimetype, headers=headers)
+    return FileResponse(path, media_type=mimetype, headers=headers)
 
 
 @router.get("/search_fs-qr", name="fsqr.search_fs_qr")
