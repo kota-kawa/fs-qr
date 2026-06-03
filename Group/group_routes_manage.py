@@ -5,6 +5,15 @@ from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
     mark_session_authenticated,
+    secure_compare_secret,
+)
+from rate_limit import (
+    SCOPE_MANAGEMENT,
+    check_rate_limit,
+    get_block_message,
+    get_client_ip,
+    register_failure,
+    register_success,
 )
 from settings import MANAGEMENT_PASSWORD as management_password
 from web import enforce_csrf, flash_message, render_template
@@ -18,10 +27,25 @@ def _register_manage_rooms_post(router: APIRouter):
         await enforce_csrf(request)
         if request.method == "POST":
             form = await request.form()
-            password = form.get("password")
-            if password == management_password:
+            password = (form.get("password") or "").strip()
+            ip = get_client_ip(request)
+            allowed, _, block_label = await check_rate_limit(SCOPE_MANAGEMENT, ip)
+            if not allowed:
+                flash_message(request, get_block_message(block_label))
+                response = render_template(request, "manage_rooms_login.html")
+                response.status_code = 429
+                return response
+
+            if secure_compare_secret(password, management_password):
+                await register_success(SCOPE_MANAGEMENT, ip)
                 mark_session_authenticated(request.session, "management_authenticated")
             else:
+                _, block_label = await register_failure(SCOPE_MANAGEMENT, ip)
+                if block_label:
+                    flash_message(request, get_block_message(block_label))
+                    response = render_template(request, "manage_rooms_login.html")
+                    response.status_code = 429
+                    return response
                 flash_message(request, "パスワードが違います。")
                 return render_template(request, "manage_rooms_login.html")
 

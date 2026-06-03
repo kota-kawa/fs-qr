@@ -445,6 +445,56 @@ def test_delete_all_rooms_requires_management_auth(test_client: TestClient):
     remove_mock.assert_not_awaited()
 
 
+def test_manage_rooms_login_rate_limited_returns_429(test_client: TestClient):
+    with patch(
+        "Group.group_routes_manage.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "30分")),
+    ):
+        response = test_client.post("/manage_rooms", data={"password": "wrongpw"})
+
+    assert response.status_code == 429
+    assert "30分" in response.text
+
+
+def test_manage_rooms_login_wrong_pw_registers_failure(test_client: TestClient):
+    with (
+        patch("Group.group_routes_manage.management_password", "managepw"),
+        patch(
+            "Group.group_routes_manage.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch(
+            "Group.group_routes_manage.register_failure",
+            new=AsyncMock(return_value=(None, None)),
+        ) as failure_mock,
+    ):
+        response = test_client.post("/manage_rooms", data={"password": "wrongpw"})
+
+    assert response.status_code == 200
+    failure_mock.assert_awaited_once()
+    assert failure_mock.await_args.args[0] == "management"
+
+
+def test_manage_rooms_login_success_clears_rate_limit(test_client: TestClient):
+    with (
+        patch("Group.group_routes_manage.management_password", "managepw"),
+        patch(
+            "Group.group_routes_manage.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch(
+            "Group.group_routes_manage.register_success", new=AsyncMock()
+        ) as success_mock,
+        patch("Group.group_data.get_all_direct", new=AsyncMock(return_value=[])),
+    ):
+        response = test_client.post("/manage_rooms", data={"password": "managepw"})
+
+    assert response.status_code == 200
+    success_mock.assert_awaited_once()
+    assert success_mock.await_args.args[0] == "management"
+    test_client.get("/logout_management")
+
+
 def test_delete_room_requires_management_auth(test_client: TestClient):
     with patch("Group.group_data.remove_data", new_callable=AsyncMock) as remove_mock:
         response = test_client.post("/delete_room/abc123")

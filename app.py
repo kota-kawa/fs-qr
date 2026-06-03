@@ -32,6 +32,7 @@ from settings import (
     SECRET_KEY,
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
+    TRUSTED_PROXY_HOSTS,
 )
 from i18n import is_language_query_only
 from web import render_cached_template, render_template, wants_json_response
@@ -60,7 +61,7 @@ _geoip_update_stop_event = None
 _geoip_update_task = None
 
 app = FastAPI()
-app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
+app.add_middleware(ProxyHeadersMiddleware, trusted_hosts=TRUSTED_PROXY_HOSTS)
 
 
 def _build_session_middleware_kwargs():

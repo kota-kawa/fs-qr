@@ -49,6 +49,52 @@ def test_admin_login_wrong_pw(test_client: TestClient):
     assert "マスターパスワードが違います" in response.text
 
 
+def test_admin_login_rate_limited_returns_429(test_client: TestClient):
+    with patch(
+        "Admin.admin_app.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "30分")),
+    ):
+        response = test_client.post("/admin/list", data={"pw": "wrongpassword"})
+
+    assert response.status_code == 429
+    assert "30分" in response.text
+
+
+def test_admin_login_wrong_pw_registers_failure(test_client: TestClient):
+    with (
+        patch("Admin.admin_app.ADMIN_KEY", "test_master_key"),
+        patch(
+            "Admin.admin_app.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch(
+            "Admin.admin_app.register_failure",
+            new=AsyncMock(return_value=(None, None)),
+        ) as failure_mock,
+    ):
+        response = test_client.post("/admin/list", data={"pw": "wrongpassword"})
+
+    assert response.status_code == 200
+    failure_mock.assert_awaited_once()
+    assert failure_mock.await_args.args[0] == "admin"
+
+
+def test_admin_login_success_clears_rate_limit(test_client: TestClient):
+    with (
+        patch("Admin.admin_app.ADMIN_KEY", "test_master_key"),
+        patch(
+            "Admin.admin_app.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch("Admin.admin_app.register_success", new=AsyncMock()) as success_mock,
+    ):
+        response = test_client.post("/admin/list", data={"pw": "test_master_key"})
+
+    assert response.status_code == 302
+    success_mock.assert_awaited_once()
+    assert success_mock.await_args.args[0] == "admin"
+
+
 def test_admin_remove_requires_session(test_client: TestClient):
     """未認証で削除エンドポイントにアクセスするとログインへ 302 リダイレクトする"""
     response = test_client.post("/admin/remove/somesecureid")
@@ -246,6 +292,52 @@ def test_db_admin_dashboard_post_redirects_without_pw_query(test_client):
         response = test_client.post("/admin/", data={"password": "testpw"})
     assert response.status_code == 302
     assert response.headers["location"] == "/admin/"
+
+
+def test_db_admin_dashboard_rate_limited_returns_429(test_client):
+    with patch(
+        "Admin.db_admin.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "30分")),
+    ):
+        response = test_client.post("/admin/", data={"password": "wrongpw"})
+
+    assert response.status_code == 429
+    assert "30分" in response.text
+
+
+def test_db_admin_dashboard_wrong_pw_registers_failure(test_client):
+    with (
+        patch("Admin.db_admin.ADMIN_DB_PW", "testpw"),
+        patch(
+            "Admin.db_admin.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch(
+            "Admin.db_admin.register_failure",
+            new=AsyncMock(return_value=(None, None)),
+        ) as failure_mock,
+    ):
+        response = test_client.post("/admin/", data={"password": "wrongpw"})
+
+    assert response.status_code == 200
+    failure_mock.assert_awaited_once()
+    assert failure_mock.await_args.args[0] == "db_admin"
+
+
+def test_db_admin_dashboard_success_clears_rate_limit(test_client):
+    with (
+        patch("Admin.db_admin.ADMIN_DB_PW", "testpw"),
+        patch(
+            "Admin.db_admin.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch("Admin.db_admin.register_success", new=AsyncMock()) as success_mock,
+    ):
+        response = test_client.post("/admin/", data={"password": "testpw"})
+
+    assert response.status_code == 302
+    success_mock.assert_awaited_once()
+    assert success_mock.await_args.args[0] == "db_admin"
 
 
 def test_db_admin_dashboard_get_legacy_query_pw_redirects(test_client):
