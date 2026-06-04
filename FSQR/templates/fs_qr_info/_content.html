@@ -157,12 +157,6 @@
                   <span class="room-info-value-text">{{ id | e }}</span>
                 </span>
               </div>
-              <div class="room-info-row">
-                <span class="room-info-label">ファイル名</span>
-                <span class="room-info-value">
-                  <span class="room-info-value-text">{{ display_filename }}</span>
-                </span>
-              </div>
               {% if password %}
               <div class="room-info-row">
                 <span class="room-info-label">パスワード</span>
@@ -181,6 +175,12 @@
                 </span>
               </div>
               {% endif %}
+              <div class="room-info-row">
+                <span class="room-info-label">ファイル名</span>
+                <span class="room-info-value">
+                  <span class="room-info-value-text">{{ display_filename }}</span>
+                </span>
+              </div>
               <div class="room-info-row">
                 <span class="room-info-label">削除予定日</span>
                 <span class="room-info-value">
