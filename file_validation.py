@@ -63,7 +63,10 @@ def validate_upload_limits(
     if existing_files_count + len(files) > max_files:
         return too_many_files_message or f"ファイル数は最大{max_files}個までです。"
 
-    if existing_total_size_bytes + count_total_upload_size(files) > max_total_size_bytes:
+    if (
+        existing_total_size_bytes + count_total_upload_size(files)
+        > max_total_size_bytes
+    ):
         return (
             too_large_total_size_message
             or f"ファイルの合計サイズは{max_total_size_mb}MBまでです。"
