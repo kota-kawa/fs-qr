@@ -107,8 +107,12 @@
                 <div class="note-editor-toolbar">
                     <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}文字</span>
                     <div class="note-editor-actions">
-                        <button type="button" id="pasteButton" class="note-action-button">ペースト</button>
-                        <button type="button" id="copyAllButton" class="note-action-button">全文コピー</button>
+                        <button type="button" id="pasteButton" class="note-action-button" aria-label="ペースト" data-tooltip="ペースト">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                        </button>
+                        <button type="button" id="copyAllButton" class="note-action-button" aria-label="全文コピー" data-tooltip="全文コピー">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        </button>
                     </div>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
