@@ -1623,6 +1623,14 @@
         "無料": "Free",
         "大容量ファイル": "Large Files",
         "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "For those who want to share files right away without account registration. We explain the benefits of using registration-free file transfer services and key points for using them safely.",
-        "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "A group room can store up to 10 files totaling 500 MB. If adding new files would exceed the limit with existing ones, uploading is not allowed."
+        "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "A group room can store up to 10 files totaling 500 MB. If adding new files would exceed the limit with existing ones, uploading is not allowed.",
+        "リアルタイム共同編集ノートで議事録を作る方法": "How to Create Meeting Minutes with a Real-Time Shared Note",
+        "会議メモや議事録を複数人で同時編集するときの進め方を、事前準備、会議中の書き分け、終了後の整理まで実践的に解説します。": "A practical guide to preparing, co-editing during a meeting, and organizing shared meeting notes afterward.",
+        "取引先と一時的にファイルをやり取りするグループルーム運用": "Using a Temporary Group Room to Exchange Files with Clients",
+        "取引先や外部パートナーと資料、画像、見積書などを一時的に受け渡すためのグループルーム運用を、準備から終了後の整理まで解説します。": "Explains how to use a group room for temporary file exchanges with clients and external partners, from setup through cleanup.",
+        "ファイル共有でよくある失敗と解決方法": "Common File Sharing Mistakes and How to Fix Them",
+        "QRコードが読めない、パスワードを伝え忘れた、容量が大きい、期限切れになったなど、ファイル共有で起こりやすい失敗と対処法をまとめます。": "Covers common file sharing problems such as unreadable QR codes, forgotten passwords, large files, and expired links.",
+        "ビジネス": "Business",
+        "トラブル対策": "Troubleshooting"
     }
 }
