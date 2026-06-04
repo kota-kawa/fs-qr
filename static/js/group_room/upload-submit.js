@@ -25,6 +25,9 @@
     var refreshRemoteFiles = typeof options.refreshRemoteFiles === 'function'
       ? options.refreshRemoteFiles
       : function () {};
+    var getRoomUsage = typeof options.getRoomUsage === 'function'
+      ? options.getRoomUsage
+      : function () { return { fileCount: 0, totalSizeBytes: 0 }; };
     var validation = appNamespace.api.getShared('uploadValidation');
     if (!validation) {
       throw new Error('Shared upload validation is not initialized.');
@@ -89,14 +92,20 @@
         return false;
       }
 
+      var usage = getRoomUsage() || {};
+      var existingFilesCount = Number(usage.fileCount) || 0;
+      var existingTotalSize = Number(usage.totalSizeBytes) || 0;
+
       var result = validation.validateSelection(filesArray, limits, {
-        checkFileName: true
+        checkFileName: true,
+        existingFilesCount: existingFilesCount,
+        existingTotalSize: existingTotalSize
       });
       if (!result.ok) {
         if (result.reason === 'max_files') {
-          notify(translate('upload.error_max_files', 'You can upload a maximum of {max} files.').replace('{max}', String(limits.maxFiles)));
+          notify(translate('upload.error_room_max_files', 'A room can hold up to {max} files in total. It currently has {current}.').replace('{max}', String(limits.maxFiles)).replace('{current}', String(existingFilesCount)));
         } else if (result.reason === 'max_total_size') {
-          notify(translate('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
+          notify(translate('upload.error_room_max_size', 'A room can hold up to {max} MB in total. The new total would be {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
         } else if (result.reason === 'invalid_filename') {
           notify(translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.'));
         }

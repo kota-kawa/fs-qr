@@ -742,6 +742,59 @@ def test_group_upload_too_many_files(test_client: TestClient):
     assert isinstance(payload["error"], str)
 
 
+def test_group_upload_rejects_when_room_total_size_exceeded(test_client: TestClient):
+    """既存ファイルとの合計サイズが上限を超えると 400 を返す"""
+    from settings import UPLOAD_MAX_TOTAL_SIZE_BYTES
+
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch(
+            "Group.group_routes_file.room_files_usage",
+            return_value=(1, UPLOAD_MAX_TOTAL_SIZE_BYTES),
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123",
+            files={"upfile": ("extra.txt", b"x", "text/plain")},
+        )
+    assert response.status_code == 400
+    payload = response.json()
+    assert payload["status"] == "error"
+    assert isinstance(payload["error"], str)
+
+
+def test_group_upload_rejects_when_room_file_count_exceeded(test_client: TestClient):
+    """既存ファイル数との合計が上限を超えると 400 を返す"""
+    from settings import UPLOAD_MAX_FILES
+
+    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch(
+            "Group.group_routes_file.room_files_usage",
+            return_value=(UPLOAD_MAX_FILES, 0),
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123",
+            files={"upfile": ("extra.txt", b"x", "text/plain")},
+        )
+    assert response.status_code == 400
+    payload = response.json()
+    assert payload["status"] == "error"
+
+
 def test_download_file_empty_filename_returns_400(test_client: TestClient):
     """空のファイル名は 400 を返す"""
     response = test_client.get("/download/abc123/ ")

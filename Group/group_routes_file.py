@@ -42,6 +42,7 @@ from .group_storage import (
     existing_room_folders,
     is_safe_path,
     resolve_room_file,
+    room_files_usage,
     room_folder,
     unique_room_filename,
 )
@@ -138,11 +139,23 @@ def register_group_upload_route(router: APIRouter):
                 "ファイルがアップロードされていません。", status_code=400
             )
 
+        existing_files_count, existing_total_size = room_files_usage(
+            room_id, primary_root=UPLOAD_FOLDER
+        )
+
         limits_error = validate_upload_limits(
             upfile,
             max_files=UPLOAD_MAX_FILES,
             max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
             max_total_size_mb=UPLOAD_MAX_TOTAL_SIZE_MB,
+            existing_files_count=existing_files_count,
+            existing_total_size_bytes=existing_total_size,
+            too_many_files_message=(
+                f"ルーム内のファイルは合計{UPLOAD_MAX_FILES}個までです。"
+            ),
+            too_large_total_size_message=(
+                f"ルーム内のファイルは合計{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです。"
+            ),
         )
         if limits_error:
             return api_error_response(
@@ -238,7 +251,24 @@ def register_group_list_files_route(router: APIRouter):
                 {"name": file_name, **get_preview_metadata(file_name)}
                 for file_name in sorted(room_files.keys(), key=str.lower)
             ]
-            return api_ok_response({"files": files})
+            total_size_bytes = 0
+            for file_path in room_files.values():
+                try:
+                    total_size_bytes += os.path.getsize(file_path)
+                except OSError:
+                    continue
+            return api_ok_response(
+                {
+                    "files": files,
+                    "usage": {
+                        "file_count": len(files),
+                        "total_size_bytes": total_size_bytes,
+                        "max_files": UPLOAD_MAX_FILES,
+                        "max_total_size_bytes": UPLOAD_MAX_TOTAL_SIZE_BYTES,
+                        "max_total_size_mb": UPLOAD_MAX_TOTAL_SIZE_MB,
+                    },
+                }
+            )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 

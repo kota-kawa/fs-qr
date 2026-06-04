@@ -151,10 +151,18 @@
 
             <!-- Other Users' Files -->
             <div style="margin: 2rem 0;">
-                <h5 style="color: var(--text-dark); margin-bottom: 1rem;">
+                <h5 style="color: var(--text-dark); margin-bottom: 0.5rem;">
                     {{ icons.icon('arrow_down', size='lg', with_text=True) }}
                     グループメンバーのファイル (<span id="fileCount">0</span>)
                 </h5>
+                <div id="roomUsage" class="room-usage" role="status" aria-live="polite">
+                    <div class="room-usage__text">
+                        <span id="roomUsageText"></span>
+                    </div>
+                    <div class="room-usage__bar" aria-hidden="true">
+                        <div class="room-usage__bar-fill" id="roomUsageBarFill"></div>
+                    </div>
+                </div>
                 <div id="otherFileList" class="modern-file-list">
                     <!-- 他の人のアップロードしたファイルがここに表示されます -->
                 </div>

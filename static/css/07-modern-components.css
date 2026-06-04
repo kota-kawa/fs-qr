@@ -519,6 +519,39 @@
    Modern File List System
    =============================================== */
 
+.room-usage {
+  margin: 0 0 0.5rem;
+}
+
+.room-usage__text {
+  font-size: 0.85rem;
+  color: var(--text-medium);
+  margin-bottom: 0.35rem;
+}
+
+.room-usage__bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-light);
+  overflow: hidden;
+}
+
+.room-usage__bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--primary, #006d80);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.room-usage.is-full .room-usage__bar-fill {
+  background: #d9534f;
+}
+
+.room-usage.is-full .room-usage__text {
+  color: #d9534f;
+}
+
 .modern-file-list {
   background: var(--bg-light);
   border-radius: 12px;

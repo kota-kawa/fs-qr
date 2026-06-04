@@ -63,6 +63,20 @@ def collect_room_files(room_id, *, primary_root=None, include_legacy=True):
     return files
 
 
+def room_files_usage(room_id, *, primary_root=None, include_legacy=True):
+    """Return (file_count, total_size_bytes) for all files stored in a room."""
+    files = collect_room_files(
+        room_id, primary_root=primary_root, include_legacy=include_legacy
+    )
+    total_size = 0
+    for file_path in files.values():
+        try:
+            total_size += os.path.getsize(file_path)
+        except OSError:
+            continue
+    return len(files), total_size
+
+
 def resolve_room_file(room_id, filename, *, primary_root=None, include_legacy=True):
     for _, folder in iter_room_folders(
         room_id, primary_root=primary_root, include_legacy=include_legacy

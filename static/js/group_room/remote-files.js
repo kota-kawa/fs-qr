@@ -26,6 +26,13 @@
     var isFetchingFileList = false;
     var shouldRefetchFileList = false;
     var lastRenderedFileSignature = null;
+    var currentUsage = {
+      fileCount: 0,
+      totalSizeBytes: 0,
+      maxFiles: Number(limits.maxFiles) || 0,
+      maxTotalSizeBytes: Number(limits.maxTotalSizeBytes) || 0,
+      maxTotalSizeMB: Number(limits.maxTotalSizeMB) || 0
+    };
     var parsedFileListRequestTimeoutMs = Number(limits.fileListRequestTimeoutMs);
     var parsedFileListPollIntervalMs = Number(limits.fileListPollIntervalMs);
     var fileListRequestTimeoutMs = Number.isFinite(parsedFileListRequestTimeoutMs) && parsedFileListRequestTimeoutMs > 0
@@ -73,6 +80,70 @@
       var fileCountElement = document.getElementById('fileCount');
       if (fileCountElement) {
         fileCountElement.textContent = String(count);
+      }
+    }
+
+    function formatSize(bytes) {
+      var safeBytes = Number.isFinite(bytes) && bytes > 0 ? bytes : 0;
+      if (safeBytes >= 1024 * 1024 * 1024) {
+        return (safeBytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+      }
+      if (safeBytes >= 1024 * 1024) {
+        return (safeBytes / (1024 * 1024)).toFixed(1) + ' MB';
+      }
+      if (safeBytes >= 1024) {
+        return (safeBytes / 1024).toFixed(1) + ' KB';
+      }
+      return String(Math.round(safeBytes)) + ' B';
+    }
+
+    function normalizeUsage(payload) {
+      if (!payload || typeof payload !== 'object' || !payload.data || typeof payload.data !== 'object') {
+        return null;
+      }
+      var usage = payload.data.usage;
+      if (!usage || typeof usage !== 'object') {
+        return null;
+      }
+      return {
+        fileCount: Number(usage.file_count) || 0,
+        totalSizeBytes: Number(usage.total_size_bytes) || 0,
+        maxFiles: Number(usage.max_files) || currentUsage.maxFiles,
+        maxTotalSizeBytes: Number(usage.max_total_size_bytes) || currentUsage.maxTotalSizeBytes,
+        maxTotalSizeMB: Number(usage.max_total_size_mb) || currentUsage.maxTotalSizeMB
+      };
+    }
+
+    function renderUsage(usage) {
+      currentUsage = usage;
+      var usageContainer = document.getElementById('roomUsage');
+      var usageText = document.getElementById('roomUsageText');
+      var usageBarFill = document.getElementById('roomUsageBarFill');
+      var maxBytes = usage.maxTotalSizeBytes > 0
+        ? usage.maxTotalSizeBytes
+        : usage.maxTotalSizeMB * 1024 * 1024;
+
+      if (usageText) {
+        usageText.textContent = core.formatMessage
+          ? core.formatMessage('group.usage_summary', 'Usage {used} / {total} · {count} / {maxCount} files', {
+            used: formatSize(usage.totalSizeBytes),
+            total: formatSize(maxBytes),
+            count: usage.fileCount,
+            maxCount: usage.maxFiles
+          })
+          : `Usage ${formatSize(usage.totalSizeBytes)} / ${formatSize(maxBytes)} · ${usage.fileCount} / ${usage.maxFiles} files`;
+      }
+
+      var isFull = (maxBytes > 0 && usage.totalSizeBytes >= maxBytes) ||
+        (usage.maxFiles > 0 && usage.fileCount >= usage.maxFiles);
+
+      if (usageBarFill) {
+        var ratio = maxBytes > 0 ? Math.min(1, usage.totalSizeBytes / maxBytes) : 0;
+        usageBarFill.style.width = `${Math.round(ratio * 100)}%`;
+      }
+
+      if (usageContainer) {
+        usageContainer.classList.toggle('is-full', isFull);
       }
     }
 
@@ -244,6 +315,11 @@
           return;
         }
 
+        var usage = normalizeUsage(parsed);
+        if (usage) {
+          renderUsage(usage);
+        }
+
         var currentFileSignature = buildFileSignature(files);
         if (currentFileSignature === lastRenderedFileSignature) {
           setFileCount(files.length);
@@ -349,6 +425,7 @@
     }
 
     function startRealtimeUpdates() {
+      renderUsage(currentUsage);
       fetchAndDisplayOtherFiles();
       startPolling();
       connectFileListWebSocket();
@@ -389,7 +466,16 @@
     return {
       fetchAndDisplayOtherFiles: fetchAndDisplayOtherFiles,
       bindLifecycleEvents: bindLifecycleEvents,
-      startRealtimeUpdates: startRealtimeUpdates
+      startRealtimeUpdates: startRealtimeUpdates,
+      getUsage: function () {
+        return {
+          fileCount: currentUsage.fileCount,
+          totalSizeBytes: currentUsage.totalSizeBytes,
+          maxFiles: currentUsage.maxFiles,
+          maxTotalSizeBytes: currentUsage.maxTotalSizeBytes,
+          maxTotalSizeMB: currentUsage.maxTotalSizeMB
+        };
+      }
     };
   }
 
