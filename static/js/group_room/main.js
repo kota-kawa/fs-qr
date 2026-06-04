@@ -105,6 +105,7 @@
       getFiles: uploadQueue.getFiles,
       clearFiles: uploadQueue.clearFiles,
       refreshRemoteFiles: remoteFileListManager.fetchAndDisplayOtherFiles,
+      getRoomUsage: remoteFileListManager.getUsage,
       limits: limits
     });
 

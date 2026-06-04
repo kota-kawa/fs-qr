@@ -86,6 +86,13 @@
         return;
       }
 
+      var fileCountEl = document.getElementById('fileCount');
+      var fileCount = fileCountEl ? parseInt(fileCountEl.textContent, 10) : 0;
+      if (fileCount === 0) {
+        notify(translate('download.no_files', 'There are no files to download.'));
+        return;
+      }
+
       isDownloadingAll = true;
       downloadAllBtn.disabled = true;
       core.showDownloadProgress(formatMessage('download.all_progress', 'Downloading all files... {percent}%', { percent: 0 }));
