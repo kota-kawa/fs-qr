@@ -295,19 +295,43 @@ footer.simple-footer {
 }
 
 .note-action-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--theme-note-action-border);
   border-radius: var(--radius-md);
-  padding: 0.45rem 0.85rem;
+  padding: 0.45rem;
+  width: 2.2rem;
+  height: 2.2rem;
   background: var(--theme-note-action-background);
   color: var(--theme-note-char-count-text);
-  font-size: 0.88rem;
-  font-weight: 700;
   line-height: 1;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.note-action-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.note-action-button:hover::after,
+.note-action-button:focus-visible::after {
+  opacity: 1;
 }
 
 .note-action-button:hover,
