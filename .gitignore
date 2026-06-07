@@ -8,6 +8,9 @@
 *.dll
 *.json
 !locales/*.json
+!static/manifest.json
+!static/manifest_group.json
+!static/manifest_note.json
 *.Identifier
 # ログファイルを無視
 
@@ -52,6 +55,11 @@ geoip/*
 
 # ビルドディレクトリを無視
 /build/
+.coverage
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
 tmp/
 __pycache__/.env
 __pycache__/
