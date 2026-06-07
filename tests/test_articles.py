@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import pytest
 from starlette.testclient import TestClient
 
+from Articles.articles_app import ARTICLES_PER_PAGE
 from Articles.articles_registry import (
     ARTICLES,
     TYPE_ARTICLE,
@@ -22,9 +23,38 @@ def test_articles_index_lists_all_articles(test_client: TestClient):
     response = test_client.get("/articles")
     assert response.status_code == 200
     body = response.text
-    for article in ARTICLES:
+    for article in get_guides():
         assert f"/{article['slug']}" in body
         assert article["title"] in body
+    for article in get_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
+        assert f"/{article['slug']}" in body
+        assert article["title"] in body
+    for article in get_blog_articles_sorted()[ARTICLES_PER_PAGE:]:
+        assert f"/{article['slug']}" not in body
+
+
+def test_articles_second_page_lists_remaining_articles(test_client: TestClient):
+    response = test_client.get("/articles/page/2")
+    assert response.status_code == 200
+    body = response.text
+    for article in get_guides():
+        assert f"/{article['slug']}" not in body
+    for article in get_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
+        assert f"/{article['slug']}" not in body
+    for article in get_blog_articles_sorted()[ARTICLES_PER_PAGE:]:
+        assert f"/{article['slug']}" in body
+        assert article["title"] in body
+
+
+def test_articles_page_one_redirects_to_canonical_index(test_client: TestClient):
+    response = test_client.get("/articles/page/1")
+    assert response.status_code == 301
+    assert response.headers["location"] == "http://testserver/articles"
+
+
+def test_articles_out_of_range_page_returns_404(test_client: TestClient):
+    response = test_client.get("/articles/page/999")
+    assert response.status_code == 404
 
 
 @pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
@@ -120,6 +150,14 @@ def test_blog_articles_sorted_newest_first():
     assert all(a["type"] == TYPE_ARTICLE for a in blog)
     dates = [a["date"] for a in blog]
     assert dates == sorted(dates, reverse=True)
+
+
+def test_blog_articles_sorted_uses_later_registry_order_for_same_day():
+    blog = get_blog_articles_sorted()
+    indexes = {article["slug"]: index for index, article in enumerate(ARTICLES)}
+    for previous, current in zip(blog, blog[1:]):
+        if previous["date"] == current["date"]:
+            assert indexes[previous["slug"]] > indexes[current["slug"]]
 
 
 def test_articles_index_renders_both_sections(test_client: TestClient):

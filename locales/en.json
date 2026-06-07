@@ -39,7 +39,13 @@
     "group.delete_room_confirm_message": "This will delete the group room. All files in the room will also be deleted, and this action cannot be undone.",
     "group.delete_room_button": "Delete Room",
     "alert.confirm_delete": "Confirm Delete",
-    "alert.delete_action": "Delete"
+    "alert.delete_action": "Delete",
+    "articles.search_current_page_placeholder": "Search articles on this page...",
+    "articles.search_current_page_label": "Search articles on this page",
+    "articles.count_suffix": " items",
+    "articles.pagination_label": "Latest articles pagination",
+    "articles.pagination_prev": "Previous",
+    "articles.pagination_next": "Next"
   },
   "js": {
     "alert.notice": "Notice",

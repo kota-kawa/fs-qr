@@ -39,7 +39,13 @@
     "group.delete_room_confirm_message": "このグループルームを削除します。ルーム内のファイルもすべて削除され、この操作は元に戻せません。",
     "group.delete_room_button": "ルームを削除",
     "alert.confirm_delete": "削除の確認",
-    "alert.delete_action": "削除する"
+    "alert.delete_action": "削除する",
+    "articles.search_current_page_placeholder": "このページの記事を検索…",
+    "articles.search_current_page_label": "このページの記事を検索",
+    "articles.count_suffix": "件",
+    "articles.pagination_label": "新着記事のページ送り",
+    "articles.pagination_prev": "前へ",
+    "articles.pagination_next": "次へ"
   },
   "js": {
     "alert.notice": "お知らせ",

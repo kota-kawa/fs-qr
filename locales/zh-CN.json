@@ -39,7 +39,13 @@
     "group.delete_room_confirm_message": "此操作将删除该群组房间。房间内的所有文件也将被删除，且无法撤销。",
     "group.delete_room_button": "删除房间",
     "alert.confirm_delete": "确认删除",
-    "alert.delete_action": "删除"
+    "alert.delete_action": "删除",
+    "articles.search_current_page_placeholder": "搜索此页面的文章...",
+    "articles.search_current_page_label": "搜索此页面的文章",
+    "articles.count_suffix": "篇",
+    "articles.pagination_label": "最新文章分页",
+    "articles.pagination_prev": "上一页",
+    "articles.pagination_next": "下一页"
   },
   "js": {
     "alert.notice": "通知",

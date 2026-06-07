@@ -39,7 +39,13 @@
     "group.delete_room_confirm_message": "此操作將刪除該群組房間。房間內的所有檔案也將被刪除，且無法復原。",
     "group.delete_room_button": "刪除房間",
     "alert.confirm_delete": "確認刪除",
-    "alert.delete_action": "刪除"
+    "alert.delete_action": "刪除",
+    "articles.search_current_page_placeholder": "搜尋此頁面的文章...",
+    "articles.search_current_page_label": "搜尋此頁面的文章",
+    "articles.count_suffix": "篇",
+    "articles.pagination_label": "最新文章分頁",
+    "articles.pagination_prev": "上一頁",
+    "articles.pagination_next": "下一頁"
   },
   "js": {
     "alert.notice": "通知",
