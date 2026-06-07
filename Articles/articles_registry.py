@@ -304,11 +304,18 @@ def get_guides() -> list[dict[str, Any]]:
 
 def get_blog_articles_sorted() -> list[dict[str, Any]]:
     """ブログ記事(type="article")を新しい順に並べて返す。"""
-    return sorted(
-        (a for a in ARTICLES if a.get("type", TYPE_ARTICLE) == TYPE_ARTICLE),
-        key=lambda a: a["date"],
-        reverse=True,
-    )
+    return [
+        article
+        for _, article in sorted(
+            (
+                (index, a)
+                for index, a in enumerate(ARTICLES)
+                if a.get("type", TYPE_ARTICLE) == TYPE_ARTICLE
+            ),
+            key=lambda item: (item[1]["date"], item[0]),
+            reverse=True,
+        )
+    ]
 
 
 def get_article_by_slug(slug: str) -> dict[str, Any] | None:
