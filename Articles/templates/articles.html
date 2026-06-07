@@ -337,7 +337,7 @@
     <div class="articles-toolbar">
       <div class="articles-search">
         <i class="fas fa-search"></i>
-        <input type="search" id="article-search" placeholder="このページの記事を検索…" aria-label="このページの記事を検索">
+        <input type="search" id="article-search" placeholder="{{ t('articles.search_current_page_placeholder') }}" aria-label="{{ t('articles.search_current_page_label') }}">
       </div>
       <div class="articles-filters" id="article-filters">
         <button type="button" class="filter-chip active" data-category="">すべての記事</button>
@@ -382,7 +382,7 @@
       <div class="section-header">
         <h2 class="section-title"><i class="fas fa-newspaper"></i>新着記事</h2>
         {% if article_total_count %}
-        <p class="section-status">{{ article_visible_start }}-{{ article_visible_end }} / {{ article_total_count }}件</p>
+        <p class="section-status">{{ article_visible_start }}-{{ article_visible_end }} / {{ article_total_count }}{{ t('articles.count_suffix') }}</p>
         {% endif %}
       </div>
       <div class="articles-grid">
@@ -406,12 +406,12 @@
       </div>
       {% if article_total_pages > 1 %}
       {% set page_query = '?lang=' ~ current_language if request.query_params.get('lang') else '' %}
-      <nav class="articles-pagination" aria-label="新着記事のページ送り">
+      <nav class="articles-pagination" aria-label="{{ t('articles.pagination_label') }}">
         {% if article_page > 1 %}
           {% set prev_page = article_page - 1 %}
-          <a class="pagination-link pagination-prev" href="{{ '/articles' if prev_page == 1 else '/articles/page/' ~ prev_page }}{{ page_query }}">前へ</a>
+          <a class="pagination-link pagination-prev" href="{{ '/articles' if prev_page == 1 else '/articles/page/' ~ prev_page }}{{ page_query }}">{{ t('articles.pagination_prev') }}</a>
         {% else %}
-          <span class="pagination-disabled pagination-prev" aria-disabled="true">前へ</span>
+          <span class="pagination-disabled pagination-prev" aria-disabled="true">{{ t('articles.pagination_prev') }}</span>
         {% endif %}
 
         {% for page in range(1, article_total_pages + 1) %}
@@ -428,9 +428,9 @@
 
         {% if article_page < article_total_pages %}
           {% set next_page = article_page + 1 %}
-          <a class="pagination-link pagination-next" href="/articles/page/{{ next_page }}{{ page_query }}">次へ</a>
+          <a class="pagination-link pagination-next" href="/articles/page/{{ next_page }}{{ page_query }}">{{ t('articles.pagination_next') }}</a>
         {% else %}
-          <span class="pagination-disabled pagination-next" aria-disabled="true">次へ</span>
+          <span class="pagination-disabled pagination-next" aria-disabled="true">{{ t('articles.pagination_next') }}</span>
         {% endif %}
       </nav>
       {% endif %}
