@@ -72,6 +72,62 @@
     }
   }
 
+  let analyticsLoaded = false;
+  let adsLoaded = false;
+
+  function getTagConfig() {
+    return window.FSQR_TAGS || {};
+  }
+
+  function loadScriptOnce(src, attrs) {
+    if (!src || document.querySelector(`script[src="${src}"]`)) {
+      return;
+    }
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = src;
+    Object.keys(attrs || {}).forEach((key) => {
+      script.setAttribute(key, attrs[key]);
+    });
+    document.head.appendChild(script);
+  }
+
+  function loadGoogleAnalytics() {
+    const measurementId = getTagConfig().googleAnalyticsId;
+    if (analyticsLoaded || !measurementId) {
+      return;
+    }
+    analyticsLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', measurementId);
+    loadScriptOnce(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`);
+  }
+
+  function loadAdsense() {
+    const clientId = getTagConfig().adsenseClientId;
+    if (adsLoaded || !clientId) {
+      return;
+    }
+    adsLoaded = true;
+    loadScriptOnce(
+      `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`,
+      { crossorigin: 'anonymous' }
+    );
+  }
+
+  function applyOptionalTags(settings) {
+    if (settings && settings.analytics) {
+      loadGoogleAnalytics();
+    }
+    if (settings && settings.marketing) {
+      loadAdsense();
+    }
+  }
+
   function getFocusableElements(container) {
     return Array.from(
       container.querySelectorAll(
@@ -390,10 +446,14 @@
 
     function acceptConsent() {
       saveLanguageAndClose(() => setConsentCookie('accepted'));
+      applyOptionalTags({ analytics: true, marketing: true });
     }
 
     function rejectConsent() {
       saveLanguageAndClose(() => setConsentCookie('rejected'));
+      if (analyticsLoaded || adsLoaded) {
+        window.location.reload();
+      }
     }
 
     function saveCustomConsent() {
@@ -402,11 +462,16 @@
         const key = toggle.getAttribute('data-cookie-consent-toggle');
         settings[key] = toggle.checked;
       });
+      const shouldReloadForDisabledTag =
+        (analyticsLoaded && !settings.analytics) || (adsLoaded && !settings.marketing);
       setConsentCookie(settings);
+      applyOptionalTags(settings);
       const selectedLanguage = languageSelect ? languageSelect.value : initialLanguage;
       setLanguageCookie(selectedLanguage);
       hideOverlay(overlay);
       if (selectedLanguage && selectedLanguage !== initialLanguage) {
+        window.location.reload();
+      } else if (shouldReloadForDisabledTag) {
         window.location.reload();
       }
     }
@@ -497,6 +562,8 @@
     if (!hasConsent()) {
       showOverlay(overlay, { closeable: false });
       showSummaryView();
+    } else {
+      applyOptionalTags(getStoredConsentSettings());
     }
   });
 })();
