@@ -2018,6 +2018,25 @@
     "ファイル共有のダウンロードページを開きます。": "Opent de downloadpagina voor het delen van bestanden.",
     "グループファイル共有ルームを開きます。": "Opent de kamer voor groepsbestanden delen.",
     "リアルタイムノートルームを開きます。": "Opent de realtime notitiekamer.",
-    "不明": "Onbekend"
+    "不明": "Onbekend",
+    "取得する情報": "Verzamelde informatie",
+    "本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。": "Deze service verwerkt informatie die nodig is voor het veilig leveren en exploiteren van de service, zoals geüploade bestanden, notitietekst, kamer-ID's, deel-URL's, bewaartermijnen, bestandsnamen, inhoud van verzoeken, cookievoorkeuren, IP-adressen en browserinformatie.",
+    "アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。": "Accountregistratie is niet vereist. Als gebruikers persoonlijke informatie in bestanden of notities opnemen, wordt die inhoud ook tijdelijk door deze service verwerkt.",
+    "利用目的と保存場所": "Doeleinden en opslaglocatie",
+    "取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。": "Verzamelde informatie wordt gebruikt voor het delen van bestanden, groepskamers, het delen van notities, authenticatie, tariefbeperking, misbruikpreventie, incidentonderzoek, verzoekafhandeling, serviceverbetering en reclame.",
+    "本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。": "Servicegegevens worden voornamelijk opgeslagen op servers in Japan. Wanneer externe diensten zoals Google Analytics, Google AdSense, Google Forms of DB-IP worden gebruikt, kunnen informatie buiten Japan worden verwerkt door die aanbieders.",
+    "Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。": "Via het cookiebanner kunt u kiezen voor Accepteren, Weigeren of Instellingen aanpassen. Essentiële cookies worden altijd gebruikt om de service te leveren. Analytische en advertentiecookies worden alleen gebruikt wanneer u toestemming geeft.",
+    "当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。": "Deze site kan externe advertentiepartners zoals Google AdSense gebruiken om advertenties via cookies te plaatsen.",
+    "広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。": "Als u instemt met advertentiecookies, kunnen gepersonaliseerde advertenties op basis van uw interesses worden weergegeven. Zelfs als u ze weigert, kunnen niet-gepersonaliseerde advertenties worden weergegeven afhankelijk van de instellingen van de advertentieprovider.",
+    "アクセス解析について": "Toegangsanalyse",
+    "本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。": "Deze service kan Google Analytics gebruiken om het gebruik te begrijpen en de service te verbeteren. Google Analytics wordt alleen geladen wanneer u instemt met analytische cookies.",
+    "保存期間と削除依頼": "Bewaartermijn en verwijderingsverzoeken",
+    "FSQR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。": "FSQR-, groepskamer- en notitiekamergegevens worden automatisch verwijderd na de door de gebruiker geselecteerde bewaartermijn. Gebruikers met verwijderingsrechten kunnen ze handmatig verwijderen vanaf elke deelpagina.",
+    "削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて": "Voor verwijderingsverzoeken, privacyvragen of meldingen van mogelijk illegale of inbreukmakende inhoud, voeg het doel-URL, kamer-ID en details bij, en neem contact met ons op via de",
+    "からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。": "pagina. We bekijken de details en verwijderen, indien nodig, de inhoud of ondernemen andere actie.",
+    "外部フォームについて": "Over het externe formulier",
+    "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "We gebruiken Google Forms voor verzoeken. Informatie die in het formulier wordt ingevoerd, wordt gebruikt voor verzoekafhandeling en serviceverbetering. Raadpleeg het privacybeleid van Google voor informatie over de verwerking van gegevens door Google.",
+    "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Privacyvragen, verwijderingsverzoeken en meldingen van mogelijk illegale of inbreukmakende inhoud worden ook via dit formulier geaccepteerd. Geef het doel-URL, het kamer-ID, de probleemdetails en uw contactgegevens zo specifiek mogelijk op.",
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Ingangsdatum: 28 mei 2026 / Laatste update: 8 juni 2026"
   }
 }

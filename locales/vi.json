@@ -1763,6 +1763,25 @@
     "ファイル共有のダウンロードページを開きます。": "Mở trang tải xuống của liên kết chia sẻ tệp.",
     "グループファイル共有ルームを開きます。": "Mở phòng chia sẻ tệp nhóm.",
     "リアルタイムノートルームを開きます。": "Mở phòng ghi chú thời gian thực.",
-    "不明": "Không xác định"
+    "不明": "Không xác định",
+    "取得する情報": "Thông tin chúng tôi thu thập",
+    "本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。": "Dịch vụ này xử lý thông tin cần thiết để cung cấp và vận hành dịch vụ an toàn, bao gồm các tệp được tải lên, nội dung ghi chú, ID phòng, URL chia sẻ, thời hạn lưu trữ, tên tệp, nội dung câu hỏi, tùy chọn cookie, địa chỉ IP và thông tin trình duyệt.",
+    "アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。": "Không cần đăng ký tài khoản. Nếu người dùng đưa thông tin cá nhân vào tệp hoặc ghi chú, nội dung đó cũng sẽ được dịch vụ này xử lý tạm thời.",
+    "利用目的と保存場所": "Mục đích sử dụng và vị trí lưu trữ",
+    "取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。": "Thông tin thu thập được sử dụng cho việc chia sẻ tệp, phòng nhóm, chia sẻ ghi chú, xác thực, giới hạn tốc độ, ngăn chặn lạm dụng, điều tra sự cố, xử lý câu hỏi, cải thiện dịch vụ và quảng cáo.",
+    "本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。": "Dữ liệu dịch vụ được lưu trữ chủ yếu trên các máy chủ ở Nhật Bản. Khi sử dụng các dịch vụ bên ngoài như Google Analytics, Google AdSense, Google Forms hoặc DB-IP, thông tin có thể được xử lý bên ngoài Nhật Bản bởi những nhà cung cấp đó.",
+    "Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。": "Biểu ngữ cookie cho phép bạn chọn Chấp nhận, Từ chối hoặc Tùy chỉnh cài đặt. Cookie thiết yếu luôn được sử dụng để cung cấp dịch vụ. Cookie phân tích và quảng cáo chỉ được sử dụng khi bạn đồng ý.",
+    "当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。": "Trang web này có thể sử dụng các nhà cung cấp quảng cáo bên thứ ba như Google AdSense để phân phối quảng cáo bằng cookie.",
+    "広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。": "Nếu bạn đồng ý với cookie quảng cáo, các quảng cáo được cá nhân hóa dựa trên sở thích của bạn có thể được hiển thị. Ngay cả khi bạn từ chối, quảng cáo không cá nhân hóa vẫn có thể được hiển thị tùy theo cài đặt của nhà cung cấp quảng cáo.",
+    "アクセス解析について": "Phân tích truy cập",
+    "本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。": "Dịch vụ này có thể sử dụng Google Analytics để hiểu mức độ sử dụng và cải thiện dịch vụ. Google Analytics chỉ được tải khi bạn đồng ý với cookie phân tích.",
+    "保存期間と削除依頼": "Thời hạn lưu trữ và yêu cầu xóa",
+    "FSQR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。": "Dữ liệu FSQR, phòng nhóm và phòng ghi chú tự động bị xóa sau thời hạn lưu trữ do người dùng chọn. Người dùng có quyền xóa có thể xóa thủ công từ mỗi trang chia sẻ.",
+    "削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて": "Đối với yêu cầu xóa, câu hỏi về quyền riêng tư hoặc báo cáo về nội dung có thể vi phạm pháp luật hoặc xâm phạm quyền lợi, hãy đính kèm URL mục tiêu, ID phòng và chi tiết, sau đó liên hệ với chúng tôi qua",
+    "からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。": "trang. Chúng tôi sẽ xem xét chi tiết và, nếu cần thiết, xóa nội dung hoặc thực hiện hành động thích hợp.",
+    "外部フォームについて": "Về biểu mẫu bên ngoài",
+    "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "Chúng tôi sử dụng Google Forms cho các câu hỏi. Thông tin nhập vào biểu mẫu được sử dụng để xử lý câu hỏi và cải thiện dịch vụ. Vui lòng tham khảo Chính sách Quyền riêng tư của Google để biết thông tin về cách Google xử lý thông tin.",
+    "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Các câu hỏi về quyền riêng tư, yêu cầu xóa và báo cáo về nội dung có thể vi phạm pháp luật hoặc xâm phạm quyền lợi cũng được chấp nhận qua biểu mẫu này. Vui lòng cung cấp URL mục tiêu, ID phòng, chi tiết vấn đề và thông tin liên lạc càng cụ thể càng tốt.",
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Ngày có hiệu lực: 28 tháng 5 năm 2026 / Cập nhật lần cuối: 8 tháng 6 năm 2026"
   }
 }
