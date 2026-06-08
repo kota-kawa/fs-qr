@@ -23,6 +23,8 @@
     "settings.privacy": "Kebijakan Privasi",
     "settings.back": "Kembali",
     "settings.close": "Tutup",
+    "settings.collapse": "Ciutkan",
+    "settings.expand": "Perluas",
     "settings.optional": "Opsional",
     "settings.save": "Simpan dan Tutup",
     "note.editor.label": "Catatan Bersama (maksimal {max_length} karakter)",

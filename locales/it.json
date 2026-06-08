@@ -23,6 +23,8 @@
     "settings.privacy": "Informativa sulla privacy",
     "settings.back": "Indietro",
     "settings.close": "Chiudi",
+    "settings.collapse": "Comprimi",
+    "settings.expand": "Espandi",
     "settings.optional": "Opzionale",
     "settings.save": "Salva e chiudi",
     "note.editor.label": "Nota condivisa (fino a {max_length} caratteri)",

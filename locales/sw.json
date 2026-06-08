@@ -23,6 +23,8 @@
     "settings.privacy": "Sera ya Faragha",
     "settings.back": "Nyuma",
     "settings.close": "Funga",
+    "settings.collapse": "Kunja",
+    "settings.expand": "Panua",
     "settings.optional": "Hiari",
     "settings.save": "Hifadhi na ufunge",
     "note.editor.label": "Kumbukumbu iliyoshirikiwa (hadi herufi {max_length})",

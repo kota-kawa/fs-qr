@@ -18,22 +18,10 @@
   <div
     class="cookie-consent-dialog"
     role="dialog"
-    aria-modal="true"
+    aria-modal="false"
     aria-labelledby="cookieConsentTitle"
     aria-describedby="cookieConsentDescription"
   >
-    <button
-      type="button"
-      class="cookie-consent-close"
-      data-cookie-consent="close"
-      aria-label="{{ t('settings.close') }}"
-      hidden
-    >
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <path d="M18 6 6 18M6 6l12 12" />
-      </svg>
-    </button>
-
     <div class="cookie-consent-header">
       <div class="cookie-consent-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
@@ -47,8 +35,36 @@
           {{ t('settings.description') }}
         </p>
       </div>
+      <button
+        type="button"
+        class="cookie-consent-collapse"
+        data-cookie-consent="collapse"
+        data-label-collapse="{{ t('settings.collapse') }}"
+        data-label-expand="{{ t('settings.expand') }}"
+        aria-controls="cookieConsentBody"
+        aria-expanded="true"
+        aria-label="{{ t('settings.collapse') }}"
+      >
+        <span class="cookie-consent-collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </span>
+      </button>
+      <button
+        type="button"
+        class="cookie-consent-close"
+        data-cookie-consent="close"
+        aria-label="{{ t('settings.close') }}"
+        hidden
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
+    <div class="cookie-consent-body" id="cookieConsentBody">
     <div class="cookie-consent-view" data-cookie-consent-view="summary" aria-live="polite">
       <div class="lang-select-summary-row">
         <div class="lang-select" data-lang-select>
@@ -193,6 +209,7 @@
           </button>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>

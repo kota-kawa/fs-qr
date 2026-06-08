@@ -23,6 +23,8 @@
     "settings.privacy": "Datenschutzerklärung",
     "settings.back": "Zurück",
     "settings.close": "Schließen",
+    "settings.collapse": "Einklappen",
+    "settings.expand": "Ausklappen",
     "settings.optional": "Optional",
     "settings.save": "Speichern und schließen",
     "note.editor.label": "Gemeinsame Notiz (bis zu {max_length} Zeichen)",

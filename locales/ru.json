@@ -23,6 +23,8 @@
     "settings.privacy": "Политика конфиденциальности",
     "settings.back": "Назад",
     "settings.close": "Закрыть",
+    "settings.collapse": "Свернуть",
+    "settings.expand": "Развернуть",
     "settings.optional": "Дополнительно",
     "settings.save": "Сохранить и закрыть",
     "note.editor.label": "Общая заметка (до {max_length} символов)",

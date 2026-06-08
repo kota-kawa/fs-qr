@@ -23,6 +23,8 @@
     "settings.privacy": "Політика конфіденційності",
     "settings.back": "Назад",
     "settings.close": "Закрити",
+    "settings.collapse": "Згорнути",
+    "settings.expand": "Розгорнути",
     "settings.optional": "Необов'язково",
     "settings.save": "Зберегти та закрити",
     "note.editor.label": "Спільна замітка (до {max_length} символів)",

@@ -23,6 +23,8 @@
     "settings.privacy": "개인정보처리방침",
     "settings.back": "뒤로",
     "settings.close": "닫기",
+    "settings.collapse": "접기",
+    "settings.expand": "펼치기",
     "settings.optional": "선택",
     "settings.save": "저장 후 닫기",
     "note.editor.label": "공유 노트(최대 {max_length}자)",

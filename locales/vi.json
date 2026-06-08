@@ -23,6 +23,8 @@
     "settings.privacy": "Chính sách bảo mật",
     "settings.back": "Quay lại",
     "settings.close": "Đóng",
+    "settings.collapse": "Thu gọn",
+    "settings.expand": "Mở rộng",
     "settings.optional": "Không bắt buộc",
     "settings.save": "Lưu và đóng",
     "note.editor.label": "Ghi chú chia sẻ (tối đa {max_length} ký tự)",
