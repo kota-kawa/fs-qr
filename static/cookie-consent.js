@@ -128,40 +128,25 @@
     }
   }
 
-  function getFocusableElements(container) {
-    return Array.from(
-      container.querySelectorAll(
-        'a[href], button:not([disabled]):not([hidden]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
-    ).filter((element) => {
-      return !element.hidden && element.offsetParent !== null && element.getAttribute('aria-hidden') !== 'true';
-    });
-  }
-
   let lastFocusedElement = null;
-  let scrollLockY = 0;
   const langSelectClosers = [];
 
   function closeOpenLangSelects() {
     langSelectClosers.forEach((close) => close({ restoreFocus: false }));
   }
 
-  function lockBodyScroll() {
-    scrollLockY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollLockY}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
-  }
-
-  function unlockBodyScroll() {
-    document.body.style.removeProperty('position');
-    document.body.style.removeProperty('top');
-    document.body.style.removeProperty('left');
-    document.body.style.removeProperty('right');
-    document.body.style.removeProperty('overflow');
-    window.scrollTo(0, scrollLockY);
+  function setCollapsed(overlay, collapsed) {
+    overlay.classList.toggle('is-collapsed', collapsed);
+    const toggle = overlay.querySelector('[data-cookie-consent="collapse"]');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      const label = collapsed
+        ? toggle.getAttribute('data-label-expand')
+        : toggle.getAttribute('data-label-collapse');
+      if (label) {
+        toggle.setAttribute('aria-label', label);
+      }
+    }
   }
 
   function hideOverlay(overlay, options = {}) {
@@ -170,7 +155,6 @@
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
     overlay.removeAttribute('data-cookie-consent-closeable');
-    unlockBodyScroll();
 
     if (options.restoreFocus !== false && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
       lastFocusedElement.focus();
@@ -188,9 +172,10 @@
   function showOverlay(overlay, options = {}) {
     lastFocusedElement = document.activeElement;
     setCloseable(overlay, Boolean(options.closeable));
+    // Always open expanded; the user can fold it afterwards.
+    setCollapsed(overlay, false);
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
-    lockBodyScroll();
   }
 
   function switchView(overlay, viewName) {
@@ -410,8 +395,12 @@
 
     function showSummaryView() {
       switchView(overlay, 'summary');
-      const focusTarget = overlay.querySelector('[data-cookie-consent-focus]');
-      focusOnTarget(focusTarget);
+      // Only steal focus when the user explicitly reopened the sheet. On the
+      // very first visit, auto-focusing a button at the bottom of the page
+      // would yank the viewport down, so we leave focus where it is.
+      if (overlay.getAttribute('data-cookie-consent-closeable') === 'true') {
+        focusOnTarget(overlay.querySelector('[data-cookie-consent-focus]'));
+      }
     }
 
     function showSettingsView(options = {}) {
@@ -511,6 +500,24 @@
       });
     }
 
+    const collapseButton = overlay.querySelector('[data-cookie-consent="collapse"]');
+    if (collapseButton) {
+      collapseButton.addEventListener('click', () => {
+        setCollapsed(overlay, !overlay.classList.contains('is-collapsed'));
+      });
+    }
+
+    // While folded into the slim bar, clicking anywhere on the header reopens it.
+    const header = overlay.querySelector('.cookie-consent-header');
+    if (header) {
+      header.addEventListener('click', (event) => {
+        if (!overlay.classList.contains('is-collapsed')) return;
+        if (event.target.closest('[data-cookie-consent="close"]')) return;
+        if (event.target.closest('[data-cookie-consent="collapse"]')) return;
+        setCollapsed(overlay, false);
+      });
+    }
+
     overlay.addEventListener('click', (event) => {
       if (
         event.target === overlay
@@ -520,28 +527,13 @@
       }
     });
 
+    // Non-modal bottom sheet: no focus trap (the page stays usable). Esc still
+    // dismisses the sheet once it can be closed.
     overlay.addEventListener('keydown', (event) => {
       if (!overlay.classList.contains('is-visible')) return;
 
       if (event.key === 'Escape' && overlay.getAttribute('data-cookie-consent-closeable') === 'true') {
         hideOverlay(overlay);
-        return;
-      }
-
-      if (event.key !== 'Tab') return;
-
-      const focusableElements = getFocusableElements(overlay);
-      if (!focusableElements.length) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault();
-        lastElement.focus();
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
       }
     });
 

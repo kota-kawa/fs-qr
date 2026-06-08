@@ -23,6 +23,8 @@
     "settings.privacy": "Politique de confidentialité",
     "settings.back": "Retour",
     "settings.close": "Fermer",
+    "settings.collapse": "Réduire",
+    "settings.expand": "Développer",
     "settings.optional": "Facultatif",
     "settings.save": "Enregistrer et fermer",
     "note.editor.label": "Note partagée (jusqu'à {max_length} caractères)",

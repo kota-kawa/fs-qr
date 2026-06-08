@@ -1,31 +1,26 @@
-/* ─── Overlay ─────────────────────────────────────── */
+/* ─── Bottom sheet container (non-modal) ──────────── */
 .cookie-consent-overlay {
   position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.2), transparent 34rem),
-    rgba(15, 23, 42, 0.62);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
   z-index: 1100;
   z-index: var(--z-modal, 1100);
-  /* visibility transition: fade out then hide; fade in immediately */
-  visibility: hidden;
+  /* Non-modal: the page underneath stays scrollable and clickable. */
   pointer-events: none;
-  opacity: 0;
-  overscroll-behavior: contain;
-  transition: opacity 0.28s ease, visibility 0s linear 0.28s;
+  visibility: hidden;
+  transition: visibility 0s linear 0.5s;
 }
 
-/* Keep the consent modal anchored to the viewport across all layouts. */
+/* Keep the consent sheet anchored to the bottom across all layouts. */
 body > #cookieConsent.cookie-consent-overlay {
   position: fixed;
-  inset: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
   margin: 0;
   z-index: 1100;
   z-index: var(--z-modal, 1100);
@@ -33,14 +28,13 @@ body > #cookieConsent.cookie-consent-overlay {
 
 .cookie-consent-overlay.is-visible {
   visibility: visible;
-  pointer-events: auto;
-  opacity: 1;
-  transition: opacity 0.28s ease, visibility 0s linear 0s;
+  transition: visibility 0s linear 0s;
 }
 
-/* ─── Dialog ─────────────────────────────────────── */
+/* ─── Sheet (dialog) ──────────────────────────────── */
 .cookie-consent-dialog {
   position: relative;
+  pointer-events: auto;
   width: min(680px, 100%);
   border-radius: 18px;
   background: #ffffff;
@@ -53,38 +47,126 @@ body > #cookieConsent.cookie-consent-overlay {
   border: 1px solid rgba(255, 255, 255, 0.72);
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 3rem);
-  max-height: calc(100dvh - 3rem);
+  max-height: calc(100vh - 2.5rem);
+  max-height: calc(100dvh - 2.5rem);
   overflow: hidden;
-}
-
-/* Entry animation — opacity-only to avoid creating a containing block
-   for position:fixed descendants (which would mis-position the dropdown). */
-@keyframes cookie-dialog-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  /* Slide-up entrance: parked just below the viewport edge while hidden.
+     The language dropdown is portaled to <body>, so the transform here
+     no longer affects its fixed positioning. */
+  transform: translateY(calc(100% + 2.5rem));
+  opacity: 0;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
 }
 
 .cookie-consent-overlay.is-visible .cookie-consent-dialog {
-  animation: cookie-dialog-in 0.3s ease both;
+  transform: translateY(0);
+  opacity: 1;
 }
 
-/* ─── Header ─────────────────────────────────────── */
+/* ─── Header (always-visible bar / collapse handle) ── */
 .cookie-consent-header {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.1rem;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 1rem;
   align-items: center;
   flex-shrink: 0;
-  padding: 1.5rem 1.75rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid rgba(15, 23, 42, 0.07);
   background:
     linear-gradient(135deg, rgba(240, 249, 255, 0.92) 0%, rgba(255, 255, 255, 0.96) 58%),
     #ffffff;
+  transition: padding 0.35s ease, border-color 0.35s ease;
 }
 
-.cookie-consent-overlay[data-cookie-consent-closeable="true"] .cookie-consent-header {
-  padding-right: 4rem;
+/* ─── Header collapse toggle ──────────────────────── */
+.cookie-consent-collapse {
+  flex-shrink: 0;
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #475569;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.cookie-consent-collapse:hover {
+  background: #ffffff;
+  color: #0284c7;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+}
+
+.cookie-consent-collapse:focus-visible {
+  outline: 3px solid rgba(14, 165, 233, 0.4);
+  outline-offset: 2px;
+}
+
+.cookie-consent-collapse-icon {
+  display: inline-grid;
+  place-items: center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cookie-consent-collapse-icon svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Rotate the chevron to point up when collapsed ("open me back up"). */
+.cookie-consent-overlay.is-collapsed .cookie-consent-collapse-icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Collapsible body ────────────────────────────── */
+.cookie-consent-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 80vh;
+  max-height: 80dvh;
+  overflow: hidden;
+  transition:
+    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    visibility 0s linear 0s;
+}
+
+.cookie-consent-overlay.is-collapsed .cookie-consent-body {
+  max-height: 0 !important;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease,
+    visibility 0s linear 0.45s;
+}
+
+/* Slim the bar down when folded. */
+.cookie-consent-overlay.is-collapsed .cookie-consent-header {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom-color: transparent;
+  cursor: pointer;
+}
+
+.cookie-consent-overlay.is-collapsed .cookie-consent-headings p {
+  display: none;
 }
 
 .cookie-consent-icon {
@@ -110,10 +192,7 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 .cookie-consent-close {
-  position: absolute;
-  top: 0.95rem;
-  right: 0.95rem;
-  z-index: 2;
+  flex-shrink: 0;
   width: 2.35rem;
   height: 2.35rem;
   display: inline-grid;
@@ -664,34 +743,33 @@ body > .lang-select-list.lang-select-list {
 
 /* ─── Mobile ─────────────────────────────────────── */
 @media (max-width: 575.98px) {
+  /* Full-width sheet flush to the bottom edge of the screen. */
   .cookie-consent-overlay {
-    align-items: center;
-    padding: 1rem;
+    padding: 0;
   }
 
   .cookie-consent-dialog {
     width: 100%;
-    border-radius: 16px;
-    max-height: calc(100vh - 2rem);
-    max-height: calc(100dvh - 2rem);
+    border-radius: 18px 18px 0 0;
+    border-bottom: 0;
+    max-height: 90vh;
+    max-height: 90dvh;
+    transform: translateY(100%);
   }
 
-  /* On mobile, force the settings dialog to fill the viewport so the
-     scrollable body has a usable height (otherwise content collapses
-     between the header and footer). Summary view stays content-sized. */
-  .cookie-consent-overlay[data-cookie-consent-active-view="settings"] .cookie-consent-dialog {
-    height: calc(100vh - 2rem);
-    height: calc(100dvh - 2rem);
+  /* On mobile, give the settings view a tall sheet so the scrollable body
+     has a usable height (otherwise content collapses between header and
+     footer). Summary view stays content-sized. */
+  .cookie-consent-overlay[data-cookie-consent-active-view="settings"]:not(.is-collapsed) .cookie-consent-body {
+    height: 82vh;
+    height: 82dvh;
+    max-height: 82dvh;
   }
 
   .cookie-consent-header {
-    gap: 0.85rem;
-    padding: 1.25rem 1.1rem 1rem;
-    grid-template-columns: 42px 1fr;
-  }
-
-  .cookie-consent-overlay[data-cookie-consent-closeable="true"] .cookie-consent-header {
-    padding-right: 3.5rem;
+    gap: 0.7rem;
+    padding: 1.1rem;
+    grid-template-columns: 42px 1fr auto auto;
   }
 
   .cookie-consent-icon {
@@ -765,13 +843,21 @@ body > .lang-select-list.lang-select-list {
 @media (prefers-reduced-motion: reduce) {
   .cookie-consent-overlay,
   .cookie-consent-dialog,
+  .cookie-consent-body,
   .cookie-consent-button,
   .cookie-consent-close,
+  .cookie-consent-collapse-icon,
   .cookie-consent-toggle-slider::before,
   .lang-select-chevron,
   .lang-select-list,
   .cookie-consent-setting {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Show the sheet without sliding when motion is reduced. */
+  .cookie-consent-dialog {
+    transform: none;
+    opacity: 1;
   }
 }

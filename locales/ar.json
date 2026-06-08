@@ -23,6 +23,8 @@
     "settings.privacy": "سياسة الخصوصية",
     "settings.back": "رجوع",
     "settings.close": "إغلاق",
+    "settings.collapse": "طيّ",
+    "settings.expand": "توسيع",
     "settings.optional": "اختياري",
     "settings.save": "حفظ وإغلاق",
     "note.editor.label": "ملاحظة مشتركة (بحد أقصى {max_length} حرفاً)",

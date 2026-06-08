@@ -23,6 +23,8 @@
     "settings.privacy": "Privacybeleid",
     "settings.back": "Terug",
     "settings.close": "Sluiten",
+    "settings.collapse": "Inklappen",
+    "settings.expand": "Uitklappen",
     "settings.optional": "Optioneel",
     "settings.save": "Opslaan en sluiten",
     "note.editor.label": "Gedeelde notitie (maximaal {max_length} tekens)",

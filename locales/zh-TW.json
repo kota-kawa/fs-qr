@@ -23,6 +23,8 @@
     "settings.privacy": "隱私權政策",
     "settings.back": "返回",
     "settings.close": "關閉",
+    "settings.collapse": "收合",
+    "settings.expand": "展開",
     "settings.optional": "選用",
     "settings.save": "儲存並關閉",
     "note.editor.label": "共用筆記（最多 {max_length} 個字）",

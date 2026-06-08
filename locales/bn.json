@@ -23,6 +23,8 @@
     "settings.privacy": "গোপনীয়তা নীতি",
     "settings.back": "ফিরে যান",
     "settings.close": "বন্ধ করুন",
+    "settings.collapse": "সংকুচিত করুন",
+    "settings.expand": "প্রসারিত করুন",
     "settings.optional": "ঐচ্ছিক",
     "settings.save": "সংরক্ষণ করুন এবং বন্ধ করুন",
     "note.editor.label": "শেয়ার্ড নোট ({max_length} অক্ষর পর্যন্ত)",

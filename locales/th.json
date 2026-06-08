@@ -23,6 +23,8 @@
     "settings.privacy": "นโยบายความเป็นส่วนตัว",
     "settings.back": "ย้อนกลับ",
     "settings.close": "ปิด",
+    "settings.collapse": "ย่อ",
+    "settings.expand": "ขยาย",
     "settings.optional": "ไม่บังคับ",
     "settings.save": "บันทึกและปิด",
     "note.editor.label": "โน้ตที่แชร์ (สูงสุด {max_length} ตัวอักษร)",

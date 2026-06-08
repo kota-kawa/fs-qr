@@ -23,6 +23,8 @@
     "settings.privacy": "Polityka prywatności",
     "settings.back": "Powrót",
     "settings.close": "Zamknij",
+    "settings.collapse": "Zwiń",
+    "settings.expand": "Rozwiń",
     "settings.optional": "Opcjonalne",
     "settings.save": "Zapisz i zamknij",
     "note.editor.label": "Wspólna notatka (maksymalnie {max_length} znaków)",

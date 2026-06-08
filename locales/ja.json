@@ -23,6 +23,8 @@
     "settings.privacy": "プライバシーポリシー",
     "settings.back": "戻る",
     "settings.close": "閉じる",
+    "settings.collapse": "折りたたむ",
+    "settings.expand": "開く",
     "settings.optional": "任意",
     "settings.save": "保存して閉じる",
     "note.editor.label": "共有ノート（最大{max_length}文字）",

@@ -23,6 +23,8 @@
     "settings.privacy": "Gizlilik Politikası",
     "settings.back": "Geri",
     "settings.close": "Kapat",
+    "settings.collapse": "Daralt",
+    "settings.expand": "Genişlet",
     "settings.optional": "İsteğe Bağlı",
     "settings.save": "Kaydet ve Kapat",
     "note.editor.label": "Paylaşılan Not (En fazla {max_length} karakter)",

@@ -23,6 +23,8 @@
     "settings.privacy": "गोपनीयता नीति",
     "settings.back": "वापस",
     "settings.close": "बंद करें",
+    "settings.collapse": "संक्षिप्त करें",
+    "settings.expand": "विस्तृत करें",
     "settings.optional": "वैकल्पिक",
     "settings.save": "सहेजें और बंद करें",
     "note.editor.label": "साझा नोट (अधिकतम {max_length} वर्ण)",
