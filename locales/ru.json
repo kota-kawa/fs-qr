@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Это удалит групповую комнату. Все файлы в комнате также будут удалены, данное действие невозможно отменить.",
     "group.delete_room_button": "Удалить комнату",
     "alert.confirm_delete": "Подтвердите удаление",
-    "alert.delete_action": "Удалить"
+    "alert.delete_action": "Удалить",
+    "articles.count_suffix": " статей",
+    "articles.pagination_label": "Навигация по страницам последних статей",
+    "articles.pagination_next": "Вперёд",
+    "articles.pagination_prev": "Назад",
+    "articles.search_current_page_label": "Поиск статей на этой странице",
+    "articles.search_current_page_placeholder": "Поиск статей на этой странице…"
   },
   "js": {
     "alert.notice": "Уведомление",

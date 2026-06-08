@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Cette action supprimera le salon de groupe. Tous les fichiers du salon seront également supprimés et cette opération est irréversible.",
     "group.delete_room_button": "Supprimer le salon",
     "alert.confirm_delete": "Confirmer la suppression",
-    "alert.delete_action": "Supprimer"
+    "alert.delete_action": "Supprimer",
+    "articles.count_suffix": " article(s)",
+    "articles.pagination_label": "Pagination des derniers articles",
+    "articles.pagination_next": "Suivant",
+    "articles.pagination_prev": "Précédent",
+    "articles.search_current_page_label": "Rechercher les articles de cette page",
+    "articles.search_current_page_placeholder": "Rechercher les articles de cette page…"
   },
   "js": {
     "alert.notice": "Avis",

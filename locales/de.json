@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Dies wird den Gruppenraum löschen. Alle Dateien im Raum werden ebenfalls gelöscht, und diese Aktion kann nicht rückgängig gemacht werden.",
     "group.delete_room_button": "Raum löschen",
     "alert.confirm_delete": "Löschen bestätigen",
-    "alert.delete_action": "Löschen"
+    "alert.delete_action": "Löschen",
+    "articles.count_suffix": " Artikel",
+    "articles.pagination_label": "Seitennavigation für neueste Artikel",
+    "articles.pagination_next": "Weiter",
+    "articles.pagination_prev": "Zurück",
+    "articles.search_current_page_label": "Artikel auf dieser Seite suchen",
+    "articles.search_current_page_placeholder": "Artikel auf dieser Seite suchen…"
   },
   "js": {
     "alert.notice": "Hinweis",

@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "سيؤدي هذا إلى حذف غرفة المجموعة. سيتم أيضًا حذف جميع الملفات الموجودة في الغرفة، ولا يمكن التراجع عن هذا الإجراء.",
     "group.delete_room_button": "حذف الغرفة",
     "alert.confirm_delete": "تأكيد الحذف",
-    "alert.delete_action": "حذف"
+    "alert.delete_action": "حذف",
+    "articles.count_suffix": " مقالات",
+    "articles.pagination_label": "التنقل بين صفحات المقالات الأخيرة",
+    "articles.pagination_next": "التالي",
+    "articles.pagination_prev": "السابق",
+    "articles.search_current_page_label": "البحث في مقالات هذه الصفحة",
+    "articles.search_current_page_placeholder": "البحث في مقالات هذه الصفحة…"
   },
   "js": {
     "alert.notice": "تنبيه",

@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Se eliminará la sala de grupo. Todos los archivos de la sala también se eliminarán, y esta acción no se puede deshacer.",
     "group.delete_room_button": "Eliminar sala",
     "alert.confirm_delete": "Confirmar eliminación",
-    "alert.delete_action": "Eliminar"
+    "alert.delete_action": "Eliminar",
+    "articles.count_suffix": " artículos",
+    "articles.pagination_label": "Paginación de artículos recientes",
+    "articles.pagination_next": "Siguiente",
+    "articles.pagination_prev": "Anterior",
+    "articles.search_current_page_label": "Buscar artículos en esta página",
+    "articles.search_current_page_placeholder": "Buscar artículos en esta página…"
   },
   "js": {
     "alert.notice": "Aviso",

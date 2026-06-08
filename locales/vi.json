@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Thao tác này sẽ xóa phòng nhóm. Tất cả các tệp trong phòng cũng sẽ bị xóa, và không thể hoàn tác hành động này.",
     "group.delete_room_button": "Xóa phòng",
     "alert.confirm_delete": "Xác nhận xóa",
-    "alert.delete_action": "Xóa"
+    "alert.delete_action": "Xóa",
+    "articles.count_suffix": " bài viết",
+    "articles.pagination_label": "Phân trang bài viết mới nhất",
+    "articles.pagination_next": "Tiếp theo",
+    "articles.pagination_prev": "Trước",
+    "articles.search_current_page_label": "Tìm kiếm bài viết trên trang này",
+    "articles.search_current_page_placeholder": "Tìm kiếm bài viết trên trang này…"
   },
   "js": {
     "alert.notice": "Thông báo",

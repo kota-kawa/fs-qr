@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Hii itafuta chumba cha kikundi. Faili zote kwenye chumba pia zitafutwa, na kitendo hiki hakiwezi kubatilishwa.",
     "group.delete_room_button": "Futa Chumba",
     "alert.confirm_delete": "Thibitisha Futa",
-    "alert.delete_action": "Futa"
+    "alert.delete_action": "Futa",
+    "articles.count_suffix": " makala",
+    "articles.pagination_label": "Usogezaji wa makala za hivi karibuni",
+    "articles.pagination_next": "Ifuatayo",
+    "articles.pagination_prev": "Iliyotangulia",
+    "articles.search_current_page_label": "Tafuta makala katika ukurasa huu",
+    "articles.search_current_page_placeholder": "Tafuta makala katika ukurasa huu…"
   },
   "js": {
     "alert.notice": "Ilani",

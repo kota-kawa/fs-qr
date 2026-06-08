@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Dit verwijdert de groepsruimte. Alle bestanden in de ruimte worden ook verwijderd, en deze actie kan niet ongedaan worden gemaakt.",
     "group.delete_room_button": "Ruimte verwijderen",
     "alert.confirm_delete": "Verwijdering bevestigen",
-    "alert.delete_action": "Verwijderen"
+    "alert.delete_action": "Verwijderen",
+    "articles.count_suffix": " artikelen",
+    "articles.pagination_label": "Paginering van recente artikelen",
+    "articles.pagination_next": "Volgende",
+    "articles.pagination_prev": "Vorige",
+    "articles.search_current_page_label": "Zoek artikelen op deze pagina",
+    "articles.search_current_page_placeholder": "Zoek artikelen op deze pagina…"
   },
   "js": {
     "alert.notice": "Bericht",

@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Bu işlem grup odasını silecektir. Odadaki tüm dosyalar da silinecek ve bu işlem geri alınamaz.",
     "group.delete_room_button": "Odayı Sil",
     "alert.confirm_delete": "Silmeyi Onayla",
-    "alert.delete_action": "Sil"
+    "alert.delete_action": "Sil",
+    "articles.count_suffix": " makale",
+    "articles.pagination_label": "En son makalelerin sayfa navigasyonu",
+    "articles.pagination_next": "Sonraki",
+    "articles.pagination_prev": "Önceki",
+    "articles.search_current_page_label": "Bu sayfadaki makaleleri ara",
+    "articles.search_current_page_placeholder": "Bu sayfadaki makaleleri ara…"
   },
   "js": {
     "alert.notice": "Bildirim",

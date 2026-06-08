@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "To usunie pokój grupowy. Wszystkie pliki w pokoju również zostaną usunięte, a tej operacji nie można cofnąć.",
     "group.delete_room_button": "Usuń pokój",
     "alert.confirm_delete": "Potwierdź usunięcie",
-    "alert.delete_action": "Usuń"
+    "alert.delete_action": "Usuń",
+    "articles.count_suffix": " artykułów",
+    "articles.pagination_label": "Nawigacja po stronach najnowszych artykułów",
+    "articles.pagination_next": "Następna",
+    "articles.pagination_prev": "Poprzednia",
+    "articles.search_current_page_label": "Szukaj artykułów na tej stronie",
+    "articles.search_current_page_placeholder": "Szukaj artykułów na tej stronie…"
   },
   "js": {
     "alert.notice": "Powiadomienie",
