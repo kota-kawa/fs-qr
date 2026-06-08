@@ -155,7 +155,6 @@
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
     overlay.removeAttribute('data-cookie-consent-closeable');
-    overlay.removeAttribute('data-cookie-consent-autofocus');
 
     if (options.restoreFocus !== false && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
       lastFocusedElement.focus();
@@ -173,14 +172,6 @@
   function showOverlay(overlay, options = {}) {
     lastFocusedElement = document.activeElement;
     setCloseable(overlay, Boolean(options.closeable));
-    // Whether to move focus into the sheet on open. Defaults to whether the
-    // sheet is closeable (i.e. the user explicitly reopened it). The first-visit
-    // banner overrides this to false so it can show its close button without
-    // stealing focus and yanking the viewport down to the bottom of the page.
-    const autofocus = options.autofocus !== undefined
-      ? Boolean(options.autofocus)
-      : Boolean(options.closeable);
-    overlay.setAttribute('data-cookie-consent-autofocus', autofocus ? 'true' : 'false');
     // Always open expanded; the user can fold it afterwards.
     setCollapsed(overlay, false);
     overlay.classList.add('is-visible');
@@ -404,11 +395,10 @@
 
     function showSummaryView() {
       switchView(overlay, 'summary');
-      // Only steal focus when the sheet asked for it (an explicit reopen). On
-      // the very first visit, auto-focusing a button at the bottom of the page
-      // would yank the viewport down, so we leave focus where it is even though
-      // the close button is now shown.
-      if (overlay.getAttribute('data-cookie-consent-autofocus') === 'true') {
+      // Only steal focus when the user explicitly reopened the sheet. On the
+      // very first visit, auto-focusing a button at the bottom of the page
+      // would yank the viewport down, so we leave focus where it is.
+      if (overlay.getAttribute('data-cookie-consent-closeable') === 'true') {
         focusOnTarget(overlay.querySelector('[data-cookie-consent-focus]'));
       }
     }
@@ -562,9 +552,7 @@
     });
 
     if (!hasConsent()) {
-      // Show the close button on first visit too (same as the settings modal),
-      // but keep autofocus off so the page doesn't jump to the bottom sheet.
-      showOverlay(overlay, { closeable: true, autofocus: false });
+      showOverlay(overlay, { closeable: false });
       showSummaryView();
     } else {
       applyOptionalTags(getStoredConsentSettings());
