@@ -133,28 +133,32 @@ body > #cookieConsent.cookie-consent-overlay {
 }
 
 /* ─── Collapsible body ────────────────────────────── */
+/* The fold is animated with the grid 1fr↔0fr technique: the region row
+   shrinks to zero height smoothly, regardless of how tall the content is
+   (a plain max-height transition stalls when content is shorter than the
+   max, which is exactly the case for the short first-visit banner). */
+.cookie-consent-collapse-region {
+  display: grid;
+  grid-template-rows: 1fr;
+  flex: 1 1 auto;
+  min-height: 0;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cookie-consent-overlay.is-collapsed .cookie-consent-collapse-region {
+  grid-template-rows: 0fr;
+}
+
 .cookie-consent-body {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
   min-height: 0;
-  max-height: 80vh;
-  max-height: 80dvh;
   overflow: hidden;
-  transition:
-    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.3s ease,
-    visibility 0s linear 0s;
+  transition: opacity 0.35s ease;
 }
 
 .cookie-consent-overlay.is-collapsed .cookie-consent-body {
-  max-height: 0 !important;
   opacity: 0;
-  visibility: hidden;
-  transition:
-    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.25s ease,
-    visibility 0s linear 0.45s;
 }
 
 /* Slim the bar down when folded. */
@@ -760,10 +764,9 @@ body > .lang-select-list.lang-select-list {
   /* On mobile, give the settings view a tall sheet so the scrollable body
      has a usable height (otherwise content collapses between header and
      footer). Summary view stays content-sized. */
-  .cookie-consent-overlay[data-cookie-consent-active-view="settings"]:not(.is-collapsed) .cookie-consent-body {
+  .cookie-consent-overlay[data-cookie-consent-active-view="settings"]:not(.is-collapsed) .cookie-consent-collapse-region {
     height: 82vh;
     height: 82dvh;
-    max-height: 82dvh;
   }
 
   .cookie-consent-header {
@@ -843,6 +846,7 @@ body > .lang-select-list.lang-select-list {
 @media (prefers-reduced-motion: reduce) {
   .cookie-consent-overlay,
   .cookie-consent-dialog,
+  .cookie-consent-collapse-region,
   .cookie-consent-body,
   .cookie-consent-button,
   .cookie-consent-close,
