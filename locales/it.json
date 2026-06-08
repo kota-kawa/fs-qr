@@ -1716,6 +1716,25 @@
     "ファイル共有のダウンロードページを開きます。": "Apre la pagina di download del file sharing.",
     "グループファイル共有ルームを開きます。": "Apre la stanza di condivisione file di gruppo.",
     "リアルタイムノートルームを開きます。": "Apre la stanza delle note in tempo real.",
-    "不明": "Sconosciuto"
+    "不明": "Sconosciuto",
+    "取得する情報": "Informazioni che raccogliamo",
+    "本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。": "Questo servizio tratta le informazioni necessarie per fornire e operare il servizio in modo sicuro, tra cui file caricati, testo delle note, ID stanza, URL di condivisione, periodi di conservazione, nomi dei file, contenuto delle richieste, preferenze sui cookie, indirizzi IP e informazioni del browser.",
+    "アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。": "Non è richiesta la registrazione di un account. Se gli utenti includono informazioni personali in file o note, tali contenuti vengono anche elaborati temporaneamente da questo servizio.",
+    "利用目的と保存場所": "Finalità e luogo di archiviazione",
+    "取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。": "Le informazioni raccolte vengono utilizzate per la condivisione di file, stanze di gruppo, condivisione di note, autenticazione, limitazione della velocità, prevenzione degli abusi, indagine sugli incidenti, gestione delle richieste, miglioramento del servizio e pubblicità.",
+    "本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。": "I dati del servizio vengono archiviati principalmente su server in Giappone. Quando vengono utilizzati servizi esterni come Google Analytics, Google AdSense, Google Forms o DB-IP, le informazioni possono essere elaborate al di fuori del Giappone da tali fornitori.",
+    "Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。": "Il banner dei cookie consente di scegliere Accetta, Rifiuta o Personalizza impostazioni. I cookie essenziali vengono sempre utilizzati per fornire il servizio. I cookie di analisi e di pubblicità vengono utilizzati solo quando si acconsente.",
+    "当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。": "Questo sito può utilizzare fornitori di pubblicità di terze parti come Google AdSense per servire annunci tramite cookie.",
+    "広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。": "Se si acconsente ai cookie pubblicitari, possono essere visualizzati annunci personalizzati in base ai propri interessi. Anche in caso di rifiuto, possono essere visualizzati annunci non personalizzati in base alle impostazioni del fornitore pubblicitario.",
+    "アクセス解析について": "Analisi degli accessi",
+    "本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。": "Questo servizio può utilizzare Google Analytics per comprendere l'utilizzo e migliorare il servizio. Google Analytics viene caricato solo quando si acconsente ai cookie di analisi.",
+    "保存期間と削除依頼": "Conservazione e richieste di cancellazione",
+    "FSQR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。": "I dati di FSQR, delle stanze di gruppo e delle stanze di note vengono automaticamente eliminati dopo il periodo di conservazione selezionato dall'utente. Gli utenti con i permessi di eliminazione possono eliminarli manualmente da ogni pagina di condivisione.",
+    "削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて": "Per richieste di cancellazione, domande sulla privacy o segnalazioni di contenuti potenzialmente illegali o che violano i diritti, includi l'URL di destinazione, l'ID stanza e i dettagli, poi contattaci tramite la",
+    "からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。": "pagina. Esamineremo i dettagli e, se necessario, elimineremo il contenuto o adotteremo le misure appropriate.",
+    "外部フォームについて": "Informazioni sul modulo esterno",
+    "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "Utilizziamo Google Forms per le richieste. Le informazioni inserite nel modulo vengono utilizzate per la gestione delle richieste e il miglioramento del servizio. Consultare l'Informativa sulla Privacy di Google per informazioni su come Google gestisce le informazioni.",
+    "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Richieste di informativa sulla privacy, richieste di cancellazione e segnalazioni di contenuti potenzialmente illegali o che violano i diritti vengono accettate anche tramite questo modulo. Si prega di includere l'URL di destinazione, l'ID stanza, i dettagli del problema e le informazioni di contatto nel modo più specifico possibile.",
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Data di entrata in vigore: 28 maggio 2026 / Ultimo aggiornamento: 8 giugno 2026"
   }
 }

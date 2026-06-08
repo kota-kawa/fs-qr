@@ -1757,6 +1757,25 @@
     "ファイル共有のダウンロードページを開きます。": "Dosya paylaşımı indirme sayfasını açar.",
     "グループファイル共有ルームを開きます。": "Grup dosya paylaşım odasını açar.",
     "リアルタイムノートルームを開きます。": "Gerçek zamanlı not odasını açar.",
-    "不明": "Bilinmiyor"
+    "不明": "Bilinmiyor",
+    "取得する情報": "Topladığımız Bilgiler",
+    "本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。": "Bu hizmet, yüklenen dosyalar, not metni, oda kimlikleri, paylaşım URL'leri, saklama süreleri, dosya adları, sorgulama içeriği, çerez tercihleri, IP adresleri ve tarayıcı bilgileri gibi hizmetin güvenli biçimde sunulması ve işletilmesi için gereken bilgileri işler.",
+    "アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。": "Hesap kaydı gerekli değildir. Kullanıcılar dosyalara veya notlara kişisel bilgi eklediklerinde, bu içerik de bu hizmet tarafından geçici olarak işlenir.",
+    "利用目的と保存場所": "Kullanım Amaçları ve Depolama Konumu",
+    "取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。": "Toplanan bilgiler dosya paylaşımı, grup odaları, not paylaşımı, kimlik doğrulama, hız sınırlama, kötüye kullanım önleme, olay araştırma, sorgu yönetimi, hizmet iyileştirme ve reklamcılık için kullanılır.",
+    "本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。": "Hizmet verileri ağırlıklı olarak Japonya'daki sunucularda depolanır. Google Analytics, Google AdSense, Google Forms veya DB-IP gibi harici hizmetler kullanıldığında, bilgiler ilgili sağlayıcılar tarafından Japonya dışında işlenebilir.",
+    "Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。": "Çerez afişi Kabul Et, Reddet veya Ayarları Özelleştir seçeneklerinden birini seçmenizi sağlar. Temel çerezler hizmeti sunmak için her zaman kullanılır. Analiz ve reklam çerezleri yalnızca onayınız olduğunda kullanılır.",
+    "当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。": "Bu site, çerezler aracılığıyla reklam sunmak için Google AdSense gibi üçüncü taraf reklam sağlayıcıları kullanabilir.",
+    "広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。": "Reklam çerezlerine onay verirseniz ilgi alanlarınıza dayalı kişiselleştirilmiş reklamlar görüntülenebilir. Reddetseniz bile, reklam sağlayıcısının ayarlarına bağlı olarak kişiselleştirilmemiş reklamlar görüntülenebilir.",
+    "アクセス解析について": "Ziyaret Analizi",
+    "本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。": "Bu hizmet, kullanımı anlamak ve hizmetini geliştirmek için Google Analytics'i kullanabilir. Google Analytics yalnızca analiz çerezlerine onay verdiğinizde yüklenir.",
+    "保存期間と削除依頼": "Saklama Süresi ve Silme Talepleri",
+    "FSQR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。": "FSQR, grup odası ve not odası verileri, kullanıcı tarafından seçilen saklama süresi dolduğunda otomatik olarak silinir. Silme iznine sahip kullanıcılar her paylaşım sayfasından manuel olarak silebilir.",
+    "削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて": "Silme talepleri, gizlilik soruları veya yasa dışı olabilecek ya da hakları ihlal edebilecek içeriklere ilişkin bildirimler için hedef URL, oda kimliği ve ayrıntıları ekleyerek",
+    "からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。": "sayfasından bizimle iletişime geçin. Ayrıntıları inceleyecek ve gerekirse içeriği sileceğiz ya da uygun önlemi alacağız.",
+    "外部フォームについて": "Harici Form Hakkında",
+    "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "Sorgular için Google Forms kullanıyoruz. Forma girilen bilgiler sorgu yönetimi ve hizmet iyileştirmesi için kullanılır. Google'ın bilgileri nasıl işlediğine ilişkin bilgi için Google'ın Gizlilik Politikası'na bakınız.",
+    "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Gizlilik soruları, silme talepleri ve yasa dışı olabilecek veya hakları ihlal edebilecek içeriklere ilişkin bildirimleri bu form üzerinden de kabul ediyoruz. Lütfen hedef URL, oda kimliği, sorun ayrıntıları ve iletişim bilgilerini mümkün olduğunca ayrıntılı biçimde belirtin.",
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Yürürlük Tarihi: 28 Mayıs 2026 / Son Güncelleme: 8 Haziran 2026"
   }
 }

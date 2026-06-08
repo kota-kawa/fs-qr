@@ -1757,6 +1757,25 @@
     "ファイル共有のダウンロードページを開きます。": "Hufungua ukurasa wa kupakua wa kushiriki faili.",
     "グループファイル共有ルームを開きます。": "Hufungua chumba cha kushiriki faili za kikundi.",
     "リアルタイムノートルームを開きます。": "Hufungua chumba cha noti cha wakati halisi.",
-    "不明": "Haijulikani"
+    "不明": "Haijulikani",
+    "取得する情報": "Taarifa Tunazokusanya",
+    "本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。": "Huduma hii inashughulikia taarifa zinazohitajika kutoa na kuendesha huduma kwa usalama, kama vile faili zilizopakiwa, maandishi ya maelezo, vitambulisho vya chumba, URL za kushiriki, vipindi vya uhifadhi, majina ya faili, maudhui ya maswali, mapendeleo ya vidakuzi, anwani za IP, na taarifa za kivinjari.",
+    "アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。": "Usajili wa akaunti hauhitajiki. Ikiwa watumiaji wanajumuisha taarifa za kibinafsi katika faili au maelezo, maudhui hayo pia yanashughulikiwa kwa muda mfupi na huduma hii.",
+    "利用目的と保存場所": "Madhumuni ya Matumizi na Mahali pa Kuhifadhi",
+    "取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。": "Taarifa zilizokusanywa zinatumika kwa kushiriki faili, vyumba vya kikundi, kushiriki maelezo, uthibitishaji, kupunguza kasi, kuzuia matumizi mabaya, uchunguzi wa matukio, kushughulikia maswali, kuboresha huduma, na utangazaji.",
+    "本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。": "Data ya huduma huhifadhiwa hasa kwenye seva nchini Japan. Wakati wa kutumia huduma za nje kama vile Google Analytics, Google AdSense, Google Forms, au DB-IP, taarifa zinaweza kushughulikiwa nje ya Japan na watoa huduma hao.",
+    "Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。": "Bango la vidakuzi linakuruhusu kuchagua Kubali, Kataa, au Binafsisha mipangilio. Vidakuzi muhimu hutumika daima kutoa huduma. Vidakuzi vya uchambuzi na utangazaji vinatumika tu unapotoa idhini yako.",
+    "当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。": "Tovuti hii inaweza kutumia watoa huduma wa matangazo wa tatu kama vile Google AdSense kutoa matangazo kwa kutumia vidakuzi.",
+    "広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。": "Ukikubali vidakuzi vya matangazo, matangazo yaliyobinafsishwa kulingana na maslahi yako yanaweza kuonyeshwa. Hata ukikataa, matangazo yasiyobinafsishwa yanaweza kuonyeshwa kulingana na mipangilio ya mtoa huduma wa matangazo.",
+    "アクセス解析について": "Uchambuzi wa Ufikiaji",
+    "本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。": "Huduma hii inaweza kutumia Google Analytics kuelewa matumizi na kuboresha huduma. Google Analytics inapakiwa tu unapotoa idhini yako kwa vidakuzi vya uchambuzi.",
+    "保存期間と削除依頼": "Muda wa Uhifadhi na Maombi ya Kufuta",
+    "FSQR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。": "Data ya FSQR, vyumba vya kikundi, na vyumba vya maelezo hufutwa kiotomatiki baada ya kipindi cha uhifadhi kilichochaguliwa na mtumiaji. Watumiaji wenye ruhusa ya kufuta wanaweza kufuta kwa mkono kutoka kila ukurasa wa kushiriki.",
+    "削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて": "Kwa maombi ya kufuta, maswali ya faragha, au ripoti za maudhui ambayo yanaweza kuwa haramu au kukiuka haki, jumuisha URL ya lengo, kitambulisho cha chumba, na maelezo, kisha wasiliana nasi kupitia",
+    "からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。": "ukurasa. Tutakagua maelezo na, ikiwa ni lazima, tutafuta maudhui au kuchukua hatua zinazofaa.",
+    "外部フォームについて": "Kuhusu Fomu ya Nje",
+    "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "Tunatumia Google Forms kwa maswali. Taarifa zilizoingizwa kwenye fomu zinatumika kushughulikia maswali na kuboresha huduma. Tafadhali rejelea Sera ya Faragha ya Google kwa taarifa kuhusu jinsi Google inavyoshughulikia taarifa.",
+    "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Maswali ya faragha, maombi ya kufuta, na ripoti za maudhui ambayo yanaweza kuwa haramu au kukiuka haki pia yanakubaliwa kupitia fomu hii. Tafadhali jumuisha URL ya lengo, kitambulisho cha chumba, maelezo ya tatizo, na maelezo ya mawasiliano kwa undani iwezekanavyo.",
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Tarehe ya Kuanza Kutumika: Mei 28, 2026 / Ilisasishwa Mara ya Mwisho: Juni 8, 2026"
   }
 }
