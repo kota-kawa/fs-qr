@@ -250,6 +250,18 @@ def test_privacy_policy(test_client: TestClient):
     response = test_client.get("/privacy-policy")
     assert response.status_code == 200
     assert "IP Geolocation by DB-IP" in response.text
+    assert "最終更新日：2026年6月8日" in response.text
+
+
+def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
+    for path in ("/privacy-policy", "/group"):
+        response = test_client.get(path)
+        assert response.status_code == 200
+        assert "window.FSQR_TAGS" in response.text
+        assert "googleAnalyticsId: 'G-D26D8ZXKNV'" in response.text
+        assert "adsenseClientId: 'ca-pub-4557554518872474'" in response.text
+        assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
+        assert 'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' not in response.text
 
 
 def test_site_operator(test_client: TestClient):
