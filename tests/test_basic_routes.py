@@ -261,7 +261,10 @@ def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
         assert "googleAnalyticsId: 'G-D26D8ZXKNV'" in response.text
         assert "adsenseClientId: 'ca-pub-4557554518872474'" in response.text
         assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
-        assert 'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' not in response.text
+        assert (
+            'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+            not in response.text
+        )
 
 
 def test_site_operator(test_client: TestClient):
