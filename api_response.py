@@ -5,6 +5,9 @@ from typing import Any, Mapping
 from starlette.responses import JSONResponse
 
 
+from i18n import current_language_ctx, get_translation_value, load_translations
+
+
 def _normalize_data(data: Mapping[str, Any] | None) -> dict[str, Any]:
     if data is None:
         return {}
@@ -18,7 +21,27 @@ def api_ok_payload(data: Mapping[str, Any] | None = None) -> dict[str, Any]:
 def api_error_payload(
     error: str, data: Mapping[str, Any] | None = None
 ) -> dict[str, Any]:
-    return {"status": "error", "data": _normalize_data(data), "error": str(error)}
+    lang = current_language_ctx.get()
+
+    # 1. Try to translate in "ui" section (if error matches a ui key)
+    translated_error = get_translation_value(lang, "ui", error)
+
+    # 2. Try to translate in "phrases" section (since error message might be a phrase)
+    if translated_error == error:
+        translations = load_translations()
+        translated_error = (
+            translations.get(lang, {}).get("phrases", {}).get(error, error)
+        )
+
+    # 3. Try to translate in "js" section (just in case)
+    if translated_error == error:
+        translated_error = translations.get(lang, {}).get("js", {}).get(error, error)
+
+    return {
+        "status": "error",
+        "data": _normalize_data(data),
+        "error": str(translated_error),
+    }
 
 
 def api_ok_response(
