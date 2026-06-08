@@ -98,6 +98,18 @@ app.mount(
 
 
 @app.middleware("http")
+async def set_locale_middleware(request: Request, call_next):
+    from i18n import resolve_language, current_language_ctx
+    lang = resolve_language(request)
+    token = current_language_ctx.set(lang)
+    try:
+        response = await call_next(request)
+        return response
+    finally:
+        current_language_ctx.reset(token)
+
+
+@app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
     if request.url.path.startswith("/static/group_uploads"):
         return Response(status_code=404)

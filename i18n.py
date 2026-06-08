@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import re
+from contextvars import ContextVar
 from functools import lru_cache
 from typing import Any
 
@@ -39,6 +40,7 @@ SUPPORTED_LANGUAGES = (
 DEFAULT_LANGUAGE = "ja"
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
+current_language_ctx: ContextVar[str] = ContextVar("current_language", default="ja")
 
 LANGUAGE_OPTIONS = (
     {"code": "ja", "label": "日本語", "flag": "🇯🇵"},
