@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Questo eliminerà la stanza di gruppo. Anche tutti i file nella stanza verranno eliminati e l'azione non può essere annullata.",
     "group.delete_room_button": "Elimina stanza",
     "alert.confirm_delete": "Conferma eliminazione",
-    "alert.delete_action": "Elimina"
+    "alert.delete_action": "Elimina",
+    "articles.count_suffix": " articoli",
+    "articles.pagination_label": "Navigazione pagine degli articoli recenti",
+    "articles.pagination_next": "Avanti",
+    "articles.pagination_prev": "Indietro",
+    "articles.search_current_page_label": "Cerca articoli in questa pagina",
+    "articles.search_current_page_placeholder": "Cerca articoli in questa pagina…"
   },
   "js": {
     "alert.notice": "Avviso",

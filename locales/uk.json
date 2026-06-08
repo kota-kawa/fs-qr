@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Це видалить групову кімнату. Усі файли в кімнаті також будуть видалені, цю дію неможливо скасувати.",
     "group.delete_room_button": "Видалити кімнату",
     "alert.confirm_delete": "Підтвердити видалення",
-    "alert.delete_action": "Видалити"
+    "alert.delete_action": "Видалити",
+    "articles.count_suffix": " статей",
+    "articles.pagination_label": "Навігація сторінками останніх статей",
+    "articles.pagination_next": "Вперед",
+    "articles.pagination_prev": "Назад",
+    "articles.search_current_page_label": "Пошук статей на цій сторінці",
+    "articles.search_current_page_placeholder": "Пошук статей на цій сторінці…"
   },
   "js": {
     "alert.notice": "Повідомлення",

@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "Ini akan menghapus ruangan grup. Semua file di dalam ruangan juga akan dihapus, dan tindakan ini tidak dapat dibatalkan.",
     "group.delete_room_button": "Hapus Ruangan",
     "alert.confirm_delete": "Konfirmasi Hapus",
-    "alert.delete_action": "Hapus"
+    "alert.delete_action": "Hapus",
+    "articles.count_suffix": " artikel",
+    "articles.pagination_label": "Navigasi halaman artikel terbaru",
+    "articles.pagination_next": "Berikutnya",
+    "articles.pagination_prev": "Sebelumnya",
+    "articles.search_current_page_label": "Cari artikel di halaman ini",
+    "articles.search_current_page_placeholder": "Cari artikel di halaman ini…"
   },
   "js": {
     "alert.notice": "Pemberitahuan",

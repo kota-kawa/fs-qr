@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "การดำเนินการนี้จะลบห้องกลุ่ม ไฟล์ทั้งหมดในห้องจะถูกลบไปด้วย และไม่สามารถย้อนกลับได้",
     "group.delete_room_button": "ลบห้อง",
     "alert.confirm_delete": "ยืนยันการลบ",
-    "alert.delete_action": "ลบ"
+    "alert.delete_action": "ลบ",
+    "articles.count_suffix": " บทความ",
+    "articles.pagination_label": "การแบ่งหน้าบทความล่าสุด",
+    "articles.pagination_next": "ถัดไป",
+    "articles.pagination_prev": "ก่อนหน้า",
+    "articles.search_current_page_label": "ค้นหาบทความในหน้านี้",
+    "articles.search_current_page_placeholder": "ค้นหาบทความในหน้านี้…"
   },
   "js": {
     "alert.notice": "แจ้งเตือน",

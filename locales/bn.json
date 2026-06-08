@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "এটি গ্রুপ রুমটি মুছে ফেলবে। রুমের সমস্ত ফাইলও মুছে ফেলা হবে, এবং এই কাজটি পূর্বাবস্থায় ফিরিয়ে আনা যাবে না।",
     "group.delete_room_button": "রুম মুছুন",
     "alert.confirm_delete": "মুছে ফেলার নিশ্চিতকরণ",
-    "alert.delete_action": "মুছুন"
+    "alert.delete_action": "মুছুন",
+    "articles.count_suffix": " নিবন্ধ",
+    "articles.pagination_label": "সর্বশেষ নিবন্ধের পৃষ্ঠা নেভিগেশন",
+    "articles.pagination_next": "পরবর্তী",
+    "articles.pagination_prev": "পূর্ববর্তী",
+    "articles.search_current_page_label": "এই পৃষ্ঠার নিবন্ধ খুঁজুন",
+    "articles.search_current_page_placeholder": "এই পৃষ্ঠার নিবন্ধ খুঁজুন…"
   },
   "js": {
     "alert.notice": "বিজ্ঞপ্তি",

@@ -41,7 +41,13 @@
     "group.delete_room_confirm_message": "यह समूह कमरा हटा देगा। कमरे की सभी फ़ाइलें भी हटा दी जाएंगी, और इस क्रिया को पूर्ववत नहीं किया जा सकता है।",
     "group.delete_room_button": "कमरा हटाएं",
     "alert.confirm_delete": "हटाने की पुष्टि करें",
-    "alert.delete_action": "हटाएं"
+    "alert.delete_action": "हटाएं",
+    "articles.count_suffix": " लेख",
+    "articles.pagination_label": "नवीनतम लेखों का पृष्ठांकन",
+    "articles.pagination_next": "अगला",
+    "articles.pagination_prev": "पिछला",
+    "articles.search_current_page_label": "इस पृष्ठ के लेख खोजें",
+    "articles.search_current_page_placeholder": "इस पृष्ठ के लेख खोजें…"
   },
   "js": {
     "alert.notice": "सूचना",
