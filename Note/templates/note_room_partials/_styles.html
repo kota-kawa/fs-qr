@@ -344,4 +344,21 @@ footer.simple-footer {
 .note-action-button:active {
   transform: translateY(0);
 }
+
+.note-action-button .note-action-icon-check {
+  display: none;
+}
+
+.note-action-button.copied {
+  color: var(--theme-note-inline-copied);
+  background: var(--theme-note-action-background-hover);
+}
+
+.note-action-button.copied .note-action-icon-default {
+  display: none;
+}
+
+.note-action-button.copied .note-action-icon-check {
+  display: inline-flex;
+}
 </style>

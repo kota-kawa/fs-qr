@@ -15,6 +15,20 @@
   }
 
   function createClipboardHandlers(context) {
+    function flashButtonSuccess(button) {
+      if (!button) {
+        return;
+      }
+      button.classList.add("copied");
+      if (button._copiedTimer) {
+        clearTimeout(button._copiedTimer);
+      }
+      button._copiedTimer = setTimeout(function () {
+        button.classList.remove("copied");
+        button._copiedTimer = null;
+      }, 2000);
+    }
+
     async function handlePasteFromClipboard() {
       if (!navigator.clipboard || !navigator.clipboard.readText) {
         ui.showEditorFeedback(translate("note.clipboard_paste_unavailable", "Paste is not available in this environment."), "error");
@@ -56,6 +70,7 @@
         } else {
           ui.showEditorFeedback(translate("note.paste_success", "Pasted."), "success");
         }
+        flashButtonSuccess(context.pasteButton);
       } catch (error) {
         ui.showEditorFeedback(translate("note.paste_error", "Paste failed. Check your browser permission settings."), "error");
       }
@@ -74,6 +89,7 @@
         }
         await copyTextToClipboard(text);
         ui.showEditorFeedback(translate("note.copy_success", "Copied the full note."), "success");
+        flashButtonSuccess(context.copyAllButton);
       } catch (error) {
         ui.showEditorFeedback(translate("note.copy_error", "Copy failed. Please copy manually."), "error");
       }
