@@ -130,8 +130,13 @@ def test_upload_invalid_generated_password_message(test_client: TestClient):
 
 
 def test_upload_too_many_files(test_client: TestClient):
-    """ファイル数が 10 を超えると 400 JSON エラーを返す"""
-    files = [("upfile", (f"file{i}.txt", b"x", "text/plain")) for i in range(11)]
+    """ファイル数が上限を超えると 400 JSON エラーを返す"""
+    from settings import UPLOAD_MAX_FILES
+
+    files = [
+        ("upfile", (f"file{i}.txt", b"x", "text/plain"))
+        for i in range(UPLOAD_MAX_FILES + 1)
+    ]
     response = test_client.post(
         "/upload", files=files, data={"name": "", "file_type": "multiple"}
     )
