@@ -46,6 +46,7 @@
     }
   }
 
+  let shareFeedbackTimer = null;
   function setShareFeedback(message, kind) {
     const feedback = document.getElementById('shareFeedback');
     if (!feedback) {
@@ -53,6 +54,13 @@
     }
     feedback.textContent = message;
     feedback.className = `share-feedback is-visible is-${kind}`;
+    if (shareFeedbackTimer) {
+      clearTimeout(shareFeedbackTimer);
+    }
+    shareFeedbackTimer = setTimeout(() => {
+      feedback.classList.remove('is-visible');
+      shareFeedbackTimer = null;
+    }, 4000);
   }
 
   function translate(key, fallback) {
