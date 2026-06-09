@@ -183,6 +183,43 @@ def test_translate_rendered_html_updates_language_metadata():
     assert "الرئيسية" in translated_ar
 
 
+def test_translate_rendered_html_keeps_page_specific_meta_description():
+    from i18n import translate_rendered_html
+
+    page_description = (
+        "FS!QRでファイルをアップロードしてQRコードや共有リンクで簡単共有。"
+        "アプリ不要・登録不要でPCとスマホ間の写真、動画、PDFを安全に転送でき、"
+        "自動削除にも対応する無料ファイル共有サービス。"
+    )
+    content = (
+        '<html lang="ja"><head>'
+        f'<meta name="description" content="{page_description}">'
+        "</head><body></body></html>"
+    )
+
+    translated_en = translate_rendered_html(content, "en")
+
+    assert "Upload files with FS!QR" in translated_en
+    assert "QR code transfers, group file sharing" not in translated_en
+
+
+def test_translate_rendered_html_falls_back_for_unknown_meta_description():
+    from i18n import translate_rendered_html
+
+    content = (
+        '<html lang="ja"><head>'
+        '<meta name="description" content="未翻訳のページ固有説明">'
+        "</head><body></body></html>"
+    )
+
+    translated_ja = translate_rendered_html(content, "ja")
+    translated_en = translate_rendered_html(content, "en")
+
+    assert 'content="未翻訳のページ固有説明"' in translated_ja
+    assert "free file sharing service" in translated_en
+    assert "未翻訳のページ固有説明" not in translated_en
+
+
 def test_translate_rendered_html_does_not_corrupt_script_blocks():
     """Phrase replacement must never rewrite text inside <script>/<style>.
 

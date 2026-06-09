@@ -47,7 +47,11 @@
     "articles.pagination_next": "अगला",
     "articles.pagination_prev": "पिछला",
     "articles.search_current_page_label": "इस पृष्ठ के लेख खोजें",
-    "articles.search_current_page_placeholder": "इस पृष्ठ के लेख खोजें…"
+    "articles.search_current_page_placeholder": "इस पृष्ठ के लेख खोजें…",
+    "seo.home.intent": "फ़ाइल ट्रांसफर, फोटो शेयरिंग, वीडियो शेयरिंग, PDF भेजना, साझा मेमो और मीटिंग मिनट्स जैसे आम खोज उपयोगों के लिए, अस्थायी शेयरिंग से टीम सहयोग तक उपयोगी है।",
+    "seo.fsqr.intent": "QR कोड से फ़ाइल भेजने, PC से स्मार्टफोन पर फोटो या PDF भेजने और ऐप इंस्टॉल किए बिना बड़ी फ़ाइल साझा करने के लिए समय-सीमा वाली अस्थायी शेयरिंग तुरंत बनाएं।",
+    "seo.group.intent": "ग्रुप रूम को साझा फ़ोल्डर की तरह इस्तेमाल करें और बिना पंजीकरण आंतरिक दस्तावेज़, क्लास सामग्री, इवेंट फ़ाइलें और ग्राहकों के साथ फ़ाइल आदान-प्रदान प्रबंधित करें।",
+    "seo.note.intent": "ऑनलाइन मेमो, साझा नोट, मीटिंग नोट और मिनट्स के लिए सहयोगी नोट। URL और एक्सेस कुंजी साझा करके ब्राउज़र में साथ-साथ संपादन और ऑटोसेव शुरू करें।"
   },
   "js": {
     "alert.notice": "सूचना",
@@ -1804,6 +1808,11 @@
     "外部フォームについて": "बाहरी फ़ॉर्म के बारे में",
     "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "हम पूछताछ के लिए Google Forms का उपयोग करते हैं। फ़ॉर्म में दर्ज जानकारी का उपयोग पूछताछ प्रबंधन और सेवा सुधार के लिए किया जाता है। Google द्वारा जानकारी के प्रबंधन के बारे में, Google की गोपनीयता नीति देखें।",
     "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "गोपनीयता संबंधी प्रश्न, हटाने के अनुरोध, और ऐसी सामग्री की रिपोर्ट जो अवैध हो सकती है या अधिकारों का उल्लंघन कर सकती है, इस फ़ॉर्म के माध्यम से भी स्वीकार की जाती है। कृपया लक्ष्य URL, कक्ष ID, समस्या का विवरण और संपर्क जानकारी यथासंभव विशिष्ट रूप से शामिल करें।",
-    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "प्रभावी तिथि: 28 मई 2026 / अंतिम अपडेट: 8 जून 2026"
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "प्रभावी तिथि: 28 मई 2026 / अंतिम अपडेट: 8 जून 2026",
+    "FS!QR（エフエスQR）は登録不要・無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有でPCとスマホ間の写真・動画・PDFを安全に送信・管理できます。": "FS!QR बिना पंजीकरण के मुफ्त फ़ाइल साझा सेवा है। QR कोड, समूह फ़ाइल शेयरिंग और रीयल-टाइम नोट्स से PC और स्मार्टफोन के बीच फोटो, वीडियो और PDF सुरक्षित रूप से भेजें और प्रबंधित करें।",
+    "FS!QRでファイルをアップロードしてQRコードや共有リンクで簡単共有。アプリ不要・登録不要でPCとスマホ間の写真、動画、PDFを安全に転送でき、自動削除にも対応する無料ファイル共有サービス。": "FS!QR से फ़ाइल अपलोड करें और QR कोड या साझा लिंक से आसानी से शेयर करें। ऐप या पंजीकरण के बिना PC और स्मार्टफोन के बीच फोटो, वीडियो और PDF सुरक्षित ट्रांसफर करने वाली मुफ्त सेवा, ऑटो-डिलीट सहित।",
+    "グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有": "group file sharing, team collaboration, room management, FS QR Group, business file sharing, project management tool, team collaboration, secure file sharing, cloud storage, free groupware, Japanese support, file management system, teamwork support, group work, group activities, shared folder, file drop space, multi-user file sharing, internal sharing",
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業": "real-time note sharing, simultaneous editing, online collaborative editing, note creation, room management, FS QR Note, collaboration tool, meeting notes, project management, study support, free note app, Japanese support, browser editing, team work, group study, text sharing, text sharing app, online memo sharing, shared memo pad, web memo, minutes sharing, collaboration",
+    "QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応": "QR code file sharing, encrypted upload, FS QR, secure file sending, QR code generation, file encryption, secure data transfer, cloud storage, free file sharing, Japanese support, security focused, file management system, business file sharing, QR sharing, large file sending, file transfer, password protected, password protection, smartphone support"
   }
 }
