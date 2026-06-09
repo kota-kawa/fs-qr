@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """新規3記事のカード文言・カテゴリを全ロケールに挿入するスクリプト。"""
+
 import json
 import re
 import sys
@@ -256,7 +257,7 @@ def insert_entries(lang: str, translations: dict[str, str]) -> bool:
     insert_pos = match.end()
 
     def json_line(k: str, v: str) -> str:
-        return f'    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)},\n'
+        return f"    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)},\n"
 
     new_lines = (
         json_line(KEYS["category"], translations["category"])
@@ -278,7 +279,7 @@ def main() -> None:
     for lang, translations in TRANSLATIONS.items():
         if lang == "en":
             # en はすでに手動で追加済み
-            print(f"  en: already done")
+            print("  en: already done")
             continue
         insert_entries(lang, translations)
 
