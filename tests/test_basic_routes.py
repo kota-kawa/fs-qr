@@ -181,8 +181,8 @@ def test_note_page_uses_translated_editor_helper_text(test_client: TestClient):
 def test_fsqr_upload_page_uses_translated_upload_limit_hint(test_client: TestClient):
     response = test_client.get("/fs-qr", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert "* You can upload up to 10 files, with a total of 500 MB." in response.text
-    assert "※最大10ファイル、合計500MBまで扱えます。" not in response.text
+    assert "* You can upload up to 30 files, with a total of 500 MB." in response.text
+    assert "※最大30ファイル、合計500MBまで扱えます。" not in response.text
 
 
 def test_retention_preview_message_is_translated_for_english(test_client: TestClient):

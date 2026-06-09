@@ -721,9 +721,14 @@ def test_download_all_auth_success_no_dir(test_client: TestClient):
 
 
 def test_group_upload_too_many_files(test_client: TestClient):
-    """ファイル数が 10 を超えると 400 を返す"""
+    """ファイル数が上限を超えると 400 を返す"""
+    from settings import UPLOAD_MAX_FILES
+
     mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
-    files = [("upfile", (f"file{i}.txt", b"x", "text/plain")) for i in range(11)]
+    files = [
+        ("upfile", (f"file{i}.txt", b"x", "text/plain"))
+        for i in range(UPLOAD_MAX_FILES + 1)
+    ]
     with (
         patch(
             "Group.group_data.get_data_direct",
