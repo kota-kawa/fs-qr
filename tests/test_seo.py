@@ -21,6 +21,8 @@ SITEMAP_NS = {
     "xhtml": "http://www.w3.org/1999/xhtml",
 }
 
+DESC_RE = re.compile(r'<meta name="description" content="([^"]+)"')
+
 
 def test_sitemap_lists_canonical_urls_without_hreflang_alternates(
     test_client: TestClient,
@@ -84,14 +86,12 @@ def test_home_meta_description_is_translated_for_every_locale(
         "ar": "مجاني",
     }
 
-    desc_re = re.compile(r'<meta name="description" content="([^"]+)"')
-
     for language in SUPPORTED_LANGUAGES:
         cookie = {"Cookie": f"fsqr_language={language}"}
         response = test_client.get("/", headers=cookie)
         assert response.status_code == 200, language
 
-        match = desc_re.search(response.text)
+        match = DESC_RE.search(response.text)
         assert match, f"{language}: no meta description"
         desc = match.group(1)
 
@@ -100,6 +100,51 @@ def test_home_meta_description_is_translated_for_every_locale(
             f"{language}: meta description missing language marker {marker!r}; "
             f"got {desc[:120]!r}"
         )
+
+
+def test_target_pages_keep_page_specific_meta_descriptions(test_client: TestClient):
+    routes = {
+        "/": ("登録不要", "no registration"),
+        "/group_menu": ("アカウント不要", "without accounts"),
+        "/group": ("グループファイル共有ページ", "without registration"),
+        "/note_menu": ("リアルタイム同時編集", "collaborative note"),
+        "/note": ("議事録を同時編集", "co-edit meeting notes"),
+        "/fs-qr_menu": ("アプリ不要", "No app"),
+        "/fs-qr": ("共有リンク", "share them by QR code or link"),
+    }
+
+    for route, (ja_marker, en_marker) in routes.items():
+        response_ja = test_client.get(route)
+        assert response_ja.status_code == 200, route
+        match_ja = DESC_RE.search(response_ja.text)
+        assert match_ja, f"{route}: no Japanese meta description"
+        assert ja_marker in match_ja.group(1), route
+
+        response_en = test_client.get(f"{route}?lang=en")
+        assert response_en.status_code == 200, route
+        match_en = DESC_RE.search(response_en.text)
+        assert match_en, f"{route}: no English meta description"
+        desc_en = match_en.group(1)
+        assert en_marker.lower() in desc_en.lower(), route
+        assert "QR code transfers, group file sharing" not in desc_en, route
+
+
+def test_target_pages_render_seo_intent_text_in_english(test_client: TestClient):
+    routes = {
+        "/": "file transfer",
+        "/group_menu": "shared folder",
+        "/group": "shared folder",
+        "/note_menu": "meeting notes",
+        "/note": "meeting notes",
+        "/fs-qr_menu": "time-limited sharing",
+        "/fs-qr": "time-limited sharing",
+    }
+
+    for route, marker in routes.items():
+        response = test_client.get(f"{route}?lang=en")
+        assert response.status_code == 200, route
+        assert marker in response.text, route
+        assert "seo." not in response.text, route
 
 
 def test_home_geo_region_adapts_to_locale(test_client: TestClient):

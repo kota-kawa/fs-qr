@@ -47,7 +47,11 @@
     "articles.pagination_next": "Tiếp theo",
     "articles.pagination_prev": "Trước",
     "articles.search_current_page_label": "Tìm kiếm bài viết trên trang này",
-    "articles.search_current_page_placeholder": "Tìm kiếm bài viết trên trang này…"
+    "articles.search_current_page_placeholder": "Tìm kiếm bài viết trên trang này…",
+    "seo.home.intent": "Hỗ trợ các nhu cầu thường được tìm kiếm như chuyển tệp, chia sẻ ảnh, chia sẻ video, gửi PDF, ghi chú chung và biên bản họp, từ chia sẻ tạm thời đến cộng tác nhóm.",
+    "seo.fsqr.intent": "Tạo nhanh chia sẻ tạm thời có thời hạn để gửi tệp bằng mã QR, chuyển ảnh hoặc PDF từ PC sang điện thoại và chia sẻ tệp lớn mà không cần cài ứng dụng.",
+    "seo.group.intent": "Dùng phòng nhóm như thư mục dùng chung để quản lý tài liệu nội bộ, tài liệu lớp học, tài liệu sự kiện và trao đổi tệp với khách hàng mà không cần đăng ký.",
+    "seo.note.intent": "Ghi chú cộng tác cho ghi chú trực tuyến, ghi chú dùng chung, ghi chú cuộc họp và biên bản. Chia sẻ URL và khóa truy cập để cùng chỉnh sửa trên trình duyệt và tự động lưu."
   },
   "js": {
     "alert.notice": "Thông báo",
@@ -1782,6 +1786,11 @@
     "外部フォームについて": "Về biểu mẫu bên ngoài",
     "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "Chúng tôi sử dụng Google Forms cho các câu hỏi. Thông tin nhập vào biểu mẫu được sử dụng để xử lý câu hỏi và cải thiện dịch vụ. Vui lòng tham khảo Chính sách Quyền riêng tư của Google để biết thông tin về cách Google xử lý thông tin.",
     "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "Các câu hỏi về quyền riêng tư, yêu cầu xóa và báo cáo về nội dung có thể vi phạm pháp luật hoặc xâm phạm quyền lợi cũng được chấp nhận qua biểu mẫu này. Vui lòng cung cấp URL mục tiêu, ID phòng, chi tiết vấn đề và thông tin liên lạc càng cụ thể càng tốt.",
-    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Ngày có hiệu lực: 28 tháng 5 năm 2026 / Cập nhật lần cuối: 8 tháng 6 năm 2026"
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "Ngày có hiệu lực: 28 tháng 5 năm 2026 / Cập nhật lần cuối: 8 tháng 6 năm 2026",
+    "FS!QR（エフエスQR）は登録不要・無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有でPCとスマホ間の写真・動画・PDFを安全に送信・管理できます。": "FS!QR là dịch vụ chia sẻ tệp miễn phí, không cần đăng ký. Dùng mã QR, chia sẻ nhóm và ghi chú thời gian thực để gửi và quản lý ảnh, video, PDF an toàn giữa PC và điện thoại.",
+    "FS!QRでファイルをアップロードしてQRコードや共有リンクで簡単共有。アプリ不要・登録不要でPCとスマホ間の写真、動画、PDFを安全に転送でき、自動削除にも対応する無料ファイル共有サービス。": "Tải tệp lên FS!QR và chia sẻ bằng mã QR hoặc liên kết. Dịch vụ miễn phí không cần ứng dụng hay đăng ký để chuyển ảnh, video, PDF an toàn giữa PC và điện thoại, có tự động xóa.",
+    "グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有": "group file sharing, team collaboration, room management, FS QR Group, business file sharing, project management tool, team collaboration, secure file sharing, cloud storage, free groupware, Japanese support, file management system, teamwork support, group work, group activities, shared folder, file drop space, multi-user file sharing, internal sharing",
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業": "real-time note sharing, simultaneous editing, online collaborative editing, note creation, room management, FS QR Note, collaboration tool, meeting notes, project management, study support, free note app, Japanese support, browser editing, team work, group study, text sharing, text sharing app, online memo sharing, shared memo pad, web memo, minutes sharing, collaboration",
+    "QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応": "QR code file sharing, encrypted upload, FS QR, secure file sending, QR code generation, file encryption, secure data transfer, cloud storage, free file sharing, Japanese support, security focused, file management system, business file sharing, QR sharing, large file sending, file transfer, password protected, password protection, smartphone support"
   }
 }

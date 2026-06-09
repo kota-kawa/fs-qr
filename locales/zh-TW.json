@@ -47,7 +47,11 @@
     "articles.count_suffix": "篇",
     "articles.pagination_label": "最新文章分頁",
     "articles.pagination_prev": "上一頁",
-    "articles.pagination_next": "下一頁"
+    "articles.pagination_next": "下一頁",
+    "seo.home.intent": "涵蓋檔案傳輸、照片分享、影片分享、PDF 傳送、共享備忘錄與會議記錄等常見搜尋用途，從短期臨時分享到團隊協作都能使用。",
+    "seo.fsqr.intent": "可快速建立有期限的臨時分享，用於透過 QR Code 傳送檔案、將照片或 PDF 從電腦傳到手機，以及免安裝 App 分享大型檔案。",
+    "seo.group.intent": "可像共享資料夾一樣使用群組房間，免註冊即可集中管理公司資料、課堂資料、活動講義，以及與客戶的檔案交接。",
+    "seo.note.intent": "適用於線上備忘錄、共享筆記、會議筆記與會議記錄分享的共同編輯筆記。只要分享 URL 和存取金鑰，就能在瀏覽器中同步編輯並自動儲存。"
   },
   "js": {
     "alert.notice": "通知",
@@ -1735,6 +1739,11 @@
     "外部フォームについて": "關於外部表單",
     "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "我們使用Google Forms處理諮詢。表單中填寫的內容將用於諮詢處理和服務改善。有關Google對資訊的處理，請參閱Google隱私權政策。",
     "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "隱私諮詢、刪除請求以及關於可能違法或侵權內容的檢舉，也可透過此表單提交。請盡量具體填寫目標URL、房間ID、問題詳情及聯絡方式。",
-    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "制定日期：2026年5月28日 / 最終更新日期：2026年6月8日"
+    "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "制定日期：2026年5月28日 / 最終更新日期：2026年6月8日",
+    "FS!QR（エフエスQR）は登録不要・無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有でPCとスマホ間の写真・動画・PDFを安全に送信・管理できます。": "FS!QR 是免註冊、免費使用的日文檔案分享服務。可透過 QR Code、群組檔案分享與即時筆記，在電腦與手機之間安全傳送和管理照片、影片與 PDF。",
+    "FS!QRでファイルをアップロードしてQRコードや共有リンクで簡単共有。アプリ不要・登録不要でPCとスマホ間の写真、動画、PDFを安全に転送でき、自動削除にも対応する無料ファイル共有サービス。": "使用 FS!QR 上傳檔案後，可透過 QR Code 或分享連結輕鬆分享。免 App、免註冊，可在電腦與手機之間安全傳輸照片、影片和 PDF，並支援自動刪除。",
+    "グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有": "group file sharing, team collaboration, room management, FS QR Group, business file sharing, project management tool, team collaboration, secure file sharing, cloud storage, free groupware, Japanese support, file management system, teamwork support, group work, group activities, shared folder, file drop space, multi-user file sharing, internal sharing",
+    "リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業": "real-time note sharing, simultaneous editing, online collaborative editing, note creation, room management, FS QR Note, collaboration tool, meeting notes, project management, study support, free note app, Japanese support, browser editing, team work, group study, text sharing, text sharing app, online memo sharing, shared memo pad, web memo, minutes sharing, collaboration",
+    "QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応": "QR code file sharing, encrypted upload, FS QR, secure file sending, QR code generation, file encryption, secure data transfer, cloud storage, free file sharing, Japanese support, security focused, file management system, business file sharing, QR sharing, large file sending, file transfer, password protected, password protection, smartphone support"
   }
 }

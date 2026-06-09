@@ -1,3 +1,4 @@
+import html
 import ipaddress
 import json
 import logging
@@ -351,6 +352,34 @@ def get_translation_value(language: str, section: str, key: str) -> str:
     return key
 
 
+def get_phrase_translation(language: str, source: str) -> str | None:
+    translations = load_translations()
+    normalized_language = normalize_language(language)
+
+    language_phrases = translations.get(normalized_language, {}).get("phrases", {})
+    if isinstance(language_phrases, dict):
+        value = language_phrases.get(source)
+        if isinstance(value, str) and value:
+            return value
+
+    fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
+    for fallback in fallbacks:
+        fallback_phrases = translations.get(fallback, {}).get("phrases", {})
+        if isinstance(fallback_phrases, dict):
+            value = fallback_phrases.get(source)
+            if isinstance(value, str) and value:
+                return value
+
+    if normalized_language != "en" and "en" not in fallbacks:
+        english_phrases = translations.get("en", {}).get("phrases", {})
+        if isinstance(english_phrases, dict):
+            value = english_phrases.get(source)
+            if isinstance(value, str) and value:
+                return value
+
+    return None
+
+
 def normalize_language(language: str) -> str:  # noqa: C901
     if not language:
         return DEFAULT_LANGUAGE
@@ -575,15 +604,20 @@ def translate_rendered_html(content: str, language: str) -> str:
 
     content = _HTML_LANG_RE.sub(_replace_html_lang, content)
 
-    # 2b. Update <meta name="description" content=...> with translation
-    meta_desc = get_translation_value(normalized_language, "ui", "meta.description")
-    if meta_desc:
-        # Replace the content attribute while keeping other attributes if any
-        def _replace_meta_desc(match):
-            # Preserve any additional attributes before name="description" if present
-            return f'<meta name="description" content="{meta_desc}">'
+    # 2b. Translate page-specific <meta name="description"> when available.
+    # If a page-specific translation is missing, keep the previous common
+    # description fallback for non-Japanese pages instead of leaking Japanese.
+    def _replace_meta_desc(match):
+        original_desc = match.group(1)
+        translated_desc = original_desc
+        if normalized_language != DEFAULT_LANGUAGE:
+            translated_desc = get_phrase_translation(
+                normalized_language, original_desc
+            ) or get_translation_value(normalized_language, "ui", "meta.description")
+        escaped_desc = html.escape(translated_desc, quote=True)
+        return f'<meta name="description" content="{escaped_desc}">'
 
-        content = _META_DESCRIPTION_RE.sub(_replace_meta_desc, content)
+    content = _META_DESCRIPTION_RE.sub(_replace_meta_desc, content)
 
     # 2c. Update <meta name="language" content=...> with language code
     def _replace_meta_lang(match):
