@@ -46,15 +46,23 @@ RUN /usr/local/bin/python -m pip install \
 
 COPY --from=builder /opt/venv /opt/venv
 
+# Run as a non-root user. uid/gid 1000 must match the host user that owns the
+# bind-mounted directories in docker-compose (./logs, ./geoip, source tree).
+RUN groupadd --gid 1000 kota \
+    && useradd --uid 1000 --gid 1000 --create-home --shell /usr/sbin/nologin kota
+
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY --chown=kota:kota . /app
 
 # Add wait-for-it script for database readiness
 COPY wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod +x /usr/local/bin/wait-for-it
 
-# Create logs directory and set permissions
-RUN mkdir -p /app/logs && chmod -R 777 /app/logs
+# Writable runtime directories (logs, uploads, GeoIP DB updates)
+RUN mkdir -p /app/logs /app/storage /app/geoip \
+    && chown -R kota:kota /app/logs /app/storage /app/geoip /app/static
+
+USER kota
 
 # Expose port 5000 for Gunicorn app
 EXPOSE 5000

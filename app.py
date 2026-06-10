@@ -35,6 +35,7 @@ from settings import (
     TRUSTED_PROXY_HOSTS,
 )
 from i18n import is_language_query_only
+from security_headers import apply_security_headers
 from web import render_cached_template, render_template, wants_json_response
 from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
@@ -95,6 +96,13 @@ app.add_middleware(SessionMiddleware, **_build_session_middleware_kwargs())
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static"
 )
+
+
+@app.middleware("http")
+async def security_headers_middleware(request: Request, call_next):
+    response = await call_next(request)
+    apply_security_headers(response.headers)
+    return response
 
 
 @app.middleware("http")
