@@ -38,6 +38,7 @@ from typing import Any
 
 TYPE_GUIDE = "guide"
 TYPE_ARTICLE = "article"
+ARTICLE_THUMBNAIL_DIR = "articles/thumbnails"
 
 # 既存の6件はサービス解説ガイド(エバーグリーン)としてデフォルト保持する。
 # 日次で増やすブログ記事は type="article" でこのリスト末尾に append していく。
@@ -313,6 +314,10 @@ ARTICLES: list[dict[str, Any]] = [
 _seen: set[str] = set()
 CATEGORIES: list[str] = []
 for _article in ARTICLES:
+    _article.setdefault(
+        "thumbnail",
+        f"{ARTICLE_THUMBNAIL_DIR}/{_article['slug']}.jpg",
+    )
     _category = _article["category"]
     if _category not in _seen:
         _seen.add(_category)

@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% set article_thumbnail = "articles/thumbnails/education.jpg" %}
+{% set article_thumbnail_alt = "教育での活用例" %}
 
 {% block page_title %}教育での活用例 | FS!QR教育現場利用ガイド{% endblock %}
 
@@ -8,9 +10,13 @@
 
 {% block og_title %}教育での活用例 | FS!QR教育現場利用ガイド{% endblock %}
 {% block og_description %}FS!QRの教育現場での活用方法を詳しく解説。授業でのファイル配布、課題提出とフィードバック、グループ学習での協働など、学校・大学での効果的な利用例をご紹介します。{% endblock %}
+{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}教育での活用例 | FS!QR教育現場利用ガイド{% endblock %}
 {% block twitter_description %}FS!QRの教育現場での活用方法を詳しく解説。授業でのファイル配布、課題提出とフィードバック、グループ学習での協働など、学校・大学での効果的な利用例をご紹介します。{% endblock %}
+{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
@@ -29,6 +35,7 @@
   "description": "FS!QRの教育現場での活用方法を詳しく解説。授業でのファイル配布、課題提出とフィードバック、グループ学習での協働など、学校・大学での効果的な利用例をご紹介します。",
   "datePublished": "2025-08-21T00:00:00+09:00",
   "dateModified": "2025-08-21T00:00:00+09:00",
+  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
@@ -58,6 +65,7 @@
 <div class="container my-5">
   <div class="info-box">
     <div class="info-box-content">
+      {% include "_legacy_article_thumbnail.html" %}
       <h2 class="mb-4">教育での活用例</h2>
     
     <h3>授業における効果的なファイル配布</h3>
@@ -86,4 +94,3 @@
   </div>
 </div>
 {% endblock %}
-

@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% set article_thumbnail = "articles/thumbnails/safe-sharing.jpg" %}
+{% set article_thumbnail_alt = "安全な共有のポイント" %}
 
 {% block page_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
 
@@ -8,9 +10,13 @@
 
 {% block og_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
 {% block og_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
+{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
 {% block twitter_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
+{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
@@ -29,6 +35,7 @@
   "description": "オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。",
   "datePublished": "2025-08-31T00:00:00+09:00",
   "dateModified": "2025-08-31T00:00:00+09:00",
+  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
@@ -58,6 +65,7 @@
 <div class="container my-5">
   <div class="info-box">
     <div class="info-box-content">
+      {% include "_legacy_article_thumbnail.html" %}
       <h2 class="mb-4">安全な共有のポイント</h2>
     <p>オンラインでファイルを共有する際は、まず共有先を明確にし、目的外の人に届かないよう注意する必要があります。招待リンクは公開範囲が広くなりがちなので、送信前に本当に相手のアドレスが正しいか確認し、社内外を問わず閲覧権限を最小限に設定することが第一歩です。</p>
     <p>共有期間の管理も重要です。FS!QRではアップロードしたファイルが一定期間後に自動削除されるため、必要な相手にだけIDとパスワードを伝え、利用後は早めに削除を促すと安心です。</p>
@@ -72,4 +80,3 @@
   </div>
 </div>
 {% endblock %}
-

@@ -25,6 +25,7 @@
 {% set _modified = article_modified | default(article_published) %}
 {% set _published_iso = article_published ~ "T00:00:00+09:00" %}
 {% set _modified_iso = _modified ~ "T00:00:00+09:00" %}
+{% set _thumbnail = article_thumbnail | default("articles/thumbnails/" ~ article_slug ~ ".jpg") %}
 
 {% block page_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 
@@ -33,9 +34,13 @@
 
 {% block og_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 {% block og_description %}{{ article_description }}{% endblock %}
+{% block og_image %}{{ staticfile(_thumbnail) }}{% endblock %}
+{% block og_image_alt %}{{ article_title }}{% endblock %}
 
 {% block twitter_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 {% block twitter_description %}{{ article_description }}{% endblock %}
+{% block twitter_image %}{{ staticfile(_thumbnail) }}{% endblock %}
+{% block twitter_image_alt %}{{ article_title }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
@@ -54,6 +59,7 @@
   "description": {{ article_description | tojson }},
   "datePublished": "{{ _published_iso }}",
   "dateModified": "{{ _modified_iso }}",
+  "image": "{{ request.url_root }}static/{{ _thumbnail }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
@@ -89,6 +95,7 @@
         <span aria-hidden="true">/</span>
         <a href="/articles">解説記事</a>
       </nav>
+      <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="" loading="eager" decoding="async">
       <h2 class="mb-4">{{ _heading }}</h2>
       {% block article_body %}{% endblock %}
       {% include "_article_cta.html" %}
@@ -112,6 +119,15 @@
   }
   .article-breadcrumb a:hover { text-decoration: underline; }
   .article-breadcrumb span { margin: 0 0.4rem; opacity: 0.6; }
+  .article-hero-image {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 0 1.5rem;
+    display: block;
+    background: var(--bg-light);
+  }
   .article-footer-nav {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
