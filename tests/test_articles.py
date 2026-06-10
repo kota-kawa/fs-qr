@@ -60,10 +60,12 @@ def test_articles_second_page_lists_remaining_articles(test_client: TestClient):
         assert f"/{article['slug']}" not in body
     for article in get_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
         assert f"/{article['slug']}" not in body
-    for article in get_blog_articles_sorted()[ARTICLES_PER_PAGE:2*ARTICLES_PER_PAGE]:
+    for article in get_blog_articles_sorted()[
+        ARTICLES_PER_PAGE : 2 * ARTICLES_PER_PAGE
+    ]:
         assert f"/{article['slug']}" in body
         assert article["title"] in body
-    for article in get_blog_articles_sorted()[2*ARTICLES_PER_PAGE:]:
+    for article in get_blog_articles_sorted()[2 * ARTICLES_PER_PAGE :]:
         assert f"/{article['slug']}" not in body
 
 
