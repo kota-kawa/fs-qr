@@ -1877,6 +1877,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Do màn hình luôn bật để truyền dữ liệu nên pin của iPad sẽ cạn rất nhanh. Khi làm việc trong thời gian dài, bạn nên kết nối cáp với máy tính để cấp nguồn trong quá trình sử dụng.",
     "スタンドの用意：": "Chuẩn bị giá đỡ:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Để đặt iPad bên cạnh máy tính sao cho dễ nhìn, một chiếc giá đỡ máy tính bảng chắc chắn là vật dụng không thể thiếu. Những chiếc giá đỡ được bán ở cửa hàng đồng giá (như các cửa hàng tiện lợi 100 yên) là đã đủ dùng rồi, vì vậy hãy chuẩn bị sẵn một cái nhé.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Ngay cả những thiết bị không còn dùng đến, chỉ cần một chút ý tưởng là bạn vẫn có thể tận dụng chúng hoạt động hiệu quả. Hãy tìm lại chiếc iPad đang bị bỏ quên ở nhà và thử tạo dựng một không gian làm việc thật thoải mái nhé."
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Ngay cả những thiết bị không còn dùng đến, chỉ cần một chút ý tưởng là bạn vẫn có thể tận dụng chúng hoạt động hiệu quả. Hãy tìm lại chiếc iPad đang bị bỏ quên ở nhà và thử tạo dựng một không gian làm việc thật thoải mái nhé.",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Cách xử lý khi không quét được mã QR hoặc không mở được liên kết chia sẻ",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Danh sách kiểm tra thực tế cho trường hợp mã QR chia sẻ tệp không quét được, URL không mở được hoặc không vào được trang tải xuống, bao gồm màn hình hiển thị, mạng, trình duyệt và phương án dự phòng.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "mã QR, không quét được, liên kết chia sẻ, không tải xuống được, chia sẻ tệp, khắc phục sự cố",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Cần kiểm tra gì khi không vào được phòng nhóm hoặc không tìm thấy tệp",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Các bước kiểm tra ID phòng, mật khẩu, URL chia sẻ và danh sách tệp trong FS!QR Group khi không vào được phòng hoặc không thấy tệp đã tải lên.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "phòng nhóm, không vào được, không tìm thấy tệp, URL chia sẻ, mật khẩu, FS QR Group, khắc phục sự cố",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Cách xử lý khi ghi chú cộng tác không đồng bộ hoặc không hiển thị nội dung mới",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Hướng dẫn kiểm tra FS!QR Note khi nội dung chỉnh sửa không hiện với người khác, kết nối không ổn định hoặc nội dung đã lưu trông như bản cũ, từ mạng, trình duyệt đến thông tin chia sẻ và cách vận hành cuộc họp.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "ghi chú cộng tác, không đồng bộ, không hiển thị chỉnh sửa, chỉnh sửa thời gian thực, biên bản họp, FS QR Note, khắc phục sự cố"
   }
 }

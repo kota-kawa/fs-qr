@@ -2132,6 +2132,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Omdat het scherm continu aan staat en gegevens verzendt, loopt de batterij van de iPad snel leeg. Bij langdurig gebruik is het raadzaam de iPad met een kabel aan uw computer te leggen voor stroomvoorziening.",
     "スタンドの用意：": "Een standaard gebruiken:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Om de tablet goed zichtbaar naast uw computerscherm te plaatsen, is een stevige standaard onmisbaar. Een eenvoudig, goedkoop model volstaat al, dus zorg dat u er een klaar heeft staan.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Zelfs verouderde apparaten kunnen met een beetje creativiteit een tweede leven krijgen. Haal uw vergeten iPad uit de kast en upgrade uw werkplek vandaag nog!"
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Zelfs verouderde apparaten kunnen met een beetje creativiteit een tweede leven krijgen. Haal uw vergeten iPad uit de kast en upgrade uw werkplek vandaag nog!",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Wat te doen als een QR-code niet scant of een deellink niet opent",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Een praktische checklist voor QR-codes voor bestandsdeling die niet scannen, links die niet openen en downloadpagina’s die niet bereikbaar zijn, met aandacht voor schermweergave, netwerk, browserinstellingen en alternatieven.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "QR-code, scant niet, deellink, downloaden lukt niet, bestandsdeling, probleemoplossing",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Wat te controleren als je een groepsruimte niet kunt openen of bestanden niet vindt",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Heldere stappen voor het controleren van ruimte-ID, wachtwoord, deellink en bestandslijst in FS!QR Group wanneer een ruimte niet opent of geüploade bestanden niet verschijnen.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "groepsruimte, kan niet openen, bestand niet gevonden, deellink, wachtwoord, FS QR Group, probleemoplossing",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Een gedeelde notitie herstellen die niet synchroniseert of wijzigingen niet toont",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Probleemoplossing voor FS!QR Note wanneer bewerkingen niet zichtbaar zijn voor anderen, de verbinding instabiel is of opgeslagen inhoud verouderd lijkt, van netwerk en browser tot deelgegevens en werkwijze.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "gedeelde notitie, synchroniseert niet, wijzigingen niet zichtbaar, realtime bewerken, vergadernotulen, FS QR Note, probleemoplossing"
   }
 }

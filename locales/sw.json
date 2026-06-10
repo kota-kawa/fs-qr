@@ -1871,6 +1871,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Kioo kikiwa kimewaka wakati wote na data inapotumwa mfululizo, betri ya iPad itaisha haraka kuliko kawaida. Kwa kazi za muda mrefu, inashauriwa kuichomeka kwenye kompyuta au chaja kwa kutumia kebo.",
     "スタンドの用意：": "Matumizi ya stendi ya tablet:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Ili kuweka iPad yako karibu na kompyuta katika pembe inayofaa, stendi imara ya tablet inahitajika. Hata stendi ya bei rahisi inatosha kukusaidia kufanya kazi hiyo.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Vifaa vilivyopitwa na wakati vinaweza kurudi kuwa na manufaa kwa mawazo ya ubunifu. Toa iPad yako iliyohifadhiwa na ujiandae na mazingira mazuri ya kazi."
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Vifaa vilivyopitwa na wakati vinaweza kurudi kuwa na manufaa kwa mawazo ya ubunifu. Toa iPad yako iliyohifadhiwa na ujiandae na mazingira mazuri ya kazi.",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Cha kufanya QR code ikishindikana kuskaniwa au kiungo cha kushiriki kisipofunguka",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Orodha ya kukagua kwa vitendo wakati QR code ya kushiriki faili haisomeki, URL haifunguki au ukurasa wa kupakua haupatikani, ikigusa mwonekano wa skrini, mtandao, kivinjari na njia mbadala.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "QR code, haiwezi kuskaniwa, kiungo cha kushiriki, haiwezi kupakua, kushiriki faili, utatuzi wa matatizo",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Cha kukagua ukishindwa kuingia kwenye chumba cha kikundi au kupata faili",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Hatua wazi za kukagua ID ya chumba, nywila, URL ya kushiriki na orodha ya faili kwenye FS!QR Group chumba kisipofunguka au faili zilizopakiwa zisionekane.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "chumba cha kikundi, haiwezi kuingia, faili haipatikani, URL ya kushiriki, nywila, FS QR Group, utatuzi wa matatizo",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Jinsi ya kurekebisha noti ya pamoja isiyosawazisha au isiyoonyesha mabadiliko",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Mwongozo wa FS!QR Note wakati mabadiliko hayaonekani kwa wengine, muunganisho si thabiti au maudhui yaliyohifadhiwa yanaonekana ya zamani, kuanzia mtandao na kivinjari hadi taarifa za kushiriki na mpangilio wa kazi.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "noti ya pamoja, haisawazishi, mabadiliko hayaonekani, uhariri wa papo hapo, kumbukumbu za mkutano, FS QR Note, utatuzi wa matatizo"
   }
 }
