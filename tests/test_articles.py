@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 import pytest
 from starlette.testclient import TestClient
@@ -12,6 +13,8 @@ from Articles.articles_registry import (
     get_blog_articles_sorted,
     get_guides,
 )
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_articles_index(test_client: TestClient):
@@ -31,6 +34,22 @@ def test_articles_index_lists_all_articles(test_client: TestClient):
         assert article["title"] in body
     for article in get_blog_articles_sorted()[ARTICLES_PER_PAGE:]:
         assert f"/{article['slug']}" not in body
+
+
+@pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
+def test_registered_article_thumbnail_file_exists(article):
+    thumbnail = article.get("thumbnail")
+    assert thumbnail
+    assert (PROJECT_ROOT / "static" / thumbnail).is_file()
+
+
+def test_articles_index_renders_visible_article_thumbnails(test_client: TestClient):
+    response = test_client.get("/articles")
+    assert response.status_code == 200
+    body = response.text
+    visible_articles = [*get_guides(), *get_blog_articles_sorted()[:ARTICLES_PER_PAGE]]
+    for article in visible_articles:
+        assert f"/static/{article['thumbnail']}?v=" in body
 
 
 def test_articles_second_page_lists_remaining_articles(test_client: TestClient):
@@ -61,6 +80,8 @@ def test_articles_out_of_range_page_returns_404(test_client: TestClient):
 def test_registered_article_route(test_client: TestClient, article):
     response = test_client.get(f"/{article['slug']}")
     assert response.status_code == 200
+    assert f"/static/{article['thumbnail']}?v=" in response.text
+    assert f'<meta property="og:image" content="/static/{article["thumbnail"]}?v=' in response.text
 
 
 # fsqr / group / note いずれかのサービス入口URL

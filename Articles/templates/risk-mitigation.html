@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% set article_thumbnail = "articles/thumbnails/risk-mitigation.jpg" %}
+{% set article_thumbnail_alt = "リスクと対策の考え方" %}
 
 {% block page_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
 
@@ -8,9 +10,13 @@
 
 {% block og_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
 {% block og_description %}オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。{% endblock %}
+{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
 {% block twitter_description %}オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。{% endblock %}
+{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
@@ -29,6 +35,7 @@
   "description": "オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。",
   "datePublished": "2025-08-21T00:00:00+09:00",
   "dateModified": "2025-08-21T00:00:00+09:00",
+  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
@@ -58,6 +65,7 @@
 <div class="container my-5">
   <div class="info-box">
     <div class="info-box-content">
+      {% include "_legacy_article_thumbnail.html" %}
       <h2 class="mb-4">リスクと対策の考え方</h2>
     <p>オンラインでファイルを共有するときには、利便性の裏に潜むリスクを見逃してはなりません。リンクが第三者に漏えいすれば、意図しない情報開示や不正アクセスにつながります。特にパスワードが設定されていない場合、検索エンジンや共有端末から容易に見つけられてしまう恐れがあります。</p>
     <p>通信経路の盗聴も大きな脅威です。暗号化されていないHTTPを利用してファイルを送受信すると、途中でデータが改ざんされたり、内容が覗き見られたりする可能性があります。また、送信先を偽装する中間者攻撃では、利用者が気付かないうちにファイルが差し替えられることもあります。</p>
@@ -71,4 +79,3 @@
   </div>
 </div>
 {% endblock %}
-

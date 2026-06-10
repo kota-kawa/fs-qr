@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% set article_thumbnail = "articles/thumbnails/encryption.jpg" %}
+{% set article_thumbnail_alt = "暗号化の基礎知識" %}
 
 {% block page_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 
@@ -8,9 +10,13 @@
 
 {% block og_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 {% block og_description %}暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。{% endblock %}
+{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 {% block twitter_description %}暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。{% endblock %}
+{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block extra_og %}
@@ -29,6 +35,7 @@
   "description": "暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。",
   "datePublished": "2025-08-21T00:00:00+09:00",
   "dateModified": "2025-08-21T00:00:00+09:00",
+  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
@@ -58,6 +65,7 @@
 <div class="container my-5">
   <div class="info-box">
     <div class="info-box-content">
+      {% include "_legacy_article_thumbnail.html" %}
       <h2 class="mb-4">暗号化の基礎知識</h2>
     <p>暗号化とは、情報を第三者が理解できない形に変換し、正しい鍵を持つ人だけが元に戻せるようにする仕組みです。オンラインでやり取りされるデータはインターネット上を経由するため、平文のままでは途中で盗み見られる可能性があります。暗号化を行うことで、仮に通信が傍受されても内容が解読される心配を大幅に減らせます。</p>
     <p>代表的な方式として、同じ鍵で暗号化と復号を行う共通鍵暗号と、公開鍵と秘密鍵を使い分ける公開鍵暗号があります。共通鍵暗号は処理が高速で大量データの暗号化に向きますが、鍵の受け渡しに注意が必要です。公開鍵暗号は鍵配布の問題を解決できますが、処理がやや重く、通常は共通鍵と組み合わせて使われます。</p>
@@ -70,4 +78,3 @@
   </div>
 </div>
 {% endblock %}
-
