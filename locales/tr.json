@@ -1871,6 +1871,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Ekran sürekli açık kaldığı ve veri alışverişi yapıldığı için iPad'in pili normalden hızlı tükenecektir. Uzun süreli çalışmalarda cihazı bilgisayardan veya adaptörden kabloyla beslemeniz önerilir.",
     "スタンドの用意：": "Tablet Standı Kullanımı:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "iPad'inizi bilgisayarınızın yanına rahatça görebileceğiniz bir açıda yerleştirmek için sağlam bir standa ihtiyacınız olacaktır. Ucuz bir stant bile işinizi fazlasıyla görecektir.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Eski teknolojik cihazlar, yaratıcı fikirlerle yeniden hayat bulabilir. Çekmecedeki iPad'inizi çıkarıp kendinize daha konforlu bir çalışma alanı hazırlamayı deneyin."
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Eski teknolojik cihazlar, yaratıcı fikirlerle yeniden hayat bulabilir. Çekmecedeki iPad'inizi çıkarıp kendinize daha konforlu bir çalışma alanı hazırlamayı deneyin.",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "QR kod okunmuyor veya paylaşım bağlantısı açılmıyorsa ne yapılmalı?",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Dosya paylaşımı için kullanılan QR kodun okunmaması, URL’nin açılmaması veya indirme sayfasına ulaşılamaması durumunda ekran, ağ, tarayıcı ayarları ve alternatif yöntemler için pratik kontrol listesi.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "QR kod, okunmuyor, paylaşım bağlantısı, indirilemiyor, dosya paylaşımı, sorun giderme",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Grup odasına girilemiyor veya dosyalar bulunamıyorsa kontrol edilecekler",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "FS!QR Group’ta oda kimliği ya da parola çalışmadığında, paylaşım URL’si açılmadığında veya yüklenen dosyalar görünmediğinde izlenecek neden ve kontrol adımları.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "grup odası, girilemiyor, dosya bulunamadı, paylaşım URL’si, parola, FS QR Group, sorun giderme",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Ortak not eşitlenmiyor veya yazılanlar görünmüyorsa ne yapılmalı?",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "FS!QR Note’ta düzenlemeler diğer kişilere yansımadığında, bağlantı kararsız olduğunda veya kayıtlı içerik eski görünüyorsa ağ, tarayıcı, paylaşım bilgileri ve çalışma düzeni açısından kontrol edilmesi gerekenler.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "ortak not, eşitlenmiyor, düzenlemeler görünmüyor, gerçek zamanlı düzenleme, toplantı tutanağı, FS QR Note, sorun giderme"
   }
 }

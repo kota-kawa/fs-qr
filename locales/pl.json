@@ -1832,6 +1832,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Ciągłe podświetlenie ekranu oraz przesyłanie danych znacznie przyspieszają rozładowywanie się baterii iPada. Przy dłuższej pracy zaleca się podłączenie iPada kablem do komputera w celu stałego zasilania.",
     "スタンドの用意：": "Zapewnienie stojaka:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Aby wygodnie ustawić tablet obok ekranu komputera, niezbędny jest stabilny stojak. Z powodzeniem wystarczy prosty, tani uchwyt, dlatego warto się w niego zaopatrzyć.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Nawet starsze urządzenia mogą zyskać drugie życie dzięki odrobinie kreatywności. Wyciągnij nieużywany iPad z szuflady i stwórz wygodne stanowisko do pracy już dziś!"
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Nawet starsze urządzenia mogą zyskać drugie życie dzięki odrobinie kreatywności. Wyciągnij nieużywany iPad z szuflady i stwórz wygodne stanowisko do pracy już dziś!",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Co zrobić, gdy kod QR się nie skanuje albo link udostępniania się nie otwiera",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Praktyczna lista kontrolna dla sytuacji, gdy kod QR do udostępniania plików nie daje się zeskanować, URL się nie otwiera albo strona pobierania jest niedostępna, obejmująca ekran, sieć, przeglądarkę i rozwiązania awaryjne.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "kod QR, nie skanuje się, link udostępniania, nie można pobrać, udostępnianie plików, rozwiązywanie problemów",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Co sprawdzić, gdy nie można wejść do pokoju grupowego albo znaleźć plików",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Jasne kroki sprawdzania ID pokoju, hasła, linku udostępniania i listy plików w FS!QR Group, gdy pokój się nie otwiera albo przesłane pliki nie są widoczne.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "pokój grupowy, nie można wejść, nie znaleziono pliku, link udostępniania, hasło, FS QR Group, rozwiązywanie problemów",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Jak naprawić wspólną notatkę, która się nie synchronizuje lub nie pokazuje zmian",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Wskazówki dla FS!QR Note, gdy zmiany nie pojawiają się u innych, połączenie jest niestabilne albo zapisane treści wyglądają na nieaktualne, od sieci i przeglądarki po dane udostępniania i sposób pracy.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "wspólna notatka, nie synchronizuje się, zmiany niewidoczne, edycja w czasie rzeczywistym, protokół spotkania, FS QR Note, rozwiązywanie problemów"
   }
 }

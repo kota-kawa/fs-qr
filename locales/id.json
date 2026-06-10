@@ -1876,6 +1876,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Karena layar harus selalu aktif dan terus melakukan transmisi data, konsumsi baterai iPad akan menjadi lebih cepat. Untuk pekerjaan berdurasi lama, disarankan untuk menggunakannya sambil mengisi daya melalui kabel yang terhubung ke komputer.",
     "スタンドの用意：": "Menyiapkan penyangga (stand):",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Untuk meletakkannya di samping komputer agar mudah dilihat, Anda memerlukan penyangga (stand) tablet yang stabil. Penyangga murah yang dijual di toko serba ada pun sudah cukup memadai, jadi pastikan Anda menyiapkannya.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Meskipun perangkat tersebut sudah tidak lagi digunakan, dengan sedikit kreativitas, perangkat ini masih bisa aktif membantu produktivitas Anda. Ayo ambil kembali iPad Anda yang tersimpan di rumah, dan cobalah membangun lingkungan kerja yang nyaman."
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Meskipun perangkat tersebut sudah tidak lagi digunakan, dengan sedikit kreativitas, perangkat ini masih bisa aktif membantu produktivitas Anda. Ayo ambil kembali iPad Anda yang tersimpan di rumah, dan cobalah membangun lingkungan kerja yang nyaman.",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Cara Mengatasi QR Code yang Tidak Bisa Dipindai atau Tautan Berbagi yang Tidak Bisa Dibuka",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Daftar periksa praktis untuk QR code berbagi file yang tidak terbaca, URL yang tidak bisa dibuka, atau halaman unduhan yang tidak dapat diakses, mencakup tampilan layar, jaringan, pengaturan browser, dan opsi cadangan.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "QR code, tidak bisa dipindai, tautan berbagi, tidak bisa mengunduh, berbagi file, pemecahan masalah",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Yang Perlu Dicek Saat Tidak Bisa Masuk ke Ruang Grup atau Menemukan File",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Langkah pemeriksaan ID ruang, kata sandi, URL berbagi, dan daftar file di FS!QR Group saat ruang tidak bisa dibuka atau file yang diunggah tidak muncul.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "ruang grup, tidak bisa masuk, file tidak ditemukan, URL berbagi, kata sandi, FS QR Group, pemecahan masalah",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Cara Mengatasi Catatan Bersama yang Tidak Sinkron atau Tidak Menampilkan Perubahan",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Panduan untuk FS!QR Note saat perubahan tidak terlihat oleh orang lain, koneksi tidak stabil, atau konten tersimpan tampak usang, mencakup jaringan, browser, informasi berbagi, dan alur kerja rapat.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "catatan bersama, tidak sinkron, perubahan tidak muncul, penyuntingan real-time, notulen rapat, FS QR Note, pemecahan masalah"
   }
 }

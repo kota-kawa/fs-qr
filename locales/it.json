@@ -1485,7 +1485,7 @@
     "アップロードされたコンテンツは暗号化された状態で一時的に保存され、所定の保存期間の経過後に自動的に削除されます。すべての通信はHTTPSで暗号化されています。データの取り扱いの詳細は": "Il contenuto caricato viene temporaneamente archiviato in uno stato crittografato e automaticamente eliminato dopo il periodo di conservazione specificato. Tutte le comunicazioni sono crittografate utilizzando HTTPS. Per dettagli sul trattamento dei dati,",
     "パスワードが設定されている場合の対応": "Se è impostata una password",
     "QRコードが読めない、パスワードを伝え忘れた、容量が大きい、期限切れになったなど、ファイル共有で起こりやすい失敗と対処法をまとめます。": "Raccoglie i problemi più comuni nella condivisione dei file, come codici QR illeggibili, password dimenticate, file troppo grandi o link scaduti, e le relative soluzioni.",
-    "トラブル対策": "Risoluzione dei problemi",
+    "トラブル対策": "Risoluzione problemi",
     "ビジネス": "Business",
     "デジタル豆知識": "Consigli digitali",
     "写真を画質を落とさずに送る方法｜送ると劣化する原因と対策": "Come inviare foto senza perdita di qualità | Perché si degradano e come evitarlo",
@@ -1830,6 +1830,15 @@
     "画面を常にオンにして通信を行うため、iPadのバッテリー消費は早くなります。長時間の作業では、パソコンからケーブルで給電しながら使うのがおすすめです。": "Mantenere lo schermo sempre attivo e trasmettere dati consuma rapidamente la batteria dell'iPad. Per sessioni di lavoro prolungate, si consiglia di collegare l'iPad al computer tramite cavo per tenerlo in carica.",
     "スタンドの用意：": "Utilizzo di un supporto:",
     "パソコンの横に見やすく配置するためには、安定したタブレットスタンドが必須です。100円ショップで売られているものでも十分ですので、一つ用意しておきましょう。": "Per posizionare il tablet in modo comodo accanto allo schermo del computer, è essenziale un supporto stabile. Un modello semplice ed economico è più che sufficiente, quindi assicurati di averne uno pronto.",
-    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Anche un dispositivo obsoleto può trovare nuova vita con un pizzico di creatività. Tira fuori l'iPad dimenticato nell'armadio e migliora la tua area di lavoro oggi stesso!"
+    "使わなくなった端末でも、アイデア次第でまだまだ現役として活躍できます。ぜひ自宅に眠っているiPadを引っ張り出して、快適な作業環境を作ってみてください。": "Anche un dispositivo obsoleto può trovare nuova vita con un pizzico di creatività. Tira fuori l'iPad dimenticato nell'armadio e migliora la tua area di lavoro oggi stesso!",
+    "QRコードが読み取れない・共有リンクが開けないときの対処法": "Cosa fare se il codice QR non viene letto o il link condiviso non si apre",
+    "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Una guida pratica per controllare schermo, connessione, browser e soluzioni alternative quando un QR per la condivisione file non viene letto, il link non si apre o la pagina di download non è raggiungibile.",
+    "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "codice QR, non viene letto, link condiviso, download impossibile, condivisione file, risoluzione problemi",
+    "グループルームに入れない・ファイルが見つからないときの確認ポイント": "Cosa controllare se non riesci a entrare in una stanza di gruppo o a trovare i file",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Passaggi chiari per verificare ID stanza, password, URL condiviso ed elenco file in FS!QR Group quando l’accesso non riesce o i file caricati non compaiono.",
+    "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "stanza di gruppo, accesso impossibile, file non trovato, URL condiviso, password, FS QR Group, risoluzione problemi",
+    "共同編集ノートが同期されない・入力が反映されないときの対処法": "Come risolvere una nota condivisa che non si sincronizza o non mostra le modifiche",
+    "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Indicazioni per FS!QR Note quando le modifiche non compaiono agli altri, la connessione è instabile o il contenuto salvato sembra obsoleto, con controlli su rete, browser, dati di condivisione e metodo di lavoro.",
+    "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "nota condivisa, non si sincronizza, modifiche non visibili, modifica in tempo reale, verbale, FS QR Note, risoluzione problemi"
   }
 }
