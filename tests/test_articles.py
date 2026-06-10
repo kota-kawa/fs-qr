@@ -81,7 +81,10 @@ def test_registered_article_route(test_client: TestClient, article):
     response = test_client.get(f"/{article['slug']}")
     assert response.status_code == 200
     assert f"/static/{article['thumbnail']}?v=" in response.text
-    assert f'<meta property="og:image" content="/static/{article["thumbnail"]}?v=' in response.text
+    assert (
+        f'<meta property="og:image" content="/static/{article["thumbnail"]}?v='
+        in response.text
+    )
 
 
 # fsqr / group / note いずれかのサービス入口URL
