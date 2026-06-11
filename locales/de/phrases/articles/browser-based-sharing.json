@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Auswahl einer stabilen Netzwerkverbindung",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Nach dem Senden einer Datei über den Browser ist die Frage „Wie lange bleiben diese Daten im Internet?“ ein wichtiges Sicherheitsbedenken.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Multi-Kompatibilität für alle Geräte und Betriebssysteme",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Tipps für das reibungslose Senden großer Dateien"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Tipps für das reibungslose Senden großer Dateien",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "FS QR, große Dateien, browserbasiertes Teilen, kein Konto erforderlich, Dateiübertragung",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "Der kostenlose Speicherplatz von Google Drive, Dropbox, OneDrive und Co. füllt sich schnell, sodass man regelmäßig alte Dateien löschen oder ein kostenpflichtiges Abo abschließen muss.",
+  "クラウドストレージの容量圧迫：": "Voller Cloud-Speicher:",
+  "チャットツールの自動圧縮による品質低下：": "Qualitätsverlust durch automatische Komprimierung in Messaging-Apps:",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Wenn Sie Fotos oder Videos über eine Messaging-App senden, werden diese häufig automatisch in der Größe verringert und stark komprimiert, was die ursprüngliche Qualität und Auflösung erheblich mindert.",
+  "メール添付の容量上限：": "Größenbeschränkung für E-Mail-Anhänge:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Die Anhangsgröße einer normalen Geschäfts-E-Mail ist in der Regel auf 20–25 MB begrenzt; darüber hinaus schlägt der Versand fehl."
 }

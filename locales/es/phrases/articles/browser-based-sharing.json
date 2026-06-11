@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Selección de una conexión de red estable",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Tras enviar archivos por el navegador, saber cuánto tiempo permanecerán los datos en internet es una cuestión fundamental para la seguridad.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Compatibilidad múltiple válida para cualquier dispositivo y sistema operativo",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Consejos para compartir archivos de gran tamaño sin contratiempos"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Consejos para compartir archivos de gran tamaño sin contratiempos",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "FS QR, archivos grandes, compartición desde el navegador, sin cuenta requerida, transferencia de archivos",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "El almacenamiento gratuito de Google Drive, Dropbox, OneDrive y similares se llena rápido, lo que obliga a limpiar archivos antiguos con frecuencia o a contratar una suscripción de pago.",
+  "クラウドストレージの容量圧迫：": "Almacenamiento en la nube lleno:",
+  "チャットツールの自動圧縮による品質低下：": "Pérdida de calidad por compresión automática en aplicaciones de mensajería:",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Cuando envías fotos o videos por una aplicación de mensajería, con frecuencia se redimensionan y comprimen automáticamente, degradando significativamente la calidad y resolución originales.",
+  "メール添付の容量上限：": "Límite de tamaño de los archivos adjuntos en correo electrónico:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "El tamaño de los adjuntos en un correo corporativo estándar suele estar limitado a 20–25 MB; si lo superas, el envío falla."
 }

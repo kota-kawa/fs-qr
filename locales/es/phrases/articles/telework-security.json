@@ -16,5 +16,22 @@
   "シャドーITの撲滅とリモート業務の効率化を両立": "Erradicación del Shadow IT y optimización del teletrabajo de forma simultánea",
   "多くのクラウドサービスやファイル共有ツールでは、アップロード後に「共有URL」が生成されます。このURLさえ知っていれば、誰でもファイルにアクセスできる状態が一般的です。しかし、テレワークにおいては以下の理由から、URL単体の共有では不十分なケースが多々あります。": "En la mayoría de servicios en la nube y herramientas de intercambio de archivos, se genera una «URL de compartición» tras la subida. Lo habitual es que cualquier persona que conozca este enlace pueda acceder al archivo. Sin embargo, en el teletrabajo, existen múltiples razones por las cuales compartir únicamente la URL resulta insuficiente.",
   "セキュリティを過剰に厳しくした結果、ファイルの送受信に時間や手間がかかりすぎると、社員はこっそり個人用のクラウドサービスやフリーの転送サイトを使用するようになります（これがシャドーITです）。シャドーITは、企業のシステム管理者が把握できないため、セキュリティ対策において最大の脅威となります。": "Como resultado de una seguridad excesivamente estricta, si el envío y la recepción de archivos conllevan demasiado tiempo o esfuerzo, los empleados comenzarán a utilizar a escondidas servicios en la nube personales o sitios web de transferencia gratuitos (esto es lo que se conoce como Shadow IT o informática en la sombra). Dado que el Shadow IT no puede ser supervisado por los administradores de sistemas de la empresa, se convierte en la mayor amenaza para la seguridad corporativa.",
-  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "Procedimiento práctico para aumentar la seguridad mediante la «separación de canales (Out-of-Band)»"
+  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "Procedimiento práctico para aumentar la seguridad mediante la «separación de canales (Out-of-Band)»",
+  "FS QR, テレワーク, セキュリティ, パスワード保護, 業務効率化": "FS QR, teletrabajo, seguridad, protección con contraseña, productividad",
+  "URLの送信：": "Envío de la URL:",
+  "「システムが発行した一時ID」と「送信者が設定したパスワード」の2つの組み合わせ": "la combinación del ID temporal emitido por el sistema y la contraseña establecida por el remitente",
+  "「連絡経路を切り分ける（分離する）」": "separar los canales de comunicación",
+  "を入力しなければ、ファイルの実体に触れることすらできません。": " — sin ambos, es imposible para ellos acceder al propio archivo.",
+  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "En un Wi-Fi público con cifrado débil — en una cafetería, por ejemplo — existe un riesgo real de interceptación de la URL mediante captura de paquetes (escucha).",
+  "チャットツールの送信相手を間違えたり、グループチャットに誤って貼り付けたりした場合、URLをタップした全員にファイルが閲覧されてしまいます。": "Enviar al contacto de chat equivocado, o pegar en el grupo incorrecto, y cualquiera que haga clic en la URL puede ver el archivo.",
+  "パスワードの伝達：": "Comunicación de la contraseña:",
+  "パスワードは、チャットツールとは「全く別のルート」で伝えます。具体的には、電話をかける、スマートフォンのSMS（電話番号宛てのショートメッセージ）で送る、または事前に設定済みの別の連絡用アドレスに送る、などの方法をとります。": "Transmite la contraseña por un canal radicalmente diferente a la herramienta de chat: llama a la persona, envíale un SMS, o usa una dirección de contacto separada acordada de antemano.",
+  "ファイルのダウンロードURL（および一時ID）は、通常の業務連絡で使用しているチャットツール（Teams、Slack、LINE WORKS等）で共有します。": "Comparte la URL de descarga del archivo (y el ID temporal) mediante la herramienta de chat que usas en el día a día — Teams, Slack, LINE WORKS, etc.",
+  "ファイルをアップロードする際、送信者は任意のパスワードを設定できます。そして、システムはダウンロードのためのURLとともに、そのファイル専用の「一時的なID（ユーザーID）」を自動生成します。ダウンロード画面にアクセスした受信者は、": "Al subir, el remitente puede establecer una contraseña a su elección. El sistema genera entonces automáticamente un ID temporal (ID de usuario) propio de ese archivo, así como la URL de descarga. El destinatario que llega a la página de descarga debe introducir",
+  "共有相手のPCやスマートフォンのブラウザ履歴、チャットツール上の会話履歴にURLが半永久的に残り、第三者が後からアクセスできてしまう懸念。": "La preocupación de que la URL quede semipermanentemente en el historial del navegador del destinatario y en el registro de chat, donde un tercero podría acceder más tarde.",
+  "履歴の残留：": "Persistencia en el historial:",
+  "最高レベルの安全性を維持するために、実務では以下のように": "Para mantener el mayor nivel de seguridad posible, conviértelo en una regla inamovible en la práctica de",
+  "誤送信による即座の流出：": "Fugas instantáneas por mensajes mal dirigidos:",
+  "通信経路上の盗聴：": "Escucha en el canal de transmisión:",
+  "運用を徹底してください。": ", de la siguiente manera."
 }

@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Choosing a Stable Network Connection",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "After sending a file via browser, the question of \"how long that data will remain on the internet\" is a crucial security concern.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Multi-Compatibility Usable on Any Device and OS",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Practical Techniques for Smoothly Transferring Large Files"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Practical Techniques for Smoothly Transferring Large Files",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "FS QR, large files, browser-only, no account needed, file transfer",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "The free tiers of Google Drive, Dropbox, OneDrive and the like fill up quickly, forcing you to regularly clean out old files or move to a paid plan.",
+  "クラウドストレージの容量圧迫：": "Cloud storage filling up:",
+  "チャットツールの自動圧縮による品質低下：": "Quality loss from chat apps' automatic compression:",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "When you send photos or videos through a messaging app, they are often resized and heavily compressed automatically, badly degrading the original quality and resolution.",
+  "メール添付の容量上限：": "Email attachment size limits:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Typical business email caps attachments at 20–25 MB; anything larger simply fails to send."
 }

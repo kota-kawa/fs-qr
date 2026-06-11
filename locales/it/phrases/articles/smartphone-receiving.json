@@ -35,5 +35,13 @@
   "大容量ファイルを受け取る際は、モバイル回線（4G/5G）の電波状況が不安定だとエラーになりやすくなります。安定したWi-Fi環境に接続し、ブラウザのページを再読み込み（リフレッシュ）してから再度試してください。": "Quando si ricevono file di grandi dimensioni, è probabile che si verifichino errori se le condizioni del segnale della linea mobile (4G/5G) sono instabili. Connettiti a un ambiente Wi-Fi stabile, ricarica (aggiorna) la pagina del browser e riprova.",
   "通信エラーでダウンロードが途中で止まる": "Il download si interrompe a metà a causa di un errore di comunicazione",
   "パスワードが設定されている場合": "Quando è impostata una password",
-  "受け取りの基本手順": "Passaggi base per ricevere un file"
+  "受け取りの基本手順": "Passaggi base per ricevere un file",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, smartphone, codice QR, ricezione file, download, tutorial, guida per principianti",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Come ricevere sul proprio smartphone file condivisi tramite FS!QR — un tutorial accessibile ai principianti, dalla scansione del codice QR al download.",
+  "スキャンする：": "Scansionare:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Apri l'app fotocamera standard del tuo telefono e puntala verso il codice QR sullo schermo del PC del mittente o stampato su carta.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Controlla il nome e la dimensione del file visualizzati sulla pagina, poi tocca il pulsante 'Scarica'. Al termine, il file viene salvato sul tuo dispositivo.",
+  "リンクを開く：": "Aprire il link:",
+  "保存する：": "Salvare:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tocca il link giallo (o la notifica) che appare sullo schermo per aprire la pagina di download di FS!QR nel tuo browser."
 }

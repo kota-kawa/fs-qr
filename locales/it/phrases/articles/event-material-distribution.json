@@ -15,5 +15,12 @@
   "情報管理とセキュリティ：期間限定共有のメリット": "Gestione e sicurezza delle informazioni: vantaggi della condivisione a tempo limitato",
   "直前の資料差し替えも安心！アジリティの劇的改善": "Non preoccuparti delle modifiche ai documenti dell'ultimo minuto! Notevole miglioramento dell’agilità",
   "配布する資料の中には、「イベントの参加者だけに一時的に共有したい」「社外秘ではないが、インターネット上に永続的に公開したまま放置したくない」という機密性の高い内容も含まれます。": "Alcuni dei materiali da distribuire includono contenuti altamente confidenziali, come \"Voglio condividerli temporaneamente solo con i partecipanti all'evento\" e \"Sebbene non siano confidenziali, non voglio lasciarli permanentemente aperti su Internet\".",
-  "スクリーンのQRコードを撮るだけ": "Scansiona il codice QR sullo schermo"
+  "スクリーンのQRコードを撮るだけ": "Scansiona il codice QR sullo schermo",
+  "FS QR, イベント運営, 会議資料配布, QRコード活用, ペーパーレス": "FS QR, organizzazione eventi, distribuzione materiali, utilizzo QR code, digitalizzazione",
+  "スキャンと閲覧：": "Scansionare e visualizzare:",
+  "事前にアップロード：": "Caricare in anticipo:",
+  "会場での掲示・投影：": "Mostrare o proiettare sul posto:",
+  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "I partecipanti devono solo scansionare il codice con la fotocamera del proprio smartphone o tablet mentre si siedono o entrano, e i materiali si aprono istantaneamente sul loro dispositivo. Non è necessario installare app né registrarsi.",
+  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Proietta il codice QR generato in grande sullo schermo prima dell'inizio dell'evento, o stampalo su materiali di benvenuto, segnaposto da tavolo o badge dei partecipanti.",
+  "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Carica su FS!QR i PDF, i documenti e le presentazioni da distribuire e genera un codice QR."
 }

@@ -30,5 +30,6 @@
   "リモートチームでは、同じ資料の修正版が何度も共有されることがあります。ファイル名に「最終」「最新版」「修正2」などが並ぶと、どれを見ればよいか分からなくなり、古い内容を元に判断してしまう原因になります。共有前にファイル名へ日付や用途を入れ、チャットでは「こちらが最新版です」と明記しましょう。": "Remote teams may share modified versions of the same material multiple times. If file names include \"Final,\" \"Latest version,\" \"Revised 2,\" etc., it will be difficult to know which one to look at, and you will end up making decisions based on the old contents. Be sure to include the date and purpose in the file name before sharing, and clearly state \"This is the latest version\" in chat.",
   "送信前：本当に共有すべきファイルだけに絞る": "Before sending: Focus on only the files you really need to share",
   "共有中：最新版と旧版を混在させない": "Sharing: Do not mix the latest version and old version",
-  "編集用ファイルではなくPDFなどの閲覧用形式で足りないか": "Is it sufficient to use a viewing format such as PDF instead of an editing file?"
+  "編集用ファイルではなくPDFなどの閲覧用形式で足りないか": "Is it sufficient to use a viewing format such as PDF instead of an editing file?",
+  "FS QR, リモートワーク, ファイル共有, 在宅勤務, セキュリティ, チェックリスト": "FS QR, remote work, file sharing, working from home, security, checklist"
 }

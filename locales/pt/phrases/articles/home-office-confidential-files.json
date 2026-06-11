@@ -24,5 +24,6 @@
   "ルール1：機密度を分けて共有方法を変える": "Regra 1: Dividir a sensibilidade e alterar os métodos de partilha",
   "在宅勤務が日常化すると、顧客情報、見積書、契約書、勤怠データ、設計資料など、機密性の高いファイルを自宅から扱う場面が増えます。会社のオフィスであれば、ネットワーク、プリンター、保管場所、周囲の視線などをある程度統制できます。しかし自宅では、家族が同じ空間にいる、個人回線を使う、端末を持ち歩く、画面を開いたまま席を外すなど、管理しづらい要素が多くなります。": "À medida que o trabalho a partir de casa se torna a norma, aumenta a quantidade de situações em que se manuseiam ficheiros altamente confidenciais a partir do lar, como informações do cliente, orçamentos, contratos, dados de assiduidade e documentos de projeto. Se for a oficina da empresa, tem certo controle sobre a rede, as impressoras, os locais de armazenamento e a vista dos outros. No entanto, em casa há muitos fatores difíceis de gerir, como familiares partilhando o mesmo espaço, o uso de redes de Internet pessoais, transportar o dispositivo ou ausentar-se deixando o ecrã aberto.",
   "在宅勤務で機密ファイルを扱うときの実践ルール": "Regras práticas para lidar com arquivos confidenciais em casa",
-  "顧客情報、見積書、契約書などを自宅や社外から扱うときに、誤送信や共有しっぱなしを防ぐための運用ルールを解説します。": "Como evitar envios errados e links abandonados ao lidar com dados de clientes, orçamentos e contratos fora do escritório."
+  "顧客情報、見積書、契約書などを自宅や社外から扱うときに、誤送信や共有しっぱなしを防ぐための運用ルールを解説します。": "Como evitar envios errados e links abandonados ao lidar com dados de clientes, orçamentos e contratos fora do escritório.",
+  "FS QR, 在宅勤務, 機密ファイル, 情報漏えい対策, パスワード保護, リモートワーク": "FS QR, teletrabalho, arquivos confidenciais, prevenção de vazamentos, proteção por senha, trabalho remoto"
 }
