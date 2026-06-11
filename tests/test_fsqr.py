@@ -249,6 +249,53 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
     assert "share_token" not in save_mock.await_args.kwargs
 
 
+def test_upload_succeeds_when_share_link_creation_fails(
+    test_client: TestClient, tmp_path
+):
+    """共有URL発行が失敗してもアップロード本体は完了する"""
+    save_mock = AsyncMock()
+    with (
+        patch("FSQR.fsqr_app.STATIC", str(tmp_path)),
+        patch("FSQR.fsqr_app.uuid.uuid4", return_value="1234567890abcdef"),
+        patch("FSQR.fsqr_data.save_file", save_mock),
+        patch(
+            "FSQR.fsqr_app.create_share_link",
+            new=AsyncMock(side_effect=RuntimeError("share table missing")),
+        ),
+    ):
+        response = test_client.post(
+            "/upload",
+            files={
+                "upfile": (
+                    "report.pdf.enc",
+                    b"encrypted-by-browser",
+                    "application/octet-stream",
+                )
+            },
+            data={
+                "name": "abc123",
+                "download_password": "123456",
+                "file_type": "single",
+                "original_filename": "report.pdf",
+                "retention_days": "7",
+            },
+            headers={
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert (
+        payload["data"]["redirect_url"]
+        == "/upload_complete/abc123-1234567890-report.pdf"
+    )
+    assert (tmp_path / "abc123-1234567890-report.pdf.enc").exists()
+    save_mock.assert_awaited_once()
+
+
 def test_fsqr_owner_session_can_delete_uploaded_file(test_client: TestClient, tmp_path):
     """アップロード直後の同一セッションだけFSQRファイルを削除できる"""
     secure_id = "own123-1234567890-report.pdf"
