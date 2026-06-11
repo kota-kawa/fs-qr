@@ -127,6 +127,56 @@ async def _notify_files_updated(room_id: str):
         )
 
 
+def _ensure_upload_dir(room_id: str) -> str | None:
+    """Create the upload directory for *room_id*, returning the path or *None* on failure."""
+    path = room_folder(room_id, root=UPLOAD_FOLDER)
+    try:
+        os.makedirs(path, exist_ok=True)
+    except OSError:
+        logger.exception("Failed to create upload directory for room: %s", room_id)
+        return None
+    return path
+
+
+def _save_uploaded_files(
+    upfile: list,
+    *,
+    room_id: str,
+    save_path: str,
+    saved_files: list[str],
+    error_files: list[str],
+    rejected_files: list[str],
+) -> None:
+    """Iterate over *upfile* and persist each valid file to *save_path*."""
+    for file in upfile:
+        if file.filename == "":
+            continue
+
+        content_error = validate_upload_file_content(file)
+        if content_error:
+            rejected_files.append(file.filename)
+            continue
+
+        safe_filename = unique_room_filename(
+            room_id,
+            sanitize_group_upload_filename(file.filename),
+            primary_root=UPLOAD_FOLDER,
+        )
+
+        file_path = os.path.join(save_path, safe_filename)
+
+        try:
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            if os.path.getsize(file_path) == 0:
+                error_files.append(file.filename)
+                os.remove(file_path)
+            else:
+                saved_files.append(safe_filename)
+        except Exception:
+            error_files.append(file.filename)
+
+
 def register_group_upload_route(router: APIRouter):
     @router.post("/group_upload/{room_id}", name="group.group_upload")
     async def group_upload(
@@ -178,40 +228,20 @@ def register_group_upload_route(router: APIRouter):
         error_files = []
         rejected_files = []
         saved_files = []
-        save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        try:
-            os.makedirs(save_path, exist_ok=True)
-        except OSError:
-            logger.exception("Failed to create upload directory for room: %s", room_id)
-            return api_error_response("サーバーエラーによりファイルを保存できませんでした。", status_code=500)
-
-        for file in upfile:
-            if file.filename == "":
-                continue
-
-            content_error = validate_upload_file_content(file)
-            if content_error:
-                rejected_files.append(file.filename)
-                continue
-
-            safe_filename = unique_room_filename(
-                room_id,
-                sanitize_group_upload_filename(file.filename),
-                primary_root=UPLOAD_FOLDER,
+        save_path = _ensure_upload_dir(room_id)
+        if save_path is None:
+            return api_error_response(
+                "サーバーエラーによりファイルを保存できませんでした。", status_code=500
             )
 
-            file_path = os.path.join(save_path, safe_filename)
-
-            try:
-                with open(file_path, "wb") as buffer:
-                    shutil.copyfileobj(file.file, buffer)
-                if os.path.getsize(file_path) == 0:
-                    error_files.append(file.filename)
-                    os.remove(file_path)
-                else:
-                    saved_files.append(safe_filename)
-            except Exception:
-                error_files.append(file.filename)
+        _save_uploaded_files(
+            upfile,
+            room_id=room_id,
+            save_path=save_path,
+            saved_files=saved_files,
+            error_files=error_files,
+            rejected_files=rejected_files,
+        )
 
         if rejected_files:
             if saved_files:
