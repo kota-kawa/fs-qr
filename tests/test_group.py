@@ -100,6 +100,81 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     )
 
 
+def test_create_group_room_auto_empty_id_is_generated_server_side(
+    test_client: TestClient,
+):
+    """auto ID が空でもサーバー側でIDを生成して作成できる"""
+    create_mock = AsyncMock()
+    with (
+        patch("Group.group_routes_room._generate_room_id", return_value="gen001"),
+        patch("Group.group_routes_room.generate_room_password", return_value="000042"),
+        patch(
+            "Group.group_routes_room.create_share_link",
+            new=AsyncMock(return_value="group-share-token"),
+        ),
+        patch(
+            "Group.group_routes_room.group_data.get_data",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch("Group.group_routes_room.group_data.create_room", create_mock),
+        patch("Group.group_routes_room.os.makedirs"),
+    ):
+        response = test_client.post(
+            "/create_group_room",
+            json={"id": "", "idMode": "auto", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["redirect_url"] == "/group/r/gen001"
+    create_mock.assert_awaited_once_with(
+        id="gen001",
+        password="000042",
+        room_id="gen001",
+        retention_days=7,
+    )
+
+
+def test_create_group_room_succeeds_when_share_link_creation_fails(
+    test_client: TestClient,
+):
+    """共有URL発行が失敗してもルーム作成自体は完了する"""
+    create_mock = AsyncMock()
+    remove_mock = AsyncMock()
+    with (
+        patch("Group.group_routes_room.generate_room_password", return_value="000042"),
+        patch(
+            "Group.group_routes_room.group_data.get_data",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch("Group.group_routes_room.group_data.create_room", create_mock),
+        patch("Group.group_routes_room.group_data.remove_data", remove_mock),
+        patch(
+            "Group.group_routes_room.create_share_link",
+            new=AsyncMock(side_effect=RuntimeError("share table missing")),
+        ),
+        patch("Group.group_routes_room.os.makedirs"),
+    ):
+        response = test_client.post(
+            "/create_group_room",
+            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["redirect_url"] == "/group/r/abc123"
+    assert payload["data"]["share_url"] == ""
+    assert payload["data"]["password"] == "000042"
+    create_mock.assert_awaited_once()
+    remove_mock.assert_not_awaited()
+
+
 # --- search_group_process バリデーション ---
 
 
@@ -313,6 +388,38 @@ def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
     assert payload["status"] == "error"
     assert payload["error"] == "HTML/SVG ファイルはアップロードできません。"
     assert payload["data"]["files"] == ["safe.txt"]
+
+
+def test_group_upload_succeeds_when_realtime_notification_fails(
+    test_client: TestClient, tmp_path
+):
+    """保存後の通知失敗はアップロード成功レスポンスを壊さない"""
+    with (
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+        patch(
+            "Group.group_routes_file.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+        patch(
+            "Group.group_routes_file.validate_upload_file_content", return_value=None
+        ),
+        patch(
+            "Group.group_routes_file.notify_group_files_updated",
+            new=AsyncMock(side_effect=RuntimeError("ws down")),
+        ),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123",
+            files={"upfile": ("notes.txt", b"hello", "text/plain")},
+        )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["saved_files"] == ["notes.txt"]
+    assert (tmp_path / "abc123" / "notes.txt").read_bytes() == b"hello"
 
 
 # --- check (list_files): 認証失敗 → 404 ---

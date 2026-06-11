@@ -1,8 +1,12 @@
 import logging
 import os
+import secrets
+import string
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request
+from pydantic import ValidationError
+from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
@@ -44,6 +48,38 @@ from .group_responses import room_msg
 from .group_storage import UPLOAD_FOLDER
 
 logger = logging.getLogger(__name__)
+ROOM_ID_ATTEMPTS = 10
+ROOM_ID_CHARS = string.ascii_letters + string.digits
+
+
+def _generate_room_id() -> str:
+    return "".join(secrets.choice(ROOM_ID_CHARS) for _ in range(6))
+
+
+def _is_valid_room_id(room_id: str) -> bool:
+    try:
+        RoomCreateInput(id=room_id, id_mode="manual").validate_manual_id()
+    except (ValidationError, ValueError):
+        return False
+    return True
+
+
+async def _create_group_share_token(
+    *, room_id: str, password: str, retention_days: int
+) -> str:
+    try:
+        return await create_share_link(
+            service_key=ServiceKey.GROUP,
+            resource_id=room_id,
+            expires_at=datetime.now() + timedelta(days=retention_days),
+            metadata={
+                "id": room_id,
+                "password_enc": encrypt_share_password(password),
+            },
+        )
+    except Exception:
+        logger.exception("Failed to create Group share link: room_id=%s", room_id)
+        return ""
 
 
 def _render_group_room(request: Request, room_id: str, record: dict):
@@ -143,9 +179,9 @@ def register_group_room_access_route(router: APIRouter):
         )
 
 
-def register_group_create_room_route(router: APIRouter):
+def register_group_create_room_route(router: APIRouter):  # noqa: C901
     @router.post("/create_group_room", name="group.create_group_room")
-    async def create_group_room(request: Request):
+    async def create_group_room(request: Request):  # noqa: C901
         await enforce_csrf(request)
         json_data = {}
         form_data = {}
@@ -171,70 +207,93 @@ def register_group_create_room_route(router: APIRouter):
         if raw_retention is None:
             raw_retention = json_data.get("retention_days", 7)
 
-        inp = RoomCreateInput(
-            id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
-        )
+        try:
+            inp = RoomCreateInput(
+                id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
+            )
+        except ValidationError:
+            return api_error_response("入力内容が不正です。", status_code=400)
         retention_days = inp.retention_days
 
-        if inp.id_mode != "auto":
+        if inp.id_mode == "auto":
+            id_val = inp.id if _is_valid_room_id(inp.id) else ""
+        else:
             try:
                 id_val = inp.validate_manual_id()
             except ValueError as exc:
                 return api_error_response(str(exc), status_code=400)
-        else:
-            id_val = inp.id
-            if not id_val:
-                return api_error_response(
-                    "IDが取得できませんでした。再度お試しください。",
-                    status_code=400,
-                )
+
+        try:
+            if inp.id_mode == "auto":
+                if id_val and await group_data.get_data(id_val):
+                    return api_error_response(
+                        "生成されたIDが重複しています。新しいIDで再試行してください。",
+                        status_code=409,
+                        data={"retry_auto": True},
+                    )
+                if not id_val:
+                    for _ in range(ROOM_ID_ATTEMPTS):
+                        candidate = _generate_room_id()
+                        if not await group_data.get_data(candidate):
+                            id_val = candidate
+                            break
+                    if not id_val:
+                        return api_error_response(
+                            "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
+                            status_code=500,
+                        )
+            else:
+                existing_room = await group_data.get_data(id_val)
+                if existing_room:
+                    return api_error_response(
+                        "このIDは既に使用されています。別のIDを使用してください。",
+                        status_code=409,
+                    )
+        except Exception:
+            logger.exception("Failed to check Group room ID")
+            return api_error_response(
+                "ルーム作成に失敗しました。時間をおいて再度お試しください。",
+                status_code=500,
+            )
 
         room_id = id_val
-        existing_room = await group_data.get_data(room_id)
-
-        if existing_room:
-            if inp.id_mode == "auto":
-                return api_error_response(
-                    "生成されたIDが重複しています。新しいIDで再試行してください。",
-                    status_code=409,
-                    data={"retry_auto": True},
-                )
-            return api_error_response(
-                "このIDは既に使用されています。別のIDを使用してください。",
-                status_code=409,
-            )
 
         password = generate_room_password()
 
         folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
         os.makedirs(folder_path, exist_ok=True)
 
-        await group_data.create_room(
-            id=room_id,
-            password=password,
-            room_id=room_id,
-            retention_days=retention_days,
-        )
         try:
-            share_token = await create_share_link(
-                service_key=ServiceKey.GROUP,
-                resource_id=room_id,
-                expires_at=datetime.now() + timedelta(days=retention_days),
-                metadata={
-                    "id": room_id,
-                    "password_enc": encrypt_share_password(password),
-                },
+            await group_data.create_room(
+                id=room_id,
+                password=password,
+                room_id=room_id,
+                retention_days=retention_days,
+            )
+        except IntegrityError:
+            logger.info("Group room ID conflict while creating room_id=%s", room_id)
+            try:
+                os.rmdir(folder_path)
+            except OSError:
+                pass
+            return api_error_response(
+                "このIDは既に使用されています。別のIDを使用してください。",
+                status_code=409,
+                data={"retry_auto": inp.id_mode == "auto"},
             )
         except Exception:
-            logger.exception("Failed to create Group share link: room_id=%s", room_id)
+            logger.exception("Failed to create Group room: room_id=%s", room_id)
             try:
-                await group_data.remove_data(room_id)
-            except Exception:
-                logger.exception("Failed to roll back Group room: room_id=%s", room_id)
+                os.rmdir(folder_path)
+            except OSError:
+                pass
             return api_error_response(
-                "共有URLの作成に失敗しました。時間をおいて再度お試しください。",
+                "ルーム作成に失敗しました。時間をおいて再度お試しください。",
                 status_code=500,
             )
+        share_token = await _create_group_share_token(
+            room_id=room_id, password=password, retention_days=retention_days
+        )
         remember_group_room_access(
             request,
             room_id,
@@ -251,7 +310,9 @@ def register_group_create_room_route(router: APIRouter):
                     "redirect_url": redirect_url,
                     "share_url": build_share_url(
                         request, service_key=ServiceKey.GROUP, token=share_token
-                    ),
+                    )
+                    if share_token
+                    else "",
                     "password": password,
                 }
             )

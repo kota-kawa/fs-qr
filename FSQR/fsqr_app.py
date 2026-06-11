@@ -210,6 +210,21 @@ def _validate_fsqr_encrypted_payload(
     return None
 
 
+async def _create_fsqr_share_token(
+    *, secure_id: str, id_val: str, password: str, retention_days: int
+) -> str:
+    try:
+        return await create_share_link(
+            service_key=ServiceKey.FSQR,
+            resource_id=secure_id,
+            expires_at=datetime.now() + timedelta(days=retention_days),
+            metadata={"id": id_val, "password_enc": encrypt_share_password(password)},
+        )
+    except Exception:
+        logger.exception("Failed to create FSQR share link: secure_id=%s", secure_id)
+        return ""
+
+
 @router.get("/fs-qr_menu", name="fsqr.fs_qr")
 async def fs_qr(request: Request):
     canonical = _canonical_redirect(request)
@@ -319,11 +334,11 @@ async def upload(  # noqa: C901
             retention_days=retention_days_int,
         )
         metadata_saved = True
-        share_token = await create_share_link(
-            service_key=ServiceKey.FSQR,
-            resource_id=secure_id,
-            expires_at=datetime.now() + timedelta(days=retention_days_int),
-            metadata={"id": id_val, "password_enc": encrypt_share_password(password)},
+        share_token = await _create_fsqr_share_token(
+            secure_id=secure_id,
+            id_val=id_val,
+            password=password,
+            retention_days=retention_days_int,
         )
         os.replace(temp_path, final_path)
     except Exception:

@@ -4,6 +4,7 @@ import shutil
 import tempfile
 import urllib
 import zipfile
+import logging
 from typing import Optional
 
 from fastapi import APIRouter, File, Request, UploadFile
@@ -48,6 +49,8 @@ from .group_storage import (
 )
 from .group_realtime import notify_group_files_updated
 from web import enforce_csrf
+
+logger = logging.getLogger(__name__)
 
 
 _PREVIEW_MIME_TYPES = {
@@ -113,6 +116,15 @@ def _remove_temp_file(path: str):
         os.remove(path)
     except OSError:
         pass
+
+
+async def _notify_files_updated(room_id: str):
+    try:
+        await notify_group_files_updated(room_id)
+    except Exception:
+        logger.warning(
+            "Failed to notify Group file update: room_id=%s", room_id, exc_info=True
+        )
 
 
 def register_group_upload_route(router: APIRouter):
@@ -199,7 +211,7 @@ def register_group_upload_route(router: APIRouter):
 
         if rejected_files:
             if saved_files:
-                await notify_group_files_updated(room_id)
+                await _notify_files_updated(room_id)
             return api_error_response(
                 "HTML/SVG ファイルはアップロードできません。",
                 status_code=400,
@@ -208,14 +220,14 @@ def register_group_upload_route(router: APIRouter):
 
         if error_files:
             if saved_files:
-                await notify_group_files_updated(room_id)
+                await _notify_files_updated(room_id)
             return api_error_response(
                 "以下のファイルが保存できませんでした。",
                 status_code=500,
                 data={"files": error_files},
             )
 
-        await notify_group_files_updated(room_id)
+        await _notify_files_updated(room_id)
         return api_ok_response(
             {
                 "message": "ファイルが正常にアップロードされました。",
