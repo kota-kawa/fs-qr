@@ -24,6 +24,46 @@ SERVICE_SMOKE_PATHS = (
 
 
 HTML_TAG_RE = re.compile(r"<html[^>]*>", re.IGNORECASE)
+SCRIPT_STYLE_RE = re.compile(r"<(script|style)\b[^>]*>.*?</\1\s*>", re.I | re.S)
+LD_RE = re.compile(r"<script[^>]*application/ld\+json[^>]*>(.*?)</script>", re.S)
+TAG_RE = re.compile(r"<[^>]+>")
+LANG_SELECT_LIST_RE = re.compile(
+    r"<ul\b[^>]*class=\"[^\"]*\blang-select-list\b[^\"]*\"[^>]*>.*?</ul>",
+    re.I | re.S,
+)
+LANG_SELECT_RE = re.compile(
+    r"<select\b[^>]*data-language-select\b[^>]*>.*?</select>", re.I | re.S
+)
+
+SCRIPT_PATTERNS = {
+    "Japanese kana": re.compile(r"[\u3040-\u30ff]"),
+    "CJK": re.compile(r"[\u3400-\u9fff]"),
+    "Hangul": re.compile(r"[\u1100-\u11ff\uac00-\ud7af]"),
+    "Thai": re.compile(r"[\u0e00-\u0e7f]"),
+    "Arabic": re.compile(r"[\u0600-\u06ff]"),
+    "Devanagari": re.compile(r"[\u0904-\u0939\u0958-\u0961\u0970-\u097f]"),
+    "Bengali": re.compile(r"[\u0980-\u09ff]"),
+    "Cyrillic": re.compile(r"[\u0400-\u04ff]"),
+}
+
+ALLOWED_SCRIPTS_BY_LANGUAGE = {
+    "ja": {"Japanese kana", "CJK"},
+    "zh-CN": {"CJK"},
+    "zh-TW": {"CJK"},
+    "ko": {"Hangul"},
+    "th": {"Thai"},
+    "ar": {"Arabic"},
+    "hi": {"Devanagari"},
+    "bn": {"Bengali"},
+    "ru": {"Cyrillic"},
+    "uk": {"Cyrillic"},
+}
+
+ALLOWED_SEGMENTS = {
+    "FS!QR",
+    "Group",
+    "Note",
+}
 
 
 def _assert_localized_service_response(response, language: str, path: str) -> None:
@@ -45,6 +85,45 @@ def _assert_localized_service_response(response, language: str, path: str) -> No
     )
     assert f'value="{language}"' in response.text, f"{path}?lang={language}"
     assert f'data-value="{language}"' in response.text, f"{path}?lang={language}"
+    _assert_no_cross_script_leakage(response.text, language, path)
+
+
+def _user_facing_segments(html: str) -> list[str]:
+    html = LANG_SELECT_LIST_RE.sub(" ", html)
+    html = LANG_SELECT_RE.sub(" ", html)
+
+    ld_strings = []
+    for block in LD_RE.findall(html):
+        ld_strings.extend(re.findall(r'"((?:[^"\\]|\\.)*)"', block))
+
+    stripped = SCRIPT_STYLE_RE.sub(" ", html)
+    stripped = re.sub(r"<!--.*?-->", " ", stripped, flags=re.S)
+    attrs = re.findall(
+        r'(?:content|alt|title|placeholder|aria-label)="([^"]*)"', stripped
+    )
+    text = TAG_RE.sub("\n", stripped)
+    segments = [s.strip() for s in text.split("\n") if s.strip()]
+    return segments + [s.strip() for s in attrs + ld_strings if s.strip()]
+
+
+def _assert_no_cross_script_leakage(html: str, language: str, path: str) -> None:
+    allowed_scripts = ALLOWED_SCRIPTS_BY_LANGUAGE.get(language, set())
+    leaks = []
+
+    for segment in _user_facing_segments(html):
+        if segment in ALLOWED_SEGMENTS:
+            continue
+        for script_name, pattern in SCRIPT_PATTERNS.items():
+            if script_name in allowed_scripts:
+                continue
+            if pattern.search(segment):
+                leaks.append(f"{script_name}: {segment[:120]}")
+                break
+
+    assert leaks == [], (
+        f"{path}?lang={language} contains text from another script:\n"
+        + "\n".join(leaks[:20])
+    )
 
 
 @pytest.mark.parametrize("path", SERVICE_SMOKE_PATHS)

@@ -94,7 +94,7 @@ jobs:
   test:
     name: Pytest (Python 3.11)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
       PYTHONFAULTHANDLER: "1"
 
@@ -135,11 +135,29 @@ jobs:
             --cov=. \
             --cov-report=
 
+      - name: Run multilingual leakage tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_no_japanese_leakage.py \
+            --cov=. \
+            --cov-append \
+            --cov-report=
+
+      - name: Run user flow E2E tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_e2e_user_flows.py \
+            --cov=. \
+            --cov-append \
+            --cov-report=
+
       - name: Run remaining test suite
         run: |
           set -euo pipefail
           python -m pytest -q \
             --ignore=tests/test_multilingual_service.py \
+            --ignore=tests/test_no_japanese_leakage.py \
+            --ignore=tests/test_e2e_user_flows.py \
             --cov=. \
             --cov-append \
             --cov-report=term-missing \
