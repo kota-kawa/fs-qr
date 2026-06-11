@@ -13,7 +13,12 @@ CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 SCRIPT_STYLE_RE = re.compile(r"<(script|style)\b[^>]*>.*?</\1\s*>", re.I | re.S)
 LD_RE = re.compile(r"<script[^>]*application/ld\+json[^>]*>(.*?)</script>", re.S)
 TAG_RE = re.compile(r"<[^>]+>")
-ALLOW = {"\u65e5\u672c\u8a9e", "\u7b80\u4f53\u4e2d\u6587", "\u7e41\u9ad4\u4e2d\u6587", "\ud55c\uad6d\uc5b4"}
+ALLOW = {
+    "\u65e5\u672c\u8a9e",
+    "\u7b80\u4f53\u4e2d\u6587",
+    "\u7e41\u9ad4\u4e2d\u6587",
+    "\ud55c\uad6d\uc5b4",
+}
 
 
 def segments(html):
@@ -41,7 +46,7 @@ def has_japanese(s, lang):
 
 
 def test_extract(test_client: TestClient):
-    langs = [l for l in SUPPORTED_LANGUAGES if l != "ja"]
+    langs = [lang for lang in SUPPORTED_LANGUAGES if lang != "ja"]
     missing = {}
     mismatches = []
     for article in get_all_articles():
@@ -58,7 +63,7 @@ def test_extract(test_client: TestClient):
                     missing.setdefault(ja_seg, [])
                     if lang not in missing[ja_seg]:
                         missing[ja_seg].append(lang)
-    with open("/tmp/ja_missing_sources.json", "w") as f:
+    with open("/tmp/ja_missing_sources.json", "w") as f:  # noqa: S108
         json.dump(missing, f, ensure_ascii=False, indent=1)
     print("unique missing sources:", len(missing))
     print("segment-count mismatches:", len(mismatches))

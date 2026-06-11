@@ -15,7 +15,10 @@ TAG_RE = re.compile(r"<[^>]+>")
 
 # 言語名エンドニム（ページ内に必ず表示される正当な日本語/CJK 文字列）
 ALLOWED_STRINGS = {
-    "日本語", "简体中文", "繁體中文", "한국어",
+    "日本語",
+    "简体中文",
+    "繁體中文",
+    "한국어",
 }
 
 
@@ -60,7 +63,6 @@ def test_no_japanese_leakage(test_client: TestClient) -> None:
                 if _has_japanese(tr_seg, lang) and _has_japanese(ja_seg, "en"):
                     leaks.append((url, lang, tr_seg[:80]))
 
-    assert leaks == [], (
-        f"{len(leaks)} 件の日本語混入を検出:\n"
-        + "\n".join(f"  {url} [{lang}]: {seg}" for url, lang, seg in leaks[:20])
+    assert leaks == [], f"{len(leaks)} 件の日本語混入を検出:\n" + "\n".join(
+        f"  {url} [{lang}]: {seg}" for url, lang, seg in leaks[:20]
     )
