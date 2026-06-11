@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Kuangalia kama njia ya mawasiliano ya kupakia au kupakua faili imesimbwa (kama URL inaanza na https://) ni jambo la chini kabisa la kukaguliwa.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Kuacha faili zikiwa zinaweza kupakuliwa muda wote huongeza hatari ya kuvuja kwa habari. Inaleta amani ya akili ukichagua huduma inayokuruhusu kuweka vikwazo vya kina kama vile 'Futa baada ya kupakuliwa mara moja' au 'Futa kiotomatiki baada ya saa 24'.",
+  "「今すぐファイルを送りたいのに…」登録の壁": "'Nataka kutuma faili sasa hivi lakini...' Kizuizi cha usajili",
+  "有効期限とダウンロード回数制限": "Tarehe ya mwisho wa matumizi na kikomo cha idadi ya kupakua",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Kuingiza anwani ya barua pepe, kuweka nenosiri, kuthibitisha barua pepe ya uthibitisho... Hatua hizi huleta vizuizi vikubwa kwa watumiaji wanaotaka kutuma faili haraka iwezekanavyo. Huduma za ushirikishaji faili zinazoweza kutumika bila usajili wa uanachama huondoa usumbufu huu na kutoa uzoefu rahisi na wa wazi wa kushiriki faili.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR ni huduma ya ushirikishaji faili inayoweza kutumika 'bila usajili wowote wa uanachama'. Fungua tu kivinjari chako na udondoshe faili, na chumba cha kushiriki cha mara moja kitaundwa mara moja.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Hali ambayo mtu yeyote anaweza kupakua mradi tu anajua URL ni hatari. Unapotuma faili muhimu, hakikisha umeweka nenosiri la kupakua na umfahamishe mpokeaji kupitia njia nyingine (kama vile programu ya mazungumzo) tofauti na URL.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Kwa sababu inatumia muundo wa kutupwa tu baada ya matumizi, faili hufutwa kabisa kutoka kwa seva punde tu muda uliowekwa unapofika. Zaidi ya hayo, inasaidia ulinzi wa nenosiri, ikichanganya urahisi wa matumizi na usalama. Unapotaka kushiriki faili 'Sasa hivi, kwa usalama, na mtu yeyote', tafadhali jaribu FS!QR.",
+  "パスワード保護機能の活用": "Kutumia vipengele vya ulinzi wa nenosiri",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Kushiriki faili kukamilike kwa salama na haraka bila usajili ukitumia FS!QR",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Mambo ya usalama ya kuzingatia kwa sababu hakuna usajili unaohitajika",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "'Nahitaji kutuma hati kwa mteja haraka' au 'Nataka kushiriki picha ya kikundi iliyopigwa kwenye hafla hiyo na kila mtu mara moja' — wakati huo, unapofungua huduma ya ushirikishaji faili na kuona skrini inayosema 'Tafadhali unda akaunti', hamu yako haipotei ghafla?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Faida za kutumia huduma za ushirikishaji faili ambazo hazihitaji usajili wa uanachama",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Huduma zinazoweza kutumika bila usajili wa akaunti hutoa faida nyingi kando na kasi.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Ingawa mtu yeyote anaweza kuitumia kwa urahisi, ufahamu wa usalama ni muhimu sana. Hapa kuna mambo ya kuangalia ili kutumia huduma zisizohitaji usajili kwa usalama.",
+  "会員登録なし": "Bila usajili wa uanachama",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Hakuna usajili wa uanachama unaohitajika! Kwa nini huduma za ushirikishaji faili za kutumia mara moja ni rahisi sana",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Kwa wale wanaotaka kushiriki faili sasa hivi bila usajili wa akaunti. Inaelezea faida za kutumia huduma za uhamishaji faili bila usajili na vidokezo vya kuzitumia kwa usalama."
+}

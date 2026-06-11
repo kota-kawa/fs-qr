@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Memastikan apakah jalur komunikasi untuk unggah dan unduh berkas telah dienkripsi (apakah URL dimulai dengan https://) adalah hal minimal yang harus diperiksa.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Membiarkan berkas tetap dapat diunduh selamanya akan meningkatkan risiko kebocoran informasi. Anda akan merasa lebih tenang jika memilih layanan yang memungkinkan pengaturan batas secara terperinci, seperti 'Hapus setelah diunduh sekali' atau 'Hapus otomatis setelah 24 jam'.",
+  "「今すぐファイルを送りたいのに…」登録の壁": "Hambatan Pendaftaran: 'Padahal ingin mengirim berkas sekarang juga...'",
+  "有効期限とダウンロード回数制限": "Masa Berlaku dan Batas Jumlah Unduhan",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Memasukkan alamat email, mengatur kata sandi, memverifikasi email konfirmasi... Langkah-langkah ini menjadi hambatan besar bagi pengguna yang ingin mengirim berkas secepat mungkin. Layanan berbagi berkas yang dapat digunakan tanpa registrasi keanggotaan menghilangkan kerumitan ini dan memberikan pengalaman berbagi berkas yang intuitif.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR adalah layanan berbagi berkas yang dapat digunakan 'tanpa perlu registrasi keanggotaan sama sekali'. Cukup buka peramban dan lepas berkas untuk langsung membuat ruang berbagi sekali pakai.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Kondisi di mana siapa saja dapat mengunduh berkas hanya dengan mengetahui URL-nya sangatlah berbahaya. Jika Anda mengirim berkas penting, pastikan untuk mengatur kata sandi unduhan dan menyampaikannya kepada penerima melalui sarana lain (seperti aplikasi obrolan) yang terpisah dari URL.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Karena menggunakan desain sekali pakai (efemeral), berkas akan dihapus tanpa bekas dari server setelah batas waktu yang ditentukan tiba. Selain itu, layanan ini mendukung perlindungan kata sandi, menyatukan kemudahan penggunaan dan keamanan. Jika Anda ingin berbagi berkas 'Sekarang juga, dengan aman, dan dengan siapa saja', silakan coba FS!QR.",
+  "パスワード保護機能の活用": "Pemanfaatan Fitur Perlindungan Kata Sandi",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Dengan FS!QR, Berbagi Berkas Selesai dengan Aman dan Cepat Tanpa Registrasi",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Poin Keamanan yang Perlu Diperhatikan Justru Karena Tanpa Registrasi",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "'Harus segera mengirim dokumen ke klien' atau 'Ingin segera membagikan foto bersama saat acara kepada semua orang'—di saat seperti itu, ketika Anda membuka layanan berbagi berkas dan muncul layar 'Silakan buat akun', bukankah antusiasme Anda langsung hilang?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Keuntungan Menggunakan Layanan Berbagi Berkas Tanpa Registrasi Keanggotaan",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Layanan yang dapat digunakan tanpa pendaftaran akun menawarkan banyak keuntungan selain kecepatan.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Meskipun mudah digunakan oleh siapa saja, kesadaran akan keamanan sangatlah penting. Berikut adalah beberapa poin pemeriksaan untuk menggunakan layanan tanpa registrasi secara aman.",
+  "会員登録なし": "Tanpa Registrasi Anggota",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Tanpa Registrasi Anggota! Mengapa Layanan Berbagi Berkas yang Langsung Pakai Sangat Praktis",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Bagi Anda yang ingin segera berbagi berkas sekarang tanpa pendaftaran akun. Menjelaskan keuntungan menggunakan layanan pemindahan berkas tanpa registrasi serta poin-poin untuk menggunakannya dengan aman."
+}

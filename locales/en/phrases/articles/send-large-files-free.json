@@ -1,0 +1,20 @@
+{
+  "さらに、QRコードを利用した共有により、スマートフォンやタブレット同士、あるいはPCとスマホ間でのファイル移動も驚くほど簡単に行えます。アップロードされたデータは共有完了後（または設定した期限後）に自動で削除されるため、クラウド上にデータが残り続ける心配もありません。ぜひ、日々のファイル共有にFS!QRを活用してみてください。": "Furthermore, sharing via QR codes makes transferring files between smartphones and tablets, or between PCs and smartphones, incredibly easy. Since uploaded data is automatically deleted after sharing is complete (or after the set expiration time), you don't have to worry about your data remaining in the cloud. Give FS!QR a try for your daily file sharing needs.",
+  "保存期間と自動削除": "Retention Period and Auto-Deletion",
+  "セキュリティとプライバシー": "Security and Privacy",
+  "大容量ファイルを無料で送る方法と注意点！安全なファイル共有のコツ": "How to Send Large Files for Free and Key Considerations! Tips for Safe File Sharing",
+  "近年ではスマートフォンのカメラ性能向上などにより、日常的に扱うデータサイズが肥大化しています。大容量ファイルを無料で、かつスムーズに送る方法を知っておくことは、現代のデジタルライフにおいて必須のスキルと言えるでしょう。": "In recent years, with improvements in smartphone camera performance and other advancements, the size of data we handle daily has grown significantly. Knowing how to send large files smoothly and for free has become an essential skill in modern digital life.",
+  "大容量ファイルを送るための無料の手段としては、大きく分けて以下の2つがあります。": "There are two main free methods for sending large files:",
+  "無料で大容量ファイルを送る主な方法": "Main Methods for Sending Large Files for Free",
+  "無料のファイル転送サービスを利用する際の注意点": "Important Considerations When Using Free File Transfer Services",
+  "FS!QRは、大容量のファイル転送にも対応した、無料で使えるファイル共有サービスです。アカウント登録などの面倒な手続きは一切不要で、ブラウザを開くだけですぐに利用できます。": "FS!QR is a free-to-use file sharing service that also supports large file transfers. No tedious procedures like account registration are required—simply open your browser to start using it.",
+  "無料サービスの中には、画面に大量の広告が表示され、正しいダウンロードボタンがどこにあるか分かりにくいものもあります。相手にストレスを与えないよう、シンプルで直感的なインターフェースのサービスを選ぶことも、スムーズなファイル共有のコツです。": "Some free services display large amounts of ads on screen, making it difficult to find the correct download button. To avoid stressing the recipient, choosing a service with a simple, intuitive interface is another tip for smooth file sharing.",
+  "なぜ大容量ファイルはメールで送れないのか？": "Why Can't Large Files Be Sent via Email?",
+  "アップロードしたファイルが暗号化されて保存されるか、第三者に覗き見されるリスクがないかを確認しましょう。機密情報や個人情報を含むファイルを送る際は、パスワード保護機能があるサービスを選ぶのが鉄則です。": "Make sure to check whether uploaded files are stored encrypted and whether there is any risk of being snooped on by third parties. When sending files containing confidential or personal information, choosing a service with password protection is an absolute rule.",
+  "広告とダウンロードのわかりやすさ": "Ads and Clarity of the Download Option",
+  "無料で手軽に使えるファイル転送サービスですが、安全に利用するためにはいくつか気をつけるべきポイントがあります。": "Although free file transfer services are easy and convenient to use, there are several key points you must keep in mind to ensure safety.",
+  "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。": "Have you ever experienced an \"attachment size exceeded\" error when trying to send video files, high-resolution photos, or heavy presentation materials for work or private use? Generally, the upper limit for email attachments is around 20MB to 25MB. To send files larger than this, you need to use methods other than email, namely file transfer services or cloud storage.",
+  "動画や高画質な写真など、メールで送れない大容量ファイルを無料で安全に送る方法を解説。容量制限やセキュリティの注意点も紹介します。": "Explaining how to safely send large files that cannot be sent via email, such as videos and high-resolution photos, for free. Size limits and security precautions are also covered.",
+  "FS!QRで安全・簡単に大容量ファイルを送ろう": "Send Large Files Safely and Easily with FS!QR",
+  "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Free transfer services are designed to automatically delete files after a certain period of time (from a few days to a few weeks). It is important to clearly communicate the download deadline to the recipient. Additionally, choosing a service where data is reliably erased on the system side helps reduce the risk of information leaks."
+}

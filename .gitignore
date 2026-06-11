@@ -8,6 +8,7 @@
 *.dll
 *.json
 !locales/*.json
+!locales/**/*.json
 !static/manifest.json
 !static/manifest_group.json
 !static/manifest_note.json

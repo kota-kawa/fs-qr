@@ -1,5 +1,12 @@
-import json
 import os
+import sys
+
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
+from locale_store import load_locale_section, save_locale_section  # noqa: E402
 
 # Mapping of meta.description translations per language
 translations = {
@@ -31,14 +38,7 @@ base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 locales_dir = os.path.join(base_dir, "locales")
 
 for lang, desc in translations.items():
-    path = os.path.join(locales_dir, f"{lang}.json")
-    if not os.path.exists(path):
-        continue
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    ui = data.get("ui", {})
+    ui = load_locale_section(locales_dir, lang, "ui")
     ui["meta.description"] = desc
-    data["ui"] = ui
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    save_locale_section(locales_dir, lang, "ui", ui)
     print(f"Updated meta.description for {lang}")

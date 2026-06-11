@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Kiểm tra xem đường truyền tải lên và tải xuống tập tin có được mã hóa hay không (URL có bắt đầu bằng https:// hay không) là điều kiện xác nhận tối thiểu.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Việc để tập tin luôn ở trạng thái có thể tải xuống sẽ làm tăng nguy cơ rò rỉ thông tin. Bạn sẽ yên tâm hơn khi chọn dịch vụ cho phép thiết lập các giới hạn chi tiết như \"xóa sau khi tải xuống 1 lần\" hoặc \"tự động xóa sau 24 giờ\".",
+  "「今すぐファイルを送りたいのに…」登録の壁": "\"Tôi muốn gửi tập tin ngay bây giờ nhưng...\" Rào cản đăng ký",
+  "有効期限とダウンロード回数制限": "Thời hạn và Giới hạn số lần tải xuống",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Nhập địa chỉ email, thiết lập mật khẩu, xác nhận email xác thực... Những bước này là rào cản lớn (gây phiền hà) cho những người dùng muốn gửi tập tin đi càng nhanh càng tốt. Dịch vụ chia sẻ tập tin không cần đăng ký thành viên giúp loại bỏ sự rắc rối này và mang lại trải nghiệm chia sẻ tập tin trực quan.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR là dịch vụ chia sẻ tập tin có thể sử dụng mà \"không cần đăng ký thành viên\". Chỉ cần mở trình duyệt và thả tập tin vào, một phòng chia sẻ dùng một lần sẽ được tạo ra ngay lập tức.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Rất nguy hiểm nếu bất kỳ ai biết URL cũng có thể tải xuống tập tin. Khi gửi các tập tin quan trọng, hãy chắc chắn thiết lập mật khẩu tải xuống và gửi cho đối phương bằng phương thức khác (như công cụ trò chuyện) ngoài URL.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Nhờ thiết kế dùng một lần (tạm thời), tập tin sẽ bị xóa hoàn toàn không để lại dấu vết khỏi máy chủ khi đến thời hạn đã định. Hơn nữa, dịch vụ còn hỗ trợ bảo vệ bằng mật khẩu, giúp cân bằng giữa tính tiện lợi và bảo mật. Khi bạn muốn chia sẻ tập tin \"ngay lập tức, an toàn, với bất kỳ ai\", hãy thử trải nghiệm FS!QR.",
+  "パスワード保護機能の活用": "Sử dụng tính năng bảo vệ bằng mật khẩu",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Với FS!QR, không cần đăng ký, chia sẻ an toàn và nhanh chóng",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Các điểm bảo mật cần lưu ý khi không cần đăng ký",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "\"Bạn cần gửi gấp tài liệu cho đối tác,\" \"Bạn muốn chia sẻ ngay bức ảnh tập thể chụp tại sự kiện cho mọi người\" — Những lúc như thế, khi mở dịch vụ chia sẻ tập tin ra mà lại xuất hiện màn hình yêu cầu \"Vui lòng tạo tài khoản\", bạn có cảm thấy nản lòng ngay lập tức không?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Lợi ích của việc sử dụng dịch vụ chia sẻ tập tin không cần đăng ký thành viên",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Các dịch vụ có thể sử dụng mà không cần đăng ký tài khoản mang lại nhiều lợi ích ngoài tốc độ.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Tuy bất kỳ ai cũng có thể sử dụng dễ dàng nhưng ý thức bảo mật vẫn rất quan trọng. Chúng tôi xin giới thiệu các điểm cần kiểm tra để sử dụng dịch vụ không cần đăng ký một cách an toàn.",
+  "会員登録なし": "Không cần đăng ký thành viên",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Không cần đăng ký thành viên! Lý do dịch vụ chia sẻ tập tin sử dụng được ngay vô cùng tiện lợi",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Dành cho những ai muốn chia sẻ tập tin ngay bây giờ mà không cần đăng ký tài khoản. Chúng tôi sẽ giải thích các lợi ích của việc sử dụng dịch vụ chuyển tập tin không cần đăng ký và các điểm lưu ý để sử dụng an toàn."
+}

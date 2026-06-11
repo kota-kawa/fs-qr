@@ -10,6 +10,7 @@ from typing import Any
 
 from fastapi import Request
 
+from locale_store import load_language_translations
 from settings import BASE_DIR, GEOIP_DB_PATH
 
 logger = logging.getLogger(__name__)
@@ -305,18 +306,13 @@ _LD_JSON_OPEN_RE = re.compile(
 
 @lru_cache(maxsize=1)
 def load_translations():
-    translations = {}
     locales_dir = os.path.join(BASE_DIR, "locales")
+    translations = {}
     for lang in SUPPORTED_LANGUAGES:
-        file_path = os.path.join(locales_dir, f"{lang}.json")
-        if os.path.exists(file_path):
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    translations[lang] = json.load(f)
-            except Exception as e:
-                logger.error(f"Error loading translation for {lang}: {e}")
-                translations[lang] = {}
-        else:
+        try:
+            translations[lang] = load_language_translations(locales_dir, lang)
+        except Exception as e:
+            logger.error("Error loading translation for %s: %s", lang, e)
             translations[lang] = {}
     return translations
 

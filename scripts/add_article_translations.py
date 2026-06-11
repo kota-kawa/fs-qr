@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """新規3記事のカード文言・カテゴリを全ロケールに挿入するスクリプト。"""
 
-import json
-import re
 import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
+from locale_store import (  # noqa: E402
+    load_locale_section,
+    load_locale_section_shards,
+    save_locale_section_shard,
+)
 
 LOCALES_DIR = Path(__file__).parent.parent / "locales"
 
@@ -220,57 +227,46 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
 }
 
-ANCHOR_KEY = "ビジネス"
+ENTRY_SHARDS = {
+    "articles/_shared": ("category",),
+    "articles/send-photos-without-quality-loss": ("title1", "desc1"),
+    "articles/remove-photo-location-data": ("title2", "desc2"),
+    "articles/file-size-units-kb-mb-gb": ("title3", "desc3"),
+}
 
 
 def insert_entries(lang: str, translations: dict[str, str]) -> bool:
-    path = LOCALES_DIR / f"{lang}.json"
-    if not path.exists():
-        print(f"  SKIP: {path} not found", file=sys.stderr)
-        return False
+    phrases = load_locale_section(LOCALES_DIR, lang, "phrases")
 
-    text = path.read_text(encoding="utf-8")
+    entries_by_shard = {
+        shard: {
+            KEYS[entry_name]: translations[entry_name]
+            for entry_name in entry_names
+        }
+        for shard, entry_names in ENTRY_SHARDS.items()
+    }
+    entries = {
+        key: value
+        for shard_entries in entries_by_shard.values()
+        for key, value in shard_entries.items()
+    }
+    if all(phrases.get(key) == value for key, value in entries.items()):
+        print(f"  {lang}: already up-to-date, skipping")
+        return True
 
-    # すでに挿入済みならスキップ
-    if KEYS["category"] in text and translations["category"] in text:
-        already = True
-        # カテゴリ訳が既に入っているか確認
-        for v in translations.values():
-            if v not in text:
-                already = False
-                break
-        if already:
-            print(f"  {lang}: already up-to-date, skipping")
-            return True
+    shards = load_locale_section_shards(LOCALES_DIR, lang, "phrases")
+    for target_shard, shard_entries in entries_by_shard.items():
+        target = dict(shards.get(target_shard, {}))
+        target.update(shard_entries)
+        shards[target_shard] = target
+        for shard, values in shards.items():
+            if shard == target_shard:
+                continue
+            for key in shard_entries:
+                values.pop(key, None)
 
-    # 独立したカテゴリラベル行を探す。
-    # パターン: 行頭スペース + "ビジネス": "値"
-    pattern = re.compile(
-        r'(\s+"ビジネス"\s*:\s*"[^"]*"\s*,?\s*\n)',
-        re.MULTILINE,
-    )
-    match = pattern.search(text)
-    if not match:
-        print(f"  {lang}: anchor not found, skipping", file=sys.stderr)
-        return False
-
-    insert_pos = match.end()
-
-    def json_line(k: str, v: str) -> str:
-        return f"    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)},\n"
-
-    new_lines = (
-        json_line(KEYS["category"], translations["category"])
-        + json_line(KEYS["title1"], translations["title1"])
-        + json_line(KEYS["desc1"], translations["desc1"])
-        + json_line(KEYS["title2"], translations["title2"])
-        + json_line(KEYS["desc2"], translations["desc2"])
-        + json_line(KEYS["title3"], translations["title3"])
-        + json_line(KEYS["desc3"], translations["desc3"])
-    )
-
-    new_text = text[:insert_pos] + new_lines + text[insert_pos:]
-    path.write_text(new_text, encoding="utf-8")
+    for shard, values in shards.items():
+        save_locale_section_shard(LOCALES_DIR, lang, "phrases", shard, values)
     print(f"  {lang}: inserted 7 entries")
     return True
 
