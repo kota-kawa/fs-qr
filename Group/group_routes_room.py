@@ -261,7 +261,14 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
         password = generate_room_password()
 
         folder_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
-        os.makedirs(folder_path, exist_ok=True)
+        try:
+            os.makedirs(folder_path, exist_ok=True)
+        except OSError:
+            logger.exception("Failed to create upload directory for room: %s", room_id)
+            return api_error_response(
+                "サーバーエラーによりルームを作成できませんでした。",
+                status_code=500,
+            )
 
         try:
             await group_data.create_room(
