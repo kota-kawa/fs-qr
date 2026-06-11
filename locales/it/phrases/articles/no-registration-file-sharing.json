@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Verificare se il canale di comunicazione per il caricamento e lo scaricamento dei file è crittografato (se l'URL inizia con https://) è il controllo minimo fondamentale da effettuare.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Lasciare i file scaricabili a tempo indeterminato aumenta il rischio di fuga di informazioni. È consigliabile scegliere un servizio che consenta di configurare limiti dettagliati, come «cancella dopo un download» o «cancellazione automatica dopo 24 ore».",
+  "「今すぐファイルを送りたいのに…」登録の壁": "«Voglio inviare un file adesso...» la barriera della registrazione",
+  "有効期限とダウンロード回数制限": "Data di scadenza e limite del numero di scaricamenti",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Inserire l'indirizzo e-mail, impostare una password, verificare l'e-mail di conferma... Questi passaggi rappresentano un ostacolo importante per chi ha bisogno di inviare un file con urgenza. I servizi di condivisione di file senza registrazione eliminano queste complicazioni per offrire un'esperienza intuitiva e fluida.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR è un servizio di condivisione di file utilizzabile «senza alcuna registrazione». Basta aprire il browser e rilasciare i file per creare all'istante una stanza di condivisione temporanea.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Consentire a chiunque disponga dell'URL di scaricare il file è rischioso. Se si inviano file importanti, è fondamentale impostare una password di scaricamento e comunicarla al destinatario tramite un canale differente (come una chat).",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Grazie al suo design usa e getta (effimero), i file vengono eliminati definitivamente dal server alla scadenza del tempo impostato. Inoltre, supporta la protezione tramite password, combinando praticità e sicurezza. Per condividere file «all'istante, in sicurezza e con chiunque», prova FS!QR.",
+  "パスワード保護機能の活用": "Utilizzo della funzione di protezione tramite password",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Con FS!QR condividi in modo rapido e sicuro senza registrazione",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Punti di attenzione per la sicurezza con i servizi senza registrazione",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "«Devo inviare urgentemente dei documenti a un cliente» o «Voglio condividere subito le foto di gruppo scattate a un evento»... In questi momenti, se all'apertura del servizio di condivisione di file compare la richiesta di creazione di un account, è scoraggiante, vero?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Vantaggi dell'uso di servizi di condivisione di file senza registrazione",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "I servizi utilizzabili senza registrazione offrono molti vantaggi oltre alla rapidità.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Sebbene chiunque possa usarli con facilità, l'attenzione alla sicurezza rimane fondamentale. Ecco i punti chiave da verificare per utilizzare in modo sicuro i servizi senza registrazione.",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Per chi desidera condividere file immediatamente senza registrazione. Spieghiamo i vantaggi dei servizi di trasferimento file senza registrazione e i punti chiave per utilizzarli in sicurezza.",
+  "会員登録なし": "Senza registrazione",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Senza registrazione! Perché i servizi di condivisione file istantanea sono così pratici"
+}

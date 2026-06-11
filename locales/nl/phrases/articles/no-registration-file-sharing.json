@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Controleren of het communicatiepad voor het uploaden en downloaden van bestanden gecodeerd is (of de URL begint met https://) is de minimale vereiste.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Bestanden voor onbepaalde tijd downloadbaar laten, verhoogt het risico op datalekken. Kies voor extra gemoedsrust een dienst waarmee u gedetailleerde beperkingen kunt instellen, zoals \"verwijderen na één download\" of \"automatisch verwijderen na 24 uur\".",
+  "「今すぐファイルを送りたいのに…」登録の壁": "\"Ik wil nu direct een bestand sturen...\" - De drempel van registratie",
+  "有効期限とダウンロード回数制限": "Vervaldatum en limiet voor aantal downloads",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "E-mailadres invoeren, wachtwoord instellen, verificatiemail bevestigen... Deze stappen vormen een grote hindernis voor gebruikers die zo snel mogelijk een bestand willen verzenden. Bestandsdeeldiensten zonder registratie nemen deze rompslomp weg en bieden een intuïtieve ervaring.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR is een bestandsdeeldienst die volledig zonder registratie kan worden gebruikt. Open de browser en drop uw bestanden om direct een eenmalige deelruimte te maken.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Als iedereen met de URL het bestand kan downloaden, is dat gevaarlijk. Stel bij het verzenden van belangrijke bestanden altijd een downloadwachtwoord in en deel dit via een ander kanaal (zoals een chat-app) met de ontvanger.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Dankzij het efemere (eenmalige) ontwerp worden bestanden na de opgegeven termijn spoorloos van de server verwijderd. Bovendien ondersteunt het wachtwoordbeveiliging, waardoor gebruiksgemak en veiligheid hand in hand gaan. Probeer FS!QR als u direct, veilig en met wie dan ook bestanden wilt delen.",
+  "パスワード保護機能の活用": "Wachtwoordbeveiliging gebruiken",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Met FS!QR is delen veilig, snel en zonder registratie voltooid",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Beveiligingspunten om op te letten bij diensten zonder registratie",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "\"Ik moet snel documenten naar een klant sturen\" of \"Ik wil de groepsfoto van het evenement meteen met iedereen delen\" — raakt u op zulke momenten ook niet gefrustreerd als een deeldienst vraagt om eerst een account aan te maken?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Voordelen van bestandsdeeldiensten zonder registratie",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Diensten die zonder accountregistratie kunnen worden gebruikt, bieden naast snelheid nog vele andere voordelen.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Hoewel iedereen ze eenvoudig kan gebruiken, blijft beveiligingsbewustzijn belangrijk. Hier zijn enkele controlepunten om diensten zonder registratie veilig te gebruiken.",
+  "会員登録なし": "Geen registratie",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Geen registratie nodig! Waarom direct bruikbare bestandsdeeldiensten zo handig zijn",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Voor iedereen die nu bestanden wil delen zonder account. We leggen de voordelen uit van bestandsoverdrachtsdiensten zonder registratie en geven tips om deze veilig te gebruiken."
+}

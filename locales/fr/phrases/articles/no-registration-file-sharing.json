@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Vérifier si le canal de communication pour le téléversement et le téléchargement de fichiers est chiffré (si l'URL commence par https://) est la précaution minimale à prendre.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Laisser des fichiers téléchargeables indéfiniment augmente le risque de fuite de données. Il est plus sûr de choisir un service permettant de configurer des limites précises, telles que « supprimer après un téléchargement » ou « suppression automatique après 24 heures ».",
+  "「今すぐファイルを送りたいのに…」登録の壁": "« Je veux envoyer un fichier tout de suite… » : la barrière de l'inscription",
+  "有効期限とダウンロード回数制限": "Date d'expiration et limite du nombre de téléchargements",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Saisir une adresse e-mail, configurer un mot de passe, valider un e-mail de confirmation… Ces étapes représentent un obstacle majeur pour les utilisateurs pressés. Les services de partage de fichiers sans inscription éliminent ces tracas pour offrir une expérience de partage fluide et intuitive.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR est un service de partage de fichiers utilisable « sans aucune inscription ». Il vous suffit d'ouvrir votre navigateur et de déposer vos fichiers pour créer instantanément un salon de partage unique.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Il est dangereux de laisser un fichier accessible à toute personne disposant de l'URL. Si vous envoyez des fichiers importants, configurez impérativement un mot de passe de téléchargement et transmettez-le par un autre canal (comme une messagerie instantanée).",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Grâce à sa conception éphémère, les fichiers sont définitivement supprimés du serveur une fois la limite de temps atteinte. De plus, la protection par mot de passe garantit un équilibre parfait entre simplicité et sécurité. Pour partager vos fichiers « instantanément, en toute sécurité et avec n'importe qui », essayez FS!QR.",
+  "パスワード保護機能の活用": "Utilisation de la fonction de protection par mot de passe",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Avec FS!QR, partagez vos fichiers rapidement et en toute sécurité, sans inscription",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Points de sécurité essentiels lors de l'utilisation de services sans inscription",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "« Je dois envoyer un document en urgence à un client » ou « Je veux partager immédiatement les photos de groupe d'un événement »… Dans ces moments-là, voir s'afficher une demande de création de compte en ouvrant un service de partage peut être très décourageant, n'est-ce pas ?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Avantages de l'utilisation de services de partage de fichiers sans inscription",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Les services accessibles sans création de compte offrent de nombreux avantages en plus de leur rapidité.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Bien que ces services soient à la portée de tous, il is essentiel de rester vigilant quant à la sécurité. Voici les points de contrôle clés pour utiliser les services sans inscription en toute sécurité.",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Pour ceux qui souhaitent partager des fichiers immédiatement sans créer de compte. Nous expliquons les avantages des services de transfert de fichiers sans inscription et les points clés pour les utiliser en toute sécurité.",
+  "会員登録なし": "Sans inscription",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Sans inscription ! Pourquoi les services de partage de fichiers instantanés sont si pratiques"
+}

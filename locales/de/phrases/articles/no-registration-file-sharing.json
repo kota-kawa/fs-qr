@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Die Überprüfung, ob der Kommunikationsweg für das Hoch- und Herunterladen von Dateien verschlüsselt ist (ob die URL mit https:// beginnt), ist die absolute Mindestanforderung.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Dateien unbegrenzt abrufbar zu halten, erhöht das Risiko von Datenlecks. Es ist sicherer, einen Dienst zu wählen, bei dem Sie präzise Einschränkungen festlegen können, wie z. B. „Nach einmaligem Herunterladen löschen“ oder „Nach 24 Stunden automatisch löschen“.",
+  "「今すぐファイルを送りたいのに…」登録の壁": "„Ich möchte jetzt sofort eine Datei senden...“ – Die Hürde der Registrierung",
+  "有効期限とダウンロード回数制限": "Gültigkeitsdauer und Begrenzung der Downloads",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "E-Mail-Adresse eingeben, Passwort festlegen, Bestätigungs-E-Mail abwarten... Diese Schritte stellen für Benutzer, die eine Datei so schnell wie möglich senden möchten, ein großes Hindernis dar. Dateifreigabedienste, die ohne Registrierung genutzt werden können, beseitigen diesen Aufwand und bieten ein intuitives Erlebnis beim Teilen von Dateien.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR is ein Dateifreigabedienst, der „völlig ohne Registrierung“ genutzt werden kann. Sie müssen lediglich den Browser öffnen und die Dateien ablegen, um sofort einen temporären Freigaberaum zu erstellen.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Ein Zustand, in dem jeder, der die URL kennt, die Datei herunterladen kann, ist gefährlich. Wenn Sie wichtige Dateien senden, richten Sie unbedingt ein Download-Passwort ein und teilen Sie dieses dem Empfänger über einen anderen Weg (z. B. über ein Chat-Tool) mit.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Dank des flüchtigen (ephemeren) Designs werden die Dateien nach Ablauf der festgelegten Frist spurlos vom Server gelöscht. Zudem wird auch ein Passwortschutz unterstützt, was Benutzerfreundlichkeit und Sicherheit perfekt verbindet. Wenn Sie Dateien „sofort, sicher und mit jedem“ teilen möchten, probieren Sie FS!QR aus.",
+  "パスワード保護機能の活用": "Nutzung des Passwortschutzes",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "Mit FS!QR ohne Registrierung schnell und sicher Dateien teilen",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Sicherheitstipps bei der Nutzung registrierungsfreier Dienste",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "„Ich muss einem Kunden dringend Unterlagen schicken“ oder „Ich möchte die bei der Veranstaltung aufgenommenen Gruppenfotos sofort mit allen teilen“ – wenn sich in solchen Momenten nach dem Öffnen eines Dateifreigabedienstes ein Registrierungsfenster öffnet, vergeht einem schnell die Lust, oder?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Vorteile der Nutzung von Dateifreigabediensten ohne Registrierung",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Dienste, die ohne Registrierung genutzt werden können, bieten neben der Geschwindigkeit viele weitere Vorteile.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Obwohl die Dienste für jeden leicht zugänglich sind, ist das Sicherheitsbewusstsein wichtig. Wir stellen Ihnen die wichtigsten Kontrollpunkte vor, um registrierungsfreie Dienste sicher zu nutzen.",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Für alle, die Dateien sofort und ohne Registrierung freigeben möchten: Wir erklären die Vorteile von registrierungsfreien Datenübertragungsdiensten und worauf Sie für eine sichere Nutzung achten sollten.",
+  "会員登録なし": "Ohne Registrierung",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Keine Registrierung erforderlich! Warum sofort nutzbare Dateifreigabedienste so praktisch sind"
+}

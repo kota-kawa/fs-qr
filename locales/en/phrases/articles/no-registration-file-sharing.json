@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Ensuring that the communication path for uploading and downloading files is encrypted (i.e., the URL starts with https://) is the bare minimum you should check.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Leaving files in a downloadable state indefinitely increases the risk of information leakage. For peace of mind, choose a service that allows you to configure granular restrictions, such as \"delete after a single download\" or \"automatically delete after 24 hours.\"",
+  "「今すぐファイルを送りたいのに…」登録の壁": "\"I need to send a file right now, but...\" The Registration Barrier",
+  "有効期限とダウンロード回数制限": "Expiration Date and Download Limit",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Entering your email address, setting a password, verifying authentication emails... These steps present major hurdles (friction) for users who want to send a file as quickly as possible. File sharing services that can be used without member registration eliminate these hassles and provide an intuitive file sharing experience.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR is a file sharing service that can be used with absolutely no registration required. Just open your browser and drop your files, and a one-time sharing room is created instantly.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "It is dangerous if anyone can download the file as long as they have the URL. When sending important files, be sure to set a download password and send it to the recipient via a separate channel (such as a chat tool).",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Featuring a disposable (ephemeral) design, files are wiped from the server without a trace once the specified expiration time is reached. It also supports password protection, balancing convenience and security. When you want to share files \"now, safely, and with anyone,\" give FS!QR a try.",
+  "パスワード保護機能の活用": "Using Password Protection",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "With FS!QR, Share Safely and Speedily Without Registration",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Security Guidelines to Keep in Mind for Registration-Free Services",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "\"I need to send documents to a business partner in a hurry,\" \"I want to share the group photo taken at the event with everyone right away\"—in times like these, when you open a file sharing service and are greeted by a \"Please create an account\" screen, doesn't it instantly discourage you?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Benefits of Using File Sharing Services That Do Not Require Registration",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Services that can be used without account registration offer many advantages beyond just speed.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "While anyone can use these services easily, security awareness remains crucial. Here are the key checkpoints for safely using registration-free services.",
+  "会員登録なし": "No Registration",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "No Registration Required! Why Instant-Use File Sharing Services Are So Convenient",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "For those who want to share files right away without account registration. We explain the benefits of using registration-free file transfer services and key points for using them safely."
+}

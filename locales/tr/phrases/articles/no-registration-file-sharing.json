@@ -1,0 +1,20 @@
+{
+  "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Dosya yükleme ve indirme için iletişim yolunun şifrelenip şifrelenmediği (URL'nin https:// ile başlayıp başlamadığı) kontrol edilmesi gereken en temel husustur.",
+  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Dosyaları süresiz olarak indirilebilir durumda bırakmak, bilgi sızıntısı riskini artırır. \"Bir kez indirildikten sonra sil\" veya \"24 saat sonra otomatik olarak sil\" gibi sınırları ayrıntılı şekilde ayarlamanıza izin veren bir hizmet seçmek daha güvenlidir.",
+  "「今すぐファイルを送りたいのに…」登録の壁": "\"Hemen dosya göndermek istiyorum ama...\" - Kayıt engeli",
+  "有効期限とダウンロード回数制限": "Son kullanma tarihi ve indirme sayısı sınırı",
+  "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "E-posta adresi girme, şifre belirleme, doğrulama e-postasını onaylama... Bu adımlar, dosyayı bir an önce göndermek isteyen kullanıcılar için büyük bir engel (zorluk) oluşturur. Üyelik gerektirmeyen dosya paylaşım hizmetleri bu zahmeti ortadan kaldırarak sezgisel bir deneyim sunar.",
+  "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR, tamamen üyelik gerektirmeden kullanılabilen bir dosya paylaşım hizmetidir. Tek seferlik bir paylaşım odası oluşturmak için tarayıcınızı açıp dosyaları bırakmanız yeterlidir.",
+  "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Sadece URL'yi bilen herkesin dosyayı indirebilmesi tehlikelidir. Önemli dosyaları gönderirken mutlaka bir indirme şifresi belirleyin ve bunu alıcıya URL dışındaki bir kanaldan (sohbet uygulamaları vb.) iletin.",
+  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Geçici (efemeral) bir tasarıma sahip olduğundan, belirlenen süre dolduğunda dosyalar sunucudan iz bırakmadan silinir. Ayrıca şifre korumasını da destekleyerek kolaylık ile güvenliği bir arada sunar. Dosyalarınızı hemen, güvenli bir şekilde ve herkesle paylaşmak istediğinizde FS!QR'ı deneyin.",
+  "パスワード保護機能の活用": "Şifre koruma özelliğinin kullanılması",
+  "FS!QRなら登録不要で、安全・スピーディに共有完了": "FS!QR ile kayıt gerekmez, paylaşım güvenli ve hızlı şekilde tamamlanır",
+  "登録不要だからこそ気をつけたいセキュリティのポイント": "Kayıt gerektirmeyen hizmetlerde dikkat edilmesi gereken güvenlik noktaları",
+  "「取引先に急いで資料を送らなければならない」「イベントで撮った集合写真をすぐにみんなとシェアしたい」——そんな時、ファイル共有サービスを開いて「アカウントを作成してください」という画面が出ると、一気に気持ちが萎えてしまいませんか？": "\"Müşteriye acilen belge göndermem gerekiyor\" veya \"Etkinlikte çekilen grup fotoğrafını hemen herkesle paylaşmak istiyorum\" dediğiniz anlarda, dosya paylaşım hizmetini açtığınızda \"Lütfen hesap oluşturun\" ekranıyla karşılaşmak hevesinizi kırmıyor mu?",
+  "会員登録不要のファイル共有サービスを利用するメリット": "Üyelik gerekmeyen dosya paylaşım hizmetlerini kullanmanın avantajları",
+  "アカウント登録なしで利用できるサービスには、スピード以外にも多くのメリットがあります。": "Hesap kaydı olmadan kullanılabilen hizmetlerin hız dışında da pek çok avantajı vardır.",
+  "誰でも手軽に使える反面、セキュリティへの意識は重要です。登録不要サービスを安全に利用するためのチェックポイントをご紹介します。": "Herkes için kullanımı kolay olsa da güvenlik bilinci önemlidir. Üyelik gerektirmeyen hizmetleri güvenli bir şekilde kullanabilmeniz için bir kontrol listesi sunuyoruz.",
+  "会員登録なし": "Üyelik yok",
+  "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Üyelik gerektirmez! Hemen kullanılabilen dosya paylaşım hizmetlerinin bu kadar pratik olmasının nedenleri",
+  "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Hesap oluşturmadan hemen dosya paylaşmak isteyenler için: Üyelik gerektirmeyen dosya aktarım hizmetlerini kullanmanın avantajlarını ve bunları güvenli bir şekilde kullanmanın püf noktalarını açıklıyoruz."
+}

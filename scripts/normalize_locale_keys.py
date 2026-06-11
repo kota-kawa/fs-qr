@@ -2,11 +2,11 @@
 
 Some locale files (notably tr, uk, pl, sw, ar, ko, zh-TW, plus parts of fr, es, de, vi, th, id)
 contain phrase keys that use ASCII punctuation (".", ",") or stray whitespace where the
-template uses Japanese punctuation ("。", "、"). en.json is treated as the canonical source
-of truth for keys.
+template uses Japanese punctuation ("。", "、"). The English phrase catalog is treated
+as the canonical source of truth for keys.
 
 For each language file:
-  * For each phrase key K that does NOT exist in en.json's phrases:
+  * For each phrase key K that does NOT exist in the English phrases:
       - normalize K (strip whitespace and unify punctuation)
       - look for a normalized en.json key that matches
       - if exactly one match is found, rename K → canonical en key (preserving value)
@@ -16,32 +16,44 @@ For each language file:
 from __future__ import annotations
 
 import difflib
-import json
-import os
 import re
 import sys
 from collections import defaultdict
+from pathlib import Path
 
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOCALES_DIR = os.path.join(REPO_ROOT, "locales")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
+from locale_store import (  # noqa: E402
+    load_locale_section,
+    load_locale_section_shards,
+    save_locale_section_shard,
+)
+
+
+LOCALES_DIR = REPO_ROOT / "locales"
 TARGET_LANGS = (
-    "tr",
-    "uk",
-    "pl",
-    "sw",
-    "ar",
-    "ko",
+    "zh-CN",
     "zh-TW",
+    "ko",
     "fr",
     "es",
     "de",
+    "pt",
+    "it",
     "vi",
     "th",
     "id",
-    "zh-CN",
-    "pt",
-    "it",
+    "tr",
+    "uk",
+    "ru",
+    "nl",
+    "hi",
+    "bn",
+    "pl",
+    "sw",
+    "ar",
 )
 
 
@@ -57,17 +69,6 @@ def normalize_for_match(s: str) -> str:
     # Remove all whitespace (ASCII space, full-width space, tabs, newlines).
     s = re.sub(r"[\s　]+", "", s)
     return s
-
-
-def load_locale(path: str) -> dict:
-    with open(path, "r", encoding="utf-8") as fh:
-        return json.load(fh)
-
-
-def save_locale(path: str, data: dict) -> None:
-    with open(path, "w", encoding="utf-8") as fh:
-        json.dump(data, fh, ensure_ascii=False, indent=2)
-        fh.write("\n")
 
 
 def build_canonical_index(en_phrases: dict) -> dict:
@@ -98,6 +99,48 @@ def fuzzy_match(
     return None
 
 
+def add_if_unseen(
+    target: dict[str, str], seen_keys: set[str], key: str, value: str
+) -> bool:
+    if key in seen_keys:
+        return False
+    target[key] = value
+    seen_keys.add(key)
+    return True
+
+
+def normalize_phrase_key(
+    key: str,
+    value: str,
+    new_phrases: dict[str, str],
+    seen_keys: set[str],
+    canonical_index: dict[str, list[str]],
+    en_keys: set[str],
+    en_keys_normalized: list[tuple[str, str]],
+) -> tuple[str, str | list[str] | None]:
+    if key in en_keys:
+        add_if_unseen(new_phrases, seen_keys, key, value)
+        return "unchanged", None
+
+    candidates = canonical_index.get(normalize_for_match(key), [])
+    if len(candidates) == 1:
+        canonical = candidates[0]
+        if add_if_unseen(new_phrases, seen_keys, canonical, value):
+            return "renamed", canonical
+        return "duplicate", canonical
+
+    if len(candidates) > 1:
+        add_if_unseen(new_phrases, seen_keys, key, value)
+        return "ambiguous", candidates
+
+    fuzzy = fuzzy_match(key, en_keys_normalized)
+    if fuzzy and add_if_unseen(new_phrases, seen_keys, fuzzy, value):
+        return "fuzzy", fuzzy
+
+    add_if_unseen(new_phrases, seen_keys, key, value)
+    return "unmatched", None
+
+
 def normalize_locale(
     lang: str,
     canonical_index: dict,
@@ -105,10 +148,8 @@ def normalize_locale(
     en_keys_normalized: list[tuple[str, str]],
     dry_run: bool = False,
 ):
-    path = os.path.join(LOCALES_DIR, f"{lang}.json")
-    data = load_locale(path)
-    phrases = data.get("phrases")
-    if not isinstance(phrases, dict):
+    phrase_shards = load_locale_section_shards(LOCALES_DIR, lang, "phrases")
+    if not phrase_shards:
         print(f"[{lang}] no phrases section, skipping")
         return
 
@@ -116,37 +157,34 @@ def normalize_locale(
     fuzzy_renamed: list[tuple[str, str]] = []
     unmatched: list[str] = []
     ambiguous: list[tuple[str, list[str]]] = []
-    new_phrases: dict[str, str] = {}
+    seen_keys: set[str] = set()
+    new_shards: dict[str, dict[str, str]] = {}
 
-    for key, value in phrases.items():
-        if key in en_keys:
-            new_phrases.setdefault(key, value)
-            continue
-        nk = normalize_for_match(key)
-        candidates = canonical_index.get(nk, [])
-        if len(candidates) == 1:
-            canonical = candidates[0]
-            if canonical in new_phrases:
-                continue
-            new_phrases[canonical] = value
-            renamed.append((key, canonical))
-            continue
-        if len(candidates) > 1:
-            ambiguous.append((key, candidates))
-            new_phrases[key] = value
-            continue
-        # Try fuzzy matching for corrupted keys (foreign chars mixed in).
-        fuzzy = fuzzy_match(key, en_keys_normalized)
-        if fuzzy and fuzzy not in new_phrases:
-            new_phrases[fuzzy] = value
-            fuzzy_renamed.append((key, fuzzy))
-        else:
-            unmatched.append(key)
-            new_phrases[key] = value
+    for shard, phrases in phrase_shards.items():
+        new_phrases: dict[str, str] = {}
+        for key, value in phrases.items():
+            status, detail = normalize_phrase_key(
+                key,
+                value,
+                new_phrases,
+                seen_keys,
+                canonical_index,
+                en_keys,
+                en_keys_normalized,
+            )
+            if status == "renamed" and isinstance(detail, str):
+                renamed.append((key, detail))
+            elif status == "fuzzy" and isinstance(detail, str):
+                fuzzy_renamed.append((key, detail))
+            elif status == "ambiguous" and isinstance(detail, list):
+                ambiguous.append((key, detail))
+            elif status == "unmatched":
+                unmatched.append(key)
+        new_shards[shard] = new_phrases
 
     if not dry_run:
-        data["phrases"] = new_phrases
-        save_locale(path, data)
+        for shard, phrases in new_shards.items():
+            save_locale_section_shard(LOCALES_DIR, lang, "phrases", shard, phrases)
 
     total = len(renamed) + len(fuzzy_renamed)
     print(
@@ -163,12 +201,12 @@ def normalize_locale(
 
 def main():
     dry_run = "--apply" not in sys.argv
-    en = load_locale(os.path.join(LOCALES_DIR, "en.json"))
-    en_keys = set(en["phrases"].keys())
-    canonical_index = build_canonical_index(en["phrases"])
+    en_phrases = load_locale_section(LOCALES_DIR, "en", "phrases")
+    en_keys = set(en_phrases.keys())
+    canonical_index = build_canonical_index(en_phrases)
     en_keys_normalized = [(normalize_for_match(k), k) for k in en_keys]
 
-    print(f"en.json phrase count: {len(en_keys)}")
+    print(f"English phrase count: {len(en_keys)}")
     print(f"Mode: {'DRY-RUN' if dry_run else 'APPLY'}")
     print()
 

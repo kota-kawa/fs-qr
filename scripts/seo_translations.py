@@ -1,17 +1,27 @@
-"""SEO 用 JSON-LD / meta タグの未翻訳文字列を全 15 言語に補完するためのデータと適用スクリプト。
+"""SEO 用 JSON-LD / meta タグの未翻訳文字列を各言語に補完するスクリプト。
 
 実行: python3 scripts/seo_translations.py --apply
 """
 
 from __future__ import annotations
 
-import json
 import os
 import sys
+from pathlib import Path
 from typing import Dict
 
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_ROOT_PATH = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT_PATH))
+
+from locale_store import (  # noqa: E402
+    load_locale_section,
+    load_locale_section_shards,
+    save_locale_section_shard,
+)
+
+
+REPO_ROOT = str(REPO_ROOT_PATH)
 LOCALES_DIR = os.path.join(REPO_ROOT, "locales")
 
 LANGUAGES = (
@@ -450,24 +460,23 @@ EXTRAS: Dict[str, Dict[str, str]] = {
 def apply(dry_run: bool) -> None:
     summary = {}
     for lang in LANGUAGES:
-        path = os.path.join(LOCALES_DIR, f"{lang}.json")
-        with open(path, "r", encoding="utf-8") as fh:
-            data = json.load(fh)
-        phrases = data.setdefault("phrases", {})
+        phrases = load_locale_section(LOCALES_DIR, lang, "phrases")
+        shards = load_locale_section_shards(LOCALES_DIR, lang, "phrases")
+        seo_phrases = dict(shards.get("seo", {}))
         added = 0
         for src, translations in COMMON.items():
             if src not in phrases and lang in translations:
+                seo_phrases[src] = translations[lang]
                 phrases[src] = translations[lang]
                 added += 1
         for src, translations in EXTRAS.items():
             if lang in translations and src not in phrases:
+                seo_phrases[src] = translations[lang]
                 phrases[src] = translations[lang]
                 added += 1
         summary[lang] = added
         if not dry_run:
-            with open(path, "w", encoding="utf-8") as fh:
-                json.dump(data, fh, ensure_ascii=False, indent=2)
-                fh.write("\n")
+            save_locale_section_shard(LOCALES_DIR, lang, "phrases", "seo", seo_phrases)
     print(("DRY-RUN: would add" if dry_run else "APPLIED:"), summary)
 
 

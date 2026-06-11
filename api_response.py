@@ -4,8 +4,7 @@ from typing import Any, Mapping
 
 from starlette.responses import JSONResponse
 
-
-from i18n import current_language_ctx, get_translation_value, load_translations
+from i18n import current_language_ctx, get_translation_value
 
 
 def _normalize_data(data: Mapping[str, Any] | None) -> dict[str, Any]:
@@ -28,14 +27,11 @@ def api_error_payload(
 
     # 2. Try to translate in "phrases" section (since error message might be a phrase)
     if translated_error == error:
-        translations = load_translations()
-        translated_error = (
-            translations.get(lang, {}).get("phrases", {}).get(error, error)
-        )
+        translated_error = get_translation_value(lang, "phrases", error)
 
     # 3. Try to translate in "js" section (just in case)
     if translated_error == error:
-        translated_error = translations.get(lang, {}).get("js", {}).get(error, error)
+        translated_error = get_translation_value(lang, "js", error)
 
     return {
         "status": "error",
