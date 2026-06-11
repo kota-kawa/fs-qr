@@ -35,5 +35,13 @@
   "万が一、QRコードが読み取れなかったり、ダウンロードが始まらなかったりする場合は、以下の原因と対策を確認してください。": "Sollte der QR-Code nicht gescannt werden können oder der Download nicht starten, prüfen Sie bitte die folgenden Ursachen und Lösungen.",
   "■ Androidの場合": "■ Für Android",
   "パスワードが設定されている場合": "Wenn ein Passwort gesetzt ist",
-  "受け取りの基本手順": "Grundschritte zum Empfangen einer Datei"
+  "受け取りの基本手順": "Grundschritte zum Empfangen einer Datei",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, Smartphone, QR-Code, Dateien empfangen, Download, Tutorial, Einsteigerleitfaden",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Wie man auf dem Smartphone über FS!QR geteilte Dateien empfängt — ein einsteigertaugliches Tutorial vom Scannen des QR-Codes bis zum Download.",
+  "スキャンする：": "Scannen:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Öffnen Sie die Standard-Kamera-App Ihres Telefons und richten Sie sie auf den QR-Code auf dem PC-Bildschirm des Senders oder auf dem gedruckten Papier.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Überprüfen Sie den auf der Seite angezeigten Dateinamen und die Größe, dann tippen Sie auf die Schaltfläche „Herunterladen\". Sobald abgeschlossen, wird die Datei auf Ihrem Gerät gespeichert.",
+  "リンクを開く：": "Link öffnen:",
+  "保存する：": "Speichern:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tippen Sie auf den gelben Link (oder die Benachrichtigung), der auf dem Bildschirm erscheint, um die FS!QR-Download-Seite in Ihrem Browser zu öffnen."
 }

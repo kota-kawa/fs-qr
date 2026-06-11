@@ -16,5 +16,22 @@
   "セキュリティポリシーに反する手段での共有（シャドーIT）や、暗号化されていないメール、公衆Wi-Fi経由での送信は、重要な情報資産や機密情報の漏洩を招く直接的な引き金になりかねません。FS!QRの「パスワード保護機能」を正しく設定し運用することで、リモート環境下においても簡単かつ極めて安全なファイル受け渡しプロセスを確立できます。": "O compartilhamento por meio de métodos que violam as políticas de segurança (Shadow IT), e-mails não criptografados ou transmissão via Wi-Fi público pode desencadear diretamente vazamentos de ativos de informação importantes e detalhes confidenciais. Ao configurar e operar corretamente a \"Função de Proteção por Senha\" do FS!QR, você pode estabelecer um processo de transferência de arquivos simples e extremamente seguro, mesmo em ambientes remotos.",
   "在宅勤務やサテライトオフィス、カフェでのリモートワークが普及した結果、社外から社内、あるいは自宅の個人PCと会社支給のPC、さらには社外のクライアントやパートナー企業との間で、ファイルをやり取りする頻度は劇的に増加しました。しかし、オフィス内のように厳重なセキュリティで保護されたローカルネットワークが存在しない社外環境では、ファイルの転送自体に多くの脅威が潜んでいます。": "Com a popularização do trabalho em casa, escritórios satélites e trabalho remoto em cafés, a frequência de troca de arquivos entre o ambiente externo e interno da empresa, PCs domésticos pessoais e de trabalho, e até mesmo com clientes e empresas parceiras externas aumentou drasticamente. No entanto, em ambientes externos sem uma rede local altamente protegida como a de um escritório, a própria transferência de arquivos esconde muitas ameaças.",
   "在宅勤務（テレワーク）におけるファイル共有の深刻な課題": "Problemas Graves de Compartilhamento de Arquivos no Trabalho Remoto (Teletrabalho)",
-  "多くのクラウドサービスやファイル共有ツールでは、アップロード後に「共有URL」が生成されます。このURLさえ知っていれば、誰でもファイルにアクセスできる状態が一般的です。しかし、テレワークにおいては以下の理由から、URL単体の共有では不十分なケースが多々あります。": "Na maioria dos serviços de nuvem e ferramentas de compartilhamento de arquivos, uma \"URL de compartilhamento\" é gerada após o envio. Geralmente, qualquer pessoa que conheça essa URL pode acessar o arquivo. No entanto, no teletrabalho, compartilhar apenas a URL é muitas vezes insuficiente pelos seguintes motivos:"
+  "多くのクラウドサービスやファイル共有ツールでは、アップロード後に「共有URL」が生成されます。このURLさえ知っていれば、誰でもファイルにアクセスできる状態が一般的です。しかし、テレワークにおいては以下の理由から、URL単体の共有では不十分なケースが多々あります。": "Na maioria dos serviços de nuvem e ferramentas de compartilhamento de arquivos, uma \"URL de compartilhamento\" é gerada após o envio. Geralmente, qualquer pessoa que conheça essa URL pode acessar o arquivo. No entanto, no teletrabalho, compartilhar apenas a URL é muitas vezes insuficiente pelos seguintes motivos:",
+  "FS QR, テレワーク, セキュリティ, パスワード保護, 業務効率化": "FS QR, teletrabalho, segurança, proteção por senha, produtividade",
+  "URLの送信：": "Envio da URL:",
+  "「システムが発行した一時ID」と「送信者が設定したパスワード」の2つの組み合わせ": "a combinação do ID temporário emitido pelo sistema e a senha definida pelo remetente",
+  "「連絡経路を切り分ける（分離する）」": "separar os canais de comunicação",
+  "を入力しなければ、ファイルの実体に触れることすらできません。": " — sem ambos, é impossível para eles acessar o próprio arquivo.",
+  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "Em um Wi-Fi público com criptografia fraca — em um café, por exemplo — existe um risco real de interceptação da URL por captura de pacotes (espionagem).",
+  "チャットツールの送信相手を間違えたり、グループチャットに誤って貼り付けたりした場合、URLをタップした全員にファイルが閲覧されてしまいます。": "Enviar para o contato de chat errado, ou colar no grupo errado, e qualquer pessoa que clicar na URL pode ver o arquivo.",
+  "パスワードの伝達：": "Comunicação da senha:",
+  "パスワードは、チャットツールとは「全く別のルート」で伝えます。具体的には、電話をかける、スマートフォンのSMS（電話番号宛てのショートメッセージ）で送る、または事前に設定済みの別の連絡用アドレスに送る、などの方法をとります。": "Transmita a senha por um canal radicalmente diferente da ferramenta de chat: ligue para a pessoa, envie um SMS, ou use um endereço de contato separado combinado antecipadamente.",
+  "ファイルのダウンロードURL（および一時ID）は、通常の業務連絡で使用しているチャットツール（Teams、Slack、LINE WORKS等）で共有します。": "Compartilhe a URL de download do arquivo (e o ID temporário) pela ferramenta de chat usada no dia a dia — Teams, Slack, LINE WORKS etc.",
+  "ファイルをアップロードする際、送信者は任意のパスワードを設定できます。そして、システムはダウンロードのためのURLとともに、そのファイル専用の「一時的なID（ユーザーID）」を自動生成します。ダウンロード画面にアクセスした受信者は、": "Ao fazer o upload, o remetente pode definir uma senha de sua escolha. O sistema então gera automaticamente um ID temporário (ID de usuário) próprio desse arquivo, assim como a URL de download. O destinatário que chega à página de download deve inserir",
+  "共有相手のPCやスマートフォンのブラウザ履歴、チャットツール上の会話履歴にURLが半永久的に残り、第三者が後からアクセスできてしまう懸念。": "A preocupação de que a URL fique semipermanentemente no histórico do navegador do destinatário e no registro de chat, onde um terceiro poderia acessá-la posteriormente.",
+  "履歴の残留：": "Persistência no histórico:",
+  "最高レベルの安全性を維持するために、実務では以下のように": "Para manter o mais alto nível de segurança possível, torne-o uma regra intransigente na prática de",
+  "誤送信による即座の流出：": "Vazamentos instantâneos por mensagens mal direcionadas:",
+  "通信経路上の盗聴：": "Interceptação no canal de transmissão:",
+  "運用を徹底してください。": ", da seguinte forma."
 }
