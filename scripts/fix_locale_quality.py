@@ -863,6 +863,7 @@ MIXED_VALUE_FIXES = {
     },
 }
 
+
 def load_shards(language: str) -> dict[str, dict[str, str]]:
     return {
         shard: dict(values)
@@ -948,7 +949,9 @@ def normalize_remaining_extras() -> None:
             continue
 
         for extra in extras:
-            best = max(base_keys, key=lambda key: SequenceMatcher(None, extra, key).ratio())
+            best = max(
+                base_keys, key=lambda key: SequenceMatcher(None, extra, key).ratio()
+            )
             score = SequenceMatcher(None, extra, best).ratio()
             extra_value = current[extra]
             if score >= 0.85 and best not in current:

@@ -51,7 +51,9 @@ def split_language(language: str, apply: bool) -> tuple[int, int]:
             values = updated.get(shard, {})
             path = section_shard_path(LOCALES_DIR, language, "phrases", shard)
             if values:
-                save_locale_section_shard(LOCALES_DIR, language, "phrases", shard, values)
+                save_locale_section_shard(
+                    LOCALES_DIR, language, "phrases", shard, values
+                )
             elif path.exists():
                 path.unlink()
 
@@ -62,7 +64,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Move article phrase translations into locales/<lang>/phrases/articles/<slug>.json."
     )
-    parser.add_argument("--apply", action="store_true", help="write split article shards")
+    parser.add_argument(
+        "--apply", action="store_true", help="write split article shards"
+    )
     args = parser.parse_args()
 
     mode = "APPLY" if args.apply else "DRY-RUN"

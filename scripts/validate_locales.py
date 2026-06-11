@@ -78,7 +78,9 @@ def validate_section_objects(report: LocaleReport) -> None:
                 report.error(f"{language}/{section} must be a JSON object")
                 continue
             bad_keys = [key for key in data if not isinstance(key, str)]
-            bad_values = [key for key, value in data.items() if not isinstance(value, str)]
+            bad_values = [
+                key for key, value in data.items() if not isinstance(value, str)
+            ]
             if bad_keys:
                 report.error(f"{language}/{section} has non-string keys")
             if bad_values:
@@ -98,10 +100,14 @@ def validate_strict_keys(report: LocaleReport) -> None:
             extra = sorted(set(current) - set(base))
             if missing:
                 sample = ", ".join(missing[:8])
-                report.error(f"{language}/{section} missing {len(missing)} keys: {sample}")
+                report.error(
+                    f"{language}/{section} missing {len(missing)} keys: {sample}"
+                )
             if extra:
                 sample = ", ".join(extra[:8])
-                report.error(f"{language}/{section} has {len(extra)} extra keys: {sample}")
+                report.error(
+                    f"{language}/{section} has {len(extra)} extra keys: {sample}"
+                )
 
 
 def validate_placeholders(report: LocaleReport) -> None:

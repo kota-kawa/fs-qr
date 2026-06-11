@@ -94,14 +94,20 @@ def split_phrase_shards(
     return dict(sorted(shards.items()))
 
 
-def migrate_locale(path: Path, indexed_sources: list[tuple[Path, str]], apply: bool) -> None:
+def migrate_locale(
+    path: Path, indexed_sources: list[tuple[Path, str]], apply: bool
+) -> None:
     language = path.stem
     data = read_json_object(path)
 
     ui = data.get("ui", {})
     js = data.get("js", {})
     phrases = data.get("phrases", {})
-    if not isinstance(ui, dict) or not isinstance(js, dict) or not isinstance(phrases, dict):
+    if (
+        not isinstance(ui, dict)
+        or not isinstance(js, dict)
+        or not isinstance(phrases, dict)
+    ):
         raise ValueError(f"{path} has invalid section data")
 
     phrase_shards = split_phrase_shards(phrases, indexed_sources)

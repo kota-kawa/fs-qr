@@ -240,8 +240,7 @@ def insert_entries(lang: str, translations: dict[str, str]) -> bool:
 
     entries_by_shard = {
         shard: {
-            KEYS[entry_name]: translations[entry_name]
-            for entry_name in entry_names
+            KEYS[entry_name]: translations[entry_name] for entry_name in entry_names
         }
         for shard, entry_names in ENTRY_SHARDS.items()
     }

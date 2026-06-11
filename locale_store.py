@@ -80,13 +80,14 @@ def load_locale_section(
 
     legacy = load_legacy_language(locales_dir, language)
     legacy_section = legacy.get(section, {})
-    data: dict[str, Any] = dict(legacy_section) if isinstance(legacy_section, dict) else {}
+    data: dict[str, Any] = (
+        dict(legacy_section) if isinstance(legacy_section, dict) else {}
+    )
 
     section_file = section_file_path(locales_dir, language, section)
     if section_file.exists():
         data.update(_read_json_object(section_file))
 
-    section_dir = section_dir_path(locales_dir, language, section)
     for shard_path in _section_shard_files(locales_dir, language, section):
         data.update(_read_json_object(shard_path))
 

@@ -99,6 +99,48 @@ def fuzzy_match(
     return None
 
 
+def add_if_unseen(
+    target: dict[str, str], seen_keys: set[str], key: str, value: str
+) -> bool:
+    if key in seen_keys:
+        return False
+    target[key] = value
+    seen_keys.add(key)
+    return True
+
+
+def normalize_phrase_key(
+    key: str,
+    value: str,
+    new_phrases: dict[str, str],
+    seen_keys: set[str],
+    canonical_index: dict[str, list[str]],
+    en_keys: set[str],
+    en_keys_normalized: list[tuple[str, str]],
+) -> tuple[str, str | list[str] | None]:
+    if key in en_keys:
+        add_if_unseen(new_phrases, seen_keys, key, value)
+        return "unchanged", None
+
+    candidates = canonical_index.get(normalize_for_match(key), [])
+    if len(candidates) == 1:
+        canonical = candidates[0]
+        if add_if_unseen(new_phrases, seen_keys, canonical, value):
+            return "renamed", canonical
+        return "duplicate", canonical
+
+    if len(candidates) > 1:
+        add_if_unseen(new_phrases, seen_keys, key, value)
+        return "ambiguous", candidates
+
+    fuzzy = fuzzy_match(key, en_keys_normalized)
+    if fuzzy and add_if_unseen(new_phrases, seen_keys, fuzzy, value):
+        return "fuzzy", fuzzy
+
+    add_if_unseen(new_phrases, seen_keys, key, value)
+    return "unmatched", None
+
+
 def normalize_locale(
     lang: str,
     canonical_index: dict,
@@ -121,38 +163,23 @@ def normalize_locale(
     for shard, phrases in phrase_shards.items():
         new_phrases: dict[str, str] = {}
         for key, value in phrases.items():
-            if key in en_keys:
-                if key not in seen_keys:
-                    new_phrases[key] = value
-                    seen_keys.add(key)
-                continue
-            nk = normalize_for_match(key)
-            candidates = canonical_index.get(nk, [])
-            if len(candidates) == 1:
-                canonical = candidates[0]
-                if canonical in seen_keys:
-                    continue
-                new_phrases[canonical] = value
-                seen_keys.add(canonical)
-                renamed.append((key, canonical))
-                continue
-            if len(candidates) > 1:
-                ambiguous.append((key, candidates))
-                if key not in seen_keys:
-                    new_phrases[key] = value
-                    seen_keys.add(key)
-                continue
-            # Try fuzzy matching for corrupted keys (foreign chars mixed in).
-            fuzzy = fuzzy_match(key, en_keys_normalized)
-            if fuzzy and fuzzy not in seen_keys:
-                new_phrases[fuzzy] = value
-                seen_keys.add(fuzzy)
-                fuzzy_renamed.append((key, fuzzy))
-            else:
+            status, detail = normalize_phrase_key(
+                key,
+                value,
+                new_phrases,
+                seen_keys,
+                canonical_index,
+                en_keys,
+                en_keys_normalized,
+            )
+            if status == "renamed" and isinstance(detail, str):
+                renamed.append((key, detail))
+            elif status == "fuzzy" and isinstance(detail, str):
+                fuzzy_renamed.append((key, detail))
+            elif status == "ambiguous" and isinstance(detail, list):
+                ambiguous.append((key, detail))
+            elif status == "unmatched":
                 unmatched.append(key)
-                if key not in seen_keys:
-                    new_phrases[key] = value
-                    seen_keys.add(key)
         new_shards[shard] = new_phrases
 
     if not dry_run:
