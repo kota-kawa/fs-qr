@@ -178,8 +178,12 @@ def register_group_upload_route(router: APIRouter):
         error_files = []
         rejected_files = []
         saved_files = []
-        save_path = room_folder(room_id, root=UPLOAD_FOLDER)
-        os.makedirs(save_path, exist_ok=True)
+        save_path = os.path.join(UPLOAD_FOLDER, secure_filename(room_id))
+        try:
+            os.makedirs(save_path, exist_ok=True)
+        except OSError:
+            logger.exception("Failed to create upload directory for room: %s", room_id)
+            return api_error_response("サーバーエラーによりファイルを保存できませんでした。", status_code=500)
 
         for file in upfile:
             if file.filename == "":
