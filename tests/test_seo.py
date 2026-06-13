@@ -233,14 +233,32 @@ def test_social_card_images_use_public_https_urls(test_client: TestClient):
         assert f'content="/static/{image_path}' not in response.text
 
 
+def _read_jpeg_size(path: str) -> tuple[int, int]:
+    """JPEG の SOF マーカーから (width, height) を読み取る（標準ライブラリのみ）。"""
+    with open(path, "rb") as fh:
+        data = fh.read()
+    assert data[:2] == b"\xff\xd8", f"not a JPEG: {path}"
+    i = 2
+    while i < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        # SOF0..SOF15 (フレーム開始) 以外で寸法を持たないマーカーは飛ばす
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            height = int.from_bytes(data[i + 5 : i + 7], "big")
+            width = int.from_bytes(data[i + 7 : i + 9], "big")
+            return width, height
+        segment_length = int.from_bytes(data[i + 2 : i + 4], "big")
+        i += 2 + segment_length
+    raise AssertionError(f"no SOF marker found: {path}")
+
+
 def test_social_card_images_have_x_compatible_aspect_ratio():
     """X(Twitter) summary_large_image は縦横比 1:1〜2:1 の画像でないと
-    サムネイルを描画しない。各 surface の OG/Twitter 画像がこの範囲に収まり、
-    宣言している 1200x630 と実ファイルが整合していることを保証する。
+    サムネイルを描画しない。共有カード画像がこの範囲に収まることを保証する。
     """
     import os
-
-    from PIL import Image
 
     from settings import BASE_DIR
 
@@ -251,8 +269,7 @@ def test_social_card_images_have_x_compatible_aspect_ratio():
     for name in social_images:
         path = os.path.join(BASE_DIR, "static", name)
         assert os.path.exists(path), f"missing social card image: {name}"
-        with Image.open(path) as img:
-            width, height = img.size
+        width, height = _read_jpeg_size(path)
         assert width >= 300 and height >= 157, f"{name} too small: {width}x{height}"
         ratio = width / height
         assert 1.0 <= ratio <= 2.0, f"{name} aspect ratio {ratio:.2f} outside 1:1..2:1"
