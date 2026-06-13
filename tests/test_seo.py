@@ -213,3 +213,21 @@ def test_canonical_url_uses_public_https_origin(test_client: TestClient):
     assert response.status_code == 200
     assert '<link rel="canonical" href="https://fs-qr.net/note"' in response.text
     assert "http://fs-qr.net/note" not in response.text
+
+
+def test_social_card_images_use_public_https_urls(test_client: TestClient):
+    routes = {
+        "/": "fs-qr-og-compressed.jpg",
+        "/fs-qr_menu": "logo.png",
+        "/group_menu": "group_logo.png",
+        "/note_menu": "note_logo.png",
+        "/safe-sharing": "articles/thumbnails/safe-sharing.jpg",
+    }
+
+    for route, image_path in routes.items():
+        response = test_client.get(route)
+        assert response.status_code == 200, route
+        expected = f"https://fs-qr.net/static/{image_path}"
+        assert f'<meta property="og:image" content="{expected}"' in response.text
+        assert f'<meta name="twitter:image" content="{expected}"' in response.text
+        assert f'content="/static/{image_path}' not in response.text

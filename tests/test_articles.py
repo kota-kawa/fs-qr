@@ -86,7 +86,7 @@ def test_registered_article_route(test_client: TestClient, article):
     assert response.status_code == 200
     assert f"/static/{article['thumbnail']}?v=" in response.text
     assert (
-        f'<meta property="og:image" content="/static/{article["thumbnail"]}?v='
+        f'<meta property="og:image" content="https://fs-qr.net/static/{article["thumbnail"]}"'
         in response.text
     )
 

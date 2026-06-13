@@ -34,12 +34,12 @@
 
 {% block og_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 {% block og_description %}{{ article_description }}{% endblock %}
-{% block og_image %}{{ staticfile(_thumbnail) }}{% endblock %}
+{% block og_image %}{{ social_staticfile(_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_title }}{% endblock %}
 
 {% block twitter_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 {% block twitter_description %}{{ article_description }}{% endblock %}
-{% block twitter_image %}{{ staticfile(_thumbnail) }}{% endblock %}
+{% block twitter_image %}{{ social_staticfile(_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_title }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
@@ -59,7 +59,7 @@
   "description": {{ article_description | tojson }},
   "datePublished": "{{ _published_iso }}",
   "dateModified": "{{ _modified_iso }}",
-  "image": "{{ request.url_root }}static/{{ _thumbnail }}",
+  "image": "{{ social_staticfile(_thumbnail) }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",

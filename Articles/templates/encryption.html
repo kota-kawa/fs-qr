@@ -10,12 +10,12 @@
 
 {% block og_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 {% block og_description %}暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。{% endblock %}
-{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}暗号化の基礎知識 | FS!QRデータ保護技術解説{% endblock %}
 {% block twitter_description %}暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。{% endblock %}
-{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
@@ -35,7 +35,7 @@
   "description": "暗号化技術の基礎からFS!QRでの活用まで詳しく解説。共通鍵暗号、公開鍵暗号の仕組み、鍵管理のベストプラクティス、HTTPS通信の重要性など、データ保護に必要な知識を分かりやすく説明します。",
   "datePublished": "2025-08-21T00:00:00+09:00",
   "dateModified": "2025-08-21T00:00:00+09:00",
-  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
+  "image": "{{ social_staticfile(article_thumbnail) }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",
