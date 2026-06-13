@@ -10,12 +10,12 @@
 
 {% block og_title %}業務での活用例 | FS!QRビジネス利用ガイド{% endblock %}
 {% block og_description %}FS!QRの業務活用例を詳しく紹介。社内研修・トレーニング、プロジェクト管理、リモートワークでのファイル共有など、ビジネスシーンでの効果的な活用方法とメリットを解説します。{% endblock %}
-{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}業務での活用例 | FS!QRビジネス利用ガイド{% endblock %}
 {% block twitter_description %}FS!QRの業務活用例を詳しく紹介。社内研修・トレーニング、プロジェクト管理、リモートワークでのファイル共有など、ビジネスシーンでの効果的な活用方法とメリットを解説します。{% endblock %}
-{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
@@ -35,7 +35,7 @@
   "description": "FS!QRの業務活用例を詳しく紹介。社内研修・トレーニング、プロジェクト管理、リモートワークでのファイル共有など、ビジネスシーンでの効果的な活用方法とメリットを解説します。",
   "datePublished": "2025-08-21T00:00:00+09:00",
   "dateModified": "2025-08-21T00:00:00+09:00",
-  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
+  "image": "{{ social_staticfile(article_thumbnail) }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",

@@ -10,12 +10,12 @@
 
 {% block og_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
 {% block og_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
-{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
 {% block twitter_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
-{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
@@ -35,7 +35,7 @@
   "description": "オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。",
   "datePublished": "2025-08-31T00:00:00+09:00",
   "dateModified": "2025-08-31T00:00:00+09:00",
-  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
+  "image": "{{ social_staticfile(article_thumbnail) }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",

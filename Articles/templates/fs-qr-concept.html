@@ -10,12 +10,12 @@
 
 {% block og_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
 {% block og_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単で安全なファイル共有の新しい形について説明します。{% endblock %}
-{% block og_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block twitter_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
 {% block twitter_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単で安全なファイル共有の新しい形について説明します。{% endblock %}
-{% block twitter_image %}{{ staticfile(article_thumbnail) }}{% endblock %}
+{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
@@ -35,7 +35,7 @@
   "description": "FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単で安全なファイル共有の新しい形について説明します。",
   "datePublished": "2025-08-31T00:00:00+09:00",
   "dateModified": "2025-08-31T00:00:00+09:00",
-  "image": "{{ request.url_root }}static/{{ article_thumbnail }}",
+  "image": "{{ social_staticfile(article_thumbnail) }}",
   "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
   "publisher": {
     "@type": "Organization",

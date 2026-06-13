@@ -130,12 +130,39 @@ class TemplateRequestProxy:
         return getattr(self._request, name)
 
 
-def staticfile(fname: str) -> str:
+def _staticfile_ref(fname: str, *, version: bool) -> tuple[str, str]:
     path = os.path.join(BASE_DIR, "static", fname)
-    if os.path.exists(path):
+    if version and os.path.exists(path):
         mtime = str(int(os.stat(path).st_mtime))
-        return "/static/" + fname + "?v=" + str(mtime)
-    return "/static/" + fname
+        return "/static/" + fname, "v=" + str(mtime)
+    return "/static/" + fname, ""
+
+
+def staticfile(fname: str) -> str:
+    path, query = _staticfile_ref(fname, version=True)
+    if query:
+        return path + "?" + query
+    return path
+
+
+@pass_context
+def social_staticfile(context: Dict[str, Any], fname: str) -> str:
+    """Return an absolute static URL for Open Graph and Twitter Card crawlers."""
+    path, query = _staticfile_ref(fname, version=False)
+    request = context.get("request")
+    if isinstance(request, TemplateRequestProxy):
+        return request._absolute_public_url(path=path, query=query)
+
+    public_base = urlsplit(PUBLIC_SITE_URL)
+    return urlunsplit(
+        (
+            public_base.scheme or "https",
+            public_base.netloc,
+            path,
+            query,
+            "",
+        )
+    )
 
 
 GOOGLE_ANALYTICS_ID = "G-D26D8ZXKNV"
@@ -342,7 +369,7 @@ def render_template(request: Request, template_name: str, **context: Any):
         raise e
 
 
-RENDER_CACHE_KEY_PREFIX = "render_cache:v2"
+RENDER_CACHE_KEY_PREFIX = "render_cache:v3"
 RENDER_CACHE_CSRF_PLACEHOLDER = "__FSQR_CSRF_TOKEN_PLACEHOLDER__"
 
 
@@ -440,6 +467,7 @@ templates.env.filters.setdefault("urlencode", _filter_urlencode)
 
 templates.env.globals.update(
     staticfile=staticfile,
+    social_staticfile=social_staticfile,
     url_for=url_for,
     get_flashed_messages=get_flashed_messages,
     csrf_token=csrf_token,
