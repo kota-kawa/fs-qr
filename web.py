@@ -63,7 +63,9 @@ class TemplateRequestProxy:
     def __init__(self, request: Request) -> None:
         self._request = request
 
-    def _absolute_public_url(self, *, path: str | None = None, query: str | None = None) -> str:
+    def _absolute_public_url(
+        self, *, path: str | None = None, query: str | None = None
+    ) -> str:
         url = self._request.url
         resolved_path = path if path is not None else url.path
         resolved_query = url.query if query is None else query
