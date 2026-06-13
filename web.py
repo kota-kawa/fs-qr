@@ -5,7 +5,7 @@ import os
 import secrets
 import time
 from typing import Any, Dict, Iterable
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlsplit, urlunsplit
 
 from fastapi import HTTPException, Request, WebSocket
 from fastapi.templating import Jinja2Templates
@@ -30,6 +30,7 @@ from settings import (
     GROUP_FILE_LIST_REQUEST_TIMEOUT_MS,
     NOTE_MAX_CONTENT_LENGTH,
     NOTE_SELF_EDIT_TIMEOUT_MS,
+    PUBLIC_SITE_URL,
     UPLOAD_MAX_FILES,
     UPLOAD_MAX_TOTAL_SIZE_BYTES,
     UPLOAD_MAX_TOTAL_SIZE_MB,
@@ -62,10 +63,28 @@ class TemplateRequestProxy:
     def __init__(self, request: Request) -> None:
         self._request = request
 
+    def _absolute_public_url(self, *, path: str | None = None, query: str | None = None) -> str:
+        url = self._request.url
+        resolved_path = path if path is not None else url.path
+        resolved_query = url.query if query is None else query
+
+        if PUBLIC_SITE_URL:
+            public_base = urlsplit(PUBLIC_SITE_URL)
+            return urlunsplit(
+                (
+                    public_base.scheme or "https",
+                    public_base.netloc,
+                    resolved_path,
+                    resolved_query,
+                    "",
+                )
+            )
+
+        return str(url.replace(path=resolved_path, query=resolved_query))
+
     @property
     def url_root(self) -> str:
-        url = self._request.url
-        return str(url.replace(path="/", query=""))
+        return self._absolute_public_url(path="/", query="")
 
     def _current_lang_param(self) -> str:
         raw = self._request.query_params.get("lang", "").strip()
@@ -81,11 +100,10 @@ class TemplateRequestProxy:
 
     @property
     def canonical_url(self) -> str:
-        url = self._request.url
         lang = self._current_lang_param()
         if lang:
-            return str(url.replace(query=f"lang={lang}"))
-        return str(url.replace(query=""))
+            return self._absolute_public_url(query=f"lang={lang}")
+        return self._absolute_public_url(query="")
 
     @property
     def language_alternates(self) -> list[dict[str, str]]:
@@ -95,7 +113,7 @@ class TemplateRequestProxy:
         - その他は ?lang=<code>
         - x-default は ja と同じURL
         """
-        base = str(self._request.url.replace(query=""))
+        base = self._absolute_public_url(query="")
         alternates: list[dict[str, str]] = []
         for code in self.SUPPORTED_HREFLANG_LANGS:
             if code == "ja":
@@ -116,6 +134,35 @@ def staticfile(fname: str) -> str:
         mtime = str(int(os.stat(path).st_mtime))
         return "/static/" + fname + "?v=" + str(mtime)
     return "/static/" + fname
+
+
+GOOGLE_ANALYTICS_ID = "G-D26D8ZXKNV"
+GOOGLE_ADSENSE_CLIENT_ID = "ca-pub-4557554518872474"
+ADSENSE_ALLOWED_STATIC_PATHS = frozenset(
+    {
+        "/",
+        "/about",
+        "/usage",
+        "/articles",
+        "/fs-qr_menu",
+        "/group_menu",
+    }
+)
+
+
+def _is_adsense_allowed_path(path: str) -> bool:
+    """AdSense は編集・検索・アップロード等の機能画面では読み込まない。"""
+    normalized_path = path.rstrip("/") or "/"
+    if normalized_path in ADSENSE_ALLOWED_STATIC_PATHS:
+        return True
+
+    try:
+        from Articles.articles_registry import get_all_articles
+
+        article_paths = {f"/{article['slug']}" for article in get_all_articles()}
+    except Exception:
+        article_paths = set()
+    return normalized_path in article_paths
 
 
 @pass_context
@@ -264,12 +311,17 @@ logger = logging.getLogger(__name__)
 
 def render_template(request: Request, template_name: str, **context: Any):
     language = resolve_language(request)
+    adsense_client_id = (
+        GOOGLE_ADSENSE_CLIENT_ID if _is_adsense_allowed_path(request.url.path) else None
+    )
     payload = {
         "request": TemplateRequestProxy(request),
         "current_language": language,
         "language_options": get_language_options(language),
         "frontend_messages": get_frontend_messages(language),
         "t": make_translator(language),
+        "google_analytics_id": GOOGLE_ANALYTICS_ID,
+        "google_adsense_client_id": adsense_client_id,
     }
     payload.update(context)
     try:
@@ -288,7 +340,7 @@ def render_template(request: Request, template_name: str, **context: Any):
         raise e
 
 
-RENDER_CACHE_KEY_PREFIX = "render_cache"
+RENDER_CACHE_KEY_PREFIX = "render_cache:v2"
 RENDER_CACHE_CSRF_PLACEHOLDER = "__FSQR_CSRF_TOKEN_PLACEHOLDER__"
 
 
@@ -298,7 +350,14 @@ def _render_cache_key(template_name: str, language: str, request: Request) -> st
     qp = getattr(request, "query_params", None)
     if qp is not None:
         raw_lang = (qp.get("lang") or "").strip().lower()
-    payload = f"{template_name}|{language}|{raw_lang}|{int(bool(FRONTEND_DEBUG))}"
+    url = getattr(request, "url", None)
+    public_base = PUBLIC_SITE_URL or ""
+    request_scheme = getattr(url, "scheme", "")
+    request_host = getattr(url, "netloc", "")
+    payload = (
+        f"{template_name}|{language}|{raw_lang}|{int(bool(FRONTEND_DEBUG))}|"
+        f"{public_base}|{request_scheme}|{request_host}"
+    )
     digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
     return f"{RENDER_CACHE_KEY_PREFIX}:{digest}"
 

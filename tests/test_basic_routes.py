@@ -254,12 +254,26 @@ def test_privacy_policy(test_client: TestClient):
 
 
 def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
-    for path in ("/privacy-policy", "/group"):
+    for path in ("/about", "/usage"):
         response = test_client.get(path)
         assert response.status_code == 200
         assert "window.FSQR_TAGS" in response.text
-        assert "googleAnalyticsId: 'G-D26D8ZXKNV'" in response.text
-        assert "adsenseClientId: 'ca-pub-4557554518872474'" in response.text
+        assert 'googleAnalyticsId: "G-D26D8ZXKNV"' in response.text
+        assert 'adsenseClientId: "ca-pub-4557554518872474"' in response.text
+        assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
+        assert (
+            'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+            not in response.text
+        )
+
+
+def test_adsense_is_not_exposed_on_functional_note_pages(test_client: TestClient):
+    for path in ("/note", "/create_note_room", "/search_note"):
+        response = test_client.get(path)
+        assert response.status_code == 200
+        assert "window.FSQR_TAGS" in response.text
+        assert 'googleAnalyticsId: "G-D26D8ZXKNV"' in response.text
+        assert "ca-pub-4557554518872474" not in response.text
         assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
         assert (
             'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
