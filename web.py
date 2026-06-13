@@ -369,7 +369,7 @@ def render_template(request: Request, template_name: str, **context: Any):
         raise e
 
 
-RENDER_CACHE_KEY_PREFIX = "render_cache:v3"
+RENDER_CACHE_KEY_PREFIX = "render_cache:v4"
 RENDER_CACHE_CSRF_PLACEHOLDER = "__FSQR_CSRF_TOKEN_PLACEHOLDER__"
 
 

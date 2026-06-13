@@ -218,9 +218,9 @@ def test_canonical_url_uses_public_https_origin(test_client: TestClient):
 def test_social_card_images_use_public_https_urls(test_client: TestClient):
     routes = {
         "/": "fs-qr-og-compressed.jpg",
-        "/fs-qr_menu": "logo.png",
-        "/group_menu": "group_logo.png",
-        "/note_menu": "note_logo.png",
+        "/fs-qr_menu": "fs-qr-og-compressed.jpg",
+        "/group_menu": "fs-qr-og-compressed.jpg",
+        "/note_menu": "fs-qr-og-compressed.jpg",
         "/safe-sharing": "articles/thumbnails/safe-sharing.jpg",
     }
 
@@ -231,3 +231,28 @@ def test_social_card_images_use_public_https_urls(test_client: TestClient):
         assert f'<meta property="og:image" content="{expected}"' in response.text
         assert f'<meta name="twitter:image" content="{expected}"' in response.text
         assert f'content="/static/{image_path}' not in response.text
+
+
+def test_social_card_images_have_x_compatible_aspect_ratio():
+    """X(Twitter) summary_large_image は縦横比 1:1〜2:1 の画像でないと
+    サムネイルを描画しない。各 surface の OG/Twitter 画像がこの範囲に収まり、
+    宣言している 1200x630 と実ファイルが整合していることを保証する。
+    """
+    import os
+
+    from PIL import Image
+
+    from settings import BASE_DIR
+
+    social_images = [
+        "fs-qr-og-compressed.jpg",
+    ]
+
+    for name in social_images:
+        path = os.path.join(BASE_DIR, "static", name)
+        assert os.path.exists(path), f"missing social card image: {name}"
+        with Image.open(path) as img:
+            width, height = img.size
+        assert width >= 300 and height >= 157, f"{name} too small: {width}x{height}"
+        ratio = width / height
+        assert 1.0 <= ratio <= 2.0, f"{name} aspect ratio {ratio:.2f} outside 1:1..2:1"
