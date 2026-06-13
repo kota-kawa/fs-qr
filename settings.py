@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = os.path.dirname(__file__)
+PUBLIC_SITE_URL = os.getenv("PUBLIC_SITE_URL", "https://fs-qr.net").rstrip("/")
 
 ADMIN_KEY = os.getenv("ADMIN_KEY")
 SECRET_KEY = os.getenv("SECRET_KEY")

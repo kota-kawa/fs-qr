@@ -204,4 +204,12 @@ def test_home_hreflang_alternates_include_every_supported_language(
 def test_canonical_url_is_set_on_home(test_client: TestClient):
     response = test_client.get("/")
     assert response.status_code == 200
-    assert re.search(r'<link rel="canonical" href="[^"]+"', response.text)
+    assert '<link rel="canonical" href="https://fs-qr.net/"' in response.text
+    assert "http://127.0.0.1:5000/" not in response.text
+
+
+def test_canonical_url_uses_public_https_origin(test_client: TestClient):
+    response = test_client.get("/note")
+    assert response.status_code == 200
+    assert '<link rel="canonical" href="https://fs-qr.net/note"' in response.text
+    assert "http://fs-qr.net/note" not in response.text
