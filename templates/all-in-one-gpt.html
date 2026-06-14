@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="QRコード共有・グループ共有・リアルタイムノートを1画面で扱える、FS!QR の統合ワークスペース。">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#342ae3">
     <title>FS!QR ワークスペース｜QR・グループ・ノートを1画面で</title>
@@ -72,15 +73,14 @@
             --warn:#d97706;
             --danger:#dc2626;
 
-            --radius:16px;
-            --radius-sm:11px;
-            --shadow-sm:0 1px 2px rgba(23,22,39,.05), 0 1px 1px rgba(23,22,39,.04);
-            --shadow:0 10px 30px -12px rgba(23,22,39,.22), 0 2px 8px -4px rgba(23,22,39,.10);
-            --shadow-lg:0 24px 60px -20px rgba(34,27,163,.35);
+            --radius:8px;
+            --radius-sm:7px;
+            --shadow-sm:0 1px 2px rgba(23,22,39,.06), 0 1px 1px rgba(23,22,39,.04);
+            --shadow:0 12px 28px -18px rgba(23,22,39,.28), 0 2px 10px -6px rgba(23,22,39,.12);
+            --shadow-lg:0 26px 72px -28px rgba(23,22,39,.42);
 
             --topbar-h:60px;
-            --sash-size:14px;
-            --row-min:150px;
+            --row-min:420px;
 
             --ease:cubic-bezier(.22,.61,.36,1);
         }
@@ -95,35 +95,37 @@
             margin:0;
             color:var(--ink);
             font-family:"Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
-            background:var(--bg);
+            background:
+                linear-gradient(135deg, rgba(52,42,227,.08), transparent 30%),
+                linear-gradient(205deg, rgba(14,159,142,.08), transparent 34%),
+                linear-gradient(180deg, #f8f8ff 0%, var(--bg) 100%);
             overflow:hidden;
             -webkit-font-smoothing:antialiased;
             text-rendering:optimizeLegibility;
         }
 
-        /* 背景の雰囲気（淡いメッシュ＋微細グリッド） */
+        /* 背景の雰囲気（淡い面の重なり＋微細グリッド） */
         .bg-atmos{
             position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
         }
         .bg-atmos::before{
-            content:""; position:absolute; inset:-20%;
+            content:""; position:absolute; inset:0;
             background:
-                radial-gradient(40% 38% at 12% 8%, rgba(52,42,227,.12), transparent 70%),
-                radial-gradient(34% 36% at 92% 6%, rgba(14,159,142,.10), transparent 70%),
-                radial-gradient(40% 40% at 80% 96%, rgba(217,138,22,.08), transparent 70%);
+                linear-gradient(120deg, rgba(255,255,255,.74) 0 34%, transparent 34% 100%),
+                linear-gradient(300deg, transparent 0 58%, rgba(255,255,255,.54) 58% 100%);
         }
         .bg-atmos::after{
-            content:""; position:absolute; inset:0; opacity:.5;
+            content:""; position:absolute; inset:0; opacity:.46;
             background-image:
                 linear-gradient(rgba(23,22,39,.035) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(23,22,39,.035) 1px, transparent 1px);
             background-size:34px 34px;
-            mask-image:radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 100%);
         }
 
         .app{
             position:relative; z-index:1;
-            height:100dvh; height:100vh;
+            height:100vh;
+            height:100dvh;
             display:grid;
             grid-template-rows:var(--topbar-h) 1fr;
         }
@@ -131,7 +133,8 @@
         /* ============ トップバー ============ */
         .topbar{
             display:flex; align-items:center; gap:14px;
-            padding:0 16px;
+            min-height:var(--topbar-h);
+            padding:0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
             background:rgba(255,255,255,.78);
             backdrop-filter:saturate(160%) blur(14px);
             -webkit-backdrop-filter:saturate(160%) blur(14px);
@@ -141,7 +144,7 @@
         .brand{ display:flex; align-items:center; gap:11px; min-width:0; }
         .brand-mark{
             width:34px; height:34px; flex:0 0 auto;
-            border-radius:10px;
+            border-radius:8px;
             background:linear-gradient(140deg, var(--brand) 0%, #5b50ff 60%, #7a72ff 100%);
             color:#fff; display:grid; place-items:center; font-size:15px;
             box-shadow:0 6px 16px -6px rgba(52,42,227,.7), inset 0 1px 0 rgba(255,255,255,.4);
@@ -152,17 +155,38 @@
 
         .topbar-spacer{ flex:1 1 auto; }
 
+        .workspace-status{
+            display:flex; align-items:center; gap:8px;
+            min-width:0;
+        }
+        .status-pill{
+            display:inline-flex; align-items:center; gap:7px;
+            min-height:32px;
+            padding:0 10px;
+            border:1px solid var(--line);
+            border-radius:999px;
+            background:rgba(255,255,255,.68);
+            color:var(--ink-2);
+            font-size:12px;
+            font-weight:800;
+            white-space:nowrap;
+            box-shadow:var(--shadow-sm);
+        }
+        .status-pill i{ color:var(--brand); font-size:11px; }
+        .status-pill.subtle{ color:var(--muted); font-weight:700; }
+        .status-pill.subtle i{ color:var(--ok); }
+
         /* レイアウト切替セグメント */
         .seg{
             display:flex; align-items:center; gap:2px;
             padding:3px; border:1px solid var(--line);
-            background:var(--surface-2); border-radius:11px;
+            background:var(--surface-2); border-radius:8px;
             box-shadow:var(--shadow-sm);
         }
         .seg button{
             appearance:none; border:none; background:transparent; cursor:pointer;
             color:var(--ink-2); font:inherit; font-weight:700; font-size:13px;
-            padding:7px 12px; border-radius:8px;
+            padding:7px 12px; border-radius:6px;
             display:inline-flex; align-items:center; gap:7px;
             transition:.18s var(--ease);
         }
@@ -177,41 +201,69 @@
         .tbtn{
             appearance:none; cursor:pointer; font:inherit;
             height:38px; min-width:38px; padding:0 10px;
-            border:1px solid var(--line); border-radius:10px;
+            border:1px solid var(--line); border-radius:8px;
             background:var(--surface); color:var(--ink-2);
             display:inline-flex; align-items:center; justify-content:center; gap:8px;
             font-weight:700; font-size:13px;
             box-shadow:var(--shadow-sm);
             transition:.16s var(--ease);
+            text-decoration:none;
         }
         .tbtn:hover{ color:var(--brand); border-color:var(--brand-soft); background:var(--brand-tint); transform:translateY(-1px); }
         .tbtn:active{ transform:translateY(0); }
         .tbtn.primary{ background:var(--brand); border-color:var(--brand); color:#fff; }
         .tbtn.primary:hover{ background:var(--brand-600); color:#fff; }
+        .tbtn:focus-visible,
+        .seg button:focus-visible,
+        .tab:focus-visible,
+        .ibtn:focus-visible{
+            outline:3px solid rgba(52,42,227,.22);
+            outline-offset:2px;
+        }
 
         /* ============ ステージ ============ */
-        .stage{ position:relative; min-height:0; padding:14px; overflow:hidden; }
+        .stage{ position:relative; min-height:0; padding:12px; overflow:hidden; }
 
         /* --- タブモード --- */
         .stage.mode-tabs{ display:grid; grid-template-rows:auto 1fr; gap:12px; }
-        .stage.mode-split{ display:flex; flex-direction:column; gap:0; overflow:auto; }
+        .stage.mode-split{ display:grid; grid-template-rows:1fr; gap:0; overflow:hidden; }
 
-        .tabbar{ display:flex; gap:8px; flex-wrap:wrap; }
+        .tabbar{
+            display:grid;
+            grid-template-columns:repeat(3, minmax(0, 1fr));
+            gap:8px;
+        }
         .stage.mode-split .tabbar{ display:none; }
 
         .tab{
             appearance:none; cursor:pointer; font:inherit;
             display:inline-flex; align-items:center; gap:10px;
-            padding:9px 15px; border-radius:12px;
+            min-width:0;
+            padding:10px 12px; border-radius:8px;
             border:1px solid var(--line);
             background:var(--surface); color:var(--ink-2);
             font-weight:700; font-size:13.5px;
             box-shadow:var(--shadow-sm);
             transition:.18s var(--ease);
             position:relative;
+            text-align:left;
         }
-        .tab .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+        .tab .dot{
+            width:32px; height:32px; border-radius:8px;
+            flex:0 0 auto;
+            background:var(--accent);
+            color:#fff;
+            display:grid;
+            place-items:center;
+            box-shadow:0 8px 20px -10px var(--accent);
+        }
+        .tab .txt{ display:flex; flex-direction:column; min-width:0; line-height:1.22; }
+        .tab .txt b,
+        .tab .txt small{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .tab .txt b{ color:inherit; font-size:13.5px; font-weight:900; }
+        .tab .txt small{ color:var(--muted); font-size:11px; font-weight:700; margin-top:2px; }
         .tab .kbd{
+            margin-left:auto;
             font-size:10px; font-weight:800; color:var(--muted);
             border:1px solid var(--line); border-radius:5px; padding:1px 5px;
             background:var(--surface-2);
@@ -226,7 +278,13 @@
 
         .panes{ position:relative; min-height:0; }
         .stage.mode-tabs .panes{ display:block; height:100%; }
-        .stage.mode-split .panes{ display:flex; flex-direction:column; min-height:100%; }
+        .stage.mode-split .panes{
+            display:grid;
+            grid-template-columns:repeat(3, minmax(300px, 1fr));
+            gap:12px;
+            height:100%;
+            min-height:0;
+        }
 
         /* --- パネル --- */
         .panel{
@@ -242,8 +300,8 @@
         .stage.mode-tabs .panel{ position:absolute; inset:0; opacity:0; visibility:hidden; pointer-events:none; }
         .stage.mode-tabs .panel.active{ opacity:1; visibility:visible; pointer-events:auto; }
 
-        .stage.mode-split .panel{ flex:1 1 0; min-height:var(--row-min); }
-        .stage.mode-split .panel:not(:first-child){ margin-top:0; }
+        .stage.mode-split .panel{ min-height:0; }
+        .stage.mode-split .panel.active{ box-shadow:var(--shadow), 0 0 0 2px rgba(52,42,227,.12); }
 
         .panel.maximized{
             position:fixed !important; inset:12px !important; z-index:80;
@@ -266,7 +324,7 @@
         }
         .panel-title{ display:flex; align-items:center; gap:10px; min-width:0; }
         .panel-ico{
-            width:30px; height:30px; flex:0 0 auto; border-radius:9px;
+            width:30px; height:30px; flex:0 0 auto; border-radius:8px;
             display:grid; place-items:center; font-size:14px; color:#fff;
             background:linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff));
             box-shadow:0 4px 12px -5px var(--accent);
@@ -275,21 +333,50 @@
         .panel-title .t b{ font-weight:800; font-size:14px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .panel-title .t small{ font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
+        .panel-status{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            margin-left:2px;
+            padding:4px 8px;
+            border-radius:999px;
+            background:var(--surface-2);
+            border:1px solid var(--line);
+            color:var(--muted);
+            font-size:11px;
+            font-weight:800;
+            white-space:nowrap;
+        }
+        .panel-status::before{
+            content:"";
+            width:6px;
+            height:6px;
+            border-radius:50%;
+            background:var(--warn);
+        }
+        .panel.ready .panel-status::before{ background:var(--ok); }
+
         .panel-tools{ margin-left:auto; display:flex; align-items:center; gap:4px; }
 
         .zoomctl{ display:flex; align-items:center; gap:2px; padding:2px; margin-right:4px;
-            border:1px solid var(--line); border-radius:9px; background:var(--surface-2); }
+            border:1px solid var(--line); border-radius:8px; background:var(--surface-2); }
         .zoomctl .zval{ font-size:11px; font-weight:800; color:var(--ink-2); min-width:40px; text-align:center; font-variant-numeric:tabular-nums; }
 
         .ibtn{
             appearance:none; cursor:pointer; border:none; background:transparent;
-            width:30px; height:30px; border-radius:8px;
+            width:30px; height:30px; border-radius:7px;
             display:grid; place-items:center; color:var(--muted); font-size:13px;
             transition:.15s var(--ease);
         }
         .ibtn:hover{ background:rgba(23,22,39,.06); color:var(--ink); }
         .ibtn:active{ transform:scale(.92); }
         .ibtn.danger:hover{ background:rgba(220,38,38,.1); color:var(--danger); }
+        .ibtn:disabled{
+            cursor:not-allowed;
+            opacity:.42;
+            transform:none;
+        }
+        .ibtn:disabled:hover{ background:transparent; color:var(--muted); }
 
         .panel-body{ position:relative; flex:1 1 auto; min-height:0; background:#fff; overflow:hidden; }
         .frame-clip{ position:absolute; inset:0; overflow:hidden; }
@@ -312,26 +399,26 @@
             transition:opacity .3s var(--ease); opacity:0; pointer-events:none;
         }
         .frame-overlay.on{ opacity:1; }
+        .loading-card{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:10px;
+            padding:16px 18px;
+            border-radius:8px;
+            background:rgba(255,255,255,.86);
+            border:1px solid var(--line);
+            box-shadow:var(--shadow-sm);
+            color:var(--ink-2);
+            font-weight:800;
+            font-size:12px;
+        }
         .spinner{
             width:34px; height:34px; border-radius:50%;
             border:3px solid var(--brand-soft); border-top-color:var(--accent, var(--brand));
             animation:spin .8s linear infinite;
         }
         @keyframes spin{ to{ transform:rotate(360deg); } }
-
-        /* サッシュ（分割モードのリサイズハンドル） */
-        .sash{
-            flex:0 0 auto; height:var(--sash-size);
-            display:grid; place-items:center; cursor:row-resize;
-            position:relative; touch-action:none; user-select:none;
-        }
-        .sash::before{
-            content:""; width:46px; height:5px; border-radius:99px;
-            background:var(--line-strong); transition:.16s var(--ease);
-        }
-        .sash:hover::before{ background:var(--brand); width:64px; }
-        .sash.dragging::before{ background:var(--brand); width:80px; box-shadow:0 0 0 4px rgba(52,42,227,.16); }
-        .stage.mode-tabs .sash{ display:none; }
 
         /* ============ ヘルプ ============ */
         .scrim{ position:fixed; inset:0; background:rgba(23,22,39,.42); backdrop-filter:blur(3px);
@@ -352,7 +439,7 @@
         .help-sec{ margin-bottom:22px; }
         .help-sec h3{ font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
         .help-row{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; }
-        .help-row .hi{ width:30px; height:30px; flex:0 0 auto; border-radius:8px; display:grid; place-items:center;
+        .help-row .hi{ width:30px; height:30px; flex:0 0 auto; border-radius:7px; display:grid; place-items:center;
             background:var(--brand-tint); color:var(--brand); font-size:13px; }
         .help-row .ht{ font-size:13.5px; line-height:1.5; color:var(--ink-2); }
         .help-row .ht b{ color:var(--ink); font-weight:800; }
@@ -384,11 +471,26 @@
         .toast.info i{ color:#818cf8; }
 
         /* ============ レスポンシブ ============ */
+        @media (max-width:1180px){
+            .stage.mode-split{ overflow:auto; }
+            .stage.mode-split .panes{
+                grid-template-columns:1fr;
+                height:auto;
+                min-height:100%;
+                align-content:start;
+            }
+            .stage.mode-split .panel{
+                min-height:var(--row-min);
+            }
+        }
+
         @media (max-width:860px){
             :root{ --topbar-h:auto; }
             .topbar{ flex-wrap:wrap; padding:10px 12px; gap:10px; }
             .brand-text .sub{ display:none; }
             .topbar-spacer{ display:none; }
+            .workspace-status{ order:2; flex:1 1 auto; }
+            .status-pill.subtle{ display:none; }
             .seg{ order:3; width:100%; justify-content:space-between; }
             .seg button{ flex:1 1 0; justify-content:center; }
             .topbar-actions{ margin-left:auto; }
@@ -398,8 +500,25 @@
             .zoomctl{ display:none; }
         }
         @media (max-width:560px){
-            .tab{ flex:1 1 calc(33% - 8px); justify-content:center; padding:9px 8px; }
+            :root{ --row-min:70dvh; }
+            .tabbar{
+                display:flex;
+                overflow-x:auto;
+                padding-bottom:2px;
+                scroll-snap-type:x mandatory;
+                -webkit-overflow-scrolling:touch;
+            }
+            .tab{
+                flex:0 0 min(86vw, 310px);
+                justify-content:flex-start;
+                padding:9px 10px;
+                scroll-snap-align:start;
+            }
             .tab .kbd{ display:none; }
+            .panel-head{ padding:10px; gap:8px; }
+            .panel-status{ display:none; }
+            .panel-tools{ gap:2px; }
+            .ibtn{ width:32px; height:32px; }
         }
     </style>
 
@@ -425,20 +544,34 @@
 
         <div class="topbar-spacer"></div>
 
+        <div class="workspace-status" aria-live="polite">
+            <span class="status-pill" title="現在の表示">
+                <i class="fas fa-location-dot" aria-hidden="true"></i>
+                <span id="workspace-current">QRコード共有</span>
+            </span>
+            <span class="status-pill subtle" title="この端末に表示設定を保存します">
+                <i class="fas fa-check" aria-hidden="true"></i>
+                <span id="workspace-mode-label">タブ表示</span>
+            </span>
+        </div>
+
         <div class="seg" role="group" aria-label="レイアウト切替">
-            <button type="button" id="mode-tabs" aria-pressed="true" title="タブ表示：1つのサービスを大きく表示">
+            <button type="button" id="mode-tabs" aria-pressed="true" aria-label="タブ表示に切り替え" title="タブ表示に切り替え">
                 <i class="fas fa-window-maximize"></i><span>タブ</span>
             </button>
-            <button type="button" id="mode-split" aria-pressed="false" title="分割表示：複数サービスを同時に表示">
+            <button type="button" id="mode-split" aria-pressed="false" aria-label="分割表示に切り替え" title="分割表示に切り替え">
                 <i class="fas fa-table-columns fa-rotate-90"></i><span>分割</span>
             </button>
         </div>
 
         <div class="topbar-actions">
-            <button type="button" class="tbtn" id="btn-reset" title="レイアウトを初期状態に戻す">
+            <a class="tbtn" href="/" aria-label="ホームに戻る" title="ホームに戻る">
+                <i class="fas fa-house"></i><span class="label">ホーム</span>
+            </a>
+            <button type="button" class="tbtn" id="btn-reset" aria-label="レイアウトを初期状態に戻す" title="レイアウトを初期状態に戻す">
                 <i class="fas fa-rotate-left"></i><span class="label">リセット</span>
             </button>
-            <button type="button" class="tbtn primary" id="btn-help" title="ヘルプを開く（? キー）">
+            <button type="button" class="tbtn primary" id="btn-help" aria-label="ヘルプを開く" title="ヘルプを開く">
                 <i class="far fa-circle-question"></i><span class="label">ヘルプ</span>
             </button>
         </div>
@@ -466,7 +599,7 @@
         <div class="help-sec">
             <h3>基本操作</h3>
             <div class="help-row"><span class="hi"><i class="fas fa-window-maximize"></i></span><span class="ht"><b>タブ表示</b>：上部のタブで使うサービスを切り替え。1つを大きく表示します。</span></div>
-            <div class="help-row"><span class="hi"><i class="fas fa-table-columns fa-rotate-90"></i></span><span class="ht"><b>分割表示</b>：3つを縦に並べて同時に表示。境目をドラッグして高さを調整できます。</span></div>
+            <div class="help-row"><span class="hi"><i class="fas fa-table-columns fa-rotate-90"></i></span><span class="ht"><b>分割表示</b>：大きい画面では3つを横に並べ、狭い画面では縦に並べて表示します。</span></div>
             <div class="help-row"><span class="hi"><i class="fas fa-expand"></i></span><span class="ht"><b>最大化</b>：パネル右上のアイコンで全画面表示。<kbd>Esc</kbd> で戻ります。</span></div>
             <div class="help-row"><span class="hi"><i class="fas fa-magnifying-glass-plus"></i></span><span class="ht"><b>ズーム</b>：見やすい大きさに拡大・縮小（各サービスごとに保存）。</span></div>
             <div class="help-row"><span class="hi"><i class="fas fa-arrow-up-right-from-square"></i></span><span class="ht"><b>別タブで開く</b>：そのサービスだけを新しいタブで開きます。</span></div>
@@ -484,7 +617,7 @@
         </div>
         <div class="help-sec">
             <h3>保存について</h3>
-            <p class="help-row"><span class="ht">表示モード・選択中のサービス・分割の高さ・ズームは、この端末に<b>自動保存</b>されます。共有内容そのものは各サービス側で管理されます。</span></p>
+            <p class="help-row"><span class="ht">表示モード・選択中のサービス・ズームは、この端末に<b>自動保存</b>されます。共有内容そのものは各サービス側で管理されます。</span></p>
         </div>
     </div>
 </aside>
@@ -495,7 +628,7 @@
 const Workspace = (() => {
     "use strict";
 
-    const LS_KEY = "fsqr-workspace-v3";
+    const LS_KEY = "fsqr-workspace-v4";
 
     const PANELS = [
         { key:"fsqr",  label:"QRコード共有",        sub:"ファイルをQRで受け渡し",     url:"/fs-qr_menu", icon:"fa-qrcode",     color:"var(--c-fsqr)" },
@@ -509,16 +642,18 @@ const Workspace = (() => {
         mode:"tabs",            // 'tabs' | 'split'
         active:"fsqr",
         zoom:{ fsqr:1, group:1, note:1 },
-        weights:{ fsqr:1, group:1, note:1 },   // 分割モードの高さ比
     };
 
     let maximized = null;
+    let lastHelpTrigger = null;
 
     // 要素参照
     const el = {
         stage: document.getElementById("stage"),
         tabbar: document.getElementById("tabbar"),
         panes: document.getElementById("panes"),
+        current: document.getElementById("workspace-current"),
+        modeLabel: document.getElementById("workspace-mode-label"),
         modeTabs: document.getElementById("mode-tabs"),
         modeSplit: document.getElementById("mode-split"),
         reset: document.getElementById("btn-reset"),
@@ -538,9 +673,12 @@ const Workspace = (() => {
             const t = document.createElement("button");
             t.type = "button"; t.className = "tab"; t.role = "tab";
             t.dataset.key = p.key;
+            t.id = `tab-${p.key}`;
+            t.setAttribute("aria-controls", `panel-${p.key}`);
+            t.setAttribute("aria-label", `${p.label}に切り替え`);
             t.style.setProperty("--accent", p.color);
-            t.innerHTML = `<span class="dot"></span>
-                <span>${p.label}</span>
+            t.innerHTML = `<span class="dot"><i class="fas ${p.icon}" aria-hidden="true"></i></span>
+                <span class="txt"><b>${p.label}</b><small>${p.sub}</small></span>
                 <span class="kbd">${i+1}</span>`;
             t.addEventListener("click", () => setActive(p.key));
             el.tabbar.appendChild(t);
@@ -552,6 +690,9 @@ const Workspace = (() => {
         PANELS.forEach((p, idx) => {
             const panel = document.createElement("section");
             panel.className = "panel"; panel.dataset.key = p.key;
+            panel.id = `panel-${p.key}`;
+            panel.setAttribute("role", "tabpanel");
+            panel.setAttribute("aria-labelledby", `tab-${p.key}`);
             panel.style.setProperty("--accent", p.color);
             panel.innerHTML = `
                 <header class="panel-head">
@@ -560,15 +701,16 @@ const Workspace = (() => {
                         <span class="panel-ico"><i class="fas ${p.icon}"></i></span>
                         <span class="t"><b>${p.label}</b><small>${p.sub}</small></span>
                     </div>
+                    <span class="panel-status">読み込み中</span>
                     <div class="panel-tools">
                         <div class="zoomctl" role="group" aria-label="${p.label}のズーム">
-                            <button class="ibtn" data-act="zoom-out" title="縮小"><i class="fas fa-magnifying-glass-minus"></i></button>
+                            <button class="ibtn" data-act="zoom-out" type="button" aria-label="${p.label}を縮小" title="縮小"><i class="fas fa-magnifying-glass-minus"></i></button>
                             <span class="zval">100%</span>
-                            <button class="ibtn" data-act="zoom-in" title="拡大"><i class="fas fa-magnifying-glass-plus"></i></button>
+                            <button class="ibtn" data-act="zoom-in" type="button" aria-label="${p.label}を拡大" title="拡大"><i class="fas fa-magnifying-glass-plus"></i></button>
                         </div>
-                        <button class="ibtn" data-act="reload" title="再読み込み"><i class="fas fa-rotate-right"></i></button>
-                        <button class="ibtn" data-act="open" title="別タブで開く"><i class="fas fa-arrow-up-right-from-square"></i></button>
-                        <button class="ibtn" data-act="max" title="最大化"><i class="fas fa-expand"></i></button>
+                        <button class="ibtn" data-act="reload" type="button" aria-label="${p.label}を再読み込み" title="再読み込み"><i class="fas fa-rotate-right"></i></button>
+                        <button class="ibtn" data-act="open" type="button" aria-label="${p.label}を別タブで開く" title="別タブで開く"><i class="fas fa-arrow-up-right-from-square"></i></button>
+                        <button class="ibtn" data-act="max" type="button" aria-label="${p.label}を最大化" title="最大化"><i class="fas fa-expand"></i></button>
                     </div>
                 </header>
                 <div class="panel-body">
@@ -583,7 +725,7 @@ const Workspace = (() => {
                                 onload="WS.onFrameLoad('${p.key}')"></iframe>
                         </div>
                     </div>
-                    <div class="frame-overlay on"><div class="spinner"></div></div>
+                    <div class="frame-overlay on"><div class="loading-card"><div class="spinner"></div><span>${p.label}を読み込み中</span></div></div>
                 </div>`;
             el.panes.appendChild(panel);
 
@@ -595,6 +737,9 @@ const Workspace = (() => {
                 loadbar: panel.querySelector(".loadbar"),
                 zval: panel.querySelector(".zval"),
                 maxIcon: panel.querySelector('[data-act="max"] i'),
+                zoomOut: panel.querySelector('[data-act="zoom-out"]'),
+                zoomIn: panel.querySelector('[data-act="zoom-in"]'),
+                status: panel.querySelector(".panel-status"),
             };
 
             panel.querySelector(".panel-tools").addEventListener("click", (e) => {
@@ -606,17 +751,6 @@ const Workspace = (() => {
             // ローディング表示（読み込みが始まったらバーを出す）
             ref[p.key].loadbar.classList.add("on");
         });
-
-        // サッシュ（分割モード用）を panel の間に挿入
-        for(let i=0;i<PANELS.length-1;i++){
-            const sash = document.createElement("div");
-            sash.className = "sash"; sash.dataset.idx = i;
-            sash.setAttribute("role","separator");
-            sash.setAttribute("aria-orientation","horizontal");
-            sash.setAttribute("aria-label","パネルの高さを調整");
-            wireSash(sash, i);
-            ref[PANELS[i].key].panel.after(sash);
-        }
     }
 
     /* ---------- パネル操作 ---------- */
@@ -626,8 +760,7 @@ const Workspace = (() => {
             case "zoom-in":  setZoom(p.key, state.zoom[p.key] + ZSTEP); break;
             case "zoom-out": setZoom(p.key, state.zoom[p.key] - ZSTEP); break;
             case "reload":
-                r.overlay.classList.add("on");
-                r.loadbar.classList.add("on");
+                setPanelBusy(p.key, true);
                 r.frame.src = p.url;
                 toast(`${p.label}を再読み込みしました`, "info", "fa-rotate-right");
                 break;
@@ -648,7 +781,14 @@ const Workspace = (() => {
         box.style.width = `${100/z}%`;
         box.style.height = `${100/z}%`;
         ref[key].zval.textContent = Math.round(z*100) + "%";
+        updateZoomButtons(key);
         save();
+    }
+
+    function updateZoomButtons(key){
+        const z = state.zoom[key];
+        ref[key].zoomOut.disabled = z <= ZMIN;
+        ref[key].zoomIn.disabled = z >= ZMAX;
     }
 
     function toggleMax(key){
@@ -656,15 +796,18 @@ const Workspace = (() => {
         if(maximized === key){
             panel.classList.remove("maximized");
             ref[key].maxIcon.className = "fas fa-expand";
+            ref[key].maxIcon.closest("button").setAttribute("aria-label", `${getPanel(key).label}を最大化`);
             maximized = null;
             document.body.style.overflow = "";
         }else{
             if(maximized){ // 既存を解除
                 ref[maximized].panel.classList.remove("maximized");
                 ref[maximized].maxIcon.className = "fas fa-expand";
+                ref[maximized].maxIcon.closest("button").setAttribute("aria-label", `${getPanel(maximized).label}を最大化`);
             }
             panel.classList.add("maximized");
             ref[key].maxIcon.className = "fas fa-compress";
+            ref[key].maxIcon.closest("button").setAttribute("aria-label", `${getPanel(key).label}の最大化を解除`);
             maximized = key;
             document.body.style.overflow = "hidden";
         }
@@ -677,73 +820,40 @@ const Workspace = (() => {
         el.stage.classList.toggle("mode-split", mode === "split");
         el.modeTabs.setAttribute("aria-pressed", String(mode === "tabs"));
         el.modeSplit.setAttribute("aria-pressed", String(mode === "split"));
-        if(mode === "split") applyWeights();
         if(mode === "tabs") refreshActive();
+        updateWorkspaceStatus();
         save();
     }
 
     function setActive(key){
         state.active = key;
         refreshActive();
+        updateWorkspaceStatus();
         save();
     }
 
     function refreshActive(){
         PANELS.forEach(p => {
             ref[p.key].panel.classList.toggle("active", p.key === state.active);
+            ref[p.key].panel.setAttribute("tabindex", p.key === state.active ? "0" : "-1");
             const tab = el.tabbar.querySelector(`[data-key="${p.key}"]`);
             if(tab) tab.setAttribute("aria-selected", String(p.key === state.active));
         });
     }
 
-    /* ---------- 分割モードのリサイズ ---------- */
-    function applyWeights(){
-        PANELS.forEach(p => { ref[p.key].panel.style.flexGrow = String(state.weights[p.key]); });
+    function updateWorkspaceStatus(){
+        const panel = getPanel(state.active);
+        el.current.textContent = state.mode === "split" ? "3サービス表示" : panel.label;
+        el.modeLabel.textContent = state.mode === "split" ? "分割表示" : "タブ表示";
     }
 
-    function wireSash(sash, idx){
-        const upperKey = PANELS[idx].key;
-        const lowerKey = PANELS[idx+1].key;
-        let dragging = false, startY = 0, startUp = 0, startLow = 0, perPx = 1;
-
-        const onMove = (e) => {
-            if(!dragging) return;
-            const dy = e.clientY - startY;
-            const total = startUp + startLow;
-            let up = startUp + dy*perPx;
-            let low = startLow - dy*perPx;
-            const minW = total * 0.12;
-            up = Math.max(minW, Math.min(total - minW, up));
-            low = total - up;
-            state.weights[upperKey] = up;
-            state.weights[lowerKey] = low;
-            ref[upperKey].panel.style.flexGrow = String(up);
-            ref[lowerKey].panel.style.flexGrow = String(low);
-        };
-        const onUp = (e) => {
-            if(!dragging) return;
-            dragging = false; sash.classList.remove("dragging");
-            try{ sash.releasePointerCapture(e.pointerId); }catch(_){}
-            save();
-        };
-        sash.addEventListener("pointerdown", (e) => {
-            e.preventDefault();
-            dragging = true; sash.classList.add("dragging");
-            try{ sash.setPointerCapture(e.pointerId); }catch(_){}
-            startY = e.clientY;
-            startUp = state.weights[upperKey];
-            startLow = state.weights[lowerKey];
-            const upH = ref[upperKey].panel.getBoundingClientRect().height;
-            const loH = ref[lowerKey].panel.getBoundingClientRect().height;
-            perPx = (startUp + startLow) / Math.max(1, (upH + loH));  // px→weight 換算
-        });
-        sash.addEventListener("pointermove", onMove);
-        sash.addEventListener("pointerup", onUp);
-        sash.addEventListener("pointercancel", onUp);
+    function getPanel(key){
+        return PANELS.find(p => p.key === key) || PANELS[0];
     }
 
     /* ---------- ヘルプ ---------- */
     function openHelp(){
+        lastHelpTrigger = document.activeElement;
         el.help.classList.add("on"); el.scrim.classList.add("on");
         el.help.setAttribute("aria-hidden","false");
         el.helpClose.focus();
@@ -751,6 +861,9 @@ const Workspace = (() => {
     function closeHelp(){
         el.help.classList.remove("on"); el.scrim.classList.remove("on");
         el.help.setAttribute("aria-hidden","true");
+        if(lastHelpTrigger && typeof lastHelpTrigger.focus === "function"){
+            lastHelpTrigger.focus();
+        }
     }
     function toggleHelp(){ el.help.classList.contains("on") ? closeHelp() : openHelp(); }
 
@@ -758,12 +871,11 @@ const Workspace = (() => {
     function reset(){
         if(maximized) toggleMax(maximized);
         state.zoom = { fsqr:1, group:1, note:1 };
-        state.weights = { fsqr:1, group:1, note:1 };
         state.active = "fsqr";
         KEYS.forEach(k => setZoom(k, 1));
-        applyWeights();
         setMode("tabs");
         refreshActive();
+        updateWorkspaceStatus();
         save();
         toast("レイアウトを初期状態に戻しました", "ok", "fa-rotate-left");
     }
@@ -783,8 +895,6 @@ const Workspace = (() => {
                 KEYS.forEach(k => {
                     if(s.zoom && typeof s.zoom[k] === "number")
                         state.zoom[k] = Math.min(ZMAX, Math.max(ZMIN, s.zoom[k]));
-                    if(s.weights && typeof s.weights[k] === "number" && s.weights[k] > 0)
-                        state.weights[k] = s.weights[k];
                 });
                 return true;
             }
@@ -812,12 +922,25 @@ const Workspace = (() => {
     function onFrameLoad(key){
         const r = ref[key];
         if(!r) return;
-        r.overlay.classList.remove("on");
-        r.loadbar.classList.remove("on");
+        setPanelBusy(key, false);
+    }
+
+    function setPanelBusy(key, busy){
+        const r = ref[key];
+        if(!r) return;
+        r.overlay.classList.toggle("on", busy);
+        r.loadbar.classList.toggle("on", busy);
+        r.panel.classList.toggle("ready", !busy);
+        r.status.textContent = busy ? "読み込み中" : "準備完了";
     }
 
     /* ---------- キーボード ---------- */
     function onKeydown(e){
+        if(el.help.classList.contains("on") && e.key === "Tab"){
+            trapHelpFocus(e);
+            return;
+        }
+
         const tag = (e.target.tagName || "").toLowerCase();
         if(tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
         if(e.ctrlKey || e.metaKey || e.altKey) return;
@@ -835,13 +958,29 @@ const Workspace = (() => {
             setMode(state.mode === "tabs" ? "split" : "tabs"); e.preventDefault(); return;
         }
     }
+
+    function trapHelpFocus(e){
+        const focusables = Array.from(el.help.querySelectorAll(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ));
+        if(!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if(e.shiftKey && document.activeElement === first){
+            e.preventDefault();
+            last.focus();
+        }else if(!e.shiftKey && document.activeElement === last){
+            e.preventDefault();
+            first.focus();
+        }
+    }
+
     function activateByIndex(i, e){
         const key = KEYS[i]; if(!key) return;
         e.preventDefault();
+        setActive(key);
         if(state.mode === "split"){
             ref[key].panel.scrollIntoView({ behavior:"smooth", block:"nearest" });
-        }else{
-            setActive(key);
         }
     }
 
@@ -854,9 +993,9 @@ const Workspace = (() => {
 
         // 復元
         KEYS.forEach(k => setZoom(k, state.zoom[k]));
-        applyWeights();
         refreshActive();
         setMode(state.mode);
+        updateWorkspaceStatus();
 
         // キューに溜まった onload を処理
         (window.__pendingLoads || []).splice(0).forEach(onFrameLoad);
@@ -865,7 +1004,9 @@ const Workspace = (() => {
         // 念のため：onload が来ない環境向けの保険でオーバーレイを解除
         KEYS.forEach(k => {
             const f = ref[k].frame;
-            if(f && f.contentDocument && f.contentDocument.readyState === "complete") onFrameLoad(k);
+            try{
+                if(f && f.contentDocument && f.contentDocument.readyState === "complete") onFrameLoad(k);
+            }catch(_){}
         });
 
         // イベント
