@@ -309,6 +309,6 @@ def test_social_card_images_are_baseline_jpeg():
     for name in social_images:
         path = os.path.join(BASE_DIR, "static", name)
         assert os.path.exists(path), f"missing social card image: {name}"
-        assert not _is_progressive_jpeg(
-            path
-        ), f"{name} is a progressive JPEG; X(Twitter) does not render it"
+        assert not _is_progressive_jpeg(path), (
+            f"{name} is a progressive JPEG; X(Twitter) does not render it"
+        )
