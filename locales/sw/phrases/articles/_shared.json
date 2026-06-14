@@ -38,8 +38,8 @@
   "削除": "Futa",
   "削除する": "Futa",
   "同時編集": "Uhariri wa Wakati Mmoja",
-  "安全なファイル共有": "Muhtasari: Kuelekea kushiriki faili bila malipo",
-  "安全な共有のポイント": "Pointi ili kuangalia kama huwezi kupokea bidhaa",
+  "安全なファイル共有": "Kushiriki faili kwa usalama",
+  "安全な共有のポイント": "Vidokezo vya kushiriki salama",
   "戻る": "Nyuma",
   "操作": "Operesheni",
   "暗号化": "Usimbaji fiche",
@@ -80,5 +80,9 @@
   "大容量ファイル": "Faili kubwa",
   "トラブル対策": "Utatuzi wa matatizo",
   "ビジネス": "Biashara",
-  "デジタル豆知識": "Vidokezo vya Kidijitali"
+  "デジタル豆知識": "Vidokezo vya Kidijitali",
+  "FS!QR解説記事": "Makala ya FS!QR",
+  "FS!QRを使ってみる": "Jaribu FS!QR",
+  "Groupを使ってみる": "Jaribu Group",
+  "Noteを使ってみる": "Jaribu Note"
 }

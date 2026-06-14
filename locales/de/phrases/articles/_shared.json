@@ -38,8 +38,8 @@
   "削除": "Löschen",
   "削除する": "Löschen",
   "同時編集": "Simultane Bearbeitung",
-  "安全なファイル共有": "Zusammenfassung: Auf dem Weg zu einer freieren Dateifreigabe",
-  "安全な共有のポイント": "Prüfpunkte, wenn Sie eine Datei nicht empfangen können",
+  "安全なファイル共有": "Sicheres Teilen von Dateien",
+  "安全な共有のポイント": "Tipps für sicheres Teilen",
   "戻る": "Zurück",
   "操作": "Aktionen",
   "暗号化": "Verschlüsselung",
@@ -89,5 +89,9 @@
   "共有期限を相手に伝えたか": "Haben Sie dem Empfänger das Ablaufdatum des Links mitgeteilt?",
   "大容量ファイルを無料で送る方法": "Wie man große Dateien kostenlos sendet",
   "決定事項": "Getroffene Entscheidungen",
-  "画面の明るさを上げる": "Bildschirmhelligkeit erhöhen"
+  "画面の明るさを上げる": "Bildschirmhelligkeit erhöhen",
+  "FS!QR解説記事": "FS!QR Artikel",
+  "FS!QRを使ってみる": "FS!QR ausprobieren",
+  "Groupを使ってみる": "Group ausprobieren",
+  "Noteを使ってみる": "Note ausprobieren"
 }

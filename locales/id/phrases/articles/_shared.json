@@ -38,8 +38,8 @@
   "削除": "Hapus",
   "削除する": "Hapus",
   "同時編集": "Pengeditan simultan",
-  "安全なファイル共有": "Ringkasan: Menuju berbagi file yang lebih bebas",
-  "安全な共有のポイント": "Poin Penting untuk Operasional yang Aman dan Efisien",
+  "安全なファイル共有": "Berbagi file yang aman",
+  "安全な共有のポイント": "Tips berbagi file dengan aman",
   "戻る": "Kembali",
   "操作": "Tindakan",
   "暗号化": "Enkripsi",
@@ -80,5 +80,9 @@
   "大容量ファイル": "Berkas Besar",
   "トラブル対策": "Pemecahan Masalah",
   "ビジネス": "Bisnis",
-  "デジタル豆知識": "Tips Digital"
+  "デジタル豆知識": "Tips Digital",
+  "FS!QR解説記事": "Artikel FS!QR",
+  "FS!QRを使ってみる": "Coba FS!QR",
+  "Groupを使ってみる": "Coba Group",
+  "Noteを使ってみる": "Coba Note"
 }

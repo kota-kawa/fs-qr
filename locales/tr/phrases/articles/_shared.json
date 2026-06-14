@@ -38,8 +38,8 @@
   "削除": "Sil",
   "削除する": "Sil",
   "同時編集": "Ortak Düzenleme",
-  "安全なファイル共有": "Özet: Çok Daha Özgür Dosya Paylaşımına Doğru",
-  "安全な共有のポイント": "İndirme Sorunlarında Kontrol Edilecekler",
+  "安全なファイル共有": "Güvenli dosya paylaşımı",
+  "安全な共有のポイント": "Güvenli paylaşım için ipuçları",
   "戻る": "Geri",
   "操作": "İşlem",
   "暗号化": "Şifreleme",
@@ -80,5 +80,9 @@
   "大容量ファイル": "Büyük dosyalar",
   "トラブル対策": "Sorun Giderme",
   "ビジネス": "İş Dünyası",
-  "デジタル豆知識": "Dijital İpuçları"
+  "デジタル豆知識": "Dijital İpuçları",
+  "FS!QR解説記事": "FS!QR Makaleleri",
+  "FS!QRを使ってみる": "FS!QR'ı deneyin",
+  "Groupを使ってみる": "Group'ı deneyin",
+  "Noteを使ってみる": "Note'u deneyin"
 }

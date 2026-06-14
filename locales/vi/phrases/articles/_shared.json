@@ -38,8 +38,8 @@
   "削除": "Xóa",
   "削除する": "Xóa",
   "同時編集": "Đồng chỉnh sửa",
-  "安全なファイル共有": "Tóm tắt: Hướng tới giải pháp chia sẻ dữ liệu tự do và linh hoạt",
-  "安全な共有のポイント": "Các điểm cần lưu ý khi không tải được tệp tin",
+  "安全なファイル共有": "Chia sẻ tệp an toàn",
+  "安全な共有のポイント": "Mẹo chia sẻ tệp an toàn",
   "戻る": "Quay lại",
   "操作": "Thao tác",
   "暗号化": "Mã hóa",
@@ -80,5 +80,9 @@
   "大容量ファイル": "Tập tin dung lượng lớn",
   "トラブル対策": "Khắc phục sự cố",
   "ビジネス": "Doanh nghiệp",
-  "デジタル豆知識": "Mẹo kỹ thuật số"
+  "デジタル豆知識": "Mẹo kỹ thuật số",
+  "FS!QR解説記事": "Bài viết FS!QR",
+  "FS!QRを使ってみる": "Thử FS!QR ngay",
+  "Groupを使ってみる": "Thử Group ngay",
+  "Noteを使ってみる": "Thử Note ngay"
 }
