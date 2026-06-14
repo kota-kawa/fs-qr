@@ -132,3 +132,47 @@ def test_locale_validation_script_passes_for_default_checks():
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+def _load_locale_section_keys(language: str, section: str) -> set[str]:
+    from locale_store import load_locale_section
+
+    return set(load_locale_section("locales", language, section))
+
+
+def test_locale_catalogs_are_covered_before_english_fallback():
+    """設定言語の画面に英語フォールバックが混ざらないよう辞書欠落を検出する。
+
+    対象言語にも英語より前のフォールバック言語にもキーがない場合、ui/js/phrases
+    のどの領域でも LANGUAGE_FALLBACKS により英語訳が画面へ混入するため、CI で落とす。
+    """
+    from i18n import LANGUAGE_FALLBACKS, SUPPORTED_LANGUAGES
+
+    sections = ("ui", "js", "phrases")
+
+    failures: list[str] = []
+    for section in sections:
+        english_keys = _load_locale_section_keys("en", section)
+        assert english_keys, f"English {section} catalog must not be empty"
+
+        for language in SUPPORTED_LANGUAGES:
+            if language in {"ja", "en"}:
+                continue
+
+            covered_keys = _load_locale_section_keys(language, section)
+            for fallback_language in LANGUAGE_FALLBACKS.get(language, ()):
+                if fallback_language == "en":
+                    break
+                covered_keys.update(
+                    _load_locale_section_keys(fallback_language, section)
+                )
+
+            missing_keys = sorted(english_keys - covered_keys)
+            if missing_keys:
+                examples = "; ".join(key[:80] for key in missing_keys[:5])
+                failures.append(
+                    f"{language}/{section}: {len(missing_keys)} missing keys "
+                    f"before English fallback. Examples: {examples}"
+                )
+
+    assert failures == [], "\n".join(failures)
