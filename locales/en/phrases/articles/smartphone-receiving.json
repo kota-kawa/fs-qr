@@ -1,9 +1,9 @@
 {
-  "QRで共有": "Share via QR Code Code",
+  "QRで共有": "Share via QR code",
   "ダウンロードリンク": "Download link",
   "スマホでファイルを受け取る方法": "How to Receive Files on Your Smartphone",
-  "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "A beginner-friendly guide to receiving shared files on your smartphone, from scanning the QR Code Code to downloading.",
-  "QRコードを読み取るだけで受け取れる": "Scan the QR Code Code to receive",
+  "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "A beginner-friendly guide to receiving shared files on your smartphone, from scanning the QR code to downloading.",
+  "QRコードを読み取るだけで受け取れる": "Scan the QR code to receive",
   "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR is a service specialized in \"temporary file sharing\". Once the set sharing expiration date passes, the file data on the server is automatically and securely deleted completely. In this case, the file cannot be restored, so please ask the sender to upload it again.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "If the sharer has enabled password protection for security, a screen asking for the \"ID\" and \"Password\" will be displayed immediately after opening the download page.",
   "QRコードがスキャンできない": "Cannot Scan the QR Code",
