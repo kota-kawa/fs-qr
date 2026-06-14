@@ -273,3 +273,42 @@ def test_social_card_images_have_x_compatible_aspect_ratio():
         assert width >= 300 and height >= 157, f"{name} too small: {width}x{height}"
         ratio = width / height
         assert 1.0 <= ratio <= 2.0, f"{name} aspect ratio {ratio:.2f} outside 1:1..2:1"
+
+
+def _is_progressive_jpeg(path: str) -> bool:
+    """JPEG が progressive (SOF2) かどうかを SOF マーカーから判定する。"""
+    with open(path, "rb") as fh:
+        data = fh.read()
+    assert data[:2] == b"\xff\xd8", f"not a JPEG: {path}"
+    i = 2
+    while i < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        # SOF0 (0xC0)=baseline, SOF2 (0xC2)=progressive。他の SOFn も含め寸法を持つ
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            return marker == 0xC2
+        segment_length = int.from_bytes(data[i + 2 : i + 4], "big")
+        i += 2 + segment_length
+    raise AssertionError(f"no SOF marker found: {path}")
+
+
+def test_social_card_images_are_baseline_jpeg():
+    """X(Twitter) のカードクローラーは progressive JPEG を描画しないため、
+    共有カード画像が baseline JPEG であることを保証する。
+    """
+    import os
+
+    from settings import BASE_DIR
+
+    social_images = [
+        "fs-qr-og-compressed.jpg",
+    ]
+
+    for name in social_images:
+        path = os.path.join(BASE_DIR, "static", name)
+        assert os.path.exists(path), f"missing social card image: {name}"
+        assert not _is_progressive_jpeg(
+            path
+        ), f"{name} is a progressive JPEG; X(Twitter) does not render it"
