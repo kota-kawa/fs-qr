@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Eingaben hier werden jede Sekunde synchronisiert...\n\nDemo-Text:\nAlle Mitglieder können dieselbe Notiz in Echtzeit wie folgt bearbeiten.\n\n- Ihre Eingabe wird sofort mit anderen Mitgliedern synchronisiert\n- Bis zu {max_length} Zeichen\n- Der Bearbeitungsstatus wird in Echtzeit aktualisiert",
   "upload.usage.limit_hint": "* Sie können bis zu {max_files} Dateien mit insgesamt {max_total_mb} MB hochladen.",
   "meta.description": "FS!QR ist ein kostenloser Dienst zur Dateifreigabe mit QR-Code-Transfer, Gruppenfreigabe und Echtzeitnotizen für sichere Datenverwaltung im Browser.",
+  "meta.keywords": "Dateifreigabe, QR-Code, kostenloser Dateitransfer, Gruppenfreigabe, Online-Notizen, ohne Anmeldung, Dateien senden, Dateien online teilen, Cloud-Speicher, Echtzeit-Zusammenarbeit, PC-zu-Handy-Übertragung, sichere Freigabe",
   "fsqr.delete_sharing_title": "Freigabe beenden",
   "fsqr.delete_sharing_description": "Nur die Person, die die Datei hochgeladen hat, kann sie löschen.",
   "fsqr.delete_confirm_message": "Dies wird die Datei löschen. Diese Aktion kann nicht rückgängig gemacht werden.",

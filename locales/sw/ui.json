@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Yaliyoandikwa hapa yanasawazishwa kila sekunde...\n\nMfano wa maandishi:\nWanachama wote wanaweza kuhariri kumbukumbu sawa kwa wakati halisi hivi.\n\n- Maingizo yako yanasawazishwa papo hapo na wanachama wengine\n- Hadi herufi {max_length}\n- Hali ya uhariri inasasishwa kwa wakati halisi",
   "upload.usage.limit_hint": "* Unaweza kupakia hadi faili {max_files} kwa jumla ya MB {max_total_mb}.",
   "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo yenye uhamisho wa QR Code, kushiriki kwa vikundi, na madokezo ya wakati halisi.",
+  "meta.keywords": "kushiriki faili, msimbo wa QR, uhamishaji wa faili bila malipo, kushiriki kwa kikundi, madokezo mtandaoni, bila usajili, tuma faili, shiriki faili mtandaoni, hifadhi ya wingu, ushirikiano wa wakati halisi, uhamishaji kutoka PC kwenda simu, kushiriki kwa usalama",
   "fsqr.delete_sharing_title": "Sitisha Ushiriki",
   "fsqr.delete_sharing_description": "Ni mtu aliyepakia faili pekee anayeweza kuifuta.",
   "fsqr.delete_confirm_message": "Hii itafuta faili. Kitendo hiki hakiwezi kubatilishwa.",

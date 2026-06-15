@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "在此輸入將每秒同步...\n\n範例文字：\n所有成員都可以像這樣即時編輯同一份筆記。\n\n- 文字輸入後將立即同步給其他成員\n- 最多可輸入 {max_length} 個字\n- 編輯狀態會即時顯示",
   "upload.usage.limit_hint": "※ 最多可上傳 {max_files} 個檔案，總計不超過 {max_total_mb} MB。",
   "meta.description": "FS!QR 是免費檔案分享服務，支援 QR Code 傳輸、群組檔案分享與即時筆記分享，可在瀏覽器中安全傳送與管理資料。",
+  "meta.keywords": "檔案分享, QR碼傳輸, 免費檔案傳輸, 群組共享, 線上筆記, 免註冊, 傳送檔案, 線上分享檔案, 雲端儲存, 即時協作, 電腦手機互傳, 安全分享",
   "fsqr.delete_sharing_title": "結束分享",
   "fsqr.delete_sharing_description": "只有上傳者本人可以刪除此檔案。",
   "fsqr.delete_confirm_message": "此操作將刪除檔案，且無法復原。",

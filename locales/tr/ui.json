@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Buraya yazılanlar her saniye senkronize edilir...\n\nÖrnek metin:\nTüm üyeler aynı notu bu şekilde gerçek zamanlı olarak düzenleyebilir.\n\n- Metin girildiğinde diğer üyelere anında senkronize edilir\n- En fazla {max_length} karakter girilebilir\n- Düzenleme durumu gerçek zamanlı olarak görüntülenir",
   "upload.usage.limit_hint": "※ En fazla {max_files} dosya, toplam {max_total_mb} MB'a kadar yüklenebilir.",
   "meta.description": "FS!QR, QR kod aktarımı, grup dosya paylaşımı ve gerçek zamanlı not paylaşımı sunan ücretsiz bir dosya paylaşım hizmetidir.",
+  "meta.keywords": "dosya paylaşımı, QR kodu, ücretsiz dosya transferi, grup paylaşımı, çevrimiçi notlar, kayıt gerektirmez, dosya gönder, çevrimiçi dosya paylaşımı, bulut depolama, gerçek zamanlı işbirliği, PC'den telefona aktarım, güvenli paylaşım",
   "fsqr.delete_sharing_title": "Paylaşımı Sonlandır",
   "fsqr.delete_sharing_description": "Yalnızca dosyayı yükleyen kişi silebilir.",
   "fsqr.delete_confirm_message": "Bu işlem dosyayı silecektir. Bu işlem geri alınamaz.",

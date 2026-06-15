@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Wpisz coś tutaj, a tekst będzie synchronizowany co sekundę...\n\nTekst demonstracyjny:\nW ten sposób wszyscy członkowie mogą edytować tę samą notatkę w czasie rzeczywistym.\n\n• Wprowadzane znaki są natychmiast synchronizowane z innymi użytkownikami\n• Można wprowadzić maksymalnie {max_length} znaków\n• Status edycji jest wyświetlany w czasie rzeczywistym",
   "upload.usage.limit_hint": "※ Maksymalnie {max_files} plików, o łącznym rozmiarze do {max_total_mb} MB.",
   "meta.description": "FS!QR to darmowa usługa udostępniania plików z kodami QR, udostępnianiem grupowym i notatkami w czasie rzeczywistym.",
+  "meta.keywords": "udostępnianie plików, kod QR, bezpłatny transfer plików, udostępnianie grupowe, notatki online, bez rejestracji, wyślij pliki, udostępniaj pliki online, przechowywanie w chmurze, współpraca w czasie rzeczywistym, transfer z komputera na telefon, bezpieczne udostępnianie",
   "fsqr.delete_sharing_title": "Zakończ udostępnianie",
   "fsqr.delete_sharing_description": "Tylko osoba, która przesłała plik, może go usunąć.",
   "fsqr.delete_confirm_message": "To usunie plik. Tej operacji nie można cofnąć.",

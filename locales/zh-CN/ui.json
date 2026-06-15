@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "在此输入内容将每秒自动同步…\n\n演示文本：\n所有成员都可以像这样实时编辑同一条笔记。\n\n- 输入内容会立即同步给其他成员\n- 最多可输入 {max_length} 个字符\n- 编辑状态会实时显示",
   "upload.usage.limit_hint": "※最多可处理 {max_files} 个文件，总计不超过 {max_total_mb} MB。",
   "meta.description": "FS!QR 是免费文件共享服务，支持二维码传输、群组文件共享和实时笔记共享，可在浏览器中安全发送和管理数据。",
+  "meta.keywords": "文件共享, 二维码传输, 免费文件传输, 群组共享, 在线笔记, 免注册, 发送文件, 在线分享文件, 云存储, 实时协作, 电脑手机互传, 安全共享",
   "fsqr.delete_sharing_title": "结束共享",
   "fsqr.delete_sharing_description": "只有上传者本人可以删除此文件。",
   "fsqr.delete_confirm_message": "此操作将删除文件，且无法撤销。",

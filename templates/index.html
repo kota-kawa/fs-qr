@@ -99,6 +99,77 @@
     ]
   }
   </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FS!QR",
+    "alternateName": "エフエスQR",
+    "url": "{{ request.url_root }}",
+    "logo": "{{ staticfile('logo.png') }}",
+    "foundingDate": "2024",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "url": "{{ request.url_root }}contact"
+    },
+    "sameAs": [
+      "{{ request.url_root }}fs-qr_menu",
+      "{{ request.url_root }}group_menu",
+      "{{ request.url_root }}note_menu"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "費用はかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "完全無料でご利用いただけます。登録・課金なしで全機能を使えます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "アプリのインストールは必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不要です。iOS・Android・Windows・Macのブラウザから直接アクセスできます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "送れるファイルの上限は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1回のアップロードで合計500MBまで対応しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ファイルはいつ削除されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "アップロード時に選択した保存期間（最大7日）が経過すると自動削除されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "会員登録・ログインは必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不要です。URLを開いてIDとパスワードを共有するだけで使い始められます。"
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     /* リセット */
     html, body {

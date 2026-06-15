@@ -58,6 +58,7 @@
   border-top: 10px solid var(--info-header-accent);
 }
 
+.info-box-header h1,
 .info-box-header h2 {
   margin: 0;
   font-size: 2.25rem;
@@ -216,6 +217,7 @@
     padding: 1.5rem 1rem;
   }
   
+  .info-box-header h1,
   .info-box-header h2 {
     font-size: 1.8rem;
   }

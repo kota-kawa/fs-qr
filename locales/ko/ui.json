@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "이곳에 입력하면 1초마다 동기화됩니다…\n\n데모 텍스트:\n이와 같이 모든 멤버가 실시간으로 동일한 노트를 편집할 수 있습니다.\n\n- 글자를 입력하면 즉시 다른 멤버에게 동기화\n- 최대 {max_length}자까지 입력 가능\n- 편집 상황이 실시간으로 표시됨",
   "upload.usage.limit_hint": "※ 최대 {max_files}개 파일, 합계 {max_total_mb}MB까지 지원합니다.",
   "meta.description": "FS!QR은 무료 파일 공유 서비스입니다. QR 코드 전송, 그룹 파일 공유, 실시간 노트 공유로 브라우저에서 데이터를 안전하게 보내고 관리할 수 있습니다.",
+  "meta.keywords": "파일 공유, QR 코드 전송, 무료 파일 전송, 그룹 공유, 온라인 노트, 회원가입 불필요, 파일 보내기, 온라인 파일 공유, 클라우드 저장, 실시간 협업, PC 모바일 전송, 안전한 공유",
   "fsqr.delete_sharing_title": "공유 종료",
   "fsqr.delete_sharing_description": "업로드한 본인만 이 파일을 삭제할 수 있습니다.",
   "fsqr.delete_confirm_message": "이 파일을 삭제합니다. 이 작업은 되돌릴 수 없습니다.",

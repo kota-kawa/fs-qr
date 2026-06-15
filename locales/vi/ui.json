@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Nhập vào đây để đồng bộ hóa sau mỗi giây...\n\nGhi chú mẫu:\nTất cả các thành viên có thể chỉnh sửa cùng một ghi chú trong thời gian thực như thế này.\n\n- Nội dung nhập sẽ lập tức đồng bộ với các thành viên khác\n- Có thể nhập tối đa {max_length} ký tự\n- Tình trạng chỉnh sửa được hiển thị theo thời gian thực",
   "upload.usage.limit_hint": "※ Có thể tải tối đa {max_files} tệp, tổng dung lượng {max_total_mb} MB.",
   "meta.description": "FS!QR là dịch vụ chia sẻ tệp miễn phí với chuyển bằng mã QR, chia sẻ nhóm và ghi chú thời gian thực để quản lý dữ liệu an toàn.",
+  "meta.keywords": "chia sẻ tệp, mã QR, chuyển tệp miễn phí, chia sẻ nhóm, ghi chú trực tuyến, không cần đăng ký, gửi tệp, chia sẻ tệp trực tuyến, lưu trữ đám mây, cộng tác thời gian thực, chuyển từ PC sang điện thoại, chia sẻ an toàn",
   "fsqr.delete_sharing_title": "Dừng chia sẻ",
   "fsqr.delete_sharing_description": "Chỉ người đã tải lên mới có thể xóa tệp này.",
   "fsqr.delete_confirm_message": "Thao tác này sẽ xóa tệp. Không thể hoàn tác hành động này.",
