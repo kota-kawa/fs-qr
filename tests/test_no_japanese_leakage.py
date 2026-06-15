@@ -2,7 +2,6 @@
 
 import asyncio
 import re
-import pytest
 from httpx import ASGITransport, AsyncClient
 
 from Articles.articles_registry import get_all_articles
@@ -51,16 +50,19 @@ def test_no_japanese_leakage(test_client) -> None:
     """全記事 × 全言語（ja除く）で日本語が漏れていないことを確認する。"""
     langs = [lang for lang in SUPPORTED_LANGUAGES if lang != "ja"]
     leaks: list[tuple[str, str, str]] = []
-    
+
     app = test_client.app
-    
+
     async def run_test():
         transport = ASGITransport(app=app)
-        async with AsyncClient(transport=transport, base_url="http://testserver") as client:
+        async with AsyncClient(
+            transport=transport, base_url="http://testserver"
+        ) as client:
+
             async def fetch_segs(url: str, lang: str) -> tuple[str, list[str]]:
                 resp = await client.get(f"{url}?lang={lang}")
                 return lang, _segments(resp.text)
-                
+
             for article in get_all_articles():
                 url = "/" + article["slug"]
                 ja_resp = await client.get(url + "?lang=ja")
@@ -68,7 +70,7 @@ def test_no_japanese_leakage(test_client) -> None:
 
                 tasks = [fetch_segs(url, lang) for lang in langs]
                 results = await asyncio.gather(*tasks)
-                
+
                 for lang, tr_segs in results:
                     if len(tr_segs) != len(ja_segs):
                         continue
