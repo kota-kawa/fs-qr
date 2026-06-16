@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Type here to sync changes every second...\n\nDemo Text:\nThis is a shared space where all members can edit the same note in real time.\n\n• Your edits are instantly synced to other members\n• Supports up to {max_length} characters\n• Editor status and changes are shown in real time",
   "upload.usage.limit_hint": "* You can upload up to {max_files} files, with a total of {max_total_mb} MB.",
   "meta.description": "FS!QR is a free file sharing service for QR code transfers, group file sharing, and real-time note sharing. Send and manage data securely in your browser.",
+  "meta.keywords": "file sharing, QR code, free file transfer, group file sharing, online notes, no registration, send files, share files online, cloud storage, real-time collaboration, PC to phone transfer, secure file sharing",
   "fsqr.delete_sharing_title": "End Sharing",
   "fsqr.delete_sharing_description": "Only the person who uploaded the file can delete it.",
   "fsqr.delete_confirm_message": "This will delete the file. This action cannot be undone.",

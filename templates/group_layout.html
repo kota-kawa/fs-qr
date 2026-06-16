@@ -64,6 +64,7 @@
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
     
+    <link rel="preload" as="image" href="{{staticfile('group_logo.png')}}" fetchpriority="high" />
     <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
     <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
@@ -145,18 +146,40 @@
     }
     </script>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FS!QR",
+      "alternateName": "エフエスQR",
+      "url": "{{ request.url_root }}",
+      "logo": "{{ staticfile('logo.png') }}",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "{{ request.url_root }}contact"
+      },
+      "sameAs": [
+        "{{ request.url_root }}fs-qr_menu",
+        "{{ request.url_root }}group_menu",
+        "{{ request.url_root }}note_menu"
+      ]
+    }
+    </script>
+
      {% block extra_head %}{% endblock %}
   </head>
   <body class="group-section">
     <header>
       <div class="container text-center">
-        <h1 class="mt-3"><a href="/group_menu" target="_self"><img
+        <div class="site-brand mt-3"><a href="/group_menu" target="_self"><img
               style="height: 100px; width: auto;"
               src="{{staticfile('group_logo.png')}}"
-              loading="lazy" decoding="async"
-              alt="Group">
+              width="323" height="100" fetchpriority="high" decoding="async"
+              alt="FS!QR Group">
           </a>
-        </h1>
+        </div>
       </div>
     </header>
 

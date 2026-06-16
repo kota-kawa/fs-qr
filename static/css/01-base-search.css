@@ -127,3 +127,9 @@ body.fsqr-section .modern-page-container {
 .search-link:hover img {
   transform: scale(1.2);
 }
+
+/* サイトロゴをセマンティックな h1 から div(.site-brand) へ変更したことに伴い、
+   旧 h1 のデフォルト余白に相当するスペースを補う（レイアウトシフト防止）。 */
+.site-brand {
+  margin-block-end: 1.34rem;
+}

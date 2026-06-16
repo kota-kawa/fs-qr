@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "La saisie ici se synchronise chaque seconde...\n\nTexte de démonstration :\nTous les membres peuvent modifier la même note en temps réel comme ceci.\n\n- Votre saisie est synchronisée immédiatement avec les autres membres\n- Jusqu'à {max_length} caractères\n- Les mises à jour du statut d'édition se font en temps réel",
   "upload.usage.limit_hint": "* Vous pouvez téléverser jusqu'à {max_files} fichiers, pour un total de {max_total_mb} Mo.",
   "meta.description": "FS!QR est un service gratuit de partage de fichiers avec transfert par QR code, partage de groupe et notes en temps réel pour gérer les données en sécurité.",
+  "meta.keywords": "partage de fichiers, code QR, transfert de fichiers gratuit, partage de groupe, notes en ligne, sans inscription, envoyer des fichiers, partager des fichiers, stockage cloud, collaboration en temps réel, transfert PC vers mobile, partage sécurisé",
   "fsqr.delete_sharing_title": "Arrêter le partage",
   "fsqr.delete_sharing_description": "Seule la personne ayant téléversé le fichier peut le supprimer.",
   "fsqr.delete_confirm_message": "Cette action supprimera le fichier. Cette opération est irréversible.",

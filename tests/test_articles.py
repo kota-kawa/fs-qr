@@ -149,7 +149,13 @@ def test_articles_index_sitemap_lastmod_tracks_newest_article(test_client: TestC
         if loc is not None and loc.text == "https://fs-qr.net/articles":
             lastmod = url.find("sm:lastmod", ns)
             assert lastmod is not None
-            assert lastmod.text == max(article["date"] for article in ARTICLES)
+            from app import _template_lastmod
+
+            expected_lastmod = max(
+                _template_lastmod("Articles/templates/articles.html"),
+                max(article["date"] for article in ARTICLES),
+            )
+            assert lastmod.text == expected_lastmod
             break
     else:
         raise AssertionError("/articles entry is missing from sitemap")

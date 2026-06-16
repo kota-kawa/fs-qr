@@ -281,6 +281,10 @@ _META_DESCRIPTION_RE = re.compile(
     r"<meta\s+name=['\"]description['\"]\s+content=['\"]([^'\"]*)['\"][^>]*>",
     re.I,
 )
+_META_KEYWORDS_RE = re.compile(
+    r"<meta\s+name=['\"]keywords['\"]\s+content=['\"]([^'\"]*)['\"][^>]*>",
+    re.I,
+)
 _OG_LOCALE_RE = re.compile(
     r"<meta\s+property=[\"']og:locale[\"']\s+content=[\"'][^\"']*[\"']", re.I
 )
@@ -614,6 +618,25 @@ def translate_rendered_html(content: str, language: str) -> str:
         return f'<meta name="description" content="{escaped_desc}">'
 
     content = _META_DESCRIPTION_RE.sub(_replace_meta_desc, content)
+
+    # 2b-2. Localize <meta name="keywords"> per locale. Templates ship the
+    # Japanese keyword set; on translated pages we swap in the locale's own
+    # keywords when provided (locales/<lang>/ui.json -> "meta.keywords"), and
+    # otherwise drop the tag so foreign-language pages never leak Japanese
+    # keyword text. The keywords meta is ignored by Google/Bing, so removal is
+    # safe; it still benefits engines that read it (e.g. Baidu) where localized.
+    def _replace_meta_keywords(match):
+        if normalized_language == DEFAULT_LANGUAGE:
+            return match.group(0)
+        localized = (
+            translations.get(normalized_language, {}).get("ui", {}).get("meta.keywords")
+        )
+        if localized:
+            escaped_keywords = html.escape(localized, quote=True)
+            return f'<meta name="keywords" content="{escaped_keywords}">'
+        return ""
+
+    content = _META_KEYWORDS_RE.sub(_replace_meta_keywords, content)
 
     # 2c. Update <meta name="language" content=...> with language code
     def _replace_meta_lang(match):

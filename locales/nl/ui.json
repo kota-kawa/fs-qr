@@ -31,6 +31,7 @@
   "note.editor.demo_placeholder": "Typen hier wordt elke seconde gesynchroniseerd...\n\nDemotekst:\nAlle leden kunnen in real-time dezelfde notitie bewerken.\n\n- Uw invoer wordt onmiddellijk gesynchroniseerd met andere leden\n- Maximaal {max_length} tekens\n- Bewerkingsstatus wordt in real-time bijgewerkt",
   "upload.usage.limit_hint": "* U kunt maximaal {max_files} bestanden uploaden, met een totaal van {max_total_mb} MB.",
   "meta.description": "FS!QR is een gratis dienst voor bestanden delen met QR-codes, groepsdeling en realtime notities om gegevens veilig in de browser te beheren.",
+  "meta.keywords": "bestanden delen, QR-code, gratis bestandsoverdracht, groepsdeling, online notities, geen registratie, bestanden verzenden, bestanden online delen, cloudopslag, realtime samenwerking, pc-naar-telefoon overdracht, veilig delen",
   "fsqr.delete_sharing_title": "Delen beëindigen",
   "fsqr.delete_sharing_description": "Alleen de persoon die het bestand heeft geüpload, kan het verwijderen.",
   "fsqr.delete_confirm_message": "Dit verwijdert het bestand. Deze actie kan niet ongedaan worden gemaakt.",
