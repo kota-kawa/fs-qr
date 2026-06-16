@@ -71,6 +71,20 @@ GROUP_UPLOAD_DIR = os.getenv(
     os.path.join(BASE_DIR, "storage", "group_uploads"),
 )
 
+# --- ファイル配信オフロード (nginx X-Accel-Redirect) ---------------------------
+# 有効化すると、ダウンロード時の実ファイル転送を nginx へ委譲し、Python ワーカーは
+# 認証・認可だけを担う。nginx 側に対応する internal location が必要（fs-qr.conf 参照）。
+# nginx を介さない開発・テスト環境では無効のままにすること（FileResponse で配信）。
+X_ACCEL_REDIRECT_ENABLED = _env_flag("X_ACCEL_REDIRECT_ENABLED", default=False)
+# nginx の internal location プレフィックス（fs-qr.conf の location と一致させる）。
+FSQR_X_ACCEL_LOCATION = os.getenv("FSQR_X_ACCEL_LOCATION", "/_protected/fsqr")
+GROUP_X_ACCEL_LOCATION = os.getenv("GROUP_X_ACCEL_LOCATION", "/_protected/group")
+# accel_scope -> (internal_prefix, filesystem_root) の対応表。
+X_ACCEL_LOCATIONS: dict[str, tuple[str, str]] = {
+    "fsqr": (FSQR_X_ACCEL_LOCATION, FSQR_UPLOAD_DIR),
+    "group": (GROUP_X_ACCEL_LOCATION, GROUP_UPLOAD_DIR),
+}
+
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS = _env_int(
     "GROUP_FILE_LIST_REQUEST_TIMEOUT_MS", default=10_000, minimum=1
 )

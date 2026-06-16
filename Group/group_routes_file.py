@@ -9,10 +9,12 @@ from typing import Optional
 
 from fastapi import APIRouter, File, Request, UploadFile
 from starlette.background import BackgroundTask
+from starlette.concurrency import run_in_threadpool
 from starlette.responses import FileResponse
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
+from file_serving import build_file_response
 from file_validation import (
     build_content_disposition_attachment,
     build_content_disposition_inline,
@@ -234,7 +236,10 @@ def register_group_upload_route(router: APIRouter):
                 "サーバーエラーによりファイルを保存できませんでした。", status_code=500
             )
 
-        _save_uploaded_files(
+        # 内容検証＋ブロッキングなディスク書き込みをまとめてスレッドプールへ逃がし、
+        # 大きな（または多数の）ファイルでもイベントループを止めない。
+        await run_in_threadpool(
+            _save_uploaded_files,
             upfile,
             room_id=room_id,
             save_path=save_path,
@@ -401,10 +406,11 @@ def register_group_download_file_route(router: APIRouter):
                 ),
                 "Content-Length": str(os.path.getsize(file_path)),
             }
-            return FileResponse(
+            return build_file_response(
                 file_path,
                 media_type="application/octet-stream",
                 headers=headers,
+                accel_scope="group",
             )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)
@@ -455,10 +461,11 @@ def register_group_preview_file_route(router: APIRouter):
                 "Content-Length": str(os.path.getsize(file_path)),
                 "X-Content-Type-Options": "nosniff",
             }
-            return FileResponse(
+            return build_file_response(
                 file_path,
                 media_type=str(preview_metadata["preview_mime_type"]),
                 headers=headers,
+                accel_scope="group",
             )
         except Exception as e:
             return api_error_response(f"エラー: {str(e)}", status_code=500)

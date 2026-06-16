@@ -67,8 +67,10 @@ USER kota
 # Expose port 5000 for Gunicorn app
 EXPOSE 5000
 
-# Run Gunicorn app when the container launches
-CMD ["/usr/local/bin/wait-for-it", "db:3306", "--strict", "--timeout=120", "--", "gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "--workers", "4", "--timeout", "360", "--access-logfile", "/app/logs/access.log", "--error-logfile", "/app/logs/error.log", "app:app"]
+# Run Gunicorn app when the container launches.
+# Tunable settings live in gunicorn_conf.py (env-driven: WEB_CONCURRENCY,
+# GUNICORN_MAX_REQUESTS, GUNICORN_TIMEOUT, ...).
+CMD ["/usr/local/bin/wait-for-it", "db:3306", "--strict", "--timeout=120", "--", "gunicorn", "-c", "/app/gunicorn_conf.py", "app:app"]
 
 ########## デバッグ用の実行 ##############
 # FastAPI のローカル実行例
