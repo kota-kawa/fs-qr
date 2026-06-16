@@ -2,9 +2,7 @@
 全ページ・全言語で、非許可スクリプト(日本語、中国語など)が混入していないか検証。
 """
 
-import asyncio
 import re
-from httpx import ASGITransport, AsyncClient
 
 import pytest
 from starlette.testclient import TestClient
@@ -87,9 +85,7 @@ def _user_facing_segments(html: str) -> list[str]:
     return segments + [s.strip() for s in attrs + ld_strings if s.strip()]
 
 
-def _check_script_leakage(
-    html: str, language: str, path: str
-) -> list[str]:
+def _check_script_leakage(html: str, language: str, path: str) -> list[str]:
     """Check for script/language leakage. Returns list of leaked segments."""
     allowed_scripts = ALLOWED_SCRIPTS_BY_LANGUAGE.get(language, set())
     leaks = []
@@ -141,9 +137,11 @@ def test_articles_render_in_all_languages_without_script_leakage(
     assert len(articles) > 0
 
     # Sample 5 representative articles
-    sample_articles = articles[::max(1, len(articles) // 5)][:5]
+    sample_articles = articles[:: max(1, len(articles) // 5)][:5]
     # Check only in core well-supported languages
-    check_languages = [lang for lang in SUPPORTED_LANGUAGES if lang in ("ja", "en", "zh-CN", "uk")]
+    check_languages = [
+        lang for lang in SUPPORTED_LANGUAGES if lang in ("ja", "en", "zh-CN", "uk")
+    ]
 
     for article in sample_articles:
         url = "/" + article["slug"]
