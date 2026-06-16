@@ -143,6 +143,14 @@ jobs:
             --cov-append \
             --cov-report=
 
+      - name: Run strict multilingual purity tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_strict_multilingual_purity.py \
+            --cov=. \
+            --cov-append \
+            --cov-report=
+
       - name: Run user flow E2E tests
         run: |
           set -euo pipefail
@@ -157,6 +165,7 @@ jobs:
           python -m pytest -q \
             --ignore=tests/test_multilingual_service.py \
             --ignore=tests/test_no_japanese_leakage.py \
+            --ignore=tests/test_strict_multilingual_purity.py \
             --ignore=tests/test_e2e_user_flows.py \
             --cov=. \
             --cov-append \
