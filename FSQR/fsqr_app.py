@@ -8,9 +8,11 @@ import logging
 from typing import List, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
-from starlette.responses import FileResponse, RedirectResponse
+from starlette.concurrency import run_in_threadpool
+from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
+from file_serving import build_file_response
 from file_validation import (
     build_content_disposition_attachment,
     normalize_upload_filename,
@@ -188,6 +190,12 @@ def _strip_upload_suffix(filename: str, suffix: str) -> str:
     return filename
 
 
+def _write_upload_to_disk(src, temp_path: str) -> None:
+    """アップロードストリームをディスクへ書き出す（同期・スレッドプール実行用）。"""
+    with open(temp_path, "wb") as buffer:
+        shutil.copyfileobj(src, buffer)
+
+
 def _validate_fsqr_encrypted_payload(
     file_type: str, files: List[UploadFile]
 ) -> str | None:
@@ -318,8 +326,8 @@ async def upload(  # noqa: C901
         final_path = os.path.join(STATIC, secure_id + ".zip")
 
     temp_path = os.path.join(STATIC, f".{secure_id}.{secrets.token_hex(8)}.uploading")
-    with open(temp_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    # ブロッキングなディスク書き込みはスレッドプールへ逃がし、イベントループを止めない。
+    await run_in_threadpool(_write_upload_to_disk, file.file, temp_path)
 
     metadata_saved = False
     share_token = ""
@@ -591,7 +599,9 @@ async def _send_file_response(request: Request, secure_id: str):
     safe_original_filename = sanitize_download_filename(original_filename, default="")
     if safe_original_filename:
         headers["X-Original-Filename"] = safe_original_filename
-    return FileResponse(path, media_type=mimetype, headers=headers)
+    return build_file_response(
+        path, media_type=mimetype, headers=headers, accel_scope="fsqr"
+    )
 
 
 @router.get("/search_fs-qr", name="fsqr.search_fs_qr")
