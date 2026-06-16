@@ -5,31 +5,58 @@
 
 {% block extra_head %}
   <meta name="robots" content="noindex, nofollow">
+  <style>
+    @keyframes gentle-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    .icon-shake {
+      display: inline-block;
+      animation: gentle-shake 3s ease-in-out infinite;
+    }
+    .modern-muted-btn {
+      background: linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%);
+      color: #374151;
+      text-decoration: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+    .modern-muted-btn:hover {
+      background: linear-gradient(145deg, #d1d5db 0%, #9ca3af 100%);
+      color: #1f2937;
+      text-decoration: none;
+      transform: translateY(-2px);
+    }
+  </style>
 {% endblock %}
 
 {% block contents %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6 text-center">
-      <div class="p-5 bg-white rounded-4 shadow-sm border">
-        <div class="mb-4 text-muted">
-          {{ icon('face_frown', size='xxl') }}
-        </div>
-        <h2 class="h4 mb-4 fw-bold text-dark">{{ message }}</h2>
-        <p class="text-secondary mb-5 small">
-          お探しのページが見つからないか、一時的にアクセスできない可能性があります。<br>
-          URLまたは入力内容を再度ご確認ください。
-        </p>
-        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a href="/" class="btn btn-primary px-4 py-2 rounded-pill">ホームへ戻る</a>
-          {% if request.url.path.startswith('/group') %}
-          <a href="/group" class="btn btn-outline-secondary px-4 py-2 rounded-pill">グループへ</a>
-          {% elif request.url.path.startswith('/note') %}
-          <a href="/note" class="btn btn-outline-secondary px-4 py-2 rounded-pill">ノートへ</a>
-          {% else %}
-          <a href="/fs-qr" class="btn btn-outline-secondary px-4 py-2 rounded-pill">アップロードへ</a>
-          {% endif %}
-        </div>
+<div class="modern-page-container">
+  <div class="modern-content-card" style="max-width: 600px; margin: 0 auto;">
+    <div class="modern-card-header" style="--modern-card-header-gradient: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); --modern-card-header-accent: #dc2626;">
+      <h1 class="h3"><i class="bi bi-exclamation-triangle-fill me-2"></i>エラー</h1>
+    </div>
+    <div class="modern-card-body text-center">
+      <div class="mb-4 text-danger icon-shake">
+        {{ icon('face_frown', size='xxl') }}
+      </div>
+      <h2 class="h4 mb-4 fw-bold text-dark">{{ message }}</h2>
+      <p class="text-secondary mb-5 small">
+        お探しのページが見つからないか、一時的にアクセスできない可能性があります。<br>
+        URLまたは入力内容を再度ご確認ください。
+      </p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/" class="modern-btn modern-btn-success px-4 py-2">
+          <i class="bi bi-house-door-fill me-2"></i>
+          ホームへ戻る
+        </a>
+        {% if request.url.path.startswith('/group') %}
+        <a href="/group" class="modern-btn modern-muted-btn px-4 py-2">グループへ</a>
+        {% elif request.url.path.startswith('/note') %}
+        <a href="/note" class="modern-btn modern-muted-btn px-4 py-2">ノートへ</a>
+        {% else %}
+        <a href="/fs-qr" class="modern-btn modern-muted-btn px-4 py-2">アップロードへ</a>
+        {% endif %}
       </div>
     </div>
   </div>
