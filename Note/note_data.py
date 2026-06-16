@@ -381,7 +381,9 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
         try:
             from share_links import ServiceKey, revoke_resource_links
 
-            await revoke_resource_links(service_key=ServiceKey.NOTE, resource_id=room_id)
+            await revoke_resource_links(
+                service_key=ServiceKey.NOTE, resource_id=room_id
+            )
         except Exception:
             logger.warning(
                 "Failed to revoke Note share links: room_id=%s",
