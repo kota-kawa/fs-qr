@@ -1,3 +1,4 @@
+import asyncio
 import hashlib
 import logging
 from typing import Optional
@@ -374,19 +375,28 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
         {"r": room_id, "status": status},
     )
     await execute_query("DELETE FROM note_content WHERE room_id = :r", {"r": room_id})
-    try:
-        from share_links import ServiceKey, revoke_resource_links
 
-        await revoke_resource_links(service_key=ServiceKey.NOTE, resource_id=room_id)
-    except Exception:
-        logger.warning(
-            "Failed to revoke Note share links: room_id=%s",
-            room_id,
-            exc_info=True,
-        )
-    await invalidate_cache_entry(get_room_meta, room_id)
-    await invalidate_cache_prefix(get_room_meta)
-    await invalidate_cache_prefix(pick_room_id)
+    # DB削除後の副作用を並列実行して高速化
+    async def _revoke_links():
+        try:
+            from share_links import ServiceKey, revoke_resource_links
+
+            await revoke_resource_links(
+                service_key=ServiceKey.NOTE, resource_id=room_id
+            )
+        except Exception:
+            logger.warning(
+                "Failed to revoke Note share links: room_id=%s",
+                room_id,
+                exc_info=True,
+            )
+
+    async def _invalidate_caches():
+        await invalidate_cache_entry(get_room_meta, room_id)
+        await invalidate_cache_prefix(get_room_meta)
+        await invalidate_cache_prefix(pick_room_id)
+
+    await asyncio.gather(_revoke_links(), _invalidate_caches())
 
 
 # ────────────────────────────────────────────

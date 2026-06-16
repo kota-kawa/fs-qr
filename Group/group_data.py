@@ -1,3 +1,4 @@
+import asyncio
 import os
 import shutil
 import logging
@@ -112,7 +113,7 @@ async def remove_data(secure_id):
         if not os.path.exists(room_folder):
             continue
         try:
-            shutil.rmtree(room_folder)
+            await asyncio.to_thread(shutil.rmtree, room_folder)
         except Exception as e:
             deletion_failed = True
             logger.error(
@@ -133,21 +134,33 @@ async def remove_data(secure_id):
         DELETE FROM room WHERE room_id = :secure_id
     """)
     await execute_query(query, {"secure_id": secure_id})
-    try:
-        from share_links import ServiceKey, revoke_resource_links
 
-        await revoke_resource_links(service_key=ServiceKey.GROUP, resource_id=secure_id)
-    except Exception:
-        logger.warning(
-            "Failed to revoke Group share links: room_id=%s",
-            secure_id,
-            exc_info=True,
-        )
-    await group_ws_hub.close_room(secure_id, code=1001)
-    await invalidate_cache_entry(get_data, secure_id)
-    await invalidate_cache_entry(get_all)
-    if room_record:
-        await invalidate_cache_prefix(pich_room_id)
+    # DB削除後の副作用を並列実行して高速化
+    async def _revoke_links():
+        try:
+            from share_links import ServiceKey, revoke_resource_links
+
+            await revoke_resource_links(
+                service_key=ServiceKey.GROUP, resource_id=secure_id
+            )
+        except Exception:
+            logger.warning(
+                "Failed to revoke Group share links: room_id=%s",
+                secure_id,
+                exc_info=True,
+            )
+
+    async def _invalidate_caches():
+        await invalidate_cache_entry(get_data, secure_id)
+        await invalidate_cache_entry(get_all)
+        if room_record:
+            await invalidate_cache_prefix(pich_room_id)
+
+    await asyncio.gather(
+        _revoke_links(),
+        group_ws_hub.close_room(secure_id, code=1001),
+        _invalidate_caches(),
+    )
     return True
 
 

@@ -82,6 +82,9 @@
                             method="POST"
                             class="owner-delete-form"
                             data-confirm-submit="このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
+                            data-confirm-title="{{ t('alert.confirm_delete') }}"
+                            data-confirm-label="{{ t('alert.delete_action') }}"
+                            data-deleting-label="ルームを削除中..."
                         >
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="modern-btn modern-btn-danger">
@@ -127,24 +130,7 @@
     </div>
 </div>
 
-<script>
-document.querySelectorAll('.owner-delete-form[data-confirm-submit]').forEach(function(form) {
-    form.addEventListener('submit', async function(event) {
-        if (form.dataset.confirmed === 'true') {
-            return;
-        }
-        event.preventDefault();
-        var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
-            title: {{ t('alert.confirm_delete') | tojson }},
-            confirmLabel: {{ t('alert.delete_action') | tojson }}
-        });
-        if (confirmed) {
-            form.dataset.confirmed = 'true';
-            form.submit();
-        }
-    });
-});
-</script>
+<script src="/static/js/shared/async-delete-form.js"></script>
 
 
 <div class="usage-section">
