@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import re
 import secrets
@@ -426,8 +427,11 @@ async def delete_note_room(request: Request, room_id: str):
         "data": {},
         "error": "Room has expired or was deleted.",
     }
-    await note_ws_hub.broadcast(room_id, expired_payload)
-    await publish_room_expired(room_id)
+    # WS通知とルームクローズを並列実行して高速化
+    await asyncio.gather(
+        note_ws_hub.broadcast(room_id, expired_payload),
+        publish_room_expired(room_id),
+    )
     await note_ws_hub.close_room(room_id)
 
     if wants_json_response(request):

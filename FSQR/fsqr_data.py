@@ -1,3 +1,4 @@
+import asyncio
 import hashlib
 import hmac
 import json
@@ -176,33 +177,43 @@ async def remove_data(secure_id):
         else:
             paths = [os.path.join(STATIC, f"{secure_id}.zip")]
 
-        for file_path in paths:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                logger.info(f"Deleted file: {file_path}")
-            else:
-                logger.warning(f"File not found: {file_path}")
+        def _delete_files():
+            for file_path in paths:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    logger.info(f"Deleted file: {file_path}")
+                else:
+                    logger.warning(f"File not found: {file_path}")
+
+        await asyncio.to_thread(_delete_files)
 
         query = text("""
             DELETE FROM fsqr WHERE secure_id = :secure_id
         """)
         await execute_query(query, {"secure_id": secure_id})
-        await invalidate_cache_entry(get_data, secure_id)
-        await invalidate_cache_entry(get_all)
-        if record:
-            await invalidate_cache_prefix(try_login)
-            await invalidate_cache_prefix(get_data_by_credentials)
-            await invalidate_cache_prefix(get_data_by_share_token)
-        try:
-            await revoke_resource_links(
-                service_key=ServiceKey.FSQR, resource_id=secure_id
-            )
-        except Exception:
-            logger.warning(
-                "Failed to revoke FSQR share links: secure_id=%s",
-                secure_id,
-                exc_info=True,
-            )
+
+        # DB削除後の副作用を並列実行して高速化
+        async def _invalidate_caches():
+            await invalidate_cache_entry(get_data, secure_id)
+            await invalidate_cache_entry(get_all)
+            if record:
+                await invalidate_cache_prefix(try_login)
+                await invalidate_cache_prefix(get_data_by_credentials)
+                await invalidate_cache_prefix(get_data_by_share_token)
+
+        async def _revoke_links():
+            try:
+                await revoke_resource_links(
+                    service_key=ServiceKey.FSQR, resource_id=secure_id
+                )
+            except Exception:
+                logger.warning(
+                    "Failed to revoke FSQR share links: secure_id=%s",
+                    secure_id,
+                    exc_info=True,
+                )
+
+        await asyncio.gather(_invalidate_caches(), _revoke_links())
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
