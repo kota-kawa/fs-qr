@@ -111,5 +111,9 @@
   "note.copy_empty": "복사할 텍스트가 없습니다.",
   "note.copy_success": "노트 전체를 복사했습니다.",
   "note.copy_error": "전체 복사에 실패했습니다. 수동으로 복사해 주세요.",
-  "presence.viewers": "현재 {count}명이 보는 중"
+  "presence.viewers": "현재 {count}명이 보는 중",
+  "net.offline": "오프라인 상태입니다. 다시 연결하는 중…",
+  "net.online": "다시 온라인 상태입니다",
+  "sw.update": "새 버전이 있습니다. 탭하여 업데이트하세요",
+  "group.file_list_stale": "파일 목록을 새로 고치지 못했습니다. 연결을 확인하는 중…"
 }

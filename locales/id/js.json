@@ -111,5 +111,9 @@
   "note.copy_empty": "Tidak ada teks untuk disalin.",
   "note.copy_success": "Seluruh isi catatan berhasil disalin.",
   "note.copy_error": "Gagal menyalin seluruh catatan. Silakan salin secara manual.",
-  "presence.viewers": "{count} orang sedang melihat"
+  "presence.viewers": "{count} orang sedang melihat",
+  "net.offline": "Anda sedang offline. Mencoba menyambung kembali…",
+  "net.online": "Kembali online",
+  "sw.update": "Versi baru tersedia. Ketuk untuk memperbarui",
+  "group.file_list_stale": "Tidak dapat memuat ulang daftar file. Memeriksa koneksi Anda…"
 }

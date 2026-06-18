@@ -111,5 +111,9 @@
   "note.copy_empty": "Không có nội dung nào để sao chép.",
   "note.copy_success": "Đã sao chép toàn bộ ghi chú thành công.",
   "note.copy_error": "Không thể sao chép toàn bộ ghi chú. Vui lòng sao chép thủ công.",
-  "presence.viewers": "{count} người đang xem"
+  "presence.viewers": "{count} người đang xem",
+  "net.offline": "Bạn đang ngoại tuyến. Đang thử kết nối lại…",
+  "net.online": "Đã trực tuyến trở lại",
+  "sw.update": "Đã có phiên bản mới. Chạm để cập nhật",
+  "group.file_list_stale": "Không thể làm mới danh sách tệp. Đang kiểm tra kết nối…"
 }

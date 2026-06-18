@@ -111,5 +111,9 @@
   "note.copy_empty": "لا يوجد نص لنسخه.",
   "note.copy_success": "تم نسخ الملاحظة بالكامل.",
   "note.copy_error": "فشل النسخ. يرجى النسخ يدوياً.",
-  "presence.viewers": "{count} يشاهدون الآن"
+  "presence.viewers": "{count} يشاهدون الآن",
+  "net.offline": "أنت غير متصل. تجري محاولة إعادة الاتصال…",
+  "net.online": "عاد الاتصال",
+  "sw.update": "يتوفر إصدار جديد. اضغط للتحديث",
+  "group.file_list_stale": "تعذّر تحديث قائمة الملفات. يجري التحقق من اتصالك…"
 }

@@ -111,5 +111,9 @@
   "note.copy_empty": "Kopyalanacak metin yok.",
   "note.copy_success": "Notun tamamı kopyalandı.",
   "note.copy_error": "Tümünü kopyalama işlemi başarısız oldu. Lütfen manuel olarak kopyalayın.",
-  "presence.viewers": "Şu anda {count} kişi görüntülüyor"
+  "presence.viewers": "Şu anda {count} kişi görüntülüyor",
+  "net.offline": "Çevrimdışısınız. Yeniden bağlanılıyor…",
+  "net.online": "Yeniden çevrimiçi",
+  "sw.update": "Yeni bir sürüm mevcut. Güncellemek için dokunun",
+  "group.file_list_stale": "Dosya listesi yenilenemedi. Bağlantınız kontrol ediliyor…"
 }

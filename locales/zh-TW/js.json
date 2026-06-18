@@ -111,5 +111,9 @@
   "note.copy_empty": "沒有可複製的文字。",
   "note.copy_success": "已複製筆記全文。",
   "note.copy_error": "全文複製失敗。請手動複製。",
-  "presence.viewers": "目前有 {count} 人正在瀏覽"
+  "presence.viewers": "目前有 {count} 人正在瀏覽",
+  "net.offline": "您已離線，正在嘗試重新連線…",
+  "net.online": "已重新連線",
+  "sw.update": "有新版本可用，點按即可更新",
+  "group.file_list_stale": "無法重新整理檔案清單，正在檢查您的連線…"
 }

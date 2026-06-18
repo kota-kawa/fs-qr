@@ -111,5 +111,9 @@
   "note.copy_empty": "Er is geen tekst om te kopiëren.",
   "note.copy_success": "De volledige notitie is gekopieerd.",
   "note.copy_error": "Kopiëren mislukt. Kopieer handmatig.",
-  "presence.viewers": "{count} personen bekijken dit nu"
+  "presence.viewers": "{count} personen bekijken dit nu",
+  "net.offline": "Je bent offline. Opnieuw verbinden…",
+  "net.online": "Weer online",
+  "sw.update": "Er is een nieuwe versie beschikbaar. Tik om bij te werken",
+  "group.file_list_stale": "Kan de bestandslijst niet vernieuwen. Verbinding controleren…"
 }

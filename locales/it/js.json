@@ -111,5 +111,9 @@
   "note.copy_empty": "Non c'è testo da copiare.",
   "note.copy_success": "Nota completa copiata.",
   "note.copy_error": "Copia non riuscita. Copia manualmente.",
-  "presence.viewers": "{count} persone stanno visualizzando ora"
+  "presence.viewers": "{count} persone stanno visualizzando ora",
+  "net.offline": "Sei offline. Tentativo di riconnessione…",
+  "net.online": "Di nuovo online",
+  "sw.update": "È disponibile una nuova versione. Tocca per aggiornare",
+  "group.file_list_stale": "Impossibile aggiornare l'elenco dei file. Verifica della connessione…"
 }

@@ -313,6 +313,21 @@ async def ads_txt():
     return FileResponse(os.path.join(BASE_DIR, "ads.txt"))
 
 
+@app.get("/sw.js", name="service_worker")
+async def service_worker():
+    # Served from the site root so the worker controls the whole origin
+    # (a worker under /static/ would only scope to /static/). Kept fresh with
+    # no-cache so worker updates roll out promptly.
+    return FileResponse(
+        os.path.join(BASE_DIR, "static", "sw.js"),
+        media_type="application/javascript",
+        headers={
+            "Cache-Control": "no-cache",
+            "Service-Worker-Allowed": "/",
+        },
+    )
+
+
 SITEMAP_BASE_URL = "https://fs-qr.net"
 
 

@@ -111,5 +111,9 @@
   "note.copy_empty": "没有可复制的文本。",
   "note.copy_success": "已复制整篇笔记。",
   "note.copy_error": "复制整篇笔记失败。请手动复制。",
-  "presence.viewers": "当前 {count} 人正在浏览"
+  "presence.viewers": "当前 {count} 人正在浏览",
+  "net.offline": "您已离线，正在尝试重新连接…",
+  "net.online": "已重新连接",
+  "sw.update": "有新版本可用，点按即可更新",
+  "group.file_list_stale": "无法刷新文件列表，正在检查您的连接…"
 }

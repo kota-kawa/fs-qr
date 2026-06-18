@@ -111,5 +111,9 @@
   "note.copy_empty": "コピーするテキストがありません。",
   "note.copy_success": "ノート全文をコピーしました。",
   "note.copy_error": "全文コピーに失敗しました。手動でコピーしてください。",
-  "presence.viewers": "現在 {count} 人が閲覧中"
+  "presence.viewers": "現在 {count} 人が閲覧中",
+  "net.offline": "オフラインです。接続を確認しています…",
+  "net.online": "再接続しました",
+  "sw.update": "新しいバージョンがあります。タップして更新",
+  "group.file_list_stale": "ファイル一覧を更新できませんでした。接続を確認しています…"
 }

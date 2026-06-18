@@ -111,5 +111,9 @@
   "note.copy_empty": "Brak tekstu do skopiowania.",
   "note.copy_success": "Skopiowano całą treść notatki.",
   "note.copy_error": "Kopiowanie nie powiodło się. Skopiuj treść notatki ręcznie.",
-  "presence.viewers": "{count} osób przegląda teraz"
+  "presence.viewers": "{count} osób przegląda teraz",
+  "net.offline": "Jesteś offline. Próba ponownego połączenia…",
+  "net.online": "Znów online",
+  "sw.update": "Dostępna jest nowa wersja. Dotknij, aby zaktualizować",
+  "group.file_list_stale": "Nie udało się odświeżyć listy plików. Sprawdzanie połączenia…"
 }

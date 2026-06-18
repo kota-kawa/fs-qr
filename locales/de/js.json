@@ -111,5 +111,9 @@
   "note.copy_empty": "Es gibt keinen Text zum Kopieren.",
   "note.copy_success": "Komplette Notiz kopiert.",
   "note.copy_error": "Kopieren fehlgeschlagen. Bitte kopieren Sie manuell.",
-  "presence.viewers": "{count} Personen sehen sich das gerade an"
+  "presence.viewers": "{count} Personen sehen sich das gerade an",
+  "net.offline": "Sie sind offline. Verbindung wird wiederhergestellt…",
+  "net.online": "Wieder online",
+  "sw.update": "Eine neue Version ist verfügbar. Zum Aktualisieren tippen",
+  "group.file_list_stale": "Dateiliste konnte nicht aktualisiert werden. Verbindung wird geprüft…"
 }
