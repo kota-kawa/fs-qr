@@ -18,6 +18,7 @@
     var limits = options.limits || {};
     var fetchRetryCount = 0;
     var maxRetries = 3;
+    var fileListErrorNotified = false;
     var fileListSocket = null;
     var fileListReconnectDelayMs = 1000;
     var fileListReconnectTimer = null;
@@ -274,6 +275,15 @@
       if (fetchRetryCount >= maxRetries) {
         logger.error('Could not fetch files from other users.');
         fetchRetryCount = 0;
+        // Surface a subtle, non-blocking notice once per failure streak so the
+        // user understands the list may be stale on a slow/flaky connection.
+        if (!fileListErrorNotified && window.FSQRUx && typeof window.FSQRUx.toast === 'function') {
+          fileListErrorNotified = true;
+          var msg = core.translate
+            ? core.translate('group.file_list_stale', 'ファイル一覧を更新できませんでした。接続を確認しています…')
+            : 'ファイル一覧を更新できませんでした。接続を確認しています…';
+          window.FSQRUx.toast(msg, { type: 'error' });
+        }
       }
     }
 
@@ -303,6 +313,7 @@
         }
 
         fetchRetryCount = 0;
+        fileListErrorNotified = false;
 
         if (core.isPlainObject && core.isPlainObject(parsed) && parsed.status === 'error' && typeof parsed.error === 'string') {
           logger.warn('File fetch error:', parsed.error);

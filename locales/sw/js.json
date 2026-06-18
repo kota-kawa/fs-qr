@@ -111,5 +111,9 @@
   "note.copy_empty": "Hakuna maandishi ya kunakili.",
   "note.copy_success": "Kumbukumbu yote imenakiliwa.",
   "note.copy_error": "Utoaji nakala umeshindikana. Tafadhali nakili kwa mikono.",
-  "presence.viewers": "{count} wanatazama sasa"
+  "presence.viewers": "{count} wanatazama sasa",
+  "net.offline": "Uko nje ya mtandao. Inajaribu kuunganisha tena…",
+  "net.online": "Umerejea mtandaoni",
+  "sw.update": "Toleo jipya linapatikana. Gusa ili kusasisha",
+  "group.file_list_stale": "Imeshindwa kuonyesha upya orodha ya faili. Inakagua muunganisho wako…"
 }

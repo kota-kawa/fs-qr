@@ -111,5 +111,9 @@
   "note.copy_empty": "No text available to copy.",
   "note.copy_success": "Full note copied to clipboard.",
   "note.copy_error": "Failed to copy note. Please copy manually.",
-  "presence.viewers": "{count} viewing now"
+  "presence.viewers": "{count} viewing now",
+  "net.offline": "You're offline. Trying to reconnect…",
+  "net.online": "Back online",
+  "sw.update": "A new version is available. Tap to update",
+  "group.file_list_stale": "Couldn't refresh the file list. Checking your connection…"
 }
