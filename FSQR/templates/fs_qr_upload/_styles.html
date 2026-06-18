@@ -144,6 +144,51 @@ footer {
   background: var(--theme-fsqr-file-item-hover-bg);
 }
 
+@media (max-width: 575.98px) {
+  #fileList .modern-file-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  #fileList .modern-file-name {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    min-height: 2.5rem;
+  }
+
+  #fileList .modern-file-name-info {
+    min-width: 0;
+  }
+
+  #fileList .modern-file-name-text {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #fileList .modern-file-icon {
+    flex: 0 0 auto;
+  }
+
+  #fileList .modern-file-actions {
+    align-self: center;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+
+  #fileList .modern-file-action-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+  }
+}
+
 .modern-btn-success {
   background: var(--glossy-theme-gradient);
   box-shadow: 0 12px 24px var(--glossy-shadow);
