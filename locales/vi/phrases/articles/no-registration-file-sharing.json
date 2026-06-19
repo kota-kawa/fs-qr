@@ -18,5 +18,13 @@
   "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Không cần đăng ký thành viên! Lý do dịch vụ chia sẻ tập tin sử dụng được ngay vô cùng tiện lợi",
   "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Dành cho những ai muốn chia sẻ tập tin ngay bây giờ mà không cần đăng ký tài khoản. Chúng tôi sẽ giải thích các lợi ích của việc sử dụng dịch vụ chuyển tập tin không cần đăng ký và các điểm lưu ý để sử dụng an toàn.",
   "会員登録不要のファイル共有が輝く瞬間": "Khi tính năng chia sẻ không cần đăng ký phát huy tác dụng",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Khi cần bàn giao dữ liệu tạm thời với đối tác hay gửi tệp từ máy tính công cộng lúc đi du lịch mà không muốn lưu lại thông tin cá nhân, dịch vụ chia sẻ một lần không cần đăng ký là an toàn nhất."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Khi cần bàn giao dữ liệu tạm thời với đối tác hay gửi tệp từ máy tính công cộng lúc đi du lịch mà không muốn lưu lại thông tin cá nhân, dịch vụ chia sẻ một lần không cần đăng ký là an toàn nhất.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Tại sao việc không yêu cầu đăng ký lại giảm thiểu rủi ro bảo mật",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Đăng ký tài khoản thường tạo cảm giác an tâm hơn, nhưng đối với việc chia sẻ tệp tạm thời và một lần, các dịch vụ không cần đăng ký lại mang lại lợi ích bảo mật cao hơn nhiều.",
+  "アカウント情報の流出リスクをゼロにする：": "Triệt tiêu rủi ro rò rỉ thông tin tài khoản:",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Đăng ký thành viên yêu cầu lưu trữ email và mật khẩu trên máy chủ của bên thứ ba. Nếu dịch vụ đó bị hack, thông tin cá nhân của bạn sẽ bị lộ. Dịch vụ không đăng ký hoàn toàn không lưu trữ bất kỳ dữ liệu cá nhân nào.",
+  "パスワードの使い回し被害を防ぐ：": "Ngăn chặn hậu quả từ việc dùng chung một mật khẩu cho nhiều tài khoản:",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Nhiều người có thói quen dùng một mật khẩu cho nhiều tài khoản. Việc không cần tạo tài khoản mới giúp bảo vệ các tài khoản khác của bạn khỏi nguy cơ bị hack dây chuyền khi một dịch vụ bị lộ thông tin.",
+  "共有後にデータが自動で完全消去される安心感：": "Yên tâm hơn nhờ cơ chế tự động xóa sạch dữ liệu sau khi chia sẻ:",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Các kho lưu trữ đám mây thông thường sẽ giữ file mãi mãi cho đến khi xóa thủ công. Dịch vụ chuyển tệp không cần tài khoản thường tự động xóa tệp khỏi máy chủ sau một khoảng thời gian nhất định, tránh lộ dữ liệu do quên xóa."
 }

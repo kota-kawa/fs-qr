@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Mari Kirim Berkas Besar dengan Aman dan Mudah Menggunakan FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Layanan pemindahan gratis dirancang untuk menghapus berkas secara otomatis setelah jangka waktu tertentu (beberapa hari hingga beberapa minggu). Sangat penting untuk menyampaikan batas waktu unduhan kepada penerima. Selain itu, memilih layanan yang menjamin penghapusan data di sisi sistem akan mengurangi risiko kebocoran informasi.",
   "知っておくと便利なファイルサイズの雑学": "Pengetahuan Berguna Tentang Ukuran File",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Satu foto smartphone berukuran sekitar 3MB-8MB, dan 1 menit video 4K bisa mencapai 300MB-400MB. Karena melebihi batas lampiran email (sekitar 20MB), layanan transfer seperti FS!QR sangat penting."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Satu foto smartphone berukuran sekitar 3MB-8MB, dan 1 menit video 4K bisa mencapai 300MB-400MB. Karena melebihi batas lampiran email (sekitar 20MB), layanan transfer seperti FS!QR sangat penting.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Tips Transfer File Besar Lebih Cepat dan Stabil",
+  "不要なブラウザタブやアプリを閉じる": "Tutup tab browser dan aplikasi yang tidak diperlukan",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Mengunggah atau mengunduh file besar menghabiskan banyak memori RAM. Menutup tab browser yang tidak aktif atau aplikasi latar belakang yang berat akan meringankan beban sistem dan mempercepat transfer.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Mendekatlah ke router Wi-Fi atau gunakan kabel LAN",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Semakin besar file, semakin tinggi risiko kegagalan akibat gangguan sinyal Wi-Fi. Saat mengirim data dalam skala gigabyte (GB), menggunakan kabel Ethernet atau berada dekat dengan router akan meningkatkan stabilitas secara drastis.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Kompres file Anda ke format ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Mengunggah banyak file kecil satu per satu akan memperlambat proses pengiriman karena jeda koneksi yang berulang. Menggabungkannya dalam satu file ZIP memaksimalkan efisiensi transfer."
 }

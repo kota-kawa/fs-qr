@@ -22,5 +22,11 @@
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Zaloguj się do panelu konfiguracyjnego routera i wyłącz opcję taką jak „Band Steering” lub „Smart Connect”, aby ponownie wyświetlić dwie nazwy sieci. W wielu przypadkach połączenie będzie stabilniejsze, jeśli na co dzień będziesz łączyć smartfon czy komputer z szybką siecią 5 GHz, a z pasma 2,4 GHz korzystać tylko w oddalonych pokojach lub przy obsłudze smart home.",
   "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Przetestuj różne ustawienia, aby znaleźć optymalną konfigurację dla swojej sieci domowej.",
   "バンドステアリング判断チェックリスト": "Wskazówki dotyczące funkcji Band Steering",
-  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Jeśli urządzenia smart nie mogą się połączyć lub internet rozłącza się przy zmianie pokoju mimo zasięgu Wi-Fi, zalecamy wyłączenie band steering i rozdzielenie pasm 5 GHz i 2.4 GHz."
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Jeśli urządzenia smart nie mogą się połączyć lub internet rozłącza się przy zmianie pokoju mimo zasięgu Wi-Fi, zalecamy wyłączenie band steering i rozdzielenie pasm 5 GHz i 2.4 GHz.",
+  "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い": "Kluczowe różnice między częstotliwościami 5 GHz i 2,4 GHz",
+  "5GHz帯（高速・干渉に強いが障害物に弱い）：": "Pasmo 5 GHz (Szybkie, odporne na zakłócenia, ale mały zasięg):",
+  "障害物のない直線距離での通信速度が非常に高速で、他の家電製品と干渉しにくい性質を持ちます。しかし、壁や床などの障害物に遮られやすく、ルーターから離れた部屋には届きにくいのが弱点です。": "Zapewnia doskonałą prędkość przy bezpośredniej widoczności i jest odporne na zakłócenia ze strony sprzętu AGD. Jest jednak silnie tłumione przez ściany i stropy.",
+  "2.4GHz帯（低速・障害物に強いが干渉に弱い）：": "Pasmo 2,4 GHz (Wolniejsze, duży zasięg, podatne na zakłócenia):",
+  "電波が壁などの障害物を回り込みやすく、遠くまで届くため、繋がりやすいのが長所です。ただし、電子レンジやBluetooth機器など、日常の多くの機器と同じ周波数帯を使用しているため、家電の使用中に通信が不安定になりやすいのが短点です。": "Ma dobry zasięg, ponieważ sygnał łatwo omija przeszkody fizyczne. Ponieważ jednak kuchenki mikrofalowe i Bluetooth pracują na tej samej częstotliwości, połączenie może stać się niestabilne podczas ich używania.",
+  "バンドステアリングはこの2つを自動で切り替えますが、境界線上の部屋などで接続が不安定になる現象（ピンポン現象）が起こりやすくなります。": "Funkcja band steering automatycznie przełącza częstotliwości, ale na granicy zasięgu może to powodować ciągłe przełączanie i niestabilność (efekt ping-ponga)."
 }

@@ -18,5 +18,13 @@
   "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Tanpa Registrasi Anggota! Mengapa Layanan Berbagi Berkas yang Langsung Pakai Sangat Praktis",
   "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Bagi Anda yang ingin segera berbagi berkas sekarang tanpa pendaftaran akun. Menjelaskan keuntungan menggunakan layanan pemindahan berkas tanpa registrasi serta poin-poin untuk menggunakannya dengan aman.",
   "会員登録不要のファイル共有が輝く瞬間": "Saat Terbaik Berbagi File Tanpa Registrasi",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Untuk pengiriman data sementara dengan klien atau mengirim file dari PC publik saat bepergian, layanan berbagi tanpa akun adalah pilihan paling aman dan praktis."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Untuk pengiriman data sementara dengan klien atau mengirim file dari PC publik saat bepergian, layanan berbagi tanpa akun adalah pilihan paling aman dan praktis.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Kenapa Pengiriman Tanpa Akun Menurunkan Risiko Keamanan",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Walaupun mendaftar akun tampak lebih tepercaya, menggunakan layanan tanpa registrasi justru memberikan perlindungan lebih untuk kiriman sekunder.",
+  "アカウント情報の流出リスクをゼロにする：": "Menghilangkan risiko kebocoran data pribadi:",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Mendaftar mengharuskan penyimpanan email dan sandi di server pihak ketiga. Jika layanan tersebut diretas, data pribadi Anda terancam bocor. Tanpa registrasi, tidak ada basis data yang dapat diserang.",
+  "パスワードの使い回し被害を防ぐ：": "Menghindari celah akibat penggunaan kata sandi yang sama:",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Banyak pengguna mengulangi penggunaan kata sandi. Dengan menghindari pembuatan akun baru, bahaya pembajakan akun atau serangan berantai pada layanan Anda yang lain dapat dihindari.",
+  "共有後にデータが自動で完全消去される安心感：": "Penghapusan fisik secara permanen setelah file diterima:",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Layanan penyimpanan awan biasa menyimpan file sampai dihapus manual. Portal pengiriman tanpa akun biasanya menghapus file dari server setelah jangka waktu tertentu, mencegah kelalaian."
 }

@@ -26,5 +26,13 @@
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Vous n'avez jamais à communiquer d'informations personnelles comme votre nom ou votre adresse e-mail au prestataire, ce qui élimine à la source tout risque de fuite de données personnelles.",
   "相手にも負担をかけない：": "Aucune contrainte pour le destinataire non plus :",
   "会員登録不要のファイル共有が輝く瞬間": "Quand le partage sans inscription fait la différence",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Pour un transfert temporaire avec un client ou l'envoi de fichiers depuis un PC public, un service de partage sans inscription à usage unique est la solution la plus sûre et rapide."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Pour un transfert temporaire avec un client ou l'envoi de fichiers depuis un PC public, un service de partage sans inscription à usage unique est la solution la plus sûre et rapide.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Pourquoi l'absence d'inscription réduit les risques de sécurité",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "S'inscrire semble plus sûr, mais pour des partages temporaires et uniques, ne pas créer de compte offre de réels avantages en matière de cybersécurité.",
+  "アカウント情報の流出リスクをゼロにする：": "Risque de fuite de données personnelles nul :",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "L'inscription implique le stockage de vos identifiants et e-mails sur des serveurs externes. En cas de cyberattaque, ces informations pourraient être piratées. Sans inscription, aucune donnée n'est stockée, éliminant ce risque.",
+  "パスワードの使い回し被害を防ぐ：": "Évite l'effet cascade des mots de passe compromis :",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "De nombreux utilisateurs réutilisent le même mot de passe. En évitant la création de compte, vous éliminez tout risque de vol d'identifiants et protégez vos autres comptes en ligne.",
+  "共有後にデータが自動で完全消去される安心感：": "Suppression automatique et définitive après partage :",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Les espaces cloud persistants conservent vos fichiers indéfiniment. Les services sans inscription suppriment généralement les fichiers de leurs serveurs après un délai défini, évitant les fuites dues à l'oubli."
 }

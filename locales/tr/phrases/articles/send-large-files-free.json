@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "FS!QR ile büyük dosyaları güvenli ve kolayca gönderin",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Ücretsiz aktarım hizmetleri, dosyaların belirli bir süre (birkaç gün ila birkaç hafta) sonra otomatik olarak silineceği şekilde tasarlanmıştır. Alıcıya indirme süresini net bir şekilde iletmek önemlidir. Verilerin sistem tarafında tamamen silindiğinden emin olunan bir hizmet seçmek, bilgi sızıntısı riskini azaltır.",
   "知っておくと便利なファイルサイズの雑学": "Dosya Boyutları Hakkında Faydalı Bilgiler",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Bir akıllı telefon fotoğrafı yaklaşık 3MB-8MB'tır ve 1 dakikalık 4K video 300MB-400MB'a ulaşabilir. E-posta limitini (yaklaşık 20MB) aştığı için FS!QR gibi ücretsiz dosya taşıma servisleri şarttır."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Bir akıllı telefon fotoğrafı yaklaşık 3MB-8MB'tır ve 1 dakikalık 4K video 300MB-400MB'a ulaşabilir. E-posta limitini (yaklaşık 20MB) aştığı için FS!QR gibi ücretsiz dosya taşıma servisleri şarttır.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Büyük Dosyaları Daha Hızlı ve Sorunsuz Gönderme İpuçları",
+  "不要なブラウザタブやアプリを閉じる": "Gereksiz tarayıcı sekmelerini ve uygulamaları kapatın",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Büyük dosyaları yüklerken veya indirirken tarayıcınız ve cihazınız geçici olarak çok fazla RAM tüketir. Kullanılmayan sekmeleri ve arka planda çalışan ağır uygulamaları kapatmak veri işleme yükünü azaltır ve aktarımı hızlandırır.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Wi-Fi yönlendiriciye yakınlaşın veya kablolu LAN bağlantısı kullanın",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Dosya boyutu büyüdükçe, Wi-Fi sinyalindeki ufak parazitler veya paket kayıpları gönderim hatasına yol açabilir. Gigabayt (GB) düzeyinde veri aktarırken, yönlendiriciye yakın durmak veya ethernet kablosu kullanmak kararlılığı ciddi oranda artırır.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Fotoğrafları ve belgeleri ZIP arşivinde birleştirin",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Çok sayıda küçük dosyayı tek tek yüklemek bağlantı süresini uzatır. Dosyaları tek bir ZIP arşivinde birleştirmek aktarım verimliliğini en üst düzeye çıkarır."
 }

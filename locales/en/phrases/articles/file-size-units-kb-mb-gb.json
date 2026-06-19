@@ -43,5 +43,9 @@
   "約5MB〜10MB": "about 5–10 MB",
   "音楽1曲（4〜5分）": "One song (4–5 minutes)",
   "身近なデータの容量目安リスト": "Quick Guide to Common Data Sizes",
-  "Webページ閲覧は1ページ約1MB、音楽1曲は約5MB、動画視聴は1時間で約1GBを消費します。スマホの空き容量が足りない時は、容量を最も消費する「動画」から削除するのが鉄則です。": "Web browsing takes about 1MB/page, a song is about 5MB, and video streaming uses about 1GB/hour. If your phone is running out of space, deleting video files is the quickest way to free up storage."
+  "Webページ閲覧は1ページ約1MB、音楽1曲は約5MB、動画視聴は1時間で約1GBを消費します。スマホの空き容量が足りない時は、容量を最も消費する「動画」から削除するのが鉄則です。": "Web browsing takes about 1MB/page, a song is about 5MB, and video streaming uses about 1GB/hour. If your phone is running out of space, deleting video files is the quickest way to free up storage.",
+  "計算の落とし穴：「1000倍」と「1024倍」の混乱とハードディスク容量の謎": "The Calculation Trap: \"1000x\" vs. \"1024x\" Confusion and the Hard Drive Capacity Mystery",
+  "パソコンやスマートフォンのスペック表記で、「128GBのモデルを買ったのに、実際に使える容量がそれより少なくなっている」と疑問に思ったことはありませんか？これには、データの計算方法における歴史的な混乱が関係しています。": "Have you ever wondered why your PC or smartphone specifications say \"128GB model,\" but the actual usable capacity is lower? This relates to historical confusion in data calculation methods.",
+  "データの基本単位であるバイト（Byte）において、数学的な単位系（十進法）では 1KB ＝ 1000B、1MB ＝ 1000KB と計算します。しかし、コンピューターは二進法で動作するため、2の10乗である「1024」を区切りとして、1KB ＝ 1024B、1MB ＝ 1024KB として処理します。": "For bytes (the basic unit of data), the standard mathematical decimal system calculates 1KB = 1000B and 1MB = 1000KB. However, because computers operate on binary, they process data using powers of 2 (specifically 2^10 = 1024), defining 1KB = 1024B and 1MB = 1024KB.",
+  "スマートフォンやハードディスクのメーカーは一般的に「十進法（1GB＝1,000,000,000バイト）」で製品の容量を計算して表示しますが、WindowsなどのOSは「二進法（1GB＝1,073,741,824バイト）」で計算して表示します。そのため、コンピューター上では実際の物理的な容量が約7.4%少なく表示されてしまうのです。故障や不良品ではないので、安心して利用してください。": "Smartphone and hard drive manufacturers generally calculate capacity using the decimal system (1GB = 1,000,000,000 bytes), but operating systems like Windows calculate it in binary (1GB = 1,073,741,824 bytes). Consequently, the actual physical capacity displays as roughly 7.4% lower on computers. Rest assured, this is not a malfunction or a defect."
 }

@@ -26,5 +26,13 @@
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Nunca tienes que comunicar información personal como tu nombre o dirección de correo al proveedor, lo que elimina desde el origen cualquier riesgo de filtración de datos personales.",
   "相手にも負担をかけない：": "Sin restricciones tampoco para el destinatario:",
   "会員登録不要のファイル共有が輝く瞬間": "Momentos clave para el intercambio de archivos sin registro",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Para transferencias temporales con clientes o envíos desde ordenadores públicos en viajes, los servicios de intercambio sin cuenta ofrecen la experiencia de un solo uso más segura."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Para transferencias temporales con clientes o envíos desde ordenadores públicos en viajes, los servicios de intercambio sin cuenta ofrecen la experiencia de un solo uso más segura.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Por qué la transferencia sin cuenta mejora la seguridad",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Aunque registrarse parezca más confiable, usar herramientas de envío sin registro ofrece mayor protección para intercambios esporádicos.",
+  "アカウント情報の流出リスクをゼロにする：": "Elimina el riesgo de robo de datos personales :",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Tener cuenta almacena correos y contraseñas en servidores. En caso de hackeo, su información personal queda expuesta. Al no registrarse, esos datos no existen en el sistema.",
+  "パスワードの使い回し被害を防ぐ：": "Evita vulnerabilidades por contraseñas repetidas :",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Muchos usuarios repiten contraseñas. Sin la necesidad de crear un usuario, elimina el peligro de secuestro de cuentas o ataques en cascada a sus otros servicios.",
+  "共有後にデータが自動で完全消去される安心感：": "Borrado automático y definitivo tras el envío :",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Los servicios en la nube guardan archivos hasta que se borran a mano. Los portales sin registro suelen eliminar físicamente el archivo del servidor tras un plazo fijo, evitando descuidos."
 }

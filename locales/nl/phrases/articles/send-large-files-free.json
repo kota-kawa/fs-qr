@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Stuur grote bestanden veilig en eenvoudig met FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Gratis overdrachtsdiensten zijn zo ontworpen dat bestanden na een bepaalde periode (enkele dagen tot weken) automatisch worden verwijderd. Het is belangrijk om de downloadlimiet duidelijk aan de ontvanger door te geven. Door te kiezen voor een dienst die gegevens gegarandeerd aan de systeemzijde wist, verkleint u het risico op datalekken.",
   "知っておくと便利なファイルサイズの雑学": "Handige weetjes over bestandsgrootten",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Een smartphonefoto is ongeveer 3MB-8MB, en 1 minuut 4K-video kan 300MB-400MB bereiken. Omdat dit de e-maillimiet (ca. 20MB) overschrijdt, zijn gratis diensten zoals FS!QR essentieel."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Een smartphonefoto is ongeveer 3MB-8MB, en 1 minuut 4K-video kan 300MB-400MB bereiken. Omdat dit de e-maillimiet (ca. 20MB) overschrijdt, zijn gratis diensten zoals FS!QR essentieel.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Tips voor stabielere en snellere overdracht van grote bestanden",
+  "不要なブラウザタブやアプリを閉じる": "Sluit onnodige browsertabs en apps",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Het uploaden of downloaden van grote bestanden verbruikt veel RAM. Het sluiten van ongebruikte tabs en zware achtergrondapplicaties ontlast het systeem en kan de overdracht versnellen.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Blijf dicht bij de Wi-Fi router of gebruik een bekabelde LAN-verbinding",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Hoe groter het bestand, des te gevoeliger het is voor pakketverlies of signaalstoringen op Wi-Fi. Bij bestanden van meerdere gigabytes (GB) zorgt een LAN-kabel of nabijheid tot de router voor maximale stabiliteit.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Bundel documenten en foto's in een ZIP-archief",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Het uploaden van veel losse bestanden vertraagt de verbinding door herhaalde verbindingsopbouw. Het inpakken van gegevens in één ZIP-bestand verhoogt de efficiëntie en vergemakkelijkt het downloaden voor de ontvanger."
 }
