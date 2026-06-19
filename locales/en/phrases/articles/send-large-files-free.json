@@ -22,5 +22,12 @@
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Upload the file from your browser and just send the issued URL — the simplest approach there is. FS!QR falls into this category. Ease of use is its biggest draw.",
   "無料のファイル転送サービス：": "Free file-transfer services:",
   "知っておくと便利なファイルサイズの雑学": "Useful Trivia About File Sizes",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "A smartphone photo is about 3MB-8MB, and a 1-minute 4K video can reach 300MB-400MB. Since this exceeds typical email limits (around 20MB), free transfer services like FS!QR are essential."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "A smartphone photo is about 3MB-8MB, and a 1-minute 4K video can reach 300MB-400MB. Since this exceeds typical email limits (around 20MB), free transfer services like FS!QR are essential.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Techniques to Make File Transfers Even Faster and More Comfortable",
+  "不要なブラウザタブやアプリを閉じる": "Close unnecessary browser tabs and apps",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "While processing large files, your browser or device temporarily consumes a lot of memory. Simply closing unused tabs or active heavy apps reduces the data processing load and can improve transfer speeds.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Use wired LAN connection or stay close to the Wi-Fi router",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "The larger the file, the more likely a slight radio interference or packet loss will cause a transfer failure. Especially when sending or receiving gigabyte-scale data, moving closer to the router or using a wired connection dramatically increases stability.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Compress photos and documents into a ZIP archive",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Uploading many small files individually creates communication overhead for each file, which takes time even if the total size is small. Combining multiple files into a single ZIP archive maximizes transfer efficiency."
 }

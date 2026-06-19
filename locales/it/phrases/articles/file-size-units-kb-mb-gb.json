@@ -43,5 +43,9 @@
   "約5MB〜10MB": "circa 5–10 MB",
   "音楽1曲（4〜5分）": "Una canzone (4–5 minuti)",
   "身近なデータの容量目安リスト": "Guida rapida alle dimensioni dei dati comuni",
-  "Webページ閲覧は1ページ約1MB、音楽1曲は約5MB、動画視聴は1時間で約1GBを消費します。スマホの空き容量が足りない時は、容量を最も消費する「動画」から削除するのが鉄則です。": "Navigare consuma circa 1MB/pagina, un brano musicale 5MB e lo streaming video 1GB/ora. Se lo spazio è quasi esaurito, la regola d'oro è eliminare i video."
+  "Webページ閲覧は1ページ約1MB、音楽1曲は約5MB、動画視聴は1時間で約1GBを消費します。スマホの空き容量が足りない時は、容量を最も消費する「動画」から削除するのが鉄則です。": "Navigare consuma circa 1MB/pagina, un brano musicale 5MB e lo streaming video 1GB/ora. Se lo spazio è quasi esaurito, la regola d'oro è eliminare i video.",
+  "計算の落とし穴：「1000倍」と「1024倍」の混乱とハードディスク容量の謎": "La discrepanza matematica: Decimale (1000) vs. Binario (1024) e la capacità reale dei dischi",
+  "パソコンやスマートフォンのスペック表記で、「128GBのモデルを買ったのに、実際に使える容量がそれより少なくなっている」と疑問に思ったことはありませんか？これには、データの計算方法における歴史的な混乱が関係しています。": "Perché un telefono acquistato come modello da 128 GB mostra uno spazio reale disponibile inferiore? Questo è dovuto a una divergenza storica nelle unità di misura.",
+  "データの基本単位であるバイト（Byte）において、数学的な単位系（十進法）では 1KB ＝ 1000B、1MB ＝ 1000KB と計算します。しかし、コンピューターは二進法で動作するため、2の10乗である「1024」を区切りとして、1KB ＝ 1024B、1MB ＝ 1024KB として処理します。": "Nel sistema decimale matematico standard, 1 KB corrisponde a 1000 byte e 1 MB a 1000 KB. Ma nei computer binari la potenza utilizzata è base 2 (2^10 = 1024): 1 KB = 1024 byte e 1 MB = 1024 KB.",
+  "スマートフォンやハードディスクのメーカーは一般的に「十進法（1GB＝1,000,000,000バイト）」で製品の容量を計算して表示しますが、WindowsなどのOSは「二進法（1GB＝1,073,741,824バイト）」で計算して表示します。そのため、コンピューター上では実際の物理的な容量が約7.4%少なく表示されてしまうのです。故障や不良品ではないので、安心して利用してください。": "I produttori vendono memorie in sistema decimale (1 GB = 1 miliardo di byte), ma sistemi operativi come Windows leggono in binario (1 GB = 1.073.741.824 byte). Lo spazio visualizzato cala quindi di circa il 7.4%."
 }

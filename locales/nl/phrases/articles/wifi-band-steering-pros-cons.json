@@ -22,5 +22,11 @@
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Open de beheerpagina van uw router en schakel opties zoals 'band steering' of 'smart connect' uit om weer twee aparte netwerknamen weer te geven. Door uw telefoon of computer te verbinden met de snelle 5GHz-band, en 2.4GHz alleen te gebruiken in verre kamers of voor smart home-apparaten, wordt de verbinding vaak een stuk stabieler.",
   "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Probeer de instellingen uit om te ontdekken wat het beste werkt voor uw netwerkomgeving thuis.",
   "バンドステアリング判断チェックリスト": "Beslissingshulp voor Band Steering",
-  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Als slimme apparaten niet verbinden of internet wegvalt bij het verplaatsen naar een andere kamer ondanks Wi-Fi-bereik, raden we aan band steering uit te schakelen en 5GHz en 2.4GHz te scheiden."
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Als slimme apparaten niet verbinden of internet wegvalt bij het verplaatsen naar een andere kamer ondanks Wi-Fi-bereik, raden we aan band steering uit te schakelen en 5GHz en 2.4GHz te scheiden.",
+  "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い": "Cruciale verschillen tussen 5 GHz en 2,4 GHz frequenties",
+  "5GHz帯（高速・干渉に強いが障害物に弱い）：": "5 GHz-band (Snel, storingsvrij, maar beperkt bereik):",
+  "障害物のない直線距離での通信速度が非常に高速で、他の家電製品と干渉しにくい性質を持ちます。しかし、壁や床などの障害物に遮られやすく、ルーターから離れた部屋には届きにくいのが弱点です。": "Biedt uitstekende snelheden bij direct zicht en is ongevoelig voor storingen van andere huishoudelijke apparaten. Het wordt echter sterk gedempt door muren en vloeren.",
+  "2.4GHz帯（低速・障害物に強いが干渉に弱い）：": "2,4 GHz-band (Langzamer, hoog bereik, storingsgevoelig):",
+  "電波が壁などの障害物を回り込みやすく、遠くまで届くため、繋がりやすいのが長所です。ただし、電子レンジやBluetooth機器など、日常の多くの機器と同じ周波数帯を使用しているため、家電の使用中に通信が不安定になりやすいのが短点です。": "Heeft een goed bereik omdat het signaal makkelijk om obstakels heen buigt. Omdat ook magnetrons en Bluetooth op deze frequentie uitzenden, kan het signaal wankelen bij gebruik hiervan.",
+  "バンドステアリングはこの2つを自動で切り替えますが、境界線上の部屋などで接続が不安定になる現象（ピンポン現象）が起こりやすくなります。": "Band steering wisselt automatisch tussen deze banden, maar kan op de grens van het bereik zorgen voor constante verbindingwisselingen en instabiliteit (pingpong-effect)."
 }

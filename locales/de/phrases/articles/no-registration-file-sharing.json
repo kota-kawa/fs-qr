@@ -26,5 +26,13 @@
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Man muss dem Anbieter nie persönliche Informationen wie Namen oder E-Mail-Adresse mitteilen, was das Risiko eines Datenlecks persönlicher Daten von vornherein ausschließt.",
   "相手にも負担をかけない：": "Keinerlei Einschränkungen auch für den Empfänger:",
   "会員登録不要のファイル共有が輝く瞬間": "Wann registrierungsfreie Dateifreigabe glänzt",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Für temporäre Datenübertragungen an Kunden oder das Senden von Dateien von öffentlichen PCs auf Reisen sind registrierungsfreie Einweg-Dienste die sicherste und bequemste Option."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Für temporäre Datenübertragungen an Kunden oder das Senden von Dateien von öffentlichen PCs auf Reisen sind registrierungsfreie Einweg-Dienste die sicherste und bequemste Option.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Warum Datentransfer ohne Anmeldung sicherer sein kann",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Obwohl Dienste mit Anmeldung oft seriöser wirken, bietet ein registrierungsfreier Dienst bei einmaligen Datenübertragungen erhebliche Sicherheitsvorteile.",
+  "アカウント情報の流出リスクをゼロにする：": "Kein Risiko von Datenlecks persönlicher Accounts:",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Bei einer Registrierung werden Zugangsdaten auf externen Servern gespeichert. Wird der Dienst gehackt, sind Ihre Daten gefährdet. Ohne Anmeldung gibt es keine Benutzerdaten, die gestohlen werden könnten.",
+  "パスワードの使い回し被害を防ぐ：": "Schutz vor Folgeangriffen durch recycelte Passwörter:",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Nutzer verwenden oft gleiche Passwörter für mehrere Konten. Ohne Anmeldung entfällt dieses Risiko komplett, was auch all Ihre anderen Accounts schützt.",
+  "共有後にデータが自動で完全消去される安心感：": "Automatische physische Löschung nach der Freigabe:",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Einmal hochgeladene Cloud-Daten verbleiben dort meist unbegrenzt. Anmeldefreie Transferdienste löschen Daten nach Ablauf einer Frist automatisch vom Server und verhindern so Datenlecks."
 }

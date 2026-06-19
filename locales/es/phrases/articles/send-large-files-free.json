@@ -22,5 +22,12 @@
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Sube el archivo desde tu navegador y envía simplemente la URL generada — el método más sencillo posible. FS!QR pertenece a esta categoría. Su principal ventaja es la facilidad de uso.",
   "無料のファイル転送サービス：": "Servicios de transferencia de archivos gratuitos:",
   "知っておくと便利なファイルサイズの雑学": "Curiosidades útiles sobre el tamaño de archivos",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Una foto de móvil ocupa unos 3MB-8MB y un vídeo 4K de 1 minuto puede llegar a 300MB-400MB. Al superar el límite del correo (unos 20MB), los servicios gratuitos como FS!QR son indispensables."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Una foto de móvil ocupa unos 3MB-8MB y un vídeo 4K de 1 minuto puede llegar a 300MB-400MB. Al superar el límite del correo (unos 20MB), los servicios gratuitos como FS!QR son indispensables.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Consejos para transferir archivos grandes más rápido y sin errores",
+  "不要なブラウザタブやアプリを閉じる": "Cierre aplicaciones y pestañas innecesarias",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Subir o descargar archivos grandes consume mucha memoria del dispositivo. Cerrar pestañas de navegador que no use o aplicaciones pesadas en segundo plano agiliza el procesamiento de datos y mejora la velocidad.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Acérquese al router o use un cable de red",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "A mayor tamaño de archivo, mayor probabilidad de fallos por interferencias Wi-Fi. Si envía archivos de varios gigabytes (GB), colocarse cerca del router o conectar por cable Ethernet estabilizará el proceso.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Comprima sus archivos en formato ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Subir muchos archivos pequeños uno a uno satura la conexión. Agruparlos en un único archivo comprimido ZIP maximiza la velocidad y facilita la descarga para el destinatario."
 }

@@ -18,5 +18,13 @@
   "会員登録不要！すぐ使えるファイル共有サービスが便利な理由": "Bez rejestracji! Dlaczego serwisy natychmiastowego udostępniania plików są tak wygodne",
   "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。": "Dla tych, którzy chcą natychmiast udostępnić pliki bez rejestracji konta. Wyjaśniamy zalety korzystania z usług przesyłania plików bez rejestracji oraz zasady ich bezpiecznego używania.",
   "会員登録不要のファイル共有が輝く瞬間": "Kiedy udostępnianie plików bez rejestracji jest najlepsze",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Do tymczasowej wymiany plików z klientami lub wysyłania dokumentów z publicznych komputerów w podróży darmowe usługi bez konta są najbezpieczniejsze i najwygodniejsze."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Do tymczasowej wymiany plików z klientami lub wysyłania dokumentów z publicznych komputerów w podróży darmowe usługi bez konta są najbezpieczniejsze i najwygodniejsze.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Dlaczego przesyłanie danych bez rejestracji może być bezpieczniejsze",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Choć rejestracja konta wydaje się bezpieczniejsza, usługi bez rejestracji oferują większą prywatność w przypadku jednorazowego udostępniania.",
+  "アカウント情報の流出リスクをゼロにする：": "Eliminuje ryzyko wycieku danych osobowych konta:",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Rejestracja wymaga przechowywania e-maili i haseł na serwerach zewnętrznych. W przypadku ataku hakerskiego dane te są zagrożone. Bez rejestracji nie ma bazy danych użytkowników, którą można zhakować.",
+  "パスワードの使い回し被害を防ぐ：": "Zapobiega atakom kaskadowym przez powtarzające się hasła:",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Użytkownicy często używają tych samych haseł. Brak konieczności tworzenia konta całkowicie eliminuje to ryzyko, chroniąc inne Twoje profile w sieci.",
+  "共有後にデータが自動で完全消去される安心感：": "Automatyczne fizyczne usuwanie plików po pobraniu:",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Klasyczne chmury przechowują pliki bezterminowo. Usługi transferowe bez konta usuwają pliki z serwera automatycznie po określonym czasie, zapobiegając wyciekom przez zapominalstwo."
 }

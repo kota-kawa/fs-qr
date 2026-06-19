@@ -26,5 +26,13 @@
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "You never hand over personal details like your name or email address, which eliminates that entire category of data-leak risk at the root.",
   "相手にも負担をかけない：": "No burden on the recipient either:",
   "会員登録不要のファイル共有が輝く瞬間": "When Registration-Free File Sharing Shines",
-  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "For temporary data transfers with clients or sending files from public PCs while traveling, sharing services that don't require registration offer the safest and most convenient 'one-time use' experience."
+  "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "For temporary data transfers with clients or sending files from public PCs while traveling, sharing services that don't require registration offer the safest and most convenient 'one-time use' experience.",
+  "「会員登録不要」がセキュリティリスクを下げる理由": "Why \"No Registration Required\" Lowers Security Risks",
+  "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "While services requiring registration are generally perceived as safer, using registration-free services can offer greater security benefits for disposable, temporary sharing.",
+  "アカウント情報の流出リスクをゼロにする：": "Zero risk of account information leaks:",
+  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Registering an account saves personal details like your email and password on the service's servers. If that service gets hacked, there is a risk of data leakage; however, with registration-free services, no such stored information exists in the first place.",
+  "パスワードの使い回し被害を防ぐ：": "Prevents password reuse hazards:",
+  "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Many users tend to reuse the same password across multiple web services. Utilizing a registration-free service prevents account hijacking and secondary damage to your other linked accounts.",
+  "共有後にデータが自動で完全消去される安心感：": "Peace of mind through automatic data deletion after sharing:",
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Member cloud storage holds data indefinitely until deleted manually, whereas registration-free file transfer services typically delete files automatically from the server after a set time, preventing leaks from forgotten files."
 }

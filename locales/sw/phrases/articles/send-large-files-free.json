@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Hebu tutume faili kubwa kwa salama na urahisi tukiwa na FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Huduma za bure za uhamisho zimeundwa ili kufuta faili kiotomatiki baada ya muda fulani (siku chache hadi wiki chache). Ni muhimu kumjulisha mpokeaji vizuri kuhusu tarehe ya mwisho ya kupakua. Pia, kuchagua huduma ambayo inahakikisha data inafutwa kabisa upande wa mfumo kutapunguza hatari ya kuvuja kwa habari.",
   "知っておくと便利なファイルサイズの雑学": "Mambo ya Kujua Kuhusu Ukubwa wa Faili",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Picha ya simu ni karibu MB 3-8, na dakika 1 ya video ya 4K inaweza kufikia MB 300-400. Kwa sababu inazidi kikomo cha barua pepe (karibu MB 20), huduma za bure kama FS!QR ni muhimu."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Picha ya simu ni karibu MB 3-8, na dakika 1 ya video ya 4K inaweza kufikia MB 300-400. Kwa sababu inazidi kikomo cha barua pepe (karibu MB 20), huduma za bure kama FS!QR ni muhimu.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Mbinu za Kutuma Faili Kubwa kwa Haraka na Usalama Zaidi",
+  "不要なブラウザタブやアプリを閉じる": "Funga tabo za kivinjari na programu zisizohitajika",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Kupakia au kupakua faili kubwa hutumia kumbukumbu kubwa ya RAM. Kufunga tabo zisizo na kazi au programu nzito zinazoendeshwa kwa nyuma hupunguza mzigo wa mfumo na kuharakisha utumaji.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Sogea karibu na kipanga njia cha Wi-Fi au tumia kebo ya LAN",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Kadiri faili inavyokuwa kubwa, ndivyo uwezekano wa kufeli unavyoongezeka kutokana na mwingiliano wa Wi-Fi. Unapotuma data kubwa ya gigabyte (GB), kutumia kebo ya Ethernet au kuwa karibu na kipanga njia kutaimarisha utumaji kabisa.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Kusanya faili zako katika mfumo wa ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Kupakia faili nyingi ndogo moja baada ya nyingine hupunguza kasi kwa sababu ya muda wa kuunganisha kila mara. Kuzikusanya kwenye faili moja ya ZIP huongeza ufanisi wa utumaji."
 }

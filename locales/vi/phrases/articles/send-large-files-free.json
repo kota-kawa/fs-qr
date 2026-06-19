@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Gửi tập tin dung lượng lớn an toàn và dễ dàng với FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Các dịch vụ chuyển tập tin miễn phí có cơ chế tự động xóa tập tin sau một khoảng thời gian nhất định (vài ngày đến vài tuần). Việc thông báo rõ ràng về thời hạn tải xuống cho đối phương là rất quan trọng. Ngoài ra, chọn dịch vụ có hệ thống đảm bảo xóa sạch dữ liệu sẽ giúp giảm thiểu nguy cơ rò rỉ thông tin.",
   "知っておくと便利なファイルサイズの雑学": "Kiến thức thú vị về dung lượng tệp tin",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Một bức ảnh điện thoại khoảng 3MB-8MB, còn 1 phút video 4K có thể lên tới 300MB-400MB. Vượt quá giới hạn email (khoảng 20MB) nên các dịch vụ chuyển tệp như FS!QR là cực kỳ cần thiết."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Một bức ảnh điện thoại khoảng 3MB-8MB, còn 1 phút video 4K có thể lên tới 300MB-400MB. Vượt quá giới hạn email (khoảng 20MB) nên các dịch vụ chuyển tệp như FS!QR là cực kỳ cần thiết.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Mẹo giúp chuyển tệp lớn nhanh chóng và ổn định hơn",
+  "不要なブラウザタブやアプリを閉じる": "Đóng các tab trình duyệt và ứng dụng không cần thiết",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Khi tải lên hoặc tải xuống các tệp dung lượng lớn, trình duyệt và thiết bị sẽ tạm thời tiêu tốn nhiều bộ nhớ RAM. Chỉ cần đóng bớt các tab không dùng hoặc các ứng dụng chạy ngầm nặng sẽ giúp giảm tải xử lý dữ liệu và cải thiện tốc độ truyền tải.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Di chuyển gần bộ phát Wi-Fi hoặc dùng dây cáp mạng LAN",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Tệp càng lớn thì nguy cơ thất bại do nhiễu sóng Wi-Fi hoặc mất gói tin càng cao. Khi truyền nhận dữ liệu hàng Gigabyte (GB), việc kết nối qua cáp mạng Ethernet hoặc ngồi gần bộ phát Wi-Fi sẽ giúp quá trình truyền tải ổn định hơn rất nhiều.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Nén ảnh và tài liệu thành định dạng ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Tải lên nhiều tệp nhỏ riêng lẻ sẽ tạo ra độ trễ kết nối cho từng tệp, khiến tổng thời gian kéo dài dù dung lượng không lớn. Gộp các tệp vào một file nén ZIP sẽ giúp tối ưu hóa băng thông truyền tải."
 }

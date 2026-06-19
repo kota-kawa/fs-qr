@@ -18,5 +18,12 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Wysyłaj duże pliki bezpiecznie i łatwo dzięki FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "Darmowe serwisy przesyłania plików są tak zaprojektowane, aby pliki były automatycznie usuwane po określonym czasie (od kilku dni do kilku tygodni). Ważne jest, aby dokładnie poinformować odbiorcę o terminie pobrania. Wybór serwisu, który gwarantuje usunięcie danych po stronie systemu, zmniejsza ryzyko wycieku informacji.",
   "知っておくと便利なファイルサイズの雑学": "Przydatne informacje o rozmiarach plików",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Zdjęcie z telefonu zajmuje ok. 3-8 MB, a 1 minuta wideo 4K może mieć 300-400 MB. Ponieważ przekracza to limit e-maila (ok. 20 MB), do przesyłania dużych plików niezbędne są darmowe usługi typu FS!QR."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Zdjęcie z telefonu zajmuje ok. 3-8 MB, a 1 minuta wideo 4K może mieć 300-400 MB. Ponieważ przekracza to limit e-maila (ok. 20 MB), do przesyłania dużych plików niezbędne są darmowe usługi typu FS!QR.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Wskazówki dotyczące szybszego i bardziej stabilnego przesyłania dużych plików",
+  "不要なブラウザタブやアプリを閉じる": "Zamknij niepotrzebne karty przeglądarki i aplikacje",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Przesyłanie dużych plików zużywa dużo pamięci RAM. Zamknięcie nieużywanych kart przeglądarki i ciężkich aplikacji w tle odciąża system i może przyspieszyć transfer.",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Zbliż się do routera Wi-Fi lub użyj połączenia kablowego LAN",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Im większy plik, tym bardziej jest podatny na zakłócenia sygnału Wi-Fi. Przy przesyłaniu plików o rozmiarze wielu gigabajtów (GB) połączenie kablowe Ethernet lub bliskość routera drastycznie zwiększa stabilność.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Pakuj dokumenty i zdjęcia w jedno archiwum ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Przesyłanie wielu małych plików pojedynczo spowalnia proces ze względu na wielokrotne nawiązywanie połączenia. Pakowanie danych w jeden plik ZIP optymalizuje prędkość i ułatwia pobieranie odbiorcy."
 }

@@ -22,5 +22,11 @@
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Ingia kwenye ukurasa wa mipangilio ya ruta yako na uzime kipengele cha 'Band Steering' au 'Smart Connect'. Baada ya hapo, majina yote mawili yataonekana tofauti. Kuunganisha simu au kompyuta yako na mtandao wa kasi wa 5GHz kwa matumizi ya kawaida na kutumia 2.4GHz kwa ajili ya vyumba vya mbali au kusanidi vifaa janja huongeza uthabiti wa mtandao kwa kiasi kikubwa.",
   "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Chagua mipangilio inayofaa zaidi kulingana na mazingira ya mtandao wa nyumba yako na mahitaji yako.",
   "バンドステアリング判断チェックリスト": "Mwongozo wa Kuwasha/Kuzima Band Steering",
-  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Ikiwa vifaa janjanja haviti kuunganishwa, au mtandao unakatika unapoingia chumba kingine licha ya kuwa na Wi-Fi, tunashauri uzime band steering na utenganishe 5GHz na 2.4GHz."
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Ikiwa vifaa janjanja haviti kuunganishwa, au mtandao unakatika unapoingia chumba kingine licha ya kuwa na Wi-Fi, tunashauri uzime band steering na utenganishe 5GHz na 2.4GHz.",
+  "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い": "Tofauti Muhimu Kati ya Masafa ya 5 GHz na 2.4 GHz",
+  "5GHz帯（高速・干渉に強いが障害物に弱い）：": "Bendi ya 5 GHz (Kasi kubwa, mwingiliano mdogo, lakini uwezo mdogo wa kupenya vikwazo):",
+  "障害物のない直線距離での通信速度が非常に高速で、他の家電製品と干渉しにくい性質を持ちます。しかし、壁や床などの障害物に遮られやすく、ルーターから離れた部屋には届きにくいのが弱点です。": "Hutoa kasi kubwa ya muunganisho kwa umbali mfupi bila vizuizi na haihusiani na mwingiliano wa vifaa vya nyumbani. Hata hivyo, ni vigumu kupenya kuta nene au sakafu, hivyo kupoteza nguvu katika vyumba vya mbali.",
+  "2.4GHz帯（低速・障害物に強いが干渉に弱い）：": "Bendi ya 2.4 GHz (Kasi ya kawaida, umbali mrefu, hukumbwa na mwingiliano):",
+  "電波が壁などの障害物を回り込みやすく、遠くまで届くため、繋がりやすいのが長所です。ただし、電子レンジやBluetooth機器など、日常の多くの機器と同じ周波数帯を使用しているため、家電の使用中に通信が不安定になりやすいのが短点です。": "Faida yake ni uwezo wa kusafiri mbali kwa sababu mawimbi hukwepa vikwazo kwa urahisi. Hata hivyo, kwa sababu inashirikiana masafa na mikrowevu na Bluetooth, mtandao unaweza kukatika vifaa hivyo vikiwa vinatumika.",
+  "バンドステアリングはこの2つを自動で切り替えますが、境界線上の部屋などで接続が不安定になる現象（ピンポン現象）が起こりやすくなります。": "Mfumo wa band steering hubadilisha masafa kiotomatiki, lakini inaweza kusababisha mtandao kukatika (athari ya ping-pong) kwenye maeneo ya mipaka ya mawimbi."
 }
