@@ -3,7 +3,7 @@
   "ブラウザだけで完結する！大容量ファイルの共有術": "Bagikan file besar hanya lewat browser!",
   "専用アプリやアカウント作成はもういらない。ブラウザだけで安全に大容量ファイルを送るための具体的なステップを解説します。": "Tidak perlu aplikasi atau akun. Langkah konkret untuk mengirim file besar secara aman hanya menggunakan browser.",
   "セキュアかつクリーンな「使い捨て（エフェメラル）」設計": "Desain “sementara” yang aman dan bersih",
-  "ビジネスの現場やプライベートで大きなファイル（高画質な動画や撮影データ、大容量のPDF資料など）を他人に送りたいとき、相手に「このクラウドアプリをインストールして」「アカウントを作成して」とお願いするのは非常に気が引けるものです。相手がIT操作に不慣れなクライアントであればなおさら、ツールの導入自体が大きなコミュニケーション障壁となってしまいます。": "Saat Anda ingin mengirim file berukuran besar (seperti video berkualitas tinggi, data pengambilan gambar, atau dokumen PDF berukuran besar) kepada seseorang dalam lingkungan bisnis atau pribadi, akan sangat menakutkan jika meminta orang tersebut untuk ``menginstal aplikasi cloud ini'' atau ``membuat akun.'' Terutama jika klien tidak terbiasa dengan pengoperasian TI, pengenalan alat itu sendiri menjadi hambatan komunikasi yang besar.",
+  "ビジネスの現場やプライベートで大きなファイル（高画質な動画や撮影データ、大容量のPDF資料など）を他人に送りたいとき、相手に「このクラウドアプリをインストールして」「アカウントを作成して」とお願いするのは非常に気が引けるものです。相手がIT操作に不慣れなクライアントであればなおさら、ツールの導入自体が大きなコミュニケーション障壁となってしまいます。": "Saat Anda ingin mengirim file berukuran besar (seperti video berkualitas tinggi, data pengambilan gambar, atau dokumen PDF berukuran besar) kepada seseorang dalam lingkungan bisnis atau pribadi, akan sangat menakutkan jika meminta orang tersebut untuk “menginstal aplikasi cloud ini” atau “membuat akun.” Terutama jika klien tidak terbiasa dengan pengoperasian TI, pengenalan alat itu sendiri menjadi hambatan komunikasi yang besar.",
   "ファイルのアップロード中は、ブラウザのタブを閉じたり、別のウェブサイトに遷移したりしないようにしてください。進捗バー（%）が100%になり、「アップロード完了」と表示されるまではページを維持する必要があります。": "Harap jangan menutup tab browser Anda atau membuka situs web lain saat file sedang diunggah. Anda harus tetap berada di halaman tersebut hingga bilah kemajuan (%) mencapai 100% dan menampilkan \"Unggahan Selesai\".",
   "数百メガバイトからギガバイトクラスの大容量ファイルをアップロード・ダウンロードする際は、モバイルデータ通信（4G/5G）を避け、可能な限り安定した高速Wi-Fi接続、または有線LAN環境を利用してください。途中で接続が途切れるとアップロードが中断してしまうことがあります。": "Saat mengunggah atau mengunduh file berukuran besar mulai dari ratusan megabyte hingga gigabyte, hindari penggunaan komunikasi data seluler (4G/5G) dan gunakan koneksi Wi-Fi berkecepatan tinggi atau lingkungan LAN kabel yang stabil bila memungkinkan. Jika koneksi terputus di tengah jalan, pengunggahan mungkin terhenti.",
   "ブラウザのタブやウィンドウを閉じない": "Jangan tutup tab atau jendela browser",
@@ -17,7 +17,7 @@
   "あらかじめファイルをアーカイブ化（ZIP圧縮）する": "Arsipkan file (kompresi ZIP) terlebih dahulu",
   "ブラウザベースで大きなデータを確実に転送するためには、いくつか知っておくと便利なコツがあります。": "Untuk mentransfer data dalam jumlah besar secara andal menggunakan browser, ada beberapa tips berguna yang perlu diketahui.",
   "安定したネットワーク回線の選択": "Memilih jalur jaringan yang stabil",
-  "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Setelah mengirimkan file menggunakan browser, pertanyaan ``berapa lama data tersebut tetap berada di Internet?'' merupakan masalah keamanan yang penting.",
+  "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Setelah mengirimkan file menggunakan browser, pertanyaan “berapa lama data tersebut tetap berada di Internet?” merupakan masalah keamanan yang penting.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Multi-kompatibilitas untuk digunakan dengan perangkat dan OS apa pun",
   "大容量ファイルをスムーズに転送するための実践テクニック": "Tips untuk mengirim file besar dengan lancar"
 }
