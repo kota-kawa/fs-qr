@@ -20,5 +20,7 @@
   "ロボット掃除機やスマートスピーカーなどのIoT家電の多くは「2.4GHzのみ」に対応しています。スマホが5GHzに繋がった状態で初期設定を行おうとすると、アプリが家電を見つけられず設定に失敗することがよくあります。": "Banyak peralatan pintar IoT seperti robot penyedot debu (robot vacuum) dan smart speaker hanya mendukung frekuensi \"2.4GHz\". Jika Anda melakukan pengaturan awal saat smartphone terhubung ke 5GHz, aplikasi sering kali gagal menemukan peralatan tersebut sehingga pengaturan gagal.",
   "Wi-Fiが不安定な場合の対処法": "Langkah Mengatasi Wi-Fi yang Tidak Stabil",
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Akses menu pengaturan router Anda, lalu nonaktifkan item seperti \"Band Steering\" atau \"Smart Connect\" untuk memunculkan kembali dua nama jaringan seperti sebelumnya. Pada banyak kasus, koneksi akan jauh lebih stabil jika Anda menghubungkan smartphone atau komputer yang sering dipakai ke jaringan 5GHz (○○-A) berkecepatan tinggi, dan hanya beralih ke jaringan 2.4GHz (○○-G) saat berada di ruangan yang jauh atau ketika menggunakan peralatan pintar.",
-  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Cobalah mencari pengaturan yang paling cocok dengan menyesuaikannya terhadap kondisi internet di rumah Anda."
+  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Cobalah mencari pengaturan yang paling cocok dengan menyesuaikannya terhadap kondisi internet di rumah Anda.",
+  "バンドステアリング判断チェックリスト": "Panduan Pengaturan Band Steering",
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Jika perangkat pintar gagal terhubung, atau internet terputus saat berpindah ruangan meskipun Wi-Fi aktif, disarankan untuk mematikan band steering dan memisahkan SSID 5GHz dan 2.4GHz."
 }

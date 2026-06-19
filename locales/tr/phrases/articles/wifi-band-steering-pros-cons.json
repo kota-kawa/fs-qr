@@ -20,5 +20,7 @@
   "ロボット掃除機やスマートスピーカーなどのIoT家電の多くは「2.4GHzのみ」に対応しています。スマホが5GHzに繋がった状態で初期設定を行おうとすると、アプリが家電を見つけられず設定に失敗することがよくあります。": "Robot süpürgeler ve akıllı hoparlörler gibi many IoT cihazı yalnızca 2.4 GHz bandını destekler. Akıllı telefonunuz 5 GHz bandına bağlıyken bu cihazların kurulumunu yapmaya çalışırsanız, kurulum uygulaması cihazı bulamayabilir ve işlem başarısız olur.",
   "Wi-Fiが不安定な場合の対処法": "Wi-Fi Bağlantısı Kararsız Olduğunda Yapılması Gerekenler",
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Yönlendiricinizin arayüzüne giriş yaparak 'Bant Yönlendirme' (Band Steering) veya 'Akıllı Bağlantı' (Smart Connect) seçeneğini devre dışı bıraktığınızda, her iki ağ adı da ayrı ayrı listelenecektir. Telefon veya bilgisayar gibi cihazları genellikle yüksek hızlı 5 GHz bandına bağlayıp, uzak odalarda veya akıllı ev cihazlarında 2.4 GHz bandını tercih etmek bağlantı kararlılığını büyük ölçüde artırabilir.",
-  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Evinizin altyapısına ve ihtiyaçlarınıza göre en uygun yapılandırmayı seçebilirsiniz."
+  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Evinizin altyapısına ve ihtiyaçlarınıza göre en uygun yapılandırmayı seçebilirsiniz.",
+  "バンドステアリング判断チェックリスト": "Bant Yönlendirme Tercih Rehberi",
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Akıllı cihazlar bağlanamıyorsa veya oda değiştirirken Wi-Fi sinyali olmasına rağmen internet kopuyorsa, bant yönlendirmeyi kapatıp 5GHz ve 2.4GHz ağ adlarını (SSID) ayırmanızı öneririz."
 }
