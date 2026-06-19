@@ -20,5 +20,7 @@
   "ロボット掃除機やスマートスピーカーなどのIoT家電の多くは「2.4GHzのみ」に対応しています。スマホが5GHzに繋がった状態で初期設定を行おうとすると、アプリが家電を見つけられず設定に失敗することがよくあります。": "Nhiều thiết bị gia dụng IoT như robot hút bụi hay loa thông minh chỉ tương thích với băng tần \"2.4GHz\". Khi điện thoại đang kết nối với băng tần 5GHz mà tiến hành cài đặt ban đầu thì ứng dụng thường không tìm thấy thiết bị gia dụng và dẫn tới thiết lập thất bại.",
   "Wi-Fiが不安定な場合の対処法": "Cách xử lý khi Wi-Fi không ổn định",
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Bạn hãy truy cập vào trang cài đặt của bộ định tuyến, vô hiệu hóa các mục như \"Band Steering\" hoặc \"Smart Connect\" để thiết bị hiển thị lại hai tên mạng như trước. Bằng việc kết nối điện thoại và máy tính thường dùng với mạng 5GHz tốc độ cao (○○-A) và chỉ kết nối với mạng 2.4GHz (○○-G) khi di chuyển đến phòng ở xa hoặc khi sử dụng thiết bị gia dụng thông minh, kết nối mạng trong nhiều trường hợp sẽ trở nên ổn định hơn rất nhiều.",
-  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Hãy thử tìm kiếm thiết lập tối ưu nhất phù hợp với môi trường mạng tại nhà của bạn."
+  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Hãy thử tìm kiếm thiết lập tối ưu nhất phù hợp với môi trường mạng tại nhà của bạn.",
+  "バンドステアリング判断チェックリスト": "Hướng dẫn thiết lập Band Steering",
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Nếu thiết bị thông minh không kết nối, hoặc mạng bị rớt khi chuyển phòng dù cột sóng Wi-Fi vẫn đầy, bạn nên tắt tính năng Band Steering và chia tách hai băng tần 5GHz và 2.4GHz riêng biệt."
 }

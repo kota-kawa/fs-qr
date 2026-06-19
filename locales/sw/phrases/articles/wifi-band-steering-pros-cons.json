@@ -20,5 +20,7 @@
   "ロボット掃除機やスマートスピーカーなどのIoT家電の多くは「2.4GHzのみ」に対応しています。スマホが5GHzに繋がった状態で初期設定を行おうとすると、アプリが家電を見つけられず設定に失敗することがよくあります。": "Vifaa vingi vya IoT kama roboti za kufagia na spika janja vinatumia wimbi la 2.4GHz tu. Kama simu yako imeunganishwa na 5GHz wakati unasanidi vifaa hivi, programu inaweza kushindwa kuvitambua na usanidi utafeli.",
   "Wi-Fiが不安定な場合の対処法": "Nini cha kufanya kama Wi-Fi haipo thabiti",
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Ingia kwenye ukurasa wa mipangilio ya ruta yako na uzime kipengele cha 'Band Steering' au 'Smart Connect'. Baada ya hapo, majina yote mawili yataonekana tofauti. Kuunganisha simu au kompyuta yako na mtandao wa kasi wa 5GHz kwa matumizi ya kawaida na kutumia 2.4GHz kwa ajili ya vyumba vya mbali au kusanidi vifaa janja huongeza uthabiti wa mtandao kwa kiasi kikubwa.",
-  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Chagua mipangilio inayofaa zaidi kulingana na mazingira ya mtandao wa nyumba yako na mahitaji yako."
+  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Chagua mipangilio inayofaa zaidi kulingana na mazingira ya mtandao wa nyumba yako na mahitaji yako.",
+  "バンドステアリング判断チェックリスト": "Mwongozo wa Kuwasha/Kuzima Band Steering",
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Ikiwa vifaa janjanja haviti kuunganishwa, au mtandao unakatika unapoingia chumba kingine licha ya kuwa na Wi-Fi, tunashauri uzime band steering na utenganishe 5GHz na 2.4GHz."
 }

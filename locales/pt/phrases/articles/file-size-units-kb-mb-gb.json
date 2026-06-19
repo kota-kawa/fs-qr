@@ -41,5 +41,7 @@
   "約300MB〜400MB": "cerca de 300–400 MB",
   "約4GB〜8GB": "cerca de 4–8 GB",
   "約5MB〜10MB": "cerca de 5–10 MB",
-  "音楽1曲（4〜5分）": "Uma música (4–5 minutos)"
+  "音楽1曲（4〜5分）": "Uma música (4–5 minutos)",
+  "身近なデータの容量目安リスト": "Guia rápido de tamanhos comuns de dados",
+  "Webページ閲覧は1ページ約1MB、音楽1曲は約5MB、動画視聴は1時間で約1GBを消費します。スマホの空き容量が足りない時は、容量を最も消費する「動画」から削除するのが鉄則です。": "Navegar na web consome 1MB/página, uma música tem 5MB e vídeo consome 1GB/hora. Se faltar espaço no celular, a regra de ouro é começar apagando os vídeos."
 }

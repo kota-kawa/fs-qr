@@ -20,5 +20,7 @@
   "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Use the free tier of Google Drive, Dropbox, and the like and issue a share link for a file or folder. A good fit when you want the files stored long term.",
   "クラウドストレージの共有機能：": "Cloud storage sharing:",
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Upload the file from your browser and just send the issued URL — the simplest approach there is. FS!QR falls into this category. Ease of use is its biggest draw.",
-  "無料のファイル転送サービス：": "Free file-transfer services:"
+  "無料のファイル転送サービス：": "Free file-transfer services:",
+  "知っておくと便利なファイルサイズの雑学": "Useful Trivia About File Sizes",
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "A smartphone photo is about 3MB-8MB, and a 1-minute 4K video can reach 300MB-400MB. Since this exceeds typical email limits (around 20MB), free transfer services like FS!QR are essential."
 }

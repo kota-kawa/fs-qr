@@ -20,5 +20,7 @@
   "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Nutzen Sie den kostenlosen Speicherplatz von Google Drive, Dropbox und ähnlichen Diensten, um einen Freigabelink zu einer bestimmten Datei oder einem Ordner zu erstellen. Geeignet, wenn Dateien langfristig aufbewahrt werden sollen.",
   "クラウドストレージの共有機能：": "Freigabefunktion von Cloud-Speicher:",
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Laden Sie die Datei über Ihren Browser hoch und senden Sie einfach die generierte URL — die denkbar einfachste Methode. FS!QR gehört zu dieser Kategorie. Einfache Bedienbarkeit ist sein größter Vorteil.",
-  "無料のファイル転送サービス：": "Kostenlose Dateiübertragungsdienste:"
+  "無料のファイル転送サービス：": "Kostenlose Dateiübertragungsdienste:",
+  "知っておくと便利なファイルサイズの雑学": "Nützliches Wissen über Dateigrößen",
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Ein Smartphone-Foto ist ca. 3–8 MB groß, 1 Minute 4K-Video erreicht 300–400 MB. Da dies das E-Mail-Limit (ca. 20 MB) überschreitet, sind kostenlose Transferdienste wie FS!QR unverzichtbar."
 }

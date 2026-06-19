@@ -20,5 +20,7 @@
   "ロボット掃除機やスマートスピーカーなどのIoT家電の多くは「2.4GHzのみ」に対応しています。スマホが5GHzに繋がった状態で初期設定を行おうとすると、アプリが家電を見つけられず設定に失敗することがよくあります。": "Wiele urządzeń smart home, takich jak roboty sprzątające czy inteligentne głośniki, obsługuje wyłącznie pasmo 2,4 GHz. Jeśli smartfon jest połączony z siecią 5 GHz podczas konfiguracji, aplikacja może nie wykryć sprzętu.",
   "Wi-Fiが不安定な場合の対処法": "Co zrobić, gdy połączenie Wi-Fi jest niestabilne",
   "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。": "Zaloguj się do panelu konfiguracyjnego routera i wyłącz opcję taką jak „Band Steering” lub „Smart Connect”, aby ponownie wyświetlić dwie nazwy sieci. W wielu przypadkach połączenie będzie stabilniejsze, jeśli na co dzień będziesz łączyć smartfon czy komputer z szybką siecią 5 GHz, a z pasma 2,4 GHz korzystać tylko w oddalonych pokojach lub przy obsłudze smart home.",
-  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Przetestuj różne ustawienia, aby znaleźć optymalną konfigurację dla swojej sieci domowej."
+  "自宅のネット環境に合わせて、最適な設定を見つけてみてください。": "Przetestuj różne ustawienia, aby znaleźć optymalną konfigurację dla swojej sieci domowej.",
+  "バンドステアリング判断チェックリスト": "Wskazówki dotyczące funkcji Band Steering",
+  "スマート家電が繋がらない、または部屋を移動するとWi-Fiはあるのにネットが切れる場合は、バンドステアリング設定を「オフ」にして5GHzと2.4GHzのSSIDを分けて接続することをおすすめします。": "Jeśli urządzenia smart nie mogą się połączyć lub internet rozłącza się przy zmianie pokoju mimo zasięgu Wi-Fi, zalecamy wyłączenie band steering i rozdzielenie pasm 5 GHz i 2.4 GHz."
 }
