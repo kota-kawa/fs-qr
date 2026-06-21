@@ -28,7 +28,7 @@
   "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Kupakia faili nyingi ndogo moja baada ya nyingine hupunguza kasi kwa sababu ya muda wa kuunganisha kila mara. Kuzikusanya kwenye faili moja ya ZIP huongeza ufanisi wa utumaji.",
   "閉じる": "Funga",
   "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Njia rahisi na salama za kumfanya kazi hii.",
-  "クラウドストレージの共有機能：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "クラウドストレージの共有機能：": "Kushiriki kwa hifadhi ya wingu:",
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Njia rahisi na salama za kumfanya kazi hii.",
-  "無料のファイル転送サービス：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
+  "無料のファイル転送サービス：": "Huduma za bure za kutuma faili:"
 }

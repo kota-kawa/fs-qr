@@ -44,8 +44,6 @@
   "4. Androidで画面録画する方法": "4. Bildschirm aufnehmen unter Android",
   "Android 11以降には「スクリーンレコード」機能が標準搭載されています。": "Ab Android 11 ist die Funktion „Bildschirmaufnahme“ standardmäßig integriert.",
   "画面を上から下に2回スワイプして「クイック設定パネル」を開きます。": "Streichen Sie zweimal von oben nach unten, um die „Schnelleinstellungen“ zu öffnen.",
-  "「スクリーンレコード」": "„Bildschirmaufnahme“",
-  "（または「画面録画」）のアイコンをタップします。（見つからない場合は、パネルの編集マークからボタンを追加してください）": "(oder tippen Sie auf das entsprechende Symbol. Wenn es fehlt, fügen Sie die Schaltfläche über das Stiftsymbol hinzu).",
   "音声の録音有無や画面上のタップを表示するかを設定し、「開始」をタップします。": "Wählen Sie, ob Audio aufgenommen oder Berührungen auf dem Bildschirm angezeigt werden sollen, und tippen Sie auf „Starten“.",
   "カウントダウン後に録画が始まります。録画を止めるには、通知バーを引き下げて「停止」をタップします。動画は「フォト」や「ギャラリー」アプリのライブラリに保存されます。": "Die Aufnahme beginnt nach dem Countdown. Um sie zu beenden, ziehen Sie die Benachrichtigungsleiste nach unten und tippen Sie auf „Stoppen“. Das Video wird in der App „Fotos“ oder „Galerie“ gespeichert.",
   "録画した重い動画ファイルをスムーズに共有するコツ": "Tipps zum reibungslosen Teilen großer Videodateien",
@@ -53,5 +51,6 @@
   "こうした大容量動画の受け渡しには、アカウント登録不要で今すぐ使える無料ファイル共有サービス": "Für die Übertragung solcher großen Videos ist ein kostenloser Dateifreigabedienst, der ohne Registrierung genutzt werden kann,",
   "が大変便利です。": "äußerst praktisch.",
   "ブラウザでFS!QRを開き、録画した動画ファイルをドラッグ＆ドロップしてアップロードするだけで、相手に伝えるためのダウンロードURLとQRコードが瞬時に発行されます。相手がスマホならQRコードをカメラでスキャンするだけで再生・ダウンロード画面に進めるため、PCからスマホへの動画移動も一瞬で終わります。": "Öffnen Sie einfach FS!QR im Browser, laden Sie die Videodatei per Drag-and-Drop hoch, und schon werden eine Download-URL und ein QR-Code erstellt. Wenn der Empfänger ein Smartphone nutzt, kann er den QR-Code scannen, um das Video sofort abzuspielen oder herunterzuladen. So ist das Video im Handumdrehen vom PC auf das Smartphone übertragen.",
-  "パスワードによるアクセス保護や、一定時間後の自動データ消去機能を備えているため、企業の社外秘のデモ画面や操作手順などを共有する際にも安心です。重い動画共有のストレスをゼロにするFS!QRを、画面録画とセットでぜひ活用してください。": "Dank Passwortschutz und automatischer Löschung nach einer bestimmten Zeit können Sie auch vertrauliche Demovideos oder Anleitungen Ihres Unternehmens bedenkenlos teilen. Nutzen Sie FS!QR in Kombination mit Bildschirmaufnahmen, um den Stress beim Teilen großer Videos zu vergessen."
+  "パスワードによるアクセス保護や、一定時間後の自動データ消去機能を備えているため、企業の社外秘のデモ画面や操作手順などを共有する際にも安心です。重い動画共有のストレスをゼロにするFS!QRを、画面録画とセットでぜひ活用してください。": "Dank Passwortschutz und automatischer Löschung nach einer bestimmten Zeit können Sie auch vertrauliche Demovideos oder Anleitungen Ihres Unternehmens bedenkenlos teilen. Nutzen Sie FS!QR in Kombination mit Bildschirmaufnahmen, um den Stress beim Teilen großer Videos zu vergessen.",
+  "<strong>「スクリーンレコード」</strong>（または「画面録画」）のアイコンをタップします。（見つからない場合は、パネルの編集マークからボタンを追加してください）": "Tippen Sie auf das Symbol <strong>„Bildschirmaufzeichnung“</strong> (oder „Bildschirmaufnahme“). (Wenn Sie es nicht finden können, fügen Sie die Schaltfläche über das Bearbeitungssymbol des Panels hinzu.)"
 }

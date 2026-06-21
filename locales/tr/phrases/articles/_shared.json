@@ -91,14 +91,14 @@
   "プレビュー": "Önizleme",
   "分割": "Böl",
   "最大化": "Simge Durumunu Geri Yükle",
-  "20MB〜25MB程度": "PLACEHOLDER_TURKISH",
-  "QRコードが読み取れない": "PLACEHOLDER_TURKISH",
-  "QRコードを画面いっぱいに近いサイズで表示する": "PLACEHOLDER_TURKISH",
-  "ことをおすすめします。": "PLACEHOLDER_TURKISH",
+  "20MB〜25MB程度": "yaklaşık 20–25 MB",
+  "QRコードが読み取れない": "QR kodu taranamıyor",
+  "QRコードを画面いっぱいに近いサイズで表示する": "QR kodunu ekrana yakın bir boyutta gösterin",
+  "ことをおすすめします。": "- Önerdiğimiz yaklaşım budur.",
   "パンくずリスト": "Breadcrumb navigasyonu",
-  "共有期限を相手に伝えたか": "PLACEHOLDER_TURKISH",
-  "大容量ファイルを無料で送る方法": "PLACEHOLDER_TURKISH",
-  "決定事項": "PLACEHOLDER_TURKISH",
-  "画面の明るさを上げる": "PLACEHOLDER_TURKISH",
-  "約300MB〜400MB": "PLACEHOLDER_TURKISH"
+  "共有期限を相手に伝えたか": "Paylaşımın süresinin ne zaman dolacağını alıcıya bildirdiniz mi?",
+  "大容量ファイルを無料で送る方法": "Büyük Dosyalar Ücretsiz Olarak Nasıl Gönderilir",
+  "決定事項": "Kararlar",
+  "画面の明るさを上げる": "Ekran parlaklığını açın",
+  "約300MB〜400MB": "yaklaşık 300–400 MB"
 }

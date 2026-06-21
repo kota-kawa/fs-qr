@@ -16,11 +16,11 @@
   "スクリーンのQRコードを撮るだけ！参加者を迷わせない配布手順": "Cukup pindai kode QR di layar",
   "セミナー、勉強会、新製品発表会、あるいは社内の大規模な会議や取締役会など、人が集まるイベントのたびに、参加人数分の資料を印刷してホチキス留めし、机に並べる作業は主催者側にとって大変な重労働です。直前でスライドの数字が変わったり、誤字が見つかったりした日には、刷り直しのコストと手間で運営は大混乱に陥ります。また、イベント終了後には大量の紙ゴミが発生し、環境保護やSDGsの観点からも大きな問題となります。": "Setiap kali banyak orang berkumpul, seperti seminar, sesi belajar, peluncuran produk baru, atau rapat perusahaan berskala besar atau rapat dewan, penyelenggara harus mencetak dan menstaples materi untuk setiap orang yang hadir, dan mengaturnya di meja masing-masing, yang merupakan tugas yang sangat sulit bagi penyelenggara. Pada hari-hari ketika angka pada slide berubah pada menit terakhir atau ditemukan kesalahan ketik, operasi menjadi kacau karena biaya dan upaya pencetakan ulang. Selain itu, sejumlah besar limbah kertas dihasilkan setelah acara berakhir, yang merupakan masalah besar dari perspektif perlindungan lingkungan dan SDGs.",
   "スクリーンのQRコードを撮るだけ": "Cukup pindai kode QR di layar",
-  "FS QR, イベント運営, 会議資料配布, QRコード活用, ペーパーレス": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "スキャンと閲覧：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "FS QR, イベント運営, 会議資料配布, QRコード活用, ペーパーレス": "FS QR, manajemen acara, distribusi materi rapat, penggunaan kode QR, paperless",
+  "スキャンと閲覧：": "Pemindaian dan peninjauan:",
   "事前にアップロード：": "Unggah sebelumnya:",
   "会場での掲示・投影：": "Ditampilkan dan diproyeksikan di lokasi:",
-  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil."
+  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Peserta hanya perlu memindai kode QR menggunakan kamera smartphone atau tablet mereka saat menempati kursi rapat atau saat mendaftar di meja resepsionis untuk langsung membuka materi dokumen di perangkat mereka. Layanan ini sama sekali tidak memerlukan instalasi aplikasi khusus maupun registrasi akun.",
+  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Tampilkan gambar kode QR yang dihasilkan dalam ukuran besar di layar (proyektor) sebelum acara dimulai, atau cetak pada papan informasi di meja resepsionis, kartu meja, atau kartu nama peserta.",
+  "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Unggah file seperti PDF untuk distribusi, ringkasan, atau materi presentasi ke FS!QR, lalu buat kode QR."
 }

@@ -36,12 +36,12 @@
   "■ Androidの場合": "■ Kwa upande wa Android",
   "パスワードが設定されている場合": "Nenosiri likiwekwa",
   "受け取りの基本手順": "Hatua za msingi za kupokea faili",
-  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "スキャンする：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, Simu janja, Msimbo wa QR, Pokea faili, Pakua, Jinsi ya kutumia, Mwongozo wa wanaoanza",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Jinsi ya kupokea faili zilizoshirikiwa kupitia FS!QR kwenye simu yako janja - mwongozo rahisi wa hatua kwa hatua kuanzia kusoma msimbo wa QR hadi kupakua.",
+  "スキャンする：": "Changanua:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Fungua programu ya kawaida ya kamera kwenye simu yako na uelekeze kamera kwenye msimbo wa QR ulio kwenye skrini ya kompyuta ya mtumaji au uliochapishwa kwenye karatasi.",
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Hakikisha na urekebishe mipangilio ifaavyo.",
-  "リンクを開く：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "保存する：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
+  "リンクを開く：": "Fungua kiungo:",
+  "保存する：": "Hifadhi:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Gusa kiungo cha manjano (au arifa) inayojitokeza kwenye skrini ili kufungua ukurasa wa kupakua wa FS!QR kwenye kivinjari chako."
 }

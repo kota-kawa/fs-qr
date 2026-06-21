@@ -92,13 +92,13 @@
   "分割": "Gawanya",
   "最大化": "Panua",
   "20MB〜25MB程度": "Takriban 20MB hadi 25MB",
-  "QRコードが読み取れない": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "QRコードを画面いっぱいに近いサイズで表示する": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "ことをおすすめします。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "パンくずリスト": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "QRコードが読み取れない": "Imeshindikana kusoma msimbo wa QR",
+  "QRコードを画面いっぱいに近いサイズで表示する": "Onyesha msimbo wa QR kwa ukubwa unaokaribia kujaa skrini",
+  "ことをおすすめします。": "- Hili ndilo pendekezo letu.",
+  "パンくずリスト": "Njia ya kurasa (Breadcrumbs)",
   "共有期限を相手に伝えたか": "Hakikisha kuwa na muda wa kutosha.",
   "大容量ファイルを無料で送る方法": "Njia rahisi na salama za kumfanya kazi hii.",
-  "決定事項": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "画面の明るさを上げる": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
-  "約300MB〜400MB": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
+  "決定事項": "Maamuzi",
+  "画面の明るさを上げる": "Kuongeza mwangaza wa skrini",
+  "約300MB〜400MB": "takriban MB 300–400"
 }
