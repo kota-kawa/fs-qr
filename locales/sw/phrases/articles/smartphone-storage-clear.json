@@ -3,8 +3,6 @@
   "スマホの「ストレージの空き容量がありません」という警告に悩んでいませんか？本記事では、iPhone・Android端末の容量不足を根本から解消する5つの方法と、大切な写真・動画を安全にバックアップして保存する方法をわかりやすく解説します。": "Je, unasumbuliwa na onyo la \"Hakuna nafasi kwenye hifadhi\" kwenye simu yako? Katika makala hii, tunaeleza njia 5 za kutatua kabisa tatizo la upungufu wa nafasi kwenye iPhone na Android, na jinsi ya kuficha picha na video zako muhimu kwa usalama.",
   "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除": "hifadhi ya simu imejaa, kuongeza hifadhi ya iPhone, kupata nafasi kwenye Android, kuhifadhi picha, kufuta kache",
   "smartphone-storage-clear": "smartphone-storage-clear",
-  "デジタル豆知識": "Vidokezo vya Kidijitali",
-  "2026-06-21": "2026-06-21",
   "スマートフォンを使っていて、「ストレージの空き容量がありません」「システムメモリが不足しています」といった警告画面が表示されたことはありませんか？写真や動画をたくさん撮ったり、便利なアプリをどんどんインストールしたりしていると、スマホの容量はあっという間に一杯になってしまいます。": "Ukiwa unatumia simu, je, umewahi kuona onyo kama \"Nafasi ya hifadhi haitoshi\" au \"Kumbukumbu ya mfumo ni ndogo\"? Ikiwa unapiga picha na video nyingi au unaendelea kusakinisha programu muhimu, hifadhi ya simu yako itajaa haraka sana.",
   "容量不足のままスマホを使い続けると、新しい写真が保存できなくなるだけでなく、アプリの動作が遅くなったり、最悪の場合はスマホが突然強制終了して起動しなくなったりする（リンゴループなどの起動障害）リスクもあります。本記事では、iPhoneとAndroidの双方で効果的な、ストレージを空けるための5つの具体的な手順と、大切なデータを失わないためのバックアップ方法を徹底解説します。": "Ukiendelea kutumia simu yenye hifadhi ndogo, sio tu kwamba utashindwa kuhifadhi picha mpya, lakini pia programu zitafanya kazi polepole. Katika hali mbaya zaidi, simu yako inaweza kuzima ghafla na kushindwa kuwaka tena (matatizo ya boot loop). Katika makala hii, tunaeleza hatua 5 madhubuti za kupata nafasi kwenye iPhone na Android, na njia za kuhifadhi nakala ili kuzuia kupoteza data muhimu.",
   "ステップ1：現在のストレージ使用状況を正確に把握する": "Hatua ya 1: Angalia kwa Usahihi Matumizi ya Sasa ya Hifadhi",
@@ -26,6 +24,7 @@
   "不要な写真や動画を「削除」しただけでは、実はストレージは空きません。多くのスマホでは、削除したファイルは一時的に「ゴミ箱」や「最近削除した項目」というフォルダに移動し、30日間保存される仕組みになっているからです。": "Kufuta tu picha na video zisizohitajika hakumaanishi kuwa nafasi imepatikana. Hii is kwa sababu kwenye simu nyingi, faili zilizofutwa huhamishiwa kwa muda kwenye folda kama \"Recently Deleted\" au \"Trash\" na hukaa huko kwa siku 30.",
   "今すぐ容量を増やしたい場合は、写真アプリを開き、": "Kama unataka kupata nafasi mara moja, fungua programu ya picha na:",
   "「最近削除した項目」（iPhone）または「ゴミ箱」（Android）のフォルダを開いて、「すべて削除」を実行": "Fungua folda ya \"Recently Deleted\" (iPhone) au \"Trash\" (Android) na uguse \"Delete All\"",
+  "すべて削除": "Futa Zote",
   "してください。これにより、選択したデータが端末から完全に消去され、即座に空き容量が作成されます。": "Kufanya hivyo kutafuta kabisa data iliyochaguliwa kwenye kifaa na kuunda nafasi mara moja.",
   "ステップ4：動画撮影の設定を見直す（予防策）": "Hatua ya 4: Badilisha Mipangilio ya Kurekodi Video (Hatua ya Kuzuia)",
   "写真に比べて、動画（ムービー）は圧倒的にファイルサイズが大きくなります。特に最近のスマホで「4K / 60fps」などの高画質設定で数分間撮影するだけで、簡単に数GBの容量を消費してしまいます。": "Ikilinganishwa na picha, video zina ukubwa mkubwa sana wa faili. Hasa kwenye simu za sasa, kurekodi kwa dakika chache tu katika ubora vya juu kama \"4K / 60fps\" kunaweza kujaza GB kadhaa za nafasi kwa urahisi.",
@@ -38,6 +37,5 @@
   "PCを持っているなら、定期的にケーブルやWi-Fi経由でスマホのデータをPCのハードディスクや外付けSSDに移動させましょう。": "Kama una kompyuta, hamisha data kutoka kwenye simu kwenda kwenye gari ngumu la PC au SSD ya nje mara kwa mara kwa kutumia kebo au Wi-Fi.",
   "スマホからPCへ、ケーブルなしで素早く写真を送るなら「FS!QR」": "Tumia \"FS!QR\" kutuma picha haraka kutoka kwenye simu kwenda kwenye PC bila kebo",
   "「クラウドストレージは月額料金がかかるし、PCに繋ぐケーブルを探すのも面倒……」という時に便利なのが、登録不要で使える無料ファイル共有サービス": "Wakati unahisi \"hifadhi ya wingu inagharimu ada ya kila mwezi na kutafuta kebo ya kuunganisha kwenye PC ni usumbufu...\", huduma ya bure ya kushiriki faili isiyohitaji usajili ndiyo suluhisho rahisi zaidi.",
-  "です。": "Nayo ni",
   "スマホのブラウザからFS!QRにアクセスし、バックアップしたい写真や動画を選択してアップロードするだけで、画面にダウンロード用のQRコードが表示されます。あとはPCのカメラでそのQRコードを読み取るか、表示された短縮URLをPCブラウザに入力するだけで、あっという間にデータをPCに保存できます。アカウント登録やアプリのインストールも一切不要なため、スマホの容量がピンチになったその場で、即座にデータをPCに退避させて端末をスッキリさせることができます。ぜひ日々のストレージ管理に役立ててください。": "Nenda tu kwenye FS!QR kutoka kwenye kivinjari cha simu yako, chagua picha au video unazotaka kuhifadhi kisha uzipakie, nambari ya QR ya kupakua itaonyeshwa kwenye skrini. Baada ya hapo, changanua nambari ya QR kwa kamera ya kompyuta au ingiza URL fupi iliyoonyeshwa kwenye kivinjari cha PC ili kuhifadhi faili hizo haraka kwenye PC. Kwa kuwa hakuna usajili vya akaunti au usakinishaji wa programu unaohitajika, unaweza kuhamisha data kwenye PC mara moja hifadhi ya simu inapojaa. Hakikisha unatumia huduma hii kwa usimamizi wako wa hifadhi ya kila siku."
 }

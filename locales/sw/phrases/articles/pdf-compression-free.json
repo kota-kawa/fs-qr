@@ -3,8 +3,6 @@
   "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。": "Je, unapata shida kwa sababu \"faili za PDF ni kubwa sana kuziambatisha kwenye barua pepe\" au \"inachukua muda mrefu kuzishiriki\"? Katika makala hii, tunaeleza hatua za kukandamiza na kupunguza ukubwa wa faili za PDF kwa usalama bila malipo, kwa kutumia vipengele vya Mac/Windows pamoja na zana za wavuti za bure.",
   "PDF 圧縮 無料, PDF 容量 軽くする, メール 添付ファイル 上限, PDF リサイズ": "kukandamiza PDF bure, kupunguza ukubwa wa PDF, kikomo cha kiambatisho cha barua pepe, kubadilisha ukubwa wa PDF",
   "pdf-compression-free": "pdf-compression-free",
-  "デジタル豆知識": "Vidokezo vya Kidijitali",
-  "2026-06-21": "2026-06-21",
   "仕事やプライベートでよく使う「PDFファイル」。しかし、画像が多く含まれていたり、複数ページの資料だったりすると、ファイルサイズが数十MBにまで膨らんでしまうことがあります。一般的なビジネスメールの添付ファイル上限（一般的に2MB〜10MB程度）を超えてしまい、「メールが送れない！」と焦った経験がある方も多いのではないでしょうか。": "Faili za PDF hutumiwa sana katika kazi na maisha ya kila siku. Hata hivyo, ikiwa zina picha nyingi au kurasa nyingi, ukubwa wa faili unaweza kuongezeka hadi makumi ya MB. Labda umewahi kuwa na wasiwasi pale ulipozidi kikomo cha kiambatisho cha barua pepe ya biashara (kawaida karibu 2MB hadi 10MB) na kushindwa kutuma barua pepe yako.",
   "PDFが重くなる原因のほとんどは、ファイル内に埋め込まれた高解像度画像や、フォント情報などにあります。本記事では、特別な有料ソフトを使わずに、MacやWindowsの標準機能、あるいは無料のWebサービスを使って、PDFファイルの容量を安全に圧縮する具体的な手順を解説します。": "Sababu kuu ya faili za PDF kuwa kubwa ni picha za azimio la juu zilizopachikwa ndani yake au data ya fonti. Katika makala hii, tunaeleza hatua madhubuti za kukandamiza ukubwa wa faili za PDF kwa usalama kwa kutumia vipengele vya kawaida vya Mac au Windows, au huduma za wavuti za bure, bila kutumia programu ya malipo.",
   "PDFファイルが重くなる主な原因": "Sababu Kuu kwa Nini Faili za PDF Zinakuwa Kubwa",
@@ -21,7 +19,6 @@
   "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。": "Bofya \"File\" > \"Export...\" kwenye menyu ya juu.",
   "設定ウィンドウが開くので、「Quartzフィルタ」のプルダウンメニューから": "Dirisha la mipangilio litafunguka; kutoka kwenye menyu ya Quartz Filter, chagua:",
   "「Reduce File Size（ファイルサイズを縮小）」": "\"Reduce File Size\" (Punguza Ukubwa wa Faili)",
-  "を選択します。": "ili kuitumia.",
   "「保存」をクリックすると、圧縮されたPDFが新しく書き出されます。": "Bofya \"Save\" ili kusafirisha PDF mpya iliyokandamizwa.",
   "※注意点：この方法は非常に手軽ですが、書き出し後の画質がかなり荒くなってしまうことがあります。特に細かい文字や図面が含まれるPDFの場合は、保存後にファイルを開き、可読性に問題がないか必ず確認してください。": "※ Kumbuka: Ingawa njia hii ni rahisi sana, ubora wa picha baada ya kusafirisha unaweza kupungua sana. Hasa kwa faili za PDF zenye maandishi madogo au michoro, hakikisha unafungua faili baada ya kuhifadhi ili kuona ikiwa inasomeka vizuri.",
   "【Windowsユーザー向け】Microsoft Wordを使って圧縮保存する": "【Kwa Watumiaji wa Windows】 Kukandamiza na Kuhifadhi kwa Kutumia Microsoft Word",
@@ -40,9 +37,7 @@
   "個人情報や企業の機密情報、契約書、未公開のプロジェクト資料など、漏洩しては困る重要書類のアップロードは絶対に避けてください。": "Usipakie nyaraka muhimu zenye taarifa za siri ambazo hazipaswi kuvuja, kama vile taarifa binafsi, siri za kampuni, mikataba, au maelezo ya miradi ambayo haijatolewa.",
   "あくまで公開可能なパンフレットや、一般的な資料の圧縮に限定して利用するのが安全です。": "Kwa usalama, punguza matumizi ya huduma hizi kwa kukandamiza vipeperushi vya kawaida au vifaa vya kumbukumbu vinavyoweza kushirikiwa hadharani.",
   "圧縮しても重いファイルや、重要データを安全に送るなら「FS!QR」": "Tuma Faili Kubwa au Data Siri kwa Usalama kwa Kutumia \"FS!QR\"",
-  "「圧縮したけれど、どうしてもメールの添付上限を超えてしまう」「機密情報なので、外部のオンライン圧縮ツールは使いたくない」という場合には、メール添付ではなく": "Ikiwa \"faili bado inazidi kikomo cha barua pepe baada ya kukandamizwa\" au \"hutaki kutumia zana za nje kwa sababu ya usalama wa habari\", badala ya kuambatisha kwenye barua pepe, njia bora zaidi ni:",
-  "「安全なファイル共有リンク」": "\"Kiungo salama cha kushiriki faili\"",
-  "を生成して送る方法が最適です。": "tengeneza na utume kiungo salama cha kushiriki faili.",
+  "「圧縮したけれど、どうしてもメールの添付上限を超えてしまう」「機密情報なので、外部のオンライン圧縮ツールは使いたくない」という場合には、メール添付ではなく<strong>「安全なファイル共有リンク」</strong>を生成して送る方法が最適です。": "Ikiwa \"faili bado inazidi kikomo cha barua pepe baada ya kukandamizwa\" au \"hutaki kutumia zana za nje kwa sababu ya usalama wa taarifa\", njia bora si kuambatisha kwenye barua pepe bali kutengeneza na kutuma <strong>\"kiungo salama cha kushiriki faili\"</strong>.",
   "FS!QRはアップロードしたファイルをパスワード（合言葉）で保護できるため、第三者への誤送信や盗聴を防ぐことができます。さらに、設定した期間が過ぎればサーバーからデータが自動的に完全消去されるため、「一度送ったファイルがネット上に残り続ける」というセキュリティリスクもありません。メール添付できない重いPDFの送付や、セキュリティを重視するビジネス書類のやり取りに、ぜひFS!QRをご活用ください。": "FS!QR inakuwezesha kulinda faili zilizopakiliwa kwa nenosiri (nenosiri la siri), kuzuia kutumwa vibaya kwa watu wengine au wizi wa data. Zaidi ya hayo, kwa kuwa data inafutwa moja kwa moja kutoka kwenye seva baada ya muda uliowekwa kwisha, hakuna hatari ya usalama ya faili kubaki kwenye mtandao milele. Tumia FS!QR kwa kutuma PDF kubwa ambazo haziwezi kutumwa kwa barua pepe, au kwa kubadilishana hati za siri za biashara.",
   "無料のファイル共有サービス<strong>「FS!QR」</strong>なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。": "Ukiwa na huduma ya bure ya kushiriki faili ya <strong>「FS!QR」</strong>, unaweza kupakia PDF kwa kuburuta na kudondosha kwenye kivinjari chako ili kuzalisha mara moja URL au nambari ya QR ya kupakua kwa mpokeaji."
 }
