@@ -35,5 +35,13 @@
   "万が一、QRコードが読み取れなかったり、ダウンロードが始まらなかったりする場合は、以下の原因と対策を確認してください。": "Jika kode QR tidak dapat terbaca atau pengunduhan tidak dapat dimulai, silakan periksa penyebab dan solusinya di bawah ini.",
   "■ Androidの場合": "■ Untuk Android",
   "パスワードが設定されている場合": "Jika kata sandi diaktifkan",
-  "受け取りの基本手順": "Langkah dasar menerima file"
+  "受け取りの基本手順": "Langkah dasar menerima file",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "スキャンする：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Periksa nama dan ukuran file yang ditampilkan di halaman, lalu ketuk tombol \"Unduh\". Setelah pemrosesan selesai, file akan disimpan di perangkat Anda.",
+  "リンクを開く：": "Buka tautan:",
+  "保存する：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil."
 }

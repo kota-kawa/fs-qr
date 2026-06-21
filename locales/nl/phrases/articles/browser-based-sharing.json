@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Een Stabiele Netwerkverbinding Kiezen",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Na het verzenden van een bestand via de browser is de vraag 'hoe lang die gegevens op internet blijven staan' een belangrijk beveiligingspunt.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Multi-compatibiliteit Geschikt voor Elk Apparaat en Besturingssysteem",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Praktische Technieken voor een Soepele Overdracht van Grote Bestanden"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Praktische Technieken voor een Soepele Overdracht van Grote Bestanden",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "FS QR, Grote bestanden, Browser voltooien, Geen account nodig, Bestandoverdracht",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "Gratis accounts bij Google Drive, Dropbox, OneDrive en dergelijke bereiken snel hun limiet, waardoor u regelmatig oude bestanden moet opschonen of naar een betaald plan moet gaan.",
+  "クラウドストレージの容量圧迫：": "Cloud-opslagcapaciteitsdruk:",
+  "チャットツールの自動圧縮による品質低下：": "Kwaliteitsverlies door automatische compressie van chat-tool:",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Foto's en video's via berichten-apps ondergaan automatisch schaling en sterke compressie, wat kwaliteit en resolutie ernstig aantast.",
+  "メール添付の容量上限：": "E-mailbijlagecapaciteitslimiet:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Bedrijfs-e-mail heeft doorgaans 20-25MB limiet - overschrijding leidt tot verzendfouten."
 }

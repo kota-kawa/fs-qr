@@ -35,5 +35,13 @@
   "万が一、QRコードが読み取れなかったり、ダウンロードが始まらなかったりする場合は、以下の原因と対策を確認してください。": "Trong trường hợp không may mã QR không quét được hoặc quá trình tải xuống không bắt đầu, hãy kiểm tra các nguyên nhân và biện pháp khắc phục dưới đây.",
   "■ Androidの場合": "■ Trường hợp Android",
   "パスワードが設定されている場合": "Khi có đặt mật khẩu",
-  "受け取りの基本手順": "Các bước cơ bản để nhận tệp"
+  "受け取りの基本手順": "Các bước cơ bản để nhận tệp",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, Điện thoại thông minh, Mã QR, Nhận tệp, Tải xuống, Cách sử dụng, Hướng dẫn cho người mới bắt đầu",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Chúng tôi sẽ giải thích các bước để nhận tệp được chia sẻ qua FS!QR trên điện thoại thông minh, từ quét mã QR đến tải xuống, một cách dễ hiểu cho người mới bắt đầu.",
+  "スキャンする：": "Quét:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Khởi chạy ứng dụng camera tiêu chuẩn của điện thoại thông minh và hướng camera đến mã QR được in trên màn hình máy tính nguồn chia sẻ hoặc giấy.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Xác nhận tên tệp và kích thước được hiển thị trên trang, sau đó nhấn nút \"Tải xuống\". Khi quá trình hoàn thành, tệp sẽ được lưu trên thiết bị.",
+  "リンクを開く：": "Mở liên kết:",
+  "保存する：": "Lưu:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Nhấn vào liên kết màu vàng (hoặc thông báo) được hiển thị bật lên trên màn hình để mở trang tải xuống FS!QR trong trình duyệt."
 }

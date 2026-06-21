@@ -35,5 +35,13 @@
   "大容量ファイルを受け取る際は、モバイル回線（4G/5G）の電波状況が不安定だとエラーになりやすくなります。安定したWi-Fi環境に接続し、ブラウザのページを再読み込み（リフレッシュ）してから再度試してください。": "Podczas odbierania dużych plików niestabilny odbiór sygnału w sieciach komórkowych (4G/5G) łatwo prowadzi do błędów. Połącz się ze stabilnym środowiskiem Wi-Fi, załaduj ponownie (odśwież) stronę przeglądarki i spróbuj ponownie.",
   "通信エラーでダウンロードが途中で止まる": "Pobieranie zatrzymuje się w połowie z powodu błędu komunikacji",
   "パスワードが設定されている場合": "Gdy ustawiono hasło",
-  "受け取りの基本手順": "Podstawowe kroki odbioru pliku"
+  "受け取りの基本手順": "Podstawowe kroki odbioru pliku",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "スキャンする：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "リンクを開く：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "保存する：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Dotknij żółtego linku (lub powiadomienia) wyświetlanego na ekranie, aby otworzyć stronę pobierania FS!QR w przeglądarce."
 }

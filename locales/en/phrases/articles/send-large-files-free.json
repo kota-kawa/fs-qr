@@ -29,5 +29,6 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Use wired LAN connection or stay close to the Wi-Fi router",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "The larger the file, the more likely a slight radio interference or packet loss will cause a transfer failure. Especially when sending or receiving gigabyte-scale data, moving closer to the router or using a wired connection dramatically increases stability.",
   "写真や書類はまとめてZIP形式に圧縮する": "Compress photos and documents into a ZIP archive",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Uploading many small files individually creates communication overhead for each file, which takes time even if the total size is small. Combining multiple files into a single ZIP archive maximizes transfer efficiency."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Uploading many small files individually creates communication overhead for each file, which takes time even if the total size is small. Combining multiple files into a single ZIP archive maximizes transfer efficiency.",
+  "閉じる": "Close"
 }

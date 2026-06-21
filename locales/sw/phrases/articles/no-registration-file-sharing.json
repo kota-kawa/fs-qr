@@ -26,5 +26,13 @@
   "パスワードの使い回し被害を防ぐ：": "Huzuia madhara yanayotokana na kutumia nywila moja kwenye tovuti nyingi:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Watumiaji wengi hutumia nywila moja kwenye huduma mbalimbali. Kuepuka kujisajili huzuia hatari ya akaunti zako nyingine kudukuliwa kwa mlolongo.",
   "共有後にデータが自動で完全消去される安心感：": "Kufutwa kabisa kwa faili baada ya kupokelewa:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Hifadhi za wingu za kawaida huhifadhi faili hadi uzifute mwenyewe. Huduma bila akaunti hufuta faili kwenye seva baada ya muda fulani, kuzuia uvujaji kwa kusahau."
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Hifadhi za wingu za kawaida huhifadhi faili hadi uzifute mwenyewe. Huduma bila akaunti hufuta faili kwenye seva baada ya muda fulani, kuzuia uvujaji kwa kusahau.",
+  "「使い捨て」感覚の気軽さ：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。": "Njia rahisi na salama za kumfanya kazi hii.",
+  "プライバシーの保護：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "一度きりのファイル受け渡しのために、わざわざ新しいアプリを入れたり、使わないアカウントを増やしたりしたくない場合に最適です。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "受け取る側にもアカウント作成を求めないサービスが多いため、ITツールに不慣れな人にも安心してファイルのダウンロードURLを送ることができます。": "Njia rahisi na salama za kumfanya kazi hii.",
+  "圧倒的な手軽さとスピード：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "相手にも負担をかけない：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
 }

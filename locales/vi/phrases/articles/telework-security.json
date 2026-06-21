@@ -16,5 +16,22 @@
   "シャドーITの撲滅とリモート業務の効率化を両立": "Kết hợp giữa xóa bỏ Shadow IT và nâng cao hiệu quả công việc từ xa",
   "多くのクラウドサービスやファイル共有ツールでは、アップロード後に「共有URL」が生成されます。このURLさえ知っていれば、誰でもファイルにアクセスできる状態が一般的です。しかし、テレワークにおいては以下の理由から、URL単体の共有では不十分なケースが多々あります。": "Trong nhiều dịch vụ đám mây và công cụ chia sẻ tệp tin, một \"URL chia sẻ\" được tạo ra sau khi tải lên. Thông thường, bất cứ ai biết URL này đều có thể truy cập vào tệp tin. Tuy nhiên, khi làm việc từ xa, có rất nhiều trường hợp việc chỉ chia sẻ duy nhất URL là không đủ an toàn vì các lý do sau đây.",
   "セキュリティを過剰に厳しくした結果、ファイルの送受信に時間や手間がかかりすぎると、社員はこっそり個人用のクラウドサービスやフリーの転送サイトを使用するようになります（これがシャドーITです）。シャドーITは、企業のシステム管理者が把握できないため、セキュリティ対策において最大の脅威となります。": "Nếu thắt chặt bảo mật quá mức dẫn đến việc gửi nhận tệp tin tốn quá nhiều thời gian and công sức, nhân viên sẽ có xu hướng âm thầm sử dụng các dịch vụ đám mây cá nhân hoặc các trang web chuyển tệp tin miễn phí (đây chính là Shadow IT). Do hệ thống quản trị của doanh nghiệp không thể nắm bắt được Shadow IT, đây trở thành mối đe dọa lớn nhất trong việc thực hiện các biện pháp an toàn thông tin.",
-  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "Quy trình thực tế để tăng cường an toàn hơn nữa bằng cách \"phân tách kênh truyền thông (Out-of-Band)\""
+  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "Quy trình thực tế để tăng cường an toàn hơn nữa bằng cách \"phân tách kênh truyền thông (Out-of-Band)\"",
+  "FS QR, テレワーク, セキュリティ, パスワード保護, 業務効率化": "FS QR, Làm việc từ xa, Bảo mật, Bảo vệ bằng mật khẩu, Tăng hiệu suất công việc",
+  "URLの送信：": "Gửi URL:",
+  "「システムが発行した一時ID」と「送信者が設定したパスワード」の2つの組み合わせ": "Sự kết hợp của \"ID tạm thời được hệ thống phát hành\" và \"mật khẩu do người gửi đặt\".",
+  "「連絡経路を切り分ける（分離する）」": "\"Tách biệt các kênh liên lạc\"",
+  "を入力しなければ、ファイルの実体に触れることすらできません。": "nếu không nhập, bạn thậm chí không thể chạm vào tệp thực tế.",
+  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "Khi sử dụng Wi-Fi miễn phí với cài đặt mã hóa yếu như ở quán cà phê, có nguy cơ URL bị chặn bằng cách chụp gói (nghe trộm).",
+  "チャットツールの送信相手を間違えたり、グループチャットに誤って貼り付けたりした場合、URLをタップした全員にファイルが閲覧されてしまいます。": "Nếu bạn gửi sai người nhận của công cụ trò chuyện hoặc dán nhầm vào trò chuyện nhóm, tệp sẽ được xem bởi tất cả những người nhấn vào URL.",
+  "パスワードの伝達：": "Truyền mật khẩu:",
+  "パスワードは、チャットツールとは「全く別のルート」で伝えます。具体的には、電話をかける、スマートフォンのSMS（電話番号宛てのショートメッセージ）で送る、または事前に設定済みの別の連絡用アドレスに送る、などの方法をとります。": "Hãy truyền mật khẩu qua \"tuyến hoàn toàn khác\" với công cụ trò chuyện. Cụ thể, bạn có thể gọi điện thoại, gửi qua SMS của điện thoại thông minh (tin nhắn ngắn gửi đến số điện thoại) hoặc gửi đến một địa chỉ liên hệ riêng được thiết lập trước.",
+  "ファイルのダウンロードURL（および一時ID）は、通常の業務連絡で使用しているチャットツール（Teams、Slack、LINE WORKS等）で共有します。": "URL tải xuống tệp (và ID tạm thời) được chia sẻ thông qua công cụ trò chuyện được sử dụng cho liên lạc kinh doanh thông thường (Teams, Slack, LINE WORKS, v.v.).",
+  "ファイルをアップロードする際、送信者は任意のパスワードを設定できます。そして、システムはダウンロードのためのURLとともに、そのファイル専用の「一時的なID（ユーザーID）」を自動生成します。ダウンロード画面にアクセスした受信者は、": "Khi tải lên tệp, người gửi có thể đặt mật khẩu tùy ý. Sau đó, hệ thống sẽ tự động tạo \"ID tạm thời (ID người dùng)\" chuyên dụng cho tệp đó cùng với URL để tải xuống. Người nhận truy cập màn hình tải xuống",
+  "共有相手のPCやスマートフォンのブラウザ履歴、チャットツール上の会話履歴にURLが半永久的に残り、第三者が後からアクセスできてしまう懸念。": "Mối lo lắng rằng URL sẽ vĩnh viễn lưu lại trong lịch sử trình duyệt của PC hoặc điện thoại của bên chia sẻ, lịch sử trò chuyện trên công cụ trò chuyện và bên thứ ba có thể truy cập sau.",
+  "履歴の残留：": "Sự tồn lưu của lịch sử:",
+  "最高レベルの安全性を維持するために、実務では以下のように": "Để duy trì mức bảo mật cao nhất, trong thực hành:",
+  "誤送信による即座の流出：": "Rò rỉ tức thì do gửi sai:",
+  "通信経路上の盗聴：": "Nghe trộm trên đường truyền thông:",
+  "運用を徹底してください。": "Vui lòng thực hiện hoạt động triệt để."
 }

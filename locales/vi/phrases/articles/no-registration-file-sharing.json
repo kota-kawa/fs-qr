@@ -26,5 +26,13 @@
   "パスワードの使い回し被害を防ぐ：": "Ngăn chặn hậu quả từ việc dùng chung một mật khẩu cho nhiều tài khoản:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Nhiều người có thói quen dùng một mật khẩu cho nhiều tài khoản. Việc không cần tạo tài khoản mới giúp bảo vệ các tài khoản khác của bạn khỏi nguy cơ bị hack dây chuyền khi một dịch vụ bị lộ thông tin.",
   "共有後にデータが自動で完全消去される安心感：": "Yên tâm hơn nhờ cơ chế tự động xóa sạch dữ liệu sau khi chia sẻ:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Các kho lưu trữ đám mây thông thường sẽ giữ file mãi mãi cho đến khi xóa thủ công. Dịch vụ chuyển tệp không cần tài khoản thường tự động xóa tệp khỏi máy chủ sau một khoảng thời gian nhất định, tránh lộ dữ liệu do quên xóa."
+  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Các kho lưu trữ đám mây thông thường sẽ giữ file mãi mãi cho đến khi xóa thủ công. Dịch vụ chuyển tệp không cần tài khoản thường tự động xóa tệp khỏi máy chủ sau một khoảng thời gian nhất định, tránh lộ dữ liệu do quên xóa.",
+  "「使い捨て」感覚の気軽さ：": "Sự tiện lợi của cảm giác \"sử dụng một lần rồi vứt\":",
+  "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。": "Chỉ cần truy cập trang web và kéo thả tệp, quá trình tải lên sẽ bắt đầu. Trong vài giây, liên kết chia sẻ hoặc mã QR sẽ được phát hành và bạn có thể gửi cho người nhận.",
+  "プライバシーの保護：": "Bảo vệ quyền riêng tư:",
+  "一度きりのファイル受け渡しのために、わざわざ新しいアプリを入れたり、使わないアカウントを増やしたりしたくない場合に最適です。": "Nó hoàn hảo cho những người không muốn cố ý cài đặt một ứng dụng mới hoặc tạo một tài khoản chỉ để trao đổi tệp một lần.",
+  "受け取る側にもアカウント作成を求めないサービスが多いため、ITツールに不慣れな人にも安心してファイルのダウンロードURLを送ることができます。": "Vì nhiều dịch vụ không yêu cầu tạo tài khoản cho bên nhận, bạn có thể yên tâm gửi URL tải xuống tệp cho những người không quen với công cụ IT.",
+  "圧倒的な手軽さとスピード：": "Sự tiện lợi và tốc độ tuyệt đối:",
+  "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Bạn không cần cung cấp thông tin cá nhân như tên hoặc địa chỉ email cho nhà cung cấp dịch vụ. Bạn có thể từ cơ bản giảm rủi ro rò rỉ thông tin cá nhân.",
+  "相手にも負担をかけない：": "Không gây gánh nặng cho bên kia:"
 }

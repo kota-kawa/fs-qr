@@ -25,5 +25,10 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Sogea karibu na kipanga njia cha Wi-Fi au tumia kebo ya LAN",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Kadiri faili inavyokuwa kubwa, ndivyo uwezekano wa kufeli unavyoongezeka kutokana na mwingiliano wa Wi-Fi. Unapotuma data kubwa ya gigabyte (GB), kutumia kebo ya Ethernet au kuwa karibu na kipanga njia kutaimarisha utumaji kabisa.",
   "写真や書類はまとめてZIP形式に圧縮する": "Kusanya faili zako katika mfumo wa ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Kupakia faili nyingi ndogo moja baada ya nyingine hupunguza kasi kwa sababu ya muda wa kuunganisha kila mara. Kuzikusanya kwenye faili moja ya ZIP huongeza ufanisi wa utumaji."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Kupakia faili nyingi ndogo moja baada ya nyingine hupunguza kasi kwa sababu ya muda wa kuunganisha kila mara. Kuzikusanya kwenye faili moja ya ZIP huongeza ufanisi wa utumaji.",
+  "閉じる": "Funga",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Njia rahisi na salama za kumfanya kazi hii.",
+  "クラウドストレージの共有機能：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Njia rahisi na salama za kumfanya kazi hii.",
+  "無料のファイル転送サービス：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
 }

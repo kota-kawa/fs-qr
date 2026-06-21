@@ -25,5 +25,10 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Blijf dicht bij de Wi-Fi router of gebruik een bekabelde LAN-verbinding",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Hoe groter het bestand, des te gevoeliger het is voor pakketverlies of signaalstoringen op Wi-Fi. Bij bestanden van meerdere gigabytes (GB) zorgt een LAN-kabel of nabijheid tot de router voor maximale stabiliteit.",
   "写真や書類はまとめてZIP形式に圧縮する": "Bundel documenten en foto's in een ZIP-archief",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Het uploaden van veel losse bestanden vertraagt de verbinding door herhaalde verbindingsopbouw. Het inpakken van gegevens in één ZIP-bestand verhoogt de efficiëntie en vergemakkelijkt het downloaden voor de ontvanger."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Het uploaden van veel losse bestanden vertraagt de verbinding door herhaalde verbindingsopbouw. Het inpakken van gegevens in één ZIP-bestand verhoogt de efficiëntie en vergemakkelijkt het downloaden voor de ontvanger.",
+  "閉じる": "Sluiten",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Een methode waarbij u het gratis account van Google Drive of Dropbox gebruikt om deelkoppelingen voor specifieke bestanden of mappen uit te geven. Dit is geschikt voor langdurige bestandsopslag.",
+  "クラウドストレージの共有機能：": "Cloud-opslagdeelfunctie:",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Eenvoudige methode: upload via browser en stuur gegenereerde URL. FS!QR is een voorbeeld. Gemak is het voornaamste voordeel.",
+  "無料のファイル転送サービス：": "Gratis bestandoverdrachtservice:"
 }

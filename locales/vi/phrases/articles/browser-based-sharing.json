@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Lựa chọn đường truyền mạng ổn định",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Sau khi gửi tệp tin bằng trình duyệt, thắc mắc \"liệu dữ liệu đó sẽ tiếp tục tồn tại trên Internet trong bao lâu\" là một mối quan tâm bảo mật vô cùng quan trọng.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Khả năng tương thích đa nền tảng sử dụng được trên mọi thiết bị và hệ điều hành",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Bí quyết gửi tệp tin dung lượng lớn một cách mượt mà"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Bí quyết gửi tệp tin dung lượng lớn một cách mượt mà",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "FS QR, Tệp lớn, Hoàn toàn trên trình duyệt, Không cần tài khoản, Chuyển tệp",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "Dung lượng miễn phí của Google Drive, Dropbox, OneDrive và các dịch vụ tương tự nhanh chóng đạt giới hạn, yêu cầu bạn phải định kỳ dọn dẹp các tệp cũ hoặc chuyển sang gói trả phí.",
+  "クラウドストレージの容量圧迫：": "Áp lực dung lượng lưu trữ đám mây:",
+  "チャットツールの自動圧縮による品質低下：": "Suy giảm chất lượng do nén tự động của công cụ trò chuyện:",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Khi gửi hình ảnh hoặc video qua ứng dụng nhắn tin, có thể tự động thay đổi kích thước hoặc nén cao, làm suy giảm đáng kể chất lượng hoặc độ phân giải của dữ liệu gốc.",
+  "メール添付の容量上限：": "Giới hạn dung lượng đính kèm email:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Trong email kinh doanh thông thường, giới hạn tệp đính kèm là 20MB đến 25MB, vượt quá đó sẽ gây lỗi gửi."
 }

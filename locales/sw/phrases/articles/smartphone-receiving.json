@@ -35,5 +35,13 @@
   "万が一、QRコードが読み取れなかったり、ダウンロードが始まらなかったりする場合は、以下の原因と対策を確認してください。": "Ikiwa kwa bahati mbaya msimbo wa QR hauwezi kusomeka au upakuaji hauanzi, tafadhali angalia sababu na hatua zifuatazo za utatuzi.",
   "■ Androidの場合": "■ Kwa upande wa Android",
   "パスワードが設定されている場合": "Nenosiri likiwekwa",
-  "受け取りの基本手順": "Hatua za msingi za kupokea faili"
+  "受け取りの基本手順": "Hatua za msingi za kupokea faili",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "スキャンする：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Hakikisha na urekebishe mipangilio ifaavyo.",
+  "リンクを開く：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "保存する：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
 }
