@@ -51,5 +51,5 @@
   "seo.home.intent": "涵盖文件传输、照片共享、视频共享、PDF 发送、共享备忘录和会议纪要等常见搜索用途，从短期临时共享到团队协作都能使用。",
   "seo.fsqr.intent": "可快速创建有期限的临时共享，用于通过二维码发送文件、将照片或 PDF 从电脑传到手机，以及无需安装应用共享大文件。",
   "seo.group.intent": "可像共享文件夹一样使用群组房间，无需注册即可统一管理内部资料、课堂资料、活动资料以及与客户的文件交接。",
-  "seo.note.intent": "适用于在线备忘录、共享笔记、会议记录和纪要共享的协同编辑笔记。只需共享 URL 和访问密钥，即可在浏览器中同时编辑并自动保存。"
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

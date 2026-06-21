@@ -51,5 +51,5 @@
   "seo.home.intent": "Copre ricerche comuni come trasferimento file, condivisione di foto e video, invio di PDF, memo condivisi e verbali, dalla condivisione temporanea rapida alla collaborazione di team.",
   "seo.fsqr.intent": "Crea subito una condivisione temporanea con scadenza per inviare file via QR code, trasferire foto o PDF da PC a smartphone e condividere file grandi senza app.",
   "seo.group.intent": "Usa una stanza di gruppo come cartella condivisa per gestire senza registrazione documenti interni, materiali didattici, file per eventi e scambi con clienti.",
-  "seo.note.intent": "Una nota collaborativa per memo online, note condivise, appunti di riunione e verbali. Condividi URL e chiave di accesso per modificare insieme nel browser con salvataggio automatico."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

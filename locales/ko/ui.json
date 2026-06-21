@@ -51,5 +51,5 @@
   "seo.home.intent": "파일 전송, 사진 공유, 동영상 공유, PDF 보내기, 공유 메모, 회의록 작성처럼 자주 검색되는 용도에 맞춰 짧은 임시 공유부터 팀 공동 작업까지 지원합니다.",
   "seo.fsqr.intent": "QR 코드로 파일 보내기, PC에서 스마트폰으로 사진이나 PDF 전송, 앱 없이 대용량 파일 공유 등 기한이 있는 임시 공유를 바로 만들 수 있습니다.",
   "seo.group.intent": "공유 폴더처럼 사용할 수 있는 그룹 룸에서 사내 자료, 수업 자료, 이벤트 배포물, 거래처와의 파일 전달을 회원가입 없이 한곳에서 관리할 수 있습니다.",
-  "seo.note.intent": "온라인 메모, 공유 메모, 회의 메모, 회의록 공유에 사용할 수 있는 공동 편집 노트입니다. URL과 액세스 키를 공유하면 브라우저에서 동시 편집과 자동 저장을 시작할 수 있습니다."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

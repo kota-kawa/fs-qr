@@ -51,5 +51,5 @@
   "seo.home.intent": "Hỗ trợ các nhu cầu thường được tìm kiếm như chuyển tệp, chia sẻ ảnh, chia sẻ video, gửi PDF, ghi chú chung và biên bản họp, từ chia sẻ tạm thời đến cộng tác nhóm.",
   "seo.fsqr.intent": "Tạo nhanh chia sẻ tạm thời có thời hạn để gửi tệp bằng mã QR, chuyển ảnh hoặc PDF từ PC sang điện thoại và chia sẻ tệp lớn mà không cần cài ứng dụng.",
   "seo.group.intent": "Dùng phòng nhóm như thư mục dùng chung để quản lý tài liệu nội bộ, tài liệu lớp học, tài liệu sự kiện và trao đổi tệp với khách hàng mà không cần đăng ký.",
-  "seo.note.intent": "Ghi chú cộng tác cho ghi chú trực tuyến, ghi chú dùng chung, ghi chú cuộc họp và biên bản. Chia sẻ URL và khóa truy cập để cùng chỉnh sửa trên trình duyệt và tự động lưu."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

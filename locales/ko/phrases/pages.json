@@ -240,5 +240,9 @@
   "外部フォームについて": "외부 양식에 대해",
   "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "문의에는 Google Forms를 이용하고 있습니다. 양식에 입력된 내용은 문의 대응 및 서비스 개선을 위해 이용합니다. Google의 정보 취급에 대해서는 Google의 개인정보 처리방침을 확인해 주세요.",
   "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "개인정보 관련 문의, 삭제 요청, 불법이거나 권리를 침해할 우려가 있는 콘텐츠 신고도 이 양식을 통해 접수하고 있습니다. 대상 URL, 룸 ID, 문제 내용, 회신처를 가능한 한 구체적으로 기재해 주세요.",
-  "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "제정일: 2026년 5월 28일 / 최종 업데이트: 2026년 6월 8일"
+  "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "제정일: 2026년 5월 28일 / 최종 업데이트: 2026년 6월 8일",
+  "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。": "FS!QR is a free file-sharing service for exchanging data in the browser with QR codes. File sharing, note sharing, and group sharing are available from your browser.",
+  "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Use share URLs, QR codes, room IDs, and passwords to share temporarily with the intended recipients.",
+  "QRコード共有のファイルはブラウザ上でAES暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. All features use HTTPS, and data is automatically deleted after the selected retention period.",
+  "QRコード共有のファイルはブラウザ上でAES暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. Communication uses HTTPS, and each item is automatically deleted after the selected retention period."
 }

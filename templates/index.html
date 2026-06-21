@@ -95,7 +95,7 @@
       "QRコードでのファイル共有",
       "グループファイル共有",
       "リアルタイムノート共有",
-      "暗号化によるセキュア転送"
+      "HTTPSによる通信保護"
     ]
   }
   </script>
@@ -156,7 +156,7 @@
         "name": "ファイルはいつ削除されますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "アップロード時に選択した保存期間（最大7日）が経過すると自動削除されます。"
+          "text": "アップロード時に選択した保存期間（最大30日）が経過すると自動削除されます。"
         }
       },
       {
@@ -684,7 +684,7 @@
         <ul class="top-seo-security-list">
           <li><i class="fas fa-lock" aria-hidden="true"></i> QRコード共有ではファイルをブラウザ上でAES-256暗号化してからサーバーに保存</li>
           <li><i class="fas fa-key" aria-hidden="true"></i> 6桁のルームID＋6桁のパスワードによる二重保護</li>
-          <li><i class="fas fa-trash-alt" aria-hidden="true"></i> ファイルは設定した保存期間（最大7日）経過後に自動削除</li>
+          <li><i class="fas fa-trash-alt" aria-hidden="true"></i> ファイル・ルームは設定した保存期間（最大30日）経過後に自動削除</li>
           <li><i class="fas fa-shield-alt" aria-hidden="true"></i> すべての通信をHTTPS（TLS）で暗号化</li>
         </ul>
       </div>
@@ -706,7 +706,7 @@
           </div>
           <div class="top-seo-faq-item">
             <dt>ファイルはいつ削除されますか？</dt>
-            <dd>アップロード時に選択した保存期間（最大7日）が経過すると自動削除されます。</dd>
+            <dd>アップロード時に選択した保存期間（最大30日）が経過すると自動削除されます。</dd>
           </div>
           <div class="top-seo-faq-item">
             <dt>会員登録・ログインは必要ですか？</dt>

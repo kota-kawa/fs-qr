@@ -51,5 +51,5 @@
   "seo.home.intent": "Cubre búsquedas habituales como transferencia de archivos, compartir fotos y vídeos, enviar PDF, notas compartidas y actas de reunión, desde el intercambio temporal hasta el trabajo en equipo.",
   "seo.fsqr.intent": "Crea al instante un uso compartido temporal con caducidad para enviar archivos por código QR, pasar fotos o PDF del PC al móvil y compartir archivos grandes sin instalar apps.",
   "seo.group.intent": "Usa una sala de grupo como carpeta compartida para gestionar sin registro documentos internos, materiales de clase, archivos de eventos e intercambios con clientes.",
-  "seo.note.intent": "Una nota colaborativa para notas online, notas compartidas, apuntes de reunión y actas. Comparte una URL y clave de acceso para editar a la vez en el navegador con guardado automático."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

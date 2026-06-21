@@ -51,5 +51,5 @@
   "seo.home.intent": "Obsługuje częste potrzeby: transfer plików, udostępnianie zdjęć i wideo, wysyłanie PDF, wspólne notatki i protokoły spotkań, od krótkiego udostępniania po pracę zespołową.",
   "seo.fsqr.intent": "Szybko utwórz tymczasowe udostępnianie z terminem ważności, aby wysyłać pliki kodem QR, przenosić zdjęcia lub PDF z komputera na telefon i udostępniać duże pliki bez aplikacji.",
   "seo.group.intent": "Używaj pokoju grupowego jak folderu współdzielonego do zarządzania dokumentami firmowymi, materiałami lekcyjnymi, plikami wydarzeń i wymianą z klientami bez rejestracji.",
-  "seo.note.intent": "Wspólna notatka do memo online, notatek współdzielonych, notatek ze spotkań i protokołów. Udostępnij URL i klucz dostępu, aby edytować w przeglądarce z autosave."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

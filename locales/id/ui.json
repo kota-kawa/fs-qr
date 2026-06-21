@@ -51,5 +51,5 @@
   "seo.home.intent": "Mencakup kebutuhan yang sering dicari seperti transfer file, berbagi foto, berbagi video, mengirim PDF, memo bersama, dan notulen rapat, dari berbagi sementara hingga kolaborasi tim.",
   "seo.fsqr.intent": "Buat berbagi sementara berbatas waktu untuk mengirim file lewat kode QR, memindahkan foto atau PDF dari PC ke ponsel, dan berbagi file besar tanpa memasang aplikasi.",
   "seo.group.intent": "Gunakan ruang grup seperti folder bersama untuk mengelola dokumen internal, materi kelas, materi acara, dan pertukaran file dengan klien tanpa registrasi.",
-  "seo.note.intent": "Catatan kolaboratif untuk memo online, catatan bersama, catatan rapat, dan notulen. Bagikan URL dan kunci akses untuk mulai mengedit bersama di browser dengan simpan otomatis."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

@@ -51,5 +51,5 @@
   "seo.home.intent": "Geschikt voor veelgezochte taken zoals bestanden overzetten, foto’s en video’s delen, PDF’s sturen, gedeelde memo’s en vergadernotulen, van tijdelijke links tot teamwerk.",
   "seo.fsqr.intent": "Maak snel tijdelijke deel-links met vervaldatum om bestanden via QR-code te sturen, foto’s of PDF’s van pc naar smartphone te verplaatsen en grote bestanden zonder app te delen.",
   "seo.group.intent": "Gebruik een groepsruimte als gedeelde map om interne documenten, lesmateriaal, eventbestanden en bestandsuitwisseling met klanten zonder registratie te beheren.",
-  "seo.note.intent": "Een gezamenlijke notitie voor online memo’s, gedeelde notities, vergadernotities en notulen. Deel een URL en toegangssleutel om in de browser samen te bewerken met automatisch opslaan."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }
