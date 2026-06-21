@@ -36,12 +36,12 @@
   "■ Androidの場合": "■ Untuk Android",
   "パスワードが設定されている場合": "Jika kata sandi diaktifkan",
   "受け取りの基本手順": "Langkah dasar menerima file",
-  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "スキャンする：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, smartphone, kode QR, menerima file, mengunduh, cara menggunakan, panduan pemula",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Layanan ini menjelaskan langkah-langkah bagi pemula untuk menerima file yang dibagikan melalui FS!QR di smartphone, mulai dari memindai kode QR hingga proses mengunduh secara mudah dipahami.",
+  "スキャンする：": "Memindai:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Buka aplikasi kamera bawaan smartphone Anda, lalu arahkan kamera ke kode QR yang ditampilkan di layar komputer pengirim atau yang dicetak di atas kertas.",
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Periksa nama dan ukuran file yang ditampilkan di halaman, lalu ketuk tombol \"Unduh\". Setelah pemrosesan selesai, file akan disimpan di perangkat Anda.",
   "リンクを開く：": "Buka tautan:",
-  "保存する：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil."
+  "保存する：": "Menyimpan:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Ketuk tautan kuning (atau notifikasi) yang muncul di layar untuk membuka halaman pengunduhan FS!QR pada browser Anda."
 }

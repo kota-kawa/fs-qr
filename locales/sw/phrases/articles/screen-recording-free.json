@@ -3,7 +3,9 @@
   "パソコンやスマホの操作画面を動画で保存したいと思ったことはありませんか？本記事では、Windows・Mac・iPhone・Androidで追加アプリ不要かつ無料で画面録画（スクリーンレコーディング）を行う具体的な手順と、撮影した重い動画ファイルをスムーズに共有する方法をわかりやすく解説します。": "Je, umewahi kutaka kuhifadhi skrini ya PC yako au simu kama video? Katika makala hii, tunaeleza hatua za kurekodi skrini (screen recording) kwenye Windows, Mac, iPhone, na Android bila malipo bila kusakinisha programu yoyote ya ziada, na jinsi ya kushiriki faili kubwa za video kwa urahisi.",
   "画面録画 PC 無料, スマホ 画面録画, スクリーンレコーディング, Windows 画面収録, 動画 共有": "kurekodi skrini PC bure, kurekodi skrini ya simu, kurekodi skrini, kurekodi skrini ya Windows, kushiriki video",
   "screen-recording-free": "screen-recording-free",
-  "PCやスマートフォンの画面をそのまま動画として記録する「画面録画（スクリーンレコーディング）」。かつては専門の録画ソフトが必要でしたが、現在では主要なOSすべてに「標準機能」として無料で搭載されています。": "\"Kurekodi skrini (screen recording)\" hukuruhusu kurekodi skrini ya kompyuta yako au simu mahiri moja kwa moja kama video. Hapo awali, programu maalum ya kurekodi ilihitajika, lakini sasa imejengwa ndani ya mifumo yote mikuu ya uendeshaji (OS) kama \"kipengele cha kawaida\" bila malipo.",
+  "デジタル豆知識": "Vidokezo vya Kidijitali",
+  "2026-06-21": "2026-06-21",
+  "PCやスマートフォンの画面をそのまま動画として記録する「画面録画（スクリーンレコーディング）」。かつては専門の録画ソフトが必要でしたが、現在では主要なOSすべてに「標準機能」として無料で搭載されています。": "Kurekodi skrini ya kompyuta au simu kama video huitwa \"kurekodi skrini\". Ingawa hapo awali ilikuwa inahitaji programu maalum ya kurekodi, sasa imejumuishwa kwenye mifumo yote mikuu ya uendeshaji kama \"kipengele cha kawaida\" bila malipo.",
   "操作手順のマニュアル作成、遠隔地にいるメンバーへのバグレポート、オンラインミーティングのアーカイブ、ゲームプレイの保存など、画面録画が活躍するシーンは非常に多くあります。本記事では、Windows、Mac、iPhone、Androidのそれぞれにおいて、余計なアプリをインストールすることなく無料で画面録画を行う手順と、録画後に発生しがちな「動画ファイルが重くて送れない」という問題を解消する共有テクニックを解説します。": "Kurekodi skrini ni muhimu sana katika hali mbalimbali: kuunda miongozo ya mafunzo, kutuma ripoti za hitilafu kwa wenzako walio mbali, kurekodi mikutano ya mtandaoni au kuhifadhi video za michezo. Katika makala hii, tunaeleza hatua za kurekodi skrini bila programu yoyote ya ziada kwenye Windows, Mac, iPhone, na Android, na pia jinsi ya kushiriki faili kubwa za video kwa urahisi.",
   "1. Windowsで画面録画する方法（標準機能）": "1. Jinsi ya Kurekodi Skrini kwenye Windows (Kipengele Kilichopo Kwenye Mfumo)",
   "Windows 10およびWindows 11には、標準で2つの録画方法があります。": "Windows 10 na Windows 11 zina njia mbili za kurekodi zilizopo kwenye mfumo.",
@@ -44,8 +46,6 @@
   "4. Androidで画面録画する方法": "4. Jinsi ya Kurekodi Skrini kwenye Android",
   "Android 11以降には「スクリーンレコード」機能が標準搭載されています。": "Android 11 na matoleo mapya yana kipengele kilichopo kwenye mfumo cha \"Screen Record\".",
   "画面を上から下に2回スワイプして「クイック設定パネル」を開きます。": "Fungua \"Quick Settings\" kwa kusogeza chini mara mbili kutoka juu ya skrini.",
-  "「スクリーンレコード」": "\"Screen Record\" (Kurekodi Skrini)",
-  "（または「画面録画」）のアイコンをタップします。（見つからない場合は、パネルの編集マークからボタンを追加してください）": "(au \"Screen Recording\"). (Ikiwa huioni, ongeza kitufe kutoka kwenye menyu ya kuhariri)",
   "音声の録音有無や画面上のタップを表示するかを設定し、「開始」をタップします。": "Chagua kama unataka kurekodi sauti au kuonyesha miguso ya skrini, kisha uguse \"Start\".",
   "カウントダウン後に録画が始まります。録画を止めるには、通知バーを引き下げて「停止」をタップします。動画は「フォト」や「ギャラリー」アプリのライブラリに保存されます。": "Kurekodi kutaanza baada ya kuhesabu. Ili kusimamisha, vuta bar ya arifa chini na uguse \"Stop\". Video itahifadhiwa kwenye maktaba ya programu ya \"Photos\" au \"Gallery\".",
   "録画した重い動画ファイルをスムーズに共有するコツ": "Vidokezo vya Kushiriki Faili Kubwa za Video kwa Urahisi",
@@ -53,5 +53,6 @@
   "こうした大容量動画の受け渡しには、アカウント登録不要で今すぐ使える無料ファイル共有サービス": "Kushiriki video kubwa kama hizo, kutumia huduma ya bure ya kushiriki faili bila kufungua akaunti inapendekezwa sana.",
   "が大変便利です。": "Hii ni rahisi sana.",
   "ブラウザでFS!QRを開き、録画した動画ファイルをドラッグ＆ドロップしてアップロードするだけで、相手に伝えるためのダウンロードURLとQRコードが瞬時に発行されます。相手がスマホならQRコードをカメラでスキャンするだけで再生・ダウンロード画面に進めるため、PCからスマホへの動画移動も一瞬で終わります。": "Fungua tu FS!QR kwenye kivinjari, buruta na udondoshe video ili kuipakia, na kiungo cha kupakua na nambari ya QR kwa mpokeaji zitazalishwa mara moja. Mpokeaji akitumia simu anaweza tu kuchanganua nambari ya QR na kamera yake ili kuona au kupakua video, na kufanya uhamishaji kutoka kompyuta kwenda kwenye simu kuwa wa haraka sana.",
-  "パスワードによるアクセス保護や、一定時間後の自動データ消去機能を備えているため、企業の社外秘のデモ画面や操作手順などを共有する際にも安心です。重い動画共有のストレスをゼロにするFS!QRを、画面録画とセットでぜひ活用してください。": "Ukiwa na ulinzi wa nenosiri na kufutwa kwa data kiotomatiki baada ya muda uliowekwa kwisha, ni salama pia kwa kushiriki video za siri au miongozo ya kazi. Tumia FS!QR pamoja na kurekodi skrini ili kuondoa usumbufu wa kushiriki video kubwa."
+  "パスワードによるアクセス保護や、一定時間後の自動データ消去機能を備えているため、企業の社外秘のデモ画面や操作手順などを共有する際にも安心です。重い動画共有のストレスをゼロにするFS!QRを、画面録画とセットでぜひ活用してください。": "Ukiwa na ulinzi wa nenosiri na kufutwa kwa data kiotomatiki baada ya muda uliowekwa kwisha, ni salama pia kwa kushiriki video za siri au miongozo ya kazi. Tumia FS!QR pamoja na kurekodi skrini ili kuondoa usumbufu wa kushiriki video kubwa.",
+  "<strong>「スクリーンレコード」</strong>（または「画面録画」）のアイコンをタップします。（見つからない場合は、パネルの編集マークからボタンを追加してください）": "Gonga ikoni ya <strong>\"Kurekodi Skrini\"</strong> (au \"Kurekodi Skrini\"). (Kama huwezi kuipata, ongeza kitufe kutoka kwenye menyu ya kuhariri paneli.)"
 }
