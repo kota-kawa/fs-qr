@@ -22,11 +22,11 @@
   "数日間にわたるセミナーや、週次の進捗確認など、一定の期間内に複数回アクセスされる可能性がある場合に設定します。これ以上の期間が必要な場合は、共有ではなく正式なストレージへの移行を検討してください。": "Jest to ustawiane, gdy w określonym czasie może nastąpić wielokrotny dostęp, na przykład podczas kilkudniowego seminarium lub cotygodniowego przeglądu postępów. Jeśli wymagany jest dłuższy okres, rozważ przeniesienie do dedykowanej przestrzeni dyskowej w chmurze zamiast udostępniania.",
   "用途に合わせた「保持期間」の選び方": "Jak wybrać odpowiedni „okres przechowywania” dla swoich potrzeb",
   "社内会議中の一時的な資料配布や、その場でスマートフォンに写真を移すときなど、送り手と受け手が同時に操作している状況に最適です。最も安全性が高く、漏洩リスクをほぼゼロにできます。": "Jest to idealne rozwiązanie w sytuacjach, gdy zarówno nadawca, jak i odbiorca działają w tym samym czasie, np. tymczasowo rozsyłając dokumenty podczas wewnętrznego spotkania lub na miejscu przesyłając zdjęcia do smartfona. Zapewnia najwyższy poziom bezpieczeństwa i zmniejsza ryzyko wycieku niemal do zera.",
-  "FS QR, 自動削除, セキュリティ, 一時共有, データ管理": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
-  "アカウント乗っ取りの二次被害：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
-  "チャットツールやメールのアカウントが万が一乗っ取られた際、過去ログに残っている「有効な共有リンク」から、過去数年分にわたる機密ファイルがすべてダウンロードされてしまうリスク。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
-  "プロジェクトが終了したり、メンバーが退職したりした後も、古い共有リンクが生き続けていることで、元メンバーがいつでもデータにアクセスできてしまう状態の放置。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
-  "リンクの流出と徘徊（スクレイピング）：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "FS QR, 自動削除, セキュリティ, 一時共有, データ管理": "FS QR, automatyczne usuwanie, bezpieczeństwo, tymczasowe udostępnianie, zarządzanie danymi",
+  "アカウント乗っ取りの二次被害：": "Szkody uboczne wynikające z przejęć kont:",
+  "チャットツールやメールのアカウントが万が一乗っ取られた際、過去ログに残っている「有効な共有リンク」から、過去数年分にわたる機密ファイルがすべてダウンロードされてしまうリスク。": "Jeśli kiedykolwiek ktoś przejmie czat lub konto e-mail, każdy „nadal ważny” link do udostępniania znajdujący się w historii wiadomości może zostać użyty do pobrania poufnych plików sprzed lat.",
+  "プロジェクトが終了したり、メンバーが退職したりした後も、古い共有リンクが生き続けていることで、元メンバーがいつでもデータにアクセスできてしまう状態の放置。": "Stare linki do udostępniania, które pozostają aktywne po zakończeniu projektu lub opuszczeniu projektu, umożliwiając byłym członkom dyskretny dostęp do danych w dowolnym momencie.",
+  "リンクの流出と徘徊（スクレイピング）：": "Wyciek łącza i indeksowanie (skrobanie):",
   "放置された共有URLが、何らかの理由で第三者に渡ったり、検索エンジンのクローラーや不正なプログラム（スクレイパー）によって巡回・検知され、機密データが露出してしまうリスク。": "Ryzyko, że porzucony URL udostępniania trafi do osób trzecich lub zostanie znaleziony przez boty wyszukiwarek i nielegalne programy, ujawniając poufne dane.",
-  "退職者や外部パートナーの権限管理不備：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy."
+  "退職者や外部パートナーの権限管理不備：": "Niedbałe zarządzanie dostępem dla odchodzącego personelu i partnerów zewnętrznych:"
 }
