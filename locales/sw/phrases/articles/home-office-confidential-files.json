@@ -24,5 +24,6 @@
   "ルール1：機密度を分けて共有方法を変える": "Kanuni ya 1: Gawanya unyeti na ubadilishe mbinu za kushiriki",
   "在宅勤務が日常化すると、顧客情報、見積書、契約書、勤怠データ、設計資料など、機密性の高いファイルを自宅から扱う場面が増えます。会社のオフィスであれば、ネットワーク、プリンター、保管場所、周囲の視線などをある程度統制できます。しかし自宅では、家族が同じ空間にいる、個人回線を使う、端末を持ち歩く、画面を開いたまま席を外すなど、管理しづらい要素が多くなります。": "Huku kufanya kazi ukiwa nyumbani kunapokuwa kawaida, kutakuwa na idadi inayoongezeka ya hali ambapo faili za siri sana, kama vile maelezo ya mteja, makadirio, kandarasi, data ya mahudhurio na hati za muundo, zitashughulikiwa nyumbani. Ikiwa ni ofisi ya kampuni, una udhibiti fulani juu ya vitu kama vile mtandao, vichapishaji, maeneo ya kuhifadhi na njia za watu za kuona. Hata hivyo, nyumbani, kuna mambo mengi ambayo ni vigumu kudhibiti, kama vile kuwa na wanafamilia katika nafasi moja, kutumia laini za kibinafsi, kubeba vifaa karibu na wewe, na kuacha dawati lako skrini ikiwa wazi.",
   "在宅勤務で機密ファイルを扱うときの実践ルール": "Sheria za vitendo za kushughulikia faili siri nyumbani",
-  "顧客情報、見積書、契約書などを自宅や社外から扱うときに、誤送信や共有しっぱなしを防ぐための運用ルールを解説します。": "Jinsi ya kuepuka kutuma kwa makosa na viungo vilivyosahaulika unaposhughulikia data za wateja, bei, na mikataba nje ya ofisi."
+  "顧客情報、見積書、契約書などを自宅や社外から扱うときに、誤送信や共有しっぱなしを防ぐための運用ルールを解説します。": "Jinsi ya kuepuka kutuma kwa makosa na viungo vilivyosahaulika unaposhughulikia data za wateja, bei, na mikataba nje ya ofisi.",
+  "FS QR, 在宅勤務, 機密ファイル, 情報漏えい対策, パスワード保護, リモートワーク": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
 }

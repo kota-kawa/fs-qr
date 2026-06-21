@@ -15,5 +15,12 @@
   "FS!QRなら、その場でスライドの最後に「資料ダウンロード用QRコード」を投影するだけで完結します。さらに、資料のダウンロードページにアンケート回答フォーム（Google フォーム等）のリンクや、自社サービスの紹介URLを併記しておくことで、熱量が高いうちにアンケート回収やナーチャリング（顧客育成）へと参加者を誘導する導線設計も容易です。": "Với FS!QR, công việc kết thúc ngay tại chỗ chỉ bằng cách chiếu \"mã QR để tải xuống tài liệu\" ở slide cuối cùng. Ngoài ra, bằng cách ghi kèm liên kết dẫn đến biểu mẫu khảo sát (như Google Forms) hoặc URL giới thiệu dịch vụ của công ty bạn trên trang tải xuống tài liệu, bạn có thể dễ dàng thiết kế phễu điều hướng người tham gia trả lời khảo sát hoặc thực hiện nuôi dưỡng khách hàng (nurturing) khi sự quan tâm của họ đang ở mức cao nhất.",
   "スクリーンのQRコードを撮るだけ！参加者を迷わせない配布手順": "Chỉ cần quét trực tiếp mã QR trên màn hình",
   "セミナー、勉強会、新製品発表会、あるいは社内の大規模な会議や取締役会など、人が集まるイベントのたびに、参加人数分の資料を印刷してホチキス留めし、机に並べる作業は主催者側にとって大変な重労働です。直前でスライドの数字が変わったり、誤字が見つかったりした日には、刷り直しのコストと手間で運営は大混乱に陥ります。また、イベント終了後には大量の紙ゴミが発生し、環境保護やSDGsの観点からも大きな問題となります。": "Mỗi khi tổ chức các sự kiện đông người như hội thảo, buổi học tập chuyên đề, lễ ra mắt sản phẩm mới, hay các cuộc họp nội bộ quy mô lớn và họp hội đồng quản trị, việc in ấn tài liệu theo số lượng người tham dự, đóng ghim và xếp sẵn ra bàn là một công việc lao động cực kỳ nặng nhọc của ban tổ chức. Nếu không may số liệu trên slide thay đổi hay phát hiện lỗi chính tả vào phút chót, công tác vận hành sẽ rơi vào hỗn loạn bởi chi phí và công sức in lại từ đầu. Thêm vào đó, lượng rác thải giấy khổng lồ phát sinh sau khi sự kiện kết thúc cũng là một vấn đề lớn dưới góc nhìn bảo vệ môi trường và phát triển bền vững (SDGs).",
-  "スクリーンのQRコードを撮るだけ": "Chỉ cần quét mã QR trên màn hình"
+  "スクリーンのQRコードを撮るだけ": "Chỉ cần quét mã QR trên màn hình",
+  "FS QR, イベント運営, 会議資料配布, QRコード活用, ペーパーレス": "FS QR, Quản lý sự kiện, Phân phát tài liệu hội nghị, Sử dụng mã QR, Không giấy",
+  "スキャンと閲覧：": "Quét và xem:",
+  "事前にアップロード：": "Tải lên trước:",
+  "会場での掲示・投影：": "Hiển thị và chiếu tại địa điểm:",
+  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Người tham gia chỉ cần quét bằng camera của điện thoại hoặc máy tính bảng của họ khi ngồi xuống hoặc nhận phòng để ngay lập tức mở tài liệu. Không cần cài đặt ứng dụng đặc biệt hoặc đăng ký xác thực.",
+  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Chiếu lớn hình ảnh mã QR được tạo trên màn hình (máy chiếu) trước khi sự kiện bắt đầu hoặc in và đặt nó trên POP lễ tân, thẻ sắp xếp hoặc NameTag (huy hiệu) của người tham gia.",
+  "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Tải lên các tệp như PDF phân phát, sơ yếu lý lịch, tài liệu chiếu lên FS!QR và tạo mã QR."
 }

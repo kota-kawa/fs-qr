@@ -35,5 +35,13 @@
   "万が一、QRコードが読み取れなかったり、ダウンロードが始まらなかったりする場合は、以下の原因と対策を確認してください。": "Mocht de QR-code niet gescand kunnen worden of het downloaden niet starten, controleer dan de volgende oorzaken en oplossingen.",
   "■ Androidの場合": "■ Voor Android",
   "パスワードが設定されている場合": "Als er een wachtwoord is ingesteld",
-  "受け取りの基本手順": "Basisproces voor het ontvangen van bestanden"
+  "受け取りの基本手順": "Basisproces voor het ontvangen van bestanden",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, Smartphone, QR-code, Bestanden ontvangen, Download, Hoe te gebruiken, Beginnershandleiding",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "De procedure voor het ontvangen van bestanden gedeeld via FS!QR op een smartphone wordt duidelijk uitgelegd, van het scannen van QR-codes tot het downloaden, zelfs voor beginners.",
+  "スキャンする：": "Scannen:",
+  "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Start de standaard cameraapp en richt op de QR-code op het PCscherm of afgedrukt papier.",
+  "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Verifieer bestandsnaam en grootte op pagina, tik downloadknop. Bestand wordt opgeslagen wanneer verwerking klaar is.",
+  "リンクを開く：": "Link openen:",
+  "保存する：": "Opslaan:",
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tik gele popup-link op scherm om FS!QR downloadpagina in browser te openen."
 }

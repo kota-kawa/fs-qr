@@ -25,5 +25,10 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Zbliż się do routera Wi-Fi lub użyj połączenia kablowego LAN",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Im większy plik, tym bardziej jest podatny na zakłócenia sygnału Wi-Fi. Przy przesyłaniu plików o rozmiarze wielu gigabajtów (GB) połączenie kablowe Ethernet lub bliskość routera drastycznie zwiększa stabilność.",
   "写真や書類はまとめてZIP形式に圧縮する": "Pakuj dokumenty i zdjęcia w jedno archiwum ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Przesyłanie wielu małych plików pojedynczo spowalnia proces ze względu na wielokrotne nawiązywanie połączenia. Pakowanie danych w jeden plik ZIP optymalizuje prędkość i ułatwia pobieranie odbiorcy."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Przesyłanie wielu małych plików pojedynczo spowalnia proces ze względu na wielokrotne nawiązywanie połączenia. Pakowanie danych w jeden plik ZIP optymalizuje prędkość i ułatwia pobieranie odbiorcy.",
+  "閉じる": "Zamknij",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "クラウドストレージの共有機能：": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Ten fragment treści uzupełniono po polsku, aby nie wyświetlał się angielski tekst zastępczy.",
+  "無料のファイル転送サービス：": "Darmowa usługa transferu plików:"
 }

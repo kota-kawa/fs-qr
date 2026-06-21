@@ -15,5 +15,12 @@
   "FS!QRなら、その場でスライドの最後に「資料ダウンロード用QRコード」を投影するだけで完結します。さらに、資料のダウンロードページにアンケート回答フォーム（Google フォーム等）のリンクや、自社サービスの紹介URLを併記しておくことで、熱量が高いうちにアンケート回収やナーチャリング（顧客育成）へと参加者を誘導する導線設計も容易です。": "Kwa kutumia FS!QR, kila kitu kinakamilika kwa kuonyesha tu \"msimbo wa QR wa kupakua nyaraka\" kwenye slaidi ya mwisho papo hapo. Zaidi ya hayo, kwa kuweka kiungo cha fomu ya dodoso (Google Forms, n.k.) au URL inayotambulisha huduma zako kwenye ukurasa wa kupakua nyaraka, ni rahisi kubuni mfumo unaowaongoza washiriki kujaza dodoso au kujenga uhusiano wa kibiashara (nurturing) wakiwa bado wana shauku kubwa.",
   "スクリーンのQRコードを撮るだけ！参加者を迷わせない配布手順": "Piga tu picha ya msimbo wa QR kwenye skrini",
   "セミナー、勉強会、新製品発表会、あるいは社内の大規模な会議や取締役会など、人が集まるイベントのたびに、参加人数分の資料を印刷してホチキス留めし、机に並べる作業は主催者側にとって大変な重労働です。直前でスライドの数字が変わったり、誤字が見つかったりした日には、刷り直しのコストと手間で運営は大混乱に陥ります。また、イベント終了後には大量の紙ゴミが発生し、環境保護やSDGsの観点からも大きな問題となります。": "Kila wakati tukio la kukusanya watu linapofanyika, kama vile semina, vipindi vya masomo, uzinduzi vya bidhaa mpya, au mikutano mikubwa ya ndani au ya bodi, kuchapa nyaraka kwa ajili ya washiriki wote, kuzipanga (stapling), na kuzipanga kwenye meza ni kazi ngumu sana kwa waandaaji. Ikiwa takwimu kwenye slaidi zitabadilika au makosa ya kiuandishi yatagundulika dakika za mwisho, shughuli za maandalizi huingia kwenye machafuko makubwa kutokana na gharama na juhudi za kuchapa upya. Pia, kiasi kikubwa cha taka za karatasi kinazalishwa baada ya tukio kuisha, jambo ambalo ni tatizo kubwa kutokana na mtazamo wa ulinzi wa mazingira na Malengo ya Maendeleo Endelevu (SDGs).",
-  "スクリーンのQRコードを撮るだけ": "Changanua tu msimbo wa QR kwenye skrini"
+  "スクリーンのQRコードを撮るだけ": "Changanua tu msimbo wa QR kwenye skrini",
+  "FS QR, イベント運営, 会議資料配布, QRコード活用, ペーパーレス": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "スキャンと閲覧：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "事前にアップロード：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "会場での掲示・投影：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi."
 }

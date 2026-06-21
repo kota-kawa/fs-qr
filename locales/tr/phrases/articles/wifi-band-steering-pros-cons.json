@@ -28,5 +28,8 @@
   "障害物のない直線距離での通信速度が非常に高速で、他の家電製品と干渉しにくい性質を持ちます。しかし、壁や床などの障害物に遮られやすく、ルーターから離れた部屋には届きにくいのが弱点です。": "Açık ve engelsiz görüş mesafesinde çok hızlı aktarım sunar ve diğer ev aletlerinden etkilenmez. Ancak duvar ve tavan gibi engellerden kolayca etkilenerek uzak odalarda sinyal kaybına uğrar.",
   "2.4GHz帯（低速・障害物に強いが干渉に弱い）：": "2.4 GHz Bandı (Düşük hız, engellere karşı güçlü, ancak parazite açık):",
   "電波が壁などの障害物を回り込みやすく、遠くまで届くため、繋がりやすいのが長所です。ただし、電子レンジやBluetooth機器など、日常の多くの機器と同じ周波数帯を使用しているため、家電の使用中に通信が不安定になりやすいのが短点です。": "Sinyal duvar gibi engelleri kolayca aşar ve uzun mesafelere ulaşır. Ancak mikrodalga fırın ve Bluetooth gibi birçok cihazla aynı frekansı paylaştığı için bu aletler çalışırken bağlantıda kopmalar yaşanabilir.",
-  "バンドステアリングはこの2つを自動で切り替えますが、境界線上の部屋などで接続が不安定になる現象（ピンポン現象）が起こりやすくなります。": "Bant yönlendirme bu iki frekans arasında otomatik geçiş yapar, ancak çekim gücü sınırındaki odalarda sürekli frekans değişimi bağlantıyı kararsızlaştırabilir (ping-pong etkisi)."
+  "バンドステアリングはこの2つを自動で切り替えますが、境界線上の部屋などで接続が不安定になる現象（ピンポン現象）が起こりやすくなります。": "Bant yönlendirme bu iki frekans arasında otomatik geçiş yapar, ancak çekim gücü sınırındaki odalarda sürekli frekans değişimi bağlantıyı kararsızlaştırabilir (ping-pong etkisi).",
+  "もし「同じ名前にしているのに通信がよく途切れる」「スマート家電が設定できない」といったトラブルが起きている場合は、思い切って": "PLACEHOLDER_TURKISH",
+  "バンドステアリング機能をオフ（無効）にし、5GHzと2.4GHzの名前を別々に分ける": "Band steering özelliğini kapatın ve 5GHz ile 2.4GHz'i ayrı isimlerle ayırt edin",
+  "自宅のWi-Fiにつなぐとき、「○○-G」と「○○-A」のように2つの名前（SSID）が表示されるのを見たことがある方は多いでしょう。これはそれぞれ「2.4GHz」と「5GHz」という異なる電波の種類を表しています。最近のルーターでは、この2つをひとつの同じ名前に統一する「バンドステアリング（Band Steering）」という機能が搭載されていることが増えました。本記事では、この機能のメリットとデメリット、そして通信が不安定な場合の対処法を解説します。": "PLACEHOLDER_TURKISH"
 }

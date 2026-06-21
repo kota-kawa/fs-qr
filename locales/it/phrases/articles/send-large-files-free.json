@@ -29,5 +29,6 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Avvicinati al router Wi-Fi o usa una connessione via cavo",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Più il file è grande, maggiore è il rischio di fallimenti dovuti a disturbi Wi-Fi. Per file di diversi gigabyte (GB), avvicinarsi al router o usare un cavo LAN aumenta drasticamente la stabilità.",
   "写真や書類はまとめてZIP形式に圧縮する": "Comprimi i documenti in formato ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Caricare molti piccoli file uno alla volta rallenta l'operazione a causa dei continui tempi di connessione. Raggrupparli in una cartella compressa ZIP velocizza l'intero processo."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Caricare molti piccoli file uno alla volta rallenta l'operazione a causa dei continui tempi di connessione. Raggrupparli in una cartella compressa ZIP velocizza l'intero processo.",
+  "閉じる": "Chiudi"
 }

@@ -19,5 +19,11 @@
   "学校や大学の授業におけるペーパーレス化とデジタル教材配布": "Kağıtsız okul ve üniversite dersleri ve dijital öğretim materyallerinin dağıtımı",
   "ビジネス会議での機動的な情報共有とリアルタイム議事録作成": "İş toplantılarında esnek bilgi paylaşımı ve gerçek zamanlı tutanaklar oluşturma",
   "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。": "Örneğin, saha çalışması sırasında akıllı telefonla çekilen saha fotoğraflarını veya deneysel veriler içeren bir CSV dosyasını bir grup temsilcisine ait sunum bilgisayarına göndermek istiyorsanız, USB bellek kullanmanıza veya bir mesajlaşma uygulaması kullanarak bağlanmanıza gerek yoktur. Verileri anında aktarmak için akıllı telefonunuzun ekranında görüntülenen QR kodunu bilgisayarınızın kamerasıyla tarayın veya kısa bir şifre girin. Ekipman sorunları veya hazırlıktaki gecikmeler nedeniyle iş kesintilerini önlüyor, teslimatların sınırlı bir süre içinde oluşturulmasına destek oluyoruz.",
-  "さらに、FS!QRの「Note（共同編集ノート）」機能を組み合わせることで、会議の生産性は飛躍的に向上します。全員が同じ共有ノートにブラウザから同時に書き込みを行えるため、以下のような使い方が可能です。": "Ayrıca, FS!QR'ın \"Not (birlikte düzenlenen notlar)\" işlevinin birleştirilmesiyle toplantı verimliliği önemli ölçüde artırılacaktır. Tarayıcıdan herkes aynı anda aynı paylaşılan nota yazı yazabildiğinden aşağıdaki şekillerde kullanılabilir."
+  "さらに、FS!QRの「Note（共同編集ノート）」機能を組み合わせることで、会議の生産性は飛躍的に向上します。全員が同じ共有ノートにブラウザから同時に書き込みを行えるため、以下のような使い方が可能です。": "Ayrıca, FS!QR'ın \"Not (birlikte düzenlenen notlar)\" işlevinin birleştirilmesiyle toplantı verimliliği önemli ölçüde artırılacaktır. Tarayıcıdan herkes aynı anda aynı paylaşılan nota yazı yazabildiğinden aşağıdaki şekillerde kullanılabilir.",
+  "アイデア出しのディスカッションにおいて、各自のPCから付箋のようにテキストを書き込み、全員でリアルタイムに可視化します。": "PLACEHOLDER_TURKISH",
+  "ゲストを交えた共同作業：": "PLACEHOLDER_TURKISH",
+  "ブレインストーミング：": "Beyin fırtınası:",
+  "リアルタイム議事録：": "Gerçek zamanlı tutanaklar:",
+  "司会進行や書記だけでなく、参加者全員がその場で決定事項や補足情報を同時入力し、会議終了と同時に完璧な議事録を完成させます。": "PLACEHOLDER_TURKISH",
+  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "PLACEHOLDER_TURKISH"
 }

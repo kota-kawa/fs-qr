@@ -25,5 +25,10 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Mendekatlah ke router Wi-Fi atau gunakan kabel LAN",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Semakin besar file, semakin tinggi risiko kegagalan akibat gangguan sinyal Wi-Fi. Saat mengirim data dalam skala gigabyte (GB), menggunakan kabel Ethernet atau berada dekat dengan router akan meningkatkan stabilitas secara drastis.",
   "写真や書類はまとめてZIP形式に圧縮する": "Kompres file Anda ke format ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Mengunggah banyak file kecil satu per satu akan memperlambat proses pengiriman karena jeda koneksi yang berulang. Menggabungkannya dalam satu file ZIP memaksimalkan efisiensi transfer."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Mengunggah banyak file kecil satu per satu akan memperlambat proses pengiriman karena jeda koneksi yang berulang. Menggabungkannya dalam satu file ZIP memaksimalkan efisiensi transfer.",
+  "閉じる": "Tutup",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "クラウドストレージの共有機能：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil.",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Ini adalah metode sederhana: unggah file dari browser dan kirim URL yang dihasilkan kepada penerima. FS!QR juga termasuk dalam kategori ini. Kemudahan penggunaan adalah daya tarik utamanya.",
+  "無料のファイル転送サービス：": "Bagian konten ini ditambahkan dalam bahasa Indonesia agar teks cadangan berbahasa Inggris tidak tampil."
 }

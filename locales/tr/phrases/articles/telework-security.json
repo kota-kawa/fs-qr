@@ -16,5 +16,22 @@
   "シャドーITの撲滅とリモート業務の効率化を両立": "Gölge BT'yi ortadan kaldırın ve uzaktan çalışmanın verimliliğini artırın",
   "多くのクラウドサービスやファイル共有ツールでは、アップロード後に「共有URL」が生成されます。このURLさえ知っていれば、誰でもファイルにアクセスできる状態が一般的です。しかし、テレワークにおいては以下の理由から、URL単体の共有では不十分なケースが多々あります。": "Birçok bulut hizmeti ve dosya paylaşım aracı, yükleme sonrasında \"paylaşılan bir URL\" oluşturur. Genellikle bu URL'yi bilen herkes dosyaya erişebilir. Ancak uzaktan çalışmada tek bir URL paylaşımının aşağıdaki nedenlerden dolayı yetersiz kaldığı birçok durum vardır.",
   "セキュリティを過剰に厳しくした結果、ファイルの送受信に時間や手間がかかりすぎると、社員はこっそり個人用のクラウドサービスやフリーの転送サイトを使用するようになります（これがシャドーITです）。シャドーITは、企業のシステム管理者が把握できないため、セキュリティ対策において最大の脅威となります。": "Güvenlik çok sıkıysa ve dosya gönderip almak çok fazla zaman ve çaba gerektiriyorsa, çalışanlar gizlice kişisel bulut hizmetlerini veya ücretsiz aktarım sitelerini (bu Gölge BT'dir) kullanacaklardır. Gölge BT, kurumsal sistem yöneticileri tarafından görülemediği için güvenlik önlemleri açısından en büyük tehdidi oluşturmaktadır.",
-  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "\"Bant dışı\" ile güvenliği daha da artırmak için pratik adımlar"
+  "「経路の分離（Out-of-Band）」でさらに安全性を高める実務手順": "\"Bant dışı\" ile güvenliği daha da artırmak için pratik adımlar",
+  "FS QR, テレワーク, セキュリティ, パスワード保護, 業務効率化": "PLACEHOLDER_TURKISH",
+  "URLの送信：": "PLACEHOLDER_TURKISH",
+  "「システムが発行した一時ID」と「送信者が設定したパスワード」の2つの組み合わせ": "PLACEHOLDER_TURKISH",
+  "「連絡経路を切り分ける（分離する）」": "PLACEHOLDER_TURKISH",
+  "を入力しなければ、ファイルの実体に触れることすらできません。": "PLACEHOLDER_TURKISH",
+  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "PLACEHOLDER_TURKISH",
+  "チャットツールの送信相手を間違えたり、グループチャットに誤って貼り付けたりした場合、URLをタップした全員にファイルが閲覧されてしまいます。": "Sohbet uygulamasında yanlış kişiye gönderdiyseniz veya grup sohbetine yanlışlıkla yapıştırdıysanız, URL'ye tıklayan herkes dosyayı görebilir.",
+  "パスワードの伝達：": "Parolanın iletilmesi:",
+  "パスワードは、チャットツールとは「全く別のルート」で伝えます。具体的には、電話をかける、スマートフォンのSMS（電話番号宛てのショートメッセージ）で送る、または事前に設定済みの別の連絡用アドレスに送る、などの方法をとります。": "Parolayı sohbet uygulamasından tamamen farklı bir yolla gönderin. Örneğin telefon araması, SMS veya önceden belirlenmiş alternatif iletişim kanalı kullanın.",
+  "ファイルのダウンロードURL（および一時ID）は、通常の業務連絡で使用しているチャットツール（Teams、Slack、LINE WORKS等）で共有します。": "İndirme URL'si ve geçici ID, Teams, Slack veya LINE WORKS gibi işletme sohbet araçlarında paylaşılır.",
+  "ファイルをアップロードする際、送信者は任意のパスワードを設定できます。そして、システムはダウンロードのためのURLとともに、そのファイル専用の「一時的なID（ユーザーID）」を自動生成します。ダウンロード画面にアクセスした受信者は、": "Dosya yükleme sırasında gönderici bir parola ayarlayabilir. Sistem otomatik olarak indirme URL'si ve geçici bir ID oluşturur. Alıcı indirme sayfasına eriştiğinde,",
+  "共有相手のPCやスマートフォンのブラウザ履歴、チャットツール上の会話履歴にURLが半永久的に残り、第三者が後からアクセスできてしまう懸念。": "PLACEHOLDER_TURKISH",
+  "履歴の残留：": "PLACEHOLDER_TURKISH",
+  "最高レベルの安全性を維持するために、実務では以下のように": "PLACEHOLDER_TURKISH",
+  "誤送信による即座の流出：": "PLACEHOLDER_TURKISH",
+  "通信経路上の盗聴：": "PLACEHOLDER_TURKISH",
+  "運用を徹底してください。": "PLACEHOLDER_TURKISH"
 }

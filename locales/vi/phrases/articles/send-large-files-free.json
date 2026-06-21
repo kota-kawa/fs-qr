@@ -25,5 +25,10 @@
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Di chuyển gần bộ phát Wi-Fi hoặc dùng dây cáp mạng LAN",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Tệp càng lớn thì nguy cơ thất bại do nhiễu sóng Wi-Fi hoặc mất gói tin càng cao. Khi truyền nhận dữ liệu hàng Gigabyte (GB), việc kết nối qua cáp mạng Ethernet hoặc ngồi gần bộ phát Wi-Fi sẽ giúp quá trình truyền tải ổn định hơn rất nhiều.",
   "写真や書類はまとめてZIP形式に圧縮する": "Nén ảnh và tài liệu thành định dạng ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Tải lên nhiều tệp nhỏ riêng lẻ sẽ tạo ra độ trễ kết nối cho từng tệp, khiến tổng thời gian kéo dài dù dung lượng không lớn. Gộp các tệp vào một file nén ZIP sẽ giúp tối ưu hóa băng thông truyền tải."
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Tải lên nhiều tệp nhỏ riêng lẻ sẽ tạo ra độ trễ kết nối cho từng tệp, khiến tổng thời gian kéo dài dù dung lượng không lớn. Gộp các tệp vào một file nén ZIP sẽ giúp tối ưu hóa băng thông truyền tải.",
+  "閉じる": "Đóng",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Đây là phương pháp sử dụng dung lượng miễn phí của Google Drive, Dropbox và các dịch vụ tương tự để phát hành liên kết chia sẻ cho các tệp hoặc thư mục cụ thể. Nó phù hợp khi bạn muốn lưu giữ tệp dài hạn.",
+  "クラウドストレージの共有機能：": "Tính năng chia sẻ lưu trữ đám mây:",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Đó là một phương pháp đơn giản chỉ cần tải tệp từ trình duyệt và gửi URL được phát hành cho người nhận. FS!QR cũng áp dụng điều này. Sự tiện lợi là sức hấp dẫn lớn nhất.",
+  "無料のファイル転送サービス：": "Dịch vụ chuyển tệp miễn phí:"
 }

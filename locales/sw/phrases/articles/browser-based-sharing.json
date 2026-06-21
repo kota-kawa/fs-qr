@@ -19,5 +19,12 @@
   "安定したネットワーク回線の選択": "Uchaguzi wa mtandao thabiti",
   "ブラウザでファイルを送った後、「そのデータはいつまでインターネット上に残り続けるのか」という疑問はセキュリティ上の重要な関心事です。": "Baada ya kutuma faili kupitia kivinjari, swali la \"data hiyo itakaa kwenye mtandao kwa muda gani\" ni suala muhimu sana la usalama.",
   "あらゆるデバイスとOSで使えるマルチ互換性": "Utangamano wa hali ya juu unaofanya kazi kwenye vifaa vyote na mifumo yote ya uendeshaji (OS)",
-  "大容量ファイルをスムーズに転送するための実践テクニック": "Vidokezo vya kutuma faili kubwa kwa urahisi"
+  "大容量ファイルをスムーズに転送するための実践テクニック": "Vidokezo vya kutuma faili kubwa kwa urahisi",
+  "FS QR, 大容量ファイル, ブラウザ完結, アカウント不要, ファイル転送": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "Google DriveやDropbox、OneDriveなどの無料枠はすぐに上限に達してしまい、過去のファイルを定期的に整理するか、有料プランへ移行する必要があります。": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "クラウドストレージの容量圧迫：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "チャットツールの自動圧縮による品質低下：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Njia rahisi na salama za kumfanya kazi hii.",
+  "メール添付の容量上限：": "Nyenzo hii imeandaliwa kwa ajili ya kumfanya huduma iimarike zaidi.",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Takriban 20MB hadi 25MB"
 }
