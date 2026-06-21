@@ -36,12 +36,12 @@
   "■ Androidの場合": "■ Android için",
   "パスワードが設定されている場合": "Parola ayarlanmışsa",
   "受け取りの基本手順": "Dosya alma temel adımları",
-  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "PLACEHOLDER_TURKISH",
-  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "PLACEHOLDER_TURKISH",
-  "スキャンする：": "PLACEHOLDER_TURKISH",
+  "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, akıllı telefon, QR kodu, dosya alma, indirme, nasıl kullanılır, yeni başlayanlar için kılavuz",
+  "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "FS!QR üzerinden paylaşılan dosyaları akıllı telefonunuzda nasıl alacağınız - QR kodunu taramaktan indirmeye kadar adım adım kolay bir kılavuz.",
+  "スキャンする：": "Tarama:",
   "スマートフォンの標準カメラアプリを起動し、共有元のパソコン画面や紙に印刷されたQRコードにカメラを向けます。": "Telefonun standart kamera uygulamasını açın ve bilgisayar ekranı veya basılı QR koduna doğru çevirin.",
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Sayfada gösterilen dosya adını ve boyutu doğrulayın, ardından İndir düğmesine tıklayın. Tamamlandığında dosya cihaza kaydedilir.",
   "リンクを開く：": "Bağlantıyı aç:",
   "保存する：": "Kaydetme:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "PLACEHOLDER_TURKISH"
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tarayıcınızda FS!QR indirme sayfasını açmak için ekranda açılan sarı bağlantıya (veya bildirime) dokunun."
 }

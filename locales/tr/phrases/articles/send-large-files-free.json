@@ -27,8 +27,8 @@
   "写真や書類はまとめてZIP形式に圧縮する": "Fotoğrafları ve belgeleri ZIP arşivinde birleştirin",
   "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Çok sayıda küçük dosyayı tek tek yüklemek bağlantı süresini uzatır. Dosyaları tek bir ZIP arşivinde birleştirmek aktarım verimliliğini en üst düzeye çıkarır.",
   "閉じる": "Kapat",
-  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "PLACEHOLDER_TURKISH",
-  "クラウドストレージの共有機能：": "PLACEHOLDER_TURKISH",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Google Drive, Dropbox ve benzerlerinin ücretsiz katmanını kullanın ve bir dosya veya klasör için bir paylaşım bağlantısı verin. Dosyaların uzun süre saklanmasını istediğinizde iyi bir seçimdir.",
+  "クラウドストレージの共有機能：": "Bulut depolama paylaşımı:",
   "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Tarayıcıdan dosya yükleyin ve sağlanan URL'yi gönderin. Basit ve hızlıdır. FS!QR buna örnektir.",
-  "無料のファイル転送サービス：": "PLACEHOLDER_TURKISH"
+  "無料のファイル転送サービス：": "Ücretsiz dosya aktarım hizmetleri:"
 }
