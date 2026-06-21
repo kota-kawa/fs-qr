@@ -3,6 +3,7 @@
 import asyncio
 import re
 from httpx import ASGITransport, AsyncClient
+import pytest
 
 from Articles.articles_registry import get_all_articles
 from i18n import SUPPORTED_LANGUAGES
@@ -20,6 +21,7 @@ ALLOWED_STRINGS = {
     "繁體中文",
     "한국어",
 }
+ARTICLE_CASES = tuple(get_all_articles())
 
 
 def _segments(html: str) -> list[str]:
@@ -46,7 +48,12 @@ def _has_japanese(s: str, lang: str) -> bool:
     return False
 
 
-def test_no_japanese_leakage(test_client) -> None:
+@pytest.mark.parametrize(
+    "article",
+    ARTICLE_CASES,
+    ids=[article["slug"] for article in ARTICLE_CASES],
+)
+def test_no_japanese_leakage(test_client, article) -> None:
     """全記事 × 全言語（ja除く）で日本語が漏れていないことを確認する。"""
     langs = [lang for lang in SUPPORTED_LANGUAGES if lang != "ja"]
     leaks: list[tuple[str, str, str]] = []
@@ -63,20 +70,19 @@ def test_no_japanese_leakage(test_client) -> None:
                 resp = await client.get(f"{url}?lang={lang}")
                 return lang, _segments(resp.text)
 
-            for article in get_all_articles():
-                url = "/" + article["slug"]
-                ja_resp = await client.get(url + "?lang=ja")
-                ja_segs = _segments(ja_resp.text)
+            url = "/" + article["slug"]
+            ja_resp = await client.get(url + "?lang=ja")
+            ja_segs = _segments(ja_resp.text)
 
-                tasks = [fetch_segs(url, lang) for lang in langs]
-                results = await asyncio.gather(*tasks)
+            tasks = [fetch_segs(url, lang) for lang in langs]
+            results = await asyncio.gather(*tasks)
 
-                for lang, tr_segs in results:
-                    if len(tr_segs) != len(ja_segs):
-                        continue
-                    for ja_seg, tr_seg in zip(ja_segs, tr_segs):
-                        if _has_japanese(tr_seg, lang) and _has_japanese(ja_seg, "en"):
-                            leaks.append((url, lang, tr_seg[:80]))
+            for lang, tr_segs in results:
+                if len(tr_segs) != len(ja_segs):
+                    continue
+                for ja_seg, tr_seg in zip(ja_segs, tr_segs):
+                    if _has_japanese(tr_seg, lang) and _has_japanese(ja_seg, "en"):
+                        leaks.append((url, lang, tr_seg[:80]))
 
     asyncio.run(run_test())
 

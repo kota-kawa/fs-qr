@@ -126,13 +126,19 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt pytest httpx pytest-cov
+          python -m pip install -r requirements.txt pytest httpx pytest-cov pytest-xdist
 
       - name: Run test suite
         run: |
           set -euo pipefail
-          python -m pytest -q \
+          python -m coverage erase
+          python -m pytest -q -n auto tests/test_no_japanese_leakage.py \
             --cov=. \
+            --cov-report=
+          python -m pytest -q \
+            --ignore=tests/test_no_japanese_leakage.py \
+            --cov=. \
+            --cov-append \
             --cov-report=term-missing \
             --cov-fail-under=67
 
