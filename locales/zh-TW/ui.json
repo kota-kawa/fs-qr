@@ -51,5 +51,5 @@
   "seo.home.intent": "涵蓋檔案傳輸、照片分享、影片分享、PDF 傳送、共享備忘錄與會議記錄等常見搜尋用途，從短期臨時分享到團隊協作都能使用。",
   "seo.fsqr.intent": "可快速建立有期限的臨時分享，用於透過 QR Code 傳送檔案、將照片或 PDF 從電腦傳到手機，以及免安裝 App 分享大型檔案。",
   "seo.group.intent": "可像共享資料夾一樣使用群組房間，免註冊即可集中管理公司資料、課堂資料、活動講義，以及與客戶的檔案交接。",
-  "seo.note.intent": "適用於線上備忘錄、共享筆記、會議筆記與會議記錄分享的共同編輯筆記。只要分享 URL 和存取金鑰，就能在瀏覽器中同步編輯並自動儲存。"
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

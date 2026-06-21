@@ -51,5 +51,5 @@
   "seo.home.intent": "Inafaa matumizi yanayotafutwa mara nyingi kama kuhamisha faili, kushiriki picha na video, kutuma PDF, memo za pamoja na kumbukumbu za mkutano, kuanzia kushiriki kwa muda mfupi hadi ushirikiano wa timu.",
   "seo.fsqr.intent": "Unda haraka ushiriki wa muda wenye mwisho wa matumizi kwa kutuma faili kwa QR, kuhamisha picha au PDF kutoka PC kwenda simu, na kushiriki faili kubwa bila kusakinisha programu.",
   "seo.group.intent": "Tumia chumba cha kikundi kama folda ya pamoja kusimamia hati za ndani, nyenzo za darasa, faili za tukio na kubadilishana faili na wateja bila kujisajili.",
-  "seo.note.intent": "Dokezo la ushirikiano kwa memo mtandaoni, madokezo ya pamoja, madokezo ya mkutano na kumbukumbu. Shiriki URL na ufunguo wa ufikiaji ili kuhariri pamoja kwenye kivinjari na kuhifadhi kiotomatiki."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

@@ -51,5 +51,5 @@
   "seo.home.intent": "Dosya aktarımı, foto paylaşımı, video paylaşımı, PDF gönderme, paylaşılan notlar ve toplantı tutanakları gibi sık aranan kullanımları; kısa süreli paylaşım ve ekip çalışması için destekler.",
   "seo.fsqr.intent": "QR kodla dosya gönderme, PC’den telefona fotoğraf veya PDF aktarma ve uygulama kurmadan büyük dosya paylaşma için süreli geçici paylaşımı hemen oluşturun.",
   "seo.group.intent": "Grup odasını paylaşılan klasör gibi kullanarak kurum içi belgeleri, ders materyallerini, etkinlik dosyalarını ve müşterilerle dosya alışverişini kayıt olmadan yönetin.",
-  "seo.note.intent": "Çevrimiçi notlar, paylaşılan notlar, toplantı notları ve tutanaklar için ortak düzenleme notu. URL ve erişim anahtarı paylaşarak tarayıcıda eş zamanlı düzenleme ve otomatik kayda başlayın."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }

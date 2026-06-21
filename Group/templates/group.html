@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成してチームでファイルを安全に管理。500MB・10ファイルまでアップロード対応。招待はアクセスキーを渡すだけ。" />
+    <meta name="description" content="アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計500MB・30ファイルまで対応。" />
     <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有" />
     <meta name="geo.region" content="JP" />
     <meta name="geo.placename" content="Japan" />
@@ -19,7 +19,7 @@
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR Group" />
     <meta property="og:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
-    <meta property="og:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。" />
+    <meta property="og:description" content="ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できる無料グループファイル共有サービス。" />
     <meta property="og:url" content="{{ request.base_url }}" />
     <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta property="og:image:type" content="image/jpeg">
@@ -30,7 +30,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FS!QR Group | 無料グループファイル共有・チーム協業サービス" />
-    <meta name="twitter:description" content="安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。" />
+    <meta name="twitter:description" content="ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できます。" />
     <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta name="twitter:image:alt" content="FS!QR Group サービス">
     
@@ -64,7 +64,7 @@
       "@type": "WebSite",
       "name": "FS!QR Group",
       "url": "{{ request.url_root }}group_menu",
-      "description": "無料のグループファイル共有サービス。ルームを作成して複数人でファイルを安全に共有・管理。",
+      "description": "無料のグループファイル共有サービス。ルームを作成して複数人でファイルを共有・管理。",
       "inLanguage": "ja-JP",
       "isPartOf": {
         "@type": "WebSite",
@@ -102,7 +102,7 @@
       "featureList": [
         "グループルーム作成・管理",
         "複数人でのファイル共有",
-        "安全なファイル管理",
+        "HTTPS通信",
         "ルーム検索機能",
         "企業・チーム向け機能",
         "大容量ファイル対応",
@@ -128,7 +128,7 @@
           "name": "FS!QR Groupは企業での利用も可能ですか？",
           "acceptedAnswer": {
             "@type": "Answer", 
-            "text": "はい、個人利用から企業・チームでの利用まで幅広く対応しています。セキュアなファイル共有が可能です。"
+            "text": "はい、個人利用から企業・チームでの利用まで幅広く対応しています。共有URL・QRコード・ルームID・パスワードで一時的なファイル共有ができます。"
           }
         },
         {
@@ -136,7 +136,7 @@
           "name": "どのようなファイル形式に対応していますか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ほぼ全てのファイル形式に対応しています。文書、画像、動画、音声ファイルなど制限はありません。"
+            "text": "文書、画像、動画、音声ファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由で制限しています。"
           }
         },
         {
@@ -152,7 +152,7 @@
           "name": "ファイルのセキュリティは大丈夫ですか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "アップロードされたファイルは暗号化され、安全に管理されています。プライバシー保護も徹底されています。"
+            "text": "通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。"
           }
         }
       ]
@@ -175,7 +175,7 @@
         {
           "@type": "HowToStep", 
           "name": "メンバーを招待",
-          "text": "作成されたルームにチームメンバーを招待してアクセス権を設定します。"
+          "text": "作成されたルームの共有URL、QRコード、ルームID、パスワードをチームメンバーに共有します。"
         },
         {
           "@type": "HowToStep",
@@ -293,19 +293,19 @@
                 <div class="faq-list">
                     <details class="faq-item">
                         <summary>無料プランでもデータは安全に保護されますか？</summary>
-                        <p>はい。通信はすべて暗号化され、ファイルはサーバー側でも暗号化した状態で保存されます。アクセスログも自動記録されるため、チームでの利用でも安心です。</p>
+                        <p>通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。</p>
                     </details>
                     <details class="faq-item">
                         <summary>外部パートナーを一時的に招待できますか？</summary>
-                        <p>グループルームごとにアクセスキーを発行できるので、取引先や外部講師などを期間限定で招待できます。不要になったアクセスキーはすぐに無効化可能です。</p>
+                        <p>共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>アップロードできるファイルサイズに制限はありますか？</summary>
-                        <p>1回のアップロードで合計500MBまで、最大10ファイルまでアップロードできます。</p>
+                        <p>標準設定ではルーム内の合計500MBまで、最大30ファイルまでアップロードできます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。</p>
                     </details>
                     <details class="faq-item">
                         <summary>サポートは日本語で受けられますか？</summary>
-                        <p>メールフォームからお問い合わせいただければ、平日24時間以内に日本語でサポートスタッフがご返信します。</p>
+                        <p>お問い合わせフォームから日本語でご連絡いただけます。返信時期は内容や運用状況により異なります。</p>
                     </details>
                 </div>
             </section>
@@ -314,22 +314,22 @@
                 <ol class="howto-steps">
                     <li class="howto-step">
                         <h3>グループルームを作成する</h3>
-                        <p>「グループの作成」を選択し、ルーム名と共有したいメンバーの情報を登録します。アクセスキーは自動生成されます。</p>
+                        <p>「グループの作成」を選択し、ルームIDの自動生成または手動入力と保存期間を指定してルームを作成します。6桁のパスワードが自動生成されます。</p>
                     </li>
                     <li class="howto-step">
-                        <h3>メンバーにアクセスキーを共有</h3>
-                        <p>招待したいメンバーにアクセスキーを送信します。メンバーはキーを入力するだけでルームに参加できます。</p>
+                        <h3>メンバーに共有情報を渡す</h3>
+                        <p>共有URL、QRコード、ルームID、パスワードを必要な相手に伝えます。メンバーは共有URLを開くか、ルームIDとパスワードを入力して参加できます。</p>
                     </li>
                     <li class="howto-step">
                         <h3>ファイルをアップロードして共同作業</h3>
-                        <p>フォルダを作成し、ファイルをアップロード。コメント機能でタスクのやり取りや進捗共有もできます。</p>
+                        <p>ルーム内でファイルをアップロードします。参加者は保存済みファイルの一覧を確認し、必要なファイルをダウンロードできます。</p>
                     </li>
                 </ol>
             </section>
 
             <section class="content-section" aria-labelledby="group-about">
                 <h2 id="group-about" class="section-title">グループルームとは</h2>
-                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">グループルームは、チームメンバー全員がファイルをアップロード・ダウンロードできる共有スペースです。アカウント登録は不要で、ルームを作成してアクセスキーを共有するだけで始められます。社内チームはもちろん、取引先や外部パートナーとの一時的なファイル受け渡しにも活用できます。</p>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">グループルームは、参加者がファイルをアップロード・ダウンロードできる一時共有スペースです。アカウント登録は不要で、ルームを作成して共有URLやQRコード、ルームID、パスワードを共有するだけで始められます。社内チームはもちろん、取引先や外部パートナーとの一時的なファイル受け渡しにも活用できます。</p>
                 <ol class="howto-steps">
                     <li class="howto-step">
                         <h3>社内チームでの利用</h3>
@@ -337,7 +337,7 @@
                     </li>
                     <li class="howto-step">
                         <h3>外部パートナーへのファイル受け渡し</h3>
-                        <p>アクセスキーを期限付きで発行し、取引先・外部講師・クライアントに共有。終わったらキーを無効化するだけでアクセスを遮断できます。</p>
+                        <p>共有URLやQRコード、ルームID、パスワードを取引先・外部講師・クライアントに共有。受け渡しが終わったら作成者がルームを削除できます。</p>
                     </li>
                     <li class="howto-step">
                         <h3>学校・学習グループでの活用</h3>
@@ -351,11 +351,11 @@
                 <div class="faq-list">
                     <details class="faq-item">
                         <summary>メール一斉送信との違い</summary>
-                        <p>メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームはアクセスキーを一つ渡すだけで何人でも参加でき、ファイルを一か所に集約できます。</p>
+                        <p>メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>Google Drive・Dropboxとの違い</summary>
-                        <p>Google Drive等はGoogleアカウントが全員に必要です。FS!QR Groupはアカウント不要でアクセスキーだけで参加でき、共有設定ミスによる情報漏洩リスクもありません。</p>
+                        <p>Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>チャットツール（Slack・Teams）との違い</summary>
@@ -363,7 +363,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>USBメモリでの受け渡しとの違い</summary>
-                        <p>USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはオンラインで安全に共有でき、アクセス履歴も確認できます。</p>
+                        <p>USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。</p>
                     </details>
                 </div>
             </section>
@@ -373,23 +373,23 @@
                 <div class="faq-list">
                     <details class="faq-item">
                         <summary>使えるファイル形式</summary>
-                        <p>PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。</p>
+                        <p>PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。</p>
                     </details>
                     <details class="faq-item">
                         <summary>ファイルサイズと同時アップロード数</summary>
-                        <p>1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。</p>
+                        <p>標準設定では1つのグループルームにつき合計500MBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。</p>
                     </details>
                     <details class="faq-item">
                         <summary>メンバー数の上限</summary>
                         <p>グループルームに参加できるメンバー数に上限はありません。小規模チームから大規模プロジェクトまで利用できます。</p>
                     </details>
                     <details class="faq-item">
-                        <summary>アクセスキーの管理と無効化</summary>
-                        <p>アクセスキーはルーム作成時に自動生成されます。不要になったキーはいつでも無効化でき、外部パートナーの参加を即座に遮断できます。</p>
+                        <summary>共有情報の管理と削除</summary>
+                        <p>ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。</p>
                     </details>
                     <details class="faq-item">
                         <summary>よくある失敗例</summary>
-                        <p>①アクセスキーを紛失した → ルームの管理画面からキーを再発行できます。②ファイルをどのルームにアップしたか分からなくなった → 検索機能でファイル名から探せます。③古いファイルと新しいファイルが混在する → フォルダで整理することを推奨します。</p>
+                        <p>①パスワードを忘れた → 再発行機能はないため、作成時に控えてください。②どのルームか分からなくなった → ルームIDとパスワードが分かれば検索ページから参加できます。③古いファイルと新しいファイルが混在する → ファイル名で版や日付が分かるようにしてからアップロードしてください。</p>
                     </details>
                 </div>
             </section>

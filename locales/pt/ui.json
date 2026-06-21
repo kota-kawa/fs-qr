@@ -51,5 +51,5 @@
   "seo.home.intent": "Abrange pesquisas comuns como transferência de ficheiros, partilha de fotos e vídeos, envio de PDF, notas partilhadas e atas de reunião, desde partilha temporária até colaboração em equipa.",
   "seo.fsqr.intent": "Crie rapidamente uma partilha temporária com prazo para enviar ficheiros por código QR, transferir fotos ou PDFs do PC para o telemóvel e partilhar ficheiros grandes sem instalar apps.",
   "seo.group.intent": "Use uma sala de grupo como pasta partilhada para gerir sem registo documentos internos, materiais de aula, ficheiros de eventos e trocas de ficheiros com clientes.",
-  "seo.note.intent": "Uma nota colaborativa para notas online, notas partilhadas, notas de reunião e atas. Partilhe um URL e uma chave de acesso para editar no navegador com gravação automática."
+  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
 }
