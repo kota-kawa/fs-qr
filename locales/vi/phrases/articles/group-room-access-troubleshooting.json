@@ -24,7 +24,7 @@
   "ルーム内に複数のファイルが並ぶと、「資料.pdf」「最新版.zip」のような名前だけでは目的のファイルを見つけにくくなります。トラブルではなく、運用上の混乱が原因のことも多いです。": "Khi nhiều tệp được sắp xếp trong phòng, chỉ bằng tên như \"tài liệu.pdf\" hoặc \"phiên bản mới nhất.zip\" thì rất khó tìm được tệp mong muốn. Thường không phải do sự cố mà do nhầm lẫn trong hoạt động.",
   "ルーム名、ルームID、案内された案件名が一致しているか確認する": "Kiểm tra xem tên phòng, ID phòng và tên dự án được hướng dẫn có khớp không",
   "共有URLから入れない": "Không thể vào từ URL chia sẻ",
-  "共有URLから入れない場合は、URLの一部が改行で欠けている、チャットアプリがリンクを途中で切っている、古い共有URLを再利用している、といった可能性があります。メールやチャットに貼るときは、URLだけを単独の行に置くとコピーしやすくなります。": "Nếu bạn không thể vào từ URL chia sẻ, có thể URLbị cắt do phần dòng mới, ứng dụng trò chuyện cắt liên kết giữa chừng hoặc tái sử dụng URL chia sẻ cũ. Khi dán vào email hoặc trò chuyện, dễ sao chép hơn nếu đặt URL một mình trên một hàng.",
+  "共有URLから入れない場合は、URLの一部が改行で欠けている、チャットアプリがリンクを途中で切っている、古い共有URLを再利用している、といった可能性があります。メールやチャットに貼るときは、URLだけを単独の行に置くとコピーしやすくなります。": "Nếu bạn không thể vào từ URL chia sẻ, có thể URL bị cắt do phần dòng mới, ứng dụng trò chuyện cắt liên kết giữa chừng hoặc tái sử dụng URL chia sẻ cũ. Khi dán vào email hoặc trò chuyện, dễ sao chép hơn nếu đặt URL một mình trên một hàng.",
   "共有者から送られた文字列をコピーして貼り付ける": "Sao chép và dán chuỗi được gửi từ người chia sẻ",
   "前後に余計な空白が入っていないか確認する": "Kiểm tra xem có khoảng trắng không cần thiết trước hoặc sau hay không",
   "原因を探すときは、まずルームへ入る前の問題なのか、入った後のファイル一覧の問題なのかを分けて考えます。入室できない場合は共有情報、ファイルが見えない場合はアップロード状況や表示更新を確認します。": "Khi tìm kiếm nguyên nhân, trước tiên hãy phân biệt xem đó là vấn đề trước khi vào phòng hay vấn đề với danh sách tệp sau khi vào. Nếu bạn không thể vào phòng, hãy kiểm tra thông tin chia sẻ; nếu bạn không thể thấy tệp, hãy kiểm tra trạng thái tải lên hoặc cập nhật hiển thị.",

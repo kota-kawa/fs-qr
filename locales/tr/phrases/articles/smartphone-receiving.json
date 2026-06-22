@@ -15,7 +15,7 @@
   "このIDとパスワードは、FS!QRのシステムが自動的に生成するもの、または共有者が任意に設定したものです。安全性の観点から、共有URLとパスワード情報は別の手段（例：URLはチャットで送り、パスワードは電話や口頭で伝えるなど）で連絡を受けることが推奨されます。正しい情報を入力して「認証」ボタンを押すことで、ダウンロードリンクが有効化されます。": "Bu kimlik ve şifre, FS!QR sistemi tarafından otomatik olarak oluşturulur veya paylaşımcı tarafından keyfi olarak ayarlanır. Güvenlik nedeniyle, paylaşılan URL ve şifre bilgilerini başka yollarla iletmenizi öneririz (ör. URL'yi sohbet yoluyla göndermek ve şifreyi telefonla veya sözlü olarak iletmek). Doğru bilgilerin girilmesi ve \"Kimlik Doğrula\" butonuna basılmasıyla indirme bağlantısı aktif hale gelecektir.",
   "受け取りの基本手順（3ステップ）": "Dosya Alma Adımları",
   "通信エラーでダウンロードが途中で止まる": "İletişim hatası nedeniyle indirme işlemi yarıda duruyor",
-  "PDFや画像が画面に表示されるだけで保存できない": "PDF'ler ve resimler yalnızca ekranda görüntülenir ve kaydedilemez.",
+  "PDFや画像が画面に表示されるだけで保存できない": "PDF dosyaları ve görseller tarayıcıda görüntülenebilir ve cihazınıza indirilebilir.",
   "うまくダウンロードできないときのチェックポイント": "İndirme sırasındaki kontrol noktaları düzgün çalışmıyor",
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラやQRコード読み取りアプリを使用して、表示されたコードをスキャンするだけで即座に受け取ることができます。従来のファイル共有サービスのように、専用アプリを事前にインストールしたり、会員登録（アカウント作成）を行ったりする手間は一切必要ありません。表示されたURL（リンク）をタップするだけで、すぐにダウンロード画面にアクセスできます。": "FS!QR üzerinden paylaşılan dosyaları akıllı telefonunuzun standart kamerasıyla QR kodunu okutarak kolayca teslim alabilirsiniz. Herhangi bir uygulama yükleme veya üyelik açma zorunluluğu yoktur; ekranda beliren bağlantıya tıklayarak dosyalara anında erişebilirsiniz.",
   "Google Chromeなどのブラウザを使用してダウンロードした場合、システム標準のファイル管理アプリに格納されます。": "Google Chrome gibi bir tarayıcı kullanılarak indirildiğinde sistemin standart dosya yönetimi uygulamasında depolanır.",
