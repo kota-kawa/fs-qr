@@ -369,7 +369,7 @@
         <a href="/{{ art.slug }}"
            class="article-card"
            data-category="{{ art.category }}"
-           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower | e }}">
           <img class="article-thumbnail" src="{{ staticfile(art.thumbnail) }}" alt="" loading="lazy" decoding="async">
           <div class="article-card-top">
             <i class="fas {{ art.icon }} article-icon"></i>
@@ -400,7 +400,7 @@
         <a href="/{{ art.slug }}"
            class="article-card"
            data-category="{{ art.category }}"
-           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower }}">
+           data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower | e }}">
           <img class="article-thumbnail" src="{{ staticfile(art.thumbnail) }}" alt="" loading="lazy" decoding="async">
           <div class="article-card-top">
             <i class="fas {{ art.icon }} article-icon"></i>
