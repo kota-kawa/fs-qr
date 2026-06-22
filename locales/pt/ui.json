@@ -1,9 +1,9 @@
 {
-  "settings.title": "Definições",
+  "settings.title": "Configurações",
   "settings.description": "Altere o idioma de exibição e as preferências de Cookies.",
   "settings.language.title": "Idioma",
   "settings.language.description": "Escolha o idioma utilizado na interface.",
-  "settings.cookie.title": "Definições de Cookies",
+  "settings.cookie.title": "Configurações de Cookies",
   "settings.cookie.description": "O FS!QR utiliza Cookies para proporcionar uma melhor experiência. Os Cookies necessários estão sempre ativados e os Cookies opcionais podem ser alterados aqui.",
   "settings.cookie.summary": "Os Cookies necessários estão sempre ativados e são essenciais para a prestação do serviço. Pode alterar as definições dos Cookies opcionais abaixo.",
   "settings.cookie.categories": "Defina a utilização de Cookies por categoria. Os Cookies necessários estão sempre ativados para as funcionalidades básicas.",
