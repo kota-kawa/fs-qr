@@ -104,7 +104,7 @@
       "featureList": [
         "ファイル暗号化アップロード",
         "QRコード自動生成",
-        "安全なファイル共有",
+        "ID・パスワードでアクセスを制限したファイル共有",
         "ファイル検索機能",
         "クラウドストレージ",
         "セキュリティ重視",
@@ -358,7 +358,7 @@
                     </li>
                     <li class="howto-step">
                         <h3>複数人に一度に共有</h3>
-                        <p>QRコードは何人でも読み取れます。プレゼンや会議でスクリーンに映すだけで全員がダウンロードできます。</p>
+                        <p>QRコードはサービス仕様上、明示的な人数上限は設けていません。プレゼンや会議でスクリーンに映すだけで全員がダウンロードできます。</p>
                     </li>
                 </ol>
             </section>
@@ -376,7 +376,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>Google Driveとの違い</summary>
-                        <p>Google DriveはGoogleアカウントが必要で、共有設定の操作を誤ると意図せず公開になるリスクがあります。FS!QRはアカウント不要、パスワードと保存期間を設定してワンタイム共有できます。</p>
+                        <p>Google Driveは設定によってはアカウントなしでも閲覧できますが、FS!QRは共有権限の設定をせず、ID・パスワードで期限付き共有できますで、共有設定の操作を誤ると意図せず公開になるリスクがあります。FS!QRはアカウント不要、パスワードと保存期間を設定して期限付き共有できます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>AirDropとの違い</summary>
@@ -406,25 +406,13 @@
                     </details>
                     <details class="faq-item">
                         <summary>よくある失敗例</summary>
-                        <p>①QRコードを保存せずページを閉じてしまった → 共有用IDとパスワードが分かれば検索ページから開けます。②パスワードを忘れた → パスワードのリセット機能はないため、アップロード時にメモを残してください。③保存期間を過ぎてダウンロードしようとした → 期限切れのファイルは自動削除済みです。</p>
+                        <p>①QRコードを保存せずページを閉じてしまった → 共有IDとパスワードが分かれば検索ページから開けます。②パスワードを忘れた → パスワードのリセット機能はないため、アップロード時にメモを残してください。③保存期間を過ぎてダウンロードしようとした → 期限切れのファイルは自動削除済みです。</p>
                     </details>
                 </div>
             </section>
         </main>
         
-        <footer class="simple-footer service-footer">
-            <nav aria-label="フッターナビゲーション">
-                <a href="/">ホーム</a>
-                <a href="/about">サイト概要</a>
-                <a href="/privacy-policy">プライバシーポリシー</a>
-                <a href="/contact">お問い合わせ</a>
-                <a href="/usage">使い方</a>
-                <a href="/site-operator">サイト運営者情報</a>
-                <a href="/articles">解説記事</a>
-                <button type="button" class="footer-link-button" data-cookie-settings>設定</button>
-            </nav>
-            <small>Copyright &copy;2026 FS!QR, All Rights Reserved.</small>
-        </footer>
+        {% include '_footer.html' %}
     </div>
 
     {% include 'cookie-consent.html' %}

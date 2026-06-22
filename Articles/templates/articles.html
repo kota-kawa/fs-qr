@@ -356,7 +356,7 @@
       </div>
     </div>
 
-    <p class="articles-count"><span id="articles-count">{{ (guides|length) + (articles|length) }}</span> <span class="articles-count-unit">件の記事</span></p>
+    <p class="articles-count"><span id="articles-count">{{ (guides|length) + (article_total_count|default(articles|length)) }}</span> <span class="articles-count-unit">件の記事</span></p>
 
     {# ── サービス解説ガイド(エバーグリーン・常に上部固定) ── #}
     {% if guides %}
