@@ -91,16 +91,17 @@
   <div class="info-box article-reading">
     <div class="info-box-content">
       <nav class="article-breadcrumb" aria-label="パンくずリスト">
-        <a href="/">ホーム</a>
-        <span aria-hidden="true">/</span>
-        <a href="/articles">解説記事</a>
+        {% set lq = '?lang=' ~ current_language if current_language and current_language != 'ja' else '' %}
+        <a href="/{{ lq }}">ホーム</a>
+        <i class="fas fa-chevron-right breadcrumb-separator"></i>
+        <a href="/articles{{ lq }}">解説記事</a>
       </nav>
       <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="" loading="eager" decoding="async">
       <h2 class="mb-4">{{ _heading }}</h2>
       {% block article_body %}{% endblock %}
       {% include "_article_cta.html" %}
       <div class="article-footer-nav">
-        <a href="/articles" class="article-back-link">
+        <a href="/articles{{ lq }}" class="article-back-link">
           <i class="fas fa-arrow-left"></i> 解説記事一覧へ戻る
         </a>
       </div>
