@@ -336,6 +336,7 @@
   }
 </style>
 
+{% set lq = '?lang=' ~ current_language if current_language and current_language != 'ja' else '' %}
 <div class="articles-page">
   <div class="articles-container">
     <div class="articles-header">
@@ -366,7 +367,7 @@
       </div>
       <div class="articles-grid">
         {% for art in guides %}
-        <a href="/{{ art.slug }}"
+        <a href="/{{ art.slug }}{{ lq }}"
            class="article-card"
            data-category="{{ art.category }}"
            data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower | e }}">
@@ -397,7 +398,7 @@
       </div>
       <div class="articles-grid">
         {% for art in articles %}
-        <a href="/{{ art.slug }}"
+        <a href="/{{ art.slug }}{{ lq }}"
            class="article-card"
            data-category="{{ art.category }}"
            data-search="{{ (art.title ~ ' ' ~ art.description ~ ' ' ~ art.category) | lower | e }}">
@@ -416,7 +417,7 @@
         {% endfor %}
       </div>
       {% if article_total_pages > 1 %}
-      {% set page_query = '?lang=' ~ current_language if request.query_params.get('lang') else '' %}
+      {% set page_query = lq %}
       <nav class="articles-pagination" aria-label="{{ t('articles.pagination_label') }}">
         {% if article_page > 1 %}
           {% set prev_page = article_page - 1 %}
