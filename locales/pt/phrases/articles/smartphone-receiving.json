@@ -35,7 +35,7 @@
   "大容量ファイルを受け取る際は、モバイル回線（4G/5G）の電波状況が不安定だとエラーになりやすくなります。安定したWi-Fi環境に接続し、ブラウザのページを再読み込み（リフレッシュ）してから再度試してください。": "Ao receber arquivos grandes, uma conexão de rede móvel (4G/5G) instável pode facilmente levar a erros. Conecte-se a uma rede Wi-Fi estável, recarregue (atualize) a página do navegador e tente novamente.",
   "通信エラーでダウンロードが途中で止まる": "O Download Para no Meio do Caminho Devido a um Erro de Comunicação",
   "パスワードが設定されている場合": "Quando existe palavra-passe",
-  "受け取りの基本手順": "Passos básicos para receber um ficheiro",
+  "受け取りの基本手順": "Passos básicos para receber um arquivo",
   "FS QR, スマホ, QRコード, ファイル受け取り, ダウンロード, 使い方, 初心者ガイド": "FS QR, smartphone, código QR, recebimento de arquivos, download, tutorial, guia para iniciantes",
   "FS!QRで共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Como receber no seu smartphone arquivos compartilhados via FS!QR — um tutorial acessível para iniciantes, do escaneamento do código QR ao download.",
   "スキャンする：": "Escanear:",
