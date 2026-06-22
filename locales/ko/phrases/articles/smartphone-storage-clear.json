@@ -36,6 +36,6 @@
   "PCを持っているなら、定期的にケーブルやWi-Fi経由でスマホのデータをPCのハードディスクや外付けSSDに移動させましょう。": "PC를 사용하고 있다면 케이블이나 Wi-Fi를 통해 정기적으로 스마트폰의 데이터를 PC 하드디스크나 외장 SSD로 이동시킵니다.",
   "スマホからPCへ、ケーブルなしで素早く写真を送るなら「FS!QR」": "스마트폰에서 PC로 케이블 없이 빠르게 사진을 보내려면 'FS!QR'",
   "「クラウドストレージは月額料金がかかるし、PCに繋ぐケーブルを探すのも面倒……」という時に便利なのが、登録不要で使える無料ファイル共有サービス": "'클라우드 스토리지는 매월 요금이 나가고, PC와 연결할 케이블을 찾는 것도 번거롭다...'고 느껴질 때 유용한 것이 바로 가입 없이 사용하는 무료 파일 공유 서비스",
-  "スマホのブラウザからFS!QRにアクセスし、バックアップしたい写真や動画を選択してアップロードするだけで、画面にダウンロード用のQRコードが表示されます。あとはPCのカメラでそのQRコードを読み取るか、表示された短縮URLをPCブラウザに入力するだけで、あっという間にデータをPCに保存できます。アカウント登録やアプリのインストールも一切不要なため、スマホの容量がピンチになったその場で、即座にデータをPCに退避させて端末をスッキリさせることができます。ぜひ日々のストレージ管理に役立ててください。": "스마트폰 브라우저에서 FS!QR에 접속해 백업할 사진이나 동영상을 선택하고 업로드하기만 하면 화면에 다운로드용 QR 코드가 표시됩니다. 그 후 PC 카메라로 해당 QR 코드를 스캔하거나, 표시된 단축 URL을 PC 브라우저에 입력하기만 하면 눈 깜짝할 사이에 데이터를 PC에 저장할 수 있습니다. 가입이나 앱 설치가 전혀 필요 없기 때문에 스마트폰 용량이 부족해진 바로 그 자리에서 신속하게 데이터를 PC로 이동하여 기기를 가볍게 만들 수 있습니다. 일상적인 저장 공간 관리에 꼭 유용하게 활용해 보세요.",
-  "すべて削除": "모두 삭제"
+  "すべて削除": "모두 삭제",
+  "スマホのブラウザからFS!QRにアクセスし、バックアップしたい写真や動画を選択してアップロードするだけで、画面にダウンロード用のQRコードと共有リンクが表示されます。あとはPCのカメラでそのQRコードを読み取るか、共有リンクをPCブラウザで開き、必要に応じて6桁のパスワードを入力するだけで、データをPCに保存できます。アカウント登録やアプリのインストールも一切不要なため、スマホの容量がピンチになったその場で、即座にデータをPCに退避させて端末をスッキリさせることができます。ぜひ日々のストレージ管理に役立ててください。": "Open FS!QR in your smartphone browser, select the photos or videos you want to back up, and upload them. A download QR code and share link will appear. Then scan the QR code with the PC camera, or open the share link in the PC browser and enter the 6-digit password if needed to save the data to the PC. No account registration or app installation is required, so you can immediately move data to your PC when phone storage is running low and free up the device. Use it for everyday storage management."
 }

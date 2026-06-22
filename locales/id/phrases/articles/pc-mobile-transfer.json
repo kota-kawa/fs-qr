@@ -18,8 +18,6 @@
   "FS QR, PCスマホ間転送, ファイル共有, QRコード, ケーブルレス": "FS QR, transfer PC ke smartphone, berbagi file, kode QR, nirkabel",
   "PCで受け取る（URL入力の場合）：": "Menerima di PC (jika memasukkan URL):",
   "PCで受け取る（カメラがある場合）：": "Menerima di PC (jika dilengkapi dengan kamera):",
-  "PCにWebカメラが搭載されている場合は、PC側でFS!QRの「受け取り」メニューからカメラを起動し、スマートフォンの画面に表示されたQRコードをPCのカメラにかざすことで、即座にダウンロードページが開きます。": "Jika PC Anda dilengkapi dengan kamera web, Anda dapat mengaktifkan kamera dari menu \"Terima\" di FS!QR pada PC Anda, lalu arahkan kode QR yang ditampilkan di layar smartphone Anda ke arah kamera PC. Halaman pengunduhan akan langsung terbuka seketika.",
-  "PCにカメラがない場合や認識しづらい場合は、スマートフォンのアップロード完了画面に表示される「4桁〜6桁の短いコード（パスキー）」または専用の短縮URLをPCのブラウザに直接入力します。これにより、簡単にファイルをPCへ引き渡すことができます。": "Jika PC Anda tidak memiliki kamera atau sulit memindai kode QR, Anda dapat memasukkan \"kode singkat 4 hingga 6 digit (kunci sandi)\" atau URL pendek khusus yang ditampilkan di layar selesai mengunggah pada smartphone Anda langsung to browser PC. Dengan cara ini, Anda dapat memindahkan file ke PC dengan sangat mudah.",
   "PCのブラウザでFS!QRのトップページを開き、送りたいファイルをドラッグ＆ドロップします。": "Buka halaman utama FS!QR di browser PC Anda, lalu seret dan letakkan file yang ingin Anda kirim.",
   "QRコードを表示して読み取る：": "Menampilkan dan memindai kode QR:",
   "すべての通信は暗号化されているため、同じフリーWi-Fiなどのネットワークを利用している第三者にデータを盗聴されるのを防ぎます。": "Karena semua transmisi komunikasi dienkripsi, hal ini mencegah pihak ketiga yang menggunakan jaringan yang sama (like Wi-Fi gratis) untuk menyadap data Anda.",
@@ -33,5 +31,9 @@
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Sesuaikan batas waktu penyimpanan file (misalnya 1 jam, 1 hari, dll.) serta pengaturan perlindungan dengan ID dan kata sandi jika diperlukan.",
   "自動データ消去：": "Penghapusan data otomatis:",
   "設定を調整する（任意）：": "Sesuaikan pengaturan (opsional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Data yang ditransfer akan dihapus secara permanen dan otomatis dari server tanpa meninggalkan jejak setelah batas waktu yang ditentukan terlewati."
+  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Data yang ditransfer akan dihapus secara permanen dan otomatis dari server tanpa meninggalkan jejak setelah batas waktu yang ditentukan terlewati.",
+  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
+  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有用IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
 }

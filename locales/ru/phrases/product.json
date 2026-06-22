@@ -177,7 +177,6 @@
   "アップロード中...": "Загрузка...",
   "アップロード完了と同時にファイルのQRコードが自動生成されます。": "QR-код создается сразу после завершения загрузки.",
   "アップロード待ちファイル": "Файлы в очереди",
-  "アップロード時に自動で7日間の有効期限が設定されます。必要に応じて管理画面から短縮・延長が可能です。": "Срок хранения по умолчанию — 7 дней. Его можно изменить в настройках.",
   "アップロード済みのファイルを検索・ダウンロードしましょう。": "Найдите и скачайте загруженные файлы.",
   "アップロード開始": "Начать загрузку",
   "アップロード（デモ）": "Загрузить (демо)",
@@ -276,7 +275,6 @@
   "ファイルをアップロードして共同作業": "Загрузка для совместной работы",
   "ファイルをアップロード・共有": "Загрузить и поделиться",
   "ファイルをアップロード開始": "Начать загрузку",
-  "ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。": "Шифрование и QR-коды. Высокая безопасность и простота бесплатно.",
   "ファイルを検索": "Найти файлы",
   "ファイルを準備しています。": "Подготовка файла.",
   "ファイルを選択（デモ）": "Выбрать файл (демо)",
@@ -478,7 +476,6 @@
   "主なユースケース": "Типичные сценарии использования",
   "3つの共有方法": "3 способа обмена",
   "ルームを作成してID・パスワード・QRコードを共有。登録不要で複数人がファイルをアップロード、ダウンロード、管理できます。": "Создайте комнату и поделитесь идентификатором, паролем и QR-кодом. Несколько человек могут загружать, скачивать файлы и управлять ими без регистрации.",
-  "アップロード時に自動で7日間の有効期限が設定されます。期限内は何度でもダウンロード可能です。": "Срок действия 7 дней устанавливается автоматически при загрузке. Загрузки доступны любое количество раз до истечения срока действия.",
   "共有用IDと保存期間を確認して「アップロード開始」を押すと、共有用のページが作成されます。": "Подтвердите идентификатор общего ресурса и срок хранения, затем нажмите «Начать загрузку», чтобы создать страницу общего доступа.",
   "ルームにはアクセスキーによる保護が設定されています。必要に応じて閲覧専用モードに切り替えることで、内容の誤編集を防げます。": "Номера защищены ключами доступа. Переключение в режим только для чтения при необходимости помогает предотвратить случайное редактирование.",
   "パスワード・自動削除の仕組み": "Как работают пароли и автоматическое удаление",
@@ -745,5 +742,13 @@
   "HTTPS通信": "HTTPS communication",
   "はい、個人利用から企業・チームでの利用まで幅広く対応しています。共有URL・QRコード・ルームID・パスワードで一時的なファイル共有ができます。": "Yes. It supports a wide range of personal, business, and team use. Temporary file sharing is available with a share URL, QR code, room ID, and password.",
   "文書、画像、動画、音声ファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由で制限しています。": "Major file formats are supported, including documents, images, videos, and audio files. Some formats, such as HTML/SVG, are restricted for security reasons.",
-  "作成されたルームの共有URL、QRコード、ルームID、パスワードをチームメンバーに共有します。": "Share the created room's share URL, QR code, room ID, and password with team members."
+  "作成されたルームの共有URL、QRコード、ルームID、パスワードをチームメンバーに共有します。": "Share the created room's share URL, QR code, room ID, and password with team members.",
+  "ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。": "Encrypt files and turn them into QR codes. Free, simple file sharing with password-protected share links.",
+  "アップロード時に1日・7日・30日から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。": "When uploading, you can choose a retention period of 1, 7, or 30 days. Files are automatically deleted after the period ends.",
+  "AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。": "FS!QR uses AES-256 encryption. Uploaded files are also stored encrypted on the server.",
+  "保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。": "Files can be downloaded any number of times during the retention period. After the period ends, they are automatically deleted and cannot be downloaded again.",
+  "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "No. Recipients only need the share link or QR code and the issued 6-digit password. No account registration is required.",
+  "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Share the generated QR code or share link and the 6-digit password by email or chat. Select the retention period when uploading.",
+  "相手が受け取る": "The recipient downloads the file",
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "The recipient scans the QR code or opens the share link, enters the password if needed, and downloads within the retention period."
 }

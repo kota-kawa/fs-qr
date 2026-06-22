@@ -4,11 +4,12 @@
 The FastAPI entry point is `app.py`, which wires routers from `Core/`, `Group/`, `Note/`, `Admin/`, and `Articles/`. Shared database helpers live in `fs_data.py`, while module-specific data code resides inside each package (for example, `Group/group_data.py`). HTML templates sit in per-module `templates/` folders, with shared layouts in `templates/`, and static assets in `static/`. Database bootstrap SQL is housed in `db_init/` for the MySQL container.
 
 ## Build, Test, and Development Commands
-- `python -m venv .venv && source .venv/bin/activate` creates and activates a local virtualenv; install dependencies inside it.
+- Use `python3` for local Python commands; the expected environment does not provide a `python` command.
+- `python3 -m venv .venv && source .venv/bin/activate` creates and activates a local virtualenv; install dependencies inside it.
 - `pip install -r requirements.txt` installs FastAPI, SQLAlchemy, apscheduler, and other dependencies.
 - `uvicorn app:app --reload --host 0.0.0.0 --port 5000` starts the app with the default configuration—useful for quick, local iteration without Docker.
 - `docker-compose up --build` mirrors production, launching the FastAPI app and MySQL defined in `docker-compose.yml`.
-- `python app.py` runs the development server (uvicorn) with static cache-busting enabled.
+- `python3 app.py` runs the development server (uvicorn) with static cache-busting enabled.
 
 ## Coding Style & Naming Conventions
 Follow PEP 8 with four-space indentation. Use `snake_case` for functions, router factories, and filenames (`group_app.py`), and `PascalCase` for classes. Jinja templates adopt hyphenated names (e.g., `fs-qr.html`) to match exposed routes. Keep router exposure inside each package’s `__init__.py` minimal and delegate route logic to `*_app.py`. Align logging changes with `log_config.py` so handlers stay consistent across modules.
