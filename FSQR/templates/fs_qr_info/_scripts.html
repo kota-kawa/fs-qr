@@ -61,8 +61,8 @@
     }
 
     function translate(key, fallback) {
-      if (window.FS!QR_I18N && typeof window.FS!QR_I18N.t === 'function') {
-        return window.FS!QR_I18N.t(key, fallback);
+      if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+        return window.FSQR_I18N.t(key, fallback);
       }
       return fallback || key;
     }
@@ -241,8 +241,8 @@
       : ((fragmentPassword || serverPassword) ? 'password' : 'legacy-id');
 
     function translate(key, fallback) {
-      if (window.FS!QR_I18N && typeof window.FS!QR_I18N.t === 'function') {
-        return window.FS!QR_I18N.t(key, fallback);
+      if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
+        return window.FSQR_I18N.t(key, fallback);
       }
       return fallback || key;
     }
