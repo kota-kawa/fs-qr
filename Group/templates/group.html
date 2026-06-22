@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計500MB・30ファイルまで対応。" />
-    <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, 安全なファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有" />
+    <meta name="keywords" content="グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有" />
     <meta name="geo.region" content="JP" />
     <meta name="geo.placename" content="Japan" />
     <meta name="distribution" content="global" />
@@ -144,7 +144,7 @@
           "name": "グループのメンバー数に制限はありますか？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "グループのメンバー数に上限はありません。小さなチームから大規模プロジェクトまで対応可能です。"
+            "text": "グループのサービス仕様上、明示的な人数上限は設けていません。小さなチームから大規模プロジェクトまで対応可能です。"
           }
         },
         {
@@ -251,7 +251,7 @@
                 <p class="service-hero__description">{{ t('seo.group.intent') }}</p>
                 <ul class="service-hero__tags" aria-label="FS!QR Groupの特長">
                     <li class="service-hero__tag">グループルーム作成</li>
-                    <li class="service-hero__tag">安全なファイル共有</li>
+                    <li class="service-hero__tag">ID・パスワードでアクセスを制限したファイル共有</li>
                     <li class="service-hero__tag">ブラウザで完結</li>
                 </ul>
             </div>
@@ -292,7 +292,7 @@
                 <h2 id="group-faq" class="section-title">よくある質問</h2>
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary>無料プランでもデータは安全に保護されますか？</summary>
+                        <summary>登録不要・無料で使えるデータは安全に保護されますか？</summary>
                         <p>通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。</p>
                     </details>
                     <details class="faq-item">
@@ -381,7 +381,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>メンバー数の上限</summary>
-                        <p>グループルームに参加できるメンバー数に上限はありません。小規模チームから大規模プロジェクトまで利用できます。</p>
+                        <p>グループルームに参加できるサービス仕様上、明示的な人数上限は設けていません。小規模チームから大規模プロジェクトまで利用できます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>共有情報の管理と削除</summary>
@@ -395,20 +395,7 @@
             </section>
         </main>
         
-        <footer class="simple-footer service-footer">
-            <nav aria-label="フッターナビゲーション">
-                <a href="/">ホーム</a>
-                <a href="/about">サイト概要</a>
-                <a href="/privacy-policy">プライバシーポリシー</a>
-                <a href="/terms">利用規約</a>
-                <a href="/contact">お問い合わせ</a>
-                <a href="/usage">使い方</a>
-                <a href="/site-operator">サイト運営者情報</a>
-                <a href="/articles">解説記事</a>
-                <button type="button" class="footer-link-button" data-cookie-settings>設定</button>
-            </nav>
-            <small>Copyright &copy;2026 FS!QR, All Rights Reserved.</small>
-        </footer>
+        {% include '_footer.html' %}
     </div>
 
     {% include 'cookie-consent.html' %}

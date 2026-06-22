@@ -132,7 +132,7 @@
         "name": "費用はかかりますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "完全無料でご利用いただけます。登録・課金なしで全機能を使えます。"
+          "text": "登録不要・無料で使えるでご利用いただけます。登録・課金なしで全機能を使えます。"
         }
       },
       {
@@ -644,7 +644,7 @@
 
       <div class="top-seo-about">
         <h2>FS!QRとは？</h2>
-        <p>FS!QR（エフエスQR）は、アプリ・アカウント不要で無料から使えるWebブラウザベースのファイル共有サービスです。QRコード・グループルーム・ノートルームの3つの方法で、PC・スマートフォン・タブレット間のファイル転送やテキスト共有が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。</p>
+        <p>FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースのファイル共有サービスです。QRコード・グループルーム・ノートルームの3つの方法で、PC・スマートフォン・タブレット間のファイル転送やテキスト共有が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。</p>
         <p>{{ t('seo.home.intent') }}</p>
       </div>
 
@@ -654,7 +654,7 @@
           <div class="top-seo-feature-card">
             <div class="top-seo-feature-icon fs-qr-color"><i class="fas fa-qrcode" aria-hidden="true"></i></div>
             <h3>QRコード共有</h3>
-            <p>ファイルをアップロードするとQRコードが自動生成されます。スマホのカメラでかざすだけでダウンロード完了。PCとスマホ間の素早いファイル転送に最適です。合計500MBまで対応。</p>
+            <p>ファイルをアップロードするとQRコードが自動生成されます。QRコードを読み取り、6桁のパスワードを入力するとダウンロードできます。PCとスマホ間の素早いファイル転送に最適です。合計500MBまで対応。</p>
           </div>
           <div class="top-seo-feature-card">
             <div class="top-seo-feature-icon group-color"><i class="fas fa-users" aria-hidden="true"></i></div>
@@ -664,7 +664,7 @@
           <div class="top-seo-feature-card">
             <div class="top-seo-feature-icon note-color"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
             <h3>ノート共有</h3>
-            <p>テキストをリアルタイムで複数人が同時編集できるノートルームです。会議メモ、URLの受け渡し、コードスニペットの共有に。WebSocketによる即時同期が可能です。</p>
+            <p>テキストをリアルタイムで複数人が同時編集できるノートルームです。会議メモ、URLの受け渡し、コードスニペットの共有に。入力内容を約1秒ごとに同期・自動保存しますが可能です。</p>
           </div>
         </div>
       </div>
@@ -683,7 +683,7 @@
         <h2>安全性への取り組み</h2>
         <ul class="top-seo-security-list">
           <li><i class="fas fa-lock" aria-hidden="true"></i> QRコード共有ではファイルをブラウザ上でAES-256暗号化してからサーバーに保存</li>
-          <li><i class="fas fa-key" aria-hidden="true"></i> 6桁のルームID＋6桁のパスワードによる二重保護</li>
+          <li><i class="fas fa-key" aria-hidden="true"></i> 6文字のルームID＋6桁の数字のパスワード＋6桁のパスワードによる二重保護</li>
           <li><i class="fas fa-trash-alt" aria-hidden="true"></i> ファイル・ルームは設定した保存期間（最大30日）経過後に自動削除</li>
           <li><i class="fas fa-shield-alt" aria-hidden="true"></i> すべての通信をHTTPS（TLS）で暗号化</li>
         </ul>
@@ -694,7 +694,7 @@
         <dl class="top-seo-faq-list">
           <div class="top-seo-faq-item">
             <dt>費用はかかりますか？</dt>
-            <dd>完全無料でご利用いただけます。登録・課金なしで全機能を使えます。</dd>
+            <dd>登録不要・無料で使えるでご利用いただけます。登録・課金なしで全機能を使えます。</dd>
           </div>
           <div class="top-seo-faq-item">
             <dt>アプリのインストールは必要ですか？</dt>
@@ -718,20 +718,7 @@
     </div>
   </section>
 
-  <footer class="simple-footer service-footer top-footer">
-    <nav aria-label="フッターナビゲーション">
-      <a href="/">ホーム</a>
-      <a href="/about">サイト概要</a>
-      <a href="/privacy-policy">プライバシーポリシー</a>
-      <a href="/terms">利用規約</a>
-      <a href="/contact">お問い合わせ</a>
-      <a href="/usage">使い方</a>
-      <a href="/site-operator">サイト運営者情報</a>
-      <a href="/articles">解説記事</a>
-      <button type="button" class="footer-link-button" data-cookie-settings>設定</button>
-    </nav>
-    <small>Copyright &copy;2026 FS!QR, All Rights Reserved.</small>
-  </footer>
+  {% include '_footer.html' %}
 
   {% include 'cookie-consent.html' %}
 

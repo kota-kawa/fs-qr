@@ -56,8 +56,8 @@
     }
 
     function translate(key, fallback) {
-        if (window.FSQR_I18N && typeof window.FSQR_I18N.t === 'function') {
-            return window.FSQR_I18N.t(key, fallback);
+        if (window.FS!QR_I18N && typeof window.FS!QR_I18N.t === 'function') {
+            return window.FS!QR_I18N.t(key, fallback);
         }
         return fallback || key;
     }
@@ -146,7 +146,7 @@
 {% import "macros/icons.html" as icons %}
 <script src="{{staticfile('js/shared/app-namespace.js')}}"></script>
 <script>
-    window.__FSQR_APP__.api.setConfig('groupRoom', Object.freeze({
+    window.__FS!QR_APP__.api.setConfig('groupRoom', Object.freeze({
         roomId: {{ room_id|string|tojson }},
         websocketCsrfToken: {{ websocket_csrf_token|string|tojson }},
         debug: {{ frontend_debug | tojson }},

@@ -1,6 +1,6 @@
 <div class="cookie-consent-overlay" id="cookieConsent" aria-hidden="true">
   <script>
-    window.FSQR_I18N = Object.freeze({
+    window.FS!QR_I18N = Object.freeze({
       language: {{ current_language | tojson }},
       supportedLanguages: Object.freeze({{ language_options | map(attribute='code') | list | tojson }}),
       messages: Object.freeze({{ frontend_messages | tojson }}),
