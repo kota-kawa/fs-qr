@@ -680,21 +680,27 @@ def translate_rendered_html(content: str, language: str) -> str:
         content = _apply_phrase_replacements(content, phrases)
 
     if normalized_language == "uk":
-        def uk_plural_articles(match):
-            num = int(match.group(1))
-            sep = match.group(2) or ""
-            mod10 = num % 10
-            mod100 = num % 100
-            if mod10 == 1 and mod100 != 11:
-                word = "стаття"
-            elif mod10 in (2, 3, 4) and mod100 not in (12, 13, 14):
-                word = "статті"
-            else:
-                word = "статей"
-            return f"{num}{sep} {word}"
-        content = re.sub(r'(\d+)(</span>\s*<span class="articles-count-unit">)?\s*статей', uk_plural_articles, content)
+        content = re.sub(
+            r'(\d+)(</span>\s*<span class="articles-count-unit">)?\s*статей',
+            _uk_plural_articles,
+            content,
+        )
 
     return content
+
+
+def _uk_plural_articles(match) -> str:
+    num = int(match.group(1))
+    sep = match.group(2) or ""
+    mod10 = num % 10
+    mod100 = num % 100
+    if mod10 == 1 and mod100 != 11:
+        word = "стаття"
+    elif mod10 in (2, 3, 4) and mod100 not in (12, 13, 14):
+        word = "статті"
+    else:
+        word = "статей"
+    return f"{num}{sep} {word}"
 
 
 def _json_string_escape(text: str) -> str:
