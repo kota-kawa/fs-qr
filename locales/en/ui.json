@@ -48,7 +48,7 @@
   "articles.pagination_label": "Latest articles pagination",
   "articles.pagination_prev": "Previous",
   "articles.pagination_next": "Next",
-  "seo.home.intent": "It covers common searches such as file transfer, photo sharing, video sharing, PDF sending, shared memos, and meeting minutes, from short-lived temporary sharing to team collaboration.",
+  "seo.home.intent": "It supports common use cases such as file transfers, photo sharing, video sharing, PDF sharing, shared memos, and meeting minutes, from short-lived temporary sharing to team collaboration.",
   "seo.fsqr.intent": "Quickly create time-limited sharing for sending files by QR code, moving photos or PDFs from PC to smartphone, and sharing large files without installing an app.",
   "seo.group.intent": "Use a group room like a shared folder to manage internal documents, class materials, event handouts, and file exchanges with clients without account registration.",
   "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."

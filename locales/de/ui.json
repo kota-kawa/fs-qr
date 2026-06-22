@@ -51,5 +51,5 @@
   "seo.home.intent": "Deckt häufig gesuchte Anwendungsfälle wie Dateiübertragung, Foto- und Videofreigabe, PDF-Versand, geteilte Notizen und Protokolle ab, von kurzer temporärer Freigabe bis zur Teamarbeit.",
   "seo.fsqr.intent": "Erstelle sofort eine befristete Freigabe, um Dateien per QR-Code zu senden, Fotos oder PDFs vom PC aufs Smartphone zu übertragen und große Dateien ohne App zu teilen.",
   "seo.group.intent": "Nutze einen Gruppenraum wie einen freigegebenen Ordner, um interne Unterlagen, Unterrichtsmaterial, Event-Dateien und Dateiaustausch mit Kunden ohne Registrierung zu verwalten.",
-  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
+  "seo.note.intent": "Eine kollaborative Notiz für Online-Memos, geteilte Notizen, Besprechungsnotizen und Protokolle. Teilen Sie Freigabe-URL, QR-Code, Raum-ID und Passwort, um mit der browserbasierten gemeinsamen Bearbeitung und dem automatischen Speichern zu beginnen."
 }

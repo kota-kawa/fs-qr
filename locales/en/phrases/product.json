@@ -747,7 +747,7 @@
   "QRコード共有ではファイルをブラウザ上でAES-256暗号化してからサーバーに保存": "Files are AES-256 encrypted in your browser before being stored on the server (QR code sharing)",
   "6桁のルームID＋6桁のパスワードによる二重保護": "Double protection with a 6-digit room ID and 6-digit password",
   "ファイルは設定した保存期間（最大7日）経過後に自動削除": "Files are automatically deleted after the configured retention period (up to 7 days)",
-  "すべての通信をHTTPS（TLS）で暗号化": "All communications encrypted with HTTPS (TLS)",
+  "すべての通信をHTTPS（TLS）で暗号化": "All communications are encrypted using HTTPS (TLS)",
   "よくある質問（FAQ）": "Frequently Asked Questions (FAQ)",
   "費用はかかりますか？": "Is it free to use?",
   "完全無料でご利用いただけます。登録・課金なしで全機能を使えます。": "Completely free. All features are available without registration or payment.",

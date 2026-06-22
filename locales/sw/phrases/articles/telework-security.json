@@ -22,7 +22,7 @@
   "「システムが発行した一時ID」と「送信者が設定したパスワード」の2つの組み合わせ": "mchanganyiko wa mambo yote mawili: \"kitambulisho cha muda kilichotolewa na mfumo\" na \"nenosiri lililowekwa na mtumaji\"",
   "「連絡経路を切り分ける（分離する）」": "Tenganisha njia za mawasiliano",
   "を入力しなければ、ファイルの実体に触れることすらできません。": " - bila yote mawili, hawawezi hata kufikia faili yenyewe.",
-  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "Hakikisha na urekebishe mipangilio ifaavyo.",
+  "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。": "Unapotumia Wi-Fi ya bure yenye usimbaji fiche dhaifu kama vile kwenye mikahawa, kuna hatari ya URL kunyakuliwa kwa kutekwa kwa pakiti (kusikiliza bila idhini).",
   "チャットツールの送信相手を間違えたり、グループチャットに誤って貼り付けたりした場合、URLをタップした全員にファイルが閲覧されてしまいます。": "Inafanya kazi vizuri kwa watu wengi.",
   "パスワードの伝達：": "Kufikisha nenosiri:",
   "パスワードは、チャットツールとは「全く別のルート」で伝えます。具体的には、電話をかける、スマートフォンのSMS（電話番号宛てのショートメッセージ）で送る、または事前に設定済みの別の連絡用アドレスに送る、などの方法をとります。": "Njia rahisi na salama za kumfanya kazi hii.",
