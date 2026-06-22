@@ -4,7 +4,7 @@
   "- 詳細な機能説明とFAQ": "- 详细的功能说明与常见问题解答 (FAQ)",
   ": ノートルームを作成すると、そのルームにアクセスするためのQRコードが発行されます。QRコードを共有すれば複数人で同じノートをリアルタイムに編集でき、編集内容は自動保存されます。": "：当您创建笔记房间时，将发出一个二维码来访问该房间。通过分享二维码，多人可以实时编辑同一条笔记，编辑的内容会自动保存。",
   ": ファイルをアップロードするとダウンロード用URLとパスワードに加え、スマートフォンで読み取れるQRコードが生成されます。受け取る側はQRコードをスキャンしてURLにアクセスし、パスワードを入力するだけでファイルを取得できます。": "：上传文件时，除了下载 URL 和密码外，还会生成可以用智能手机读取的二维码。收件人只需扫描二维码、访问 URL 并输入密码即可检索文件。",
-  ": ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。": "：打开房间时，会生成带有房间网址的二维码，会员只需阅读即可加入。房间内可以上传和下载多个文件。",
+  ": ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。": "：打开房间时，会生成带有房间网址的二维码，参与者只需扫描二维码即可加入房间。房间内可以上传和下载多个文件。",
   "Cookie設定": "设置",
   "当サイトでは、言語の自動判定のために IP アドレスベースの位置情報サービスを使用しています。": "本网站基于 IP 地址的位置服务，自动判断用户的显示语言。",
   "FS QR, お問い合わせ, 問い合わせフォーム, サポート, 質問, FAQ, よくある質問, 使い方, ヘルプ, カスタマーサポート": "FS QR、联系我们、联系表格、支持、问题、常见问题解答、常见问题、如何使用、帮助、客户支持",
@@ -242,7 +242,7 @@
   "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "隐私咨询、删除请求以及关于可能违法或侵权内容的举报，也可通过此表单提交。请尽量具体地填写目标URL、房间ID、问题详情及联系方式。",
   "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "制定日期：2026年5月28日 / 最终更新日期：2026年6月8日",
   "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。": "FS!QR is a free file-sharing service for exchanging data in the browser with QR codes. File sharing, note sharing, and group sharing are available from your browser.",
-  "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Use share URLs, QR codes, room IDs, and passwords to share temporarily with the intended recipients.",
+  "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "可以使用共享URL、二维码、房间ID和密码，与需要的人临时共享。",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. All features use HTTPS, and data is automatically deleted after the selected retention period.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. Communication uses HTTPS, and each item is automatically deleted after the selected retention period."
 }
