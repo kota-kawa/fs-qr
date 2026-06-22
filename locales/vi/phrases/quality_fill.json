@@ -1,8 +1,4 @@
 {
-  "最終更新日：2026年6月8日": "Cập nhật lần cuối: ngày 8 tháng 6 năm 2026",
-  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Khi gửi URL chia sẻ, ID hoặc mật khẩu cho bên thứ ba, người dùng phải kiểm tra người nhận, phạm vi chia sẻ và thời hạn lưu giữ, đồng thời xóa tệp hoặc kết thúc chia sẻ khi không còn cần thiết.",
-  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "Nếu người vận hành có cơ sở hợp lý để cho rằng nội dung có thể trái pháp luật, xâm phạm quyền, gây rủi ro bảo mật hoặc bị lạm dụng, người vận hành có thể xóa nội dung hoặc phòng, hoặc hạn chế truy cập mà không cần thông báo trước.",
-  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Nếu bạn có thắc mắc về Điều khoản này, quyền riêng tư, yêu cầu xóa hoặc báo cáo nội dung có thể trái pháp luật hoặc xâm phạm quyền, vui lòng liên hệ qua trang liên hệ.",
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラでQRコードを読み取るだけで受け取れます。専用アプリのインストールやアカウント登録は不要で、表示されたリンクをタップすればすぐにアクセスできます。": "Tệp được chia sẻ qua FS!QR có thể nhận bằng cách quét mã QR bằng camera mặc định của điện thoại. Không cần cài ứng dụng riêng hay đăng ký tài khoản; chỉ cần chạm vào liên kết hiện ra.",
   "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Đưa FS!QR vào lớp học và cuộc họp hằng ngày giúp giảm đáng kể thời gian chuẩn bị và phát tài liệu. Không cần tài khoản hay ứng dụng riêng, ai cũng có thể bắt đầu ngay.",
   "IDとパスワードによる2重の壁": "Hai lớp bảo vệ bằng ID và mật khẩu",
@@ -14,6 +10,7 @@
   "ゼミやグループ学習での活用例": "Dùng trong seminar và học nhóm",
   "ビジネス会議での活用例": "Dùng trong cuộc họp kinh doanh",
   "ブラウザ完結だからこその手軽さ": "Sự tiện lợi của việc chỉ dùng trình duyệt",
+  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Khi gửi URL chia sẻ, ID hoặc mật khẩu cho bên thứ ba, người dùng phải kiểm tra người nhận, phạm vi chia sẻ và thời hạn lưu giữ, đồng thời xóa tệp hoặc kết thúc chia sẻ khi không còn cần thiết.",
   "共有者がパスワードを設定している場合は、ダウンロードページでIDとパスワードの入力を求められます。事前に共有者から伝えられた情報を入力すると、ファイルにアクセスできます。第三者にパスワードが漏れないよう、口頭や別経路で安全に受け取ることをおすすめします。": "Nếu người chia sẻ đặt mật khẩu, trang tải xuống sẽ yêu cầu ID và mật khẩu. Nhập thông tin đã nhận trước đó để truy cập tệp. Để tránh rò rỉ, nên nhận mật khẩu bằng lời nói hoặc qua kênh riêng.",
   "印刷コストと手間を劇的に削減": "Giảm mạnh chi phí và công sức in ấn",
   "受け取れないときの確認ポイント": "Điểm cần kiểm tra khi không nhận được tệp",
@@ -23,6 +20,9 @@
   "大容量ファイルをスムーズに送るコツ": "Mẹo gửi tệp lớn trơn tru",
   "学校の授業での活用例": "Dùng trong lớp học",
   "安全で効率的な運用のポイント": "Điểm mấu chốt để vận hành an toàn và hiệu quả",
+  "最終更新日：2026年6月8日": "Cập nhật lần cuối: ngày 8 tháng 6 năm 2026",
+  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Nếu bạn có thắc mắc về Điều khoản này, quyền riêng tư, yêu cầu xóa hoặc báo cáo nội dung có thể trái pháp luật hoặc xâm phạm quyền, vui lòng liên hệ qua trang liên hệ.",
   "活用のヒント：クリップボード代わりにも": "Gợi ý: dùng như clipboard giữa các thiết bị",
-  "用途に合わせて選べる保持期間": "Chọn thời hạn lưu giữ theo mục đích"
+  "用途に合わせて選べる保持期間": "Chọn thời hạn lưu giữ theo mục đích",
+  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "Nếu người vận hành có cơ sở hợp lý để cho rằng nội dung có thể trái pháp luật, xâm phạm quyền, gây rủi ro bảo mật hoặc bị lạm dụng, người vận hành có thể xóa nội dung hoặc phòng, hoặc hạn chế truy cập mà không cần thông báo trước."
 }

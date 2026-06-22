@@ -1,8 +1,4 @@
 {
-  "最終更新日：2026年6月8日": "Terakhir diperbarui: 8 Juni 2026",
-  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Saat mengirim URL berbagi, ID, atau kata sandi kepada pihak ketiga, pengguna harus memastikan penerima, cakupan berbagi, dan masa penyimpanan, lalu menghapus file atau mengakhiri berbagi saat tidak lagi diperlukan.",
-  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "Jika operator secara wajar menilai bahwa suatu konten mungkin ilegal, melanggar hak, berisiko terhadap keamanan, atau berpotensi disalahgunakan, operator dapat menghapus konten atau ruang tersebut, atau membatasi akses, tanpa pemberitahuan sebelumnya.",
-  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Jika Anda memiliki pertanyaan tentang Ketentuan ini, privasi, permintaan penghapusan, atau pelaporan konten yang mungkin ilegal atau melanggar hak, silakan hubungi kami melalui halaman kontak.",
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラでQRコードを読み取るだけで受け取れます。専用アプリのインストールやアカウント登録は不要で、表示されたリンクをタップすればすぐにアクセスできます。": "File yang dibagikan lewat FS!QR dapat diterima cukup dengan memindai kode QR menggunakan kamera bawaan ponsel. Tidak perlu aplikasi khusus atau akun; ketuk tautan yang muncul untuk membukanya.",
   "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Menggunakan FS!QR dalam kelas dan rapat sehari-hari dapat memangkas banyak waktu persiapan dan distribusi materi. Tanpa akun atau aplikasi khusus, siapa pun bisa langsung menggunakannya.",
   "IDとパスワードによる2重の壁": "Perlindungan ganda dengan ID dan kata sandi",
@@ -14,6 +10,7 @@
   "ゼミやグループ学習での活用例": "Penggunaan untuk seminar dan belajar kelompok",
   "ビジネス会議での活用例": "Penggunaan dalam rapat bisnis",
   "ブラウザ完結だからこその手軽さ": "Kemudahan karena semuanya selesai di browser",
+  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Saat mengirim URL berbagi, ID, atau kata sandi kepada pihak ketiga, pengguna harus memastikan penerima, cakupan berbagi, dan masa penyimpanan, lalu menghapus file atau mengakhiri berbagi saat tidak lagi diperlukan.",
   "共有者がパスワードを設定している場合は、ダウンロードページでIDとパスワードの入力を求められます。事前に共有者から伝えられた情報を入力すると、ファイルにアクセスできます。第三者にパスワードが漏れないよう、口頭や別経路で安全に受け取ることをおすすめします。": "Jika pengirim menetapkan kata sandi, halaman unduhan akan meminta ID dan kata sandi. Masukkan informasi yang sudah diterima sebelumnya. Agar tidak bocor, sebaiknya kata sandi diterima secara lisan atau melalui kanal terpisah.",
   "印刷コストと手間を劇的に削減": "Mengurangi biaya dan pekerjaan cetak secara drastis",
   "受け取れないときの確認ポイント": "Hal yang perlu diperiksa jika file tidak bisa diterima",
@@ -23,6 +20,9 @@
   "大容量ファイルをスムーズに送るコツ": "Tips mengirim file besar dengan lancar",
   "学校の授業での活用例": "Penggunaan di kelas sekolah",
   "安全で効率的な運用のポイント": "Poin untuk penggunaan yang aman dan efisien",
+  "最終更新日：2026年6月8日": "Terakhir diperbarui: 8 Juni 2026",
+  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Jika Anda memiliki pertanyaan tentang Ketentuan ini, privasi, permintaan penghapusan, atau pelaporan konten yang mungkin ilegal atau melanggar hak, silakan hubungi kami melalui halaman kontak.",
   "活用のヒント：クリップボード代わりにも": "Tips: gunakan sebagai clipboard antarperangkat",
-  "用途に合わせて選べる保持期間": "Pilih masa penyimpanan sesuai kebutuhan"
+  "用途に合わせて選べる保持期間": "Pilih masa penyimpanan sesuai kebutuhan",
+  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "Jika operator secara wajar menilai bahwa suatu konten mungkin ilegal, melanggar hak, berisiko terhadap keamanan, atau berpotensi disalahgunakan, operator dapat menghapus konten atau ruang tersebut, atau membatasi akses, tanpa pemberitahuan sebelumnya."
 }

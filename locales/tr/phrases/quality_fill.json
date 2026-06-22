@@ -1,8 +1,4 @@
 {
-  "最終更新日：2026年6月8日": "Son güncelleme: 8 Haziran 2026",
-  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Bir paylaşım URL'si, ID veya parolayı üçüncü bir kişiye gönderirken kullanıcı; alıcıyı, paylaşım kapsamını ve saklama süresini kontrol etmeli, ihtiyaç kalmadığında dosyayı silmeli veya paylaşımı sonlandırmalıdır.",
-  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "İşletici; içeriğin yasa dışı olabileceğini, hak ihlali oluşturabileceğini, güvenlik riski taşıyabileceğini veya kötüye kullanım ihtimali bulunduğunu makul şekilde değerlendirirse, önceden bildirim yapmadan içeriği ya da odayı silebilir veya erişimi kısıtlayabilir.",
-  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Bu Şartlar, gizlilik, silme talepleri veya yasa dışı ya da hak ihlali içerebilecek içerik bildirimleri hakkında sorularınız varsa lütfen iletişim sayfasından bize ulaşın.",
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラでQRコードを読み取るだけで受け取れます。専用アプリのインストールやアカウント登録は不要で、表示されたリンクをタップすればすぐにアクセスできます。": "FS!QR ile paylaşılan dosyalar, akıllı telefonun yerleşik kamerasıyla QR kodu taratılarak alınabilir. Özel uygulama veya hesap gerekmez; görünen bağlantıya dokunmak yeterlidir.",
   "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "FS!QR'yi günlük derslere ve toplantılara dahil etmek, materyal hazırlama ve dağıtma süresini ciddi ölçüde azaltır. Hesap ya da özel uygulama gerekmediği için herkes hemen kullanmaya başlayabilir.",
   "IDとパスワードによる2重の壁": "ID ve parola ile çift koruma",
@@ -14,6 +10,7 @@
   "ゼミやグループ学習での活用例": "Seminer ve grup çalışmasında kullanım",
   "ビジネス会議での活用例": "İş toplantılarında kullanım",
   "ブラウザ完結だからこその手軽さ": "Sadece tarayıcıyla tamamlanmasının kolaylığı",
+  "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。": "Bir paylaşım URL'si, ID veya parolayı üçüncü bir kişiye gönderirken kullanıcı; alıcıyı, paylaşım kapsamını ve saklama süresini kontrol etmeli, ihtiyaç kalmadığında dosyayı silmeli veya paylaşımı sonlandırmalıdır.",
   "共有者がパスワードを設定している場合は、ダウンロードページでIDとパスワードの入力を求められます。事前に共有者から伝えられた情報を入力すると、ファイルにアクセスできます。第三者にパスワードが漏れないよう、口頭や別経路で安全に受け取ることをおすすめします。": "Paylaşan kişi parola belirlediyse indirme sayfası ID ve parola ister. Önceden aldığınız bilgileri girerek dosyaya erişebilirsiniz. Parolanın sızmasını önlemek için sözlü veya ayrı bir kanaldan almak daha güvenlidir.",
   "印刷コストと手間を劇的に削減": "Baskı maliyetini ve zahmetini ciddi biçimde azaltın",
   "受け取れないときの確認ポイント": "Dosya alınamıyorsa kontrol edilecekler",
@@ -23,6 +20,9 @@
   "大容量ファイルをスムーズに送るコツ": "Büyük dosyaları sorunsuz gönderme ipuçları",
   "学校の授業での活用例": "Okul derslerinde kullanım",
   "安全で効率的な運用のポイント": "Güvenli ve verimli kullanım noktaları",
+  "最終更新日：2026年6月8日": "Son güncelleme: 8 Haziran 2026",
+  "本規約、プライバシー、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報に関してご不明な点がございましたら、お問い合わせページからご連絡ください。": "Bu Şartlar, gizlilik, silme talepleri veya yasa dışı ya da hak ihlali içerebilecek içerik bildirimleri hakkında sorularınız varsa lütfen iletişim sayfasından bize ulaşın.",
   "活用のヒント：クリップボード代わりにも": "İpucu: cihazlar arası pano gibi kullanın",
-  "用途に合わせて選べる保持期間": "Amaca uygun saklama süresi seçin"
+  "用途に合わせて選べる保持期間": "Amaca uygun saklama süresi seçin",
+  "運営者は、違法性、権利侵害、セキュリティ上の危険、不正利用のおそれがあると合理的に判断した場合、事前の通知なくコンテンツやルームを削除またはアクセス制限できるものとします。": "İşletici; içeriğin yasa dışı olabileceğini, hak ihlali oluşturabileceğini, güvenlik riski taşıyabileceğini veya kötüye kullanım ihtimali bulunduğunu makul şekilde değerlendirirse, önceden bildirim yapmadan içeriği ya da odayı silebilir veya erişimi kısıtlayabilir."
 }
