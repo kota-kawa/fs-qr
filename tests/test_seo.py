@@ -198,8 +198,8 @@ def test_target_pages_render_seo_intent_text_in_english(test_client: TestClient)
         "/group": "shared folder",
         "/note_menu": "meeting notes",
         "/note": "meeting notes",
-        "/fs-qr_menu": "time-limited sharing",
-        "/fs-qr": "time-limited sharing",
+        "/fs-qr_menu": "time-limited shares",
+        "/fs-qr": "time-limited shares",
     }
 
     for route, marker in routes.items():
