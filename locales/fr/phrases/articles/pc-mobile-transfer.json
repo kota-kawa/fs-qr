@@ -18,8 +18,6 @@
   "FS QR, PCスマホ間転送, ファイル共有, QRコード, ケーブルレス": "FS QR, transfert PC vers mobile, partage de fichiers, QR code, sans câble",
   "PCで受け取る（URL入力の場合）：": "Recevoir sur le PC (en saisissant l'URL) :",
   "PCで受け取る（カメラがある場合）：": "Recevoir sur le PC (si le PC a une caméra) :",
-  "PCにWebカメラが搭載されている場合は、PC側でFS!QRの「受け取り」メニューからカメラを起動し、スマートフォンの画面に表示されたQRコードをPCのカメラにかざすことで、即座にダウンロードページが開きます。": "Si le PC est équipé d'une webcam, ouvrez le menu « Recevoir » de FS!QR sur le PC, activez la caméra et présentez le QR code affiché sur l'écran du téléphone à la caméra du PC — la page de téléchargement s'ouvre instantanément.",
-  "PCにカメラがない場合や認識しづらい場合は、スマートフォンのアップロード完了画面に表示される「4桁〜6桁の短いコード（パスキー）」または専用の短縮URLをPCのブラウザに直接入力します。これにより、簡単にファイルをPCへ引き渡すことができます。": "Si le PC n'a pas de caméra ou si la reconnaissance est difficile, saisissez directement dans le navigateur du PC le code court de 4 à 6 caractères (clé d'accès) ou l'URL raccourcie dédiée affichée sur l'écran de fin de téléversement du téléphone. C'est tout ce qu'il faut pour transférer le fichier vers le PC.",
   "PCのブラウザでFS!QRのトップページを開き、送りたいファイルをドラッグ＆ドロップします。": "Ouvrez la page d'accueil de FS!QR dans le navigateur de votre PC et faites glisser le fichier à envoyer.",
   "QRコードを表示して読み取る：": "Afficher le QR code et le scanner :",
   "すべての通信は暗号化されているため、同じフリーWi-Fiなどのネットワークを利用している第三者にデータを盗聴されるのを防ぎます。": "Toutes les transmissions sont chiffrées, ce qui empêche tout tiers présent sur le même réseau — Wi-Fi public, par exemple — d'intercepter vos données.",
@@ -33,5 +31,9 @@
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Si vous le souhaitez, ajustez la durée de conservation (par ex. 1 heure ou 1 jour) et définissez une protection par identifiant et mot de passe.",
   "自動データ消去：": "Suppression automatique des données :",
   "設定を調整する（任意）：": "Ajuster les paramètres (facultatif) :",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Une fois le délai fixé écoulé, les données transférées sont effacées automatiquement et complètement du serveur, sans laisser de trace."
+  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Une fois le délai fixé écoulé, les données transférées sont effacées automatiquement et complètement du serveur, sans laisser de trace.",
+  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
+  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有用IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
 }

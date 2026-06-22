@@ -18,8 +18,6 @@
   "FS QR, PCスマホ間転送, ファイル共有, QRコード, ケーブルレス": "FS QR, PC to phone transfer, file sharing, QR code, cable-free",
   "PCで受け取る（URL入力の場合）：": "Receive on the PC (by entering the URL):",
   "PCで受け取る（カメラがある場合）：": "Receive on the PC (if it has a camera):",
-  "PCにWebカメラが搭載されている場合は、PC側でFS!QRの「受け取り」メニューからカメラを起動し、スマートフォンの画面に表示されたQRコードをPCのカメラにかざすことで、即座にダウンロードページが開きます。": "If the PC has a webcam, open FS!QR's \"Receive\" menu on the PC, start the camera, and hold the QR code on the phone screen up to it — the download page opens instantly.",
-  "PCにカメラがない場合や認識しづらい場合は、スマートフォンのアップロード完了画面に表示される「4桁〜6桁の短いコード（パスキー）」または専用の短縮URLをPCのブラウザに直接入力します。これにより、簡単にファイルをPCへ引き渡すことができます。": "If the PC has no camera, or scanning is unreliable, type the short 4–6 character code (passkey) or the dedicated short URL shown on the phone's upload-complete screen directly into the PC's browser. That's all it takes to hand the file over to the PC.",
   "PCのブラウザでFS!QRのトップページを開き、送りたいファイルをドラッグ＆ドロップします。": "Open the FS!QR top page in your PC browser and drag and drop the file you want to send.",
   "QRコードを表示して読み取る：": "Show the QR code and scan it:",
   "すべての通信は暗号化されているため、同じフリーWi-Fiなどのネットワークを利用している第三者にデータを盗聴されるのを防ぎます。": "All transfers are encrypted, so third parties on the same network — public Wi-Fi, say — can't eavesdrop on your data.",
@@ -33,5 +31,9 @@
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "If you like, adjust the retention period (e.g. 1 hour or 1 day) and set ID/password protection.",
   "自動データ消去：": "Automatic data erasure:",
   "設定を調整する（任意）：": "Adjust the settings (optional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Once the time you set has elapsed, the transferred data is wiped from the server completely and automatically, leaving no trace."
+  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Once the time you set has elapsed, the transferred data is wiped from the server completely and automatically, leaving no trace.",
+  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
+  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有用IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
 }

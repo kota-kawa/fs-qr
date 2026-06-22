@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import re
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from starlette.testclient import TestClient
 
@@ -49,6 +50,67 @@ def test_sitemap_includes_terms_page(test_client: TestClient):
     root = ET.fromstring(response.text)
     locs = {loc.text for loc in root.findall("sm:url/sm:loc", SITEMAP_NS)}
     assert "https://fs-qr.net/terms" in locs
+
+
+def test_sitemap_keeps_all_existing_public_pages(test_client: TestClient):
+    """AdSense fixes must improve listed pages, not remove them from sitemap."""
+    response = test_client.get("/sitemap.xml")
+    assert response.status_code == 200
+
+    root = ET.fromstring(response.text)
+    locs = {loc.text for loc in root.findall("sm:url/sm:loc", SITEMAP_NS)}
+
+    expected_locs = {
+        "https://fs-qr.net/",
+        "https://fs-qr.net/about",
+        "https://fs-qr.net/contact",
+        "https://fs-qr.net/usage",
+        "https://fs-qr.net/privacy-policy",
+        "https://fs-qr.net/terms",
+        "https://fs-qr.net/site-operator",
+        "https://fs-qr.net/articles",
+        "https://fs-qr.net/fs-qr_menu",
+        "https://fs-qr.net/fs-qr",
+        "https://fs-qr.net/group_menu",
+        "https://fs-qr.net/group",
+        "https://fs-qr.net/create_room",
+        "https://fs-qr.net/note_menu",
+        "https://fs-qr.net/note",
+        "https://fs-qr.net/create_note_room",
+    }
+
+    assert expected_locs <= locs
+
+
+def test_adsense_risk_copy_does_not_reappear_in_public_copy_sources():
+    stale_snippets = (
+        "最高レベルのセキュリティ",
+        "管理画面から短縮・延長",
+        "AES-256によるエンドツーエンド暗号化",
+        "ダウンロード履歴はダッシュボード",
+        "追加でPINコード",
+        "PINコードや有効期限",
+        "ダッシュボードでダウンロード履歴やアクセス元",
+        "PC側でFS!QRの「受け取り」メニュー",
+        "4桁〜6桁の短いコード",
+        "表示された短縮URL",
+    )
+    roots = (Path("FSQR"), Path("Articles"), Path("locales"))
+    paths = [
+        path
+        for root in roots
+        for path in root.rglob("*")
+        if path.suffix in {".html", ".json"}
+    ]
+
+    offenders = []
+    for path in paths:
+        text = path.read_text(encoding="utf-8")
+        for snippet in stale_snippets:
+            if snippet in text:
+                offenders.append(f"{path}: {snippet}")
+
+    assert offenders == []
 
 
 def test_home_meta_description_is_translated_for_every_locale(

@@ -19,7 +19,7 @@
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="FS!QR" />
     <meta property="og:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
-    <meta property="og:description" content="ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。" />
+    <meta property="og:description" content="ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。" />
     <meta property="og:url" content="{{ request.canonical_url }}" />
     <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta property="og:image:type" content="image/jpeg">
@@ -30,7 +30,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
-    <meta name="twitter:description" content="ファイルを暗号化してQRコード化。最高レベルのセキュリティで安全・簡単なファイル共有を無料提供。" />
+    <meta name="twitter:description" content="ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。" />
     <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta name="twitter:image:alt" content="FS!QR サービス">
     
@@ -310,19 +310,19 @@
                 <div class="faq-list">
                     <details class="faq-item">
                         <summary>QRコードの有効期限は設定できますか？</summary>
-                        <p>アップロード時に自動で7日間の有効期限が設定されます。必要に応じて管理画面から短縮・延長が可能です。</p>
+                        <p>アップロード時に1日・7日・30日から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>暗号化の方式は何を使っていますか？</summary>
-                        <p>AES-256によるエンドツーエンド暗号化を採用しています。サーバー上でも暗号化状態で保持されるため、運営側でも内容は確認できません。</p>
+                        <p>AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。</p>
                     </details>
                     <details class="faq-item">
                         <summary>QRコードは何回でもダウンロードできますか？</summary>
-                        <p>有効期限内であれば回数無制限でダウンロードできます。ダウンロード履歴はダッシュボードから確認可能です。</p>
+                        <p>保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。</p>
                     </details>
                     <details class="faq-item">
                         <summary>共有相手にアカウントは必要ですか？</summary>
-                        <p>いいえ。QRコードを読み取ればどなたでもファイルを受け取れます。追加でPINコードを設定することもでき、セキュリティを強化できます。</p>
+                        <p>いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。</p>
                     </details>
                 </div>
             </section>
@@ -335,11 +335,11 @@
                     </li>
                     <li class="howto-step">
                         <h3>共有方法を選択する</h3>
-                        <p>生成されたQRコードやダウンロードリンクをメールやチャットで共有します。必要に応じてPINコードや有効期限を変更しましょう。</p>
+                        <p>生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。</p>
                     </li>
                     <li class="howto-step">
-                        <h3>ダウンロード状況を確認する</h3>
-                        <p>ダッシュボードでダウンロード履歴やアクセス元を確認し、安全なファイル配布を継続できます。</p>
+                        <h3>相手が受け取る</h3>
+                        <p>相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。</p>
                     </li>
                 </ol>
             </section>

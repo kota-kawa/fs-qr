@@ -85,7 +85,6 @@
   "6文字の半角英数字で入力してください。": "Voer a.u.b. 6 alfanumerieke tekens in.",
   "6桁の数字で入力してください": "Voer een 6-cijferig getal in",
   "7日 (デフォルト)": "7 dagen (standaard)",
-  "AES-256によるエンドツーエンド暗号化を採用しています。サーバー上でも暗号化状態で保持されるため、運営側でも内容は確認できません。": "Wij maken gebruik van end-to-end encryptie met AES-256. De informatie wordt ook versleuteld op de server opgeslagen, dus zelfs de beheerder kan de inhoud niet inzien.",
   "FS QR, 横断検索, 検索結果": "FS QR, cross search, zoekresultaten",
   "FS!QR All-in-One - 統合ダッシュボード": "FS!QR All-in-One - Uniform Dashboard",
   "FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス": "FS!QR Group | Gratis groepsbestandsdeling/team samenwerking clouddienst",
@@ -453,7 +452,6 @@
   "ファイルサイズの上限はいくつですか？": "Wat is de limiet voor de bestandsgrootte?",
   "1ファイルあたり最大500MBまでアップロードできます。PDF・Word・Excel・画像・動画など主要なファイル形式に対応しています。": "U kunt maximaal 500 MB per bestand uploaden. Belangrijke bestandsformaten zoals PDF, Word, Excel, afbeeldingen en video's worden ondersteund.",
   "アップロードから7日間保存されます。期間終了後はサーバーから自動削除されます。パスワードを設定することでダウンロードを制限できます。": "Bestanden worden na het uploaden 7 dagen bewaard en na die periode automatisch van de server verwijderd. U kunt downloads beperken door een wachtwoord in te stellen.",
-  "アップロード時に自動で7日間の有効期限が設定されます。期限内は何度でもダウンロード可能です。": "Bij het uploaden wordt automatisch een vervaldatum van zeven dagen ingesteld. Downloads zijn een onbeperkt aantal keren beschikbaar voordat deze verloopt.",
   "AES-256による暗号化を採用しています。サーバー上でも暗号化状態で保持されます。": "Er wordt gebruik gemaakt van AES-256-codering. Bestanden worden versleuteld op de server opgeslagen.",
   "QRコードファイル共有とは": "Wat is het delen van QR-codebestanden?",
   "QRコードファイル共有とは、ファイルをクラウドにアップロードして生成されたQRコードを読み取るだけでダウンロードできる仕組みです。メールアドレスやアカウントの交換は不要で、スマートフォンのカメラを向けるだけでファイルを受け取れます。FS!QRではアップロード時にAES-256暗号化を自動適用するため、安全性を確保しながら手軽にファイルを共有できます。": "Met het delen van QR-codebestanden kunnen ontvangers een in de cloud gehost bestand downloaden door eenvoudigweg een gegenereerde QR-code te scannen. Het is niet nodig om e-mailadressen of accounts uit te wisselen; een smartphonecamera is voldoende om het bestand te ontvangen. FS!QR past automatisch AES-256-codering toe bij het uploaden, zodat bestanden eenvoudig kunnen worden gedeeld met behoud van de veiligheid.",
@@ -707,5 +705,13 @@
   "HTTPS通信": "HTTPS communication",
   "はい、個人利用から企業・チームでの利用まで幅広く対応しています。共有URL・QRコード・ルームID・パスワードで一時的なファイル共有ができます。": "Yes. It supports a wide range of personal, business, and team use. Temporary file sharing is available with a share URL, QR code, room ID, and password.",
   "文書、画像、動画、音声ファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由で制限しています。": "Major file formats are supported, including documents, images, videos, and audio files. Some formats, such as HTML/SVG, are restricted for security reasons.",
-  "作成されたルームの共有URL、QRコード、ルームID、パスワードをチームメンバーに共有します。": "Share the created room's share URL, QR code, room ID, and password with team members."
+  "作成されたルームの共有URL、QRコード、ルームID、パスワードをチームメンバーに共有します。": "Share the created room's share URL, QR code, room ID, and password with team members.",
+  "ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。": "Encrypt files and turn them into QR codes. Free, simple file sharing with password-protected share links.",
+  "アップロード時に1日・7日・30日から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。": "When uploading, you can choose a retention period of 1, 7, or 30 days. Files are automatically deleted after the period ends.",
+  "AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。": "FS!QR uses AES-256 encryption. Uploaded files are also stored encrypted on the server.",
+  "保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。": "Files can be downloaded any number of times during the retention period. After the period ends, they are automatically deleted and cannot be downloaded again.",
+  "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "No. Recipients only need the share link or QR code and the issued 6-digit password. No account registration is required.",
+  "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Share the generated QR code or share link and the 6-digit password by email or chat. Select the retention period when uploading.",
+  "相手が受け取る": "The recipient downloads the file",
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "The recipient scans the QR code or opens the share link, enters the password if needed, and downloads within the retention period."
 }
