@@ -1,7 +1,7 @@
 {
-  "共同編集ノートが同期されない・入力が反映されないときの対処法": "Cómo resolver una nota compartida que no sincroniza o no muestra los cambios",
-  "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Puntos de revisión para FS!QR Note cuando las ediciones no aparecen a otros usuarios, la conexión es inestable o el contenido guardado parece antiguo, cubriendo red, navegador, datos compartidos y flujo de trabajo.",
-  "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "nota compartida, no sincroniza, cambios no visibles, edición en tiempo real, acta de reunión, FS QR Note, solución de problemas",
+  "共同編集ノートが同期されない・入力が反映されないときの対処法": "Qué hacer cuando la nota de edición colaborativa no se sincroniza o no refleja los cambios",
+  "FS!QR Noteで編集内容が相手に反映されない、接続が不安定、保存内容が古く見えるときに、通信・ブラウザ・共有情報・運用面から確認するポイントを解説します。": "Explicamos los puntos a verificar desde el punto de vista de la conexión, el navegador, la información compartida y el uso cuando, en FS!QR Note, los cambios no se reflejan al otro usuario, la conexión es inestable o el contenido guardado parece antiguo.",
+  "共同編集ノート, 同期されない, 反映されない, リアルタイム編集, 議事録, FS QR Note, トラブル対策": "Nota de edición colaborativa, no se sincroniza, no se refleja, edición en tiempo real, actas, FS QR Note, resolución de problemas",
   "1人だけ反映されない場合は、その人の通信環境やブラウザの状態が原因である可能性が高くなります。全員で同時に止まっている場合は、ネットワークやサービス側の一時的な問題も考えます。": "Si solo una persona no ve las modificaciones, su entorno de red o el estado de su navegador son probablemente la causa. Si todos están bloqueados al mismo tiempo, considera un problema temporal en la red o el servicio.",
   "FS!QR Noteを使えば、ブラウザだけで共同編集ノートを作成し、URLやアクセス情報を共有してすぐに書き始められます。会議前の確認と簡単な編集ルールを合わせることで、リアルタイム編集をより安定して使えます。": "Con FS!QR Note puedes crear una nota colaborativa desde un simple navegador, compartir la URL y la información de acceso, y empezar a escribir de inmediato. Combina una verificación rápida antes de la reunión y algunas reglas de redacción simples, y la edición en tiempo real se mantiene fiable.",
   "Wi-Fiとモバイル回線を切り替えてみる": "Intentar cambiar entre Wi-Fi y datos móviles",

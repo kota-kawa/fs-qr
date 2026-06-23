@@ -1,8 +1,8 @@
 {
   "URLをコピー": "Copiar URL",
-  "QRコードが読み取れない・共有リンクが開けないときの対処法": "Qué hacer si el código QR no se escanea o el enlace compartido no se abre",
-  "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Una guía práctica para revisar la pantalla, la conexión, el navegador y las alternativas cuando un QR de intercambio de archivos no se lee, un enlace no se abre o no se llega a la página de descarga.",
-  "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "código QR, no se escanea, enlace compartido, no se puede descargar, intercambio de archivos, solución de problemas",
+  "QRコードが読み取れない・共有リンクが開けないときの対処法": "Qué hacer cuando el código QR no se puede escanear o el enlace compartido no se abre",
+  "ファイル共有のQRコードが読めない、URLを開けない、ダウンロード画面に進めないときに確認したい、画面表示・通信環境・ブラウザ設定・代替案を整理します。": "Resumimos qué comprobar en cuanto a la visualización en pantalla, entorno de conexión, configuración del navegador y alternativas cuando el código QR para compartir un archivo no se escanea, la URL no se abre o no se puede pasar a la pantalla de descarga.",
+  "QRコード, 読み取れない, 共有リンク, ダウンロードできない, ファイル共有, トラブル対策": "Código QR, no se puede escanear, enlace compartido, no se puede descargar, uso compartido de archivos, resolución de problemas",
   "FS!QRでは、ファイルをアップロードするとQRコードと共有用の導線をすぐに用意できます。読み取れない場合に備えてURLも併記しておくことで、急ぎの資料共有でも慌てず対応できます。": "Con FS!QR, subir un archivo genera inmediatamente un código QR y un enlace de compartición. Al preparar también la URL como alternativa de respaldo, incluso las entregas urgentes de documentos se gestionan con tranquilidad aunque falle un escaneo.",
   "IDやパスワードの伝え方を決めたか": "¿Decidiste cómo comunicar el ID y la contraseña?",
   "IDやパスワードの入力で止まるとき": "Cuando todo se bloquea al introducir el ID o la contraseña",

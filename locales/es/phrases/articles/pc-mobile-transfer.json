@@ -1,6 +1,6 @@
 {
   "ペースト": "Pegar",
-  "ケーブルを探す手間から解放される": "Olvídese de la molestia de tener que buscar cables de transferencia",
+  "ケーブルを探す手間から解放される": "Olvídate de malgastar tiempo buscando cables",
   "PCとスマホ間でのシームレスなファイル転送": "Transferencia de archivos sin cables entre PC y smartphone",
   "ケーブル不要！PCからスマホ、スマホからPCへ、ブラウザとQRコードだけで簡単にファイルを送受信するテクニックを紹介します。": "¡Sin cables! Envía y recibe archivos entre PC y smartphone fácilmente usando solo un navegador y códigos QR.",
   "PCからスマホへファイルを送る手順": "Pasos para enviar archivos desde el ordenador al móvil",
@@ -32,8 +32,8 @@
   "自動データ消去：": "Eliminación automática de datos:",
   "設定を調整する（任意）：": "Ajustar la configuración (opcional):",
   "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Una vez transcurrido el plazo fijado, los datos transferidos se borran automática y completamente del servidor, sin dejar rastro.",
-  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
-  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
-  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
+  "PCで受け取る（QRコードの場合）：": "Recibir en el ordenador (mediante código QR):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Si tu ordenador tiene una cámara que permita leer códigos QR, escanea el código que ha salido en la pantalla de carga completada del móvil y abre la página de descargas.",
+  "PCで受け取る（リンク入力の場合）：": "Recibir en el ordenador (mediante enlace):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Si no tienes cámara en el ordenador o te cuesta escanear el código, basta con introducir en tu navegador el enlace mostrado en la pantalla de carga del smartphone. Si te guardas el ID de compartición y la contraseña de 6 dígitos, podrás buscar y abrir el archivo desde la propia página."
 }
