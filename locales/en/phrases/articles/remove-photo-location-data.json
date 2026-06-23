@@ -1,7 +1,7 @@
 {
   "位置情報サービス": "Location Services",
   "写真の位置情報(GPS)を削除してから送る方法｜iPhone・Android・PC別": "How to Remove GPS Location Data From Photos Before Sending: iPhone, Android, and PC",
-  "スマホで撮った写真には撮影場所のGPS情報が埋め込まれていることをご存じですか？SNSや共有で自宅がバレるのを防ぐため、位置情報(Exif)を削除してから送る方法を端末別に解説します。": "Did you know photos taken on a smartphone can carry GPS data showing where they were shot? To keep your home address from leaking through social media or shared files, we explain how to strip location (Exif) data before sending, device by device.",
+  "スマホで撮った写真には撮影場所のGPS情報が埋め込まれていることをご存じですか？SNSや共有で自宅がバレるのを防ぐため、位置情報(Exif)を削除してから送る方法を端末別に解説します。": "Photos taken on a smartphone often carry GPS data pinpointing exactly where the shot was taken. This guide explains how to strip that location (Exif) data before sending, device by device, so your home address doesn't leak through social media or a shared file.",
   "Androidで位置情報を消して送る方法": "Removing location data before sending on Android",
   "Googleフォトで削除：": "Remove it in Google Photos:",
   "Windowsなら追加アプリなしで削除できます。画像ファイルを右クリック→「プロパティ」→「詳細」タブを開き、下部の「プロパティや個人情報を削除」をクリック。「可能なすべてのプロパティを削除してコピーを作成」を選ぶと、位置情報を含むExifを取り除いたコピーが作られます。元ファイルはそのまま残るので安心です。": "On Windows, no extra app is needed. Right-click the image file, choose \"Properties\", open the \"Details\" tab, and click \"Remove Properties and Personal Information\" at the bottom. Choose \"Create a copy with all possible properties removed\" and you get a copy stripped of Exif data, location included. The original stays untouched.",
