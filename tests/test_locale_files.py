@@ -123,9 +123,9 @@ def test_locale_store_rejects_invalid_sections_and_json_shapes(tmp_path: Path):
         load_locale_section(tmp_path, "en", "ui")
 
 
-def test_locale_validation_script_passes_for_default_checks():
+def test_locale_validation_script_passes_for_strict_checks():
     result = subprocess.run(  # noqa: S603
-        [sys.executable, "scripts/validate_locales.py"],
+        [sys.executable, "scripts/validate_locales.py", "--strict-phrases"],
         check=False,
         capture_output=True,
         text=True,
