@@ -132,7 +132,6 @@
   "編集内容はリアルタイムで全員に反映され、自動的に保存されます。": "Les modifications sont visibles par tout le monde en temps réel et enregistrées automatiquement.",
   "自動保存": "Enregistrement automatique",
   "著作権/削除方針": "Droits d'auteur et politique de suppression",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除・アクセス制限を行いますに基づき迅速に削除します。": "Le contenu faisant l'objet d'une plainte pour violation des droits d'auteur sera rapidement supprimé selon des procédures équivalentes au DMCA.",
   "設定のカスタマイズ": "Personnaliser les paramètres",
   "設定をカスタマイズ": "Personnaliser les paramètres",
   "詳細な機能説明とFAQ": "Descriptions détaillées des fonctionnalités et FAQ",
@@ -244,5 +243,6 @@
   "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。": "FS!QR est un service gratuit de partage de fichiers permettant d'échanger des données uniquement via votre navigateur à l'aide de QR codes. Le partage de fichiers, de notes et de groupes est disponible directement depuis votre navigateur.",
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Utilisez les URL de partage, les QR codes, les ID de salon et les mots de passe pour partager temporairement des fichiers avec vos destinataires.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Les fichiers partagés via QR code sont chiffrés en AES dans le navigateur avant d'être stockés sur le serveur. Les fichiers des salons de groupe et les textes des notes sont stockés en clair sur le serveur. Toutes les fonctionnalités utilisent HTTPS, et les fichiers et les salons sont automatiquement supprimés après la période de conservation sélectionnée.",
-  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Les fichiers partagés via QR code sont chiffrés en AES dans le navigateur avant d'être stockés sur le serveur. Les fichiers des salons de groupe et les textes des notes sont stockés en clair sur le serveur. La communication est chiffrée via HTTPS, et les données sont automatiquement supprimées après la période de conservation sélectionnée."
+  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Les fichiers partagés via QR code sont chiffrés en AES dans le navigateur avant d'être stockés sur le serveur. Les fichiers des salons de groupe et les textes des notes sont stockés en clair sur le serveur. La communication est chiffrée via HTTPS, et les données sont automatiquement supprimées après la période de conservation sélectionnée.",
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Le contenu faisant l'objet d'une plainte pour violation des droits d'auteur sera rapidement supprimé selon des procédures équivalentes au DMCA."
 }
