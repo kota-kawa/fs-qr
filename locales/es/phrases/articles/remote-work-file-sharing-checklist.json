@@ -28,5 +28,8 @@
   "リモートチームでは、同じ資料の修正版が何度も共有されることがあります。ファイル名に「最終」「最新版」「修正2」などが並ぶと、どれを見ればよいか分からなくなり、古い内容を元に判断してしまう原因になります。共有前にファイル名へ日付や用途を入れ、チャットでは「こちらが最新版です」と明記しましょう。": "En los equipos en remoto, a menudo se comparten repetidas veces varias revisiones del mismo documento. Si se acumulan nombres de archivo como \"final\", \"última_versión\" o \"modificación_2\", se genera confusión sobre cuál es la versión correcta y se toman decisiones basándose en información antigua. Antes de compartir un documento, añada la fecha y la finalidad al nombre de este, y aclárelo en el chat indicando: \"Esta es la versión más reciente\".",
   "送信前：本当に共有すべきファイルだけに絞る": "Antes del envío: limitarse a enviar solo los archivos estrictamente necesarios",
   "共有中：最新版と旧版を混在させない": "Durante el uso compartido: no mezclar versiones recientes con versiones antiguas",
-  "編集用ファイルではなくPDFなどの閲覧用形式で足りないか": "¿Es suficiente un formato de lectura como PDF en lugar del archivo editable?"
+  "編集用ファイルではなくPDFなどの閲覧用形式で足りないか": "¿Es suficiente un formato de lectura como PDF en lugar del archivo editable?",
+  "リモートワークのファイル共有チェックリスト": "Lista de comprobación para compartir archivos en teletrabajo",
+  "在宅勤務や外出先からの業務でファイル共有を安全に進めるために、送信前・共有中・完了後に確認したい実践ポイントを整理します。": "Puntos prácticos para compartir archivos de forma segura desde casa o en movimiento — qué verificar antes, durante y después de compartir.",
+  "FS QR, リモートワーク, ファイル共有, 在宅勤務, セキュリティ, チェックリスト": "FS QR, teletrabajo, compartición de archivos, trabajo desde casa, seguridad, lista de comprobación"
 }
