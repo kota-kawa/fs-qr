@@ -42,14 +42,14 @@
   "group.delete_room_button": "Видалити кімнату",
   "alert.confirm_delete": "Підтвердити видалення",
   "alert.delete_action": "Видалити",
+  "articles.search_current_page_placeholder": "Пошук статей на цій сторінці…",
+  "articles.search_current_page_label": "Пошук статей на цій сторінці",
   "articles.count_suffix": " статей",
   "articles.pagination_label": "Навігація сторінками останніх статей",
-  "articles.pagination_next": "Вперед",
   "articles.pagination_prev": "Назад",
-  "articles.search_current_page_label": "Пошук статей на цій сторінці",
-  "articles.search_current_page_placeholder": "Пошук статей на цій сторінці…",
+  "articles.pagination_next": "Вперед",
   "seo.home.intent": "Підтримує часті запити: передавання файлів, обмін фото й відео, надсилання PDF, спільні нотатки та протоколи зустрічей — від короткого тимчасового обміну до командної роботи.",
   "seo.fsqr.intent": "Швидко створюйте тимчасний обмін із терміном дії, щоб надсилати файли QR-кодом, переносити фото або PDF з ПК на смартфон і ділитися великими файлами без застосунку.",
   "seo.group.intent": "Використовуйте групову кімнату як спільну папку для керування внутрішніми документами, навчальними матеріалами, файлами подій і обміном із клієнтами без реєстрації.",
-  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
+  "seo.note.intent": "Спільна нотатка для онлайн-записів, нагадувань, протоколів зустрічей. Поділіться URL-адресою, QR-кодом, ID кімнати та паролем, щоб розпочати спільне редагування у браузері з автозбереженням."
 }
