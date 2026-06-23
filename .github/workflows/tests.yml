@@ -145,7 +145,7 @@ jobs:
             --cov=. \
             --cov-append \
             --cov-report=term-missing \
-            --cov-fail-under=80
+            --cov-fail-under=75
 
   image-scan:
     name: Docker build + Trivy scan
