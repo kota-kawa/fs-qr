@@ -241,8 +241,9 @@
   "お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。": "我们使用Google Forms处理咨询。表单中填写的内容将用于咨询处理和服务改善。有关Google对信息的处理，请参阅Google隐私政策。",
   "プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。": "隐私咨询、删除请求以及关于可能违法或侵权内容的举报，也可通过此表单提交。请尽量具体地填写目标URL、房间ID、问题详情及联系方式。",
   "制定日：2026年5月28日 / 最終更新日：2026年6月8日": "制定日期：2026年5月28日 / 最终更新日期：2026年6月8日",
-  "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。": "FS!QR is a free file-sharing service for exchanging data in the browser with QR codes. File sharing, note sharing, and group sharing are available from your browser.",
+  "FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。": "FS!QR是一款可仅通过浏览器使用二维码传输数据的免费文件分享服务。您可以直接在浏览器中使用文件分享、笔记分享和群组分享功能。",
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "可以使用共享URL、二维码、房间ID和密码，与需要的人临时共享。",
-  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. All features use HTTPS, and data is automatically deleted after the selected retention period.",
-  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Files in QR code sharing are encrypted with AES in the browser before being stored on the server. Group room files and note text are stored unencrypted on the server. Communication uses HTTPS, and each item is automatically deleted after the selected retention period."
+  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "二维码分享的文件会在浏览器上经过AES-256加密后再保存到服务器。群组房间的文件和笔记内容在服务器上以未加密状态保存。所有功能均通过HTTPS进行通信，并在到达设定的保留期限后自动删除。",
+  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "二维码分享的文件会在浏览器上经过AES-256加密后再保存到服务器。群组房间的文件和笔记内容在服务器上以未加密状态保存。通信过程均经过HTTPS加密，各项数据将在到达设定的保留期限后自动删除。",
+  "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのコンテンツはサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "二维码分享的文件会在浏览器上经过AES-256加密后再保存到服务器。群组房间的内容在服务器上以未加密状态保存。所有功能均通过HTTPS进行通信，并在到达设定的保留期限后自动删除。"
 }
