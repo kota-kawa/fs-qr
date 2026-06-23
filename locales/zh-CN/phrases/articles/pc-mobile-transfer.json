@@ -32,8 +32,8 @@
   "自動データ消去：": "自动数据清除：",
   "設定を調整する（任意）：": "调整设置（可选）：",
   "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "设定的时间一到，传输的数据将从服务器上彻底自动删除，不留任何痕迹。",
-  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
-  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
-  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
+  "PCで受け取る（QRコードの場合）：": "在电脑上接收（使用二维码时）：",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "如果您的电脑配备了可以扫描二维码的摄像头，请扫描手机上传完成界面上显示的二维码，打开下载页面。",
+  "PCで受け取る（リンク入力の場合）：": "在电脑上接收（输入链接时）：",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "如果您的电脑没有摄像头或难以扫描，请将手机上传完成界面上显示的分享链接输入到电脑浏览器中。记下分享ID和6位密码的话，也可以从搜索页面打开文件。"
 }
