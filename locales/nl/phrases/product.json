@@ -215,7 +215,6 @@
   "編集内容はリアルタイムで全員に反映され、自動的に保存されます。": "Bewerkingen zijn voor iedereen in real-time zichtbaar en worden automatisch opgeslagen.",
   "自動生成されたアクセスキーをチームメンバーに共有し、リアルタイム編集に招待します。": "Deel automatisch gegenereerde toegangssleutels met teamleden en nodig ze uit voor real-time bewerking.",
   "英語": "Engels",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除・アクセス制限を行いますに基づき迅速に削除します。": "Inhoud waarvan wordt beweerd dat deze inbreuk maakt op het auteursrecht, wordt onmiddellijk verwijderd op basis van DMCA-equivalente procedures.",
   "行をクリックするとファイル情報を表示します。": "Klik op een rij om bestandsinformatie te bekijken.",
   "行をクリックするとルームのファイル一覧を表示します。": "Klik op een rij om de bestandslijst van de kamer te bekijken.",
   "複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。": "Een online notitieboek dat door meerdere mensen tegelijkertijd in real-time kan worden bewerkt. Perfect voor vergadernotities, projectbeheer en leerondersteuning.",
@@ -1091,5 +1090,6 @@
   "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "Nee. Ontvangers hebben alleen de deellink of QR-code en het verstrekte 6-cijferige wachtwoord nodig. Er is geen accountregistratie vereist.",
   "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Deel de gegenereerde QR-code of deel de link en het 6-cijferige wachtwoord per e-mail of chat. Selecteer de bewaartermijn bij het uploaden.",
   "相手が受け取る": "De ontvanger downloadt het bestand",
-  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "De ontvanger scant de QR-code of opent de deellink, voert indien nodig het wachtwoord in en downloadt binnen de bewaartermijn."
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "De ontvanger scant de QR-code of opent de deellink, voert indien nodig het wachtwoord in en downloadt binnen de bewaartermijn.",
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Inhoud waarvan wordt beweerd dat deze inbreuk maakt op het auteursrecht, wordt onmiddellijk verwijderd op basis van DMCA-equivalente procedures."
 }

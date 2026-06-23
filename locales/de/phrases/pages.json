@@ -59,7 +59,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Geben Sie einen beliebigen Raumnamen ein und erstellen Sie einen Notizraum. Nach der Erstellung wird ein Zugriffs-QR-Code angezeigt.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Wenn Sie einen gemeinsamen Raum erstellen, wird ein QR-Code für die Raum-URL angezeigt.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", wählen Sie die Dateien aus, die Sie teilen möchten, und laden Sie sie hoch.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Sie können Cookies, die für personalisierte Werbung verwendet werden, auf dieser Seite deaktivieren.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": " deaktivieren.",
   "よくある質問": "Häufig gestellte Fragen",
   "より詳しい解説記事を見る": "Detailliertere Artikel lesen",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Hochgeladene Dateien werden verschlüsselt auf unseren Servern gespeichert und nach einer gewissen Zeit automatisch gelöscht. Die Kommunikation ist mit HTTPS verschlüsselt, um die Datensicherheit zu gewährleisten.",
@@ -245,5 +245,6 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Verwenden Sie Freigabe-URLs, QR-Codes, Raum-IDs und Passwörter, um Inhalte vorübergehend mit den vorgesehenen Empfängern zu teilen.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Dateien der QR-Code-Freigabe werden im Browser mit AES verschlüsselt, bevor sie auf dem Server gespeichert werden. Gruppenraum-Dateien und Notizinhalte werden unverschlüsselt auf dem Server gespeichert. Alle Funktionen nutzen HTTPS, und Daten werden nach der eingestellten Aufbewahrungsfrist automatisch gelöscht.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Dateien der QR-Code-Freigabe werden im Browser mit AES verschlüsselt, bevor sie auf dem Server gespeichert werden. Gruppenraum-Dateien und Notizinhalte werden unverschlüsselt auf dem Server gespeichert. Die Kommunikation wird über HTTPS verschlüsselt, und jedes Element wird nach der eingestellten Aufbewahrungsfrist automatisch gelöscht.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Inhalte, die Gegenstand einer Urheberrechtsbeschwerde sind, werden gemäß DMCA-ähnlichen Verfahren umgehend gelöscht."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Inhalte, die Gegenstand einer Urheberrechtsbeschwerde sind, werden gemäß DMCA-ähnlichen Verfahren umgehend gelöscht.",
+  "ユーザーは ": "Sie können Cookies für personalisierte Werbung über "
 }
