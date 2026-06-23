@@ -51,5 +51,5 @@
   "seo.home.intent": "Il couvre les usages souvent recherchés comme le transfert de fichiers, le partage de photos et vidéos, l’envoi de PDF, les mémos partagés et les comptes rendus, du partage temporaire rapide au travail d’équipe.",
   "seo.fsqr.intent": "Créez rapidement un partage temporaire avec expiration pour envoyer des fichiers par QR code, transférer des photos ou PDF du PC vers le smartphone et partager de gros fichiers sans application.",
   "seo.group.intent": "Utilisez une salle de groupe comme un dossier partagé pour gérer sans inscription des documents internes, supports de cours, documents d’événement et échanges de fichiers avec des clients.",
-  "seo.note.intent": "A collaborative note for online memos, shared notes, meeting notes, and minutes. Share the share URL, QR code, room ID, and password to start browser-based co-editing and autosave."
+  "seo.note.intent": "Note collaborative pour vos mémos en ligne, notes partagées, comptes rendus et procès-verbaux. Partagez l'URL, le QR code, l'ID du salon et le mot de passe pour commencer la coédition sur navigateur avec sauvegarde automatique."
 }
