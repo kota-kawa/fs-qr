@@ -27,5 +27,8 @@
   "レビュー時：コメント用と配布用を分ける": "Durante la revisione: separare i file per i commenti da quelli per la distribuzione",
   "たとえば「2026-05-26_営業定例_提案資料_v2.pdf」のようにしておけば、後からチャット履歴を見返したときにも内容を推測できます。ファイル名に意味を持たせることは、リモートチームでは特に重要です。口頭で「さっき送った資料」と言っても、受け手の画面には複数のダウンロードファイルが並んでいる可能性があるからです。": "Ad esempio, chiamandolo \"2026-05-26_Riunione_Vendite_Proposta_v2.pdf\", si può dedurne il contenuto anche guardando indietro nella cronologia della chat in un secondo momento. Dare significato ai nomi dei file è particolarmente importante nei team da remoto. Anche dicendo a voce \"Il materiale che ho inviato poco fa\", il destinatario potrebbe avere diversi file scaricati in fila sullo schermo.",
   "リモートワークの効率は、会議ツールやチャットツールだけで決まるわけではありません。必要な資料が必要な人へ、必要なタイミングで届くことが、日々の作業速度を支えています。ファイル名、共有方法、期限、受け取り確認を整えるだけで、確認漏れや版の混乱は大きく減らせます。": "L'efficienza del lavoro da remoto non è determinata solo dagli strumenti di riunione o di chat. Far arrivare i materiali giusti alle persone giuste al momento giusto sostiene la velocità del lavoro quotidiano. Sistemando semplicemente i nomi dei file, i metodi di condivisione, le scadenze e le conferme di ricezione, si possono ridurre drasticamente le sviste e la confusione sulle versioni.",
-  "チャットには目的、期限、受け取り後の行動を書く": "Scrivere lo scopo, la scadenza e le azioni da intraprendere dopo la ricezione nella chat"
+  "チャットには目的、期限、受け取り後の行動を書く": "Scrivere lo scopo, la scadenza e le azioni da intraprendere dopo la ricezione nella chat",
+  "離れた場所で働くメンバー同士が、会議資料・確認用画像・作業ファイルを迷わず受け渡すための共有フローを紹介します。": "Un flusso di condivisione per aiutare i team distribuiti a scambiarsi documenti di riunione, immagini di revisione e file di lavoro senza confusione.",
+  "リモートチームの資料受け渡しを滞らせない方法": "Come mantenere fluido il passaggio di materiali nei team remoti",
+  "FS QR, リモートチーム, 資料共有, ファイル受け渡し, 会議資料, 業務効率化": "FS QR, team remoto, condivisione documenti, consegna file, documenti di riunione, produttività"
 }

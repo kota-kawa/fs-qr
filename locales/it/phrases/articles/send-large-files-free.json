@@ -18,5 +18,17 @@
   "FS!QRで安全・簡単に大容量ファイルを送ろう": "Invia file di grandi dimensioni in modo sicuro e semplice con FS!QR",
   "無料の転送サービスは、一定期間（数日〜数週間）経過後にファイルが自動で削除される仕組みになっています。ダウンロードの期限を相手にしっかり伝えることが大切です。また、システム側で確実にデータが消去されるサービスを選ぶことで、情報漏えいのリスクを減らすことができます。": "I servizi di trasferimento gratuiti dispongono di un meccanismo in base al quale i file vengono eliminati automaticamente dopo un certo periodo di tempo (da qualche giorno a qualche settimana). È importante comunicare chiaramente la scadenza per il download al destinatario. Inoltre, scegliendo un servizio che garantisca la cancellazione certa dei dati da parte del sistema, è possibile ridurre il rischio di fughe di informazioni.",
   "知っておくと便利なファイルサイズの雑学": "Curiosità sulle dimensioni dei file utili da conoscere",
-  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Una singola foto scattata con uno smartphone pesa circa 3MB - 8MB, mentre 1 minuto di video in 4K può raggiungere i 300MB - 400MB. Poiché superano il limite degli allegati email (circa 20MB), servizi di trasferimento gratuiti come FS!QR sono indispensabili per trasferire file di grandi dimensioni."
+  "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Una singola foto scattata con uno smartphone pesa circa 3MB - 8MB, mentre 1 minuto di video in 4K può raggiungere i 300MB - 400MB. Poiché superano il limite degli allegati email (circa 20MB), servizi di trasferimento gratuiti come FS!QR sono indispensabili per trasferire file di grandi dimensioni.",
+  "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Più il file è grande, maggiore è il rischio di fallimenti dovuti a disturbi Wi-Fi. Per file di diversi gigabyte (GB), avvicinarsi al router o usare un cavo LAN aumenta drasticamente la stabilità.",
+  "GoogleドライブやDropboxなどの無料枠を利用し、特定のファイルやフォルダの共有リンクを発行する方法です。ファイルを長期保存したい場合に向いています。": "Usa lo spazio gratuito di Google Drive, Dropbox e simili per generare un link di condivisione verso un file o una cartella specifica. Adatto quando vuoi conservare i file a lungo termine.",
+  "ブラウザからファイルをアップロードし、発行されたURLを相手に送るだけのシンプルな方法です。FS!QRもこれに該当します。手軽さが最大の魅力です。": "Carica il file dal browser e invia semplicemente l'URL generato — il metodo più semplice in assoluto. FS!QR rientra in questa categoria. La facilità d'uso è il suo principale punto di forza.",
+  "無料のファイル転送サービス：": "Servizi gratuiti di trasferimento file:",
+  "写真や書類はまとめてZIP形式に圧縮する": "Comprimi i documenti in formato ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Caricare molti piccoli file uno alla volta rallenta l'operazione a causa dei continui tempi di connessione. Raggrupparli in una cartella compressa ZIP velocizza l'intero processo.",
+  "ファイル転送をさらに高速・快適にするテクニック": "Trucchi per velocizzare e ottimizzare il trasferimento di file pesanti",
+  "クラウドストレージの共有機能：": "Funzione di condivisione dello storage cloud:",
+  "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Avvicinati al router Wi-Fi o usa una connessione via cavo",
+  "不要なブラウザタブやアプリを閉じる": "Chiudi le schede del browser e le app inutili",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "L'invio o il download di grossi file impegna molta RAM. Chiudere schede inattive o programmi pesanti in background alleggerisce la CPU e velocizza le operazioni.",
+  "閉じる": "Chiudi"
 }
