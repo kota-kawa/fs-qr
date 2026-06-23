@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "để nhập tên phòng tùy ý và khởi tạo phòng ghi chú. Sau khi tạo xong, hệ thống sẽ hiển thị mã QR dùng để truy cập.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "để khởi tạo phòng chia sẻ tệp. Sau khi hoàn tất, mã QR chứa đường liên kết phòng sẽ hiển thị trên màn hình.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": "để truy cập, sau đó chọn và tải lên các tệp tin bạn muốn chia sẻ.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Bạn có thể vô hiệu hóa các Cookie phục vụ quảng cáo cá nhân hóa tại trang này.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "Câu hỏi thường gặp (FAQ)",
   "より詳しい解説記事を見る": "Xem thêm các bài viết hướng dẫn chi tiết",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Tệp tin tải lên được lưu trữ dưới dạng mã hóa trên máy chủ và tự động xóa sau một thời gian quy định. Mọi truyền tải dữ liệu đều sử dụng giao thức HTTPS bảo mật cao.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Sử dụng URL chia sẻ, mã QR, ID phòng và mật khẩu để chia sẻ tạm thời với người nhận dự kiến.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Các tệp trong chia sẻ mã QR được mã hóa bằng AES trên trình duyệt trước khi lưu trữ trên máy chủ. Tệp trong phòng nhóm và văn bản ghi chú được lưu trữ không mã hóa trên máy chủ. Tất cả các tính năng đều sử dụng HTTPS và dữ liệu tự động bị xóa sau thời gian lưu trữ đã chọn.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Các tệp trong chia sẻ mã QR được mã hóa bằng AES trên trình duyệt trước khi lưu trữ trên máy chủ. Tệp trong phòng nhóm và văn bản ghi chú được lưu trữ không mã hóa trên máy chủ. Giao tiếp sử dụng HTTPS và mỗi mục tự động bị xóa sau thời gian lưu trữ đã chọn.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Các nội dung bị khiếu nại vi phạm bản quyền sẽ nhanh chóng được xử lý gỡ bỏ theo các quy trình tiêu chuẩn tương đương DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Các nội dung bị khiếu nại vi phạm bản quyền sẽ nhanh chóng được xử lý gỡ bỏ theo các quy trình tiêu chuẩn tương đương DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Bạn có thể vô hiệu hóa cookie quảng cáo cá nhân hóa qua "
 }

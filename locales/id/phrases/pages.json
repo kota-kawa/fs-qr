@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Masukkan nama ruang dan buat ruang catatan. Setelah pembuatan, kode QR akses akan ditampilkan.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Saat Anda membuat ruang bersama, kode QR untuk URL ruang akan ditampilkan.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", pilih dan unggah file yang ingin Anda bagikan.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Anda dapat menonaktifkan cookie yang digunakan untuk iklan yang dipersonalisasi dari halaman ini.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "FAQ",
   "より詳しい解説記事を見る": "Baca artikel panduan selengkapnya",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "File yang diunggah disimpan dalam keadaan terenkripsi di server kami dan dihapus secara otomatis setelah jangka waktu tertentu. Komunikasi dienkripsi dengan HTTPS untuk memastikan keamanan data.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Gunakan URL berbagi, kode QR, ID ruangan, dan kata sandi untuk berbagi sementara dengan penerima yang dituju.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "File dalam berbagi kode QR dienkripsi dengan AES di browser sebelum disimpan di server. File ruang grup dan teks catatan disimpan tanpa enkripsi di server. Semua fitur menggunakan HTTPS, dan data dihapus otomatis setelah periode penyimpanan yang dipilih.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "File dalam berbagi kode QR dienkripsi dengan AES di browser sebelum disimpan di server. File ruang grup dan teks catatan disimpan tanpa enkripsi di server. Komunikasi menggunakan HTTPS, dan setiap item dihapus otomatis setelah periode penyimpanan yang dipilih.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Konten yang diklaim melanggar hak cipta akan segera dihapus berdasarkan prosedur yang setara dengan DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Konten yang diklaim melanggar hak cipta akan segera dihapus berdasarkan prosedur yang setara dengan DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Anda dapat menonaktifkan cookie iklan yang dipersonalisasi melalui "
 }

@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Introduce cualquier nombre de sala y crea una sala de notas. Tras la creación, aparecerá un código QR de acceso.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Al crear una sala compartida, aparecerá un código QR con la URL de la sala.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", selecciona y sube los archivos que quieras compartir.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Puedes desactivar las cookies usadas para publicidad personalizada desde esta página.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "Preguntas frecuentes",
   "より詳しい解説記事を見る": "Leer artículos más detallados",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Los archivos subidos se guardan cifrados en nuestros servidores y se eliminan automáticamente después de un tiempo. La comunicación está cifrada con HTTPS para garantizar la seguridad de los datos.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Puedes compartir temporalmente con los destinatarios usando URL, códigos QR, ID de sala y contraseñas.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Los archivos compartidos mediante código QR se cifran en el navegador con AES-256 antes de guardarse en el servidor. Los archivos de las salas de grupo y el texto de las notas se guardan sin cifrar. Todas las funciones utilizan comunicaciones HTTPS y los datos se eliminan automáticamente transcurrido el periodo de conservación configurado.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Los archivos compartidos mediante código QR se cifran en el navegador con AES-256 antes de guardarse en el servidor. Los archivos de las salas de grupo y el texto de las notas se guardan sin cifrar. Las comunicaciones utilizan HTTPS y cada archivo se elimina automáticamente transcurrido el periodo de conservación configurado.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "El contenido objeto de una reclamación por infracción de derechos de autor se eliminará rápidamente según procedimientos equivalentes a la DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "El contenido objeto de una reclamación por infracción de derechos de autor se eliminará rápidamente según procedimientos equivalentes a la DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Puede desactivar las cookies de publicidad personalizada desde "
 }

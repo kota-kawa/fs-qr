@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": " kısmından dilediğiniz bir oda adı girerek not odanızı oluşturabilirsiniz. Oda oluşturulduktan sonra erişim için kullanabileceğiniz QR kodu görüntülenecektir.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": " kısmından dosya paylaşım odası oluşturduğunuzda, odaya ait URL adresini içeren QR kodu ekranda görüntülenecektir.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": " adresine giderek paylaşmak istediğiniz dosyaları seçip yükleyebilirsiniz.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": " sayfası üzerinden, ilgi alanlarınıza göre özelleştirilmiş reklamların sunulmasında kullanılan çerezleri devre dışı bırakabilirsiniz.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "SSS",
   "より詳しい解説記事を見る": "Daha Detaylı Makaleleri Görüntüle",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Yüklenen dosyalar sunucuda şifreli olarak saklanır ve belirli bir süre sonra otomatik olarak silinir. İletişim HTTPS protokolüyle şifrelendiğinden veri güvenliğiniz tam olarak sağlanır.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Hedeflenen alıcılarla geçici olarak paylaşmak için paylaşım URL'lerini, QR kodlarını, oda kimliklerini ve parolaları kullanın.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "QR kodu paylaşımındaki dosyalar, sunucuda depolanmadan önce tarayıcıda AES ile şifrelenir. Grup odası dosyaları ve not metni, sunucuda şifrelenmemiş olarak depolanır. Tüm özellikler HTTPS kullanır ve veriler, seçilen saklama süresinin ardından otomatik olarak silinir.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "QR kodu paylaşımındaki dosyalar, sunucuda depolanmadan önce tarayıcıda AES ile şifrelenir. Grup odası dosyaları ve not metni, sunucuda şifrelenmemiş olarak depolanır. İletişim HTTPS kullanır ve her öğe, seçilen saklama süresinin ardından otomatik olarak silinir.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Telif hakkı ihlali bildirimi alan içerikler, DMCA benzeri yasal prosedürler çerçevesinde hızlı bir şekilde kaldırılacaktır."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Telif hakkı ihlali bildirimi alan içerikler, DMCA benzeri yasal prosedürler çerçevesinde hızlı bir şekilde kaldırılacaktır.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Kişiselleştirilmiş reklam çerezlerini şu ayarlardan devre dışı bırakabilirsiniz: "
 }

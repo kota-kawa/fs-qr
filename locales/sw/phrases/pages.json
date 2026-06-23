@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Ingiza jina lolote la chumba na uunde chumba cha kumbukumbu. Baada ya kuunda, nambari ya QR ya ufikiaji itaonyeshwa.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Unapounda chumba cha kushiriki, nambari ya QR ya URL ya chumba itaonyeshwa.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", chagua na upakie faili unazotaka kushiriki.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Unaweza kulemaza Cookie zinazotumiwa kwa matangazo yaliyobinafsishwa kutoka ukurasa huu.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "FAQ",
   "より詳しい解説記事を見る": "Soma makala ya kina zaidi",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Faili zilizopakuliwa zinahifadhiwa katika hali ya kusimbwa fiche kwenye seva zetu na kufutwa kiotomatiki baada ya muda fulani. Mawasiliano yamesimbwa kwa kutumia HTTPS ili kuhakikisha usalama wa data.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Tumia URL za kushiriki, misimbo ya QR, vitambulisho vya chumba, na nywila ili kushiriki kwa muda na wapokeaji wanaokusudiwa.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Faili katika kushiriki msimbo wa QR husimbwa kwa AES kwenye kivinjari kabla ya kuhifadhiwa kwenye seva. Faili za chumba cha kikundi na maandishi ya maelezo huhifadhiwa bila usimbuaji kwenye seva. Vipengele vyote vinatumia HTTPS, na data hufutwa otomatiki baada ya kipindi cha uhifadhi kilichochaguliwa.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Faili katika kushiriki msimbo wa QR husimbwa kwa AES kwenye kivinjari kabla ya kuhifadhiwa kwenye seva. Faili za chumba cha kikundi na maandishi ya maelezo huhifadhiwa bila usimbuaji kwenye seva. Mawasiliano yanatumia HTTPS, na kila kipande hufutwa otomatiki baada ya kipindi cha uhifadhi kilichochaguliwa.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Maudhui yanayodaiwa kukiuka hakimiliki yatafutwa mara moja kulingana na taratibu zinazolingana na DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Maudhui yanayodaiwa kukiuka hakimiliki yatafutwa mara moja kulingana na taratibu zinazolingana na DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Unaweza kuzima vidakuzi vya matangazo yaliyobinafsishwa kupitia "
 }

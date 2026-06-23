@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Inserisci un nome per la stanza e crea una stanza delle note. Dopo la creazione, verrà visualizzato un codice QR di accesso.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Quando crei una stanza condivisa, verrà visualizzato un codice QR per l'URL della stanza.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", seleziona e carica i file che desideri condividere.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Puoi disabilitare i cookie utilizzati per la pubblicità personalizzata da questa pagina.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "FAQ",
   "より詳しい解説記事を見る": "Leggi altri articoli dettagliati",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "I file caricati sono memorizzati crittografati sui nostri server e cancellati automaticamente dopo un certo periodo di tempo. La comunicazione è crittografata con HTTPS per garantire la sicurezza dei dati.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Usa URL di condivisione, codici QR, ID stanza e password per condividere temporaneamente con i destinatari previsti.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "I file nella condivisione tramite codice QR vengono crittografati con AES nel browser prima di essere archiviati sul server. I file della stanza gruppo e il testo delle note vengono archiviati non crittografati sul server. Tutte le funzioni usano HTTPS e i dati vengono eliminati automaticamente dopo il periodo di conservazione selezionato.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "I file nella condivisione tramite codice QR vengono crittografati con AES nel browser prima di essere archiviati sul server. I file della stanza gruppo e il testo delle note vengono archiviati non crittografati sul server. Le comunicazioni usano HTTPS e ogni elemento viene eliminato automaticamente dopo il periodo di conservazione selezionato.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "I contenuti oggetto di reclami per violazione del copyright verranno tempestivamente rimossi secondo procedure equivalenti al DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "I contenuti oggetto di reclami per violazione del copyright verranno tempestivamente rimossi secondo procedure equivalenti al DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "È possibile disabilitare i cookie per la pubblicità personalizzata tramite "
 }

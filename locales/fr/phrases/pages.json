@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "Saisissez n'importe quel nom de salon et créez un salon de notes. Après la création, un code QR d'accès s'affichera.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "Lorsque vous créez un salon partagé, un code QR pour l'URL du salon s'affiche.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", sélectionnez et téléchargez les fichiers que vous souhaitez partager.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "Vous pouvez désactiver les cookies utilisés pour la publicité personnalisée à partir de cette page.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "FAQ",
   "より詳しい解説記事を見る": "Lire des articles plus détaillés",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Les fichiers téléversés sont stockés chiffrés sur nos serveurs et automatiquement supprimés après une certaine période. La communication est chiffrée avec HTTPS pour assurer la sécurité des données.",
@@ -244,5 +244,7 @@
   "共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。": "Utilisez les URL de partage, les QR codes, les ID de salon et les mots de passe pour partager temporairement des fichiers avec vos destinataires.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。": "Les fichiers partagés via QR code sont chiffrés en AES dans le navigateur avant d'être stockés sur le serveur. Les fichiers des salons de groupe et les textes des notes sont stockés en clair sur le serveur. Toutes les fonctionnalités utilisent HTTPS, et les fichiers et les salons sont automatiquement supprimés après la période de conservation sélectionnée.",
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Les fichiers partagés via QR code sont chiffrés en AES dans le navigateur avant d'être stockés sur le serveur. Les fichiers des salons de groupe et les textes des notes sont stockés en clair sur le serveur. La communication est chiffrée via HTTPS, et les données sont automatiquement supprimées après la période de conservation sélectionnée.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Le contenu faisant l'objet d'une plainte pour violation des droits d'auteur sera rapidement supprimé selon des procédures équivalentes au DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Le contenu faisant l'objet d'une plainte pour violation des droits d'auteur sera rapidement supprimé selon des procédures équivalentes au DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Vous pouvez refuser les cookies de publicité personnalisée via "
 }

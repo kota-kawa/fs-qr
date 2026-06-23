@@ -58,7 +58,7 @@
   "で任意のルーム名を入力しノートルームを作成します。作成後にアクセス用QRコードが表示されます。": "wpisz dowolną nazwę pokoju, aby utworzyć pokój notatek. Po jego założeniu na ekranie pojawi się kod QR umożliwiający szybki dostęp.",
   "で共有用ルームを作成すると、ルームURLのQRコードが表示されます。": "po utworzeniu pokoju współdzielonego wygenerowany zostanie kod QR prowadzący bezpośrednio do jego adresu URL.",
   "にアクセスし、共有したいファイルを選択してアップロードします。": ", a następnie wybierz i prześlij pliki, które chcesz udostępnić innym.",
-  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": "pod tym adresem możesz wyłączyć pliki cookie wykorzystywane do wyświetlania spersonalizowanych reklam.",
+  "のページから、パーソナライズド広告に使用される Cookie を無効にできます。": ".",
   "よくある質問": "FAQ",
   "より詳しい解説記事を見る": "Zobacz szczegółowe artykuły",
   "アップロードされたファイルは暗号化された状態でサーバーに保存され、一定期間後に自動的に削除されます。通信はHTTPSで暗号化されており、データの安全性を確保しています。": "Przesłane dane są zapisywane na serwerze w postaci zaszyfrowanej, a po określonym czasie automatycznie kasowane. Bezpieczeństwo transmisji danych gwarantuje szyfrowane połączenie HTTPS.",
@@ -246,5 +246,7 @@
   "QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。": "Pliki udostępniane za pomocą kodu QR są szyfrowane algorytmem AES w przeglądarce przed zapisaniem na serwerze. Pliki pokoju grupowego i tekst notatek są przechowywane na serwerze bez szyfrowania. Komunikacja jest szyfrowana protokołem HTTPS, a każdy element jest automatycznie usuwany po upływie wybranego okresu przechowywania.",
   "「グループの作成」を選択し、ルームIDの自動生成または手動入力と保存期間を指定してルームを作成します。6桁のパスワードが自動生成されます。": "Wybierz opcję Utwórz grupę, wybierz automatyczne lub ręczne wprowadzanie identyfikatora pokoju i okres przechowywania, a następnie utwórz pokój. 6-cyfrowe hasło jest generowane automatycznie.",
   "共有URL、QRコード、ルームID、パスワードを必要な相手に伝えます。メンバーは共有URLを開くか、ルームIDとパスワードを入力して参加できます。": "Udostępnij adres URL, kod QR, identyfikator pokoju i hasło osobom, z którymi chcesz współdzielić pliki. Członkowie mogą dołączyć, otwierając adres URL lub wprowadzając identyfikator pokoju i hasło.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Materiały zgłoszone jako naruszające prawa autorskie będą niezwłocznie usuwane zgodnie z procedurą DMCA."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Materiały zgłoszone jako naruszające prawa autorskie będą niezwłocznie usuwane zgodnie z procedurą DMCA.",
+  "こうた（FS!QR運営）": "Kota (FS!QR)",
+  "ユーザーは ": "Możesz wyłączyć pliki cookie reklam spersonalizowanych za pomocą "
 }
