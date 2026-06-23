@@ -128,6 +128,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt pytest httpx pytest-cov pytest-xdist
 
+      - name: Validate locale catalogs
+        run: |
+          set -euo pipefail
+          python scripts/validate_locales.py --strict-phrases
+
       - name: Run test suite
         run: |
           set -euo pipefail
@@ -140,7 +145,7 @@ jobs:
             --cov=. \
             --cov-append \
             --cov-report=term-missing \
-            --cov-fail-under=67
+            --cov-fail-under=80
 
   image-scan:
     name: Docker build + Trivy scan
