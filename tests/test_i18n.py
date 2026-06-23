@@ -216,7 +216,7 @@ def test_translate_rendered_html_falls_back_for_unknown_meta_description():
     translated_en = translate_rendered_html(content, "en")
 
     assert 'content="未翻訳のページ固有説明"' in translated_ja
-    assert "free Japanese file sharing service" in translated_en
+    assert "free file-sharing service" in translated_en
     assert "未翻訳のページ固有説明" not in translated_en
 
 
