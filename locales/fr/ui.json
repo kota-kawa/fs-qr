@@ -42,7 +42,7 @@
   "group.delete_room_button": "Supprimer le salon",
   "alert.confirm_delete": "Confirmer la suppression",
   "alert.delete_action": "Supprimer",
-  "articles.count_suffix": " article(s)",
+  "articles.count_suffix": " articles",
   "articles.pagination_label": "Pagination des derniers articles",
   "articles.pagination_next": "Suivant",
   "articles.pagination_prev": "Précédent",

@@ -44,7 +44,7 @@
   "alert.delete_action": "Удалить",
   "articles.search_current_page_placeholder": "Поиск статей на этой странице...",
   "articles.search_current_page_label": "Поиск статей на этой странице",
-  "articles.count_suffix": " шт.",
+  "articles.count_suffix": " статьи",
   "articles.pagination_label": "Навигация по новым статьям",
   "articles.pagination_prev": "Назад",
   "articles.pagination_next": "Вперед",

@@ -30,7 +30,7 @@
     "「会員登録不要」がセキュリティリスクを下げる理由": "Por que o envio sem registo reduz os riscos de segurança",
     "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Embora registrar uma conta pareça mais seguro, serviços sem registo oferecem maior proteção para partilhas únicos e pontuais.",
     "アカウント情報の流出リスクをゼロにする：": "Elimina o risco de vazamento de dados de utilizador:",
-    "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Ter um registo exige salvar e-mails e palavras-passe em servidores de terceiros. Em caso de ataque hacker, essas credenciais são expostas. Sem registo, não há banco de dados a ser violado.",
+    "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Ter um registo exige guardar e-mails e palavras-passe em servidores de terceiros. Em caso de ataque hacker, essas credenciais são expostas. Sem registo, não há banco de dados a ser violado.",
     "パスワードの使い回し被害を防ぐ：": "Evita vulnerabilidades por reaproveitamento de palavras-passe:",
     "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Muitos reutilizam a mesma palavra-passe em vários sites. Evitar novos cadastros protege você contra ataques em cascata e sequestro de suas outras contas na web.",
     "共有後にデータが自動で完全消去される安心感：": "Exclusão física definitiva após o recebimento do ficheiro:",

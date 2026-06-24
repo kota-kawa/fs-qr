@@ -24,11 +24,11 @@
     "知っておくと便利なファイルサイズの雑学": "Curiosidades úteis sobre o tamanho dos ficheiros",
     "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Uma foto de telemóvel tem cerca de 3MB-8MB, e 1 minuto de vídeo em 4K pode chegar a 300MB-400MB. Como isso supera o limite de e-mail (cerca de 20MB), serviços gratuitos como FS!QR são essenciais.",
     "ファイル転送をさらに高速・快適にするテクニック": "Dicas para transferir ficheiros grandes com mais velocidade e segurança",
-    "不要なブラウザタブやアプリを閉じる": "Feche abas do navegador e aplicativos desnecessários",
-    "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Fazer upload ou download de ficheiros pesados consome bastante memória RAM. Fechar abas inativas do navegador ou aplicativos pesados em segundo plano alivia a carga do sistema e acelera a transferência.",
-    "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Fique perto do roteador Wi-Fi ou use um cabo de rede",
-    "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Quanto maior o ficheiro, maior a chance de falhas por oscilações no sinal de Wi-Fi. Ao transferir ficheiros na escala de gigabytes (GB), ficar perto do roteador ou usar um cabo Ethernet trará extrema estabilidade.",
+    "不要なブラウザタブやアプリを閉じる": "Feche abas do navegador e aplicações desnecessários",
+    "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Fazer upload ou download de ficheiros pesados consome bastante memória RAM. Fechar abas inativas do navegador ou aplicações pesados em segundo plano alivia a carga do sistema e acelera a transferência.",
+    "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Fique perto do router Wi-Fi ou use um cabo de rede",
+    "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Quanto maior o ficheiro, maior a chance de falhas por oscilações no sinal de Wi-Fi. Ao transferir ficheiros na escala de gigabytes (GB), ficar perto do router ou usar um cabo Ethernet trará extrema estabilidade.",
     "写真や書類はまとめてZIP形式に圧縮する": "Agrupe fotos e documentos em formato ZIP",
-    "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Subir vários ficheiros pequenos um a um satura o envio por conta dos repetidos tempos de conexão. Agrupá-los em uma pasta compactada ZIP maximiza a velocidade do processo.",
+    "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Subir vários ficheiros pequenos um a um satura o envio por conta dos repetidos tempos de ligação. Agrupá-los em uma pasta compactada ZIP maximiza a velocidade do processo.",
     "閉じる": "Fechar"
 }
