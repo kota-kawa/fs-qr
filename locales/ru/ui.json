@@ -11,7 +11,7 @@
   "settings.cookie.necessary.description": "Они необходимы для обеспечения базовых функций сайта и не могут быть отключены.",
   "settings.cookie.always_on": "Всегда включены",
   "settings.cookie.analytics.title": "Аналитические файлы cookie",
-  "settings.cookie.analytics.description": "С помощью Google Analytics мы отслеживаем статус использования для улучшения сервиса.",
+  "settings.cookie.analytics.description": "С помощью Google Analytics мы анализируем использование сайта для улучшения сервиса.",
   "settings.cookie.analytics.aria": "Разрешение аналитических файлов cookie",
   "settings.cookie.marketing.title": "Маркетинговые файлы cookie",
   "settings.cookie.marketing.description": "Используются для показа рекламы через такие сервисы, как Google AdSense.",
