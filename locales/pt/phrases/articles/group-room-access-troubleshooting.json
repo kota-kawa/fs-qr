@@ -1,7 +1,7 @@
 {
     "ルーム情報": "Informação da sala",
     "グループルームに入れない・ファイルが見つからないときの確認ポイント": "O que verificar quando você não consegue entrar na sala de grupo ou encontrar ficheiros",
-    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Passos claros para checar ID da sala, palavra-passe, URL partilhada e lista de ficheiros no FS!QR Group quando a sala não abre ou os ficheiros enviados não aparecem.",
+    "FS!QR GroupでルームIDやパスワードが通らない、共有URLから入れない、アップロード済みファイルが見えないときの原因と確認手順をまとめます。": "Passos claros para verificar ID da sala, palavra-passe, URL partilhada e lista de ficheiros no FS!QR Group quando a sala não abre ou os ficheiros enviados não aparecem.",
     "グループルーム, 入れない, ファイルが見つからない, 共有URL, パスワード, FS QR Group, トラブル対策": "sala de grupo, não consegue entrar, ficheiro não encontrado, URL partilhada, palavra-passe, FS QR Group, solução de problemas",
     "2026-06-10_会議資料_参加者配布用_v1.pdf": "2026-06-10_Documentos-Reuniao_Participantes_v1.pdf",
     "2026-06-10_写真素材_確認用_01.zip": "2026-06-10_Fotos-Midia_Verificacao_01.zip",
@@ -33,7 +33,7 @@
     "同名ファイルや古い版と見間違えていないか確認する": "Verificar se não há confusão com um ficheiro de mesmo nome ou versão antiga",
     "本日の資料共有用にグループルームを用意しました。以下のURLをブラウザで開いてください。入れない場合は、ルームIDとパスワードを手入力してください。資料は「2026-06-10_会議資料_参加者配布用_v1.pdf」です。": "Uma sala de grupo foi preparada para os documentos de hoje. Abra a URL abaixo no seu navegador. Se não conseguir entrar, insira manualmente o ID e a palavra-passe da sala. O documento é: '2026-06-10_Documentos-Reuniao_Participantes_v1.pdf'.",
     "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。": "Um convite deve incluir: o propósito da sala, o procedimento de acesso, o nome do ficheiro a ser consultado e o prazo de uso. Essas quatro informações bastam para diagnosticar rapidamente qualquer problema.",
-    "特に大容量ファイルでは、アップロード中にブラウザを閉じたり通信が切れたりすると、ファイルが一覧に表示されません。アップロード担当者は、完了表示を確認してから参加者へ連絡しましょう。": "Para ficheiros grandes especialmente, fechar o navegador ou perder a conexão durante o upload faz o ficheiro desaparecer da lista. Quem faz o upload deve aguardar a confirmação de conclusão antes de avisar os participantes.",
+    "特に大容量ファイルでは、アップロード中にブラウザを閉じたり通信が切れたりすると、ファイルが一覧に表示されません。アップロード担当者は、完了表示を確認してから参加者へ連絡しましょう。": "Para ficheiros grandes especialmente, fechar o navegador ou perder a ligação durante o upload faz o ficheiro desaparecer da lista. Quem faz o upload deve aguardar a confirmação de conclusão antes de avisar os participantes.",
     "相手が「リンクが開けない」と言っている場合は、まずURLをもう一度送り直し、必要であればルームIDとパスワードでの参加方法も案内します。QRコードを使う場面でも、URLとID情報を予備として残しておくと対応が早くなります。": "Se alguém disser 'o link não abre', reenvie a URL mais uma vez; se necessário, explique como entrar com o ID e a palavra-passe da sala. Mesmo quando o código QR é o método principal, ter a URL e o ID como alternativa agiliza a resolução.",
     "終了後は古いルーム情報を再利用しない": "Não reutilizar as informações de uma sala antiga após seu encerramento",
     "複数のルームを並行して使っている場合は、案件名や日付を案内文に入れておくと、古いルームへ入ろうとするミスを減らせます。": "Se você gerencia várias salas em paralelo, incluir o nome do projeto ou a data no convite evita que os participantes entrem em uma sala antiga.",
