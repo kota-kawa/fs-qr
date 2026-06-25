@@ -223,7 +223,10 @@
 
         <form id="downloadForm" action="{{ url }}" method="POST" class="mt-4 text-center">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <button type="submit" class="modern-btn modern-btn-success">ダウンロード</button>
+          <button type="submit" class="modern-btn modern-btn-success">
+            {{ icons.icon('arrow_down', size='lg', with_text=True) }}
+            ダウンロード
+          </button>
         </form>
 
         <div class="text-center mt-4">
