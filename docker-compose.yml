@@ -1,32 +1,52 @@
+# Blue-Green デプロイ用の共通設定。web-blue / web-green が共有する。
+# 重要: 本番の Blue-Green ではコードをイメージに焼き込む（COPY . /app）ため、
+# 開発用の `.:/app` ソース bind mount は付けない。各色がビルド済みイメージに
+# 固定されることで「旧版を生かしたまま新版へ切替」が成立する。書き込みが必要な
+# logs / geoip / storage のみ bind mount する（storage は nginx の X-Accel-Redirect
+# が参照するホスト ./storage と一致させること）。
+x-web-common: &web-common
+  build: .
+  environment:
+    - SQL_USER=${SQL_USER}
+    - SQL_PW=${SQL_PW}
+    - SQL_DB=${SQL_DB}
+    - SQL_HOST=${SQL_HOST:-db}
+    - REDIS_URL=redis://redis:6379/0
+    - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
+  volumes:
+    - ./logs:/app/logs      # アクセス/エラーログ
+    - ./geoip:/app/geoip    # GeoIP DB（言語判定・自動更新）
+    - ./storage:/app/storage  # アップロード実体（nginx /_protected/ alias と一致）
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD", "python3", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:5000/healthz').close()"]
+    interval: 15s
+    timeout: 5s
+    retries: 5
+    start_period: 30s
+  restart: unless-stopped
+  networks:
+    - app-network
+
 services:
-  web:
-    build: .
-    environment:
-      - SQL_USER=${SQL_USER}
-      - SQL_PW=${SQL_PW}
-      - SQL_DB=${SQL_DB}
-      - SQL_HOST=${SQL_HOST:-db}
-      - REDIS_URL=redis://redis:6379/0
-      - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
-    volumes:
-      - .:/app  # アプリケーションコードのマウント
-      - ./logs:/app/logs  # ホストの ./logs ディレクトリをコンテナ内 /app/logs にマウント
-      - ./geoip:/app/geoip  # GeoIP DB for language detection and updates
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+  # blue スロット: ホスト 127.0.0.1:5000。profiles により bare `up` では起動せず、
+  # デプロイスクリプト（scripts/deploy_bluegreen.sh）が色を指定して制御する。
+  web-blue:
+    <<: *web-common
     ports:
-      - "5000:5000"  # ホストの5000番ポートをDockerのwebサービスにマッピング
-    healthcheck:
-      test: ["CMD", "python3", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:5000/').close()"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-    networks:
-      - app-network
+      - "127.0.0.1:5000:5000"
+    profiles: ["blue"]
+
+  # green スロット: ホスト 127.0.0.1:5030。
+  web-green:
+    <<: *web-common
+    ports:
+      - "127.0.0.1:5030:5000"
+    profiles: ["green"]
 
   scheduler:
     build: .
