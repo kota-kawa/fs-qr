@@ -26,7 +26,7 @@
 #
 set -euo pipefail
 
-REPO_DIR="${REPO_DIR:-/home/kota/fs-qr}"
+REPO_DIR="${REPO_DIR:-/var/www/fs-qr}"
 # デプロイ済み（/etc/nginx 配下）の fs-qr.conf のパス。環境に合わせて上書きする。
 NGINX_SITE_CONF="${NGINX_SITE_CONF:-/etc/nginx/sites-available/fs-qr.conf}"
 STATE_DIR="${STATE_DIR:-$REPO_DIR/.deploy}"
