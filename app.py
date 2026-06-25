@@ -244,6 +244,15 @@ def _canonical_redirect(request: Request):
     return RedirectResponse(str(url), status_code=301)
 
 
+@app.get("/healthz", include_in_schema=False)
+async def healthz():
+    # Blue-Green デプロイのヘルスゲート用。アプリが起動を完了しリクエストを
+    # 処理できることだけを示す軽量エンドポイント。DB 接続性は startup() の
+    # マイグレーション通過（失敗時は起動拒否）で担保済みのため、ここでは
+    # トップページのような重い描画を避けて即座に 200 を返す。
+    return Response(content="ok", media_type="text/plain")
+
+
 @app.get("/", name="index")
 async def index(request: Request):
     canonical = _canonical_redirect(request)

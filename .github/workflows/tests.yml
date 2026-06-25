@@ -303,20 +303,17 @@ jobs:
 
           PREV_COMMIT="$(git rev-parse HEAD)"
 
-          compose_up() {
-            docker compose up -d --build
-          }
-
           diagnose() {
             echo "Deployment diagnostics"
-            docker compose ps || true
-            docker compose logs web scheduler db redis --tail=200 || true
+            docker compose --profile blue --profile green ps || true
+            docker compose logs scheduler db redis --tail=200 || true
           }
 
           rollback() {
-            echo "Deploy failed. Rolling back to ${PREV_COMMIT}"
+            # Blue-Green スクリプトは切替に失敗しても旧コンテナを生かしたまま中断するため、
+            # サービス自体は停止していない。ここでは作業ツリーを元コミットへ戻すだけ。
+            echo "Deploy failed; previous color stays live. Rolling back git tree to ${PREV_COMMIT}"
             git reset --hard "${PREV_COMMIT}"
-            compose_up || true
           }
 
           on_error() {
@@ -325,64 +322,20 @@ jobs:
             rollback
           }
 
-          wait_for_service() {
-            service="$1"
-            retries="${2:-45}"
-            while [ "${retries}" -gt 0 ]; do
-              cid="$(docker compose ps -q "${service}")"
-              if [ -z "${cid}" ]; then
-                echo "Service ${service} container is missing." >&2
-                return 1
-              fi
-
-              status="$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "${cid}")"
-              if [ "${status}" = "healthy" ] || [ "${status}" = "running" ]; then
-                echo "Service ${service} is ${status}"
-                return 0
-              fi
-              if [ "${status}" = "unhealthy" ] || [ "${status}" = "exited" ] || [ "${status}" = "dead" ]; then
-                echo "Service ${service} is ${status}" >&2
-                return 1
-              fi
-
-              sleep 2
-              retries=$((retries - 1))
-            done
-
-            echo "Timed out waiting for service ${service} to become ready." >&2
-            return 1
-          }
-
-          probe_web() {
-            docker compose exec -T web python -c "from urllib.request import urlopen; import sys; sys.exit(0 if urlopen('http://127.0.0.1:5000/').status == 200 else 1)"
-          }
-
           trap on_error ERR
 
           git fetch origin "${DEPLOY_BRANCH}"
           git reset --hard "origin/${DEPLOY_BRANCH}"
 
-          compose_up
+          # 常駐インフラ（無停止対象外）。起動済みなら no-op。
+          # Blue-Green の web スロットは depends_on で db/redis の healthy を待つため先に起動する。
+          docker compose up -d db redis
 
-          docker compose ps
-          for service in web scheduler db redis; do
-            wait_for_service "${service}" 45
-          done
-
-          retries=30
-          while [ "${retries}" -gt 0 ]; do
-            if probe_web; then
-              echo "Web probe passed."
-              break
-            fi
-            sleep 2
-            retries=$((retries - 1))
-          done
-
-          if [ "${retries}" -eq 0 ]; then
-            echo "HTTP probe failed." >&2
-            exit 1
-          fi
+          # Blue-Green 無停止切替: 非アクティブ色をビルド → /healthz が healthy になるまで待機
+          # → nginx の active backend を切替えて reload → 旧色を drain して停止。
+          # 新コンテナが healthy にならない/nginx -t 失敗時はスクリプトが切替せず中断するので、
+          # 現行サービスは止まらない（その場合は上の on_error が git ツリーを戻す）。
+          REPO_DIR="${DEPLOY_PATH}" bash scripts/deploy_bluegreen.sh
 
           trap - ERR
           docker image prune -f || true
