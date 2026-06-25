@@ -187,6 +187,12 @@
     margin-bottom: 0.75rem;
     line-height: 1.4;
     font-family: 'Kaisei Opti', serif;
+    /* タイトルは2行で固定し、超過は省略 → カード高さを揃える */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    min-height: calc(1.3rem * 1.4 * 2);
   }
   .article-description {
     font-size: 0.95rem;
@@ -194,6 +200,12 @@
     line-height: 1.6;
     margin-bottom: 1.25rem;
     flex-grow: 1;
+    /* 説明文は3行で固定。短くても3行分を確保し、超過は省略 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    min-height: calc(0.95rem * 1.6 * 3);
   }
   .read-more {
     display: inline-flex;
