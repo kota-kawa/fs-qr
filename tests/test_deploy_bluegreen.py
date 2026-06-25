@@ -140,7 +140,9 @@ def test_deploy_switches_nginx_and_stops_old_slot(tmp_path: Path) -> None:
     assert "server 127.0.0.1:5030;        # active" in nginx_conf.read_text()
     assert "server 127.0.0.1:5000 down;   # standby" in nginx_conf.read_text()
     assert (deploy_dir / "active_color").read_text() == "green\n"
-    assert "compose --profile blue stop web-blue" in (tmp_path / "docker.log").read_text()
+    assert (
+        "compose --profile blue stop web-blue" in (tmp_path / "docker.log").read_text()
+    )
 
 
 def test_deploy_restores_nginx_conf_and_stops_target_on_reload_failure(
@@ -163,6 +165,7 @@ def test_deploy_restores_nginx_conf_and_stops_target_on_reload_failure(
     assert result.returncode != 0
     assert nginx_conf.read_text() == original_conf
     assert (deploy_dir / "active_color").read_text() == "blue\n"
-    assert "compose --profile green stop web-green" in (
-        tmp_path / "docker.log"
-    ).read_text()
+    assert (
+        "compose --profile green stop web-green"
+        in (tmp_path / "docker.log").read_text()
+    )
