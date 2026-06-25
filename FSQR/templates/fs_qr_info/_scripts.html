@@ -319,17 +319,17 @@
         if (rawKey.length !== 32) {
           throw new Error(translate('download.decrypt_failed', 'Decryption failed.'));
         }
-        return crypto.subtle.importKey('raw', rawKey, { name: 'AES-256-GCM' }, false, ['decrypt']);
+        return crypto.subtle.importKey('raw', rawKey, { name: 'AES-GCM' }, false, ['decrypt']);
       }
       const keyBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
-      return crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-256-GCM' }, false, ['decrypt']);
+      return crypto.subtle.importKey('raw', keyBuffer, { name: 'AES-GCM' }, false, ['decrypt']);
     }
 
     async function decryptFile(encryptedBuffer, key, iv) {
       const cryptoKey = await importDecryptionKey(key);
 
       try {
-        return await crypto.subtle.decrypt({ name: 'AES-256-GCM', iv }, cryptoKey, encryptedBuffer);
+        return await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encryptedBuffer);
       } catch (error) {
         console.error('Decryption error:', error);
         return null;
