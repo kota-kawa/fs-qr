@@ -11,7 +11,7 @@
 .modern-content-card {
   --modern-card-radius: 24px;
   --modern-card-header-gradient: var(--primary-gradient);
-  --modern-card-header-accent: rgb(32, 178, 170);
+  --modern-card-header-accent: rgb(59, 130, 246);
   max-width: 900px;
   margin: 0 auto;
   background: var(--bg-white);
@@ -86,7 +86,7 @@
 .modern-upload-area {
   border: 3px dashed var(--primary-color);
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(0, 109, 128, 0.02) 0%, rgba(32, 178, 170, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.02) 0%, rgba(59, 130, 246, 0.05) 100%);
   text-align: center;
   padding: 3rem 2rem;
   margin: 2rem 0;
@@ -103,7 +103,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0, 109, 128, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(29, 78, 216, 0.03) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -115,10 +115,10 @@
 
 .modern-upload-area:hover,
 .modern-upload-area.dragover {
-  border-color: rgb(32, 178, 170);
-  background: linear-gradient(135deg, rgba(0, 109, 128, 0.05) 0%, rgba(32, 178, 170, 0.1) 100%);
+  border-color: rgb(59, 130, 246);
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.05) 0%, rgba(59, 130, 246, 0.1) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 109, 128, 0.15);
+  box-shadow: 0 8px 25px rgba(29, 78, 216, 0.15);
 }
 
 .upload-icon-modern {
@@ -142,7 +142,7 @@
 }
 
 .upload-button-modern {
-  background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
+  background: var(--primary-action-gradient, linear-gradient(135deg, #1e40af 0%, #2563eb 100%));
   color: white;
   border: none;
   border-radius: 12px;
@@ -151,13 +151,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
+  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(30, 64, 175, 0.28));
 }
 
 .upload-button-modern:hover {
-  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
+  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
+  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(30, 64, 175, 0.38));
 }
 
 /* ===============================================
@@ -332,7 +332,7 @@
 
 .modern-form-input:focus-visible {
   outline: 3px solid transparent;
-  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(0, 109, 128, 0.22));
+  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(29, 78, 216, 0.22));
 }
 
 .upload-limit-status {
@@ -374,16 +374,16 @@
 }
 
 .modern-editor:focus {
-  box-shadow: 0 0 0 3px rgba(0, 109, 128, 0.1);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
 }
 
 .modern-editor:focus-visible {
   outline: 3px solid transparent;
-  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(0, 109, 128, 0.22));
+  box-shadow: var(--focus-ring-strong, 0 0 0 3px rgba(29, 78, 216, 0.22));
 }
 
 .modern-btn {
-  background: var(--primary-action-gradient, linear-gradient(135deg, #075985 0%, #0f766e 100%));
+  background: var(--primary-action-gradient, linear-gradient(135deg, #1e40af 0%, #2563eb 100%));
   color: white;
   border: none;
   border-radius: 12px;
@@ -392,7 +392,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(7, 89, 133, 0.28));
+  box-shadow: 0 4px 12px var(--primary-action-shadow, rgba(30, 64, 175, 0.28));
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -400,9 +400,9 @@
 }
 
 .modern-btn:hover {
-  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #064e7a 0%, #115e59 100%));
+  background: var(--primary-action-gradient-hover, linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(7, 89, 133, 0.38));
+  box-shadow: 0 6px 20px var(--primary-action-shadow-hover, rgba(30, 64, 175, 0.38));
   color: white;
   text-decoration: none;
 }
@@ -575,7 +575,7 @@
 }
 
 .modern-file-item:hover {
-  background: rgba(0, 109, 128, 0.05);
+  background: rgba(29, 78, 216, 0.05);
 }
 
 .modern-file-name {

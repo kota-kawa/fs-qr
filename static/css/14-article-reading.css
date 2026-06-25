@@ -127,7 +127,7 @@
 /* --- 本文中リンク: 読みやすい控えめな下線 --- */
 .article-reading .info-box-content p a,
 .article-reading .info-box-content li a {
-  border-bottom-color: rgba(0, 109, 128, 0.32);
+  border-bottom-color: rgba(29, 78, 216, 0.32);
 }
 
 @media (max-width: 640px) {

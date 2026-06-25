@@ -6,7 +6,7 @@
 .usage-section {
   --usage-card-radius: 20px;
   --usage-header-gradient: var(--primary-gradient);
-  --usage-header-accent: rgb(32, 178, 170);
+  --usage-header-accent: rgb(59, 130, 246);
   max-width: 900px;
   margin: 2rem auto;
   background: var(--bg-white);
