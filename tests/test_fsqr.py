@@ -56,9 +56,7 @@ def test_fsqr_upload_generated_password_matches_server_policy():
 
 
 def test_fsqr_download_script_uses_webcrypto_aes_gcm_name():
-    script = Path("FSQR/templates/fs_qr_info/_scripts.html").read_text(
-        encoding="utf-8"
-    )
+    script = Path("FSQR/templates/fs_qr_info/_scripts.html").read_text(encoding="utf-8")
     assert "AES-256-GCM" not in script
     assert "{ name: 'AES-GCM' }" in script
     assert "crypto.subtle.decrypt({ name: 'AES-GCM', iv }" in script
