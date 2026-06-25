@@ -306,7 +306,7 @@ jobs:
           diagnose() {
             echo "Deployment diagnostics"
             docker compose --profile blue --profile green ps || true
-            docker compose logs scheduler db redis --tail=200 || true
+            docker compose --profile blue --profile green logs web-blue web-green scheduler db redis --tail=200 || true
           }
 
           rollback() {
@@ -335,7 +335,7 @@ jobs:
           # → nginx の active backend を切替えて reload → 旧色を drain して停止。
           # 新コンテナが healthy にならない/nginx -t 失敗時はスクリプトが切替せず中断するので、
           # 現行サービスは止まらない（その場合は上の on_error が git ツリーを戻す）。
-          REPO_DIR="${DEPLOY_PATH}" bash scripts/deploy_bluegreen.sh
+          NGINX_SITE_CONF="${DEPLOY_PATH}/fs-qr.conf" REPO_DIR="${DEPLOY_PATH}" bash scripts/deploy_bluegreen.sh
 
           trap - ERR
           docker image prune -f || true
