@@ -33,6 +33,58 @@ test_app.py
 .DS_Store
 Thumbs.db
 .vscode/
+.agents/
+.claude/
+
+# Local scratch files generated during translation and cleanup work
+scratch/
+scratch.md
+*_review.txt
+*_comparison.txt
+*_compare.txt
+validation_errors*.log
+translations_to_review.md
+texts.jsonl
+translation_files.txt
+untranslated_keys.json
+chunk_*.json
+fixed_*.json
+prod_part*.json
+combined_translations.json
+all_articles_ja.json
+missing_*.json
+missing_*.txt
+output.txt
+extracted.txt
+dump*.json
+dump*.txt
+ko_review_chunk_*
+
+# One-off root-level helper scripts should stay out of source control.
+/apply_*.py
+/auto_translate.py
+/check_*.py
+/compare*.py
+/complete_missing_translations.py
+/count_keys.py
+/diff_keys.py
+/dump*.py
+/extract*.py
+/find_*.py
+/fix_*.py
+/generate*.py
+/inspect_json.py
+/merge_*.py
+/patch_*.py
+/prepare_chunks.py
+/print_*.py
+/restore_*.py
+/review_*.py
+/split_chunks.py
+/test_trans.py
+/translate*.py
+/update_*.py
+/write_*.py
 
 
 # .gitkeepのみ追跡対象にする
