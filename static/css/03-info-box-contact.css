@@ -110,13 +110,13 @@
 
 .info-box-content p {
   margin-bottom: 1.25rem;
-  color: var(--text-medium);
+  color: var(--text-dark);
   font-size: 1rem;
 }
 
 .info-box-content ul, .info-box-content ol {
   margin: 1rem 0 1.5rem 1.5rem;
-  color: var(--text-medium);
+  color: var(--text-dark);
 }
 
 .info-box-content li {
