@@ -75,7 +75,7 @@
   "download.decrypt_failed": "解密失敗。",
   "download.receiving": "接收中...",
   "group.no_files_yet": "尚未上傳任何檔案",
-  "group.usage_summary": "已用空間：{used} / {total}・檔案數：{count} / {maxCount}",
+  "group.usage_summary": "已用空間：{used} / {total}，檔案數：{count} / {maxCount}",
   "group.delete_error": "刪除過程中發生錯誤。",
   "group.file_deleted": "檔案已刪除。",
   "group.delete_confirm": "將刪除「{name}」。此操作無法復原。",
