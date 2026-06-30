@@ -544,31 +544,32 @@
       }
     }
 
-    .top-footer {
+    /* トップページのフッター: 左右に余白を確保し、視認性の高い濃色背景にする */
+    .service-footer {
       width: min(calc(100% - 32px), 1100px);
       margin: 32px auto calc(32px + env(safe-area-inset-bottom));
       padding: 22px clamp(18px, 4vw, 36px);
       background: #132238;
-      border: 1px solid rgba(19, 34, 56, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       color: #ffffff;
       box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
     }
 
-    .top-footer nav {
+    .service-footer nav {
       gap: 10px 18px;
     }
 
-    .top-footer a,
-    .top-footer .footer-link-button {
+    .service-footer a,
+    .service-footer .footer-link-button {
       color: #ffffff;
     }
 
-    .top-footer small {
+    .service-footer small {
       color: rgba(255, 255, 255, 0.82);
     }
 
     @media (max-width: 575.98px) {
-      .top-footer {
+      .service-footer {
         width: min(calc(100% - 24px), 1100px);
         margin-top: 24px;
         margin-bottom: calc(24px + env(safe-area-inset-bottom));
