@@ -93,19 +93,9 @@ def resolve_language(
     if language and language in SUPPORTED_LANGUAGES:
         return language
 
-    # 3. GeoIP
-    if country_code_lookup is None:
-        from .geoip import get_country_code
-
-        country_code_lookup = get_country_code
-    ip = request.client.host if request.client else None
-    if ip:
-        country_code = country_code_lookup(ip)
-        if country_code:
-            language = language_from_country(country_code)
-            if language in SUPPORTED_LANGUAGES:
-                return language
-
+    # AdSense 再審査中は、IP 位置情報によるサーバー側の自動翻訳表示をしない。
+    # Googlebot は主に米国から、Accept-Language なしでクロールするため、未選択時は
+    # canonical の日本語ページを安定して返す。
     return DEFAULT_LANGUAGE
 
 

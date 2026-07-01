@@ -31,6 +31,8 @@
 
 {% block meta_description %}{{ article_description }}{% endblock %}
 {% block meta_keywords %}{{ article_keywords | default("FS QR, ファイル共有, 解説記事") }}{% endblock %}
+{% block meta_robots %}{% if article_indexable is defined and not article_indexable %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+{% block meta_googlebot %}{% if article_indexable is defined and not article_indexable %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block og_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
 {% block og_description %}{{ article_description }}{% endblock %}

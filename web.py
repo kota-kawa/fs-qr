@@ -19,7 +19,6 @@ from i18n import (
     make_translator,
     normalize_language,
     resolve_language,
-    SUPPORTED_LANGUAGES,
     translate_rendered_html,
 )
 
@@ -58,7 +57,8 @@ ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
-    SUPPORTED_HREFLANG_LANGS = SUPPORTED_LANGUAGES
+    # AdSense 再審査中は日本語 canonical 面だけを検索評価対象にする。
+    SUPPORTED_HREFLANG_LANGS = ("ja",)
 
     def __init__(self, request: Request) -> None:
         self._request = request
@@ -186,9 +186,9 @@ def _is_adsense_allowed_path(path: str) -> bool:
         return True
 
     try:
-        from Articles.articles_registry import get_all_articles
+        from Articles.articles_registry import get_indexable_articles
 
-        article_paths = {f"/{article['slug']}" for article in get_all_articles()}
+        article_paths = {f"/{article['slug']}" for article in get_indexable_articles()}
     except Exception:
         article_paths = set()
     return normalized_path in article_paths

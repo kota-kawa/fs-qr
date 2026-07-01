@@ -29,6 +29,14 @@ _META_KEYWORDS_RE = re.compile(
     r"<meta\s+name=['\"]keywords['\"]\s+content=['\"]([^'\"]*)['\"][^>]*>",
     re.I,
 )
+_ROBOTS_META_RE = re.compile(
+    r"<meta\s+name=[\"']robots[\"']\s+content=[\"'](?P<content>[^\"']*)[\"'][^>]*>",
+    re.I,
+)
+_GOOGLEBOT_META_RE = re.compile(
+    r"<meta\s+name=[\"']googlebot[\"']\s+content=[\"'](?P<content>[^\"']*)[\"'][^>]*>",
+    re.I,
+)
 _OG_LOCALE_RE = re.compile(
     r"<meta\s+property=[\"']og:locale[\"']\s+content=[\"'][^\"']*[\"']", re.I
 )
@@ -102,6 +110,10 @@ def translate_rendered_html(content: str, language: str) -> str:
 
     content = _META_KEYWORDS_RE.sub(_replace_meta_keywords, content)
 
+    if normalized_language != DEFAULT_LANGUAGE:
+        content = _ROBOTS_META_RE.sub(_replace_non_default_robots, content)
+        content = _GOOGLEBOT_META_RE.sub(_replace_non_default_googlebot, content)
+
     # 2c. Update <meta name="language" content=...> with language code
     def _replace_meta_lang(match):
         return f'<meta name="language" content="{html_lang}">'
@@ -151,6 +163,21 @@ def translate_rendered_html(content: str, language: str) -> str:
         )
 
     return content
+
+
+def _non_default_robot_directive(existing_content: str) -> str:
+    existing = existing_content.lower()
+    return "noindex, nofollow" if "nofollow" in existing else "noindex, follow"
+
+
+def _replace_non_default_robots(match) -> str:
+    directive = _non_default_robot_directive(match.group("content"))
+    return f'<meta name="robots" content="{directive}">'
+
+
+def _replace_non_default_googlebot(match) -> str:
+    directive = _non_default_robot_directive(match.group("content"))
+    return f'<meta name="googlebot" content="{directive}">'
 
 
 def _uk_plural_articles(match) -> str:

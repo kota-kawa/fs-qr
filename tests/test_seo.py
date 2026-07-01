@@ -6,6 +6,7 @@ These cover:
 - geo.region and geo.placename adapt to the request locale
 - JSON-LD inLanguage matches the request locale
 - Arabic responses set dir="rtl"
+- non-default language pages are temporarily noindex during AdSense review
 """
 
 from __future__ import annotations
@@ -53,7 +54,7 @@ def test_sitemap_includes_terms_page(test_client: TestClient):
 
 
 def test_sitemap_keeps_all_existing_public_pages(test_client: TestClient):
-    """AdSense fixes must improve listed pages, not remove them from sitemap."""
+    """Sitemap should contain content pages, not functional form pages."""
     response = test_client.get("/sitemap.xml")
     assert response.status_code == 200
 
@@ -70,16 +71,16 @@ def test_sitemap_keeps_all_existing_public_pages(test_client: TestClient):
         "https://fs-qr.net/site-operator",
         "https://fs-qr.net/articles",
         "https://fs-qr.net/fs-qr_menu",
-        "https://fs-qr.net/fs-qr",
         "https://fs-qr.net/group_menu",
-        "https://fs-qr.net/group",
-        "https://fs-qr.net/create_room",
         "https://fs-qr.net/note_menu",
-        "https://fs-qr.net/note",
-        "https://fs-qr.net/create_note_room",
     }
 
     assert expected_locs <= locs
+    assert "https://fs-qr.net/fs-qr" not in locs
+    assert "https://fs-qr.net/group" not in locs
+    assert "https://fs-qr.net/create_room" not in locs
+    assert "https://fs-qr.net/note" not in locs
+    assert "https://fs-qr.net/create_note_room" not in locs
 
 
 def test_adsense_risk_copy_does_not_reappear_in_public_copy_sources():
@@ -249,18 +250,31 @@ def test_arabic_renders_with_rtl_direction(test_client: TestClient):
     )
 
 
-def test_home_hreflang_alternates_include_every_supported_language(
+def test_home_hreflang_alternates_are_limited_during_adsense_review(
     test_client: TestClient,
 ):
-    from i18n import SUPPORTED_LANGUAGES
-
     response = test_client.get("/")
     assert response.status_code == 200
 
     hreflangs = set(re.findall(r'rel="alternate"\s+hreflang="([^"]+)"', response.text))
-    for language in SUPPORTED_LANGUAGES:
-        assert language in hreflangs, f"missing hreflang alternate for {language}"
-    assert "x-default" in hreflangs
+    assert hreflangs == {"ja", "x-default"}
+
+
+def test_non_default_language_pages_are_noindex_during_adsense_review(
+    test_client: TestClient,
+):
+    response = test_client.get("/?lang=en")
+    assert response.status_code == 200
+    assert '<meta name="robots" content="noindex, follow">' in response.text
+    assert '<meta name="googlebot" content="noindex, follow">' in response.text
+
+
+def test_functional_pages_are_noindex_for_adsense_review(test_client: TestClient):
+    for route in ("/fs-qr", "/group", "/create_room", "/note", "/create_note_room"):
+        response = test_client.get(route)
+        assert response.status_code == 200, route
+        assert '<meta name="robots" content="noindex, follow"' in response.text
+        assert '<meta name="googlebot" content="noindex, follow"' in response.text
 
 
 def test_canonical_url_is_set_on_home(test_client: TestClient):

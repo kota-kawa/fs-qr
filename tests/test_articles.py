@@ -11,7 +11,11 @@ from Articles.articles_registry import (
     TYPE_GUIDE,
     get_article_by_slug,
     get_blog_articles_sorted,
+    get_indexable_articles,
+    get_indexable_blog_articles_sorted,
+    get_indexable_guides,
     get_guides,
+    is_indexable_article,
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -22,17 +26,25 @@ def test_articles_index(test_client: TestClient):
     assert response.status_code == 200
 
 
-def test_articles_index_lists_all_articles(test_client: TestClient):
+def test_articles_index_lists_indexable_articles(test_client: TestClient):
     response = test_client.get("/articles")
     assert response.status_code == 200
     body = response.text
-    for article in get_guides():
+    for article in get_indexable_guides():
         assert f"/{article['slug']}" in body
         assert article["title"] in body
-    for article in get_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
+    for article in get_indexable_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
         assert f"/{article['slug']}" in body
         assert article["title"] in body
-    for article in get_blog_articles_sorted()[ARTICLES_PER_PAGE:]:
+    hidden_articles = [
+        article
+        for article in ARTICLES
+        if (
+            not is_indexable_article(article)
+            or article in get_indexable_blog_articles_sorted()[ARTICLES_PER_PAGE:]
+        )
+    ]
+    for article in hidden_articles:
         assert f"/{article['slug']}" not in body
 
 
@@ -47,7 +59,10 @@ def test_articles_index_renders_visible_article_thumbnails(test_client: TestClie
     response = test_client.get("/articles")
     assert response.status_code == 200
     body = response.text
-    visible_articles = [*get_guides(), *get_blog_articles_sorted()[:ARTICLES_PER_PAGE]]
+    visible_articles = [
+        *get_indexable_guides(),
+        *get_indexable_blog_articles_sorted()[:ARTICLES_PER_PAGE],
+    ]
     for article in visible_articles:
         assert f"/static/{article['thumbnail']}?v=" in body
 
@@ -56,16 +71,18 @@ def test_articles_second_page_lists_remaining_articles(test_client: TestClient):
     response = test_client.get("/articles/page/2")
     assert response.status_code == 200
     body = response.text
-    for article in get_guides():
+    for article in get_indexable_guides():
         assert f"/{article['slug']}" not in body
-    for article in get_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
+    indexable_blog = get_indexable_blog_articles_sorted()
+    for article in indexable_blog[:ARTICLES_PER_PAGE]:
         assert f"/{article['slug']}" not in body
-    for article in get_blog_articles_sorted()[
-        ARTICLES_PER_PAGE : 2 * ARTICLES_PER_PAGE
-    ]:
+    for article in indexable_blog[ARTICLES_PER_PAGE : 2 * ARTICLES_PER_PAGE]:
         assert f"/{article['slug']}" in body
         assert article["title"] in body
-    for article in get_blog_articles_sorted()[2 * ARTICLES_PER_PAGE :]:
+    for article in [
+        *indexable_blog[2 * ARTICLES_PER_PAGE :],
+        *[a for a in ARTICLES if not is_indexable_article(a)],
+    ]:
         assert f"/{article['slug']}" not in body
 
 
@@ -89,6 +106,10 @@ def test_registered_article_route(test_client: TestClient, article):
         f'<meta property="og:image" content="https://fs-qr.net/static/{article["thumbnail"]}"'
         in response.text
     )
+    if is_indexable_article(article):
+        assert '<meta name="robots" content="index, follow"' in response.text
+    else:
+        assert '<meta name="robots" content="noindex, follow"' in response.text
 
 
 # fsqr / group / note いずれかのサービス入口URL
@@ -134,8 +155,11 @@ def test_default_articles_present():
 def test_article_sitemap_entries(test_client: TestClient):
     response = test_client.get("/sitemap.xml")
     assert response.status_code == 200
-    for article in ARTICLES:
+    for article in get_indexable_articles():
         assert f"https://fs-qr.net/{article['slug']}" in response.text
+    for article in ARTICLES:
+        if not is_indexable_article(article):
+            assert f"https://fs-qr.net/{article['slug']}" not in response.text
 
 
 def test_articles_index_sitemap_lastmod_tracks_newest_article(test_client: TestClient):
@@ -153,7 +177,7 @@ def test_articles_index_sitemap_lastmod_tracks_newest_article(test_client: TestC
 
             expected_lastmod = max(
                 _template_lastmod("Articles/templates/articles.html"),
-                max(article["date"] for article in ARTICLES),
+                max(article["date"] for article in get_indexable_articles()),
             )
             assert lastmod.text == expected_lastmod
             break
