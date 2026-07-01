@@ -188,9 +188,7 @@ def _is_adsense_allowed_path(path: str) -> bool:
     try:
         from Articles.articles_registry import get_indexable_articles
 
-        article_paths = {
-            f"/{article['slug']}" for article in get_indexable_articles()
-        }
+        article_paths = {f"/{article['slug']}" for article in get_indexable_articles()}
     except Exception:
         article_paths = set()
     return normalized_path in article_paths

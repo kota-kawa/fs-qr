@@ -41,8 +41,7 @@ def test_articles_index_lists_indexable_articles(test_client: TestClient):
         for article in ARTICLES
         if (
             not is_indexable_article(article)
-            or article
-            in get_indexable_blog_articles_sorted()[ARTICLES_PER_PAGE:]
+            or article in get_indexable_blog_articles_sorted()[ARTICLES_PER_PAGE:]
         )
     ]
     for article in hidden_articles:
