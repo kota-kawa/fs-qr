@@ -267,8 +267,15 @@ def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
         )
 
 
-def test_adsense_is_not_exposed_on_functional_note_pages(test_client: TestClient):
-    for path in ("/note", "/create_note_room", "/search_note"):
+def test_adsense_is_not_exposed_on_functional_pages(test_client: TestClient):
+    for path in (
+        "/fs-qr",
+        "/group",
+        "/create_room",
+        "/note",
+        "/create_note_room",
+        "/search_note",
+    ):
         response = test_client.get(path)
         assert response.status_code == 200
         assert "window.FSQR_TAGS" in response.text

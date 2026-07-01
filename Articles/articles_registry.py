@@ -30,6 +30,8 @@
     type:        "guide" または "article"(上記参照)。
     default:     初期(デフォルト)記事かどうか。True の6件は既存のガイドで、
                  常に維持する基本セット。
+    indexable:   sitemap・記事一覧・AdSense 対象に出すかどうか。新規記事は
+                 品質確認が終わるまで False のままにする。
 """
 
 from __future__ import annotations
@@ -39,6 +41,30 @@ from typing import Any
 TYPE_GUIDE = "guide"
 TYPE_ARTICLE = "article"
 ARTICLE_THUMBNAIL_DIR = "articles/thumbnails"
+ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS = frozenset(
+    {
+        "smartphone-receiving",
+        "pc-mobile-transfer",
+        "browser-based-sharing",
+        "auto-delete-benefits",
+        "telework-security",
+        "event-material-distribution",
+        "remote-work-file-sharing-checklist",
+        "home-office-confidential-files",
+        "remote-team-material-handoff",
+        "school-meeting-class-examples",
+        "send-large-files-free",
+        "no-registration-file-sharing",
+        "meeting-minutes-shared-note",
+        "temporary-client-file-room",
+        "file-sharing-troubleshooting",
+        "send-photos-without-quality-loss",
+        "remove-photo-location-data",
+        "qr-code-link-troubleshooting",
+        "group-room-access-troubleshooting",
+        "shared-note-sync-troubleshooting",
+    }
+)
 
 # 既存の6件はサービス解説ガイド(エバーグリーン)としてデフォルト保持する。
 # 日次で増やすブログ記事は type="article" でこのリスト末尾に append していく。
@@ -414,6 +440,11 @@ _seen: set[str] = set()
 CATEGORIES: list[str] = []
 for _article in ARTICLES:
     _article.setdefault(
+        "indexable",
+        _article.get("type") == TYPE_GUIDE
+        or _article["slug"] in ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS,
+    )
+    _article.setdefault(
         "thumbnail",
         f"{ARTICLE_THUMBNAIL_DIR}/{_article['slug']}.jpg",
     )
@@ -431,12 +462,27 @@ def get_all_articles() -> list[dict[str, Any]]:
     return list(ARTICLES)
 
 
+def is_indexable_article(article: dict[str, Any]) -> bool:
+    """AdSense 再審査中に検索・広告面へ出す記事だけ True にする。"""
+    return bool(article.get("indexable", False))
+
+
+def get_indexable_articles() -> list[dict[str, Any]]:
+    """sitemap・記事一覧・広告対象に使う記事だけを返す。"""
+    return [article for article in ARTICLES if is_indexable_article(article)]
+
+
 def get_guides() -> list[dict[str, Any]]:
     """サービス解説ガイド(type="guide")を登録順で返す。
 
     エバーグリーンな基本コンテンツなので日付では並べ替えず、登録順を保つ。
     """
     return [a for a in ARTICLES if a.get("type", TYPE_ARTICLE) == TYPE_GUIDE]
+
+
+def get_indexable_guides() -> list[dict[str, Any]]:
+    """検索対象に残すサービス解説ガイドを登録順で返す。"""
+    return [article for article in get_guides() if is_indexable_article(article)]
 
 
 def get_blog_articles_sorted() -> list[dict[str, Any]]:
@@ -452,6 +498,15 @@ def get_blog_articles_sorted() -> list[dict[str, Any]]:
             key=lambda item: (item[1]["date"], item[0]),
             reverse=True,
         )
+    ]
+
+
+def get_indexable_blog_articles_sorted() -> list[dict[str, Any]]:
+    """検索対象に残すブログ記事(type="article")を新しい順に返す。"""
+    return [
+        article
+        for article in get_blog_articles_sorted()
+        if is_indexable_article(article)
     ]
 
 

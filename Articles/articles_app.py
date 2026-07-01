@@ -9,8 +9,8 @@ from web import render_cached_template, render_template
 from Articles.articles_registry import (
     CATEGORIES,
     get_all_articles,
-    get_blog_articles_sorted,
-    get_guides,
+    get_indexable_blog_articles_sorted,
+    get_indexable_guides,
 )
 
 router = APIRouter()
@@ -65,8 +65,8 @@ def _articles_page_response(request: Request, page_number: int):
     if canonical:
         return canonical
 
-    guides = get_guides() if page_number == 1 else []
-    pagination = _paginate_articles(get_blog_articles_sorted(), page_number)
+    guides = get_indexable_guides() if page_number == 1 else []
+    pagination = _paginate_articles(get_indexable_blog_articles_sorted(), page_number)
     visible_categories = {
         article["category"] for article in [*guides, *pagination["articles"]]
     }
@@ -95,8 +95,10 @@ async def articles_page(request: Request, page_number: int):
     return _articles_page_response(request, page_number)
 
 
-def _make_article_handler(template_name: str):
+def _make_article_handler(template_name: str, indexable: bool):
     async def handler(request: Request):
+        if not indexable:
+            return render_template(request, template_name, article_indexable=False)
         return await render_cached_template(request, template_name)
 
     return handler
@@ -107,7 +109,7 @@ def _make_article_handler(template_name: str):
 for _article in get_all_articles():
     router.add_api_route(
         f"/{_article['slug']}",
-        _make_article_handler(_article["template"]),
+        _make_article_handler(_article["template"], bool(_article.get("indexable"))),
         methods=["GET"],
         name=f"articles.{_article['slug'].replace('-', '_')}",
     )

@@ -54,7 +54,7 @@ from Admin.admin_app import router as admin_router
 from FSQR import fsqr_data as fsqr_cleanup_data
 from FSQR.fsqr_app import router as fsqr_router
 from Articles.articles_app import router as articles_router
-from Articles.articles_registry import get_all_articles
+from Articles.articles_registry import get_indexable_articles
 from top_search import router as top_search_router
 from presence_api import router as presence_router
 
@@ -347,7 +347,8 @@ SITEMAP_FALLBACK_LASTMOD = "2026-04-27"
 
 def _articles_lastmod() -> str:
     return max(
-        (article["date"] for article in get_all_articles()), default="2025-08-31"
+        (article["date"] for article in get_indexable_articles()),
+        default="2025-08-31",
     )
 
 
@@ -415,38 +416,8 @@ SITEMAP_PAGES = (
     ),
     ("/articles", "monthly", "0.8", ("Articles/templates/articles.html",)),
     ("/fs-qr_menu", "weekly", "0.9", ("FSQR/templates/fs-qr.html",)),
-    (
-        "/fs-qr",
-        "weekly",
-        "0.9",
-        ("FSQR/templates/fs-qr-upload.html", "templates/layout.html"),
-    ),
     ("/group_menu", "weekly", "0.9", ("Group/templates/group.html",)),
-    (
-        "/group",
-        "weekly",
-        "0.9",
-        ("Group/templates/group_room_access.html", "templates/group_layout.html"),
-    ),
-    (
-        "/create_room",
-        "weekly",
-        "0.8",
-        ("Group/templates/create_group_room.html", "templates/group_layout.html"),
-    ),
     ("/note_menu", "weekly", "0.9", ("Note/templates/note_menu.html",)),
-    (
-        "/note",
-        "weekly",
-        "0.9",
-        ("Note/templates/note_room_access.html", "Note/templates/note_layout.html"),
-    ),
-    (
-        "/create_note_room",
-        "weekly",
-        "0.8",
-        ("Note/templates/create_note_room.html", "Note/templates/note_layout.html"),
-    ),
 )
 
 
@@ -468,7 +439,7 @@ def _build_sitemap_entry(
 async def sitemap():
     # lastmod はテンプレートの最終更新日から自動算出する（_template_lastmod 参照）。
     # hreflang は各ページの HTML head で管理し、sitemap は canonical URL の列挙に絞る。
-    # NOTE: /all-in-one, /search_fs-qr, /search_group, /search_note は noindex のため除外。
+    # NOTE: /all-in-one, 検索・作成・アップロード・参加画面は noindex のため除外。
     rows: list[str] = []
     for path, changefreq, priority, templates in SITEMAP_PAGES:
         lastmod = _template_lastmod(*templates)
@@ -477,7 +448,7 @@ async def sitemap():
             lastmod = max(lastmod, _articles_lastmod())
         rows.append(_build_sitemap_entry(path, changefreq, priority, lastmod))
     # 解説記事の個別ページはレジストリの公開日を lastmod として自動生成する。
-    for article in get_all_articles():
+    for article in get_indexable_articles():
         rows.append(
             _build_sitemap_entry(
                 f"/{article['slug']}", "monthly", "0.6", article["date"]
