@@ -1,81 +1,47 @@
-{% extends "layout.html" %}
-{% set article_thumbnail = "articles/thumbnails/risk-mitigation.jpg" %}
-{% set article_thumbnail_alt = "リスクと対策の考え方" %}
+{% extends "_article_base.html" %}
 
-{% block page_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
+{% set article_title = "リスクと対策の考え方" %}
+{% set article_heading = "リスクと対策の考え方" %}
+{% set article_description = "オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。" %}
+{% set article_keywords = "セキュリティ対策, リスク管理, 情報漏えい対策, 中間者攻撃, ソーシャルエンジニアリング, インシデント対応, セキュリティ教育, FS QR" %}
+{% set article_slug = "risk-mitigation" %}
+{% set article_section = "セキュリティ" %}
+{% set article_published = "2025-08-21" %}
+{% set cta_service = "fsqr" %}
 
-{% block meta_description %}オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。{% endblock %}
+{% block article_body %}
+<h3>リスクは利便性の裏側にある</h3>
+<p>オンラインでファイルを共有するときには、利便性の裏に潜むリスクを見逃してはなりません。リンクが第三者に漏えいすれば、意図しない情報開示や不正アクセスにつながります。特にパスワードが設定されていない場合、検索エンジンや共有端末から容易に見つけられてしまう恐れがあります。</p>
+<p>リスク管理では、危険をゼロにすることよりも、起こりやすい事故を把握し、被害が広がる前に止められる状態を作ることが現実的です。ファイル共有では「誰が」「何を」「どの期間」「どの端末で」扱うのかを整理すると、優先すべき対策が見えやすくなります。</p>
 
-{% block meta_keywords %}セキュリティ対策, リスク管理, 情報漏えい対策, 中間者攻撃, ソーシャルエンジニアリング, インシデント対応, セキュリティ教育, FS QR{% endblock %}
+<h3>通信経路とリンク漏えいのリスク</h3>
+<p>通信経路の盗聴も大きな脅威です。暗号化されていないHTTPを利用してファイルを送受信すると、途中でデータが改ざんされたり、内容が覗き見られたりする可能性があります。また、送信先を偽装する中間者攻撃では、利用者が気付かないうちにファイルが差し替えられることもあります。</p>
+<ul>
+  <li>URLの先頭がHTTPSになっているか確認する</li>
+  <li>共有リンクをSNSや公開チャットに貼らない</li>
+  <li>パスワードをリンクと同じ場所に保存しない</li>
+  <li>不要になったリンクは削除または無効化する</li>
+</ul>
 
-{% block og_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
-{% block og_description %}オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。{% endblock %}
-{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<h3>人を狙う攻撃にも備える</h3>
+<p>人の心理につけ込むソーシャルエンジニアリングも警戒が必要です。信頼できる人物を装ったメールやメッセージでリンクを送られると、利用者は思わずアクセスしてしまいがちです。そこからマルウェアを仕込まれたり、認証情報を盗まれたりする被害が増えています。</p>
+<blockquote>
+  <p>「急ぎ」「今日中」「確認だけ」といった言葉で判断を急がせる共有依頼ほど、送信者確認を省略しないことが大切です。</p>
+</blockquote>
+<p>普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。</p>
 
-{% block twitter_title %}リスクと対策の考え方 | FS!QRファイル共有セキュリティ対策{% endblock %}
-{% block twitter_description %}オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。{% endblock %}
-{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<h3>多層的な防御で被害を小さくする</h3>
+<p>これらのリスクに対処するには、パスワードを別の経路で伝達するなど多層的な防御を意識することが大切です。FS!QRではファイルが一定期間後に自動削除されるため、利用が終わったら不要なデータを早めに削除し、IDとパスワードの取り扱いに注意しましょう。端末には最新のウイルス対策ソフトを導入し、第三者に操作されないよう日頃からセキュリティを強化してください。</p>
+<dl>
+  <dt>予防</dt>
+  <dd>共有前にファイル内容、宛先、保存期間、パスワードの有無を確認します。</dd>
+  <dt>検知</dt>
+  <dd>不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。</dd>
+  <dt>対応</dt>
+  <dd>問題が起きたら共有を止め、関係者へ連絡し、必要に応じてパスワード変更や再発防止策を行います。</dd>
+</dl>
 
-{% block og_type %}article{% endblock %}
-{% block extra_og %}
-<meta property="article:published_time" content="2025-08-21T00:00:00+09:00" />
-<meta property="article:modified_time" content="2025-08-21T00:00:00+09:00" />
-<meta property="article:author" content="FS!QR" />
-<meta property="article:section" content="セキュリティ" />
-{% endblock %}
-
-{% block extra_head %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "リスクと対策の考え方",
-  "description": "オンラインファイル共有のリスクと対策を詳しく解説。情報漏えい、中間者攻撃、ソーシャルエンジニアリングなどの脅威と、FS!QRでの安全な対処法について説明します。",
-  "datePublished": "2025-08-21T00:00:00+09:00",
-  "dateModified": "2025-08-21T00:00:00+09:00",
-  "image": "{{ social_staticfile(article_thumbnail) }}",
-  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "FS!QR",
-    "url": "{{ request.url_root }}",
-    "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
-  },
-  "url": "{{ request.url_root }}risk-mitigation",
-  "inLanguage": "ja-JP",
-  "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
-    { "@type": "ListItem", "position": 3, "name": "リスクと対策の考え方", "item": "{{ request.url_root }}risk-mitigation" }
-  ]
-}
-</script>
-{% endblock %}
-
-{% block contents %}
-<div class="container my-5">
-  <div class="info-box article-reading">
-    <div class="info-box-content">
-      {% include "_legacy_article_thumbnail.html" %}
-      <h2 class="mb-4">リスクと対策の考え方</h2>
-    <p>オンラインでファイルを共有するときには、利便性の裏に潜むリスクを見逃してはなりません。リンクが第三者に漏えいすれば、意図しない情報開示や不正アクセスにつながります。特にパスワードが設定されていない場合、検索エンジンや共有端末から容易に見つけられてしまう恐れがあります。</p>
-    <p>通信経路の盗聴も大きな脅威です。暗号化されていないHTTPを利用してファイルを送受信すると、途中でデータが改ざんされたり、内容が覗き見られたりする可能性があります。また、送信先を偽装する中間者攻撃では、利用者が気付かないうちにファイルが差し替えられることもあります。</p>
-    <p>人の心理につけ込むソーシャルエンジニアリングも警戒が必要です。信頼できる人物を装ったメールやメッセージでリンクを送られると、利用者は思わずアクセスしてしまいがちです。そこからマルウェアを仕込まれたり、認証情報を盗まれたりする被害が増えています。</p>
-    <p>これらのリスクに対処するには、パスワードを別の経路で伝達するなど多層的な防御を意識することが大切です。FS!QRではファイルが一定期間後に自動削除されるため、利用が終わったら不要なデータを早めに削除し、IDとパスワードの取り扱いに注意しましょう。端末には最新のウイルス対策ソフトを導入し、第三者に操作されないよう日頃からセキュリティを強化してください。</p>
-    <p>さらに、組織内では万一のインシデント発生時に備えた連絡体制を整備し、被害の拡大を防ぐための手順を事前に定めておくことが求められます。定期的なセキュリティ訓練に参加し、最新の攻撃手法を学ぶことで、個々の利用者がリスクを察知しやすくなります。</p>
-    <p>リスクを完全にゼロにすることはできませんが、脅威を理解し対策を継続的に実施することで被害の可能性を大幅に下げられます。共有ツールの設定を見直し、利用者に適切な教育を行う姿勢がID・パスワードでアクセスを制限したファイル共有の基盤となります。日々の小さな注意が、組織全体の信頼を守る力になるのです。</p>
-    {% set cta_service = "fsqr" %}
-    {% include "_article_cta.html" %}
-    </div>
-  </div>
-</div>
+<h3>インシデント対応を事前に決める</h3>
+<p>さらに、組織内では万一のインシデント発生時に備えた連絡体制を整備し、被害の拡大を防ぐための手順を事前に定めておくことが求められます。定期的なセキュリティ訓練に参加し、最新の攻撃手法を学ぶことで、個々の利用者がリスクを察知しやすくなります。</p>
+<p>リスクを完全にゼロにすることはできませんが、脅威を理解し対策を継続的に実施することで被害の可能性を大幅に下げられます。共有ツールの設定を見直し、利用者に適切な教育を行う姿勢がID・パスワードでアクセスを制限したファイル共有の基盤となります。日々の小さな注意が、組織全体の信頼を守る力になるのです。</p>
 {% endblock %}
