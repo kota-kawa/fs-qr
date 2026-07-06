@@ -1,82 +1,49 @@
-{% extends "layout.html" %}
-{% set article_thumbnail = "articles/thumbnails/safe-sharing.jpg" %}
-{% set article_thumbnail_alt = "安全な共有のポイント" %}
+{% extends "_article_base.html" %}
 
-{% block page_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
+{% set article_title = "安全な共有のポイント" %}
+{% set article_heading = "安全な共有のポイント" %}
+{% set article_description = "オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。" %}
+{% set article_keywords = "安全な共有, ファイル共有セキュリティ, オンラインセキュリティ, データ保護, 権限管理, 暗号化通信, HTTPS, パスワード管理, FS QR" %}
+{% set article_slug = "safe-sharing" %}
+{% set article_section = "セキュリティ" %}
+{% set article_published = "2025-08-30" %}
+{% set cta_service = "fsqr" %}
 
-{% block meta_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
+{% block article_body %}
+<h3>共有先を明確にする</h3>
+<p>オンラインでファイルを共有する際は、まず共有先を明確にし、目的外の人に届かないよう注意する必要があります。招待リンクは公開範囲が広くなりがちなので、送信前に本当に相手のアドレスが正しいか確認し、社内外を問わず閲覧権限を最小限に設定することが第一歩です。</p>
+<p>特に、顧客資料、見積書、本人確認書類、学校や地域活動の名簿などは、相手を一人間違えるだけで大きな問題につながります。送信前にファイル名、内容、共有先、パスワードの有無を声に出して確認するだけでも、誤送信の多くは防ぎやすくなります。</p>
 
-{% block meta_keywords %}安全な共有, ファイル共有セキュリティ, オンラインセキュリティ, データ保護, 権限管理, 暗号化通信, HTTPS, パスワード管理, FS QR{% endblock %}
+<h3>共有期間を短く保つ</h3>
+<p>共有期間の管理も重要です。FS!QRではアップロードしたファイルが一定期間後に自動削除されるため、必要な相手にだけIDとパスワードを伝え、利用後は早めに削除を促すと安心です。</p>
+<ul>
+  <li>一時的な受け渡しでは、必要以上に長い保存期間を選ばない</li>
+  <li>受け取りが完了したら、共有リンクを再利用しない</li>
+  <li>同じファイルを複数の相手に送る場合でも、用途ごとに共有を分ける</li>
+  <li>古いリンクがチャット履歴やメールに残る前提で運用する</li>
+</ul>
 
-{% block og_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
-{% block og_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
-{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<blockquote>
+  <p>安全な共有は、強いパスワードだけでなく「必要な人に、必要な期間だけ届ける」設計で成り立ちます。</p>
+</blockquote>
 
-{% block twitter_title %}安全な共有のポイント | FS!QRファイル共有セキュリティガイド{% endblock %}
-{% block twitter_description %}オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。{% endblock %}
-{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<h3>受け取り側の環境にも配慮する</h3>
+<p>受け取り側の環境にも目を向けましょう。公共のWi-Fiや共有端末では通信内容が盗み見られる可能性があるため、HTTPSで暗号化されたサービスを選び、受信後はブラウザの履歴やダウンロードフォルダを速やかに整理するよう呼び掛けます。</p>
+<p>また、スマートフォンではダウンロードしたファイルが「ファイル」アプリや「ダウンロード」フォルダに残ることがあります。個人端末であっても、家族や同僚と画面を共有する場面があるなら、保存先の確認と削除までを受け取り手順に含めておくと安全です。</p>
 
-{% block og_type %}article{% endblock %}
-{% block extra_og %}
-<meta property="article:published_time" content="2025-08-30T00:00:00+09:00" />
-<meta property="article:modified_time" content="2025-08-30T00:00:00+09:00" />
-<meta property="article:author" content="FS!QR" />
-<meta property="article:section" content="セキュリティ" />
-{% endblock %}
+<h3>不審な共有に気付いたときの対応</h3>
+<p>不審な共有だと感じたら、IDやパスワードを変更するか、アップロードしたファイルを削除して対応しましょう。こうした基本的な配慮を積み重ねることで、安全な情報共有が日常的に実現できます。</p>
+<dl>
+  <dt>送信先を間違えた可能性がある</dt>
+  <dd>すぐに共有を停止し、必要であればファイルを再アップロードして新しいIDとパスワードを発行します。</dd>
+  <dt>知らない相手からリンクが届いた</dt>
+  <dd>リンクを開く前に、送信者本人へ別の連絡手段で確認します。業務では管理者や情報システム担当にも共有してください。</dd>
+  <dt>受け取り後の扱いが不明確</dt>
+  <dd>ダウンロード後にどこへ保存するか、いつ削除するか、再配布してよいかを事前に決めておきます。</dd>
+</dl>
 
-{% block extra_head %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "安全な共有のポイント",
-  "description": "オンラインファイル共有の安全対策を詳しく解説。共有先の明確化、期間管理、受信環境の注意点、権限設定など、FS!QRを使った安全なデータ交換のベストプラクティスをご紹介します。",
-  "datePublished": "2025-08-30T00:00:00+09:00",
-  "dateModified": "2025-08-30T00:00:00+09:00",
-  "image": "{{ social_staticfile(article_thumbnail) }}",
-  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "FS!QR",
-    "url": "{{ request.url_root }}",
-    "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
-  },
-  "url": "{{ request.url_root }}safe-sharing",
-  "inLanguage": "ja-JP",
-  "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
-    { "@type": "ListItem", "position": 3, "name": "安全な共有のポイント", "item": "{{ request.url_root }}safe-sharing" }
-  ]
-}
-</script>
-{% endblock %}
-
-{% block contents %}
-<div class="container my-5">
-  <div class="info-box article-reading">
-    <div class="info-box-content">
-      {% include "_legacy_article_thumbnail.html" %}
-      <h2 class="mb-4">安全な共有のポイント</h2>
-    <p>オンラインでファイルを共有する際は、まず共有先を明確にし、目的外の人に届かないよう注意する必要があります。招待リンクは公開範囲が広くなりがちなので、送信前に本当に相手のアドレスが正しいか確認し、社内外を問わず閲覧権限を最小限に設定することが第一歩です。</p>
-    <p>共有期間の管理も重要です。FS!QRではアップロードしたファイルが一定期間後に自動削除されるため、必要な相手にだけIDとパスワードを伝え、利用後は早めに削除を促すと安心です。</p>
-    <p>受け取り側の環境にも目を向けましょう。公共のWi-Fiや共有端末では通信内容が盗み見られる可能性があるため、HTTPSで暗号化されたサービスを選び、受信後はブラウザの履歴やダウンロードフォルダを速やかに整理するよう呼び掛けます。</p>
-    <p>不審な共有だと感じたら、IDやパスワードを変更するか、アップロードしたファイルを削除して対応しましょう。こうした基本的な配慮を積み重ねることで、安全な情報共有が日常的に実現できます。</p>
-    <p>社内外で複数の共有方法が混在している場合は、サービスごとに操作手順が異なるため誤送信が起こりやすくなります。取り扱うデータの機密度に応じてルールを定め、手順書や教育を通じて利用者間で共通認識を持つと、現場での混乱や事故を防ぐことができます。</p>
-    <p>また、共有先との信頼関係も忘れてはなりません。やむを得ず外部の個人と共有する場合は、共有後に不要となった情報を速やかに削除し、権限を確実に取り消すことで、情報の流出を最小限に抑えられます。</p>
-    <p>共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。</p>
-    {% set cta_service = "fsqr" %}
-    {% include "_article_cta.html" %}
-    </div>
-  </div>
-</div>
+<h3>組織で共有ルールを揃える</h3>
+<p>社内外で複数の共有方法が混在している場合は、サービスごとに操作手順が異なるため誤送信が起こりやすくなります。取り扱うデータの機密度に応じてルールを定め、手順書や教育を通じて利用者間で共通認識を持つと、現場での混乱や事故を防ぐことができます。</p>
+<p>また、共有先との信頼関係も忘れてはなりません。やむを得ず外部の個人と共有する場合は、共有後に不要となった情報を速やかに削除し、権限を確実に取り消すことで、情報の流出を最小限に抑えられます。</p>
+<p>共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。</p>
 {% endblock %}
