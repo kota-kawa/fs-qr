@@ -32,8 +32,8 @@
   "自動データ消去：": "자동 데이터 삭제:",
   "設定を調整する（任意）：": "설정 조정(선택):",
   "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "설정한 시간이 경과하면 전송된 데이터는 서버에서 흔적 없이 완전 자동 삭제됩니다.",
-  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
-  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
-  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
+  "PCで受け取る（QRコードの場合）：": "PC에서 수신하기(QR 코드의 경우):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "PC에 QR 코드를 스캔할 수 있는 카메라 환경이 있는 경우, 스마트폰의 업로드 완료 화면에 표시된 QR 코드를 스캔하여 다운로드 페이지를 엽니다.",
+  "PCで受け取る（リンク入力の場合）：": "PC에서 수신하기(링크 입력의 경우):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "PC에 카메라가 없거나 스캔하기 어려운 경우, 스마트폰의 업로드 완료 화면에 표시되는 공유 링크를 PC 브라우저에 입력합니다. 공유 ID와 6자리 비밀번호를 기록해 두면 검색 페이지에서도 파일을 열 수 있습니다."
 }

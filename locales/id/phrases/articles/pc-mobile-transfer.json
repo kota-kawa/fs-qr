@@ -32,8 +32,8 @@
   "自動データ消去：": "Penghapusan data otomatis:",
   "設定を調整する（任意）：": "Sesuaikan pengaturan (opsional):",
   "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Data yang ditransfer akan dihapus secara permanen dan otomatis dari server tanpa meninggalkan jejak setelah batas waktu yang ditentukan terlewati.",
-  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
-  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
-  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
+  "PCで受け取る（QRコードの場合）：": "Menerima di PC (jika kode QR):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Jika PC Anda memiliki kamera yang dapat memindai kode QR, pindai kode QR yang ditampilkan di layar unggahan selesai pada smartphone, lalu buka halaman unduhan.",
+  "PCで受け取る（リンク入力の場合）：": "Menerima di PC (jika memasukkan tautan):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Jika PC tidak memiliki kamera atau sulit memindai, masukkan tautan berbagi yang ditampilkan di layar unggahan selesai pada smartphone ke browser PC. Jika Anda mencatat ID berbagi dan kata sandi 6 digit, Anda juga dapat membuka file dari halaman pencarian."
 }
