@@ -32,8 +32,8 @@
   "自動データ消去：": "Automatisch wissen:",
   "設定を調整する（任意）：": "Instellingen aanpassen (optioneel):",
   "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Overgedragen gegevens worden automatisch van server verwijderd na ingestelde tijd.",
-  "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
-  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera setup that can scan QR codes, scan the QR code shown on the smartphone upload-complete screen and open the download page.",
-  "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, enter the share link shown on the smartphone upload-complete screen in the PC browser. If you keep the share ID and 6-digit password, you can also open the file from the search page."
+  "PCで受け取る（QRコードの場合）：": "Ontvangen op PC (QR-code):",
+  "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Als uw pc een camera heeft die QR-codes kan scannen, scan dan de QR-code die wordt weergegeven op het uploadvoltooiingsscherm van de smartphone om de downloadpagina te openen.",
+  "PCで受け取る（リンク入力の場合）：": "Ontvangen op PC (link invoeren):",
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Als de pc geen camera heeft of scannen lastig is, voer dan de deel-link die wordt weergegeven op het uploadvoltooiingsscherm van de smartphone in de browser van de pc in. Als u de deel-ID en het 6-cijferige wachtwoord noteert, kunt u het bestand ook openen vanaf de zoekpagina."
 }

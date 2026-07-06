@@ -31,7 +31,7 @@
   "取引先との一時共有で最も避けたいのは、案件が終わった後も古いファイルや共有情報が残り続けることです。後から別件の資料と混ざったり、不要な相手がアクセスできる状態が続いたりすると、管理上のリスクになります。": "Hal yang paling harus dihindari saat berbagi file sementara dengan mitra bisnis adalah membiarkan file lama atau informasi berbagi tetap tersimpan setelah proyek selesai. Jika dokumen tersebut bercampur dengan materi dari proyek lain di kemudian hari, atau jika pihak yang tidak berkepentingan tetap dapat mengaksesnya, hal ini akan menimbulkan risiko dalam manajemen keamanan data.",
   "取引先に案内するときの文面": "Format pesan saat menginformasikan kepada mitra bisnis",
   "取引先へ共有終了を連絡する": "Hubungi mitra bisnis untuk menginformasikan bahwa proses berbagi file telah selesai",
-  "取引先や外部パートナーとファイルをやり取りするとき、メール添付だけで進めると、最新版が分からなくなったり、容量制限で送れなかったり、関係者の誰が受け取ったのか追いにくくなったりします。チャットにファイルを貼る方法も便利ですが、案件が長引くほど過去の添付ファイルが埋もれていきます。": "Saat melakukan serah terima file dengan klien bisnis atau mitra eksternal, jika Anda hanya mengandalkan lampiran email, Anda akan kesulitan mendeteksi mana file versi terbaru, terhalang batas kapasitas lampiran, or kesulitan melacak siapa saja pihak berkepentingan yang telah menerima file tersebut. Mengirim file dengan menempelkannya langsung ke dalam obrolan chat juga praktis, namun file lampiran lama cenderung tenggelam oleh riwayat obrolan baru seiring berjalannya proyek.",
+  "取引先や外部パートナーとファイルをやり取りするとき、メール添付だけで進めると、最新版が分からなくなったり、容量制限で送れなかったり、関係者の誰が受け取ったのか追いにくくなったりします。チャットにファイルを貼る方法も便利ですが、案件が長引くほど過去の添付ファイルが埋もれていきます。": "Saat melakukan serah terima file dengan klien bisnis atau mitra eksternal, jika Anda hanya mengandalkan lampiran email, Anda akan kesulitan mendeteksi mana file versi terbaru, terhalang batas kapasitas lampiran, atau kesulitan melacak siapa saja pihak berkepentingan yang telah menerima file tersebut. Mengirim file dengan menempelkannya langsung ke dalam obrolan chat juga praktis, namun file lampiran lama cenderung tenggelam oleh riwayat obrolan baru seiring berjalannya proyek.",
   "受け取り確認を運用に入れる": "Masukkan konfirmasi penerimaan file ke dalam alur kerja Anda",
   "外部の相手に共有ルームを案内するときは、URLだけを送らず、目的と操作を一緒に伝えます。相手にアカウント作成や専用アプリが不要であることも添えると、初めて使う相手でも入りやすくなります。": "Saat mengundang pihak eksternal ke ruang berbagi, jangan hanya mengirimkan URL saja, melainkan jelaskan pula tujuan dan langkah pengoperasiannya. Informasikan juga bahwa mereka tidak perlu registrasi akun atau menginstal aplikasi khusus agar pengguna yang baru pertama kali mencobanya dapat bergabung tanpa kendala.",
   "必要なファイルを社内の正式な保管場所へ移す": "Pindahkan file penting yang perlu disimpan ke tempat penyimpanan resmi internal perusahaan",
@@ -39,7 +39,7 @@
   "案内文には、目的、置いてあるファイル、相手にしてほしい行動、利用期限を含めます。これだけで、相手からの確認連絡を減らせます。": "Pesan informasi harus mencakup tujuan berbagi, file yang tersedia, tindakan yang diharapkan dari penerima, dan batas waktu penggunaan. Hal ini saja sudah cukup untuk mengurangi pesan konfirmasi dari pihak penerima.",
   "機密度に応じて共有方法を変える": "Ubah metode berbagi file sesuai dengan tingkat kerahasiaan data",
   "次回用に案内文やファイル名ルールだけ残す": "Simpan hanya format pesan informasi atau aturan penamaan file untuk digunakan di lain waktu",
-  "終了後に誰が整理するか": "Siapa yang akan merapikan catatan setelah rapat selesai",
+  "終了後に誰が整理するか": "Siapa yang membersihkan ruang setelah selesai",
   "終了後：ルームを残しっぱなしにしない": "Setelah selesai: Jangan membiarkan ruang berbagi tetap aktif",
   "誰がファイルをアップロードするか": "Siapa yang mengunggah file"
 }

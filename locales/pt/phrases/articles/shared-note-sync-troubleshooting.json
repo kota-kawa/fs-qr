@@ -23,7 +23,7 @@
     "参加者はどの見出しに追記するか": "Sob qual título cada participante acrescenta",
     "参加者は追記したい内容を短い箇条書きで入れる": "Os participantes acrescentam o que querem dizer em forma de marcadores curtos",
     "古い共有URLを次回に使い回さないこと": "Nunca reutilizar uma URL de partilha antiga para a próxima sessão",
-    "古い内容が表示されているように見えるとき": "Quando o conteúdo na ecrã parece desatualizado",
+    "古い内容が表示されているように見えるとき": "Quando o conteúdo no ecrã parece desatualizado",
     "同期されない、反映されないと感じたときでも、同じルームを開いているか、通信が安定しているか、ブラウザを更新したかを確認するだけで解決することは多くあります。問い合わせを受けたときは、いきなり作り直すのではなく、共有URL、ルームID、通信環境、ブラウザ更新の順に確認してみてください。": "Mesmo quando a sincronização parece rompida, simplesmente confirmar que todos estão na mesma sala, que a ligação está estável e que o navegador foi atualizado costuma resolver o problema. Quando alguém reporta um problema, resista ao impulso de reconstruir tudo — verifique em ordem: URL de partilha, ID da sala, ligação e atualização do navegador.",
     "同期されないと感じたら、焦って文章を何度も貼り直す前に、次の順番で確認します。複数人が同時に操作している場面では、重複入力や上書きが起こりやすいため、確認の順番を決めておくことが大切です。": "Se a sincronização parecer com falha, não entre em pânico colando seu texto repetidamente; verifique os itens na seguinte ordem. Com várias pessoas digitando ao mesmo tempo, duplicatas e sobrescritas acontecem facilmente — daí a importância de uma ordem de verificação estabelecida.",
     "最初に確認したいのは、全員が同じノートルームを開いているかどうかです。似た名前のルーム、過去の案内URL、別の会議用ノートを開いていると、いくら入力しても相手の画面には反映されません。": "A primeira coisa a confirmar é que todos tenham a mesma sala de notas aberta. Uma sala com nome similar, uma URL de convite da sessão anterior, uma nota para outra reunião — digitar em uma ou outra nunca aparecerá nas ecrãs dos outros.",
