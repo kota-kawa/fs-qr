@@ -386,7 +386,7 @@ def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
     assert response.status_code == 400
     payload = response.json()
     assert payload["status"] == "error"
-    assert payload["error"] == "HTML/SVG ファイルはアップロードできません。"
+    assert payload["error"] == "HTML/SVGファイルはアップロードできません。"
     assert payload["data"]["files"] == ["safe.txt"]
 
 
