@@ -1,5 +1,4 @@
 {
-  "写真を画質を落とさずに送る方法｜送ると劣化する原因と対策": "Fotoğrafları Kalite Kaybetmeden Gönderme: Neden Bozulurlar ve Nasıl Önlenir?",
   "LINEやメールで写真を送ると画質が悪くなるのはなぜ？劣化する仕組みと、元の画質のまま送るための具体的な方法をiPhone・Android別にわかりやすく解説します。": "Sohbet uygulamaları veya e-posta yoluyla gönderilen fotoğrafların kalitesi neden düşer? Bu rehber, sıkıştırmanın fotoğrafları nasıl bozduğunu açıklıyor ve hem iPhone hem de Android'de fotoğrafları orijinal kalitesinde göndermenin somut yollarını adım adım gösteriyor.",
   "AirDropを使う（相手もApple端末の場合）：": "AirDrop'u kullanın (karşı tarafın da bir Apple cihazı olması durumunda):",
   "Androidで画質を落とさずに送る方法": "Android'de kalite kaybı olmadan gönderme",
@@ -33,5 +32,6 @@
   "画質が落ちやすい送り方・落ちにくい送り方": "Kalite Kaybettiren ve Kaliteyi Koruyan Gönderim Yolları",
   "端末標準のギャラリーやファイル管理アプリから共有すると、撮影時のデータがそのまま扱われるケースが多くなります。": "Cihazın kendi standart galerisinden veya dosya yöneticisi uygulamasından paylaşım yapıldığında, orijinal veriler genellikle dokunulmadan iletilir.",
   "複数枚の写真をまとめて送りたい場合や、メールに添付できない大きなサイズの写真を送りたい場合は、": "Aynı anda çok sayıda fotoğraf veya bir e-postaya eklenemeyecek kadar büyük fotoğraflar göndermek istiyorsanız,",
-  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Yakındaki bir iPhone veya Mac'e gönderim yapmak için AirDrop kolay bir yoldur ve temel olarak sıkıştırmasız aktarım sağlar; ancak karşı taraf Android veya Windows kullanıyorsa bu özellik işe yaramaz."
+  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Yakındaki bir iPhone veya Mac'e gönderim yapmak için AirDrop kolay bir yoldur ve temel olarak sıkıştırmasız aktarım sağlar; ancak karşı taraf Android veya Windows kullanıyorsa bu özellik işe yaramaz.",
+  "写真の画質を落とさずに送る方法｜送ると劣化する原因と対策": "Fotoğraf kalitesini düşürmeden gönderme yöntemi | Gönderirken neden bozulur ve nasıl önlenir?"
 }

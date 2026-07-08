@@ -50,6 +50,6 @@
   "articles.pagination_next": "Następna",
   "seo.home.intent": "Obsługuje typowe przypadki użycia, takie jak przesyłanie plików, udostępnianie zdjęć, filmów i plików PDF, wspólne notatki i protokoły ze spotkań — od krótkotrwałego udostępniania po współpracę w zespole.",
   "seo.fsqr.intent": "Szybko twórz ograniczone czasowo udostępnienia, aby przesyłać pliki za pomocą kodu QR, przenosić zdjęcia lub pliki PDF z komputera na smartfon oraz udostępniać duże pliki bez konieczności instalowania aplikacji.",
-  "seo.group.intent": "Używaj pokoi grupowych jako folderów udostępnionych do zarządzania dokumentami wewnętrznymi, materiałami z zajęć, materiałami informacyjnymi o wydarzeniach i wymianą plików z klientami — bez konieczności rejestracji konta.",
+  "seo.group.intent": "Używaj pokoi grupowych jak tymczasowych przestrzeni do dokumentów wewnętrznych, materiałów z zajęć, materiałów eventowych i przekazywania plików klientom, bez zakładania konta.",
   "seo.note.intent": "Narzędzie do tworzenia notatek online, współdzielonych zapisków i protokołów ze spotkań. Udostępnij adres URL, kod QR, identyfikator pokoju i hasło, aby rozpocząć edycję w czasie rzeczywistym z automatycznym zapisywaniem."
 }

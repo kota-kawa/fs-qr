@@ -77,7 +77,7 @@
   "group.no_files_yet": "अभी तक कोई फ़ाइल अपलोड नहीं की गई है।",
   "group.usage_summary": "इस्तेमाल किया गया स्टोरेज: {used} / {total} · फ़ाइलें: {count} / {maxCount}",
   "group.delete_error": "फ़ाइल डिलीट करने के दौरान एक एरर आई।",
-  "group.file_deleted": "फ़ाइल सफलतापूर्क डिलीट कर दी गई है।",
+  "group.file_deleted": "फ़ाइल सफलतापूर्वक डिलीट कर दी गई है।",
   "group.delete_confirm": "क्या आप वाकई \"{name}\" को डिलीट करना चाहते हैं? इस कार्रवाई को वापस नहीं लिया जा सकता।",
   "group.delete_file_title": "फ़ाइल डिलीट करें",
   "group.preview_alt": "{name} का पूर्वावलोकन",

@@ -1,5 +1,4 @@
 {
-  "学校・会議・授業でのファイル共有具体例": "Udostępnianie plików w szkołach, na spotkaniach i zajęciach: Praktyczne przykłady",
   "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Odkryj praktyczne przykłady zastosowania FS!QR na zajęciach szkolnych, spotkaniach biznesowych i seminariach. Omawiamy bezpapierowe udostępnianie plików za pomocą kodów QR i wspólnych notatek.",
   "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "szkoła, spotkanie, lekcja, praktyczne przykłady, udostępnianie plików, wspólna edycja, bez papieru, wsparcie lekcji, kod QR",
   "グループへ": "Przejdź do grupy",
@@ -25,5 +24,6 @@
   "ブレインストーミング：": "Burza mózgów:",
   "リアルタイム議事録：": "Protokołowanie w czasie rzeczywistym:",
   "司会進行や書記だけでなく、参加者全員がその場で決定事項や補足情報を同時入力し、会議終了と同時に完璧な議事録を完成させます。": "Nie tylko prowadzący i protokolant – każdy uczestnik może na bieżąco wpisywać decyzje i dodatkowe informacje, dzięki czemu pełny protokół jest gotowy w momencie zakończenia spotkania.",
-  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Nawet zewnętrzni klienci lub konsultanci, którym ze względu na zasady bezpieczeństwa firmy nie można przyznać praw do wspólnej edycji w Google Docs lub Microsoft Teams, mogą bezpiecznie i natychmiastowo edytować notatkę wspólnie z Tobą – bez konieczności zakładania konta."
+  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Nawet zewnętrzni klienci lub konsultanci, którym ze względu na zasady bezpieczeństwa firmy nie można przyznać praw do wspólnej edycji w Google Docs lub Microsoft Teams, mogą bezpiecznie i natychmiastowo edytować notatkę wspólnie z Tobą – bez konieczności zakładania konta.",
+  "学校・会議・授業におけるファイル共有の具体例": "Praktyczne przykłady udostępniania plików w szkołach, na spotkaniach i podczas zajęć"
 }

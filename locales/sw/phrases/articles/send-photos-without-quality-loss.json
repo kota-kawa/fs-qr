@@ -1,5 +1,4 @@
 {
-  "写真を画質を落とさずに送る方法｜送ると劣化する原因と対策": "Jinsi ya Kutuma Picha Bila Kupoteza Ubora: Kwa Nini Zinashuka Ubora na Jinsi ya Kuzuia",
   "LINEやメールで写真を送ると画質が悪くなるのはなぜ？劣化する仕組みと、元の画質のまま送るための具体的な方法をiPhone・Android別にわかりやすく解説します。": "Kwa nini ubora wa picha hushuka unapotuma kupitia gumzo au barua pepe? Mwongozo huu unaelezea jinsi mfinyazo unavyosababisha kushuka kwa ubora na unaonyesha njia halisi za kutuma picha kwa ubora asili kwenye iPhone na Android.",
   "AirDropを使う（相手もApple端末の場合）：": "Tumia AirDrop (ikiwa mpokeaji pia anatumia kifaa cha Apple):",
   "Androidで画質を落とさずに送る方法": "Kutuma bila kupoteza ubora kwenye Android",
@@ -33,5 +32,6 @@
   "画質が落ちやすい送り方・落ちにくい送り方": "Njia za kutuma zinazopoteza ubora — na njia ambazo hazipotezi",
   "端末標準のギャラリーやファイル管理アプリから共有すると、撮影時のデータがそのまま扱われるケースが多くなります。": "Kushiriki kutoka kwenye programu ya matunzio au kidhibiti faili kilichokuja na simu mara nyingi hupitisha data asili bila kuibadilisha.",
   "複数枚の写真をまとめて送りたい場合や、メールに添付できない大きなサイズの写真を送りたい場合は、": "Ikiwa unataka kutuma picha nyingi kwa wakati mmoja, au picha ambazo ni kubwa sana kuambatisha kwenye barua pepe, tazama",
-  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Kwa iPhone au Mac iliyo karibu, AirDrop ndiyo njia rahisi na huhamisha bila kufinya — lakini haisaidii wakati upande mwingine unatumia Android au Windows."
+  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Kwa iPhone au Mac iliyo karibu, AirDrop ndiyo njia rahisi na huhamisha bila kufinya — lakini haisaidii wakati upande mwingine unatumia Android au Windows.",
+  "写真の画質を落とさずに送る方法｜送ると劣化する原因と対策": "Jinsi ya kutuma picha bila kupunguza ubora | Sababu za ubora kushuka na jinsi ya kuzuia"
 }

@@ -1,5 +1,4 @@
 {
-  "学校・会議・授業でのファイル共有具体例": "Okullarda, Toplantılarda ve Derslerde Dosya Paylaşımı: Pratik Örnekler",
   "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "FS!QR'ın okul derslerinde, iş toplantılarında ve seminerlerde etkili bir şekilde nasıl kullanılabileceğine dair pratik örnekleri keşfedin. QR kodları ve ortak düzenleme notları kullanılarak kağıtsız dosya paylaşım yöntemleri açıklanmaktadır.",
   "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "okul, toplantı, ders, pratik örnekler, dosya paylaşımı, ortak düzenleme, kağıtsız, ders desteği, QR kodu",
   "グループへ": "Gruba Git",
@@ -25,5 +24,6 @@
   "ブレインストーミング：": "Beyin fırtınası:",
   "リアルタイム議事録：": "Gerçek zamanlı tutanaklar:",
   "司会進行や書記だけでなく、参加者全員がその場で決定事項や補足情報を同時入力し、会議終了と同時に完璧な議事録を完成させます。": "Yalnızca başkan ve not tutan kişi değil, tüm katılımcılar alınan kararları ve ek bilgileri aynı anda girerek toplantı sona erdiği anda kusursuz tutanakların tamamlanmasını sağlar.",
-  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Şirket içi güvenlik kısıtlamaları nedeniyle Google Dokümanlar veya Microsoft Teams'de ortak düzenleme yetkisi verilemeyen dış müşteriler veya harici danışmanlar gibi kişilerle bile, hesap kaydı gerektirmeden güvenli ve anında notları ortaklaşa düzenleyebilirsiniz."
+  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Şirket içi güvenlik kısıtlamaları nedeniyle Google Dokümanlar veya Microsoft Teams'de ortak düzenleme yetkisi verilemeyen dış müşteriler veya harici danışmanlar gibi kişilerle bile, hesap kaydı gerektirmeden güvenli ve anında notları ortaklaşa düzenleyebilirsiniz.",
+  "学校・会議・授業におけるファイル共有の具体例": "Okul, toplantı ve derslerde dosya paylaşımı örnekleri"
 }

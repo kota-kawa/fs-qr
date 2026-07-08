@@ -20,7 +20,7 @@
   "スキャンと閲覧：": "Pindai dan lihat:",
   "事前にアップロード：": "Unggah terlebih dahulu:",
   "会場での掲示・投影：": "Tampilkan atau proyeksikan di lokasi acara:",
-  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Peserta cukup memindai kode QR dengan kamera smartphone atau tablet mereka saat duduk atau mendaftar di meja resepsionis, dan materi langsung terbuka di perangkat mereka seketika. Tidak diperlukan instalasi aplikasi khusus maupun pendaftaran akun apapun.",
-  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Proyeksikan gambar kode QR yang dihasilkan secara besar di layar (proyektor) sebelum acara dimulai, atau cetak pada papan informasi di meja resepsionis, kartu meja, maupun kartu nama peserta.",
+  "参加者は着席時や受付時に自身のスマートフォンまたはタブレットのカメラでスキャンするだけで、即座に資料を手元に開くことができます。特別なアプリのインストールや認証登録は一切不要です。": "Peserta cukup memindai kode QR dengan kamera smartphone atau tablet saat sudah duduk atau saat registrasi, lalu materi langsung terbuka di perangkat mereka. Tidak diperlukan instalasi aplikasi khusus maupun pendaftaran akun.",
+  "生成されたQRコード画像を、イベント開始前のスクリーン（プロジェクター）に大きく映し出すか、受付のPOP、配架カード、または参加者のネームプレート（名札）に印刷して配置します。": "Tampilkan gambar kode QR yang dihasilkan dalam ukuran besar di layar atau proyektor sebelum acara dimulai, atau cetak pada papan informasi meja registrasi, kartu display, maupun name tag peserta.",
   "配布用のPDF、レジュメ、投影資料などのファイルをFS!QRにアップロードし、QRコードを生成します。": "Unggah file yang akan didistribusikan — PDF, ringkasan, atau slide presentasi — ke FS!QR dan buat kode QR."
 }

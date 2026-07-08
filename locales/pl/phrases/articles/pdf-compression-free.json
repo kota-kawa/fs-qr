@@ -10,7 +10,7 @@
   "高解像度の画像が埋め込まれている：": "Osadzone obrazy o wysokiej rozdzielczości:",
   "デジカメやスマホで撮影した高画質な写真をそのまま貼り付けてPDF化すると、その画質のままファイルに保存されるため、容量が非常に大きくなります。": "Wstawianie zdjęć wykonanych aparatem lub smartfonem w pełnej rozdzielczości bezpośrednio do pliku PDF skutkuje zachowaniem całego bagażu danych obrazu i drastycznym wzrostem rozmiaru całego dokumentu.",
   "フォント（文字）が埋め込まれている：": "Osadzone czcionki:",
-  "どの端末で開いても同じフォントで表示させるため、PDF内にフォントデータを丸ごと埋め込む設定になっている場合、テキスト主体でも容量が増加します。": "Aby tekst wyświetlał się prawidłowo na dowolnym urządzeniu, pliki PDF często zawierają w sobie wgrane pełne zbiory czcionek. Zwiększa to rozmiar pliku nawet w przypadku dokumentów obfitych głównie w treść.",
+  "どの端末で開いても同じフォントで表示させるため、PDF内にフォントデータを丸ごと埋め込む設定になっている場合、テキスト主体でも容量が増加します。": "Jeśli PDF ma wyglądać tak samo na każdym urządzeniu, może zawierać osadzone dane czcionek. Wtedy nawet dokument złożony głównie z tekstu potrafi mieć większy rozmiar.",
   "編集用のデータが残っている：": "Pozostałości danych z edytorów:",
   "Illustratorなどで作成したPDFの場合、元のソフトで再編集するための情報（レイヤー構造など）がファイル内に保持されていることがあります。": "Pliki PDF stworzone za pomocą narzędzi takich jak Adobe Illustrator mogą wciąż zawierać re-edytowalne informacje, takie jak chociażby układ warstw, których wymaga pierwotna aplikacja. Znacznie obciąża to ostateczny plik.",
   "【Macユーザー向け】標準機能「プレビュー」で圧縮する": "[Dla użytkowników Maca] Kompresja plików PDF w aplikacji Podgląd",

@@ -50,6 +50,6 @@
   "articles.pagination_next": "Sonraki",
   "seo.home.intent": "Kısa süreli geçici paylaşımdan ekip işbirliğine kadar; dosya transferleri, fotoğraf paylaşımı, video paylaşımı, PDF paylaşımı, paylaşılan notlar ve toplantı tutanakları gibi yaygın kullanım senaryolarını destekler.",
   "seo.fsqr.intent": "QR kod ile dosya göndermek, bilgisayarınızdan akıllı telefonunuza fotoğraf veya PDF aktarmak ve uygulamaya ihtiyaç duymadan büyük dosyaları paylaşmak için hızlıca süreli paylaşımlar oluşturun.",
-  "seo.group.intent": "Hesap kaydı olmadan şirket içi belgeleri, ders materyallerini, etkinlik broşürlerini ve müşterilerle dosya alışverişini yönetmek için grup odalarını paylaşılan klasörler gibi kullanın.",
+  "seo.group.intent": "Hesap kaydı olmadan şirket içi belgeleri, ders içeriklerini, etkinlik dokümanlarını ve müşterilerle dosya alışverişini yönetmek için grup odalarını paylaşılan klasörler gibi kullanın.",
   "seo.note.intent": "Çevrimiçi notlar, paylaşılan notlar ve toplantı tutanakları için ortak bir not alma aracı. Otomatik kaydetme ile tarayıcı tabanlı gerçek zamanlı ortak düzenlemeye başlamak için URL'yi, QR kodunu, oda kimliğini ve parolayı paylaşın."
 }

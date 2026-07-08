@@ -26,12 +26,12 @@
   "settings.expand": "Panua",
   "settings.optional": "Hiari",
   "settings.save": "Hifadhi na Ufunge",
-  "note.editor.label": "Noti iliyoshirikiwa (hadi herufi {max_length})",
+  "note.editor.label": "Noti ya pamoja (hadi herufi {max_length})",
   "note.editor.max_length_hint": "Unaweza kuingiza hadi herufi {max_length}.",
-  "note.editor.demo_placeholder": "Andika hapa ili kusawazisha mabadiliko kila sekunde...\n\nMaandishi ya Mfano:\nHii ni nafasi iliyoshirikiwa ambapo wanachama wote wanaweza kuhariri noti sawa kwa wakati halisi.\n\n• Mabadiliko yako yanasawazishwa papo hapo kwa wanachama wengine\n• Ingiza hadi herufi {max_length}\n• Hali ya kuhariri inaonyeshwa kwa wakati halisi",
+  "note.editor.demo_placeholder": "Andika hapa ili kusawazisha mabadiliko kila sekunde...\n\nMaandishi ya mfano:\nHapa wanachama wote wanaweza kuhariri noti ileile kwa wakati halisi.\n\n• Unapoandika, mabadiliko husawazishwa mara moja kwa wanachama wengine\n• Unaweza kuingiza hadi herufi {max_length}\n• Hali ya kuhariri huonyeshwa kwa wakati halisi",
   "upload.usage.limit_hint": "* Unaweza kupakia hadi faili {max_files}, zenye jumla ya hadi MB {max_total_mb}.",
-  "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo. Shiriki faili kwa usalama katika kivinjari chako kwa kutumia uhamisho wa msimbo wa QR, kushiriki faili kwa kikundi, na noti shirikishi za wakati halisi — hakuna akaunti inayohitajika.",
-  "meta.keywords": "kushiriki faili, msimbo wa QR, uhamisho wa faili bila malipo, kushiriki faili kwa kikundi, noti mtandaoni, hakuna usajili, tuma faili, shiriki faili mtandaoni, hifadhi ya wingu, ushirikiano wa wakati halisi, uhamisho wa PC kwenda simu, kushiriki faili kwa usalama",
+  "meta.description": "FS!QR ni huduma ya kushiriki faili bila malipo. Tuma na usimamie data kwa usalama kupitia msimbo wa QR, kushiriki faili kwa kikundi, na noti za pamoja za wakati halisi, moja kwa moja kwenye kivinjari bila akaunti.",
+  "meta.keywords": "kushiriki faili, msimbo wa QR, kushiriki faili kwa kikundi, kushiriki noti, kushiriki faili bila malipo, kutuma faili, uhamishaji data, hakuna usajili, hifadhi ya wingu, kushiriki kwa wakati halisi, kuhamisha kati ya PC na simu, usimbaji fiche",
   "fsqr.delete_sharing_title": "Acha Kushiriki",
   "fsqr.delete_sharing_description": "Ni mtu aliyepakia faili hii pekee ndiye anayeweza kuifuta.",
   "fsqr.delete_confirm_message": "Hii itafuta faili. Hatua hii haiwezi kutenguliwa.",
@@ -48,8 +48,8 @@
   "articles.pagination_label": "Urambazaji wa makala za hivi karibuni",
   "articles.pagination_prev": "Iliyotangulia",
   "articles.pagination_next": "Ifuatayo",
-  "seo.home.intent": "Inasaidia matumizi ya kawaida kama vile uhamisho wa faili, kushiriki picha, kushiriki video, kushiriki PDF, noti zilizoshirikiwa, na muhtasari wa mikutano—kuanzia ushiriki wa muda mfupi hadi ushirikiano wa timu.",
-  "seo.fsqr.intent": "Unda haraka ushiriki wa muda uliowekewa kikomo ili kutuma faili kupitia msimbo wa QR, hamisha picha au PDF kutoka kwa PC yako hadi kwenye simu yako janja, na ushiriki faili kubwa bila kuhitaji programu.",
+  "seo.home.intent": "Inasaidia matumizi ya kawaida kama kutuma faili, kushiriki picha, kushiriki video, kutuma PDF, noti za pamoja na kuandika muhtasari wa mikutano, kuanzia ushiriki wa muda mfupi hadi ushirikiano wa timu.",
+  "seo.fsqr.intent": "Unda haraka ushiriki wa muda wenye kikomo ili kutuma faili kwa msimbo wa QR, kuhamisha picha au PDF kutoka PC kwenda simu, na kushiriki faili kubwa bila programu.",
   "seo.group.intent": "Tumia vyumba vya kikundi kama folda zilizoshirikiwa kusimamia nyaraka za ndani, nyenzo za darasa, vipeperushi vya matukio, na mabadilishano ya faili na wateja—yote bila usajili wa akaunti.",
-  "seo.note.intent": "Zana ya kuchukua noti kwa ushirikiano kwa memo za mtandaoni, noti zilizoshirikiwa, na muhtasari wa mikutano. Shiriki URL, msimbo wa QR, kitambulisho cha chumba, na nenosiri ili kuanza kuhariri kwa pamoja kwenye kivinjari kwa wakati halisi huku kukiwa na uhifadhi kiotomatiki."
+  "seo.note.intent": "Noti ya kuhariri kwa pamoja inayofaa kwa memo za mtandaoni, noti za pamoja, memo za mikutano na muhtasari wa mikutano. Shiriki URL, msimbo wa QR, ID ya chumba na nenosiri ili kuanza kuhariri kwa pamoja na kuhifadhi kiotomatiki kwenye kivinjari."
 }

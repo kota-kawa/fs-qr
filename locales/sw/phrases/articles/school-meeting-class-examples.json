@@ -1,5 +1,4 @@
 {
-  "学校・会議・授業でのファイル共有具体例": "Kushiriki Faili Shuleni, Kwenye Mikutano na Madarasani: Mifano Halisi",
   "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Gundua mifano halisi ya jinsi FS!QR inavyoweza kutumika katika madarasa ya shule, mikutano ya biashara, na semina. Inajumuisha kushiriki faili bila kutumia karatasi kupitia misimbo ya QR na dokezo la ushirikiano.",
   "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "shule, mkutano, darasa, mifano halisi, kushiriki faili, uhariri wa pamoja, bila karatasi, usaidizi darasani, msimbo wa QR",
   "グループへ": "Nenda kwenye Kikundi",
@@ -25,5 +24,6 @@
   "ブレインストーミング：": "Kuchangia mawazo:",
   "リアルタイム議事録：": "Muhtasari wa moja kwa moja:",
   "司会進行や書記だけでなく、参加者全員がその場で決定事項や補足情報を同時入力し、会議終了と同時に完璧な議事録を完成させます。": "Sio tu mwenyekiti na mwandishi — kila mshiriki huandika maamuzi na maelezo ya ziada kwa wakati mmoja, kwa hivyo muhtasari unakamilika pindi tu mkutano unapomalizika.",
-  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Hata wateja wa nje au washauri ambao hawawezi kupewa ufikiaji wa kuhariri pamoja kwenye Google Docs au Microsoft Teams chini ya sera za usalama za kampuni yako wanaweza kuhariri dokezo kwa usalama na papo hapo — hakuna haja ya kufungua akaunti."
+  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Hata wateja wa nje au washauri ambao hawawezi kupewa ufikiaji wa kuhariri pamoja kwenye Google Docs au Microsoft Teams chini ya sera za usalama za kampuni yako wanaweza kuhariri dokezo kwa usalama na papo hapo — hakuna haja ya kufungua akaunti.",
+  "学校・会議・授業におけるファイル共有の具体例": "Mifano halisi ya kushiriki faili shuleni, kwenye mikutano na darasani"
 }
