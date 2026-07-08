@@ -28,7 +28,7 @@
   "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Khi xử lý tệp dung lượng lớn, trình duyệt và thiết bị tạm thời tiêu tốn nhiều bộ nhớ. Chỉ cần đóng các tab không dùng và các ứng dụng chạy nền nặng có thể giảm tải xử lý và cải thiện tốc độ truyền tải.",
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Di chuyển gần bộ phát Wi-Fi hoặc dùng cáp mạng LAN",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Tệp càng lớn, nhiễu sóng hay mất gói tin nhỏ càng dễ làm thất bại quá trình truyền. Đặc biệt với dữ liệu hàng GB, việc ngồi gần bộ phát Wi-Fi hoặc chuyển sang kết nối có dây giúp ổn định đáng kể.",
-  "写真や書類はまとめてZIP形式に圧縮する": "Nén ảnh và tài liệu thành một file ZIP",
-  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Tải lên nhiều tệp nhỏ riêng lẻ tạo ra overhead kết nối cho mỗi tệp, làm chậm quá trình dù tổng dung lượng không lớn. Gộp tất cả vào một file ZIP sẽ tối ưu hóa hiệu suất truyền tải.",
+  "写真や書類はまとめてZIP形式に圧縮する": "Nén ảnh và tài liệu thành một tệp ZIP",
+  "多数の細かいファイルを個別にアップロードすると、ファイルごとに通信のオーバーヘッドが発生し、合計サイズが小さくても時間がかかります。複数のファイルは1つのZIPアーカイブにまとめることで、転送効率が最大化します。": "Nếu tải lên nhiều tệp nhỏ riêng lẻ, mỗi tệp đều phát sinh chi phí truyền tải riêng nên có thể mất thời gian dù tổng dung lượng không lớn. Gộp nhiều tệp vào một tệp ZIP sẽ giúp truyền hiệu quả hơn.",
   "閉じる": "Đóng"
 }

@@ -25,6 +25,6 @@
   "クラウドストレージの容量圧迫：": "Bulut depolama alanının dolması:",
   "チャットツールの自動圧縮による品質低下：": "Sohbet uygulamalarının otomatik sıkıştırmasından kaynaklanan kalite kaybı:",
   "メッセージアプリで画像や動画を送ると、自動でリサイズや高圧縮がかかり、元データの画質や解像度が大幅に損なわれることがあります。": "Bir mesajlaşma uygulaması aracılığıyla fotoğraf veya video gönderdiğinizde, bunlar genellikle otomatik olarak yeniden boyutlandırılır ve ağır bir şekilde sıkıştırılır, bu da orijinal kaliteyi ve çözünürlüğü ciddi şekilde bozar.",
-  "メール添付の容量上限：": "E-posta eki boyutu sınırları:",
-  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Tipik iş e-postalarında eklentiler 20–25 MB ile sınırlandırılır; bundan daha büyük herhangi bir şey basitçe gönderilemez."
+  "メール添付の容量上限：": "E-posta eki boyut sınırı:",
+  "一般的なビジネスメールでは添付ファイルは20MB〜25MBが上限であり、それを超えるとエラーで送信できません。": "Tipik iş e-postalarında ek dosyalar genellikle 20-25 MB ile sınırlıdır; bu sınırı aşan dosyalar hata nedeniyle gönderilemez."
 }

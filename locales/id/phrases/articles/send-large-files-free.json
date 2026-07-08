@@ -25,7 +25,7 @@
   "スマホで撮影した写真1枚は約3MB〜8MB、1分間の4K動画は約300MB〜400MBに達します。メールの添付上限（約20MB）を超えるため、大容量の転送にはFS!QRなどの無料転送サービスが必須です。": "Satu foto dari smartphone berukuran sekitar 3–8 MB, sementara satu menit video 4K dapat mencapai 300–400 MB. Keduanya jauh melampaui batas lampiran email yang umumnya sekitar 20 MB — itulah mengapa layanan transfer gratis seperti FS!QR sangat diperlukan untuk file berukuran besar.",
   "ファイル転送をさらに高速・快適にするテクニック": "Tips Mempercepat dan Memperlancar Transfer File",
   "不要なブラウザタブやアプリを閉じる": "Tutup tab browser dan aplikasi yang tidak digunakan",
-  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Memproses file berukuran besar sementara menghabiskan banyak memori. Sekadar menutup tab yang tidak aktif dan aplikasi latar belakang yang berat dapat meringankan beban sistem dan meningkatkan kecepatan transfer.",
+  "大容量ファイルの処理中は、ブラウザや端末が一時的に多くのメモリを消費します。不要なタブや動作中の重いアプリを閉じるだけで、データ処理の負荷が下がり転送速度が向上することがあります。": "Saat memproses file berukuran besar, browser dan perangkat dapat memakai banyak RAM untuk sementara. Menutup tab yang tidak diperlukan dan aplikasi berat yang sedang berjalan dapat mengurangi beban pemrosesan data dan meningkatkan kecepatan transfer.",
   "Wi-Fiルーターの近くや、有線LAN接続を利用する": "Mendekatlah ke router Wi-Fi atau gunakan koneksi kabel",
   "ファイルが大きければ大きいほど、わずかな電波干渉やパケットロスが転送失敗の原因になります。特にギガバイト単位のデータを送受信する場合は、ルーターの近くに移動するか、有線接続を利用することで劇的に安定します。": "Semakin besar file, semakin rentan terhadap gangguan sinyal atau packet loss yang dapat menggagalkan transfer. Khususnya untuk data berukuran gigabyte, mendekat ke router atau beralih ke koneksi kabel dapat meningkatkan stabilitas secara drastis.",
   "写真や書類はまとめてZIP形式に圧縮する": "Kompres foto dan dokumen ke dalam satu arsip ZIP",

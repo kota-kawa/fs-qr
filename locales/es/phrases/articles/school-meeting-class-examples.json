@@ -1,7 +1,7 @@
 {
   "グループへ": "Ir al grupo",
   "作成する": "Crear",
-  "学校・会議・授業でのファイル共有具体例": "Ejemplos de uso compartido de archivos en la escuela, reuniones y clases",
+  "学校・会議・授業でのファイル共有具体例": "Ejemplos concretos de uso compartido de archivos en escuelas, reuniones y clases",
   "学校の授業やビジネス会議、ゼミなどでFS!QRを効果的に活用する具体例を紹介。QRコードや共同編集ノートを使ったペーパーレスなファイル共有方法を解説します。": "Le presentamos ejemplos prácticos para utilizar eficazmente FS!QR en clases escolares, reuniones de negocios, seminarios, entre otros. Explicaremos cómo lograr un entorno libre de papel (paperless) para compartir archivos mediante códigos QR y notas colaborativas.",
   "学校, 会議, 授業, 具体例, ファイル共有, 共同編集, ペーパーレス, 授業支援, QRコード": "escuela, reunión, clase, ejemplos prácticos, uso compartido de archivos, edición colaborativa, paperless, apoyo educativo, código QR",
   "大学のゼミや、企業のワークショップなどのグループ学習では、少人数で意見を交わしながら共同で発表資料やレポートを作成する機会が多々あります。このような場面でも、FS!QRは強力なツールとなります。": "En el aprendizaje grupal, como en los seminarios universitarios o en los talleres corporativos, existen muchas ocasiones en las que se elaboran presentaciones o informes de forma conjunta mientras se intercambian ideas en grupos reducidos. En estas situaciones, FS!QR también resulta ser una herramienta muy potente.",
@@ -20,10 +20,10 @@
   "ビジネス会議での機動的な情報共有とリアルタイム議事録作成": "Intercambio ágil de información y redacción de actas de reunión en tiempo real",
   "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。": "Por ejemplo, si desea enviar fotos tomadas en el campo con el móvil o archivos CSV con datos de experimentos al ordenador de presentación del líder del grupo, no es necesario pasarse memorias USB ni agregarse en aplicaciones de mensajería. Con solo escanear con la cámara del ordenador el código QR mostrado en la pantalla del móvil, o introducir una clave de acceso corta, la transferencia de datos se completará al instante. Esto evita interrupciones en el trabajo debido a fallos técnicos o retrasos en la preparación, facilitando el desarrollo del proyecto en el tiempo asignado.",
   "さらに、FS!QRの「Note（共同編集ノート）」機能を組み合わせることで、会議の生産性は飛躍的に向上します。全員が同じ共有ノートにブラウザから同時に書き込みを行えるため、以下のような使い方が可能です。": "Además, al combinar la función «Note (Nota de edición conjunta)» de FS!QR, la productividad de las reuniones aumenta de forma espectacular. Dado que todos los asistentes pueden escribir al mismo tiempo en la misma nota compartida desde el navegador, se pueden implementar dinámicas como las siguientes.",
-  "アイデア出しのディスカッションにおいて、各自のPCから付箋のようにテキストを書き込み、全員でリアルタイムに可視化します。": "En las sesiones creativas, cada participante escribe desde su propio PC, como en post-its, para visualizar las ideas en tiempo real para todos.",
+  "アイデア出しのディスカッションにおいて、各自のPCから付箋のようにテキストを書き込み、全員でリアルタイムに可視化します。": "En las sesiones de ideas, cada participante escribe desde su propio PC como si colocara notas adhesivas, y todos pueden verlas en tiempo real.",
   "ゲストを交えた共同作業：": "Colaboración con invitados externos:",
   "ブレインストーミング：": "Lluvia de ideas:",
   "リアルタイム議事録：": "Acta en tiempo real:",
   "司会進行や書記だけでなく、参加者全員がその場で決定事項や補足情報を同時入力し、会議終了と同時に完璧な議事録を完成させます。": "No es solo el moderador y el secretario — todos los participantes introducen simultáneamente decisiones e información complementaria, y el acta está completa al terminar la reunión.",
-  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Incluso clientes externos o consultores a quienes no se puede conceder derechos de coedición en Google Docs o Microsoft Teams por razones de política de seguridad interna pueden coeditar una nota de forma segura e instantánea, sin crear una cuenta."
+  "社外のクライアントや外部コンサルタントなど、社内セキュリティの制限でGoogleドキュメントやMicrosoft Teamsの共同編集権限を与えられない相手でも、アカウント登録なしで安全に即座にノートを共同編集できます。": "Incluso con clientes externos o consultores a los que no se les pueden conceder permisos de edición colaborativa en Google Docs o Microsoft Teams por restricciones de seguridad interna, es posible editar una nota juntos de forma inmediata y segura, sin crear una cuenta."
 }

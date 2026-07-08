@@ -7,7 +7,7 @@
   "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR ni huduma maalum kwa ajili ya \"kushiriki faili kwa muda\". Baada ya muda wa kushiriki uliowekwa kuisha, data ya faili kwenye seva hufutwa kabisa, kiotomatiki na kwa usalama. Katika hali hii, faili haliwezi kurejeshwa, hivyo tafadhali muombe mtumaji alipakie tena.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Ikiwa mtumaji ameweka ulinzi wa nenosiri kwa ajili ya usalama, skrini inayodai uingize \"ID\" na \"Nenosiri\" itatokea mara tu unapofungua ukurasa wa kupakua.",
   "QRコードがスキャンできない": "Imeshindwa kuskani msimbo wa QR",
-  "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Fungua programu ya \"Files by Google\", au programu za \"Faili Zangu (My Files)\" au \"Faili (Files)\" zilizowekwa tayari kwenye kifaa chako.",
+  "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Fungua programu ya “Files by Google”, au programu ya “My Files” / “Files” iliyosakinishwa tayari kwenye kifaa chako.",
   "各スマートフォンの保存先と確認方法": "Mahali pa kuhifadhi na jinsi ya kuthibitisha kwa kila simu janja",
   "「ブラウズ」タブを選択し、「このiPhone内」または「iCloud Drive」の中にある「ダウンロード」フォルダを開きます。": "Chagua kichupo cha \"Vinjari (Browse)\", kisha ufungue folda ya \"Vipakuliwa (Downloads)\" iliyo ndani ya \"Kwenye iPhone Hii\" au \"iCloud Drive\".",
   "■ iPhone（iOS）の場合": "■ Kwa watumiaji wa iPhone (iOS)",

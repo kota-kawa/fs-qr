@@ -18,7 +18,7 @@
   "ブラウザを更新してファイル一覧を読み直す": "Vernieuw browser om bestandenlijst opnieuw te laden",
   "ルームIDとパスワードが通らない": "Ruimte ID en wachtwoord werken niet",
   "ルームIDとパスワードを逆に入力していないか確認する": "Controleer of ID en wachtwoord niet omgekeerd zijn",
-  "ルームIDやパスワードが通らないときは、入力ミスが最も多い原因です。数字の0と英字のO、英字のlと数字の1、大文字と小文字の見間違いなど、短い文字列でも間違いは起こります。": "Invoerfouten zijn meestal oorzaak: 0 vs O, l vs 1, hoofdletters verwarren. Zelfs korte strings hebben fouten.",
+  "ルームIDやパスワードが通らないときは、入力ミスが最も多い原因です。数字の0と英字のO、英字のlと数字の1、大文字と小文字の見間違いなど、短い文字列でも間違いは起こります。": "Als de ruimte-ID of het wachtwoord niet werkt, is een typefout meestal de oorzaak. Ook korte tekenreeksen kunnen misgaan door verwarring tussen 0 en O, l en 1, of hoofdletters en kleine letters.",
   "ルームには入れているのにファイルが見えない場合、アップロードが完了していない、別のルームを開いている、ファイル一覧の表示が古い、アップロード時に上限へ達していた、といった原因が考えられます。": "Kin niet in ruimte maar bestanden zichtbaar: incompleet upload, verkeerde ruimte, oude lijst, limiet bereikt.",
   "ルームに入れたのにファイルが見えない": "Kan in ruimte maar bestanden zichtbaar niet",
   "ルーム内に複数のファイルが並ぶと、「資料.pdf」「最新版.zip」のような名前だけでは目的のファイルを見つけにくくなります。トラブルではなく、運用上の混乱が原因のことも多いです。": "Met meerdere bestanden in ruimte zijn vagen namen lastig. Dit is niet een bug, maar een operationeel probleem.",

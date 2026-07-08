@@ -1,5 +1,5 @@
 {
-  "写真を画質を落とさずに送る方法｜送ると劣化する原因と対策": "Cómo enviar fotos sin que pierdan calidad | Por qué empeoran y cómo evitarlo",
+  "写真を画質を落とさずに送る方法｜送ると劣化する原因と対策": "Cómo enviar fotos sin que pierdan calidad | Por qué se deterioran al enviarlas y cómo evitarlo",
   "LINEやメールで写真を送ると画質が悪くなるのはなぜ？劣化する仕組みと、元の画質のまま送るための具体的な方法をiPhone・Android別にわかりやすく解説します。": "¿Por qué se ve peor la calidad de una foto tras enviarla por LINE o por correo? Te detallamos el porqué de esta merma y repasamos los métodos más precisos que existen en iPhone y en Android para que se envíe tal y como se sacó.",
   "AirDropを使う（相手もApple端末の場合）：": "Usar AirDrop (cuando la otra persona también tiene un dispositivo Apple):",
   "Androidで画質を落とさずに送る方法": "Enviar sin pérdida de calidad en Android",
@@ -33,5 +33,5 @@
   "画質が落ちやすい送り方・落ちにくい送り方": "Métodos propensos a degradar — y métodos que no lo hacen",
   "端末標準のギャラリーやファイル管理アプリから共有すると、撮影時のデータがそのまま扱われるケースが多くなります。": "Compartir desde la galería o la aplicación de gestión de archivos nativa del dispositivo tiende a transmitir los datos originales intactos.",
   "複数枚の写真をまとめて送りたい場合や、メールに添付できない大きなサイズの写真を送りたい場合は、": "Si quieres enviar varias fotos a la vez, o fotos demasiado grandes para un adjunto, consulta",
-  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Para enviar a un iPhone o Mac cercano, AirDrop es sencillo y transfiere prácticamente sin compresión — pero no funciona si el otro lado está en Android o Windows."
+  "近くのiPhoneやMacへ送るならAirDropが手軽で、基本的に無圧縮で転送できます。ただし相手がAndroidやWindowsの場合は使えません。": "Para enviar a un iPhone o Mac cercano, AirDrop es cómodo y suele transferir sin compresión, pero no sirve si la otra persona usa Android o Windows."
 }

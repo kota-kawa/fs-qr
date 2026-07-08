@@ -99,7 +99,7 @@
   "note.last_sync_minutes_ago": "最後同步：{n} 分鐘前",
   "note.conflict_notice_merged": "衝突通知：您的變更與其他使用者的變更已自動合併並儲存。請確認內容。",
   "note.conflict_notice_overwritten": "衝突通知：您未儲存的變更與伺服器上的最新內容衝突。已反映伺服器版本。請重新輸入所需內容。",
-  "note.conflict_notice_queued": "衝突通知：收到其他使用者的更新。將在儲存您的本地變更後套用。",
+  "note.conflict_notice_queued": "衝突通知：收到其他使用者的更新。將在儲存您的本機變更後套用。",
   "note.char_count": "{length} / {max_length} 個字",
   "note.char_limit_error": "最多只能輸入 {max_length} 個字，目前已有 {current_length} 個字。",
   "note.clipboard_paste_unavailable": "此環境無法使用貼上功能。",
