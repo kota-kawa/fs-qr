@@ -11,6 +11,9 @@ import os
 
 # CSP のホワイトリストはテンプレート・JS が実際に参照する外部オリジンに基づく:
 # - Google AdSense / gtag: pagead2.googlesyndication.com, googletagmanager.com ほか
+# - Google Ad Traffic Quality (sodar): *.adtrafficquality.google
+#   ep1/ep2/ep3... のように広告視認性・不正トラフィック検知用スクリプトの
+#   配信元サブドメインが動的に変わるためワイルドカードで許可する。
 # - CDN: cdn.jsdelivr.net (Bootstrap), cdnjs.cloudflare.com (Font Awesome, JSZip)
 # - Web フォント: fonts.googleapis.com / fonts.gstatic.com
 # script-src の 'unsafe-inline' はテンプレート内インラインスクリプトのために必要。
@@ -22,6 +25,7 @@ _CSP_DIRECTIVES = (
     " https://googleads.g.doubleclick.net"
     " https://tpc.googlesyndication.com"
     " https://www.googletagmanager.com"
+    " https://*.adtrafficquality.google"
     " https://cdn.jsdelivr.net"
     " https://cdnjs.cloudflare.com",
     "style-src 'self' 'unsafe-inline'"
@@ -37,10 +41,12 @@ _CSP_DIRECTIVES = (
     "connect-src 'self'"
     " https://pagead2.googlesyndication.com"
     " https://googleads.g.doubleclick.net"
-    " https://ep1.adtrafficquality.google"
+    " https://*.adtrafficquality.google"
     " https://www.google-analytics.com"
     " https://region1.google-analytics.com"
-    " https://www.googletagmanager.com",
+    " https://www.googletagmanager.com"
+    " https://cdn.jsdelivr.net"
+    " https://cdnjs.cloudflare.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
