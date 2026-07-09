@@ -30,10 +30,8 @@ class RoomSearchInput(BaseModel):
     @classmethod
     def validate_room_id(cls, v: str) -> str:
         v = v.strip()
-        if not _ALNUM_RE.match(v):
-            raise ValueError(
-                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
-            )
+        if not _ROOM_ID_RE.match(v):
+            raise ValueError("IDは6文字の半角英数字で入力してください。")
         return v
 
     @field_validator("password")

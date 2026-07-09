@@ -20,7 +20,7 @@ def test_fsqr_data_save_lookup_remove_and_expiration(tmp_path):
             return data_rows
         if fetch and "WHERE secure_id" in str(query):
             return data_rows
-        if fetch and "DATE_ADD" in str(query):
+        if fetch and "expires_at <= NOW" in str(query):
             return [{"secure_id": "secure1"}]
         if fetch:
             return [{"secure_id": "secure1"}, {"secure_id": ""}]
@@ -70,6 +70,11 @@ def test_fsqr_data_save_lookup_remove_and_expiration(tmp_path):
 
     run(scenario())
     assert any("INSERT INTO fsqr" in query for query, _, _ in calls)
+    assert any(
+        "password_lookup_hash" in query and "WHERE id" in query
+        for query, _, fetch in calls
+        if fetch
+    )
     assert any("DELETE FROM fsqr" in query for query, _, _ in calls)
 
 
@@ -86,7 +91,7 @@ def test_group_data_room_lifecycle_and_expiration(tmp_path):
             return [{"room_id": "roomA", "password": hashed}]
         if fetch and "WHERE room_id" in str(query):
             return [{"room_id": "roomA", "password": hashed}]
-        if fetch and "DATE_ADD" in str(query):
+        if fetch and "expires_at <= NOW" in str(query):
             return [{"room_id": "roomA"}, {"room_id": ""}]
         if fetch:
             return [{"room_id": "roomA"}, {"room_id": "roomB"}]

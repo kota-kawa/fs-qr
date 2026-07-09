@@ -33,6 +33,14 @@ def hash_share_token(share_token: str) -> str:
     return hashlib.sha256(share_token.encode("utf-8")).hexdigest()
 
 
+def hash_password_lookup(id_val: str, password: str) -> str:
+    payload = f"fsqr:{id_val}:{password}".encode("utf-8")
+    secret = (SECRET_KEY or "").encode("utf-8")
+    if secret:
+        return hmac.new(secret, payload, hashlib.sha256).hexdigest()
+    return hashlib.sha256(payload).hexdigest()
+
+
 # ファイルを保存
 async def save_file(
     uid,
@@ -46,15 +54,18 @@ async def save_file(
 ):
     try:
         hashed_password = hash_password(password)
+        password_lookup_hash = hash_password_lookup(id, password)
         share_token_hash = hash_share_token(share_token) if share_token else None
         query = text("""
             INSERT INTO fsqr (
-                time, uuid, id, password, secure_id, share_token_hash,
-                file_type, original_filename, retention_days
+                time, uuid, id, password, password_lookup_hash,
+                secure_id, share_token_hash, file_type, original_filename,
+                retention_days, expires_at
             )
             VALUES (
-                NOW(), :uid, :id, :password, :secure_id, :share_token_hash,
-                :file_type, :original_filename, :retention_days
+                NOW(), :uid, :id, :password, :password_lookup_hash,
+                :secure_id, :share_token_hash, :file_type, :original_filename,
+                :retention_days, DATE_ADD(NOW(), INTERVAL :retention_days DAY)
             )
         """)
         await execute_query(
@@ -63,6 +74,7 @@ async def save_file(
                 "uid": uid,
                 "id": id,
                 "password": hashed_password,
+                "password_lookup_hash": password_lookup_hash,
                 "secure_id": secure_id,
                 "share_token_hash": share_token_hash,
                 "file_type": file_type,
@@ -98,7 +110,7 @@ async def try_login(id, password) -> Optional[str]:
 
 
 # 資格情報でデータを取得
-@cache_data(ttl=60, strip_keys=("password",))
+@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash"))
 async def get_data_by_credentials(id, password):
     try:
         record = await _find_record_by_credentials(id, password)
@@ -121,12 +133,12 @@ async def get_data_direct(secure_id):
         raise
 
 
-@cache_data(ttl=60, strip_keys=("password", "share_token_hash"))
+@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash", "share_token_hash"))
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
-@cache_data(ttl=60, strip_keys=("password", "share_token_hash"))
+@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash", "share_token_hash"))
 async def get_data_by_share_token(share_token):
     try:
         token_hash = hash_share_token(share_token)
@@ -143,7 +155,9 @@ async def get_data_by_share_token(share_token):
 
 
 # 全てのデータを取得する
-@cache_data(ttl=300, strip_keys=("password", "share_token_hash"))
+@cache_data(
+    ttl=300, strip_keys=("password", "password_lookup_hash", "share_token_hash")
+)
 async def get_all():
     return await get_all_direct()
 
@@ -253,13 +267,11 @@ async def remove_expired_files():
         "ran_at": datetime.now(timezone.utc).isoformat(),
     }
     try:
-        query = text(
-            """
+        query = text("""
             SELECT secure_id
             FROM fsqr
-            WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
-            """
-        )
+            WHERE expires_at <= NOW()
+            """)
         expired_records = await execute_query(query, fetch=True)
         stats["checked"] = len(expired_records)
         for record in expired_records:
@@ -299,13 +311,34 @@ async def record_expiration_cleanup_status(stats):
 
 
 async def _find_record_by_credentials(id_val: str, password: str):
+    lookup_hash = hash_password_lookup(id_val, password)
     query = text("""
-        SELECT * FROM fsqr WHERE id = :id
+        SELECT * FROM fsqr
+        WHERE id = :id
+          AND password_lookup_hash = :password_lookup_hash
+        LIMIT 1
     """)
-    rows = await execute_query(query, {"id": id_val}, fetch=True)
-    for row in rows:
-        stored_password = row.get("password")
-        if not verify_password(stored_password, password):
+    rows = await execute_query(
+        query,
+        {"id": id_val, "password_lookup_hash": lookup_hash},
+        fetch=True,
+    )
+    if rows:
+        row = rows[0]
+        if verify_password(row.get("password"), password):
+            return row
+
+    legacy_rows = await execute_query(
+        text("""
+            SELECT * FROM fsqr
+            WHERE id = :id
+              AND password_lookup_hash IS NULL
+        """),
+        {"id": id_val},
+        fetch=True,
+    )
+    for row in legacy_rows:
+        if not verify_password(row.get("password"), password):
             continue
         return row
     return None

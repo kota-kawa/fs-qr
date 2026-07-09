@@ -605,6 +605,12 @@ def test_try_login_invalid_id_chars(test_client: TestClient):
     assert "text/html" in response.headers["content-type"]
 
 
+def test_try_login_invalid_id_length(test_client: TestClient):
+    response = test_client.post("/try_login", data={"name": "abc12", "pw": "123456"})
+    assert response.status_code == 400
+    assert "6文字" in response.text
+
+
 def test_try_login_invalid_pw_chars(test_client: TestClient):
     response = test_client.post("/try_login", data={"name": "abc123", "pw": "abc"})
     assert response.status_code == 400
