@@ -187,6 +187,15 @@ def test_search_group_invalid_id_chars(test_client: TestClient):
     assert "ID" in response.text
 
 
+def test_search_group_invalid_id_length(test_client: TestClient):
+    response = test_client.post(
+        "/search_group_process",
+        data={"id": "abc12", "password": "123456"},
+    )
+    assert response.status_code == 400
+    assert "6文字" in response.text
+
+
 def test_search_group_invalid_password_chars(test_client: TestClient):
     response = test_client.post(
         "/search_group_process",

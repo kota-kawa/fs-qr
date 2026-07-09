@@ -25,8 +25,11 @@ STATIC = os.path.join(BASE_DIR, "static/upload")
 async def create_room(id, password, room_id, retention_days=7):
     hashed_password = hash_password(password)
     query = text("""
-        INSERT INTO room (time, id, password, room_id, retention_days)
-        VALUES (NOW(), :id, :password, :room_id, :retention_days)
+        INSERT INTO room (time, id, password, room_id, retention_days, expires_at)
+        VALUES (
+            NOW(), :id, :password, :room_id, :retention_days,
+            DATE_ADD(NOW(), INTERVAL :retention_days DAY)
+        )
     """)
     await execute_query(
         query,
@@ -181,13 +184,11 @@ async def all_remove():
 # 1週間以上経過したルームを削除する関数
 async def remove_expired_rooms():
     # 1週間以上前のルームを取得するクエリ（MySQLの場合）
-    query = text(
-        """
+    query = text("""
         SELECT room_id
         FROM room
-        WHERE DATE_ADD(time, INTERVAL retention_days DAY) <= NOW()
-    """
-    )
+        WHERE expires_at <= NOW()
+    """)
     expired_rooms = await execute_query(query, fetch=True)
     for room in expired_rooms:
         room_id = room.get("room_id")
