@@ -81,7 +81,7 @@ def decrypt_share_password(token: str) -> str:
         return ""
     try:
         return _get_fernet().decrypt(token.encode("utf-8")).decode("utf-8")
-    except InvalidToken, ValueError, TypeError:
+    except (InvalidToken, ValueError, TypeError):
         return ""
 
 
@@ -188,7 +188,7 @@ def share_link_metadata(link: Mapping[str, Any] | None) -> dict:
     if isinstance(raw, (str, bytes, bytearray)):
         try:
             parsed = json.loads(raw)
-        except ValueError, TypeError:
+        except (ValueError, TypeError):
             return {}
         return parsed if isinstance(parsed, dict) else {}
     return {}

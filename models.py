@@ -64,7 +64,7 @@ class RoomCreateInput(BaseModel):
     def coerce_retention_days(cls, v) -> int:
         try:
             v = int(v)
-        except TypeError, ValueError:
+        except (TypeError, ValueError):
             return 7
         return v if v in _RETENTION_CHOICES else 7
 
@@ -102,7 +102,7 @@ class FsqrUploadInput(BaseModel):
     def coerce_retention_days(cls, v) -> int:
         try:
             v = int(v)
-        except TypeError, ValueError:
+        except (TypeError, ValueError):
             return 7
         return v if v in _RETENTION_CHOICES else 7
 

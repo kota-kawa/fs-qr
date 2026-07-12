@@ -1,6 +1,8 @@
 [tool.ruff]
 line-length = 88
-target-version = "py314"
+# Python 3.13 remains in the CI compatibility matrix. Keep formatting output
+# valid for the oldest supported runtime, even though production uses 3.14.
+target-version = "py313"
 exclude = ["static/js/**", "static/*.js"]
 
 [tool.ruff.lint]
