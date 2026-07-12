@@ -40,6 +40,12 @@
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   
+  <script>
+    window.FSQR_TAGS = Object.freeze({
+      googleAnalyticsId: {{ google_analytics_id | tojson }},
+      adsenseClientId: {{ google_adsense_client_id | tojson }}
+    });
+  </script>
   <title>無料QRコードファイル共有サービス｜アプリ不要でPC・スマホ間転送 - FS!QR</title>
   <link rel="icon" href="{{staticfile('favicon3.ico')}}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">

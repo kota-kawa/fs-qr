@@ -47,6 +47,12 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
+    <script>
+      window.FSQR_TAGS = Object.freeze({
+        googleAnalyticsId: {{ google_analytics_id | tojson }},
+        adsenseClientId: {{ google_adsense_client_id | tojson }}
+      });
+    </script>
     <title>リアルタイム同時編集ノート｜登録不要・無料で共同作業 - FS!QR Note</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
