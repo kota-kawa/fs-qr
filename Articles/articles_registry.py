@@ -446,6 +446,19 @@ ARTICLES: list[dict[str, Any]] = [
         "default": False,
         "indexable": True,
     },
+    {
+        "slug": "ai-live-translation-practical-guide",
+        "title": "AIリアルタイム翻訳を使いこなすための実践ガイド｜会議・旅行・学習で失敗しない5つのルール",
+        "description": "Gemini 3.5 Live TranslateとAndroid 17の動向を手がかりに、AIリアルタイム翻訳を会議・旅行・学習で正確かつ安心して使うための準備、伝え方、確認方法、プライバシーの考え方を解説します。",
+        "icon": "fa-language",
+        "category": "AI・デジタル活用",
+        "date": "2026-07-12",
+        "template": "ai-live-translation-practical-guide.html",
+        "thumbnail": "articles/thumbnails/ai-live-translation-practical-guide.png",
+        "type": TYPE_ARTICLE,
+        "default": False,
+        "indexable": True,
+    },
 ]
 
 # 一覧の絞り込みチップに使う、登録順を保ったカテゴリ一覧。
