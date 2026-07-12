@@ -416,7 +416,12 @@ async def render_cached_template(
 
     cached_body: str | None = None
     try:
-        cached_body = await redis_client.get(cache_key)
+        cached_value = await redis_client.get(cache_key)
+        cached_body = (
+            cached_value.decode("utf-8")
+            if isinstance(cached_value, bytes)
+            else cached_value
+        )
     except Exception as exc:
         logger.warning("Render cache GET failed (%s): %s", cache_key, exc)
 

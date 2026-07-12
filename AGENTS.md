@@ -7,7 +7,7 @@ FastAPI のエントリーポイントは `app.py` で、`Core/`、`Group/`、`N
 - ローカルで Python コマンドを実行する際は `python3` を使用してください。想定される環境には `python` コマンドがありません。
 - `python3 -m venv .venv && source .venv/bin/activate` でローカル仮想環境を作成して有効化します。依存関係はその仮想環境内にインストールしてください。
 - `pip install -r requirements.txt` で FastAPI、SQLAlchemy、apscheduler、その他の依存関係をインストールします。
-- `pip install pytest httpx pytest-cov pytest-xdist ruff==0.15.4 mypy==1.15.0` でテスト、静的解析、型チェックに必要な開発用ツールをインストールします。バージョンを変更する場合は `.github/workflows/tests.yml` と一致させてください。
+- `pip install -r requirements-dev.txt` でテスト、静的解析、型チェック、依存関係監査に必要な開発用ツールをインストールします。バージョンを変更する場合は `requirements-dev.txt` と `.github/workflows/tests.yml` を一致させてください。
 - `uvicorn app:app --reload --host 0.0.0.0 --port 5000` で、デフォルト設定のアプリを起動します。Docker を使わずに素早くローカルで反復開発する場合に便利です。
 - `docker-compose up --build` で本番環境を再現し、`docker-compose.yml` に定義された FastAPI アプリと MySQL を起動します。
 - `python3 app.py` で、静的ファイルのキャッシュ無効化を有効にした開発サーバー（uvicorn）を起動します。
