@@ -1,24 +1,46 @@
-# Repository Guidelines
+# リポジトリのガイドライン
 
-## Project Structure & Module Organization
-The FastAPI entry point is `app.py`, which wires routers from `Core/`, `Group/`, `Note/`, `Admin/`, and `Articles/`. Shared database helpers live in `fs_data.py`, while module-specific data code resides inside each package (for example, `Group/group_data.py`). HTML templates sit in per-module `templates/` folders, with shared layouts in `templates/`, and static assets in `static/`. Database bootstrap SQL is housed in `db_init/` for the MySQL container.
+## プロジェクト構成とモジュール構成
+FastAPI のエントリーポイントは `app.py` で、`Core/`、`Group/`、`Note/`、`Admin/`、`Articles/` の各ルーターを接続します。共通のデータベースヘルパーは `fs_data.py` にあり、モジュール固有のデータ処理コードは各パッケージ内（例：`Group/group_data.py`）にあります。HTML テンプレートはモジュールごとの `templates/` フォルダーに配置し、共通レイアウトはルートの `templates/`、静的アセットは `static/` に配置します。MySQL コンテナ用のデータベース初期化 SQL は `db_init/` に格納されています。
 
-## Build, Test, and Development Commands
-- Use `python3` for local Python commands; the expected environment does not provide a `python` command.
-- `python3 -m venv .venv && source .venv/bin/activate` creates and activates a local virtualenv; install dependencies inside it.
-- `pip install -r requirements.txt` installs FastAPI, SQLAlchemy, apscheduler, and other dependencies.
-- `uvicorn app:app --reload --host 0.0.0.0 --port 5000` starts the app with the default configuration—useful for quick, local iteration without Docker.
-- `docker-compose up --build` mirrors production, launching the FastAPI app and MySQL defined in `docker-compose.yml`.
-- `python3 app.py` runs the development server (uvicorn) with static cache-busting enabled.
+## ビルド、テスト、開発用コマンド
+- ローカルで Python コマンドを実行する際は `python3` を使用してください。想定される環境には `python` コマンドがありません。
+- `python3 -m venv .venv && source .venv/bin/activate` でローカル仮想環境を作成して有効化します。依存関係はその仮想環境内にインストールしてください。
+- `pip install -r requirements.txt` で FastAPI、SQLAlchemy、apscheduler、その他の依存関係をインストールします。
+- `pip install pytest httpx pytest-cov pytest-xdist ruff==0.15.4 mypy==1.15.0` でテスト、静的解析、型チェックに必要な開発用ツールをインストールします。バージョンを変更する場合は `.github/workflows/tests.yml` と一致させてください。
+- `uvicorn app:app --reload --host 0.0.0.0 --port 5000` で、デフォルト設定のアプリを起動します。Docker を使わずに素早くローカルで反復開発する場合に便利です。
+- `docker-compose up --build` で本番環境を再現し、`docker-compose.yml` に定義された FastAPI アプリと MySQL を起動します。
+- `python3 app.py` で、静的ファイルのキャッシュ無効化を有効にした開発サーバー（uvicorn）を起動します。
+- `python3 -m pytest` で自動テストを実行します。変更箇所に関連するテストを先に実行し、完了前に可能な限りテストスイート全体を実行してください。
+- `python3 -m ruff check .` でコードの静的解析を実行します。
+- `python3 -m ruff format --check .` でコードフォーマットを検査します。
+- `python3 -m mypy --config-file pyproject.toml` で `pyproject.toml` に定義された対象ファイルの型チェックを実行します。
 
-## Coding Style & Naming Conventions
-Follow PEP 8 with four-space indentation. Use `snake_case` for functions, router factories, and filenames (`group_app.py`), and `PascalCase` for classes. Jinja templates adopt hyphenated names (e.g., `fs-qr.html`) to match exposed routes. Keep router exposure inside each package’s `__init__.py` minimal and delegate route logic to `*_app.py`. Align logging changes with `log_config.py` so handlers stay consistent across modules.
+## コーディングスタイルと命名規則
+4 スペースのインデントを使用し、PEP 8 に従ってください。関数、ルーターファクトリー、ファイル名（`group_app.py`）には `snake_case` を、クラスには `PascalCase` を使用します。Jinja テンプレートには、公開ルートに合わせてハイフン区切りの名前（例：`fs-qr.html`）を使用します。各パッケージの `__init__.py` ではルーターの公開を最小限にとどめ、ルートのロジックは `*_app.py` に委譲してください。モジュール間でハンドラーの一貫性を保つため、ログ設定の変更は `log_config.py` に合わせてください。
 
-## Testing Guidelines
-Automated tests are not yet present; smoke-test the primary flows (`/fs-qr`, `/group`, `/note`, `/admin`) locally or via Docker. When introducing features, add `pytest` modules under `tests/` named `test_<area>.py`. Guard against regressions by validating teardown-driven session cleanup and the Note module’s collaborative editing. Document any manual verification steps in your PR until automated coverage is in place.
+## 変更範囲と既存作業の保護
+依頼された目的に必要な範囲だけを変更し、無関係なリファクタリングや整形を同じ変更に含めないでください。ファイルを修正する前に、現在のブランチと作業ツリーの状態を確認し、今回の作業用ブランチを作成して切り替えてください。すでに今回の作業専用ブランチにいる場合は、新たなブランチを重ねて作成する必要はありません。既存の未コミット変更は利用者の作業として扱ってください。既存の変更を上書き、削除、巻き戻しせず、競合する場合は作業を止めて確認してください。
 
-## Commit & Pull Request Guidelines
-Existing commits favor concise, imperative summaries (for example, “Add site operator page”) with optional Japanese context. Keep message bodies focused on rationale and side effects. For pull requests, include: a feature summary, configuration or migration notes, manual test evidence (URLs exercised, screenshots for UI tweaks), and links to related issues. Request reviews from maintainers who own the affected module.
+## テストのガイドライン
+自動テストは `tests/` にあり、`pytest` を使用します。機能を追加または変更する場合は、対応するテストを追加または更新し、新しいテストモジュールには `test_<対象領域>.py` という名前を使用してください。主要なフロー（`/fs-qr`、`/group`、`/note`、`/admin`）は、必要に応じてローカルまたは Docker でもスモークテストしてください。終了処理によるデータベースセッションのクリーンアップを検証し、リグレッションを防いでください。
 
-## Security & Configuration Tips
-Do not commit real `.env` content; use the README template and rotate secrets regularly. Keep file uploads constrained through `app.config['MAX_CONTENT_LENGTH']`, mirroring any changes in Docker overrides. When updating MySQL schemas, revise `db_init/` scripts and describe backward-compatibility considerations in the PR.
+Note と Group のリアルタイム機能を変更する場合は、WebSocket の接続、切断、再接続、複数クライアント間の同期を確認してください。Redis を利用する処理に影響する場合は、Redis が一時的に利用できない場合の挙動も確認してください。実行した自動テストと手動検証、実行できなかった検証およびその理由をプルリクエストに記載してください。
+
+## 作業の完了条件
+変更内容に対応する実装、テスト、ドキュメントがそろい、関連するテスト、Ruff の静的解析とフォーマット検査、型チェックが成功している状態を完了とします。テストや検査を実行できない場合、または既知の失敗が残る場合は、未確認のまま完了扱いにせず、対象、理由、想定される影響を明示してください。設定やデータベーススキーマを変更した場合は、必要なサンプル設定、移行手順、ロールバック手順も更新してください。
+
+## サブエージェントの活用
+複雑または大規模な変更に取り組む際、作業を互いに独立した単位へ分割して並列実行できる場合は、サブエージェントを使用してください。各サブエージェントには、範囲が明確で具体的なサブタスクを割り当て、作業の重複や競合を避けてください。最終的な変更をまとめる前に、各サブエージェントの結果を確認し、全体の整合性を検証してください。
+
+## コミットとプルリクエストのガイドライン
+既存のコミットでは、必要に応じて日本語の補足を加えた、簡潔な命令形の要約（例：「サイト運営者ページを追加」）が好まれています。コミットメッセージの本文では、変更理由と副作用に焦点を当ててください。`main` ブランチ上でファイルを修正したり、`main` ブランチへ直接 push したりしないでください。修正を始める前に必ず今回の作業用ブランチを作成して切り替え、変更後はそのブランチからプルリクエストを送信してください。ブランチ名には、変更内容に応じて `feature/<内容>`、`fix/<内容>`、`docs/<内容>` など、目的が分かる形式を使用してください。
+
+プルリクエストのタイトルと説明は、日本語と英語の両方で記載してください。説明は `## 日本語` と `## English` の見出しで分け、それぞれに同等の情報を記載してください。プルリクエストには、機能の概要、設定またはマイグレーションに関する注意事項、実行した自動テスト、手動テストの証跡（確認した URL、UI 調整の場合はスクリーンショット）、未実施の検証とその理由、関連 Issue へのリンクを含めてください。変更対象のモジュールを担当するメンテナーにレビューを依頼してください。
+
+## セキュリティと設定に関するヒント
+実際の `.env` の内容はコミットしないでください。`.env.example` と README のテンプレートを使用し、シークレットは定期的にローテーションしてください。アップロード可能なファイル数と合計サイズは、`settings.py` の `UPLOAD_MAX_FILES` と `UPLOAD_MAX_TOTAL_SIZE_MB` に対応する環境変数で制限します。制限を変更する場合は、`.env.example`、README、Docker の設定、サーバー側とクライアント側の検証へ一貫して反映してください。
+
+認証、セッション、WebSocket、ファイルアップロードを変更する場合は、CSRF 対策、認可、ファイル名の無害化、MIME タイプと内容の検証、サイズ制限、パストラバーサル対策への影響を確認してください。セキュリティ上の検証を無効化したり、シークレットや個人情報をログへ出力したりしないでください。
+
+MySQL のスキーマを更新する場合は、`db_init/` の初期化スクリプトと既存環境向けの移行手順を更新してください。後方互換性、データ保持、ロールバック方法、停止時間の有無を検討し、プルリクエストに記載してください。
