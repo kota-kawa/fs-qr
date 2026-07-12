@@ -1,15 +1,15 @@
 {
-  "取引先へのファイル共有で迷わせない：安全な受け渡しをつくる実務チェックポイント": "Client File Sharing Without Confusion: A Practical Checklist for Secure Handoffs",
-  "取引先へ資料・画像・見積書を送るとき、誤送信や確認の往復を減らすためのファイル共有ルールを解説。共有前・共有中・受領後に分けて、相手が迷わない受け渡しをつくる方法を紹介します。": "Practical rules for sharing documents, images, and quotations with clients while reducing misdirected files and needless follow-ups — before sharing, while access is open, and after receipt.",
-  "client_file_handoff.title": "Client File Sharing Without Confusion: A Practical Checklist for Secure Handoffs",
-  "client_file_handoff.heading": "A Practical Checklist for Clear Client File Handoffs",
-  "client_file_handoff.description": "Practical rules for sharing documents, images, and quotations with clients while reducing misdirected files and needless follow-ups — before sharing, while access is open, and after receipt.",
-  "client_file_handoff.keywords": "client file sharing, send files to clients, secure sharing, prevent misdirected files, sharing link, document delivery",
-  "client_file_handoff.introduction": "When you send a file to a client, the job is not finished just because it left your outbox. A handoff is complete only when the recipient can tell exactly which document to review, how to open it, and by when. Quotations, proposals, photos, and design files can cause confusion not only through their contents, but also through the wrong version, the wrong recipient, or an expired link. Here are the practical basics to put in place before relying on any particular tool.",
-  "client_file_handoff.before_heading": "Before sharing, put who receives what and by when in one sentence",
-  "client_file_handoff.before_body": "Before creating a share link or attachment, state the recipient, the file, and the review deadline in one sentence. For example: “Send the July quotation PDF to Company A’s finance contact for review by 15 July.” That reduces both misdirected files and the inevitable “which document do you mean?” reply. If several people are involved internally, name the sender and the person who approved the final version as well. Then use a consistent filename order for the date, project, purpose, and version. A filename is not mere housekeeping; it is the first safeguard against opening the wrong document.",
-  "client_file_handoff.message_heading": "Add three things to a share message besides the link",
-  "client_file_handoff.message_body": "A link by itself does not tell the recipient what the file is, whether they need to act, or how long it will remain available. Include the purpose of the share, the file or content to review, and the deadline for using it or replying. Where appropriate, you may send access details such as a password through a separate channel. The point is not to split information for its own sake; it is to agree on a process that lets recipients open the file safely without friction while making unintended onward sharing less likely.",
-  "client_file_handoff.after_heading": "After sending, confirm receipt and tidy up when the sharing window ends",
-  "client_file_handoff.after_body": "A sent status does not prove that the recipient could review the file. For deadline-sensitive material or files likely to be revised, ask for a brief acknowledgement and keep a record for important exchanges. When the sharing window ends, move the final version that must be retained to your organisation’s designated storage and review the expiry or deletion policy for the shared copy. The workflow remains the same with a browser-based service such as FS!QR: check before sending, name files clearly, confirm receipt, and tidy up afterwards. Those small habits make file sharing easier and more reassuring for the client as well."
+  "取引先へのファイル共有で迷わせない：安全な受け渡しをつくる実務チェックポイント": "不讓客戶困惑的檔案分享：建立安全交接流程的實務清單",
+  "取引先へ資料・画像・見積書を送るとき、誤送信や確認の往復を減らすためのファイル共有ルールを解説。共有前・共有中・受領後に分けて、相手が迷わない受け渡しをつくる方法を紹介します。": "說明向客戶傳送資料、圖片及報價單時，如何透過檔案分享規則減少誤傳與來回確認，並整理分享前、分享期間與收件後的要點。",
+  "client_file_handoff.title": "不讓客戶困惑的檔案分享：建立安全交接流程的實務清單",
+  "client_file_handoff.heading": "讓客戶順利收取檔案的實務清單",
+  "client_file_handoff.description": "說明向客戶傳送資料、圖片及報價單時，如何透過檔案分享規則減少誤傳與來回確認，並整理分享前、分享期間與收件後的要點。",
+  "client_file_handoff.keywords": "客戶 檔案分享, 傳送檔案, 安全分享, 防止誤傳, 分享連結, 資料傳送",
+  "client_file_handoff.introduction": "把檔案寄給客戶，不表示工作已經結束。對方能立刻知道該看哪一份、如何開啟、何時確認，交接才算完成。報價單、提案、照片與設計檔的混亂，常常不是內容出了問題，而是版本錯誤、收件人不對或連結過期。以下整理不靠特定工具也應先建立的外部檔案交接習慣。",
+  "client_file_handoff.before_heading": "分享前，用一句話定下「給誰、給什麼、何時確認」",
+  "client_file_handoff.before_body": "建立連結或附件前，先把收件人、檔案和確認期限寫成一句話。例如：「請A公司財務窗口在7月15日前確認7月報價單PDF。」這能同時降低誤傳風險與「要看哪一份」的詢問。若公司內有多人參與，也要註明寄送人與最終版本確認人。接著以固定順序在檔名加入日期、案件、用途與版本；檔名不只是整理方式，也是避免開錯資料的第一道防線。",
+  "client_file_handoff.message_heading": "分享訊息除了連結，還要交代三件事",
+  "client_file_handoff.message_body": "只有連結時，收件人無法判斷檔案用途、自己是否需要處理，以及可使用到何時。訊息中應包括分享目的、要確認的檔名或內容，以及查看或回覆期限。必要時可用另一個聯絡管道傳送密碼等存取資訊。重點不是刻意把資訊拆開，而是建立讓收件人能安全順利開啟、又不容易流傳給無關人員的一致流程。",
+  "client_file_handoff.after_heading": "寄出後確認是否收妥，期限結束後完成整理",
+  "client_file_handoff.after_body": "顯示「已寄出」不代表對方已能查看檔案。對有截止日期或容易改版的資料，請對方簡短回覆已收到，重要往來也要留下紀錄。分享期限結束後，將需要保存的最終版本移至公司指定的保存位置，並確認分享副本的失效或刪除安排。即使使用FS!QR這類瀏覽器檔案分享服務，寄送前確認、清楚命名、確認收件及事後整理的流程都一樣；這些小習慣會讓客戶感到可靠與安心。"
 }
