@@ -433,6 +433,19 @@ ARTICLES: list[dict[str, Any]] = [
         "type": TYPE_ARTICLE,
         "default": False,
     },
+    {
+        "slug": "client-file-handoff",
+        "title": "取引先へのファイル共有で迷わせない：安全な受け渡しをつくる実務チェックポイント",
+        "description": "取引先へ資料・画像・見積書を送るとき、誤送信や確認の往復を減らすためのファイル共有ルールを解説。共有前・共有中・受領後に分けて、相手が迷わない受け渡しをつくる方法を紹介します。",
+        "icon": "fa-handshake",
+        "category": "ビジネス",
+        "date": "2026-07-12",
+        "template": "client-file-handoff.html",
+        "thumbnail": "articles/thumbnails/client-file-handoff.png",
+        "type": TYPE_ARTICLE,
+        "default": False,
+        "indexable": True,
+    },
 ]
 
 # 一覧の絞り込みチップに使う、登録順を保ったカテゴリ一覧。
