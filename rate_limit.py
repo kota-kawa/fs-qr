@@ -29,6 +29,13 @@ SCOPE_MANAGEMENT = "management"
 _redis_client: Optional[redis.Redis] = None
 
 
+def _redis_text(value: str | bytes | None) -> str | None:
+    """Normalize Redis text responses when a client ignores decode_responses."""
+    if isinstance(value, bytes):
+        return value.decode("utf-8")
+    return value
+
+
 def get_redis_client() -> redis.Redis:
     global _redis_client
     if _redis_client is None:
@@ -45,7 +52,7 @@ async def check_rate_limit(
     block_key = f"rate_limit:{scope}:{ip}:block"
 
     try:
-        block_label = await r.get(block_key)
+        block_label = _redis_text(await r.get(block_key))
         if block_label:
             ttl = await r.ttl(block_key)
             # ttl: -2 (missing), -1 (no expiry), >=0 (seconds)
@@ -71,7 +78,7 @@ async def register_failure(
 
     try:
         # Check if already blocked
-        block_label = await r.get(block_key)
+        block_label = _redis_text(await r.get(block_key))
         if block_label:
             ttl = await r.ttl(block_key)
             if ttl > 0:
@@ -114,7 +121,7 @@ async def check_exponential_backoff(
     block_key = f"rate_limit:{scope}:{key}:backoff"
 
     try:
-        block_label = await r.get(block_key)
+        block_label = _redis_text(await r.get(block_key))
         if block_label:
             ttl = await r.ttl(block_key)
             if ttl > 0:

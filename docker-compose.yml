@@ -89,7 +89,7 @@ services:
       - app-network
 
   db:
-    image: mysql:8.4.9
+    image: mysql:8.4.10
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -110,7 +110,7 @@ services:
       - app-network
 
   redis:
-    image: redis:7.4.7-alpine
+    image: redis:7.4.9-alpine
     command: redis-server --maxmemory 2gb --maxmemory-policy volatile-lru
     restart: always
     healthcheck:

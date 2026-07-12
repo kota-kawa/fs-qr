@@ -24,6 +24,7 @@
 !ads.txt
 !robots.txt
 !requirements.txt
+!requirements-dev.txt
 
 # Test files
 test_app.py

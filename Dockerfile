@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bookworm AS builder
+FROM python:3.14-slim-trixie AS builder
 
 WORKDIR /build
 
@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r requirements.txt gunicorn
 
 
-FROM python:3.11-slim-bookworm
+FROM python:3.14-slim-trixie
 
 WORKDIR /app
 ENV PATH="/opt/venv/bin:$PATH" \

@@ -27,7 +27,7 @@ def _with_new_flag(articles: list[dict]) -> list[dict]:
         try:
             published = datetime.strptime(article["date"], "%Y-%m-%d").date()
             is_new = (today - published).days <= _NEW_BADGE_DAYS
-        except (ValueError, KeyError):
+        except ValueError, KeyError:
             is_new = False
         annotated.append({**article, "is_new": is_new})
     return annotated

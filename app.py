@@ -369,7 +369,7 @@ def _git_commit_date(abs_path: str) -> str | None:
             timeout=5,
             check=False,
         )
-    except (OSError, ValueError, subprocess.SubprocessError):
+    except OSError, ValueError, subprocess.SubprocessError:
         return None
     out = result.stdout.strip()
     return out or None

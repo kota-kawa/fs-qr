@@ -59,7 +59,7 @@ def _generate_room_id() -> str:
 def _is_valid_room_id(room_id: str) -> bool:
     try:
         RoomCreateInput(id=room_id, id_mode="manual").validate_manual_id()
-    except (ValidationError, ValueError):
+    except ValidationError, ValueError:
         return False
     return True
 
