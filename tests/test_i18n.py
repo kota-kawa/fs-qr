@@ -314,6 +314,16 @@ def test_cookie_consent_script_uses_rendered_supported_language_list():
     assert "['ja', 'en', 'zh-CN', 'zh-TW', 'ko']" not in source
 
 
+def test_optional_tag_loader_recovers_from_external_script_errors():
+    source = Path("static/cookie-consent.js").read_text(encoding="utf-8")
+
+    assert "Array.from(document.scripts)" in source
+    assert "script.addEventListener('error'" in source
+    assert "script.remove();" in source
+    assert "analyticsLoaded = false;" in source
+    assert "adsLoaded = false;" in source
+
+
 def test_language_options_never_expose_translation_keys():
     import i18n
 

@@ -79,17 +79,38 @@
     return window.FSQR_TAGS || {};
   }
 
-  function loadScriptOnce(src, attrs) {
-    if (!src || document.querySelector(`script[src="${src}"]`)) {
-      return;
+  function loadScriptOnce(src, attrs, onError) {
+    if (!src) {
+      return null;
     }
+
+    // Compare resolved URLs instead of interpolating the URL into a CSS
+    // selector. This also keeps a second consent action from adding a second
+    // copy of an optional third-party tag.
+    const existingScript = Array.from(document.scripts).find(
+      (script) => script.src === src
+    );
+    if (existingScript) {
+      return existingScript;
+    }
+
     const script = document.createElement('script');
     script.async = true;
     script.src = src;
     Object.keys(attrs || {}).forEach((key) => {
       script.setAttribute(key, attrs[key]);
     });
+    script.addEventListener('error', () => {
+      // Network errors and content blockers must not leave the consent UI in
+      // a permanently "loaded" state. The next explicit consent update can
+      // retry the optional tag without producing an unhandled Promise.
+      script.remove();
+      if (typeof onError === 'function') {
+        onError();
+      }
+    }, { once: true });
     document.head.appendChild(script);
+    return script;
   }
 
   function loadGoogleAnalytics() {
@@ -104,7 +125,13 @@
     };
     window.gtag('js', new Date());
     window.gtag('config', measurementId);
-    loadScriptOnce(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`);
+    loadScriptOnce(
+      `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`,
+      null,
+      () => {
+        analyticsLoaded = false;
+      }
+    );
   }
 
   function loadAdsense() {
@@ -115,7 +142,10 @@
     adsLoaded = true;
     loadScriptOnce(
       `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`,
-      { crossorigin: 'anonymous' }
+      { crossorigin: 'anonymous' },
+      () => {
+        adsLoaded = false;
+      }
     );
   }
 
