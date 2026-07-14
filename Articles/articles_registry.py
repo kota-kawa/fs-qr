@@ -459,6 +459,19 @@ ARTICLES: list[dict[str, Any]] = [
         "default": False,
         "indexable": True,
     },
+    {
+        "slug": "ai-ad-transparency-guide",
+        "title": "AI生成広告はどう見分ける？「どう作られたか」表示を読み解く実践ガイド",
+        "description": "AIで作成・編集された広告が増える今、広告の「どう作られたか」表示を手がかりに、出所・根拠・購入前の確認ポイントを見極める方法を解説します。",
+        "icon": "fa-magnifying-glass",
+        "category": "AI・デジタル活用",
+        "date": "2026-07-15",
+        "template": "ai-ad-transparency-guide.html",
+        "thumbnail": "articles/thumbnails/ai-ad-transparency-guide.png",
+        "type": TYPE_ARTICLE,
+        "default": False,
+        "indexable": True,
+    },
 ]
 
 # 一覧の絞り込みチップに使う、登録順を保ったカテゴリ一覧。
