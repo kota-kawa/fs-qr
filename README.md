@@ -57,7 +57,7 @@ TRUSTED_PROXY_HOSTS=127.0.0.1,::1
 RUN_MIGRATIONS_ON_STARTUP=true
 ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
-UPLOAD_MAX_FILES=10
+UPLOAD_MAX_FILES=30
 UPLOAD_MAX_TOTAL_SIZE_MB=500
 GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
@@ -74,8 +74,13 @@ preflight first when changing images or reusing an existing volume:
 ./scripts/docker_preflight.sh
 ```
 
+The web app runs as Blue-Green slots (`web-blue` / `web-green`) that are gated behind
+Compose profiles, so a bare `docker compose up` starts only `db`, `redis`, and
+`scheduler`. For local use, start the `blue` slot explicitly so the app is served on
+`127.0.0.1:5000`:
+
 ```bash
-docker-compose up --build
+docker compose --profile blue up --build
 ```
 
 ### 4) Open in your browser
@@ -214,7 +219,11 @@ If the token passed from the page rendered in the same session does not match, t
   `pytest` suite on Python 3.13 and 3.14 for every push, pull request, and manual dispatch.
 - The deploy job runs only on pushes to `main` after the CI job succeeds.
 - If deployment secrets are not configured yet, the deploy phase is skipped so regular CI stays green.
-- Deployment connects over SSH, updates the server checkout, rebuilds with `docker compose up -d --build`, and rolls back to the previous Git commit if deployment fails.
+- Deployment connects over SSH, updates the server checkout, brings up `db`/`redis`,
+  and performs a zero-downtime Blue-Green switch via `scripts/deploy_bluegreen.sh`
+  (build the inactive color → wait for `/healthz` → switch the nginx backend → drain
+  the old color). If the switch cannot complete, the previous color stays live and the
+  Git tree is rolled back to the previous commit.
 
 ### Required GitHub Secrets
 - `SERVER_HOST`: deployment server hostname or IP
@@ -288,10 +297,11 @@ ADMIN_KEY=admin
 MANAGEMENT_PASSWORD=manage
 DB_ADMIN_PASSWORD=db-admin
 REDIS_URL=redis://redis:6379/0
+TRUSTED_PROXY_HOSTS=127.0.0.1,::1
 RUN_MIGRATIONS_ON_STARTUP=true
 ALLOW_START_WITHOUT_DB=false
 FRONTEND_DEBUG=false
-UPLOAD_MAX_FILES=10
+UPLOAD_MAX_FILES=30
 UPLOAD_MAX_TOTAL_SIZE_MB=500
 GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
@@ -308,8 +318,13 @@ NOTE_SELF_EDIT_TIMEOUT_MS=12000
 ./scripts/docker_preflight.sh
 ```
 
+web アプリは Compose profiles でゲートされた Blue-Green スロット（`web-blue` /
+`web-green`）として動くため、素の `docker compose up` では `db`・`redis`・`scheduler`
+のみが起動します。ローカルで利用する場合は `blue` スロットを明示的に起動し、
+`127.0.0.1:5000` でアプリを配信します。
+
 ```bash
-docker-compose up --build
+docker compose --profile blue up --build
 ```
 
 ### 4) ブラウザでアクセス
@@ -444,7 +459,7 @@ Note / Group の WebSocket 接続では、HTTP セッションと紐づく CSRF 
   イメージ検査、および Python 3.13/3.14 の完全な `pytest` を実行します。
 - `main` への push 時のみ、CI 成功後に SSH 経由で本番デプロイを行います。
 - デプロイ用 secrets が未設定の間は deploy を skip するため、通常の CI は失敗しません。
-- デプロイではサーバー上の checkout を更新し、`docker compose up -d --build` を実行し、失敗時は直前コミットへロールバックします。
+- デプロイではサーバー上の checkout を更新し、`db`/`redis` を起動したうえで、`scripts/deploy_bluegreen.sh` による無停止 Blue-Green 切替（非アクティブ色をビルド → `/healthz` を待機 → nginx の backend を切替 → 旧色を drain）を実行します。切替が完了できない場合は旧色を生かしたまま、Git ツリーを直前コミットへロールバックします。
 
 ### 必要な GitHub Secrets
 - `SERVER_HOST`: デプロイ先サーバーのホスト名またはIP
