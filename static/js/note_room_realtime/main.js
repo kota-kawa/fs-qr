@@ -10,10 +10,12 @@
   context.logger = modules.core.createLogger(Boolean(config.debug));
   const syncHandlers = modules.sync.createSyncHandlers(context);
   const clipboardHandlers = modules.clipboard.createClipboardHandlers(context);
+  const exportHandlers = modules.export.createExportHandlers(context);
   const socketHandlers = modules.socket.createSocketHandlers(context, syncHandlers);
 
   syncHandlers.bindEditorInput();
   clipboardHandlers.bindButtons();
+  exportHandlers.bindButtons();
   modules.ui.updateCharCount(context, context.editor.value);
   socketHandlers.connectWebSocket();
 })(window);

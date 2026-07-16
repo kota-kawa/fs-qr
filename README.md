@@ -63,6 +63,8 @@ GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
+# Optional path to a Noto Sans CJK-compatible TTF/TTC font for PDF exports.
+NOTE_PDF_FONT_PATH=
 ```
 
 ### 3) Run the stack
@@ -201,6 +203,11 @@ The ACK timeout is not a fixed value either — it adapts to the communication R
 For Note / Group WebSocket connections, a CSRF token tied to the HTTP session is validated during the handshake.
 If the token passed from the page rendered in the same session does not match, the handshake is rejected.
 
+The Note page can export the current editor content as UTF-8 TXT or PDF. Docker
+installs Noto Sans CJK automatically so Japanese text is embedded in the PDF. For
+a native non-Docker installation, install a Noto Sans CJK font or set
+`NOTE_PDF_FONT_PATH` to a compatible `.ttf` / `.ttc` file.
+
 ## 🧰 Tech Stack
 - **FastAPI** (Python 3.14 / Debian 13 trixie)
 - **MySQL 8.4.10 LTS**
@@ -307,6 +314,8 @@ GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
+# PDF出力へ使用する Noto Sans CJK 互換フォントのパス（通常は未指定で可）
+NOTE_PDF_FONT_PATH=
 ```
 
 ### 3) 起動
@@ -440,6 +449,11 @@ ACK タイムアウトは固定ではなく、`NOTE_SELF_EDIT_TIMEOUT_MS` を下
 
 Note / Group の WebSocket 接続では、HTTP セッションと紐づく CSRF トークンをハンドシェイク時に検証します。
 同一セッションで生成されたトークンが一致しない接続は拒否されます。
+
+ノートページでは、現在のエディタ内容を UTF-8 のTXTまたはPDFとして出力できます。
+Docker環境では Noto Sans CJK を自動インストールし、日本語フォントをPDFへ埋め込みます。
+Dockerを使わない環境では Noto Sans CJK をインストールするか、互換性のある
+`.ttf` / `.ttc` ファイルを `NOTE_PDF_FONT_PATH` に指定してください。
 
 ## 🧰 技術スタック
 - **FastAPI** (Python 3.14 / Debian 13 trixie)

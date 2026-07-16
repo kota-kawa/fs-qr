@@ -30,6 +30,7 @@ ENV PATH="/opt/venv/bin:$PATH" \
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
+        fonts-noto-cjk \
         libmagic1 \
         libmariadb3 \
     && rm -rf /var/lib/apt/lists/*

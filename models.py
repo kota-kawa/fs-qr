@@ -140,3 +140,9 @@ class NoteSyncInput(BaseModel):
     content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
     base_version: int = Field(ge=0)
     original_content: str = Field(max_length=NOTE_MAX_CONTENT_LENGTH)
+
+
+class NoteExportInput(BaseModel):
+    """ノートの TXT / PDF 出力 API の POST ボディ。"""
+
+    content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
