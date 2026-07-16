@@ -146,6 +146,15 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
     assert 'data-share-url=""' in html
     assert "/static/qrcode.min.js" in html
     assert "api.qrserver.com" not in html
+    # Local tooltips remain available without reintroducing hover movement.
+    # 専用ツールチップがホバー移動を復活させずに描画されることを確認する。
+    assert 'id="pasteButton"' in html
+    assert 'data-tooltip="ペースト" data-tooltip-skip' in html
+    assert 'id="copyAllButton"' in html
+    assert 'data-tooltip="全文コピー" data-tooltip-skip' in html
+    assert ".note-action-button::after" in html
+    assert "content: attr(data-tooltip);" in html
+    assert ".note-action-button:hover::after" in html
 
 
 def test_note_share_entry_renders_room_without_redirect(test_client: TestClient):
