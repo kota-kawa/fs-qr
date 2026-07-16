@@ -104,6 +104,8 @@
       charCount: document.getElementById("charCount"),
       pasteButton: document.getElementById("pasteButton"),
       copyAllButton: document.getElementById("copyAllButton"),
+      txtDownloadButton: document.getElementById("txtDownloadButton"),
+      pdfDownloadButton: document.getElementById("pdfDownloadButton"),
       MAX_LENGTH: maxLength,
       selfEditTimeoutMs: selfEditTimeoutMs,
 	      lastStamp: "",

@@ -110,6 +110,12 @@
                 <div class="note-editor-toolbar">
                     <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}文字</span>
                     <div class="note-editor-actions">
+                        <button type="button" id="txtDownloadButton" class="note-action-button note-export-button" aria-label="TXTとしてダウンロード" data-tooltip="TXTとしてダウンロード" data-tooltip-skip>
+                            <span aria-hidden="true">TXT</span>
+                        </button>
+                        <button type="button" id="pdfDownloadButton" class="note-action-button note-export-button" aria-label="PDFとしてダウンロード" data-tooltip="PDFとしてダウンロード" data-tooltip-skip>
+                            <span aria-hidden="true">PDF</span>
+                        </button>
                         <button type="button" id="pasteButton" class="note-action-button" aria-label="ペースト" data-tooltip="ペースト" data-tooltip-skip>
                             <svg class="note-action-icon-default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                             <svg class="note-action-icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
