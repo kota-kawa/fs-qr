@@ -2,7 +2,9 @@ import asyncio
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
-from Note.note_export import build_note_pdf
+import pytest
+
+from Note.note_export import NotePdfFontUnavailableError, build_note_pdf
 from settings import NOTE_MAX_CONTENT_LENGTH
 
 
@@ -154,3 +156,15 @@ def test_build_note_pdf_preserves_plain_text_safely():
 
     assert pdf.startswith(b"%PDF-")
     assert len(pdf) > 1_000
+    assert b"/CIDFontType2" in pdf
+    assert b"/CIDFontType0" not in pdf
+
+
+def test_build_note_pdf_rejects_non_truetype_outlines():
+    font_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+
+    with (
+        patch("Note.note_export._has_truetype_outlines", return_value=False),
+        pytest.raises(NotePdfFontUnavailableError),
+    ):
+        build_note_pdf("text", ROOM_ID, font_path=font_path)
