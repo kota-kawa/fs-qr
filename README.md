@@ -63,7 +63,7 @@ GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
-# Optional path to a Noto Sans CJK-compatible TTF/TTC font for PDF exports.
+# Optional path to a Japanese TTF/TTC font with TrueType outlines for PDF exports.
 NOTE_PDF_FONT_PATH=
 ```
 
@@ -204,9 +204,11 @@ For Note / Group WebSocket connections, a CSRF token tied to the HTTP session is
 If the token passed from the page rendered in the same session does not match, the handshake is rejected.
 
 The Note page can export the current editor content as UTF-8 TXT or PDF. Docker
-installs Noto Sans CJK automatically so Japanese text is embedded in the PDF. For
-a native non-Docker installation, install a Noto Sans CJK font or set
-`NOTE_PDF_FONT_PATH` to a compatible `.ttf` / `.ttc` file.
+installs IPA P Gothic automatically so a TrueType Japanese font is embedded in
+the PDF. For a native non-Docker installation, install `fonts-ipafont-gothic` or
+set `NOTE_PDF_FONT_PATH` to a Japanese `.ttf` / `.ttc` file with TrueType
+outlines. CFF fonts are rejected because they render inconsistently in some PDF
+viewers.
 
 ## 🧰 Tech Stack
 - **FastAPI** (Python 3.14 / Debian 13 trixie)
@@ -314,7 +316,7 @@ GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
-# PDF出力へ使用する Noto Sans CJK 互換フォントのパス（通常は未指定で可）
+# PDF出力へ使用するTrueTypeアウトラインの日本語TTF/TTC（通常は未指定で可）
 NOTE_PDF_FONT_PATH=
 ```
 
@@ -451,9 +453,10 @@ Note / Group の WebSocket 接続では、HTTP セッションと紐づく CSRF 
 同一セッションで生成されたトークンが一致しない接続は拒否されます。
 
 ノートページでは、現在のエディタ内容を UTF-8 のTXTまたはPDFとして出力できます。
-Docker環境では Noto Sans CJK を自動インストールし、日本語フォントをPDFへ埋め込みます。
-Dockerを使わない環境では Noto Sans CJK をインストールするか、互換性のある
-`.ttf` / `.ttc` ファイルを `NOTE_PDF_FONT_PATH` に指定してください。
+Docker環境では IPA Pゴシックを自動インストールし、TrueType形式の日本語フォントを
+PDFへ埋め込みます。Dockerを使わない環境では `fonts-ipafont-gothic` をインストールするか、
+TrueTypeアウトラインの日本語 `.ttf` / `.ttc` を `NOTE_PDF_FONT_PATH` に指定してください。
+一部PDFビューアで表示が崩れるCFF形式のフォントは使用できません。
 
 ## 🧰 技術スタック
 - **FastAPI** (Python 3.14 / Debian 13 trixie)
