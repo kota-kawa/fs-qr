@@ -100,6 +100,14 @@
       </nav>
       <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="" loading="eager" decoding="async">
       <h2 class="mb-4">{{ _heading }}</h2>
+      <p class="article-byline">
+        <span class="article-byline-author">FS!QR</span>
+        <time datetime="{{ _published_iso }}">{{ article_published }}</time>
+        {% if _modified != article_published %}
+        <span aria-hidden="true">·</span>
+        <time datetime="{{ _modified_iso }}">{{ _modified }}</time>
+        {% endif %}
+      </p>
       {% block article_body %}{% endblock %}
       {% include "_article_cta.html" %}
       <div class="article-footer-nav">
@@ -132,6 +140,18 @@
     margin: 0 0 1.5rem;
     display: block;
     background: var(--bg-light);
+  }
+  .article-byline {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: -0.65rem 0 1.75rem;
+    color: var(--text-medium);
+    font-size: 0.85rem;
+  }
+  .article-byline-author {
+    color: var(--text-dark);
+    font-weight: 600;
   }
   .article-footer-nav {
     margin-top: 2.5rem;

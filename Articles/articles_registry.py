@@ -67,7 +67,7 @@ ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS = frozenset(
 )
 
 # 既存の6件はサービス解説ガイド(エバーグリーン)としてデフォルト保持する。
-# 日次で増やすブログ記事は type="article" でこのリスト末尾に append していく。
+# 品質確認済みの記事は type="article" でこのリスト末尾に append していく。
 ARTICLES: list[dict[str, Any]] = [
     {
         "slug": "fs-qr-concept",
@@ -135,7 +135,7 @@ ARTICLES: list[dict[str, Any]] = [
         "type": TYPE_GUIDE,
         "default": True,
     },
-    # ── 日次で追加するブログ記事(type="article")はここから下に1件ずつ append する ──
+    # ── 品質確認済みの記事(type="article")はここから下に append する ──
     {
         "slug": "smartphone-receiving",
         "title": "スマホでファイルを受け取る方法",
@@ -457,7 +457,8 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/ai-live-translation-practical-guide.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        "indexable": True,
+        # FS!QRのファイル共有という主題から外れるため、品質改善まで非公開扱いにする。
+        "indexable": False,
     },
     {
         "slug": "ai-ad-transparency-guide",
@@ -470,7 +471,8 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/ai-ad-transparency-guide.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        "indexable": True,
+        # FS!QRのファイル共有という主題から外れるため、品質改善まで非公開扱いにする。
+        "indexable": False,
     },
 ]
 
