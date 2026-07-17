@@ -48,6 +48,31 @@ def test_articles_index_lists_indexable_articles(test_client: TestClient):
         assert f"/{article['slug']}" not in body
 
 
+def test_off_topic_ai_articles_are_not_indexable():
+    """FS!QRの主題外記事は一覧・sitemap・AdSense対象から除外する。"""
+    excluded_slugs = {
+        "ai-live-translation-practical-guide",
+        "ai-ad-transparency-guide",
+    }
+    articles_by_slug = {article["slug"]: article for article in ARTICLES}
+    for slug in excluded_slugs:
+        assert slug in articles_by_slug
+        assert not is_indexable_article(articles_by_slug[slug])
+
+
+def test_article_base_shows_editorial_date(test_client: TestClient):
+    """記事本文に公開日を表示し、構造化データだけに依存しない。"""
+    response = test_client.get("/safe-sharing")
+    assert response.status_code == 200
+    assert '<p class="article-byline"' in response.text
+    assert (
+        '<time datetime="2025-08-30T00:00:00+09:00">2025-08-30</time>' in response.text
+    )
+    assert (
+        '<time datetime="2026-07-17T00:00:00+09:00">2026-07-17</time>' in response.text
+    )
+
+
 @pytest.mark.parametrize("article", ARTICLES, ids=lambda a: a["slug"])
 def test_registered_article_thumbnail_file_exists(article):
     thumbnail = article.get("thumbnail")
