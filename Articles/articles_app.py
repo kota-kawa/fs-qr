@@ -1,5 +1,3 @@
-from datetime import date, datetime
-
 from fastapi import APIRouter, HTTPException, Request
 from starlette.responses import RedirectResponse
 
@@ -15,22 +13,7 @@ from Articles.articles_registry import (
 
 router = APIRouter()
 
-# 公開からこの日数以内の記事に「NEW」バッジを付ける。
-_NEW_BADGE_DAYS = 14
 ARTICLES_PER_PAGE = 9
-
-
-def _with_new_flag(articles: list[dict]) -> list[dict]:
-    today = date.today()
-    annotated = []
-    for article in articles:
-        try:
-            published = datetime.strptime(article["date"], "%Y-%m-%d").date()
-            is_new = (today - published).days <= _NEW_BADGE_DAYS
-        except (ValueError, KeyError):
-            is_new = False
-        annotated.append({**article, "is_new": is_new})
-    return annotated
 
 
 def _canonical_redirect(request: Request):
@@ -50,7 +33,7 @@ def _paginate_articles(articles: list[dict], page_number: int) -> dict:
     end = start + ARTICLES_PER_PAGE
     page_articles = articles[start:end]
     return {
-        "articles": _with_new_flag(page_articles),
+        "articles": page_articles,
         "article_page": page_number,
         "article_total_pages": total_pages,
         "article_total_count": total_count,

@@ -4,7 +4,6 @@
   "QRコードを読み取るだけで受け取れる": "Pindai kode QR untuk menerima",
   "スマホでファイルを受け取る方法": "Cara menerima file di smartphone",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Panduan mudah menerima file yang dibagikan di smartphone — dari memindai kode QR hingga mengunduhnya, cocok untuk pemula.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR adalah layanan yang berfokus pada berbagi file sementara. Setelah masa berlaku berbagi yang ditetapkan berakhir, data file di server dihapus secara otomatis, aman, dan permanen. Jika ini terjadi, file tidak dapat dipulihkan; mintalah pengirim mengunggahnya kembali.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Jika pengirim mengaktifkan perlindungan kata sandi demi keamanan, layar untuk memasukkan ID dan kata sandi akan muncul segera setelah halaman unduhan dibuka.",
   "QRコードがスキャンできない": "Tidak dapat memindai kode QR",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Luncurkan aplikasi \"Files by Google\" atau aplikasi \"File Saya\" dan \"File\" yang sudah diinstal sebelumnya di perangkat Anda.",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Periksa nama dan ukuran file yang ditampilkan di halaman, lalu ketuk tombol \"Unduh\". Setelah pemrosesan selesai, file akan disimpan di perangkat Anda.",
   "リンクを開く：": "Buka tautan:",
   "保存する：": "Menyimpan:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Ketuk tautan kuning (atau notifikasi) yang muncul di layar untuk membuka halaman pengunduhan FS!QR pada browser Anda."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Ketuk tautan kuning (atau notifikasi) yang muncul di layar untuk membuka halaman pengunduhan FS!QR pada browser Anda.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Layanan menghapus catatan dan berkas yang dikelolanya setelah masa penyimpanan berakhir; cadangan dan salinan di perangkat penerima mungkin tetap ada."
 }

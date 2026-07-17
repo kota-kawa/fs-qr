@@ -1,4 +1,4 @@
-<img class="article-hero-image" src="{{ staticfile(article_thumbnail) }}" alt="" loading="eager" decoding="async">
+<img class="article-hero-image" src="{{ staticfile(article_thumbnail) }}" alt="{{ article_thumbnail_alt }}" loading="eager" decoding="async">
 <style>
   .article-hero-image {
     width: 100%;
@@ -8,5 +8,17 @@
     margin: 0 0 1.5rem;
     display: block;
     background: var(--bg-light);
+  }
+  .article-byline {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: -0.65rem 0 1.75rem;
+    color: var(--text-medium);
+    font-size: 0.85rem;
+  }
+  .article-byline-author {
+    color: var(--text-dark);
+    font-weight: 600;
   }
 </style>

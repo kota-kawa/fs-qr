@@ -40,8 +40,8 @@
   "受け取り側の操作は、スマートフォン単体で完結し、迷うことなく進められるシンプルな3ステップです。": "L'operazione dal lato ricevente è un semplice processo in tre fasi che può essere completato semplicemente con uno smartphone e può essere eseguito senza esitazione.",
   "■ Androidの場合": "■ Per Android",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Guida pratica per ricevere file condivisi sullo smartphone, dalla scansione del QR Code al download, spiegata per chi è alle prime armi.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR è un servizio specializzato nella \"condivisione temporanea di file\". Una volta scaduta la data di scadenza della condivisione impostata, i dati dei file sul server vengono eliminati definitivamente in modo automatico e sicuro. In questo caso, il file non può essere recuperato, quindi chiedi al mittente di caricarlo nuovamente.",
   "Google Chromeなどのブラウザを使用してダウンロードした場合、システム標準のファイル管理アプリに格納されます。": "Se scaricato utilizzando un browser come Google Chrome, viene archiviato nell'app di gestione file standard del sistema.",
   "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。": "Per impostazione predefinita, il browser Safari salva i file scaricati nella cartella Download all'interno dell'app File integrata.",
-  "受け取りの基本手順（3ステップ）": "Procedura base per la ricezione (3 passaggi)"
+  "受け取りの基本手順（3ステップ）": "Procedura base per la ricezione (3 passaggi)",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Il servizio elimina record e file gestiti al termine del periodo di conservazione; backup e copie sui dispositivi dei destinatari possono restare."
 }

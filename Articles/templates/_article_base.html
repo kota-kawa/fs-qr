@@ -98,8 +98,8 @@
         <i class="fas fa-chevron-right breadcrumb-separator"></i>
         <a href="/articles{{ lq }}">解説記事</a>
       </nav>
-      <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="" loading="eager" decoding="async">
-      <h2 class="mb-4">{{ _heading }}</h2>
+      <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="{{ _heading }}" loading="eager" decoding="async">
+      <h1 class="mb-4">{{ _heading }}</h1>
       <p class="article-byline">
         <span class="article-byline-author">FS!QR</span>
         <time datetime="{{ _published_iso }}">{{ article_published }}</time>

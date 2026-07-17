@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Inicie o download na página aberta no navegador do celular e salve.",
   "ログイン不要：": "Sem login necessário:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Se desejar, ajuste o período de retenção (por ex., 1 hora ou 1 dia) e defina uma proteção por ID e senha.",
-  "自動データ消去：": "Exclusão automática de dados:",
   "設定を調整する（任意）：": "Ajustar as configurações (opcional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Após o prazo definido, os dados transferidos são excluídos automática e completamente do servidor, sem deixar rastros.",
   "PCで受け取る（QRコードの場合）：": "Receber no PC (código QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Se seu PC tiver uma câmera capaz de ler códigos QR, leia o código QR exibido na tela de upload concluído do smartphone para abrir a página de download.",
   "PCで受け取る（リンク入力の場合）：": "Receber no PC (inserindo o link):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Se o PC não tiver câmera ou a leitura for difícil, digite o link de compartilhamento exibido na tela de upload concluído do smartphone no navegador do PC. Se você anotar o ID de compartilhamento e a senha de 6 dígitos, também poderá abrir o arquivo pela página de busca."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Se o PC não tiver câmera ou a leitura for difícil, digite o link de compartilhamento exibido na tela de upload concluído do smartphone no navegador do PC. Se você anotar o ID de compartilhamento e a senha de 6 dígitos, também poderá abrir o arquivo pela página de busca.",
+  "自動データ削除：": "Exclusão automática de dados:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "O serviço elimina os seus registos e ficheiros no fim do período de retenção; cópias de segurança e cópias nos dispositivos dos destinatários podem permanecer."
 }

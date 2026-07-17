@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Voer download uit en sla op vanuit de geopende pagina in de smartphonebrowser.",
   "ログイン不要：": "Geen aanmelding nodig:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Wijzig indien nodig de retentieperiode (bijvoorbeeld 1 uur, 1 dag) en configureer beveiligingsinstellingen met ID en wachtwoord.",
-  "自動データ消去：": "Automatisch wissen:",
   "設定を調整する（任意）：": "Instellingen aanpassen (optioneel):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Overgedragen gegevens worden automatisch van server verwijderd na ingestelde tijd.",
   "PCで受け取る（QRコードの場合）：": "Ontvangen op PC (QR-code):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Als uw pc een camera heeft die QR-codes kan scannen, scan dan de QR-code die wordt weergegeven op het uploadvoltooiingsscherm van de smartphone om de downloadpagina te openen.",
   "PCで受け取る（リンク入力の場合）：": "Ontvangen op PC (link invoeren):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Als de pc geen camera heeft of scannen lastig is, voer dan de deel-link die wordt weergegeven op het uploadvoltooiingsscherm van de smartphone in de browser van de pc in. Als u de deel-ID en het 6-cijferige wachtwoord noteert, kunt u het bestand ook openen vanaf de zoekpagina."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Als de pc geen camera heeft of scannen lastig is, voer dan de deel-link die wordt weergegeven op het uploadvoltooiingsscherm van de smartphone in de browser van de pc in. Als u de deel-ID en het 6-cijferige wachtwoord noteert, kunt u het bestand ook openen vanaf de zoekpagina.",
+  "自動データ削除：": "Automatisch wissen:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "De dienst verwijdert records en opgeslagen bestanden na afloop van de bewaartermijn; back-ups en kopieën op apparaten van ontvangers kunnen blijven bestaan."
 }

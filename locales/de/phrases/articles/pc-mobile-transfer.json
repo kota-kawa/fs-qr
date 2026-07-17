@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Starten Sie den Download von der im Handy-Browser geöffneten Seite und speichern Sie.",
   "ログイン不要：": "Keine Anmeldung erforderlich:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Optional können Sie den Aufbewahrungszeitraum anpassen (z. B. 1 Stunde oder 1 Tag) und einen ID- und Passwortschutz einrichten.",
-  "自動データ消去：": "Automatisches Löschen von Daten:",
   "設定を調整する（任意）：": "Einstellungen anpassen (optional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Nach Ablauf der festgelegten Frist werden die übertragenen Daten automatisch und vollständig vom Server gelöscht, ohne Spuren zu hinterlassen.",
   "PCで受け取る（QRコードの場合）：": "Am PC empfangen (QR-Code):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Wenn Ihr PC über eine Kamera verfügt, die QR-Codes scannen kann, scannen Sie den auf dem Upload-Abschluss-Bildschirm des Smartphones angezeigten QR-Code, um die Download-Seite zu öffnen.",
   "PCで受け取る（リンク入力の場合）：": "Am PC empfangen (Link eingeben):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Wenn der PC keine Kamera hat oder das Scannen schwierig ist, geben Sie den auf dem Upload-Abschluss-Bildschirm des Smartphones angezeigten Freigabelink in den Browser des PCs ein. Wenn Sie sich die Freigabe-ID und das 6-stellige Passwort notieren, können Sie die Datei auch über die Suchseite öffnen."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Wenn der PC keine Kamera hat oder das Scannen schwierig ist, geben Sie den auf dem Upload-Abschluss-Bildschirm des Smartphones angezeigten Freigabelink in den Browser des PCs ein. Wenn Sie sich die Freigabe-ID und das 6-stellige Passwort notieren, können Sie die Datei auch über die Suchseite öffnen.",
+  "自動データ削除：": "Automatisches Löschen von Daten:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Der Dienst löscht seine Datensätze und gespeicherten Dateien nach Ablauf der Aufbewahrungsfrist; Backups und Kopien auf Empfängergeräten können bleiben."
 }

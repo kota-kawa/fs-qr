@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Fanya upakuaji kutoka kwenye ukurasa utakaofunguka kwenye kivinjari cha simu yako na uhifadhi faili hilo.",
   "ログイン不要：": "Hakuna haja ya kuingia (Log in):",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Ikiwa inahitajika, rekebisha muda wa kuhifadhi (k.m., saa 1 au siku 1) na uweke ulinzi wa kitambulisho na nenosiri kama chaguo.",
-  "自動データ消去：": "Kufuta data kiotomatiki:",
   "設定を調整する（任意）：": "Rekebisha mipangilio (Si lazima):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Punde tu muda uliowekwa unapopita, data iliyohamishwa hufutwa kabisa na kiotomatiki kutoka kwenye seva, bila kuacha alama yoyote.",
   "PCで受け取る（QRコードの場合）：": "Kupokea Kwenye Kompyuta (Msimbo wa QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Kama kompyuta yako ina kamera inayoweza kuchanganua misimbo ya QR, changanua msimbo unaoonyeshwa kwenye skrini ya simu iliyokamilisha kupakia ili kufungua ukurasa wa kupakua.",
   "PCで受け取る（リンク入力の場合）：": "Kupokea Kwenye Kompyuta (Kuweka Kiungo):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Kama kompyuta haina kamera au ni ngumu kuchanganua, andika kiungo cha kushiriki kinachoonyeshwa kwenye skrini ya simu kwenye kivinjari cha kompyuta yako. Ikiwa utahifadhi Kitambulisho (ID) cha kushiriki na nenosiri la tarakimu 6, unaweza pia kufungua faili kutoka kwenye ukurasa wa utafutaji."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Kama kompyuta haina kamera au ni ngumu kuchanganua, andika kiungo cha kushiriki kinachoonyeshwa kwenye skrini ya simu kwenye kivinjari cha kompyuta yako. Ikiwa utahifadhi Kitambulisho (ID) cha kushiriki na nenosiri la tarakimu 6, unaweza pia kufungua faili kutoka kwenye ukurasa wa utafutaji.",
+  "自動データ削除：": "Kufuta data kiotomatiki:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Huduma hufuta rekodi na faili inazodhibiti baada ya muda wa kuhifadhi kuisha; nakala za ziada na nakala kwenye vifaa vya wapokeaji zinaweza kubaki."
 }

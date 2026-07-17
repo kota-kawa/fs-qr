@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Jalankan pengunduhan dari halaman yang terbuka di browser smartphone Anda, lalu simpan file tersebut.",
   "ログイン不要：": "Tidak perlu login:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Sesuaikan batas waktu penyimpanan file (misalnya 1 jam, 1 hari, dll.) serta pengaturan perlindungan dengan ID dan kata sandi jika diperlukan.",
-  "自動データ消去：": "Penghapusan data otomatis:",
   "設定を調整する（任意）：": "Sesuaikan pengaturan (opsional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Data yang ditransfer akan dihapus secara permanen dan otomatis dari server tanpa meninggalkan jejak setelah batas waktu yang ditentukan terlewati.",
   "PCで受け取る（QRコードの場合）：": "Menerima di PC (jika kode QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Jika PC Anda memiliki kamera yang dapat memindai kode QR, pindai kode QR yang ditampilkan di layar unggahan selesai pada smartphone, lalu buka halaman unduhan.",
   "PCで受け取る（リンク入力の場合）：": "Menerima di PC (jika memasukkan tautan):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Jika PC tidak memiliki kamera atau sulit memindai, masukkan tautan berbagi yang ditampilkan di layar unggahan selesai pada smartphone ke browser PC. Jika Anda mencatat ID berbagi dan kata sandi 6 digit, Anda juga dapat membuka file dari halaman pencarian."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Jika PC tidak memiliki kamera atau sulit memindai, masukkan tautan berbagi yang ditampilkan di layar unggahan selesai pada smartphone ke browser PC. Jika Anda mencatat ID berbagi dan kata sandi 6 digit, Anda juga dapat membuka file dari halaman pencarian.",
+  "自動データ削除：": "Penghapusan data otomatis:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Layanan menghapus catatan dan berkas yang dikelolanya setelah masa penyimpanan berakhir; cadangan dan salinan di perangkat penerima mungkin tetap ada."
 }

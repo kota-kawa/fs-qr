@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Die Überprüfung, ob der Kommunikationsweg für das Hoch- und Herunterladen von Dateien verschlüsselt ist (ob die URL mit https:// beginnt), ist die absolute Mindestanforderung.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Dateien unbegrenzt abrufbar zu halten, erhöht das Risiko von Datenlecks. Es ist sicherer, einen Dienst zu wählen, bei dem Sie präzise Einschränkungen festlegen können, wie z. B. „Nach einmaligem Herunterladen löschen“ oder „Nach 24 Stunden automatisch löschen“.",
   "「今すぐファイルを送りたいのに…」登録の壁": "„Ich möchte jetzt sofort eine Datei senden...“ – Die Hürde der Registrierung",
   "有効期限とダウンロード回数制限": "Gültigkeitsdauer und Begrenzung der Downloads",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "E-Mail-Adresse eingeben, Passwort festlegen, Bestätigungs-E-Mail abwarten... Diese Schritte stellen für Benutzer, die eine Datei so schnell wie möglich senden möchten, ein großes Hindernis dar. Dateifreigabedienste, die ohne Registrierung genutzt werden können, beseitigen diesen Aufwand und bieten ein intuitives Erlebnis beim Teilen von Dateien.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR ist ein Dateifreigabedienst, der „völlig ohne Registrierung“ genutzt werden kann. Sie müssen lediglich den Browser öffnen und die Dateien ablegen, um sofort einen einmaligen Freigaberaum zu erstellen.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Ein Zustand, in dem jeder, der die URL kennt, die Datei herunterladen kann, ist gefährlich. Wenn Sie wichtige Dateien senden, richten Sie unbedingt ein Download-Passwort ein und teilen Sie dieses dem Empfänger über einen anderen Weg (z. B. über ein Chat-Tool) mit.",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Dank des flüchtigen (ephemeren) Designs werden die Dateien nach Ablauf der festgelegten Frist spurlos vom Server gelöscht. Zudem wird auch ein Passwortschutz unterstützt, was Benutzerfreundlichkeit und Sicherheit perfekt verbindet. Wenn Sie Dateien „sofort, sicher und mit jedem“ teilen möchten, probieren Sie FS!QR aus.",
   "パスワード保護機能の活用": "Nutzung des Passwortschutzes",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "Mit FS!QR ohne Registrierung schnell und sicher Dateien teilen",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Sicherheitstipps bei der Nutzung registrierungsfreier Dienste",
@@ -29,10 +27,12 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Für temporäre Datenübertragungen an Kunden oder das Senden von Dateien von öffentlichen PCs auf Reisen sind registrierungsfreie Einweg-Dienste die sicherste und bequemste Option.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Warum Datentransfer ohne Anmeldung sicherer sein kann",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Obwohl Dienste mit Anmeldung oft seriöser wirken, bietet ein registrierungsfreier Dienst bei einmaligen Datenübertragungen erhebliche Sicherheitsvorteile.",
-  "アカウント情報の流出リスクをゼロにする：": "Kein Risiko von Datenlecks persönlicher Accounts:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Bei einer Registrierung werden Zugangsdaten auf externen Servern gespeichert. Wird der Dienst gehackt, sind Ihre Daten gefährdet. Ohne Anmeldung gibt es keine Benutzerdaten, die gestohlen werden könnten.",
   "パスワードの使い回し被害を防ぐ：": "Schutz vor Folgeangriffen durch recycelte Passwörter:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Nutzer verwenden oft gleiche Passwörter für mehrere Konten. Ohne Anmeldung entfällt dieses Risiko komplett, was auch all Ihre anderen Accounts schützt.",
-  "共有後にデータが自動で完全消去される安心感：": "Automatische physische Löschung nach der Freigabe:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Einmal hochgeladene Cloud-Daten verbleiben dort meist unbegrenzt. Anmeldefreie Transferdienste löschen Daten nach Ablauf einer Frist automatisch vom Server und verhindern so Datenlecks."
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "Dateien unbegrenzt abrufbar zu halten, erhöht das Risiko von Datenlecks. Es ist sicherer, einen Dienst zu wählen, bei dem Sie präzise Einschränkungen festlegen können, wie z. B. „Nach einmaligem Herunterladen löschen“ oder „Nach 24 Stunden automatisch löschen“.",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "Der Dienst löscht seine Datensätze und gespeicherten Dateien nach Ablauf der Aufbewahrungsfrist; Backups und Kopien auf Empfängergeräten können bleiben.",
+  "登録情報を増やさずに済む：": "Kein Risiko von Datenlecks persönlicher Accounts:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Bei einer Registrierung werden Zugangsdaten auf externen Servern gespeichert. Wird der Dienst gehackt, sind Ihre Daten gefährdet. Ohne Anmeldung gibt es keine Benutzerdaten, die gestohlen werden könnten.",
+  "共有後の残存期間を短くできる：": "Automatische physische Löschung nach der Freigabe:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Einmal hochgeladene Cloud-Daten verbleiben dort meist unbegrenzt. Anmeldefreie Transferdienste löschen Daten nach Ablauf einer Frist automatisch vom Server und verhindern so Datenlecks."
 }

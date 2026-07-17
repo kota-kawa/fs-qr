@@ -4,7 +4,6 @@
   "QRコードを読み取るだけで受け取れる": "Pokea kwa kuskani tu msimbo wa QR",
   "スマホでファイルを受け取る方法": "Jinsi ya kupokea faili kwenye simu janja",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Mwongozo rahisi kwa wanaoanza kuhusu jinsi ya kupokea faili zilizoshirikiwa kwenye simu yako — kuanzia kuskani msimbo wa QR hadi kupakua.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR ni huduma maalum kwa ajili ya \"kushiriki faili kwa muda\". Baada ya muda wa kushiriki uliowekwa kuisha, data ya faili kwenye seva hufutwa kabisa, kiotomatiki na kwa usalama. Katika hali hii, faili haliwezi kurejeshwa, hivyo tafadhali muombe mtumaji alipakie tena.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Ikiwa mtumaji ameweka ulinzi wa nenosiri kwa ajili ya usalama, skrini inayodai uingize \"ID\" na \"Nenosiri\" itatokea mara tu unapofungua ukurasa wa kupakua.",
   "QRコードがスキャンできない": "Imeshindwa kuskani msimbo wa QR",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Fungua programu ya “Files by Google”, au programu ya “My Files” / “Files” iliyosakinishwa tayari kwenye kifaa chako.",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Angalia jina la faili na ukubwa wake unaoonekana kwenye ukurasa, kisha bonyeza kitufe cha \"Pakua (Download)\". Utaratibu utakapokamilika, faili litahifadhiwa kwenye kifaa chako.",
   "リンクを開く：": "Fungua kiungo:",
   "保存する：": "Hifadhi:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Bonyeza kiungo cha manjano (au arifa) kinachotokea kwenye skrini ili kufungua ukurasa wa kupakua wa FS!QR kwenye kivinjari chako."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Bonyeza kiungo cha manjano (au arifa) kinachotokea kwenye skrini ili kufungua ukurasa wa kupakua wa FS!QR kwenye kivinjari chako.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Huduma hufuta rekodi na faili inazodhibiti baada ya muda wa kuhifadhi kuisha; nakala za ziada na nakala kwenye vifaa vya wapokeaji zinaweza kubaki."
 }

@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Run the download from the page that opens in the phone's browser and save the file.",
   "ログイン不要：": "No login required:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "If you like, adjust the retention period (e.g. 1 hour or 1 day) and optionally set ID/password protection.",
-  "自動データ消去：": "Automatic data erasure:",
   "設定を調整する（任意）：": "Adjust settings (optional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Once the time you set has elapsed, the transferred data is completely and automatically wiped from the server, leaving no trace.",
   "PCで受け取る（QRコードの場合）：": "Receive on PC (QR code):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "If your PC has a camera that can scan QR codes, scan the QR code shown on the smartphone's upload-complete screen to open the download page.",
   "PCで受け取る（リンク入力の場合）：": "Receive on PC (link entry):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, type the share link shown on the smartphone's upload-complete screen into the PC browser. If you note down the share ID and 6-digit password, you can also open the file from the search page."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "If the PC has no camera or scanning is difficult, type the share link shown on the smartphone's upload-complete screen into the PC browser. If you note down the share ID and 6-digit password, you can also open the file from the search page.",
+  "自動データ削除：": "Automatic data erasure:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "The service deletes its records and stored files when the retention period ends; backups and copies saved on recipient devices may remain."
 }

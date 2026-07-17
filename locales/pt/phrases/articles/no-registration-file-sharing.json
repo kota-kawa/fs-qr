@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Verificar se o canal de comunicação para o upload ou transferência de arquivos está criptografado (se o URL começa por https://) é a precaução mínima exigida.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Manter os arquivos sempre disponíveis para baixar aumenta o risco de fuga de informação. É mais seguro escolher um serviço que permita configurar limites detalhados, como «excluir após uma transferência» ou «excluir automaticamente após 24 horas».",
   "「今すぐファイルを送りたいのに…」登録の壁": "«Quero enviar um arquivo agora mesmo...» a barreira do registro",
   "有効期限とダウンロード回数制限": "Prazo de validade e limite de desuploads",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Inserir um endereço de e-mail, definir uma senha, verificar um e-mail de confirmação... Estes passos representam um grande obstáculo para usuários com pressa. Os serviços de compartilhamento de arquivos sem cadastro eliminam este incómodo e oferecem uma experiência intuitiva.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "O FS!QR é um serviço de compartilhamento de arquivos utilizável «sem qualquer registro». Basta abrir o navegador e largar os arquivos para criar instantaneamente uma sala de compartilhamento temporário.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Permitir que qualquer pessoa com acesso ao URL possbaixando os arquivos é perigoso. Ao enviar arquivos importantes, defina sempre uma senha de transferência e transmita-a por outro canal (como uma ferramenta de chat).",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Graças aseu design efêmero, os arquivos são totalmente excluídos do servidor quando o tempo limite expira. Além disso, suporta proteção por senha, combinando facilidade de uso e segurança. Se deseja compartilhar arquivos «já, com segurança e com qualquer pessoa», experimente o FS!QR.",
   "パスワード保護機能の活用": "Uso da função de proteção por senha",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "Com o FS!QR compartilhe de forma rápida e segura sem necessidade de registro",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Pontos de segurança a considerar ao usar serviços sem cadastro",
@@ -29,10 +27,12 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Para transferências temporárias com clientes ou envio de arquivos em computadores públicos, serviços sem cadastro que funcionam como descartáveis são os mais seguros e práticos.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Por que o envio sem cadastro reduz os riscos de segurança",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Embora registrar uma conta pareça mais seguro, serviços sem cadastro oferecem maior proteção para o compartilhamentos únicos e pontuais.",
-  "アカウント情報の流出リスクをゼロにする：": "Elimina o risco de vazamento de dados de usuário:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Ter um registro exige salvar e-mails e senhas em servidores de terceiros. Em caso de ataque hacker, essas credenciais são expostas. Sem cadastro, não há banco de dados a ser violado.",
   "パスワードの使い回し被害を防ぐ：": "Evita vulnerabilidades por reaproveitamento de senhas:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Muitos reutilizam a mesma senha em vários sites. Evitar novos cadastros protege você contra ataques em cascata e sequestro de suas outras contas na web.",
-  "共有後にデータが自動で完全消去される安心感：": "Exclusão física definitiva após o recebimento do arquivo:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Nuvens tradicionais guardam os dados até que você os apague manualmente. Portais de transferência sem conta costumam remover os arquivos do servidor após um prazo, evitando vazamentos por esquecimento."
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "Manter os arquivos sempre disponíveis para baixar aumenta o risco de fuga de informação. É mais seguro escolher um serviço que permita configurar limites detalhados, como «excluir após uma transferência» ou «excluir automaticamente após 24 horas».",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "O serviço elimina os seus registos e ficheiros no fim do período de retenção; cópias de segurança e cópias nos dispositivos dos destinatários podem permanecer.",
+  "登録情報を増やさずに済む：": "Elimina o risco de vazamento de dados de usuário:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Ter um registro exige salvar e-mails e senhas em servidores de terceiros. Em caso de ataque hacker, essas credenciais são expostas. Sem cadastro, não há banco de dados a ser violado.",
+  "共有後の残存期間を短くできる：": "Exclusão física definitiva após o recebimento do arquivo:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Nuvens tradicionais guardam os dados até que você os apague manualmente. Portais de transferência sem conta costumam remover os arquivos do servidor após um prazo, evitando vazamentos por esquecimento."
 }

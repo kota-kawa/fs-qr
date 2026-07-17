@@ -3,6 +3,7 @@ import contextlib
 import inspect
 import logging
 import os
+import re
 import subprocess
 from datetime import datetime, timezone
 from functools import lru_cache
@@ -347,9 +348,35 @@ SITEMAP_FALLBACK_LASTMOD = "2026-04-27"
 
 def _articles_lastmod() -> str:
     return max(
-        (article["date"] for article in get_indexable_articles()),
+        (_article_lastmod(article) for article in get_indexable_articles()),
         default="2025-08-31",
     )
+
+
+_ARTICLE_MODIFIED_RE = re.compile(
+    r"\{%\s*set\s+article_modified\s*=\s*[\"'](\d{4}-\d{2}-\d{2})[\"']\s*%\}"
+)
+
+
+@lru_cache(maxsize=None)
+def _article_template_modified(template_name: str) -> str | None:
+    """記事テンプレートに明示された ``article_modified`` を取得する。
+
+    記事の更新日を構造化データ・画面表示・sitemapで一致させるため、
+    レジストリの日付だけでなくテンプレートの更新日指定も参照する。
+    """
+    path = os.path.join(BASE_DIR, "Articles", "templates", template_name)
+    try:
+        with open(path, encoding="utf-8") as template_file:
+            match = _ARTICLE_MODIFIED_RE.search(template_file.read())
+    except OSError:
+        return None
+    return match.group(1) if match else None
+
+
+def _article_lastmod(article: dict) -> str:
+    """記事の公開日またはテンプレートに指定された最終更新日を返す。"""
+    return _article_template_modified(article["template"]) or article["date"]
 
 
 @lru_cache(maxsize=None)
@@ -447,11 +474,14 @@ async def sitemap():
         if path == "/articles":
             lastmod = max(lastmod, _articles_lastmod())
         rows.append(_build_sitemap_entry(path, changefreq, priority, lastmod))
-    # 解説記事の個別ページはレジストリの公開日を lastmod として自動生成する。
+    # 解説記事の個別ページはテンプレートの article_modified (未指定なら公開日) を使う。
     for article in get_indexable_articles():
         rows.append(
             _build_sitemap_entry(
-                f"/{article['slug']}", "monthly", "0.6", article["date"]
+                f"/{article['slug']}",
+                "monthly",
+                "0.6",
+                _article_lastmod(article),
             )
         )
     entries = "\n".join(rows)

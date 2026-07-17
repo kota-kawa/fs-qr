@@ -4,7 +4,6 @@
   "QRコードを読み取るだけで受け取れる": "Scan de QR-code om te ontvangen",
   "スマホでファイルを受け取る方法": "Bestanden ontvangen op je smartphone",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Een toegankelijke handleiding voor het ontvangen van gedeelde bestanden op je smartphone, van QR-codescan tot download.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR is een service die gespecialiseerd is in \"tijdelijke bestandsdeling\". Zodra de ingestelde vervaldatum is verstreken, worden de bestandsgegevens op de server automatisch en veilig permanent verwijderd. In dit geval kan het bestand niet worden hersteld, dus vraag de afzender om het opnieuw te uploaden.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Als de deler om veiligheidsredenen wachtwoordbeveiliging heeft ingesteld, ziet u na het openen van de downloadpagina een scherm waarin om ID en wachtwoord wordt gevraagd.",
   "QRコードがスキャンできない": "QR-code kan niet worden gescand",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Open de app \"Files by Google\" of de op uw apparaat vooraf geïnstalleerde app \"Mijn bestanden\" of \"Bestanden\".",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Controleer de bestandsnaam en grootte op de pagina en tik op Downloaden. Zodra de verwerking klaar is, wordt het bestand op het apparaat opgeslagen.",
   "リンクを開く：": "Link openen:",
   "保存する：": "Opslaan:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tik op de gele link of melding die op het scherm verschijnt om de downloadpagina van FS!QR in de browser te openen."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Tik op de gele link of melding die op het scherm verschijnt om de downloadpagina van FS!QR in de browser te openen.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "De dienst verwijdert records en opgeslagen bestanden na afloop van de bewaartermijn; back-ups en kopieën op apparaten van ontvangers kunnen blijven bestaan."
 }

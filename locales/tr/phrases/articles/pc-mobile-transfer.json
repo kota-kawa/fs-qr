@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Telefonun tarayıcısında açılan sayfadan indirme işlemini başlatın ve dosyayı kaydedin.",
   "ログイン不要：": "Giriş yapmaya gerek yok:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "İsterseniz, saklama süresini (örn. 1 saat veya 1 gün) ayarlayabilir ve isteğe bağlı olarak ID/şifre koruması belirleyebilirsiniz.",
-  "自動データ消去：": "Otomatik veri silinmesi:",
   "設定を調整する（任意）：": "Ayarları yapın (isteğe bağlı):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Ayarladığınız süre dolduğunda, aktarılan veriler sunucudan hiçbir iz bırakmayacak şekilde tamamen ve otomatik olarak silinir.",
   "PCで受け取る（QRコードの場合）：": "PC'de teslim al (QR kod):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Bilgisayarınızda QR kodlarını tarayabilen bir kamera varsa, indirme sayfasını açmak için akıllı telefonun yükleme tamamlandı ekranında gösterilen QR kodunu taratın.",
   "PCで受け取る（リンク入力の場合）：": "PC'de teslim al (bağlantı girişi):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Bilgisayarda kamera yoksa veya tarama zorsa, akıllı telefonun yükleme tamamlandı ekranında gösterilen paylaşım bağlantısını bilgisayarın tarayıcısına yazın. Paylaşım ID'sini ve 6 haneli şifreyi not ederseniz, dosyayı arama sayfasından da açabilirsiniz."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Bilgisayarda kamera yoksa veya tarama zorsa, akıllı telefonun yükleme tamamlandı ekranında gösterilen paylaşım bağlantısını bilgisayarın tarayıcısına yazın. Paylaşım ID'sini ve 6 haneli şifreyi not ederseniz, dosyayı arama sayfasından da açabilirsiniz.",
+  "自動データ削除：": "Otomatik veri silinmesi:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Hizmet, saklama süresi dolduğunda yönettiği kayıtları ve dosyaları siler; yedekler ve alıcı cihazlarındaki kopyalar kalabilir."
 }

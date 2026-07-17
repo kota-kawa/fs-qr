@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Ít nhất hãy kiểm tra xem đường truyền tải lên và tải xuống có được mã hóa không — URL phải bắt đầu bằng https://.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Để tệp luôn có thể tải xuống trong thời gian dài làm tăng nguy cơ rò rỉ thông tin. Hãy chọn dịch vụ cho phép cài đặt giới hạn chi tiết như \"xóa sau khi tải xuống một lần\" hoặc \"tự động xóa sau 24 giờ\" để yên tâm hơn.",
   "「今すぐファイルを送りたいのに…」登録の壁": "\"Tôi muốn gửi tệp ngay bây giờ nhưng...\" — Rào cản đăng ký",
   "有効期限とダウンロード回数制限": "Thời hạn hiệu lực và giới hạn số lần tải xuống",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Nhập địa chỉ email, đặt mật khẩu, xác nhận email xác thực... Những bước này là rào cản lớn đối với những người muốn gửi tệp càng nhanh càng tốt. Dịch vụ chia sẻ tệp không cần đăng ký thành viên giúp loại bỏ hoàn toàn sự phiền hà đó và mang lại trải nghiệm chia sẻ tệp trực quan.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR là dịch vụ chia sẻ tệp hoàn toàn không cần đăng ký thành viên. Chỉ cần mở trình duyệt và thả tệp vào, một phòng chia sẻ dùng một lần sẽ được tạo ra ngay tức thì.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Để bất kỳ ai biết URL cũng có thể tải xuống là rất nguy hiểm. Khi gửi tệp quan trọng, hãy luôn đặt mật khẩu tải xuống và thông báo cho người nhận qua kênh riêng — chẳng hạn qua ứng dụng chat — thay vì gửi kèm với liên kết.",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Nhờ thiết kế dùng một lần (tạm thời), khi đến thời hạn đã đặt, tệp sẽ bị xóa hoàn toàn khỏi máy chủ mà không để lại dấu vết. Dịch vụ còn hỗ trợ bảo vệ bằng mật khẩu, giúp cân bằng giữa tính tiện lợi và bảo mật. Khi bạn muốn chia sẻ tệp \"ngay bây giờ, an toàn, với bất kỳ ai\", hãy thử FS!QR.",
   "パスワード保護機能の活用": "Tận dụng tính năng bảo vệ bằng mật khẩu",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "Với FS!QR, chia sẻ an toàn và nhanh chóng — không cần đăng ký",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Những điểm bảo mật cần lưu ý khi không yêu cầu đăng ký",
@@ -29,10 +27,12 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Khi cần chuyển dữ liệu tạm thời với đối tác hay gửi tệp từ máy tính công cộng lúc đi du lịch mà không muốn để lại thông tin cá nhân, dịch vụ chia sẻ dùng một lần không cần đăng ký là lựa chọn an toàn và tiện lợi nhất.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Tại sao \"không cần đăng ký\" lại giúp giảm rủi ro bảo mật",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Thông thường người ta nghĩ rằng dịch vụ có đăng ký tài khoản sẽ an toàn hơn, nhưng đối với việc chia sẻ tạm thời một lần, các dịch vụ không cần đăng ký đôi khi lại mang lại lợi thế bảo mật lớn hơn.",
-  "アカウント情報の流出リスクをゼロにする：": "Loại bỏ hoàn toàn rủi ro rò rỉ thông tin tài khoản:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Khi đăng ký, thông tin cá nhân như email và mật khẩu được lưu trên máy chủ của dịch vụ. Nếu dịch vụ đó bị tấn công, những thông tin đó có thể bị lộ — nhưng với dịch vụ không đăng ký, ngay từ đầu đã không có gì được lưu trữ.",
   "パスワードの使い回し被害を防ぐ：": "Ngăn ngừa thiệt hại do dùng chung mật khẩu:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Nhiều người có thói quen dùng chung một mật khẩu cho nhiều dịch vụ. Sử dụng dịch vụ không cần đăng ký giúp phòng tránh rủi ro bị chiếm tài khoản và các thiệt hại dây chuyền ở các dịch vụ khác.",
-  "共有後にデータが自動で完全消去される安心感：": "Yên tâm hơn khi dữ liệu được tự động xóa hoàn toàn sau khi chia sẻ:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Lưu trữ đám mây dành cho thành viên sẽ giữ dữ liệu mãi cho đến khi bạn tự xóa, còn các dịch vụ chuyển tệp không cần đăng ký thường tự động xóa tệp khỏi máy chủ sau một khoảng thời gian nhất định — ngăn ngừa rò rỉ do quên xóa."
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "Để tệp luôn có thể tải xuống trong thời gian dài làm tăng nguy cơ rò rỉ thông tin. Hãy chọn dịch vụ cho phép cài đặt giới hạn chi tiết như \"xóa sau khi tải xuống một lần\" hoặc \"tự động xóa sau 24 giờ\" để yên tâm hơn.",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "Dịch vụ xóa bản ghi và tệp do mình quản lý khi hết thời hạn lưu giữ; bản sao lưu và bản sao trên thiết bị người nhận có thể vẫn còn.",
+  "登録情報を増やさずに済む：": "Loại bỏ hoàn toàn rủi ro rò rỉ thông tin tài khoản:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Khi đăng ký, thông tin cá nhân như email và mật khẩu được lưu trên máy chủ của dịch vụ. Nếu dịch vụ đó bị tấn công, những thông tin đó có thể bị lộ — nhưng với dịch vụ không đăng ký, ngay từ đầu đã không có gì được lưu trữ.",
+  "共有後の残存期間を短くできる：": "Yên tâm hơn khi dữ liệu được tự động xóa hoàn toàn sau khi chia sẻ:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Lưu trữ đám mây dành cho thành viên sẽ giữ dữ liệu mãi cho đến khi bạn tự xóa, còn các dịch vụ chuyển tệp không cần đăng ký thường tự động xóa tệp khỏi máy chủ sau một khoảng thời gian nhất định — ngăn ngừa rò rỉ do quên xóa."
 }

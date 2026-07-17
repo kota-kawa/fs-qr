@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Lancez le téléchargement depuis la page qui s'est ouverte dans le navigateur du téléphone, puis enregistrez.",
   "ログイン不要：": "Aucune connexion requise :",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Si vous le souhaitez, ajustez la durée de conservation (par ex. 1 heure ou 1 jour) et définissez une protection par identifiant et mot de passe.",
-  "自動データ消去：": "Suppression automatique des données :",
   "設定を調整する（任意）：": "Ajuster les paramètres (facultatif) :",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Une fois le délai fixé écoulé, les données transférées sont effacées automatiquement et complètement du serveur, sans laisser de trace.",
   "PCで受け取る（QRコードの場合）：": "Recevoir sur le PC (via le QR code) :",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Si votre PC est équipé d'une caméra capable de lire les QR codes, scannez le QR code affiché sur l'écran de fin de téléversement du smartphone pour ouvrir la page de téléchargement.",
   "PCで受け取る（リンク入力の場合）：": "Recevoir sur le PC (en saisissant le lien) :",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Si le PC n'a pas de caméra ou si la lecture est difficile, saisissez le lien de partage affiché sur l'écran de fin de téléversement du smartphone dans le navigateur du PC. En conservant l'ID de partage et le mot de passe à 6 chiffres, vous pourrez également ouvrir le fichier depuis la page de recherche."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Si le PC n'a pas de caméra ou si la lecture est difficile, saisissez le lien de partage affiché sur l'écran de fin de téléversement du smartphone dans le navigateur du PC. En conservant l'ID de partage et le mot de passe à 6 chiffres, vous pourrez également ouvrir le fichier depuis la page de recherche.",
+  "自動データ削除：": "Suppression automatique des données :",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Le service supprime ses enregistrements et fichiers à la fin de la période de conservation ; des sauvegardes et des copies sur les appareils destinataires peuvent subsister."
 }

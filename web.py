@@ -175,6 +175,7 @@ ADSENSE_ALLOWED_STATIC_PATHS = frozenset(
         "/articles",
         "/fs-qr_menu",
         "/group_menu",
+        "/note_menu",
     }
 )
 

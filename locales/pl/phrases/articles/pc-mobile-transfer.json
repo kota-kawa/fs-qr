@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Kliknij pobieranie na stronie, która pojawi się w przeglądarce na telefonie, a następnie zapisz plik.",
   "ログイン不要：": "Bez logowania:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "W razie potrzeby zmień okres przechowywania (np. 1 godzina lub 1 dzień) i opcjonalnie skonfiguruj zabezpieczenie przy użyciu identyfikatora i hasła.",
-  "自動データ消去：": "Automatyczne usuwanie danych:",
   "設定を調整する（任意）：": "Dostosowanie ustawień (opcjonalne):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Po upływie zdefiniowanego czasu przetransferowane pliki zostają całkowicie i automatycznie wyczyszczone z serwera — nie pozostawiając na nim żadnych śladów.",
   "PCで受け取る（QRコードの場合）：": "Odbieranie na komputerze (kod QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Jeśli Twój komputer posiada kamerę pozwalającą skanować kody QR, zeskanuj kod widoczny na telefonie po ukończeniu przesyłania, aby wyświetlić stronę pobierania.",
   "PCで受け取る（リンク入力の場合）：": "Odbieranie na komputerze (wpisanie linku):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Jeśli komputer nie ma kamery lub skanowanie sprawia problem, wpisz w przeglądarce na komputerze udostępniony link z ekranu potwierdzającego wysłanie na smartfonie. Jeśli zapiszesz sobie udostępniony identyfikator i 6-cyfrowe hasło, możesz także wyświetlić ten plik przez stronę wyszukiwania."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Jeśli komputer nie ma kamery lub skanowanie sprawia problem, wpisz w przeglądarce na komputerze udostępniony link z ekranu potwierdzającego wysłanie na smartfonie. Jeśli zapiszesz sobie udostępniony identyfikator i 6-cyfrowe hasło, możesz także wyświetlić ten plik przez stronę wyszukiwania.",
+  "自動データ削除：": "Automatyczne usuwanie danych:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Po upływie okresu przechowywania usługa usuwa zarządzane rekordy i pliki; kopie zapasowe i kopie na urządzeniach odbiorców mogą pozostać."
 }

@@ -4,7 +4,6 @@
   "QRコードを読み取るだけで受け取れる": "Quét mã QR để tải tài liệu về máy tức thì",
   "スマホでファイルを受け取る方法": "Cách nhận tệp trên điện thoại thông minh",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Hướng dẫn dễ hiểu để nhận tệp được chia sẻ trên điện thoại — từ quét mã QR đến tải xuống, phù hợp cho người mới bắt đầu.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR là dịch vụ chuyên biệt cho việc \"chia sẻ tệp tin tạm thời\". Khi hết hạn chia sẻ đã thiết lập, dữ liệu tệp tin trên máy chủ sẽ được tự động xóa hoàn toàn một cách an toàn. Trong trường hợp này, tệp tin không thể khôi phục được, vì vậy vui lòng yêu cầu người gửi tải lên lại.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Trường hợp người chia sẻ đã thiết lập mật khẩu, trang tải xuống sẽ yêu cầu nhập ID và mật khẩu. Hãy nhập thông tin đã được người chia sẻ thông báo trước để truy cập tệp. Để tránh rò rỉ mật khẩu cho bên thứ ba, chúng tôi đề xuất bạn nên nhận mật khẩu một cách an toàn bằng lời nói trực tiếp hoặc qua một kênh liên lạc riêng biệt.",
   "QRコードがスキャンできない": "Không thể quét mã QR",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Khởi chạy ứng dụng \"Files by Google\", hoặc ứng dụng \"Tệp của tôi\" / \"Tệp\" được cài đặt sẵn trên thiết bị.",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Xác nhận tên tệp và kích thước được hiển thị trên trang, sau đó nhấn nút \"Tải xuống\". Khi quá trình hoàn thành, tệp sẽ được lưu trên thiết bị.",
   "リンクを開く：": "Mở liên kết:",
   "保存する：": "Lưu:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Nhấn vào liên kết màu vàng (hoặc thông báo) được hiển thị bật lên trên màn hình để mở trang tải xuống FS!QR trong trình duyệt."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Nhấn vào liên kết màu vàng (hoặc thông báo) được hiển thị bật lên trên màn hình để mở trang tải xuống FS!QR trong trình duyệt.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Dịch vụ xóa bản ghi và tệp do mình quản lý khi hết thời hạn lưu giữ; bản sao lưu và bản sao trên thiết bị người nhận có thể vẫn còn."
 }
