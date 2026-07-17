@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Controleren of het communicatiepad voor het uploaden en downloaden van bestanden gecodeerd is (of de URL begint met https://) is de minimale vereiste.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Bestanden voor onbepaalde tijd downloadbaar laten, verhoogt het risico op datalekken. Kies voor extra gemoedsrust een dienst waarmee u gedetailleerde beperkingen kunt instellen, zoals \"verwijderen na één download\" of \"automatisch verwijderen na 24 uur\".",
   "「今すぐファイルを送りたいのに…」登録の壁": "\"Ik wil nu direct een bestand sturen...\" - De drempel van registratie",
   "有効期限とダウンロード回数制限": "Vervaldatum en limiet voor aantal downloads",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "E-mailadres invoeren, wachtwoord instellen, verificatiemail bevestigen... Deze stappen vormen een grote hindernis voor gebruikers die zo snel mogelijk een bestand willen verzenden. Bestandsdeeldiensten zonder registratie nemen deze rompslomp weg en bieden een intuïtieve ervaring.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR is een bestandsdeeldienst die volledig zonder registratie kan worden gebruikt. Open de browser en drop uw bestanden om direct een eenmalige deelruimte te maken.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Als iedereen met de URL het bestand kan downloaden, is dat gevaarlijk. Stel bij het verzenden van belangrijke bestanden altijd een downloadwachtwoord in en deel dit via een ander kanaal (zoals een chat-app) met de ontvanger.",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Dankzij het efemere (eenmalige) ontwerp worden bestanden na de opgegeven termijn spoorloos van de server verwijderd. Bovendien ondersteunt het wachtwoordbeveiliging, waardoor gebruiksgemak en veiligheid hand in hand gaan. Probeer FS!QR als u direct, veilig en met wie dan ook bestanden wilt delen.",
   "パスワード保護機能の活用": "Wachtwoordbeveiliging gebruiken",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "Met FS!QR is delen veilig, snel en zonder registratie voltooid",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Beveiligingspunten om op te letten bij diensten zonder registratie",
@@ -21,12 +19,8 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Voor tijdelijke overdracht aan klanten of het verzenden van bestanden vanaf openbare pc's op reis zijn eenmalige deeldiensten zonder account het veiligst en handigst.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Waarom bestandsoverdracht zonder registratie veiliger kan zijn",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Hoewel diensten met account veiliger lijken, biedt een registratievrije deeldienst bij eenmalige overdrachten aanzienlijke privacyvoordelen.",
-  "アカウント情報の流出リスクをゼロにする：": "Geen risico op lekken van persoonlijke accountgegevens:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Bij registratie worden e-mail en wachtwoorden opgeslagen op externe servers. Wordt de dienst gehackt, dan liggen uw gegevens op straat. Zonder account zijn er simpelweg geen gegevens te stelen.",
   "パスワードの使い回し被害を防ぐ：": "Voorkomt kettingreacties bij gecompromitteerde wachtwoorden:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Gebruikers hergebruiken vaak wachtwoorden. Door het vermijden van accounts elimineert u dit risico volledig, wat ook al uw andere profielen online beschermt.",
-  "共有後にデータが自動で完全消去される安心感：": "Automatische fysieke verwijdering na het downloaden van het bestand:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Klassieke clouddiensten bewaren bestanden totdat u ze handmatig wist. Accountvrije transferdiensten wissen bestanden automatisch na verloop van tijd, wat lekken door vergeetachtigheid voorkomt.",
   "「使い捨て」感覚の気軽さ：": "Gemak van \"wegwerpgevoel\":",
   "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。": "Ga naar de website en sleep bestanden om uploaden te starten. Binnen enkele seconden worden deelkoppels en QR-codes gegenereerd.",
   "プライバシーの保護：": "Privacybescherming:",
@@ -34,5 +28,11 @@
   "受け取る側にもアカウント作成を求めないサービスが多いため、ITツールに不慣れな人にも安心してファイルのダウンロードURLを送ることができます。": "Veel services vereisen geen account voor de ontvanger, dus u kunt zeker een download-URL naar mensen sturen die niet vertrouwd zijn met IT-tools.",
   "圧倒的な手軽さとスピード：": "Overweldigende gebruikersgemak en snelheid:",
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "U hoeft geen persoonsgegevens zoals naam of e-mailadres aan de dienstverlener door te geven. Daardoor wordt het risico op lekkage van persoonsgegevens aan de basis verkleind.",
-  "相手にも負担をかけない：": "Geen last aan ontvanger:"
+  "相手にも負担をかけない：": "Geen last aan ontvanger:",
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "Bestanden voor onbepaalde tijd downloadbaar laten, verhoogt het risico op datalekken. Kies voor extra gemoedsrust een dienst waarmee u gedetailleerde beperkingen kunt instellen, zoals \"verwijderen na één download\" of \"automatisch verwijderen na 24 uur\".",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "De dienst verwijdert records en opgeslagen bestanden na afloop van de bewaartermijn; back-ups en kopieën op apparaten van ontvangers kunnen blijven bestaan.",
+  "登録情報を増やさずに済む：": "Geen risico op lekken van persoonlijke accountgegevens:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Bij registratie worden e-mail en wachtwoorden opgeslagen op externe servers. Wordt de dienst gehackt, dan liggen uw gegevens op straat. Zonder account zijn er simpelweg geen gegevens te stelen.",
+  "共有後の残存期間を短くできる：": "Automatische fysieke verwijdering na het downloaden van het bestand:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Klassieke clouddiensten bewaren bestanden totdat u ze handmatig wist. Accountvrije transferdiensten wissen bestanden automatisch na verloop van tijd, wat lekken door vergeetachtigheid voorkomt."
 }

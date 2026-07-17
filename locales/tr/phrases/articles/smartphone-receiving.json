@@ -4,7 +4,6 @@
   "スマホでファイルを受け取る方法": "Akıllı Telefonunuzda Dosyaları Nasıl Alırsınız?",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "QR kodunu okutmaktan indirmeye kadar, paylaşılan dosyaları akıllı telefonunuzda teslim almanız için yeni başlayanlara yönelik anlaşılır bir rehber.",
   "QRコードを読み取るだけで受け取れる": "Sadece QR Kodunu Tarayarak Teslim Alın",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR geçici dosya paylaşımı için özel olarak tasarlanmıştır. Belirlenen paylaşım süresi dolduğunda, sunucudaki dosya verileri otomatik ve güvenli bir şekilde tamamen silinir. Bu durum gerçekleştiğinde dosya kurtarılamaz; bu yüzden göndericiden dosyayı yeniden yüklemesini istemeniz gerekir.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Eğer gönderen şifre koruması ayarladıysa, indirme sayfasını açtığınız anda bir ID ve şifre girmenizi isteyen bir ekranla karşılaşırsınız.",
   "QRコードがスキャンできない": "QR Kodu Taranamıyor",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "\"Files by Google\" uygulamasını veya cihazınıza önceden yüklenmiş \"Dosyalarım\" ya da \"Dosyalar\" uygulamasını başlatın.",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Sayfada görünen dosya adını ve boyutunu kontrol edin, ardından \"İndir\" butonuna dokunun. İşlem tamamlandığında dosya cihazınıza kaydedilir.",
   "リンクを開く：": "Bağlantıyı aç:",
   "保存する：": "Kaydet:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "FS!QR indirme sayfasını tarayıcınızda açmak için ekranda beliren sarı renkli bağlantıya (veya bildirime) dokunun."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "FS!QR indirme sayfasını tarayıcınızda açmak için ekranda beliren sarı renkli bağlantıya (veya bildirime) dokunun.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Hizmet, saklama süresi dolduğunda yönettiği kayıtları ve dosyaları siler; yedekler ve alıcı cihazlarındaki kopyalar kalabilir."
 }

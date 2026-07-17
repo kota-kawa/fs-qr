@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Inicia la descarga desde la página que se abrió en el navegador del teléfono, luego guarda.",
   "ログイン不要：": "Sin inicio de sesión necesario:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Si lo deseas, ajusta el período de retención (por ejemplo, 1 hora o 1 día) y establece una protección con ID y contraseña.",
-  "自動データ消去：": "Eliminación automática de datos:",
   "設定を調整する（任意）：": "Ajustar la configuración (opcional):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Una vez transcurrido el plazo fijado, los datos transferidos se borran automática y completamente del servidor, sin dejar rastro.",
   "PCで受け取る（QRコードの場合）：": "Recibir en el ordenador (mediante código QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Si tu ordenador tiene una cámara que permita leer códigos QR, escanea el código que ha salido en la pantalla de carga completada del móvil y abre la página de descargas.",
   "PCで受け取る（リンク入力の場合）：": "Recibir en el ordenador (mediante enlace):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Si no tienes cámara en el ordenador o te cuesta escanear el código, basta con introducir en tu navegador el enlace mostrado en la pantalla de carga del smartphone. Si te guardas el ID de compartición y la contraseña de 6 dígitos, podrás buscar y abrir el archivo desde la propia página."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Si no tienes cámara en el ordenador o te cuesta escanear el código, basta con introducir en tu navegador el enlace mostrado en la pantalla de carga del smartphone. Si te guardas el ID de compartición y la contraseña de 6 dígitos, podrás buscar y abrir el archivo desde la propia página.",
+  "自動データ削除：": "Eliminación automática de datos:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "El servicio elimina sus registros y archivos almacenados al finalizar el periodo de conservación; las copias en dispositivos receptores y las copias de seguridad pueden permanecer."
 }

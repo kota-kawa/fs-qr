@@ -4,7 +4,6 @@
   "スマホでファイルを受け取る方法": "Jak odbierać pliki na smartfonie",
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Przyjazny dla początkujących przewodnik o odbieraniu udostępnionych plików na smartfonie – od zeskanowania kodu QR aż po samo pobranie.",
   "QRコードを読み取るだけで受け取れる": "Wystarczy zeskanować kod QR, aby odebrać plik",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "FS!QR to usługa stworzona specjalnie z myślą o tymczasowym udostępnianiu plików. Kiedy minie termin ważności linku, dane z serwera są automatycznie, bezpiecznie i bezpowrotnie usuwane. W takiej sytuacji nie ma możliwości przywrócenia pliku, więc musisz poprosić nadawcę o jego ponowne wysłanie.",
   "共有者がセキュリティのためにパスワード保護を設定している場合、ダウンロードページを開いた直後に「ID」と「パスワード」の入力を求める画面が表示されます。": "Jeśli nadawca ze względów bezpieczeństwa włączył ochronę hasłem, natychmiast po wejściu na stronę pobierania zobaczysz ekran z prośbą o wpisanie „ID” oraz „Hasła”.",
   "QRコードがスキャンできない": "Nie mogę zeskanować kodu QR",
   "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。": "Uruchom aplikację „Files by Google” lub inną domyślną przeglądarkę plików w systemie (często pod nazwą „Moje pliki” lub „Pliki”).",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Sprawdź widniejącą na ekranie nazwę pliku i jego wielkość, a następnie stuknij przycisk „Pobierz”. Po krótkiej chwili plik znajdzie się na Twoim urządzeniu.",
   "リンクを開く：": "Otwieranie linku:",
   "保存する：": "Zapisanie pliku:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Stuknij pojawiający się na żółto link na ekranie (albo powiadomienie), aby uruchomić pobieranie pliku w przeglądarce FS!QR."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Stuknij pojawiający się na żółto link na ekranie (albo powiadomienie), aby uruchomić pobieranie pliku w przeglądarce FS!QR.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "Po upływie okresu przechowywania usługa usuwa zarządzane rekordy i pliki; kopie zapasowe i kopie na urządzeniach odbiorców mogą pozostać."
 }

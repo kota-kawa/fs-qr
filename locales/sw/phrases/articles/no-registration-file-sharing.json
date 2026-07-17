@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "Kuangalia kama njia ya mawasiliano ya kupakia au kupakua faili imesimbwa (URL inapaswa kuanza na https://) ni jambo la chini kabisa la kukaguliwa.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Kuacha faili zikiwa zinaweza kupakuliwa muda wote huongeza hatari ya kuvuja kwa data. Kwa amani ya akili, chagua huduma inayokuruhusu kuweka vikwazo vya kina kama vile \"futa baada ya kupakuliwa mara moja\" au \"futa kiotomatiki baada ya saa 24.\"",
   "「今すぐファイルを送りたいのに…」登録の壁": "\"Nahitaji kutuma faili sasa hivi, lakini…\" Kizuizi cha Usajili",
   "有効期限とダウンロード回数制限": "Muda wa Kuisha na Vikomo vya Kupakua",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Kuingiza anwani ya barua pepe, kuweka nenosiri, kuthibitisha barua pepe ya uthibitisho... Hatua hizi ni kikwazo kikubwa kwa mtu yeyote anayetaka tu kutuma faili haraka. Huduma za kushiriki faili ambazo hazihitaji usajili huondoa usumbufu huu wote na kutoa uzoefu mwepesi wa kushiriki faili.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR ni huduma ya kushiriki faili isiyohitaji usajili kabisa. Fungua tu kivinjari chako, dondosha faili zako, na chumba cha kushiriki cha mara moja kinaundwa papo hapo.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "Hali ambayo mtu yeyote mwenye kiungo (URL) anaweza kupakua faili ni hatari kiusalama. Unapotuma faili muhimu, hakikisha umeweka nenosiri la kupakua na umshirikishe mpokeaji kupitia njia nyingine (kama vile programu ya gumzo) tofauti na kiungo hicho.",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Shukrani kwa muundo wake wa matumizi ya muda mfupi, faili hufutwa kabisa kwenye seva bila kuacha alama punde tu muda uliowekwa unapokwisha. Pia inasaidia ulinzi wa nenosiri, hivyo unapata urahisi na usalama. Unapohitaji kushiriki faili \"sasa hivi, kwa usalama, na mtu yeyote,\" jaribu FS!QR.",
   "パスワード保護機能の活用": "Kutumia Ulinzi wa Nenosiri",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "Ukiwa na FS!QR, Shiriki Faili kwa Usalama na Haraka — Hakuna Usajili Unaohitajika",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Mambo Muhimu ya Usalama Yanayopaswa Kuzingatiwa Sana Inapokosekana Haja ya Usajili",
@@ -21,12 +19,8 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "Kwa uhamishaji wa faili wa muda na wateja au kutuma faili kutoka kwa kompyuta ya umma unaposafiri, kutumia huduma isiyohitaji usajili unayoweza kuitumia na kuisahau ndiyo chaguo salama na rahisi zaidi.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Kwa Nini \"Hakuna Usajili Unaohitajika\" Kunaweza Kupunguza Hatari ya Usalama",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Kwa kawaida huduma zinazohitaji usajili huonekana kuwa salama zaidi, lakini kwa ushiriki wa mara moja na wa muda, huduma zisizohitaji usajili zinaweza kutoa faida kubwa zaidi za kiusalama.",
-  "アカウント情報の流出リスクをゼロにする：": "Huondoa kabisa hatari ya kuvuja kwa data za akaunti:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "Unapojiandikisha, maelezo ya kibinafsi kama vile barua pepe yako na nenosiri huhifadhiwa kwenye seva za huduma husika. Ikiwa huduma hiyo itadukuliwa, maelezo hayo yanaweza kuvuja — lakini kwa huduma isiyohitaji usajili, hakuna data inayohifadhiwa hapo awali.",
   "パスワードの使い回し被害を防ぐ：": "Huzuia hatari za kutumia nenosiri moja kwa huduma nyingi:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Watu wengi hutumia nenosiri moja kwenye huduma mbalimbali. Kwa kutotumia usajili, unaepuka hatari ya akaunti yako kudukuliwa na madhara yatakayosababishwa kwa akaunti zako nyingine.",
-  "共有後にデータが自動で完全消去される安心感：": "Amani ya akili inayotokana na faili kufutwa kiotomatiki baada ya kushiriki:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Hifadhi za mtandaoni zinazohitaji akaunti huhifadhi faili hadi uamue kuzifuta mwenyewe, ilhali huduma za uhamishaji faili zisizohitaji usajili mara nyingi hufuta faili kiotomatiki kutoka kwenye seva baada ya muda uliopangwa — hivyo kuzuia uvujaji unaosababishwa na kusahau kuzifuta.",
   "「使い捨て」感覚の気軽さ：": "Urahisi wa matumizi ya \"mara moja na umemaliza\":",
   "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。": "Fungua tovuti, dondosha faili lako, na upakiaji utaanza. Ndani ya sekunde chache unapata kiungo na msimbo wa QR ili uweze kuutuma kwa mpokeaji.",
   "プライバシーの保護：": "Ulinzi wa faragha:",
@@ -34,5 +28,11 @@
   "受け取る側にもアカウント作成を求めないサービスが多いため、ITツールに不慣れな人にも安心してファイルのダウンロードURLを送ることができます。": "Huduma nyingi hazimtaji mpokeaji kuunda akaunti pia, hivyo unaweza kutuma kiungo cha kupakua kwa ujasiri hata kwa watu ambao hawana uzoefu mwingi na teknolojia.",
   "圧倒的な手軽さとスピード：": "Urahisi na kasi isiyo na kifani:",
   "氏名やメールアドレスといった個人情報をサービス提供側に渡す必要がありません。個人情報の流出リスクを根本から減らすことができます。": "Hutahitaji kutoa taarifa za kibinafsi kama jina lako au barua pepe kwa mtoa huduma, jambo ambalo linaondoa kabisa hatari ya uvujaji wa taarifa hizo.",
-  "相手にも負担をかけない：": "Hakuna usumbufu kwa mpokeaji pia:"
+  "相手にも負担をかけない：": "Hakuna usumbufu kwa mpokeaji pia:",
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "Kuacha faili zikiwa zinaweza kupakuliwa muda wote huongeza hatari ya kuvuja kwa data. Kwa amani ya akili, chagua huduma inayokuruhusu kuweka vikwazo vya kina kama vile \"futa baada ya kupakuliwa mara moja\" au \"futa kiotomatiki baada ya saa 24.\"",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "Huduma hufuta rekodi na faili inazodhibiti baada ya muda wa kuhifadhi kuisha; nakala za ziada na nakala kwenye vifaa vya wapokeaji zinaweza kubaki.",
+  "登録情報を増やさずに済む：": "Huondoa kabisa hatari ya kuvuja kwa data za akaunti:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Unapojiandikisha, maelezo ya kibinafsi kama vile barua pepe yako na nenosiri huhifadhiwa kwenye seva za huduma husika. Ikiwa huduma hiyo itadukuliwa, maelezo hayo yanaweza kuvuja — lakini kwa huduma isiyohitaji usajili, hakuna data inayohifadhiwa hapo awali.",
+  "共有後の残存期間を短くできる：": "Amani ya akili inayotokana na faili kufutwa kiotomatiki baada ya kushiriki:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Hifadhi za mtandaoni zinazohitaji akaunti huhifadhi faili hadi uamue kuzifuta mwenyewe, ilhali huduma za uhamishaji faili zisizohitaji usajili mara nyingi hufuta faili kiotomatiki kutoka kwenye seva baada ya muda uliopangwa — hivyo kuzuia uvujaji unaosababishwa na kusahau kuzifuta."
 }

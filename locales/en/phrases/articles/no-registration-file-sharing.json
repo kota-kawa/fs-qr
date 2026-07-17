@@ -1,12 +1,10 @@
 {
   "ファイルのアップロードやダウンロードの通信経路が暗号化されているか（URLがhttps://で始まっているか）は最低限の確認事項です。": "At a minimum, always check that the upload and download connection is encrypted — the URL should start with https://.",
-  "いつまでもファイルがダウンロード可能な状態にしておくのは、情報漏えいのリスクを高めます。「1回ダウンロードされたら消去する」「24時間後に自動削除する」といった制限を細かく設定できるサービスを選ぶと安心です。": "Leaving files available for download indefinitely raises the risk of a data leak. For peace of mind, choose a service that lets you configure granular limits such as \"delete after one download\" or \"auto-delete after 24 hours.\"",
   "「今すぐファイルを送りたいのに…」登録の壁": "\"I need to send a file right now, but…\" — The Registration Wall",
   "有効期限とダウンロード回数制限": "Expiry Dates and Download Limits",
   "メールアドレスの入力、パスワードの設定、認証メールの確認……。これらのステップは、一刻も早くファイルを送りたいユーザーにとって大きなハードル（摩擦）となります。会員登録不要で使えるファイル共有サービスは、この煩わしさを排除し、直感的なファイル共有体験を提供します。": "Entering your email address, setting a password, confirming a verification email… These steps are a major source of friction for anyone who just needs to send a file quickly. File sharing services that require no account registration cut through all that hassle and deliver an intuitive sharing experience.",
   "FS!QRは、「会員登録一切不要」で使えるファイル共有サービスです。ブラウザを開いてファイルをドロップするだけで、ワンタイムの共有ルームが即座に作成されます。": "FS!QR is a file sharing service with absolutely no registration required. Just open your browser, drop your files, and a one-time sharing room is created instantly.",
   "URLさえ分かれば誰でもダウンロードできてしまう状態は危険です。重要なファイルを送る場合は、必ずダウンロード用のパスワードを設定し、URLとは別の手段（チャットツールなど）で相手に伝えましょう。": "A file that anyone with the URL can download is a security risk. When sending sensitive files, always set a download password and share it with the recipient through a separate channel — such as a chat app — rather than alongside the link.",
-  "使い捨て（エフェメラル）の設計を採用しているため、指定した期限が来ればファイルはサーバーから跡形もなく削除されます。さらにパスワード保護にも対応しており、手軽さとセキュリティを両立しています。「今すぐ、安全に、誰とでも」ファイル共有を行いたい時は、ぜひFS!QRをお試しください。": "Thanks to its ephemeral design, files are deleted from the server once the expiry time is reached. Password protection is also built in, balancing convenience with safer sharing. When you need to share files quickly without creating an account, try FS!QR.",
   "パスワード保護機能の活用": "Using Password Protection",
   "FS!QRなら登録不要で、安全・スピーディに共有完了": "With FS!QR, Share Files Safely and Instantly — No Registration Needed",
   "登録不要だからこそ気をつけたいセキュリティのポイント": "Security Tips That Matter Even More When No Registration Is Required",
@@ -29,10 +27,12 @@
   "取引先との一時的なデータ受け渡しや、旅行先の共有PCからのファイル送信など、個人情報を残したくない場面では、アカウント登録不要の使い捨て感覚で使える共有サービスが最も安全で便利です。": "For temporary file transfers with clients or sending files from a shared PC while traveling, a registration-free service designed for one-off sharing can be a convenient, privacy-conscious option.",
   "「会員登録不要」がセキュリティリスクを下げる理由": "Why \"No Registration Required\" Can Actually Reduce Security Risk",
   "一般的に会員登録をして使うサービスの方が安全だと思われがちですが、使い捨ての一時的な共有においては、会員登録不要のサービスを利用する方がセキュリティ上のメリットが大きい場合があります。": "Registered services are generally assumed to be safer, but for one-off, temporary sharing, going registration-free can actually offer greater security benefits.",
-  "アカウント情報の流出リスクをゼロにする：": "Avoid storing account credentials:",
-  "会員登録をすると、メールアドレスやパスワードなどの個人情報がサービスのサーバーに保存されます。万が一そのサービスがハッキングを受けた場合、これらの情報が流出する恐れがありますが、登録不要サービスであればそもそも保存される情報が存在しません。": "When you register, personal details such as your email address and password may be stored on the service's servers. If that service is compromised, those details could be exposed. A registration-free service avoids storing that account information in the first place.",
   "パスワードの使い回し被害を防ぐ：": "Eliminates the risk of password reuse:",
   "多くのユーザーが複数のWebサービスで同じパスワードを使い回しがちです。登録不要サービスを利用することで、アカウントの乗っ取りや、それに関連する他のサービスへの二次被害を防ぐことができます。": "Many people reuse the same password across multiple services. By going registration-free, you avoid the risk of account takeover and the cascade of secondary damage it can cause to your other accounts.",
-  "共有後にデータが自動で完全消去される安心感：": "Peace of mind from automatic data deletion after sharing:",
-  "会員用のクラウドストレージは手動で削除しない限りデータが残り続けますが、登録不要のファイル転送サービスは、一定時間経過後にサーバーからファイルを自動的に物理削除するものが多く、消し忘れによる漏洩を防げます。": "Cloud storage for registered accounts keeps data until you manually delete it, whereas registration-free file transfer services typically auto-delete files from the server after a set period — preventing leaks caused by forgetting to clean up."
+  "いつまでもファイルがダウンロード可能な状態にしておくと、古いリンクが意図せず使われる可能性があります。サービスが用意している保持期間やダウンロード回数の設定を確認し、受け渡しに必要な期間だけ共有する運用を選びましょう。": "A link left available indefinitely may be used unintentionally later. Check the service's retention and download-limit settings and share only for the time needed for the handoff.",
+  "一時的な共有を前提にしているため、指定した期限が来ると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取った端末に保存されたコピーまでは対象にならないため、パスワード保護と宛先確認を組み合わせて利用してください。「今すぐ、必要な相手へ」ファイルを共有したい時にFS!QRをお試しください。": "The service deletes its records and stored files when the retention period ends; backups and copies saved on recipient devices may remain.",
+  "登録情報を増やさずに済む：": "Avoid adding account information:",
+  "会員登録をすると、メールアドレスやパスワードなどの情報をサービスへ預ける必要があります。登録不要サービスなら、新しいアカウント情報を作らずに一時的な受け渡しを始められます。ただし、共有URLやパスワードの管理は利用者自身で行う必要があります。": "Registration-free sharing starts a temporary handoff without creating another account, but you remain responsible for the share URL and password.",
+  "共有後の残存期間を短くできる：": "Shorten the post-share lifetime:",
+  "会員用のクラウドストレージでは手動で削除するまでデータが残ることがあります。一時転送サービスで保持期間を設定すれば、不要になった共有リンクとサービス管理下のファイルを自動削除でき、消し忘れによる放置を減らせます。": "Set a retention period so an inactive link and the service-managed file are removed automatically, reducing forgotten shares."
 }

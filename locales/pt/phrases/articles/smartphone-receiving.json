@@ -6,7 +6,6 @@
   "共有されたファイルをスマートフォンで受け取る手順を、QRコードの読み取りからダウンロードまで初心者にもわかりやすく解説します。": "Um guia acessível para receber arquivos compartilhados no smartphone, da leitura do QR Code ao download.",
   "パスワードが設定されている場合の対応": "Se estiver definida uma senha",
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラやQRコード読み取りアプリを使用して、表示されたコードをスキャンするだけで即座に受け取ることができます。従来のファイル共有サービスのように、専用アプリを事前にインストールしたり、会員登録（アカウント作成）を行ったりする手間は一切必要ありません。表示されたURL（リンク）をタップするだけで、すぐにダウンロード画面にアクセスできます。": "Os arquivos compartilhados via FS!QR podem ser recebidos instantaneamente apenas escaneando o código exibido usando a câmera padrão do seu smartphone ou um aplicativo de leitura de código QR. Não há absolutamente nenhuma necessidade de instalar aplicativos dedicados previamente ou de se registrar (criar uma conta), como ocorre nos serviços tradicionais de compartilhamento de arquivos. Basta tocar na URL (link) exibida para acessar a tela de download imediatamente.",
-  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、サーバー上のファイルデータは自動的かつ安全に完全削除されます。この場合、ファイルは復元できないため、送信者に再アップロードを依頼してください。": "O FS!QR é um serviço especializado em \"compartilhamento temporário de arquivos\". Assim que a data de expiração de compartilhamento definida expira, os dados do arquivo no servidor são excluídos automática, segura e completamente. Nesse caso, o arquivo não pode ser restaurado, portanto, solicite ao remetente que o envie novamente.",
   "Google Chromeなどのブラウザを使用してダウンロードした場合、システム標準のファイル管理アプリに格納されます。": "Se você fizer o download usando um navegador como o Google Chrome, os arquivos serão salvos no aplicativo de gerenciamento de arquivos padrão do sistema.",
   "PDFや画像が画面に表示されるだけで保存できない": "PDFs ou imagens só aparecem na tela e não são salvos",
   "QRコードがスキャンできない": "Não é possível escanear o código QR",
@@ -43,5 +42,6 @@
   "ページ上に表示されたファイル名とサイズを確認し、「ダウンロード」ボタンをタップします。処理が完了すると端末にファイルが保存されます。": "Verifique o nome e o tamanho do arquivo exibidos na página, depois toque no botão 'Baixar'. Após a conclusão, o arquivo é salvo no seu dispositivo.",
   "リンクを開く：": "Abrir o link:",
   "保存する：": "Salvar:",
-  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Toque no link amarelo (ou na notificação) que aparece na tela para abrir a página de download do FS!QR no seu navegador."
+  "画面上にポップアップ表示される黄色いリンク（または通知）をタップして、ブラウザでFS!QRのダウンロードページを開きます。": "Toque no link amarelo (ou na notificação) que aparece na tela para abrir a página de download do FS!QR no seu navegador.",
+  "FS!QRは「一時的なファイル共有」に特化したサービスです。設定された共有有効期限が切れると、共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。受け取り前に期限が切れた場合は、送信者に内容を確認したうえで再アップロードを依頼してください。": "O serviço elimina os seus registos e ficheiros no fim do período de retenção; cópias de segurança e cópias nos dispositivos dos destinatários podem permanecer."
 }

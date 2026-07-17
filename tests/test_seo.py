@@ -277,6 +277,13 @@ def test_functional_pages_are_noindex_for_adsense_review(test_client: TestClient
         assert '<meta name="googlebot" content="noindex, follow"' in response.text
 
 
+def test_public_service_menus_share_the_same_adsense_configuration():
+    from web import _is_adsense_allowed_path
+
+    for route in ("/fs-qr_menu", "/group_menu", "/note_menu"):
+        assert _is_adsense_allowed_path(route)
+
+
 def test_canonical_url_is_set_on_home(test_client: TestClient):
     response = test_client.get("/")
     assert response.status_code == 200

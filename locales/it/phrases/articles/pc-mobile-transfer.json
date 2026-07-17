@@ -13,7 +13,6 @@
   "外出先や共有PC・ネットカフェでも安全な理由": "Perché è sicuro anche quando sei in movimento, su un PC condiviso o in un Internet café",
   "すべての通信は暗号化されているため、同じフリーWi-Fiなどのネットワークを利用している第三者にデータを盗聴されるのを防ぎます。": "Tutte le trasmissioni sono crittografate, impedendo a terzi presenti sulla stessa rete — in un Wi-Fi pubblico, ad esempio — di intercettare i tuoi dati.",
   "スマホでダウンロード：": "Scaricare sul telefono:",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Allo scadere del termine impostato, i dati trasferiti vengono eliminati automaticamente e completamente dal server, senza lasciare tracce.",
   "活用のヒント：クリップボード代わりのテキスト・URL共有": "Suggerimenti per l'uso: condividi testo/URL anziché appunti",
   "PCからスマホへファイルを送る手順": "Passaggi per inviare file dal PC allo smartphone",
   "ケーブル不要！PCからスマホ、スマホからPCへ、ブラウザとQRコードだけで簡単にファイルを送受信するテクニックを紹介します。": "Nessun cavo! Invia e ricevi file tra PC e smartphone facilmente con browser e QR Code.",
@@ -35,5 +34,6 @@
   "スマートフォンで撮影した写真や保存したPDFデータをPCへ送る場合も、FS!QRの柔軟なインターフェースによって簡単に行えます。": "L'interfaccia flessibile di FS!QR semplifica l'invio di foto scattate con uno smartphone o dati PDF salvati a un PC.",
   "アップロード完了後に画面へ表示されるQRコードを、スマートフォンのカメラで読み取ります。": "Scansiona con la fotocamera del tuo telefono il codice QR mostrato sullo schermo al termine del caricamento.",
   "FS QR, PCスマホ間転送, ファイル共有, QRコード, ケーブルレス": "FS QR, trasferimento da PC a cellulare, condivisione file, codice QR, senza cavo",
-  "自動データ消去：": "Eliminazione automatica dei dati:"
+  "自動データ削除：": "Eliminazione automatica dei dati:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Il servizio elimina record e file gestiti al termine del periodo di conservazione; backup e copie sui dispositivi dei destinatari possono restare."
 }

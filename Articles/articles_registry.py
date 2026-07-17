@@ -16,7 +16,7 @@
               一覧では「サービス解説ガイド」セクションに常に上部固定で表示され、
               公開日や NEW バッジは出さない。初期の6件がこれにあたる。
     "article" 日付つきで増えていくブログ的な記事。一覧では「新着記事」セクションに
-              新しい順で並び、公開から一定期間は NEW バッジが付く。
+              新しい順で並ぶ。
 
 フィールド:
     slug:        URL パス。``/<slug>`` で配信される(先頭スラッシュは付けない)。
@@ -24,8 +24,8 @@
     description: 一覧カードの説明文。
     icon:        Font Awesome のアイコンクラス(例: ``fa-lightbulb``)。
     category:    一覧ページの絞り込みに使うカテゴリ名。
-    date:        公開日(``YYYY-MM-DD``)。article は新しい順に並び、sitemap の
-                 lastmod にも使われる。
+    date:        公開日(``YYYY-MM-DD``)。article は新しい順に並び、テンプレートに
+                ``article_modified`` がない場合は sitemap の lastmod にも使われる。
     template:    ``Articles/templates/`` 配下の本文テンプレートファイル名。
     type:        "guide" または "article"(上記参照)。
     default:     初期(デフォルト)記事かどうか。True の6件は既存のガイドで、

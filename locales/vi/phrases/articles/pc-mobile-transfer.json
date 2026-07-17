@@ -29,11 +29,11 @@
   "スマートフォン側のブラウザで開いたページからダウンロードを実行し、保存します。": "Thực hiện tải xuống từ trang được mở trong trình duyệt điện thoại thông minh và lưu.",
   "ログイン不要：": "Không cần đăng nhập:",
   "必要に応じて、保持期間（例：1時間、1日など）の変更や、ID・パスワードによる保護設定を行います。": "Tùy theo cần thiết, thay đổi thời gian lưu giữ (ví dụ: 1 giờ, 1 ngày, v.v.) và cài đặt bảo vệ bằng ID/mật khẩu.",
-  "自動データ消去：": "Xóa dữ liệu tự động:",
   "設定を調整する（任意）：": "Điều chỉnh cài đặt (Tùy chọn):",
-  "転送されたデータは、設定した時間が経過するとサーバー上から痕跡を残さず完全自動削除されます。": "Dữ liệu được chuyển sẽ được xóa tự động hoàn toàn mà không để lại dấu vết trên máy chủ sau khi thời gian được đặt trôi qua.",
   "PCで受け取る（QRコードの場合）：": "Nhận trên PC (trường hợp mã QR):",
   "PCにQRコードを読み取れるカメラ環境がある場合は、スマートフォンのアップロード完了画面に表示されたQRコードを読み取り、ダウンロードページを開きます。": "Nếu PC của bạn có camera có thể quét mã QR, hãy quét mã QR hiển thị trên màn hình hoàn tất tải lên của điện thoại thông minh và mở trang tải xuống.",
   "PCで受け取る（リンク入力の場合）：": "Nhận trên PC (trường hợp nhập liên kết):",
-  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Nếu PC không có camera hoặc khó quét, hãy nhập liên kết chia sẻ hiển thị trên màn hình hoàn tất tải lên của điện thoại thông minh vào trình duyệt PC. Nếu bạn ghi lại ID chia sẻ và mật khẩu 6 chữ số, bạn cũng có thể mở tệp từ trang tìm kiếm."
+  "PCにカメラがない場合や読み取りづらい場合は、スマートフォンのアップロード完了画面に表示される共有リンクをPCのブラウザに入力します。共有IDと6桁のパスワードを控えておくと、検索ページからもファイルを開けます。": "Nếu PC không có camera hoặc khó quét, hãy nhập liên kết chia sẻ hiển thị trên màn hình hoàn tất tải lên của điện thoại thông minh vào trình duyệt PC. Nếu bạn ghi lại ID chia sẻ và mật khẩu 6 chữ số, bạn cũng có thể mở tệp từ trang tìm kiếm.",
+  "自動データ削除：": "Xóa dữ liệu tự động:",
+  "転送されたデータは、設定した保持期間が経過すると共有リンクが無効になり、サービスが管理する登録情報と保存ファイルが削除されます。共有先の端末に保存したコピーまでは削除されません。": "Dịch vụ xóa bản ghi và tệp do mình quản lý khi hết thời hạn lưu giữ; bản sao lưu và bản sao trên thiết bị người nhận có thể vẫn còn."
 }

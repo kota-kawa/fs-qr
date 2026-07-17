@@ -250,7 +250,7 @@ def test_privacy_policy(test_client: TestClient):
     response = test_client.get("/privacy-policy")
     assert response.status_code == 200
     assert "IP Geolocation by DB-IP" in response.text
-    assert "最終更新日：2026年6月8日" in response.text
+    assert 'datetime="2026-07-17">2026-07-17</time>' in response.text
 
 
 def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
