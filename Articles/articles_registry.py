@@ -43,26 +43,14 @@ TYPE_ARTICLE = "article"
 ARTICLE_THUMBNAIL_DIR = "articles/thumbnails"
 ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS = frozenset(
     {
-        "smartphone-receiving",
-        "pc-mobile-transfer",
-        "browser-based-sharing",
-        "auto-delete-benefits",
-        "telework-security",
-        "event-material-distribution",
-        "remote-work-file-sharing-checklist",
-        "home-office-confidential-files",
-        "remote-team-material-handoff",
-        "school-meeting-class-examples",
-        "send-large-files-free",
-        "no-registration-file-sharing",
-        "meeting-minutes-shared-note",
-        "temporary-client-file-room",
+        # 実際の操作トラブルを解決する記事だけを公開対象に残す。
+        # 活用事例や一般的なデジタル豆知識は、内容がサービス紹介と重なり
+        # やすいため、本文を再構成するまで noindex のままにする。
         "file-sharing-troubleshooting",
-        "send-photos-without-quality-loss",
-        "remove-photo-location-data",
-        "qr-code-link-troubleshooting",
         "group-room-access-troubleshooting",
         "shared-note-sync-troubleshooting",
+        "remove-photo-location-data",
+        "send-photos-without-quality-loss",
     }
 )
 
@@ -71,8 +59,8 @@ ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS = frozenset(
 ARTICLES: list[dict[str, Any]] = [
     {
         "slug": "fs-qr-concept",
-        "title": "FS!QRの基本的な考え方",
-        "description": "FS!QRの設計思想や技術的な考え方について、開発背景とコンセプトを詳しく解説します。",
+        "title": "QRコードで一時共有する仕組みと、向いている場面",
+        "description": "QRコードを使う一時的なファイル共有が、どのような流れで動くのかを利用者の視点で解説します。ブラウザ側の暗号化、共有期限、向いていないデータまで整理します。",
         "icon": "fa-lightbulb",
         "category": "サービス紹介",
         "date": "2025-08-31",
@@ -82,8 +70,8 @@ ARTICLES: list[dict[str, Any]] = [
     },
     {
         "slug": "safe-sharing",
-        "title": "安全な共有のポイント",
-        "description": "ファイル共有を安全に行うためのベストプラクティスとセキュリティのポイントを解説します。",
+        "title": "ファイル共有の送信前・受信後チェックリスト",
+        "description": "ファイル共有で起きやすい誤送信や期限切れを、送信前・共有中・受信後の三段階で確認する実務チェックリストです。",
         "icon": "fa-shield-alt",
         "category": "セキュリティ",
         "date": "2025-08-30",
@@ -93,8 +81,8 @@ ARTICLES: list[dict[str, Any]] = [
     },
     {
         "slug": "encryption",
-        "title": "暗号化の基礎知識",
-        "description": "FS!QRで使用されている暗号化技術について、わかりやすく基礎から説明します。",
+        "title": "ファイル共有の暗号化が守る範囲、守らない範囲",
+        "description": "通信中・保存中・受信後に分けて、ファイル共有の暗号化が何を守り、何を守らないのかを解説します。",
         "icon": "fa-lock",
         "category": "セキュリティ",
         "date": "2025-08-24",
@@ -104,8 +92,8 @@ ARTICLES: list[dict[str, Any]] = [
     },
     {
         "slug": "education",
-        "title": "教育での活用例",
-        "description": "学校や教育機関でFS!QRを効果的に活用するための具体的な事例を紹介します。",
+        "title": "授業でファイルを配るときの設計と確認手順",
+        "description": "授業資料や課題をQRコードで配布するときに、教員・学生が確認すべきことを整理します。",
         "icon": "fa-graduation-cap",
         "category": "活用事例",
         "date": "2025-08-23",
@@ -115,8 +103,8 @@ ARTICLES: list[dict[str, Any]] = [
     },
     {
         "slug": "business",
-        "title": "業務での活用例",
-        "description": "ビジネス現場でFS!QRを活用して業務効率を向上させる方法を実例とともに解説します。",
+        "title": "取引先へのファイル共有を迷わせない実務フロー",
+        "description": "取引先へ見積書や提案資料を送るときの、共有前・確認中・共有終了後の実務フローを解説します。",
         "icon": "fa-briefcase",
         "category": "活用事例",
         "date": "2025-08-22",
@@ -126,8 +114,8 @@ ARTICLES: list[dict[str, Any]] = [
     },
     {
         "slug": "risk-mitigation",
-        "title": "リスクと対策の考え方",
-        "description": "ファイル共有におけるリスクを理解し、適切な対策を講じるための考え方を学びます。",
+        "title": "ファイル共有のリスクを場面別に切り分ける方法",
+        "description": "ファイル共有の事故を、宛先違い・リンク漏えい・端末・保存期間の四つに分けて考える実務ガイドです。",
         "icon": "fa-exclamation-triangle",
         "category": "セキュリティ",
         "date": "2025-08-21",
@@ -444,7 +432,7 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/client-file-handoff.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        "indexable": True,
+        "indexable": False,
     },
     {
         "slug": "ai-live-translation-practical-guide",

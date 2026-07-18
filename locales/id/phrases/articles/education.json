@@ -19,4 +19,28 @@
   "継続的な改善と教育効果の測定": "Perbaikan berkelanjutan dan pengukuran efektivitas pendidikan",
   "言語": "Bahasa",
   "課題提出とフィードバックの効率化": "Mengefisienkan pengumpulan tugas dan umpan balik"
+  ,"授業でファイルを配るときの設計と確認手順": "Rancangan dan langkah pemeriksaan saat membagikan file di kelas",
+  "授業資料や課題をQRコードで配布するときに、教員・学生それぞれが確認すべきことを整理します。配布前の個人情報確認、受け取り確認、期限後の扱いまで、教育現場の運用として解説します。": "Kami merangkum hal yang perlu diperiksa guru dan siswa saat membagikan materi pelajaran atau tugas dengan kode QR, dari pemeriksaan data pribadi sebelum distribusi dan konfirmasi penerimaan hingga penanganan setelah masa berlaku berakhir.",
+  "授業 資料配布, QRコード 教育, 課題提出, ファイル共有, 個人情報, FS QR": "kelas dan distribusi materi, pendidikan dengan kode QR, pengumpulan tugas, berbagi file, data pribadi, FS QR",
+  "教育での利用": "Penggunaan dalam pendidikan",
+  "授業でのファイル共有は、紙を減らすだけの作業ではありません。誰に何を配るのか、学生がいつまでに受け取るのか、配布後にどこへ保存されるのかを決めておくと、授業中の質問や誤配布を減らせます。QRコードは入口を簡単にする道具なので、運用上の確認を省略するために使わないことが大切です。": "Berbagi file di kelas bukan sekadar mengurangi kertas. Menentukan siapa menerima apa, kapan siswa harus menerimanya, dan di mana file disimpan setelah dibagikan dapat mengurangi pertanyaan dan salah distribusi selama pelajaran. Kode QR memudahkan pintu masuk, bukan alasan untuk melewatkan pemeriksaan operasional.",
+  "授業前に資料を三つに分ける": "Bagi materi menjadi tiga sebelum kelas",
+  "まず、公開してよい資料、授業参加者だけに渡す資料、個人情報や評価情報を含む資料を分けます。授業参加者向けでも、氏名、学籍番号、答案、連絡先が含まれる場合は、通常の配布資料と同じ扱いにしないでください。共有するファイルは、提出物の一覧や採点表などの管理資料と混ぜず、配布用に必要な部分だけを書き出します。": "Pertama, pisahkan materi yang boleh dipublikasikan, materi untuk peserta kelas saja, dan materi yang memuat data pribadi atau penilaian. Bahkan untuk peserta kelas, jangan memperlakukan materi yang memuat nama, nomor mahasiswa, jawaban, atau kontak seperti materi biasa. Pisahkan file untuk dibagikan dari daftar tugas atau lembar nilai, dan keluarkan hanya bagian yang diperlukan.",
+  "ファイル名には授業名、回、資料の種類、版を入れます。たとえば「情報セキュリティ_03_演習資料_v2.pdf」のようにすると、学生が別の週の資料を開いたときに気付きやすくなります。版を更新した場合は、古い共有を残したまま新しい共有を作るのか、配布方法を切り替えるのかを明確にします。": "Masukkan nama kelas, pertemuan, jenis materi, dan versi ke nama file. Misalnya, 'Keamanan Informasi_03_Materi Latihan_v2.pdf' membantu siswa menyadari jika membuka materi minggu lain. Saat memperbarui versi, jelaskan apakah akan membuat berbagi baru sambil mempertahankan yang lama atau mengganti metode distribusi.",
+  "教室でQRコードを表示する手順": "Langkah menampilkan kode QR di kelas",
+  "授業開始前に、テスト用の端末でQRコードを読み取り、共有ページが開くことを確認する。": "Sebelum kelas dimulai, pindai kode QR dengan perangkat uji dan pastikan halaman berbagi terbuka.",
+  "保存期間とパスワードを確認し、授業終了後も必要な期間だけ設定する。": "Periksa masa simpan dan kata sandi, lalu atur hanya selama diperlukan setelah kelas selesai.",
+  "スクリーンに表示する前に、QRコードが授業参加者以外から撮影できない位置か確認する。": "Sebelum menampilkannya di layar, pastikan kode QR tidak dapat dipotret oleh orang di luar peserta kelas.",
+  "表示後は、読み取れない学生向けにURLと受け取り手順を別途案内する。": "Setelah ditampilkan, sediakan URL dan langkah penerimaan secara terpisah bagi siswa yang tidak dapat memindainya.",
+  "オンライン授業では、録画にQRコードやパスワードが残る可能性があります。録画を配布する場合は、録画を見る人が共有対象と一致するかを確認し、必要ならQRコードを画面に表示せず別の手段で案内します。": "Dalam kelas online, kode QR atau kata sandi mungkin tertinggal dalam rekaman. Jika rekaman dibagikan, pastikan orang yang dapat menontonnya sama dengan sasaran berbagi; bila perlu, berikan petunjuk melalui cara lain tanpa menampilkan kode QR di layar.",
+  "課題提出では「配布」と「提出」を分けて考える": "Untuk pengumpulan tugas, bedakan distribusi dan penyerahan",
+  "FS!QRのQR共有は、資料を渡す用途には向きますが、提出物の受領管理や採点ワークフローを自動化するものではありません。課題提出に使う場合は、提出先、ファイル名、締切、再提出の扱い、提出できたことの確認方法を別に決めます。提出されたファイルに個人情報が含まれる場合は、学校が承認した提出システムを優先してください。": "Berbagi QR FS!QR cocok untuk memberikan materi, tetapi tidak mengotomatiskan pengelolaan penerimaan tugas atau alur penilaian. Jika digunakan untuk tugas, tentukan secara terpisah tujuan penyerahan, nama file, tenggat, aturan pengumpulan ulang, dan cara memastikan tugas berhasil dikirim. Jika file berisi data pribadi, utamakan sistem penyerahan yang disetujui sekolah.",
+  "配布後に教員が確認すること": "Hal yang diperiksa guru setelah distribusi",
+  "学生から「開けない」と連絡が来た場合、期限、パスワード、ブラウザ、ファイル形式の順で切り分ける。": "Jika siswa melapor 'tidak bisa membuka', periksa berurutan masa berlaku, kata sandi, browser, lalu format file.",
+  "最新版を配布した場合、前の版を参照している学生がいないか案内する。": "Jika versi terbaru dibagikan, beri tahu agar tidak ada siswa yang masih merujuk versi sebelumnya.",
+  "授業が終わり、共有が不要になったら、共有を手動削除するか期限を確認する。": "Setelah kelas selesai dan berbagi tidak diperlukan, hapus secara manual atau periksa masa berlakunya.",
+  "端末に保存された資料やスクリーンショットは、サービス側では削除できないと伝える。": "Jelaskan bahwa materi atau tangkapan layar yang tersimpan di perangkat tidak dapat dihapus dari sisi layanan.",
+  "学校の規程を優先する場面": "Situasi yang harus mengutamakan peraturan sekolah",
+  "成績、本人確認書類、健康情報、個別の配慮事項などを含む資料は、学校の情報管理規程と担当部署の指示を優先してください。FS!QRは短時間の資料受け渡しを補助するサービスであり、校務システムや学習管理システムの代替ではありません。授業で使う前に、扱うデータの種類と保存場所を管理者へ確認しましょう。": "Untuk materi yang memuat nilai, dokumen identitas, informasi kesehatan, atau kebutuhan akomodasi individual, ikuti peraturan pengelolaan informasi sekolah dan arahan departemen terkait. FS!QR membantu serah-terima materi singkat, bukan pengganti sistem administrasi sekolah atau sistem manajemen pembelajaran. Sebelum digunakan di kelas, konfirmasikan jenis data dan lokasi penyimpanannya kepada pengelola."
+  ,"授業資料や課題をQRコードで配布するときに、教員・学生が確認すべきことを整理します。": "Kami merangkum hal yang perlu diperiksa guru dan siswa saat membagikan materi atau tugas dengan kode QR."
 }

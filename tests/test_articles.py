@@ -131,15 +131,15 @@ def test_article_base_shows_editorial_date(test_client: TestClient):
         '<time datetime="2025-08-30T00:00:00+09:00">2025-08-30</time>' in response.text
     )
     assert (
-        '<time datetime="2026-07-17T00:00:00+09:00">2026-07-17</time>' in response.text
+        '<time datetime="2026-07-18T00:00:00+09:00">2026-07-18</time>' in response.text
     )
 
 
 def test_article_heading_and_hero_alt_are_descriptive(test_client: TestClient):
     """記事の主見出しとヒーロー画像altは本文タイトルを反映する。"""
     for slug, title in (
-        ("safe-sharing", "安全な共有のポイント"),
-        ("fs-qr-concept", "FS!QRの基本的な考え方"),
+        ("safe-sharing", "ファイル共有の送信前・受信後チェックリスト"),
+        ("fs-qr-concept", "QRコードで一時共有する仕組みと、向いている場面"),
     ):
         response = test_client.get(f"/{slug}")
         assert response.status_code == 200
@@ -167,23 +167,28 @@ def test_articles_index_renders_visible_article_thumbnails(test_client: TestClie
         assert f"/static/{article['thumbnail']}?v=" in body
 
 
-def test_articles_second_page_lists_remaining_articles(test_client: TestClient):
+def test_articles_second_page_is_not_created_for_the_curated_set(
+    test_client: TestClient,
+):
     response = test_client.get("/articles/page/2")
-    assert response.status_code == 200
-    body = response.text
-    for article in get_indexable_guides():
-        assert f"/{article['slug']}" not in body
-    indexable_blog = get_indexable_blog_articles_sorted()
-    for article in indexable_blog[:ARTICLES_PER_PAGE]:
-        assert f"/{article['slug']}" not in body
-    for article in indexable_blog[ARTICLES_PER_PAGE : 2 * ARTICLES_PER_PAGE]:
-        assert f"/{article['slug']}" in body
-        assert article["title"] in body
-    for article in [
-        *indexable_blog[2 * ARTICLES_PER_PAGE :],
-        *[a for a in ARTICLES if not is_indexable_article(a)],
-    ]:
-        assert f"/{article['slug']}" not in body
+    assert response.status_code == 404
+
+
+def test_adsense_review_keeps_only_curated_public_articles():
+    expected = {
+        "fs-qr-concept",
+        "safe-sharing",
+        "encryption",
+        "education",
+        "business",
+        "risk-mitigation",
+        "file-sharing-troubleshooting",
+        "group-room-access-troubleshooting",
+        "shared-note-sync-troubleshooting",
+        "remove-photo-location-data",
+        "send-photos-without-quality-loss",
+    }
+    assert {article["slug"] for article in get_indexable_articles()} == expected
 
 
 def test_articles_page_one_redirects_to_canonical_index(test_client: TestClient):
@@ -274,7 +279,7 @@ def test_article_sitemap_uses_visible_modified_date(test_client: TestClient):
         for url in root.findall("sm:url", ns)
         if url.find("sm:loc", ns) is not None and url.find("sm:lastmod", ns) is not None
     }
-    assert entries["https://fs-qr.net/safe-sharing"] == "2026-07-17"
+    assert entries["https://fs-qr.net/safe-sharing"] == "2026-07-18"
 
 
 def test_article_sitemap_lastmod_uses_template_modified_date(test_client: TestClient):
