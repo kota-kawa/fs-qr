@@ -1,96 +1,37 @@
-{% extends "layout.html" %}
-{% set article_thumbnail = "articles/thumbnails/fs-qr-concept.jpg" %}
-{% set article_thumbnail_alt = "FS!QRの基本的な考え方" %}
+{% extends "_article_base.html" %}
 
-{% block page_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
+{% set article_title = "QRコードで一時共有する仕組みと、向いている場面" %}
+{% set article_description = "QRコードを使う一時的なファイル共有が、どのような流れで動くのかを利用者の視点で解説します。ブラウザ側の暗号化、共有期限、向いていないデータまで、FS!QRの実装範囲に沿って整理します。" %}
+{% set article_keywords = "QRコード ファイル共有, 一時共有, ブラウザ暗号化, AES-GCM, 共有期限, FS QR" %}
+{% set article_slug = "fs-qr-concept" %}
+{% set article_section = "サービスの仕組み" %}
+{% set article_published = "2025-08-31" %}
+{% set article_modified = "2026-07-18" %}
+{% set cta_service = "fsqr" %}
 
-{% block meta_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単でID・パスワードでアクセスを制限したファイル共有の新しい形について説明します。{% endblock %}
+{% block article_body %}
+<p>「ファイルを一時的に渡したいが、相手にアカウントを作ってもらうほどではない」という場面があります。FS!QRは、この短時間の受け渡しを、URLまたはQRコードとパスワードで行うためのサービスです。ここでは広告的な機能紹介ではなく、共有を始めてから期限が切れるまでに何が起きるかを、利用者が判断できる粒度で説明します。</p>
 
-{% block meta_keywords %}FS QR, コンセプト, 設計思想, QRコード共有, 一時的な共有, ファイル共有, サービス理念, ブラウザ完結, 直感的操作{% endblock %}
+<h3>共有は「アップロード」「案内」「受け取り」に分かれる</h3>
+<p>送信側はブラウザでファイルを選び、保存期間とパスワードを確認してアップロードします。完了すると、受信者へ渡すURL、共有ID、パスワード、QRコードが表示されます。受信側はQRコードを読み取るかURLを開き、画面の案内に従ってパスワードを入力します。送信側と受信側が同じ画面を同時に開く必要はありません。</p>
+<p>この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。</p>
 
-{% block og_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
-{% block og_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単でID・パスワードでアクセスを制限したファイル共有の新しい形について説明します。{% endblock %}
-{% block og_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block og_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<h3>QRコードはファイルそのものではなく、入口を渡す</h3>
+<p>QRコードにファイルの中身が入っているわけではありません。コードには共有先へ移動するための情報が含まれ、受信者はそこから共有ページを開きます。そのため、QRコードを撮影できる人に入口を渡すことになります。会議室のスクリーンや公開配信に表示する場合は、誰が読み取れるかを先に考え、必要ならパスワードを別の経路で伝えます。</p>
+<p>URLとパスワードを同じ公開チャットへ貼れば、QRコードを使っていても保護は弱くなります。QRコードは入力を省く手段であって、宛先確認や認証情報の管理を代わりに行うものではありません。</p>
 
-{% block twitter_title %}FS!QRの基本的な考え方 | サービスコンセプトと設計思想{% endblock %}
-{% block twitter_description %}FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単でID・パスワードでアクセスを制限したファイル共有の新しい形について説明します。{% endblock %}
-{% block twitter_image %}{{ social_staticfile(article_thumbnail) }}{% endblock %}
-{% block twitter_image_alt %}{{ article_thumbnail_alt }}{% endblock %}
+<h3>QR共有で暗号化される範囲を確認する</h3>
+<p>FS!QRのQRコード共有では、ブラウザ側でファイルを暗号化してからサーバーへ保存します。通信はHTTPSで保護されます。一方、GroupのファイルとNoteの本文は、現在の仕様ではサーバー上で暗号化された状態では保管されません。サービス名が同じでも機能ごとに保護範囲が違うため、機密性の高い内容を扱うときは、共有方法を選び直してください。</p>
+<p>暗号化されていても、受信者が保存したコピー、スクリーンショット、誤った相手へ伝えたパスワードまで消えるわけではありません。期限の設定はサーバー上の共有を短く保つための機能であり、受信後の端末を遠隔消去する機能ではありません。</p>
 
-{% block og_type %}article{% endblock %}
-{% block extra_og %}
-<meta property="article:published_time" content="2025-08-31T00:00:00+09:00" />
-<meta property="article:modified_time" content="2025-08-31T00:00:00+09:00" />
-<meta property="article:author" content="FS!QR" />
-<meta property="article:section" content="サービス紹介" />
-{% endblock %}
+<h3>共有前に判断する三つの質問</h3>
+<ol>
+  <li>受信者は誰か。URLやQRコードを見られる人を説明できるか。</li>
+  <li>相手が必要とする期間はどれくらいか。最長の設定が本当に必要か。</li>
+  <li>保存・監査・本人確認が必要なデータではないか。必要なら組織で承認された保管場所を使う。</li>
+</ol>
+<p>この三つに答えられないままアップロードを始めないことが、FS!QRを安全に使う最も重要な前提です。便利さを理由に保管場所の選定を省略しないでください。</p>
 
-{% block extra_head %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "FS!QRの基本的な考え方",
-  "description": "FS!QRの基本コンセプトと設計思想を詳しく解説。QRコードによる直感的な共有体験、一時的な共有に特化した設計、簡単でID・パスワードでアクセスを制限したファイル共有の新しい形について説明します。",
-  "datePublished": "2025-08-31T00:00:00+09:00",
-  "dateModified": "2025-08-31T00:00:00+09:00",
-  "image": "{{ social_staticfile(article_thumbnail) }}",
-  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "FS!QR",
-    "url": "{{ request.url_root }}",
-    "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
-  },
-  "url": "{{ request.url_root }}fs-qr-concept",
-  "inLanguage": "ja-JP",
-  "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
-    { "@type": "ListItem", "position": 3, "name": "FS!QRの基本的な考え方", "item": "{{ request.url_root }}fs-qr-concept" }
-  ]
-}
-</script>
-{% endblock %}
-
-{% block contents %}
-<div class="container my-5">
-  <div class="info-box article-reading">
-    <div class="info-box-content">
-      {% include "_legacy_article_thumbnail.html" %}
-      <h1 class="mb-4">FS!QRの基本的な考え方</h1>
-      <p class="article-byline"><span class="article-byline-author">FS!QR</span><time datetime="2025-08-31T00:00:00+09:00">2025-08-31</time></p>
-    <h3>FS!QRが目指すファイル共有の新しい形</h3>
-    <p>FS!QRは、現代のデジタル社会において「簡単でID・パスワードでアクセスを制限したファイル共有」を実現するために開発されたWebサービスです。従来のファイル共有方法では、専用アプリのインストールや複雑な設定が必要でしたが、FS!QRはブラウザだけで完結する仕組みを採用することで、誰でも直感的に使えるファイル共有環境を提供しています。</p>
-    
-    <h3>QRコードによる直感的な共有体験</h3>
-    <p>FS!QRの最大の特徴は、QRコードを活用したシンプルな共有プロセスです。ファイルをアップロードすると自動的にQRコードが生成され、受け取る側はスマートフォンでコードを読み取るだけでファイルにアクセスできます。この仕組みにより、URLの手動入力や複雑なリンク共有が不要となり、教育現場やビジネスシーンでも直感的にファイル交換ができるようになりました。</p>
-    
-    <h3>一時的な共有に特化した設計思想</h3>
-    <p>FS!QRは「永続的な保存」ではなく「一時的な共有」に特化した設計を採用しています。アップロードされたファイルは一定期間後に自動的に削除されるため、不要なデータがサーバーに蓄積されることがありません。この思想は、プライバシー保護と利便性のバランスを重視した結果であり、利用者が安心してファイルを共有できる環境を作り出しています。</p>
-    
-    <h3>セキュリティと利便性の両立</h3>
-    <p>ファイル共有における最重要課題は、セキュリティと利便性の両立です。FS!QRでは、アップロードされたファイルを暗号化して保存し、IDとパスワードによるアクセス制御を組み合わせることで、安全性を確保しています。また、HTTPSによる通信暗号化により、データの送受信時にも第三者による盗聴や改ざんを防いでいます。これらの技術的な仕組みが背景で動作することで、利用者は複雑な設定を意識することなく、ID・パスワードでアクセスを制限したファイル共有を体験できます。</p>
-    
-    <h3>教育とビジネス現場での活用を想定した機能設計</h3>
-    <p>FS!QRの機能は、教育機関とビジネス現場での実際のニーズを反映して設計されています。授業での資料配布、グループワークでの成果物共有、企業での研修資料配布など、日常的に発生するファイル共有の場面で、最小限の手順で最大の効果を得られるよう工夫されています。特に、複数人でのファイル交換を想定したグループ共有機能や、リアルタイムでの情報共有を可能にするノート機能は、現代の協働的な学習・業務スタイルに対応した革新的な機能です。</p>
-    
-    <h3>オープンで透明性の高い運営方針</h3>
-    <p>FS!QRは、利用者のプライバシーと信頼を最優先に考えた運営を行っています。データの取り扱い方針、セキュリティ対策の詳細、システムの技術的仕様などについて可能な限り透明性を保ち、利用者が安心してサービスを利用できる環境を整備しています。また、利用者からのフィードバックを積極的に受け入れ、継続的な改善を図ることで、時代の変化に対応したファイル共有サービスの発展を目指しています。</p>
-    
-    <h3>持続可能なデジタル社会への貢献</h3>
-    <p>FS!QRは、単なるファイル共有ツールを超えて、持続可能なデジタル社会の実現に貢献することを目指しています。データの自動削除機能による環境負荷の軽減、シンプルな設計による学習コストの削減、オープンソースの精神に基づいた知識の共有など、技術を通じて社会全体の利益に貢献する姿勢を大切にしています。これらの価値観が、FS!QRを他の類似サービスと差別化する重要な要素となっています。</p>
-    {% set cta_service = "fsqr" %}
-    {% include "_article_cta.html" %}
-    </div>
-  </div>
-</div>
+<h3>実際に試すなら、機密性のないファイルから始める</h3>
+<p>初回は公開しても問題のない小さな画像やテスト用PDFを使い、送信側で表示される情報、受信側の保存先、期限切れ後の表示を確認します。仕様を自分の環境で確かめてから、実際の資料を共有してください。確認結果や相手の受け取り完了を記録する必要がある場合は、別途そのための業務手順も用意します。</p>
 {% endblock %}

@@ -48,7 +48,7 @@
 {% block extra_og %}
 <meta property="article:published_time" content="{{ _published_iso }}" />
 <meta property="article:modified_time" content="{{ _modified_iso }}" />
-<meta property="article:author" content="FS!QR" />
+<meta property="article:author" content="こうた" />
 <meta property="article:section" content="{{ article_section | default('解説記事') }}" />
 {% endblock %}
 
@@ -62,7 +62,11 @@
   "datePublished": "{{ _published_iso }}",
   "dateModified": "{{ _modified_iso }}",
   "image": "{{ social_staticfile(_thumbnail) }}",
-  "author": { "@type": "Organization", "name": "FS!QR", "url": "{{ request.url_root }}" },
+  "author": {
+    "@type": "Person",
+    "name": "こうた",
+    "url": "{{ request.url_root }}site-operator"
+  },
   "publisher": {
     "@type": "Organization",
     "name": "FS!QR",
@@ -101,7 +105,7 @@
       <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="{{ _heading }}" loading="eager" decoding="async">
       <h1 class="mb-4">{{ _heading }}</h1>
       <p class="article-byline">
-        <span class="article-byline-author">FS!QR</span>
+        <a class="article-byline-author" rel="author" href="/site-operator">こうた</a>
         <time datetime="{{ _published_iso }}">{{ article_published }}</time>
         {% if _modified != article_published %}
         <span aria-hidden="true">·</span>
@@ -152,7 +156,9 @@
   .article-byline-author {
     color: var(--text-dark);
     font-weight: 600;
+    text-decoration: none;
   }
+  .article-byline-author:hover { text-decoration: underline; }
   .article-footer-nav {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
