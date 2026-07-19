@@ -22,13 +22,15 @@ STATIC = os.path.join(BASE_DIR, "static/upload")
 
 
 # グループの部屋の作成
-async def create_room(id, password, room_id, retention_days=7):
+async def create_room(id, password, room_id, retention_hours=24):
     hashed_password = hash_password(password)
     query = text("""
-        INSERT INTO room (time, id, password, room_id, retention_days, expires_at)
+        INSERT INTO room (
+            time, id, password, room_id, retention_days, retention_hours, expires_at
+        )
         VALUES (
-            NOW(), :id, :password, :room_id, :retention_days,
-            DATE_ADD(NOW(), INTERVAL :retention_days DAY)
+            NOW(), :id, :password, :room_id, 1, :retention_hours,
+            DATE_ADD(NOW(), INTERVAL :retention_hours HOUR)
         )
     """)
     await execute_query(
@@ -37,7 +39,7 @@ async def create_room(id, password, room_id, retention_days=7):
             "id": id,
             "password": hashed_password,
             "room_id": room_id,
-            "retention_days": retention_days,
+            "retention_hours": retention_hours,
         },
     )
     await invalidate_cache_entry(pich_room_id, id, password)

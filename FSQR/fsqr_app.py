@@ -137,27 +137,40 @@ def _is_valid_share_token(share_token: str) -> bool:
 
 
 def _calculate_deletion_context(record):
-    retention_days = record.get("retention_days", 7)
-    created_at = record.get("time")
+    retention_hours = record.get("retention_hours", 24)
+    expires_at = record.get("expires_at")
     deletion_date = None
-    if created_at:
+    if expires_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
-                "%Y-%m-%d %H:%M"
-            )
+            deletion_date = expires_at.strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
-    return retention_days, deletion_date
+    elif record.get("time"):
+        # expires_at 導入前のレコードやテスト用レコードにも表示を提供する。
+        try:
+            deletion_date = (
+                record["time"] + timedelta(hours=int(retention_hours))
+            ).strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            deletion_date = None
+    return retention_hours, deletion_date
 
 
 def _is_record_expired(record, now=None) -> bool:
+    expires_at = record.get("expires_at")
+    if expires_at:
+        try:
+            current_time = now or datetime.now(tz=expires_at.tzinfo)
+            return expires_at <= current_time
+        except Exception:
+            return False
     created_at = record.get("time")
     if not created_at:
         return False
     try:
-        retention_days = int(record.get("retention_days", 7))
+        retention_hours = int(record.get("retention_hours", 24))
         current_time = now or datetime.now(tz=created_at.tzinfo)
-        return created_at + timedelta(days=retention_days) <= current_time
+        return created_at + timedelta(hours=retention_hours) <= current_time
     except Exception:
         return False
 
@@ -219,13 +232,13 @@ def _validate_fsqr_encrypted_payload(
 
 
 async def _create_fsqr_share_token(
-    *, secure_id: str, id_val: str, password: str, retention_days: int
+    *, secure_id: str, id_val: str, password: str, retention_hours: int
 ) -> str:
     try:
         return await create_share_link(
             service_key=ServiceKey.FSQR,
             resource_id=secure_id,
-            expires_at=datetime.now() + timedelta(days=retention_days),
+            expires_at=datetime.now() + timedelta(hours=retention_hours),
             metadata={"id": id_val, "password_enc": encrypt_share_password(password)},
         )
     except Exception:
@@ -256,7 +269,7 @@ async def upload(  # noqa: C901
     download_password: str = Form(""),
     file_type: str = Form("multiple"),
     original_filename: str = Form(""),
-    retention_days: str = Form(""),
+    retention_hours: str = Form(""),
     upfile: Optional[List[UploadFile]] = File(None),
 ):
     await enforce_csrf(request)
@@ -264,8 +277,8 @@ async def upload(  # noqa: C901
     file_type = file_type or "multiple"
     original_filename = original_filename or ""
 
-    upload_in = FsqrUploadInput(name=name, retention_days=retention_days)
-    retention_days_int = upload_in.retention_days
+    upload_in = FsqrUploadInput(name=name, retention_hours=retention_hours)
+    retention_hours_int = upload_in.retention_hours
     id_val = upload_in.name
 
     if not id_val:
@@ -339,14 +352,14 @@ async def upload(  # noqa: C901
             secure_id=secure_id,
             file_type=file_type,
             original_filename=original_filename,
-            retention_days=retention_days_int,
+            retention_hours=retention_hours_int,
         )
         metadata_saved = True
         share_token = await _create_fsqr_share_token(
             secure_id=secure_id,
             id_val=id_val,
             password=password,
-            retention_days=retention_days_int,
+            retention_hours=retention_hours_int,
         )
         os.replace(temp_path, final_path)
     except Exception:
@@ -404,7 +417,7 @@ async def upload_complete(request: Request, secure_id: str):
             share_url = build_share_url(
                 request, service_key=ServiceKey.FSQR, token=share_token
             )
-    retention_days, deletion_date = _calculate_deletion_context(row)
+    retention_hours, deletion_date = _calculate_deletion_context(row)
 
     return render_template(
         request,
@@ -416,7 +429,7 @@ async def upload_complete(request: Request, secure_id: str):
         original_filename=row.get("original_filename", ""),
         mode="upload",
         url=share_url,
-        retention_days=retention_days,
+        retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=_can_delete_fsqr_upload(request, secure_id, row),
         presence_scope="fsqr-upload",
@@ -438,7 +451,7 @@ async def download(request: Request, secure_id: str):
                 build_url(request, "fsqr.share_entry", token=share_token),
                 status_code=302,
             )
-        retention_days, deletion_date = _calculate_deletion_context(row)
+        retention_hours, deletion_date = _calculate_deletion_context(row)
         return render_template(
             request,
             "info.html",
@@ -449,7 +462,7 @@ async def download(request: Request, secure_id: str):
             file_type=row.get("file_type", "multiple"),
             original_filename=row.get("original_filename", ""),
             url=build_url(request, "fsqr.download_go", secure_id=secure_id),
-            retention_days=retention_days,
+            retention_hours=retention_hours,
             deletion_date=deletion_date,
             can_delete=_can_delete_fsqr_upload(request, secure_id, row),
         )
@@ -486,7 +499,7 @@ async def fs_qr_share(request: Request, token: str):
 
     await register_success(SCOPE_QR, ip)
     record = data[0]
-    retention_days, deletion_date = _calculate_deletion_context(record)
+    retention_hours, deletion_date = _calculate_deletion_context(record)
     link_password = share_link_password(link)
 
     return render_template(
@@ -499,7 +512,7 @@ async def fs_qr_share(request: Request, token: str):
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),
         url=build_url(request, "fsqr.share_download", token=token),
-        retention_days=retention_days,
+        retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=_can_delete_fsqr_upload(request, record["secure_id"], record),
         presence_scope="fsqr-share",

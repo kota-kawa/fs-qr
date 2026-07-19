@@ -84,7 +84,7 @@
               <div class="room-info-row">
                 <span class="room-info-label">自動削除</span>
                 <span class="room-info-value">
-                  {{ retention_days }}日後
+                  {{ retention_hours }}時間後
                   <small class="text-muted d-block">選択した期間を過ぎると安全に削除されます。</small>
                 </span>
               </div>
@@ -94,7 +94,7 @@
                   {% if deletion_date %}
                     {{ deletion_date }}
                   {% else %}
-                    {{ retention_days }}日後に自動削除予定
+                    {{ retention_hours }}時間後に自動削除予定
                   {% endif %}
                 </span>
               </div>
@@ -194,9 +194,9 @@
                 <span class="room-info-label">削除予定日</span>
                 <span class="room-info-value">
                   {% if deletion_date %}
-                    {{ deletion_date }}（{{ retention_days }}日後）
+                    {{ deletion_date }}（{{ retention_hours }}時間後）
                   {% else %}
-                    {{ retention_days }}日後に自動削除予定
+                    {{ retention_hours }}時間後に自動削除予定
                   {% endif %}
                 </span>
               </div>

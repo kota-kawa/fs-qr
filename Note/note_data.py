@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS note_room(
   id VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   room_id VARCHAR(255) NOT NULL,
-  retention_days INT NOT NULL DEFAULT 7,
+  retention_days INT NOT NULL DEFAULT 1,
+  retention_hours INT NOT NULL DEFAULT 24,
   expires_at DATETIME NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'active',
   deleted_at DATETIME NULL,
@@ -141,11 +142,17 @@ async def ensure_tables():
     await execute_query(CREATE_NOTE_CONTENT)
     await ensure_column(
         "note_room",
+        "retention_hours",
+        "ALTER TABLE note_room ADD COLUMN retention_hours INT NOT NULL DEFAULT 24 "
+        "AFTER retention_days",
+    )
+    await ensure_column(
+        "note_room",
         "expires_at",
         "ALTER TABLE note_room ADD COLUMN expires_at DATETIME NULL",
     )
     await execute_query(
-        "UPDATE note_room SET expires_at = DATE_ADD(time, INTERVAL retention_days DAY) "
+        "UPDATE note_room SET expires_at = DATE_ADD(time, INTERVAL retention_hours HOUR) "
         "WHERE expires_at IS NULL"
     )
     await execute_query("ALTER TABLE note_room MODIFY expires_at DATETIME NOT NULL")
@@ -213,25 +220,27 @@ def hash_share_token(token: str) -> str:
 # ────────────────────────────────────────────
 # ノートルーム作成
 # ────────────────────────────────────────────
-async def create_room(id_, password, room_id, retention_days=7, share_token_hash=None):
+async def create_room(
+    id_, password, room_id, retention_hours=24, share_token_hash=None
+):
     hashed_password = hash_password(password)
     async with db_session.begin():
         await db_session.execute(
             text("""
             INSERT INTO note_room(
-                time, id, password, room_id, retention_days,
+                time, id, password, room_id, retention_days, retention_hours,
                 expires_at, status, share_token_hash
             )
             VALUES(
-                NOW(), :i, :p, :r, :retention,
-                DATE_ADD(NOW(), INTERVAL :retention DAY), 'active', :share_token_hash
+                NOW(), :i, :p, :r, 1, :retention,
+                DATE_ADD(NOW(), INTERVAL :retention HOUR), 'active', :share_token_hash
             )
             """),
             {
                 "i": id_,
                 "p": hashed_password,
                 "r": room_id,
-                "retention": retention_days,
+                "retention": retention_hours,
                 "share_token_hash": share_token_hash,
             },
         )
@@ -253,7 +262,7 @@ async def create_room(id_, password, room_id, retention_days=7, share_token_hash
 async def get_room_meta_direct(room_id, password=None):
     rows = await execute_query(
         """
-        SELECT room_id, id, password, time, retention_days, expires_at, status, deleted_at
+        SELECT room_id, id, password, time, retention_hours, expires_at, status, deleted_at
         FROM note_room
         WHERE room_id=:r
           AND status = 'active'
@@ -281,7 +290,7 @@ async def get_room_meta(room_id, password=None):
 async def get_room_meta_by_share_token_hash(share_token_hash: str):
     rows = await execute_query(
         """
-        SELECT room_id, id, time, retention_days, expires_at, status, deleted_at
+        SELECT room_id, id, time, retention_hours, expires_at, status, deleted_at
         FROM note_room
         WHERE share_token_hash=:h
           AND status = 'active'

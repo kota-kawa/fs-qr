@@ -304,10 +304,11 @@
               <div class="form-group">
                   <label class="form-label" for="retention">自動削除までの期間</label>
                   <div class="retention-select-wrapper retention-select-wrapper--citrus" data-retention-select>
-                      <select id="retention" name="retention_days" class="retention-select" autocomplete="off">
-                          <option value="1">1日</option>
-                          <option value="7" selected>7日 (デフォルト)</option>
-                          <option value="30">30日 (約1か月)</option>
+                      <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
+                          <option value="1">1h</option>
+                          <option value="6">6h</option>
+                          <option value="12">12h</option>
+                          <option value="24" selected>24h (default)</option>
                       </select>
                       <span class="retention-select-arrow" aria-hidden="true">
                           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -431,9 +432,9 @@
         if (!retentionSelect || !retentionPreviewTime) {
             return;
         }
-        const retentionDays = Number(retentionSelect.value || 7);
+        const retentionHours = Number(retentionSelect.value || 24);
         const deletionDate = new Date();
-        deletionDate.setDate(deletionDate.getDate() + retentionDays);
+        deletionDate.setHours(deletionDate.getHours() + retentionHours);
         retentionPreviewTime.textContent = formatRetentionAutoDeleteText(formatDateTime(deletionDate));
     }
 

@@ -290,6 +290,7 @@ async def file_detail(request: Request, secure_id: str):
             "password": record.get("password"),
             "file_type": record.get("file_type", "multiple"),
             "original_filename": record.get("original_filename"),
+            "retention_hours": record.get("retention_hours"),
             "created_at": created_at,
             "files": files,
         }
@@ -340,7 +341,7 @@ async def room_detail(request: Request, room_id: str):
             "room_id": record.get("room_id"),
             "id": record.get("id"),
             "password": record.get("password"),
-            "retention_days": record.get("retention_days"),
+            "retention_hours": record.get("retention_hours"),
             "created_at": created_at,
             "files": files,
         }

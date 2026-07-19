@@ -96,44 +96,62 @@ def test_secure_compare_secret():
     assert secure_compare_secret("secret", None) is False
 
 
+def test_retention_hours_allows_only_supported_short_periods():
+    """クライアントが改変されても24時間を超える保持期間を作成しない。"""
+    from models import FsqrUploadInput, RoomCreateInput
+
+    for retention_hours in (1, 6, 12, 24):
+        assert (
+            RoomCreateInput(retention_hours=retention_hours).retention_hours
+            == retention_hours
+        )
+        assert (
+            FsqrUploadInput(retention_hours=retention_hours).retention_hours
+            == retention_hours
+        )
+
+    assert RoomCreateInput(retention_hours=7).retention_hours == 24
+    assert FsqrUploadInput(retention_hours=30).retention_hours == 24
+
+
 # ---------------------------------------------------------------------------
 # FSQR.fsqr_app – pure helper functions
 # ---------------------------------------------------------------------------
 
 
-def test_calculate_deletion_context_normal():
+def test_calculate_deletion_context_24hours():
     from FSQR.fsqr_app import _calculate_deletion_context
 
-    record = {"retention_days": 7, "time": datetime(2026, 3, 1, 12, 0)}
-    days, date_str = _calculate_deletion_context(record)
-    assert days == 7
-    assert date_str == "2026-03-08 12:00"
+    record = {"retention_hours": 24, "time": datetime(2026, 3, 1, 12, 0)}
+    hours, date_str = _calculate_deletion_context(record)
+    assert hours == 24
+    assert date_str == "2026-03-02 12:00"
 
 
-def test_calculate_deletion_context_30days():
+def test_calculate_deletion_context_12hours():
     from FSQR.fsqr_app import _calculate_deletion_context
 
-    record = {"retention_days": 30, "time": datetime(2026, 1, 1, 0, 0)}
-    days, date_str = _calculate_deletion_context(record)
-    assert days == 30
-    assert date_str == "2026-01-31 00:00"
+    record = {"retention_hours": 12, "time": datetime(2026, 1, 1, 0, 0)}
+    hours, date_str = _calculate_deletion_context(record)
+    assert hours == 12
+    assert date_str == "2026-01-01 12:00"
 
 
 def test_calculate_deletion_context_no_time():
     from FSQR.fsqr_app import _calculate_deletion_context
 
-    record = {"retention_days": 7}
-    days, date_str = _calculate_deletion_context(record)
-    assert days == 7
+    record = {"retention_hours": 24}
+    hours, date_str = _calculate_deletion_context(record)
+    assert hours == 24
     assert date_str is None
 
 
 def test_calculate_deletion_context_default_retention():
     from FSQR.fsqr_app import _calculate_deletion_context
 
-    record = {"time": datetime(2026, 3, 1, 0, 0)}  # retention_days キーなし
-    days, date_str = _calculate_deletion_context(record)
-    assert days == 7
+    record = {"time": datetime(2026, 3, 1, 0, 0)}  # retention_hours キーなし
+    hours, date_str = _calculate_deletion_context(record)
+    assert hours == 24
 
 
 # ---------------------------------------------------------------------------
@@ -226,27 +244,27 @@ def test_generate_room_id_alphanumeric():
 # ---------------------------------------------------------------------------
 
 
-def test_calculate_deletion_context_1day():
+def test_calculate_deletion_context_1hour():
     from FSQR.fsqr_app import _calculate_deletion_context
 
-    record = {"retention_days": 1, "time": datetime(2026, 3, 1, 0, 0)}
-    days, date_str = _calculate_deletion_context(record)
-    assert days == 1
-    assert date_str == "2026-03-02 00:00"
+    record = {"retention_hours": 1, "time": datetime(2026, 3, 1, 0, 0)}
+    hours, date_str = _calculate_deletion_context(record)
+    assert hours == 1
+    assert date_str == "2026-03-01 01:00"
 
 
 def test_is_record_expired_true_for_elapsed_retention():
     from FSQR.fsqr_app import _is_record_expired
 
-    record = {"retention_days": 1, "time": datetime(2026, 3, 1, 0, 0)}
-    assert _is_record_expired(record, now=datetime(2026, 3, 2, 0, 0)) is True
+    record = {"retention_hours": 1, "time": datetime(2026, 3, 1, 0, 0)}
+    assert _is_record_expired(record, now=datetime(2026, 3, 1, 1, 0)) is True
 
 
 def test_is_record_expired_false_before_retention():
     from FSQR.fsqr_app import _is_record_expired
 
-    record = {"retention_days": 7, "time": datetime(2026, 3, 1, 0, 0)}
-    assert _is_record_expired(record, now=datetime(2026, 3, 7, 23, 59)) is False
+    record = {"retention_hours": 24, "time": datetime(2026, 3, 1, 0, 0)}
+    assert _is_record_expired(record, now=datetime(2026, 3, 1, 23, 59)) is False
 
 
 def test_remove_expired_files_returns_stats_and_records_status():

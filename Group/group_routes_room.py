@@ -65,13 +65,13 @@ def _is_valid_room_id(room_id: str) -> bool:
 
 
 async def _create_group_share_token(
-    *, room_id: str, password: str, retention_days: int
+    *, room_id: str, password: str, retention_hours: int
 ) -> str:
     try:
         return await create_share_link(
             service_key=ServiceKey.GROUP,
             resource_id=room_id,
-            expires_at=datetime.now() + timedelta(days=retention_days),
+            expires_at=datetime.now() + timedelta(hours=retention_hours),
             metadata={
                 "id": room_id,
                 "password_enc": encrypt_share_password(password),
@@ -84,7 +84,7 @@ async def _create_group_share_token(
 
 def _render_group_room(request: Request, room_id: str, record: dict):
     user_id = record.get("id", "不明")
-    retention_days = record.get("retention_days", 7)
+    retention_hours = record.get("retention_hours", 24)
     share_token = get_group_room_share_token(request, room_id)
     password = get_group_room_password(request, room_id)
     share_url = (
@@ -92,13 +92,11 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         if share_token
         else ""
     )
-    created_at = record.get("time")
+    expires_at = record.get("expires_at")
     deletion_date = None
-    if created_at:
+    if expires_at:
         try:
-            deletion_date = (created_at + timedelta(days=retention_days)).strftime(
-                "%Y-%m-%d %H:%M"
-            )
+            deletion_date = expires_at.strftime("%Y-%m-%d %H:%M")
         except Exception:
             deletion_date = None
 
@@ -109,7 +107,7 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         user_id=user_id,
         password=password,
         share_url=share_url,
-        retention_days=retention_days,
+        retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=can_delete_group_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
@@ -203,17 +201,17 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
         raw_id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
             "idMode", "auto"
         )
-        raw_retention = form_data.get("retention_days") if form_data else None
+        raw_retention = form_data.get("retention_hours") if form_data else None
         if raw_retention is None:
-            raw_retention = json_data.get("retention_days", 7)
+            raw_retention = json_data.get("retention_hours", 24)
 
         try:
             inp = RoomCreateInput(
-                id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
+                id=raw_id, id_mode=raw_id_mode, retention_hours=raw_retention
             )
         except ValidationError:
             return api_error_response("入力内容が不正です。", status_code=400)
-        retention_days = inp.retention_days
+        retention_hours = inp.retention_hours
 
         if inp.id_mode == "auto":
             id_val = inp.id if _is_valid_room_id(inp.id) else ""
@@ -275,7 +273,7 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
                 id=room_id,
                 password=password,
                 room_id=room_id,
-                retention_days=retention_days,
+                retention_hours=retention_hours,
             )
         except IntegrityError:
             logger.info("Group room ID conflict while creating room_id=%s", room_id)
@@ -299,7 +297,7 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
                 status_code=500,
             )
         share_token = await _create_group_share_token(
-            room_id=room_id, password=password, retention_days=retention_days
+            room_id=room_id, password=password, retention_hours=retention_hours
         )
         remember_group_room_access(
             request,

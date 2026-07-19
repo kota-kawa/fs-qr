@@ -267,7 +267,7 @@ def test_db_admin_room_detail_found(test_client):
             "room_id": "abc123",
             "id": "abc123",
             "password": "000000",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": datetime(2026, 1, 1),
         }
     ]

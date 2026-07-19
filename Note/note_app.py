@@ -92,7 +92,7 @@ async def _get_room_if_valid(room_id):
 
 
 def _render_note_room(request: Request, room_id: str, meta: dict):
-    retention_days = meta.get("retention_days", 7)
+    retention_hours = meta.get("retention_hours", 24)
     expires_at = meta.get("expires_at")
     deletion_date = None
     if expires_at:
@@ -116,7 +116,7 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         user_id=meta["id"],
         password=password,
         share_url=share_url,
-        retention_days=retention_days,
+        retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=can_delete_note_room(request, room_id),
         websocket_csrf_token=get_or_create_csrf_token(request),
@@ -161,19 +161,19 @@ async def create_note_room(request: Request):  # noqa: C901
     raw_id_mode = (form_data.get("idMode") if form_data else None) or json_data.get(
         "idMode", "auto"
     )
-    raw_retention = form_data.get("retention_days") if form_data else None
+    raw_retention = form_data.get("retention_hours") if form_data else None
     if raw_retention is None:
-        raw_retention = json_data.get("retention_days", 7)
+        raw_retention = json_data.get("retention_hours", 24)
 
     try:
         inp = RoomCreateInput(
-            id=raw_id, id_mode=raw_id_mode, retention_days=raw_retention
+            id=raw_id, id_mode=raw_id_mode, retention_hours=raw_retention
         )
     except ValidationError:
         return api_error_response("入力内容が不正です。", status_code=400)
     id_val = inp.id
     id_mode = inp.id_mode
-    retention_days = inp.retention_days
+    retention_hours = inp.retention_hours
 
     if id_mode == "auto":
         if not _is_valid_room_id(id_val):
@@ -226,7 +226,7 @@ async def create_note_room(request: Request):  # noqa: C901
             room_id,
             password,
             room_id,
-            retention_days=retention_days,
+            retention_hours=retention_hours,
         )
         created = await _get_room_if_valid(room_id)
     except IntegrityError:

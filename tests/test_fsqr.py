@@ -182,7 +182,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
                 "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -205,7 +205,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
         secure_id="abc123-1234567890-report.pdf",
         file_type="single",
         original_filename="report.pdf",
-        retention_days=7,
+        retention_hours=24,
     )
 
 
@@ -238,7 +238,7 @@ def test_upload_single_filename_with_enc_keeps_download_path_consistent(
                 "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "memo.enc.txt",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -284,7 +284,7 @@ def test_upload_succeeds_when_share_link_creation_fails(
                 "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -310,7 +310,7 @@ def test_fsqr_owner_session_can_delete_uploaded_file(test_client: TestClient, tm
         "id": "own123",
         "secure_id": secure_id,
         "time": None,
-        "retention_days": 7,
+        "retention_hours": 24,
         "file_type": "single",
         "original_filename": "report.pdf",
     }
@@ -336,7 +336,7 @@ def test_fsqr_owner_session_can_delete_uploaded_file(test_client: TestClient, tm
                 "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -364,7 +364,7 @@ def test_fsqr_delete_requires_owner_session(test_client: TestClient):
         "id": "noown1",
         "secure_id": secure_id,
         "time": None,
-        "retention_days": 7,
+        "retention_hours": 24,
     }
     with (
         patch("FSQR.fsqr_data.get_data", new_callable=AsyncMock, return_value=[record]),
@@ -403,7 +403,7 @@ def test_upload_metadata_failure_removes_staged_file(test_client: TestClient, tm
                 "name": "abc123",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -443,7 +443,7 @@ def test_upload_complete_uses_share_token_url_from_session(
                 "name": "abc123",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={"X-Requested-With": "XMLHttpRequest"},
         )
@@ -456,7 +456,7 @@ def test_upload_complete_uses_share_token_url_from_session(
             "secure_id": secure_id,
             "file_type": "single",
             "original_filename": "report.pdf",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": None,
         }
     ]
@@ -496,7 +496,7 @@ def test_upload_complete_hides_password_for_token_url(
                 "download_password": "123456",
                 "file_type": "single",
                 "original_filename": "report.pdf",
-                "retention_days": "7",
+                "retention_hours": 24,
             },
             headers={"X-Requested-With": "XMLHttpRequest"},
         )
@@ -509,7 +509,7 @@ def test_upload_complete_hides_password_for_token_url(
             "secure_id": secure_id,
             "file_type": "single",
             "original_filename": "report.pdf",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": None,
         }
     ]
@@ -537,7 +537,7 @@ def test_share_entry_shows_password_to_receiver(test_client: TestClient):
             "secure_id": secure_id,
             "file_type": "single",
             "original_filename": "report.pdf",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": None,
         }
     ]
@@ -680,7 +680,7 @@ def test_try_login_success_redirects(test_client: TestClient):
                 {
                     "id": "abc123",
                     "secure_id": "abc123-uid-file",
-                    "retention_days": 7,
+                    "retention_hours": 24,
                     "time": datetime(2099, 1, 1),
                 }
             ],
@@ -704,7 +704,7 @@ def test_upload_complete_found(test_client: TestClient):
         {
             "id": "abc123",
             "password": "654321",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": datetime(2099, 1, 1, 0, 0),
         }
     ]
@@ -726,7 +726,7 @@ def test_upload_complete_shows_original_filename_for_single_file(
             "password": "654321",
             "file_type": "single",
             "original_filename": "report.pdf",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": datetime(2099, 1, 1, 0, 0),
         }
     ]
@@ -767,7 +767,7 @@ def test_fs_qr_share_token_route_returns_download_page(test_client: TestClient):
             "secure_id": "abc123-uid-file",
             "file_type": "single",
             "original_filename": "report.pdf",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": datetime(2099, 1, 1),
         }
     ]
