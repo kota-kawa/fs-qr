@@ -107,7 +107,7 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
 
     mock_meta = {
         "id": "tester",
-        "retention_days": 7,
+        "retention_hours": 24,
         "time": None,
         "expires_at": datetime(2026, 1, 8, 0, 0, 0),
     }
@@ -164,7 +164,7 @@ def test_note_share_entry_renders_room_without_redirect(test_client: TestClient)
     share_token = "note-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     mock_meta = {
         "id": "tester",
-        "retention_days": 7,
+        "retention_hours": 24,
         "expires_at": datetime(2026, 1, 8, 0, 0, 0),
     }
     mock_row = {
@@ -259,7 +259,9 @@ def test_create_note_room_generates_numeric_password(test_client: TestClient):
 
     assert response.status_code == 302
     assert response.headers["location"] == "/note/r/abc123"
-    create_mock.assert_awaited_once_with("abc123", "000042", "abc123", retention_days=7)
+    create_mock.assert_awaited_once_with(
+        "abc123", "000042", "abc123", retention_hours=24
+    )
 
 
 def test_note_owner_session_can_delete_room(test_client: TestClient):
@@ -269,7 +271,7 @@ def test_note_owner_session_can_delete_room(test_client: TestClient):
     room_id = "ndel01"
     meta = {
         "id": room_id,
-        "retention_days": 7,
+        "retention_hours": 24,
         "expires_at": datetime(2026, 1, 8, 0, 0, 0),
     }
     remove_mock = AsyncMock()
@@ -317,7 +319,7 @@ def test_note_delete_room_requires_owner_session(test_client: TestClient):
     room_id = "nfor01"
     meta = {
         "id": room_id,
-        "retention_days": 7,
+        "retention_hours": 24,
         "expires_at": datetime(2026, 1, 8, 0, 0, 0),
     }
     with (
@@ -352,7 +354,7 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     ):
         response = test_client.post(
             "/create_note_room",
-            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 
@@ -362,7 +364,9 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["data"]["redirect_url"] == "/note/r/abc123"
     assert payload["data"]["share_url"] == "http://testserver/note/s/Strong_pw1"
     assert payload["data"]["password"] == "000042"
-    create_mock.assert_awaited_once_with("abc123", "000042", "abc123", retention_days=7)
+    create_mock.assert_awaited_once_with(
+        "abc123", "000042", "abc123", retention_hours=24
+    )
 
 
 def test_create_note_room_room_check_error_returns_json(test_client: TestClient):
@@ -377,7 +381,7 @@ def test_create_note_room_room_check_error_returns_json(test_client: TestClient)
     ):
         response = test_client.post(
             "/create_note_room",
-            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 
@@ -400,7 +404,7 @@ def test_create_note_room_db_error_returns_json(test_client: TestClient):
     ):
         response = test_client.post(
             "/create_note_room",
-            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 

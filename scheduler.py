@@ -104,21 +104,21 @@ def run_scheduler():
     scheduler.add_job(
         remove_expired_fsqr,
         trigger="interval",
-        days=1,
+        minutes=5,
         id="remove_expired_fsqr",
         replace_existing=True,
     )
     scheduler.add_job(
         remove_expired_group_rooms,
         trigger="interval",
-        days=1,
+        minutes=5,
         id="remove_expired_group_rooms",
         replace_existing=True,
     )
     scheduler.add_job(
         remove_expired_note_rooms,
         trigger="interval",
-        days=1,
+        minutes=5,
         id="remove_expired_note_rooms",
         replace_existing=True,
     )

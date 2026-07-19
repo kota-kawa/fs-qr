@@ -22,11 +22,11 @@
   "FS!QRは、「保存」ではなく「共有（受け渡し）」そのものにフォーカスして設計されたサービスです。その最大の特徴である「自動削除機能」は、設定した保持期間が終わると、サービス上の共有データと登録情報を削除します。不要になった共有を残し続けないことで、管理の手間と、古いリンクが有効なまま残る期間を減らせます。ここでは、自動削除を安全な運用に組み込む方法と、利用時に確認したい点を解説します。": "Il servizio elimina record e file gestiti al termine del periodo di conservazione; backup e copie sui dispositivi dei destinatari possono restare.",
   "FS!QRの自動削除が行うこと": "Come funziona l’eliminazione automatica di FS!QR How service-side deletion works.",
   "指定した保持期間が終了すると、システムはデータベース上の登録情報を削除し、サービスが管理する保存ファイルも削除します。バックアップや利用者の端末に作成されたコピーまで含めて消えることを保証する機能ではないため、機密情報を扱う場合は、保存先の方針や端末側の取り扱いも確認してください。共有リンクを必要な期間だけ有効にし、不要になったデータをサービス上に残さないことが、自動削除の実用的な効果です。": "Il servizio elimina record e file gestiti al termine del periodo di conservazione; backup e copie sui dispositivi dei destinatari possono restare.",
-  "メールやチャットでファイルを送り、相手が当日中に確認・ダウンロードする予定のときに向いています。時差がある相手には、受け取りに必要な時間を見積もって設定してください。期限を短くしても誤送信や端末への保存を防ぐものではありません。": "Scegliete un periodo adatto allo scambio. Una scadenza breve riduce le condivisioni abbandonate, ma non impedisce invii errati o copie sui dispositivi..",
-  "数日間のイベントや週次の進捗確認など、一定期間内に複数回アクセスする予定がある場合に向いています。参加者やメンバーへ期限を事前に伝え、受け渡しが終わったら必要に応じて手動削除も行いましょう。": "Scegliete un periodo adatto allo scambio. Una scadenza breve riduce le condivisioni abbandonate, ma non impedisce invii errati o copie sui dispositivi. Indicato per eventi di più giorni e verifiche settimanali; avvisa i partecipanti ed elimina manualmente la condivisione al termine.",
-  "月単位のプロジェクトなど、短期共有より長い期間が必要な場合に選択肢になります。30日を超えて保管したい資料や、監査・契約で保存が求められる情報は、共有ではなく正式なストレージへ移してください。": "Scegliete un periodo adatto allo scambio. Una scadenza breve riduce le condivisioni abbandonate, ma non impedisce invii errati o copie sui dispositivi. Per progetti di diverse settimane; trasferisci in uno storage ufficiale i documenti da conservare oltre 30 giorni o per audit.",
-  "【1日（24時間）】通常のビジネス連絡に": "[1 giorno (24 ore)] Per normali contatti di lavoro",
-  "【7日間】イベントやプロジェクト期間中に": "[7 giorni] Durante il periodo dell'evento o del progetto",
-  "【30日間】長めのプロジェクトで": "[30 giorni] Durante il periodo dell'evento o del progetto Longer projects / 30 days",
+  "相手がすぐにダウンロードできる場合に向いています。期限切れ前に受け取りが完了することを、別の連絡手段でも伝えましょう。": "È l’ideale quando il destinatario può scaricare subito. Confermate anche tramite un altro canale che il trasferimento sia concluso prima della scadenza del link.",
+  "会議、イベント、業務時間内の受け渡しなど、相手が同日に確認する予定の場合に向いています。必要な時間だけを選び、受け渡しが終わったら手動削除も検討しましょう。": "È adatto per riunioni, eventi e scambi durante la giornata lavorativa, quando il destinatario consulterà il file lo stesso giorno. Scegliete solo il tempo necessario e valutate l’eliminazione manuale dopo la consegna.",
+  "時差がある相手や翌日までの確認が必要な場合に向いています。24時間を超えて保管したい資料や、監査・契約で保存が求められる情報は、共有ではなく正式なストレージへ移してください。": "È adatto se il destinatario si trova in un altro fuso orario o deve verificare il contenuto entro il giorno successivo. Per materiali da conservare oltre 24 ore, o soggetti a obblighi di audit o contrattuali, usate un archivio ufficiale anziché una condivisione temporanea.",
+  "【1時間】送受信がすぐ終わるときに": "[1 ora] Per trasferimenti immediati",
+  "【6時間・12時間】当日中のやり取りに": "[6 o 12 ore] Per gli scambi nella stessa giornata",
+  "【24時間】通常のビジネス連絡に": "[24 ore] Per le comunicazioni di lavoro ordinarie",
   "FS!QRの自動削除機能を利用すれば、仮に送信者が削除作業を忘れてしまっても、あらかじめ指定した時間にサービス上の削除処理が行われます。古い共有を放置する期間を短くし、必要に応じて手動削除や端末側の整理も組み合わせましょう。": "Il servizio elimina record e file gestiti al termine del periodo di conservazione; backup e copie sui dispositivi dei destinatari possono restare."
 }

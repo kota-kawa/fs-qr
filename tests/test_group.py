@@ -82,7 +82,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     ):
         response = test_client.post(
             "/create_group_room",
-            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 
@@ -96,7 +96,7 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
         id="abc123",
         password="000042",
         room_id="abc123",
-        retention_days=7,
+        retention_hours=24,
     )
 
 
@@ -122,7 +122,7 @@ def test_create_group_room_auto_empty_id_is_generated_server_side(
     ):
         response = test_client.post(
             "/create_group_room",
-            json={"id": "", "idMode": "auto", "retention_days": "7"},
+            json={"id": "", "idMode": "auto", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 
@@ -134,7 +134,7 @@ def test_create_group_room_auto_empty_id_is_generated_server_side(
         id="gen001",
         password="000042",
         room_id="gen001",
-        retention_days=7,
+        retention_hours=24,
     )
 
 
@@ -161,7 +161,7 @@ def test_create_group_room_succeeds_when_share_link_creation_fails(
     ):
         response = test_client.post(
             "/create_group_room",
-            data={"id": "abc123", "idMode": "manual", "retention_days": "7"},
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
 
@@ -234,7 +234,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
     test_client: TestClient,
 ):
     """group_room は分割済み JS を読み込み、旧インライン実装を含まない"""
-    mock_room = {"id": "tester", "retention_days": 7, "time": None}
+    mock_room = {"id": "tester", "retention_hours": 24, "time": None}
     with (
         patch(
             "Group.group_routes_room.check_rate_limit",
@@ -297,7 +297,7 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
 
 def test_group_share_entry_renders_room_without_redirect(test_client: TestClient):
     """QRの共有URLはスマホのブラウザ移動で壊れないよう直接ルームを表示する"""
-    mock_room = {"id": "tester", "retention_days": 7, "time": None}
+    mock_room = {"id": "tester", "retention_hours": 24, "time": None}
     share_token = "group-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     with (
         patch(
@@ -357,7 +357,7 @@ def test_group_upload_invalid_auth(test_client: TestClient):
 
 def test_group_upload_no_files(test_client: TestClient):
     """認証は通るがファイルが送られない場合は 400 を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_data.get_data_direct",
@@ -375,7 +375,7 @@ def test_group_upload_no_files(test_client: TestClient):
 
 def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
     """HTML/SVG 判定されたファイルは 400 で拒否する"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     detector = type("Detector", (), {"from_buffer": lambda self, _: "text/html"})()
     with (
         patch(
@@ -507,7 +507,12 @@ def test_create_group_room_generates_numeric_password(test_client: TestClient):
 def test_group_owner_session_can_delete_room(test_client: TestClient):
     """ルーム作成直後の同一セッションだけGroupルームを削除できる"""
     room_id = "gdel01"
-    active_room = {"id": room_id, "room_id": room_id, "retention_days": 7, "time": None}
+    active_room = {
+        "id": room_id,
+        "room_id": room_id,
+        "retention_hours": 24,
+        "time": None,
+    }
     remove_mock = AsyncMock(return_value=True)
     with (
         patch("Group.group_routes_room.generate_room_password", return_value="000042"),
@@ -535,7 +540,12 @@ def test_group_owner_session_can_delete_room(test_client: TestClient):
 def test_group_delete_room_requires_owner_session(test_client: TestClient):
     """作成セッションがないGroupルーム削除は403を返す"""
     room_id = "gfor01"
-    active_room = {"id": room_id, "room_id": room_id, "retention_days": 7, "time": None}
+    active_room = {
+        "id": room_id,
+        "room_id": room_id,
+        "retention_hours": 24,
+        "time": None,
+    }
     with (
         patch(
             "Group.group_routes_room.group_data.get_data",
@@ -647,7 +657,7 @@ def test_remove_data_keeps_db_record_when_folder_delete_fails():
 
 def test_list_files_auth_success_no_dir(test_client: TestClient, tmp_path):
     """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     legacy_root = tmp_path / "legacy"
     with (
         patch(
@@ -669,7 +679,7 @@ def test_list_files_auth_success_no_dir(test_client: TestClient, tmp_path):
 
 def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path):
     """一覧取得はプレビュー可能なファイル種別を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     room_dir = tmp_path / "abc123"
     room_dir.mkdir()
     (room_dir / "sample.png").write_bytes(b"image")
@@ -695,7 +705,7 @@ def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path)
 
 def test_download_file_not_found_after_auth(test_client: TestClient):
     """認証成功でもファイルが存在しない場合は 404 を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_data.get_data_direct",
@@ -710,7 +720,7 @@ def test_download_file_not_found_after_auth(test_client: TestClient):
 
 def test_preview_file_returns_inline_response(test_client: TestClient, tmp_path):
     """プレビュー可能なファイルは inline で返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     room_dir = tmp_path / "abc123"
     room_dir.mkdir()
     (room_dir / "memo.txt").write_text("hello", encoding="utf-8")
@@ -734,7 +744,7 @@ def test_preview_file_returns_inline_response(test_client: TestClient, tmp_path)
 
 def test_preview_file_rejects_unsupported_type(test_client: TestClient, tmp_path):
     """対応外の拡張子はプレビューしない"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     room_dir = tmp_path / "abc123"
     room_dir.mkdir()
     (room_dir / "archive.zip").write_bytes(b"zip")
@@ -756,7 +766,7 @@ def test_preview_file_rejects_unsupported_type(test_client: TestClient, tmp_path
 
 def test_delete_file_not_found_after_auth(test_client: TestClient):
     """認証成功でもファイルが存在しない場合は 404 を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_routes_file.has_group_room_access",
@@ -822,7 +832,7 @@ def test_delete_file_backoff_returns_429(test_client: TestClient):
 
 def test_download_all_auth_success_no_dir(test_client: TestClient):
     """認証成功でもルームディレクトリが存在しない場合は 404 を返す"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_data.get_data_direct",
@@ -840,7 +850,7 @@ def test_group_upload_too_many_files(test_client: TestClient):
     """ファイル数が上限を超えると 400 を返す"""
     from settings import UPLOAD_MAX_FILES
 
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     files = [
         ("upfile", (f"file{i}.txt", b"x", "text/plain"))
         for i in range(UPLOAD_MAX_FILES + 1)
@@ -867,7 +877,7 @@ def test_group_upload_rejects_when_room_total_size_exceeded(test_client: TestCli
     """既存ファイルとの合計サイズが上限を超えると 400 を返す"""
     from settings import UPLOAD_MAX_TOTAL_SIZE_BYTES
 
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_data.get_data_direct",
@@ -894,7 +904,7 @@ def test_group_upload_rejects_when_room_file_count_exceeded(test_client: TestCli
     """既存ファイル数との合計が上限を超えると 400 を返す"""
     from settings import UPLOAD_MAX_FILES
 
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     with (
         patch(
             "Group.group_data.get_data_direct",
@@ -924,7 +934,7 @@ def test_download_file_empty_filename_returns_400(test_client: TestClient):
 
 def test_group_upload_notifies_realtime_when_saved_files_exist(test_client: TestClient):
     """保存済みファイルがある場合は realtime 通知を送る"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     notify_mock = AsyncMock()
     with (
         patch(
@@ -955,7 +965,7 @@ def test_static_group_uploads_are_not_public(test_client: TestClient):
 
 def test_list_files_uses_legacy_folder_fallback(test_client: TestClient, tmp_path):
     """旧 static/group_uploads 相当の既存ファイルも認証APIでは参照できる"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     current_root = tmp_path / "current"
     legacy_root = tmp_path / "legacy"
     legacy_room = legacy_root / "abc123"
@@ -980,7 +990,7 @@ def test_list_files_uses_legacy_folder_fallback(test_client: TestClient, tmp_pat
 
 def test_group_delete_notifies_realtime_on_success(test_client: TestClient, tmp_path):
     """ファイル削除成功時は realtime 通知を送る"""
-    mock_room = [{"password": "000000", "id": "abc123", "retention_days": 7}]
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     notify_mock = AsyncMock()
     room_dir = tmp_path / "abc123"
     room_dir.mkdir()

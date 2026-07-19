@@ -103,7 +103,7 @@
       formData.append('name', id);
       formData.append('download_password', encryptionService.getLastEncryptionKey());
       formData.append('original_filename', files[0].name);
-      formData.append('retention_days', retentionSelect.value);
+      formData.append('retention_hours', retentionSelect.value);
       return formData;
     }
 

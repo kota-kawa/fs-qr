@@ -45,7 +45,7 @@ def test_fsqr_data_save_lookup_remove_and_expiration(tmp_path):
                 "secure1",
                 file_type="single",
                 original_filename="report.txt",
-                retention_days=3,
+                retention_hours=6,
                 share_token="share-token",
             )
 
@@ -116,7 +116,7 @@ def test_group_data_room_lifecycle_and_expiration(tmp_path):
                 ("legacy", str(legacy_folder)),
             )
 
-            await gd.create_room("public", "123456", "roomA", retention_days=5)
+            await gd.create_room("public", "123456", "roomA", retention_hours=6)
             assert await gd.pich_room_id_direct("public", "123456") == "roomA"
             assert await gd.pich_room_id_direct("public", "bad") is None
             assert await gd.get_data_by_room_credentials("roomA", "123456")
@@ -535,12 +535,12 @@ def test_scheduler_run_scheduler_registers_jobs_with_redis_store():
             self.jobs = []
             schedulers.append(self)
 
-        def add_job(self, func, trigger, days, id, replace_existing):
+        def add_job(self, func, trigger, minutes, id, replace_existing):
             self.jobs.append(
                 {
                     "func": func,
                     "trigger": trigger,
-                    "days": days,
+                    "minutes": minutes,
                     "id": id,
                     "replace_existing": replace_existing,
                 }
@@ -571,3 +571,4 @@ def test_scheduler_run_scheduler_registers_jobs_with_redis_store():
         "remove_expired_note_rooms",
     ]
     assert all(job["replace_existing"] for job in schedulers[0].jobs)
+    assert all(job["minutes"] == 5 for job in schedulers[0].jobs)

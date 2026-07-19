@@ -96,6 +96,12 @@ Schema changes are managed with Alembic.
 alembic upgrade head
 ```
 
+The `20260719_0009` migration changes sharing retention to 1, 6, 12, or 24
+hours. It shortens existing FSQR, Group, and Note records to 24 hours from
+their creation time, so take a database backup before deployment. Rolling back
+the schema removes `retention_hours`; it does not restore expired data or the
+previous longer expiry timestamps.
+
 Create a new migration:
 
 ```bash
@@ -347,6 +353,11 @@ docker compose --profile blue up --build
 ```bash
 alembic upgrade head
 ```
+
+`20260719_0009` は共有データの保存期間を 1・6・12・24 時間に変更します。既存の
+FSQR・Group・Note データも作成時刻から24時間へ短縮されるため、デプロイ前にDBバックアップを
+取得してください。スキーマをロールバックしても `retention_hours` 列を削除するだけで、すでに
+削除されたデータや以前の長い削除予定日時は復元されません。
 
 新しいマイグレーション作成:
 

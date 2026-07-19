@@ -237,7 +237,7 @@
       file_type: typeof data.file_type === 'string' ? data.file_type : '',
       original_filename: typeof data.original_filename === 'string' ? data.original_filename : '',
       created_at: typeof data.created_at === 'string' ? data.created_at : '',
-      retention_days: data.retention_days === null || data.retention_days === undefined ? null : data.retention_days,
+      retention_hours: data.retention_hours === null || data.retention_hours === undefined ? null : data.retention_hours,
       files: normalizeFileEntries(data.files)
     };
   }
@@ -275,7 +275,7 @@
         { label: 'Room ID', value: data.room_id },
         { label: 'ID', value: data.id },
         { label: 'Password', value: data.password },
-        { label: '自動削除まで', value: data.retention_days != null ? `${data.retention_days}日` : null },
+        { label: '自動削除まで', value: data.retention_hours != null ? `${data.retention_hours}時間` : null },
         { label: '登録日時', value: data.created_at },
       ];
     }
@@ -285,6 +285,7 @@
       { label: 'Room ID', value: data.id },
       { label: 'Password', value: data.password },
       { label: 'ファイルタイプ', value: data.file_type },
+      { label: '自動削除まで', value: data.retention_hours != null ? `${data.retention_hours}時間` : null },
       { label: '登録日時', value: data.created_at },
       { label: 'オリジナル名', value: data.original_filename },
     ];

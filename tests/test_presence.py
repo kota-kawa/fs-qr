@@ -125,7 +125,7 @@ def test_upload_complete_renders_presence_widget(test_client):
         {
             "id": "abc123",
             "password": "654321",
-            "retention_days": 7,
+            "retention_hours": 24,
             "time": datetime(2099, 1, 1, 0, 0),
         }
     ]

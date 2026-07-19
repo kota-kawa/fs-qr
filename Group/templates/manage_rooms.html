@@ -31,7 +31,7 @@
                 <td>{{ room.room_id }}</td>
                 <td>{{ room.id }}</td>
                 <td>{{ room.password }}</td>
-                <td>{{ room.retention_days }}日</td>
+                <td>{{ room.retention_hours }}時間</td>
                 <td>
                     <form method="post" action="/delete_room/{{ room.room_id }}" data-confirm-submit="このルームを削除しますか？">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

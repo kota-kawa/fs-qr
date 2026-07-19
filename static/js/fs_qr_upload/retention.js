@@ -27,9 +27,9 @@
       if (!retentionSelect || !retentionPreviewTime) {
         return;
       }
-      var retentionDays = Number(retentionSelect.value || 7);
+      var retentionHours = Number(retentionSelect.value || 24);
       var deletionDate = new Date();
-      deletionDate.setDate(deletionDate.getDate() + retentionDays);
+      deletionDate.setHours(deletionDate.getHours() + retentionHours);
       retentionPreviewTime.textContent = formatRetentionAutoDeleteText(formatDateTime(deletionDate));
     }
 

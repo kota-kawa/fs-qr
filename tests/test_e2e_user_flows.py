@@ -21,7 +21,7 @@ def test_e2e_fsqr_upload_search_share_download_and_delete(test_client, tmp_path)
         "secure_id": secure_id,
         "file_type": "single",
         "original_filename": "report.txt",
-        "retention_days": 3,
+        "retention_hours": 6,
         "time": None,
     }
     link = {
@@ -77,7 +77,7 @@ def test_e2e_fsqr_upload_search_share_download_and_delete(test_client, tmp_path)
                 "download_password": password,
                 "file_type": "single",
                 "original_filename": "report.txt",
-                "retention_days": "3",
+                "retention_hours": 6,
             },
             headers={
                 "X-Requested-With": "XMLHttpRequest",
@@ -138,7 +138,7 @@ def test_e2e_group_room_create_join_file_operations_and_delete(test_client, tmp_
         "id": room_id,
         "room_id": room_id,
         "password": password,
-        "retention_days": 7,
+        "retention_hours": 24,
         "time": None,
     }
     state = {"exists": False}
@@ -227,7 +227,7 @@ def test_e2e_group_room_create_join_file_operations_and_delete(test_client, tmp_
 
         create_response = test_client.post(
             "/create_group_room",
-            data={"id": room_id, "idMode": "manual", "retention_days": "7"},
+            data={"id": room_id, "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
         assert create_response.status_code == 200
@@ -302,7 +302,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
     password = "246810"
     share_token = "note-e2e-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     expires_at = datetime(2099, 1, 8, 9, 0, 0)
-    meta = {"id": room_id, "retention_days": 7, "expires_at": expires_at}
+    meta = {"id": room_id, "retention_hours": 24, "expires_at": expires_at}
     row = {
         "content": "initial note",
         "updated_at": datetime(2099, 1, 1, 9, 0, 0),
@@ -368,7 +368,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
 
         create_response = test_client.post(
             "/create_note_room",
-            data={"id": room_id, "idMode": "manual", "retention_days": "7"},
+            data={"id": room_id, "idMode": "manual", "retention_hours": 24},
             headers={"X-Requested-With": "fetch", "Accept": "application/json"},
         )
         assert create_response.status_code == 200
@@ -377,7 +377,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
         assert create_payload["password"] == password
         assert create_payload["share_url"].endswith(f"/note/s/{share_token}")
         create_mock.assert_awaited_once_with(
-            room_id, password, room_id, retention_days=7
+            room_id, password, room_id, retention_hours=24
         )
 
         room_response = test_client.get(create_payload["redirect_url"])

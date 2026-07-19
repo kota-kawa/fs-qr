@@ -49,7 +49,7 @@ async def save_file(
     secure_id,
     file_type="multiple",
     original_filename=None,
-    retention_days=7,
+    retention_hours=24,
     share_token=None,
 ):
     try:
@@ -60,12 +60,12 @@ async def save_file(
             INSERT INTO fsqr (
                 time, uuid, id, password, password_lookup_hash,
                 secure_id, share_token_hash, file_type, original_filename,
-                retention_days, expires_at
+                retention_days, retention_hours, expires_at
             )
             VALUES (
                 NOW(), :uid, :id, :password, :password_lookup_hash,
                 :secure_id, :share_token_hash, :file_type, :original_filename,
-                :retention_days, DATE_ADD(NOW(), INTERVAL :retention_days DAY)
+                1, :retention_hours, DATE_ADD(NOW(), INTERVAL :retention_hours HOUR)
             )
         """)
         await execute_query(
@@ -79,7 +79,7 @@ async def save_file(
                 "share_token_hash": share_token_hash,
                 "file_type": file_type,
                 "original_filename": original_filename,
-                "retention_days": retention_days,
+                "retention_hours": retention_hours,
             },
         )
         await invalidate_cache_entry(try_login, id, password)

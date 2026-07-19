@@ -9,7 +9,7 @@ from settings import NOTE_MAX_CONTENT_LENGTH
 
 
 ROOM_ID = "abc123"
-ROOM_META = {"id": ROOM_ID, "retention_days": 7, "expires_at": None}
+ROOM_META = {"id": ROOM_ID, "retention_hours": 24, "expires_at": None}
 ROOM_ROW = {"content": "saved", "updated_at": object(), "version": 1}
 
 

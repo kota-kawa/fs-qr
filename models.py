@@ -14,7 +14,8 @@ from settings import NOTE_MAX_CONTENT_LENGTH
 _ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
 _PASSWORD_RE = re.compile(r"^[0-9]{6}$")
-_RETENTION_CHOICES = frozenset({1, 7, 30})
+# 共有データは長期保管用途ではないため、保存期間を24時間以内に制限する。
+_RETENTION_HOUR_CHOICES = frozenset({1, 6, 12, 24})
 
 
 class RoomSearchInput(BaseModel):
@@ -52,21 +53,21 @@ class RoomCreateInput(BaseModel):
 
     id: str = ""
     id_mode: str = "auto"
-    retention_days: int = 7
+    retention_hours: int = 24
 
     @field_validator("id")
     @classmethod
     def validate_id(cls, v: str) -> str:
         return v.strip()
 
-    @field_validator("retention_days", mode="before")
+    @field_validator("retention_hours", mode="before")
     @classmethod
-    def coerce_retention_days(cls, v) -> int:
+    def coerce_retention_hours(cls, v) -> int:
         try:
             v = int(v)
         except (TypeError, ValueError):
-            return 7
-        return v if v in _RETENTION_CHOICES else 7
+            return 24
+        return v if v in _RETENTION_HOUR_CHOICES else 24
 
     def validate_manual_id(self) -> str:
         """manual モード用：6文字英数字チェック。エラー時は ValueError を送出。"""
@@ -90,21 +91,21 @@ class FsqrUploadInput(BaseModel):
     """
 
     name: str = ""
-    retention_days: int = 7
+    retention_hours: int = 24
 
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
         return v.strip()
 
-    @field_validator("retention_days", mode="before")
+    @field_validator("retention_hours", mode="before")
     @classmethod
-    def coerce_retention_days(cls, v) -> int:
+    def coerce_retention_hours(cls, v) -> int:
         try:
             v = int(v)
         except (TypeError, ValueError):
-            return 7
-        return v if v in _RETENTION_CHOICES else 7
+            return 24
+        return v if v in _RETENTION_HOUR_CHOICES else 24
 
     def validate_manual_id(self) -> str:
         """name が指定された場合の 6文字英数字チェック。エラー時は ValueError を送出。"""
