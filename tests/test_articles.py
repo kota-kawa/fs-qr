@@ -104,22 +104,28 @@ def test_auto_delete_period_translations_are_specific_per_locale():
         "ここでは、自動削除を安全な運用に組み込む方法と、利用時に確認したい点を解説します。"
     )
     period_keys = (
-        "メールやチャットでファイルを送り、相手が当日中に確認・ダウンロードする予定のときに向いています。"
-        "時差がある相手には、受け取りに必要な時間を見積もって設定してください。"
-        "期限を短くしても誤送信や端末への保存を防ぐものではありません。",
-        "数日間のイベントや週次の進捗確認など、一定期間内に複数回アクセスする予定がある場合に向いています。"
-        "参加者やメンバーへ期限を事前に伝え、受け渡しが終わったら必要に応じて手動削除も行いましょう。",
-        "月単位のプロジェクトなど、短期共有より長い期間が必要な場合に選択肢になります。"
-        "30日を超えて保管したい資料や、監査・契約で保存が求められる情報は、共有ではなく正式なストレージへ移してください。",
+        "相手がすぐにダウンロードできる場合に向いています。"
+        "期限切れ前に受け取りが完了することを、別の連絡手段でも伝えましょう。",
+        "会議、イベント、業務時間内の受け渡しなど、相手が同日に確認する予定の場合に向いています。"
+        "必要な時間だけを選び、受け渡しが終わったら手動削除も検討しましょう。",
+        "時差がある相手や翌日までの確認が必要な場合に向いています。"
+        "24時間を超えて保管したい資料や、監査・契約で保存が求められる情報は、共有ではなく正式なストレージへ移してください。",
     )
+    retention_label_keys = ("1h", "6h", "12h", "24h (default)")
     for lang in SUPPORTED_LANGUAGES:
         path = locale_dir / lang / "phrases" / "articles" / "auto-delete-benefits.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         assert intro_key in data, f"{lang}: auto-delete introduction is missing"
         period_values = [data[key] for key in period_keys]
         assert len(set(period_values)) == 3, (
-            f"{lang}: 1/7/30-day guidance must be translated separately"
+            f"{lang}: 1/6/12/24-hour guidance must be translated separately"
         )
+        if lang != "ja":
+            product_path = locale_dir / lang / "phrases" / "product.json"
+            product_data = json.loads(product_path.read_text(encoding="utf-8"))
+            assert all(key in product_data for key in retention_label_keys), (
+                f"{lang}: retention labels are missing"
+            )
 
 
 def test_article_base_shows_editorial_date(test_client: TestClient):
