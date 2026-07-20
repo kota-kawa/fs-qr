@@ -45,6 +45,7 @@ def test_fsqr_upload_page(test_client: TestClient):
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
     assert "maxTotalSizeMB" in html
+    assert "maxTotalSizeMB: 1024" in html
 
 
 def test_fsqr_upload_generated_password_matches_server_policy():

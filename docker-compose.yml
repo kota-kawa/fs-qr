@@ -13,6 +13,8 @@ x-web-common: &web-common
     - SQL_HOST=${SQL_HOST:-db}
     - REDIS_URL=redis://redis:6379/0
     - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
+    - UPLOAD_MAX_FILES=${UPLOAD_MAX_FILES:-30}
+    - UPLOAD_MAX_TOTAL_SIZE_MB=${UPLOAD_MAX_TOTAL_SIZE_MB:-1024}
   volumes:
     - ./logs:/app/logs      # アクセス/エラーログ
     - ./geoip:/app/geoip    # GeoIP DB（言語判定・自動更新）

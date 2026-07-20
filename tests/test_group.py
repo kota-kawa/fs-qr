@@ -900,6 +900,14 @@ def test_group_upload_rejects_when_room_total_size_exceeded(test_client: TestCli
     assert isinstance(payload["error"], str)
 
 
+def test_group_upload_page_exposes_default_1gb_limit(test_client: TestClient):
+    """グループ画面のクライアント検証へ既定の1GB上限を渡す。"""
+    response = test_client.get("/group")
+
+    assert response.status_code == 200
+    assert "maxTotalSizeMB: 1024" in response.text
+
+
 def test_group_upload_rejects_when_room_file_count_exceeded(test_client: TestClient):
     """既存ファイル数との合計が上限を超えると 400 を返す"""
     from settings import UPLOAD_MAX_FILES
