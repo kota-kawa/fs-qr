@@ -33,9 +33,9 @@ LANDING_PAGES = (
 )
 
 LANDING_VISUALS = (
-    ("/file-sharing", "apple-touch-icon.png", "fsqr-app.jpg"),
-    ("/group-file-sharing", "apple-touch-icon2.png", "group-app.jpg"),
-    ("/shared-note", "apple-touch-icon4.png", "note-app.jpg"),
+    ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
+    ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
+    ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
 )
 
 
@@ -107,13 +107,13 @@ def test_home_page_links_to_product_landing_pages(test_client: TestClient):
 
 
 @pytest.mark.parametrize("path,icon_name,page_image_name", LANDING_VISUALS)
-def test_product_landing_page_uses_service_icon_and_real_page_image(
+def test_product_landing_page_uses_service_icon_and_generated_illustration(
     test_client: TestClient,
     path: str,
     icon_name: str,
     page_image_name: str,
 ):
-    """LPのブランドアイコンとヒーロー画像は各サービスの実アセットを使う。"""
+    """LPのブランドアイコンと、文字を含まない各サービス用イラストを検証する。"""
     response = test_client.get(path)
 
     assert response.status_code == 200

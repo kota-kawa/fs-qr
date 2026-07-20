@@ -416,7 +416,7 @@ body.product-lp {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1280 / 900;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: top center;
 }
