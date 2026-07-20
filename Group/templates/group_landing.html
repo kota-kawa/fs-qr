@@ -30,6 +30,8 @@
   <meta name="twitter:image:alt" content="FS!QR Groupのグループファイル共有サービス">
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon2.png') }}">
+  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <script type="application/ld+json">
@@ -117,7 +119,7 @@
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
       <a class="lp-brand" href="/group_menu" aria-label="FS!QR Group トップへ">
-        <span class="lp-brand__mark" aria-hidden="true">G</span>
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon2.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text">
           <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
           <span class="lp-brand__tagline">Team file room</span>
@@ -154,57 +156,10 @@
           </ul>
         </div>
 
-        <div class="lp-mockup lp-room-mockup" role="img" aria-label="FS!QR Groupのファイルルーム画面イメージ。ルーム情報、共有中のファイル一覧、アップロード領域が表示されています。">
-          <div class="lp-mockup__bar" aria-hidden="true">
-            <span></span><span></span><span></span>
-            <p>fs-qr.net/group/r/team24</p>
-          </div>
-          <div class="lp-room-mockup__body">
-            <aside class="lp-room-mockup__sidebar">
-              <div class="lp-room-mockup__logo" aria-hidden="true">G</div>
-              <p class="lp-room-mockup__label">CURRENT ROOM</p>
-              <p class="lp-room-mockup__room">TEAM24</p>
-              <div class="lp-room-mockup__status"><span aria-hidden="true"></span> 共有中</div>
-              <dl>
-                <div><dt>ファイル</dt><dd>4</dd></div>
-                <div><dt>保存期限</dt><dd>残り 23時間</dd></div>
-              </dl>
-              <div class="lp-room-mockup__members" aria-hidden="true">
-                <span>AK</span><span>MN</span><span>+</span>
-              </div>
-            </aside>
-            <div class="lp-room-mockup__main">
-              <div class="lp-room-mockup__heading">
-                <div>
-                  <p>Project workspace</p>
-                  <strong>共有ファイル</strong>
-                </div>
-                <span class="lp-room-mockup__upload">＋ アップロード</span>
-              </div>
-              <div class="lp-room-mockup__files" aria-hidden="true">
-                <div class="lp-room-file">
-                  <span class="lp-room-file__icon lp-room-file__icon--pdf">PDF</span>
-                  <span><strong>提案資料_最新版.pdf</strong><small>2.4 MB ・ たった今</small></span>
-                  <i>•••</i>
-                </div>
-                <div class="lp-room-file">
-                  <span class="lp-room-file__icon lp-room-file__icon--sheet">XLS</span>
-                  <span><strong>進行スケジュール.xlsx</strong><small>840 KB ・ 12分前</small></span>
-                  <i>•••</i>
-                </div>
-                <div class="lp-room-file">
-                  <span class="lp-room-file__icon lp-room-file__icon--image">JPG</span>
-                  <span><strong>イベント写真_01.jpg</strong><small>5.1 MB ・ 1時間前</small></span>
-                  <i>•••</i>
-                </div>
-              </div>
-              <div class="lp-room-mockup__drop" aria-hidden="true">
-                <span>↑</span>
-                <p><strong>ファイルをここに追加</strong><small>チームのメンバーとすぐ共有</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <figure class="lp-mockup lp-page-shot">
+          <img src="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}" width="1200" height="900" alt="複数のメンバーでファイルを共有する様子を表すイラスト" fetchpriority="high" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Groupの共同ファイル共有を表す、文字のないイラスト</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -390,7 +345,7 @@
   <footer class="lp-footer">
     <div class="lp-container lp-footer__top">
       <a class="lp-brand lp-brand--footer" href="/group_menu" aria-label="FS!QR Group トップへ">
-        <span class="lp-brand__mark" aria-hidden="true">G</span>
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon2.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
       </a>
       <nav class="lp-footer__nav" aria-label="フッターナビゲーション">

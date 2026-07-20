@@ -31,7 +31,8 @@
   <meta name="twitter:image:alt" content="FS!QR Noteのリアルタイム共有ノート">
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon4.png') }}">
+  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <!-- Structured data / 検索エンジン向け構造化データ -->
@@ -112,7 +113,7 @@
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
       <a class="lp-brand" href="/note_menu" aria-label="FS!QR Note トップへ">
-        <span class="lp-brand__mark" aria-hidden="true">N</span>
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon4.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
       </a>
       <nav class="lp-nav" aria-label="メインナビゲーション">
@@ -142,36 +143,10 @@
           </ul>
         </div>
 
-        <!-- CSS-only product mockup / CSSで描画する共同編集画面 -->
-        <figure class="lp-mockup lp-product-visual lp-note-mock" aria-labelledby="note-mock-caption">
-          <div class="lp-note-mock__window">
-            <div class="lp-note-mock__topbar">
-              <div class="lp-window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-              <span class="lp-note-mock__room">チーム定例ノート</span>
-              <div class="lp-note-mock__people" aria-label="3人が参加中">
-                <span aria-hidden="true">A</span><span aria-hidden="true">M</span><span aria-hidden="true">K</span>
-              </div>
-            </div>
-            <div class="lp-note-mock__body">
-              <aside class="lp-note-mock__rail" aria-hidden="true">
-                <span class="is-active"></span><span></span><span></span><span></span>
-              </aside>
-              <div class="lp-note-mock__editor">
-                <div class="lp-note-mock__meta"><span>7月20日 チーム定例</span><span class="lp-save-state">● 保存済み</span></div>
-                <div class="lp-note-mock__title">今日決めること</div>
-                <div class="lp-note-mock__line lp-note-mock__line--long"></div>
-                <div class="lp-note-mock__line lp-note-mock__line--medium"></div>
-                <div class="lp-note-mock__line lp-note-mock__line--short"></div>
-                <div class="lp-note-mock__section">次のアクション</div>
-                <div class="lp-note-mock__task"><span aria-hidden="true">✓</span><span>公開前の最終確認</span></div>
-                <div class="lp-note-mock__task"><span aria-hidden="true"></span><span>フィードバックを反映</span></div>
-                <span class="lp-cursor lp-cursor--one" aria-hidden="true"><i></i><b>Akira</b></span>
-                <span class="lp-cursor lp-cursor--two" aria-hidden="true"><i></i><b>Mio</b></span>
-              </div>
-            </div>
-          </div>
-          <div class="lp-floating-status" aria-hidden="true"><span>✓</span><strong>リアルタイム同期</strong></div>
-          <figcaption id="note-mock-caption" class="lp-visually-hidden">複数人が同じノートをリアルタイムで編集している画面イメージ</figcaption>
+        <!-- Generated hero illustration / 生成したヒーローイラスト -->
+        <figure class="lp-mockup lp-page-shot">
+          <img src="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}" width="1200" height="900" alt="アイデアをカードで整理する様子を表すイラスト" fetchpriority="high" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Noteの共同メモを表す、文字のないイラスト</figcaption>
         </figure>
       </div>
     </section>
@@ -316,7 +291,7 @@
   <footer class="lp-footer">
     <div class="lp-container lp-footer__main">
       <a class="lp-brand lp-brand--footer" href="/note_menu" aria-label="FS!QR Note トップへ">
-        <span class="lp-brand__mark" aria-hidden="true">N</span>
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon4.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
       </a>
       <p>登録不要で、思いついたその場から使えるリアルタイム共有ノート。</p>

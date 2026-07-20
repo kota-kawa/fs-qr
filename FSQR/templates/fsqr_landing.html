@@ -15,6 +15,7 @@
   {% endfor %}
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon.png') }}">
+  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/fsqr-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <meta property="og:type" content="website">
@@ -118,7 +119,7 @@
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
       <a class="lp-brand" href="/" aria-label="FS!QR ホームへ">
-        <span class="lp-brand__mark" aria-hidden="true">F!</span>
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__name">FS!QR</span>
       </a>
       <nav class="lp-nav" aria-label="ページ内ナビゲーション">
@@ -159,57 +160,10 @@
           </ul>
         </div>
 
-        <div class="lp-mockup lp-mockup--fsqr" role="img" aria-label="ファイルを暗号化してアップロードし、共有用QRコードが発行されるFS!QRの画面イメージ">
-          <div class="lp-browser">
-            <div class="lp-browser__bar" aria-hidden="true">
-              <span class="lp-browser__dots"><i></i><i></i><i></i></span>
-              <span class="lp-browser__address">fs-qr.net / share</span>
-              <span class="lp-browser__secure">Secure</span>
-            </div>
-            <div class="lp-browser__content">
-              <div class="lp-upload-card">
-                <div class="lp-upload-card__icon" aria-hidden="true">
-                  <span></span>
-                </div>
-                <div class="lp-upload-card__body">
-                  <span class="lp-ui-label">選択したファイル</span>
-                  <strong>project-assets.zip</strong>
-                  <span class="lp-ui-meta">暗号化してアップロード</span>
-                </div>
-                <span class="lp-upload-card__done" aria-hidden="true">✓</span>
-              </div>
-              <div class="lp-transfer-line" aria-hidden="true">
-                <span></span>
-                <i>暗号化済み</i>
-                <span></span>
-              </div>
-              <div class="lp-share-card">
-                <div class="lp-share-card__copy">
-                  <span class="lp-ui-label">共有の準備ができました</span>
-                  <strong>QRコードを読み取るだけ</strong>
-                  <p>スマートフォンのカメラから受け取りページへ。</p>
-                  <div class="lp-expiry-chip">
-                    <span aria-hidden="true">◷</span>
-                    24時間後に自動削除
-                  </div>
-                </div>
-                <div class="lp-qr" aria-hidden="true">
-                  <div class="lp-qr__pattern">
-                    <i class="lp-qr__finder lp-qr__finder--one"></i>
-                    <i class="lp-qr__finder lp-qr__finder--two"></i>
-                    <i class="lp-qr__finder lp-qr__finder--three"></i>
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="lp-floating-badge lp-floating-badge--lock" aria-hidden="true">
-            <span>✓</span>
-            ブラウザで暗号化
-          </div>
-        </div>
+        <figure class="lp-mockup lp-page-shot">
+          <img src="{{ staticfile('images/product-landing-pages/fsqr-illustration.jpg') }}" width="1200" height="900" alt="雲へファイルをアップロードする様子を表すイラスト" fetchpriority="high" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QRのファイル共有を表す、文字のないイラスト</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -395,7 +349,7 @@
     <div class="lp-container lp-footer__inner">
       <div class="lp-footer__brand">
         <a class="lp-brand lp-brand--footer" href="/" aria-label="FS!QR ホームへ">
-          <span class="lp-brand__mark" aria-hidden="true">F!</span>
+          <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon.png') }}" width="180" height="180" alt=""></span>
           <span class="lp-brand__name">FS!QR</span>
         </a>
         <p>ファイルと情報の共有を、もっとシンプルに。</p>

@@ -32,6 +32,12 @@ LANDING_PAGES = (
     ),
 )
 
+LANDING_VISUALS = (
+    ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
+    ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
+    ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
+)
+
 
 @pytest.mark.parametrize("path,brand,primary_cta,search_marker", LANDING_PAGES)
 def test_product_landing_page_has_indexable_seo_content(
@@ -98,6 +104,26 @@ def test_home_page_links_to_product_landing_pages(test_client: TestClient):
     assert response.status_code == 200
     for path, *_ in LANDING_PAGES:
         assert f'href="{path}"' in response.text
+
+
+@pytest.mark.parametrize("path,icon_name,page_image_name", LANDING_VISUALS)
+def test_product_landing_page_uses_service_icon_and_generated_illustration(
+    test_client: TestClient,
+    path: str,
+    icon_name: str,
+    page_image_name: str,
+):
+    """LPのブランドアイコンと、文字を含まない各サービス用イラストを検証する。"""
+    response = test_client.get(path)
+
+    assert response.status_code == 200
+    assert f"/static/{icon_name}" in response.text
+    image_path = f"/static/images/product-landing-pages/{page_image_name}"
+    assert image_path in response.text
+
+    image_response = test_client.get(image_path)
+    assert image_response.status_code == 200
+    assert image_response.headers["content-type"] == "image/jpeg"
 
 
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
