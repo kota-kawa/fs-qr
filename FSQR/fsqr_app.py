@@ -58,6 +58,15 @@ FSQR_UPLOAD_ACCESS_SESSION_KEY = "fsqr_upload_access"
 FSQR_UPLOAD_FILE_TYPES = frozenset({"single", "multiple"})
 SHARE_TOKEN_RE = re.compile(r"^[A-Za-z0-9_-]{32,256}$")
 
+# FSQR encrypts files in the browser, which adds an IV, authentication tag, and
+# ZIP metadata. Keep a small storage allowance while retaining the 1GiB user limit.
+# FSQR はブラウザ暗号化で IV・認証タグ・ZIP メタデータが加わるため、利用者向けの
+# 1GiB 上限を維持したまま保存ペイロードには小さな余裕を持たせる。
+FSQR_UPLOAD_ENVELOPE_HEADROOM_BYTES = 1024 * 1024
+FSQR_MAX_STORED_PAYLOAD_BYTES = (
+    UPLOAD_MAX_TOTAL_SIZE_BYTES + FSQR_UPLOAD_ENVELOPE_HEADROOM_BYTES
+)
+
 
 def _canonical_redirect(request: Request):
     if request.url.query and not is_language_query_only(request):
@@ -312,7 +321,7 @@ async def upload(  # noqa: C901
     limits_error = validate_upload_limits(
         upfile,
         max_files=UPLOAD_MAX_FILES,
-        max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
+        max_total_size_bytes=FSQR_MAX_STORED_PAYLOAD_BYTES,
         max_total_size_mb=UPLOAD_MAX_TOTAL_SIZE_MB,
         too_many_files_message=f"ファイル数は最大{UPLOAD_MAX_FILES}個までです",
         too_large_total_size_message=(
