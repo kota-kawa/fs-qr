@@ -8,6 +8,14 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "deploy_bluegreen.sh"
 
 
+def test_nginx_upload_limit_accepts_1gib_files_and_upload_envelopes() -> None:
+    """nginx がFSQR・Groupの1GiBアップロードをアプリまで通す。"""
+    nginx_config = (ROOT / "fs-qr.conf").read_text(encoding="utf-8")
+
+    assert "client_max_body_size 1025M;" in nginx_config
+    assert "client_body_timeout 3600s;" in nginx_config
+
+
 def _write_executable(path: Path, content: str) -> None:
     path.write_text(content)
     path.chmod(path.stat().st_mode | stat.S_IXUSR)

@@ -48,6 +48,20 @@ def test_fsqr_upload_page(test_client: TestClient):
     assert "maxTotalSizeMB: 1024" in html
 
 
+def test_fsqr_stored_payload_limit_allows_encryption_envelope() -> None:
+    """暗号化後のFSQRペイロードにも1MiBのヘッドルームを確保する。"""
+    from FSQR.fsqr_app import (
+        FSQR_MAX_STORED_PAYLOAD_BYTES,
+        FSQR_UPLOAD_ENVELOPE_HEADROOM_BYTES,
+    )
+    from settings import UPLOAD_MAX_TOTAL_SIZE_BYTES
+
+    assert FSQR_UPLOAD_ENVELOPE_HEADROOM_BYTES == 1024 * 1024
+    assert FSQR_MAX_STORED_PAYLOAD_BYTES == (
+        UPLOAD_MAX_TOTAL_SIZE_BYTES + FSQR_UPLOAD_ENVELOPE_HEADROOM_BYTES
+    )
+
+
 def test_fsqr_upload_generated_password_matches_server_policy():
     """ブラウザ側の自動生成パスワードはサーバ検証と同じ6桁数字に揃える"""
     script = Path("static/js/fs_qr_upload/upload-submit.js").read_text(encoding="utf-8")
