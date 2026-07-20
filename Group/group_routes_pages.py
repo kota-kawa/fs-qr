@@ -13,6 +13,17 @@ def register_group_main_pages_routes(router: APIRouter):
             return canonical
         return render_template(request, "group.html")
 
+    @router.get("/group-file-sharing", name="group.landing")
+    async def group_landing(request: Request):
+        """Render the acquisition-focused FS!QR Group landing page.
+
+        グループ共有の説明とルーム操作を分離し、目的別の導線を提供する。
+        """
+        canonical = canonical_redirect(request)
+        if canonical:
+            return canonical
+        return render_template(request, "group_landing.html")
+
     @router.get("/group", name="group.group_list")
     async def group_list(request: Request):
         canonical = canonical_redirect(request)

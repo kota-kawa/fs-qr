@@ -263,6 +263,18 @@ async def fs_qr(request: Request):
     return render_template(request, "fs-qr.html")
 
 
+@router.get("/file-sharing", name="fsqr.landing")
+async def fsqr_landing(request: Request):
+    """Render the acquisition-focused FS!QR product landing page.
+
+    FS!QR の機能画面とは分離し、検索流入向けの情報と利用開始導線を提供する。
+    """
+    canonical = _canonical_redirect(request)
+    if canonical:
+        return canonical
+    return render_template(request, "fsqr_landing.html")
+
+
 @router.get("/fs-qr", name="fsqr.fs_qr_upload")
 async def fs_qr_upload(request: Request):
     canonical = _canonical_redirect(request)

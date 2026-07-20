@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>登録不要のファイル共有をQRコードで簡単に｜FS!QR</title>
+  <meta name="description" content="FS!QRは、登録不要・アプリ不要で使えるQRコードファイル共有サービスです。ブラウザでファイルを暗号化し、発行されたQRコードや共有情報からPC・スマホへ一時共有できます。">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="author" content="FS!QR">
+  <meta name="theme-color" content="#162033">
+
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon.png') }}">
+  <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="FS!QR">
+  <meta property="og:title" content="登録不要のファイル共有をQRコードで簡単に｜FS!QR">
+  <meta property="og:description" content="アプリを入れずにブラウザで完結。ファイルを暗号化し、QRコードですばやく一時共有できます。">
+  <meta property="og:url" content="{{ request.canonical_url }}">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="723">
+  <meta property="og:image:alt" content="FS!QRのQRコードファイル共有サービス">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="登録不要のファイル共有をQRコードで簡単に｜FS!QR">
+  <meta name="twitter:description" content="ブラウザだけでファイルを暗号化。QRコードを読み取って、PC・スマホ間ですばやく一時共有できます。">
+  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:image:alt" content="FS!QRのQRコードファイル共有サービス">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR",
+    "url": "{{ request.canonical_url }}",
+    "description": "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web Browser",
+    "inLanguage": "ja-JP",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "登録不要のファイル共有",
+      "QRコードによる共有",
+      "ブラウザ上でのファイル暗号化",
+      "保存期間終了後の自動削除",
+      "PCとスマートフォンのブラウザに対応"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "FS!QRでのファイル共有に会員登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必要ありません。アカウントを作成せず、ブラウザからファイルを選んですぐに共有を始められます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ファイルを受け取る側もアプリが必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必要ありません。受け取る方はQRコードを読み取るか共有ページを開き、ブラウザからファイルを受け取れます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "アップロードしたファイルは暗号化されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。ファイルはブラウザ上でAES-GCM方式により暗号化されてからアップロードされ、サーバー上でも暗号化された状態で保持されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "共有したファイルはいつ削除されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "QRコードを使わずに共有できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="product-lp product-lp--fsqr">
+  <a class="lp-skip-link" href="#main-content">本文へスキップ</a>
+
+  <header class="lp-header">
+    <div class="lp-container lp-header__inner">
+      <a class="lp-brand" href="/" aria-label="FS!QR ホームへ">
+        <span class="lp-brand__mark" aria-hidden="true">F!</span>
+        <span class="lp-brand__name">FS!QR</span>
+      </a>
+      <nav class="lp-nav" aria-label="ページ内ナビゲーション">
+        <a href="#how-it-works">使い方</a>
+        <a href="#features">特長</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <a class="lp-button lp-button--primary lp-header__cta" href="/fs-qr">無料で使う</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="lp-hero" aria-labelledby="hero-title">
+      <div class="lp-container lp-hero__grid">
+        <div class="lp-hero__content">
+          <p class="lp-hero__eyebrow">
+            <span class="lp-status-dot" aria-hidden="true"></span>
+            登録不要・ブラウザで完結
+          </p>
+          <h1 id="hero-title" class="lp-hero__title">
+            ファイル共有を、<br>
+            <span>QRコードでもっと軽やかに。</span>
+          </h1>
+          <p class="lp-hero__lead">
+            FS!QRは、送りたいファイルをブラウザで暗号化し、QRコードですぐに一時共有できるWebサービスです。アカウントも専用アプリも必要ありません。
+          </p>
+          <div class="lp-hero__actions">
+            <a class="lp-button lp-button--primary lp-button--large" href="/fs-qr">
+              ファイルを共有する
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="lp-button lp-button--secondary lp-button--large" href="/fs-qr_menu">サービス詳細を見る</a>
+          </div>
+          <ul class="lp-check-list lp-hero__checks" aria-label="利用条件">
+            <li>会員登録なし</li>
+            <li>アプリのインストールなし</li>
+            <li>保存期間を選べる</li>
+          </ul>
+        </div>
+
+        <div class="lp-mockup lp-mockup--fsqr" role="img" aria-label="ファイルを暗号化してアップロードし、共有用QRコードが発行されるFS!QRの画面イメージ">
+          <div class="lp-browser">
+            <div class="lp-browser__bar" aria-hidden="true">
+              <span class="lp-browser__dots"><i></i><i></i><i></i></span>
+              <span class="lp-browser__address">fs-qr.net / share</span>
+              <span class="lp-browser__secure">Secure</span>
+            </div>
+            <div class="lp-browser__content">
+              <div class="lp-upload-card">
+                <div class="lp-upload-card__icon" aria-hidden="true">
+                  <span></span>
+                </div>
+                <div class="lp-upload-card__body">
+                  <span class="lp-ui-label">選択したファイル</span>
+                  <strong>project-assets.zip</strong>
+                  <span class="lp-ui-meta">暗号化してアップロード</span>
+                </div>
+                <span class="lp-upload-card__done" aria-hidden="true">✓</span>
+              </div>
+              <div class="lp-transfer-line" aria-hidden="true">
+                <span></span>
+                <i>暗号化済み</i>
+                <span></span>
+              </div>
+              <div class="lp-share-card">
+                <div class="lp-share-card__copy">
+                  <span class="lp-ui-label">共有の準備ができました</span>
+                  <strong>QRコードを読み取るだけ</strong>
+                  <p>スマートフォンのカメラから受け取りページへ。</p>
+                  <div class="lp-expiry-chip">
+                    <span aria-hidden="true">◷</span>
+                    24時間後に自動削除
+                  </div>
+                </div>
+                <div class="lp-qr" aria-hidden="true">
+                  <div class="lp-qr__pattern">
+                    <i class="lp-qr__finder lp-qr__finder--one"></i>
+                    <i class="lp-qr__finder lp-qr__finder--two"></i>
+                    <i class="lp-qr__finder lp-qr__finder--three"></i>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lp-floating-badge lp-floating-badge--lock" aria-hidden="true">
+            <span>✓</span>
+            ブラウザで暗号化
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-trust" aria-label="FS!QRの主な特長">
+      <div class="lp-container">
+        <p class="lp-trust__lead">必要なときだけ、シンプルに共有</p>
+        <div class="lp-trust__items">
+          <div class="lp-trust__item">
+            <strong>登録不要</strong>
+            <span>個人情報の入力なし</span>
+          </div>
+          <div class="lp-trust__item">
+            <strong>ブラウザ完結</strong>
+            <span>送る側も受け取る側も</span>
+          </div>
+          <div class="lp-trust__item">
+            <strong>ファイル暗号化</strong>
+            <span>送信前にブラウザで処理</span>
+          </div>
+          <div class="lp-trust__item">
+            <strong>自動削除</strong>
+            <span>設定した保存期間の終了後</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="lp-section lp-section--steps" aria-labelledby="steps-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">HOW IT WORKS</p>
+          <h2 id="steps-title" class="lp-section__title">QRコードでのファイル共有は、わずか3ステップ</h2>
+          <p class="lp-section__description">複雑な設定や連絡先の交換は不要。ブラウザを開けば、その場で共有を始められます。</p>
+        </div>
+        <ol class="lp-grid lp-grid--three lp-steps">
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">01</span>
+            <div class="lp-step-card__icon lp-step-card__icon--upload" aria-hidden="true"><span></span></div>
+            <h3>ファイルを選ぶ</h3>
+            <p>共有したいファイルと保存期間を選択します。ファイルはブラウザ上で暗号化されます。</p>
+          </li>
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">02</span>
+            <div class="lp-step-card__icon lp-step-card__icon--qr" aria-hidden="true"><span></span></div>
+            <h3>QRコードを発行</h3>
+            <p>アップロードが完了すると、受け取りページへつながるQRコードと共有情報が発行されます。</p>
+          </li>
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">03</span>
+            <div class="lp-step-card__icon lp-step-card__icon--receive" aria-hidden="true"><span></span></div>
+            <h3>読み取って受け取る</h3>
+            <p>相手はQRコードをスマートフォンで読み取り、ブラウザからファイルを受け取れます。</p>
+          </li>
+        </ol>
+        <div class="lp-section__action">
+          <a class="lp-button lp-button--primary" href="/fs-qr">今すぐファイルを共有する <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="lp-section lp-section--tinted" aria-labelledby="features-title">
+      <div class="lp-container">
+        <div class="lp-section__heading lp-section__heading--left">
+          <p class="lp-section__eyebrow">DESIGNED FOR EASY SHARING</p>
+          <h2 id="features-title" class="lp-section__title">「送りたい」に、迷わない仕組みを。</h2>
+          <p class="lp-section__description">メール添付やアプリの登録に手間取る場面でも、FS!QRなら共有に必要な操作をひとつの画面で進められます。</p>
+        </div>
+        <div class="lp-grid lp-grid--features">
+          <article class="lp-card lp-feature-card lp-feature-card--wide">
+            <div class="lp-feature-card__icon" aria-hidden="true">⌁</div>
+            <h3>端末をまたいで、QRコードで受け渡し</h3>
+            <p>PCで発行したQRコードをスマートフォンで読み取るなど、端末間のファイル移動にも利用できます。</p>
+            <div class="lp-device-bridge" aria-hidden="true">
+              <span class="lp-device lp-device--desktop"></span>
+              <span class="lp-device-bridge__flow">··· → ···</span>
+              <span class="lp-device lp-device--phone"></span>
+            </div>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <div class="lp-feature-card__icon" aria-hidden="true">◇</div>
+            <h3>アカウント作成なし</h3>
+            <p>メールアドレスやプロフィールの登録は不要。共有したいときにすぐ使い始められます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <div class="lp-feature-card__icon" aria-hidden="true">⌾</div>
+            <h3>ブラウザで暗号化</h3>
+            <p>ファイルをブラウザ内で暗号化してからアップロードし、暗号化された状態で一時保管します。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <div class="lp-feature-card__icon" aria-hidden="true">◷</div>
+            <h3>保存期間を選択</h3>
+            <p>1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <div class="lp-feature-card__icon" aria-hidden="true">↗</div>
+            <h3>QR以外でも共有</h3>
+            <p>同じ画面に発行される共有ページや共有情報を伝えて、離れた相手にも届けられます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section lp-section--use-cases" aria-labelledby="use-cases-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">USE CASES</p>
+          <h2 id="use-cases-title" class="lp-section__title">こんなファイル共有を、すっきり解決</h2>
+        </div>
+        <div class="lp-grid lp-grid--three lp-use-cases">
+          <article class="lp-card lp-use-case-card">
+            <p class="lp-use-case-card__label">DEVICE TO DEVICE</p>
+            <h3>PCからスマホへ</h3>
+            <p>PCにある資料や画像を、自分のスマートフォンへ。ケーブルをつながずQRコードから受け取れます。</p>
+          </article>
+          <article class="lp-card lp-use-case-card">
+            <p class="lp-use-case-card__label">IN PERSON</p>
+            <h3>その場で相手へ</h3>
+            <p>対面の打ち合わせや授業でQRコードを見せて共有。連絡先を交換する必要はありません。</p>
+          </article>
+          <article class="lp-card lp-use-case-card">
+            <p class="lp-use-case-card__label">REMOTE</p>
+            <h3>離れた相手へ</h3>
+            <p>共有ページや共有情報をメッセージで送り、相手のブラウザからファイルを受け取ってもらえます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="lp-section lp-section--faq" aria-labelledby="faq-title">
+      <div class="lp-container lp-faq-layout">
+        <div class="lp-section__heading lp-section__heading--left lp-faq-layout__intro">
+          <p class="lp-section__eyebrow">FAQ</p>
+          <h2 id="faq-title" class="lp-section__title">よくある質問</h2>
+          <p class="lp-section__description">利用前に気になるポイントをまとめました。</p>
+          <a class="lp-text-link" href="/fs-qr_menu">FS!QRの詳しい案内を見る <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="lp-faq-list">
+          <details class="lp-faq-item" open>
+            <summary>FS!QRでのファイル共有に会員登録は必要ですか？</summary>
+            <p>必要ありません。アカウントを作成せず、ブラウザからファイルを選んですぐに共有を始められます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>ファイルを受け取る側もアプリが必要ですか？</summary>
+            <p>必要ありません。受け取る方はQRコードを読み取るか共有ページを開き、ブラウザからファイルを受け取れます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>アップロードしたファイルは暗号化されますか？</summary>
+            <p>はい。ファイルはブラウザ上でAES-GCM方式により暗号化されてからアップロードされ、サーバー上でも暗号化された状態で保持されます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>共有したファイルはいつ削除されますか？</summary>
+            <p>アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>QRコードを使わずに共有できますか？</summary>
+            <p>はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-final-cta" aria-labelledby="final-cta-title">
+      <div class="lp-container">
+        <div class="lp-final-cta__inner">
+          <p class="lp-section__eyebrow">READY WHEN YOU ARE</p>
+          <h2 id="final-cta-title">ファイルを送りたい、その瞬間に。</h2>
+          <p>登録不要。ブラウザからファイルを選んで、QRコードで共有を始めましょう。</p>
+          <div class="lp-final-cta__actions">
+            <a class="lp-button lp-button--primary lp-button--large" href="/fs-qr">無料でファイルを共有する <span aria-hidden="true">→</span></a>
+            <a class="lp-button lp-button--secondary lp-button--large" href="/fs-qr_menu">FS!QRについて詳しく見る</a>
+          </div>
+          <ul class="lp-check-list lp-final-cta__checks" aria-label="FS!QRの利用条件">
+            <li>登録不要</li>
+            <li>アプリ不要</li>
+            <li>ブラウザで暗号化</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-container lp-footer__inner">
+      <div class="lp-footer__brand">
+        <a class="lp-brand lp-brand--footer" href="/" aria-label="FS!QR ホームへ">
+          <span class="lp-brand__mark" aria-hidden="true">F!</span>
+          <span class="lp-brand__name">FS!QR</span>
+        </a>
+        <p>ファイルと情報の共有を、もっとシンプルに。</p>
+      </div>
+      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
+        <div>
+          <strong>サービス</strong>
+          <a href="/fs-qr">FS!QRを使う</a>
+          <a href="/fs-qr_menu">FS!QRの詳細</a>
+          <a href="/note_menu">Note</a>
+          <a href="/group_menu">Group</a>
+        </div>
+        <div>
+          <strong>サポート</strong>
+          <a href="/usage">使い方</a>
+          <a href="/contact">お問い合わせ</a>
+          <a href="/articles">解説記事</a>
+        </div>
+        <div>
+          <strong>運営情報</strong>
+          <a href="/about">サイト概要</a>
+          <a href="/terms">利用規約</a>
+          <a href="/privacy-policy">プライバシーポリシー</a>
+          <a href="/site-operator">サイト運営者情報</a>
+        </div>
+      </nav>
+    </div>
+    <div class="lp-container lp-footer__bottom">
+      <small>Copyright &copy; 2026 FS!QR. All Rights Reserved.</small>
+      <span>Made for simple sharing.</span>
+    </div>
+  </footer>
+</body>
+</html>
