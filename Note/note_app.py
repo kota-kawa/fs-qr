@@ -133,6 +133,18 @@ async def note_menu(request: Request):
     return render_template(request, "note_menu.html")
 
 
+@router.get("/shared-note", name="note.landing")
+async def note_landing(request: Request):
+    """Render the acquisition-focused FS!QR Note landing page.
+
+    共同編集の価値を説明するLPと、作成・参加の機能画面を分離する。
+    """
+    canonical = _canonical_redirect(request)
+    if canonical:
+        return canonical
+    return render_template(request, "note_landing.html")
+
+
 @router.get("/create_note_room", name="note.create_note_room_page")
 async def create_note_room_page(request: Request):
     return render_template(request, "create_note_room.html")

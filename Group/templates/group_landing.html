@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>登録不要のグループファイル共有｜チームで使えるFS!QR Group</title>
+  <meta name="description" content="FS!QR Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="theme-color" content="#17261f">
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="FS!QR Group">
+  <meta property="og:title" content="登録不要のグループファイル共有｜FS!QR Group">
+  <meta property="og:description" content="チームのファイルをひとつのルームへ。登録なしで作成し、URL・QRコード・IDとパスワードで共有できます。">
+  <meta property="og:url" content="{{ request.canonical_url }}">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="723">
+  <meta property="og:image:alt" content="FS!QR Groupのグループファイル共有サービス">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="登録不要のグループファイル共有｜FS!QR Group">
+  <meta name="twitter:description" content="チームのファイルをひとつのルームへ。アカウント登録なしで始められます。">
+  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:image:alt" content="FS!QR Groupのグループファイル共有サービス">
+
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR Group",
+    "url": {{ request.canonical_url | tojson }},
+    "description": "アカウント登録不要で使える、ルーム型のグループファイル共有Webアプリケーションです。",
+    "applicationCategory": "BusinessApplication",
+    "applicationSubCategory": "File Sharing",
+    "operatingSystem": "Web Browser",
+    "inLanguage": "ja-JP",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "アカウント登録不要のルーム作成",
+      "複数人でのファイル共有",
+      "共有URLとQRコードによる参加",
+      "ルームIDとパスワードによる参加",
+      "保存期間経過後の自動削除"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": {{ request.url_root | tojson }}
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "アカウント登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メンバーはどのようにルームへ参加しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ファイルはいつまで保存されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "アップロードできるファイル数や容量に上限はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "機密性の高いファイルにも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="product-lp product-lp--group">
+  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+
+  <header class="lp-header">
+    <div class="lp-container lp-header__inner">
+      <a class="lp-brand" href="/group_menu" aria-label="FS!QR Group トップへ">
+        <span class="lp-brand__mark" aria-hidden="true">G</span>
+        <span class="lp-brand__text">
+          <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
+          <span class="lp-brand__tagline">Team file room</span>
+        </span>
+      </a>
+      <nav class="lp-nav" aria-label="ページ内ナビゲーション">
+        <a href="#how-it-works">使い方</a>
+        <a href="#features">特長</a>
+        <a href="#use-cases">活用例</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/group">ルームに参加</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="lp-hero" aria-labelledby="hero-title">
+      <div class="lp-container lp-hero__grid">
+        <div class="lp-hero__content">
+          <p class="lp-eyebrow"><span aria-hidden="true">●</span> 登録不要のグループファイル共有</p>
+          <h1 id="hero-title">チームのファイルを、<br><span>ひとつのルームへ。</span></h1>
+          <p class="lp-hero__lead">メンバー登録や招待設定に時間をかけず、必要な人とファイルをまとめて共有。ルームを作り、URLやQRコードを渡すだけで共同作業を始められます。</p>
+          <div class="lp-actions">
+            <a class="lp-button lp-button--primary" href="/create_room">
+              無料でルームを作る
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="lp-button lp-button--secondary" href="/group">IDでルームに参加</a>
+          </div>
+          <ul class="lp-hero__checks" aria-label="サービスの概要">
+            <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
+            <li><span aria-hidden="true">✓</span> ブラウザで完結</li>
+            <li><span aria-hidden="true">✓</span> 保存期間を選択</li>
+          </ul>
+        </div>
+
+        <div class="lp-mockup lp-room-mockup" role="img" aria-label="FS!QR Groupのファイルルーム画面イメージ。ルーム情報、共有中のファイル一覧、アップロード領域が表示されています。">
+          <div class="lp-mockup__bar" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <p>fs-qr.net/group/r/team24</p>
+          </div>
+          <div class="lp-room-mockup__body">
+            <aside class="lp-room-mockup__sidebar">
+              <div class="lp-room-mockup__logo" aria-hidden="true">G</div>
+              <p class="lp-room-mockup__label">CURRENT ROOM</p>
+              <p class="lp-room-mockup__room">TEAM24</p>
+              <div class="lp-room-mockup__status"><span aria-hidden="true"></span> 共有中</div>
+              <dl>
+                <div><dt>ファイル</dt><dd>4</dd></div>
+                <div><dt>保存期限</dt><dd>残り 23時間</dd></div>
+              </dl>
+              <div class="lp-room-mockup__members" aria-hidden="true">
+                <span>AK</span><span>MN</span><span>+</span>
+              </div>
+            </aside>
+            <div class="lp-room-mockup__main">
+              <div class="lp-room-mockup__heading">
+                <div>
+                  <p>Project workspace</p>
+                  <strong>共有ファイル</strong>
+                </div>
+                <span class="lp-room-mockup__upload">＋ アップロード</span>
+              </div>
+              <div class="lp-room-mockup__files" aria-hidden="true">
+                <div class="lp-room-file">
+                  <span class="lp-room-file__icon lp-room-file__icon--pdf">PDF</span>
+                  <span><strong>提案資料_最新版.pdf</strong><small>2.4 MB ・ たった今</small></span>
+                  <i>•••</i>
+                </div>
+                <div class="lp-room-file">
+                  <span class="lp-room-file__icon lp-room-file__icon--sheet">XLS</span>
+                  <span><strong>進行スケジュール.xlsx</strong><small>840 KB ・ 12分前</small></span>
+                  <i>•••</i>
+                </div>
+                <div class="lp-room-file">
+                  <span class="lp-room-file__icon lp-room-file__icon--image">JPG</span>
+                  <span><strong>イベント写真_01.jpg</strong><small>5.1 MB ・ 1時間前</small></span>
+                  <i>•••</i>
+                </div>
+              </div>
+              <div class="lp-room-mockup__drop" aria-hidden="true">
+                <span>↑</span>
+                <p><strong>ファイルをここに追加</strong><small>チームのメンバーとすぐ共有</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-trust" aria-label="FS!QR Groupの利用ポイント">
+      <div class="lp-container lp-trust__grid">
+        <div class="lp-trust__item">
+          <strong>0</strong>
+          <span>アカウント登録の手間</span>
+        </div>
+        <div class="lp-trust__item">
+          <strong>4通り</strong>
+          <span>1・6・12・24時間から保存期間を選択</span>
+        </div>
+        <div class="lp-trust__item">
+          <strong>1 ROOM</strong>
+          <span>チームのファイルを一か所に集約</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="lp-section lp-section--steps" aria-labelledby="how-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">HOW IT WORKS</p>
+          <h2 id="how-title" class="lp-section__title">共有開始まで、わずか3ステップ</h2>
+          <p class="lp-section__lead">専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。</p>
+        </div>
+        <ol class="lp-steps">
+          <li class="lp-step">
+            <span class="lp-step__number">01</span>
+            <div class="lp-step__icon" aria-hidden="true">＋</div>
+            <h3>ルームを作成</h3>
+            <p>ルームIDと保存期間を設定。6桁のパスワードが自動で発行されます。</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step__number">02</span>
+            <div class="lp-step__icon" aria-hidden="true">↗</div>
+            <h3>参加情報を共有</h3>
+            <p>共有URLやQRコード、またはルームIDとパスワードを必要な相手へ伝えます。</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step__number">03</span>
+            <div class="lp-step__icon" aria-hidden="true">⇅</div>
+            <h3>みんなで共有</h3>
+            <p>参加者がファイルをアップロード。ルーム内の一覧から必要なファイルを受け取れます。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="features" class="lp-section lp-section--tint" aria-labelledby="features-title">
+      <div class="lp-container">
+        <div class="lp-section__heading lp-section__heading--left">
+          <p class="lp-section__eyebrow">BUILT FOR QUICK SHARING</p>
+          <h2 id="features-title" class="lp-section__title">チームの一時共有に、<br>ちょうどいい仕組み。</h2>
+        </div>
+        <div class="lp-grid lp-grid--features">
+          <article class="lp-card lp-feature-card lp-feature-card--wide">
+            <span class="lp-card__icon" aria-hidden="true">⌁</span>
+            <h3>URL・QRコードですぐ招待</h3>
+            <p>共有URLをメッセージで送る。対面ならQRコードを見せる。状況に合う渡し方を選べます。</p>
+            <div class="lp-card__visual lp-share-visual" aria-hidden="true">
+              <span class="lp-share-visual__url">fs-qr.net/s/g/••••••</span>
+              <span class="lp-share-visual__qr"></span>
+            </div>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">◎</span>
+            <h3>IDとパスワードで参加</h3>
+            <p>共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">◷</span>
+            <h3>保存期限を選んで自動削除</h3>
+            <p>保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">⇅</span>
+            <h3>メンバーも追加・受け取り</h3>
+            <p>参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">▣</span>
+            <h3>ブラウザだけで完結</h3>
+            <p>専用アプリを増やさず、PCやスマートフォンのブラウザからアクセスできます。</p>
+          </article>
+          <article class="lp-card lp-feature-card lp-feature-card--accent">
+            <span class="lp-card__icon" aria-hidden="true">⌂</span>
+            <h3>作成者はルームを削除可能</h3>
+            <p>共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases" class="lp-section" aria-labelledby="use-cases-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">USE CASES</p>
+          <h2 id="use-cases-title" class="lp-section__title">仕事、学び、イベント。<br>人が集まる場のファイル共有に。</h2>
+        </div>
+        <div class="lp-grid lp-grid--use-cases">
+          <article class="lp-card lp-use-card">
+            <div class="lp-use-card__scene lp-use-card__scene--project" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="lp-use-card__content">
+              <p class="lp-use-card__tag">PROJECT TEAM</p>
+              <h3>プロジェクト資料の集約</h3>
+              <p>提案書や画像、進行資料をひとつのルームへ。メール添付が複数のスレッドに散らばるのを防ぎます。</p>
+            </div>
+          </article>
+          <article class="lp-card lp-use-card">
+            <div class="lp-use-card__scene lp-use-card__scene--class" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="lp-use-card__content">
+              <p class="lp-use-card__tag">CLASS &amp; EVENT</p>
+              <h3>授業・研修・イベント</h3>
+              <p>会場にQRコードを掲示し、資料や写真を共有。参加者ごとのアカウント準備は不要です。</p>
+            </div>
+          </article>
+          <article class="lp-card lp-use-card">
+            <div class="lp-use-card__scene lp-use-card__scene--partner" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="lp-use-card__content">
+              <p class="lp-use-card__tag">EXTERNAL PARTNERS</p>
+              <h3>社外メンバーとの受け渡し</h3>
+              <p>取引先や協力メンバーと必要な期間だけ共有。相手に新しいサービスへの登録を依頼せず始められます。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="lp-section lp-section--faq" aria-labelledby="faq-title">
+      <div class="lp-container lp-faq-layout">
+        <div class="lp-faq-layout__intro">
+          <p class="lp-section__eyebrow">FAQ</p>
+          <h2 id="faq-title" class="lp-section__title">よくある質問</h2>
+          <p>使い始める前に知っておきたい内容をまとめました。</p>
+          <a class="lp-text-link" href="/group_menu">Groupの既存メニューを見る <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="lp-faq-list">
+          <details class="lp-faq-item">
+            <summary>アカウント登録は必要ですか？<span aria-hidden="true">＋</span></summary>
+            <p>必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>メンバーはどのようにルームへ参加しますか？<span aria-hidden="true">＋</span></summary>
+            <p>共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>ファイルはいつまで保存されますか？<span aria-hidden="true">＋</span></summary>
+            <p>ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>アップロードできるファイル数や容量に上限はありますか？<span aria-hidden="true">＋</span></summary>
+            <p>上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>機密性の高いファイルにも使えますか？<span aria-hidden="true">＋</span></summary>
+            <p>ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-final-cta" aria-labelledby="final-cta-title">
+      <div class="lp-container lp-final-cta__inner">
+        <p class="lp-section__eyebrow">READY TO SHARE?</p>
+        <h2 id="final-cta-title">次のファイル共有を、<br>もっと軽やかに。</h2>
+        <p>アカウント登録は不要です。まずは保存期間を選び、チームのルームを作成してください。</p>
+        <div class="lp-actions lp-actions--center">
+          <a class="lp-button lp-button--primary" href="/create_room">グループルームを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/group">既存ルームに参加</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-container lp-footer__top">
+      <a class="lp-brand lp-brand--footer" href="/group_menu" aria-label="FS!QR Group トップへ">
+        <span class="lp-brand__mark" aria-hidden="true">G</span>
+        <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
+      </a>
+      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
+        <a href="/group_menu">Groupメニュー</a>
+        <a href="/usage">使い方</a>
+        <a href="/terms">利用規約</a>
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <a href="/contact">お問い合わせ</a>
+      </nav>
+    </div>
+    <div class="lp-container lp-footer__bottom">
+      <small>&copy; 2026 FS!QR. All rights reserved.</small>
+      <p>登録不要のファイル共有サービス</p>
+    </div>
+  </footer>
+</body>
+</html>

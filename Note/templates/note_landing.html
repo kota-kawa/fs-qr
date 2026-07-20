@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note</title>
+  <meta name="description" content="FS!QR Noteは、登録不要で使える共有ノートです。URLを送るだけでリアルタイム共同編集を始められ、入力内容は自動保存。会議の議事録やアイデア共有をすぐに始められます。">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="author" content="FS!QR">
+  <meta name="theme-color" content="#7652d6">
+
+  <!-- SEO / 検索・SNS向けメタ情報 -->
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="FS!QR Note">
+  <meta property="og:title" content="登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note">
+  <meta property="og:description" content="URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。">
+  <meta property="og:url" content="{{ request.canonical_url }}">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta property="og:image:alt" content="FS!QR Noteのリアルタイム共有ノート">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="登録不要の共有ノート｜FS!QR Note">
+  <meta name="twitter:description" content="URL共有ですぐに始められる、リアルタイム共同編集ノート。入力内容は自動保存されます。">
+  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:image:alt" content="FS!QR Noteのリアルタイム共有ノート">
+
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon.png') }}">
+  <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
+
+  <!-- Structured data / 検索エンジン向け構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR Note",
+    "url": "{{ request.canonical_url }}",
+    "description": "登録不要でURLを共有し、複数人でリアルタイム共同編集できる自動保存対応のオンライン共有ノート。",
+    "applicationCategory": "ProductivityApplication",
+    "applicationSubCategory": "Collaborative note-taking application",
+    "operatingSystem": "Web browser",
+    "inLanguage": "ja-JP",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "アカウント登録不要",
+      "リアルタイム共同編集",
+      "編集内容の自動保存",
+      "URLによるノート共有"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "アカウント登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数人で同時に編集できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "編集内容は保存されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ノートはどのように共有しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="product-lp product-lp--note">
+  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+
+  <header class="lp-header">
+    <div class="lp-container lp-header__inner">
+      <a class="lp-brand" href="/note_menu" aria-label="FS!QR Note トップへ">
+        <span class="lp-brand__mark" aria-hidden="true">N</span>
+        <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
+      </a>
+      <nav class="lp-nav" aria-label="メインナビゲーション">
+        <a href="#features">特長</a>
+        <a href="#use-cases">活用例</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/note">ノートに参加</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="lp-hero" aria-labelledby="hero-title">
+      <div class="lp-container lp-hero__grid">
+        <div class="lp-hero__content">
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のリアルタイム共有ノート</p>
+          <h1 id="hero-title">書いた瞬間、<br><span>みんなに届く。</span></h1>
+          <p class="lp-hero__lead">URLを共有したら、すぐに共同編集。FS!QR Noteは、会議の議事録もアイデアも、ひとつの画面で一緒にまとめられる共有ノートです。</p>
+          <div class="lp-actions">
+            <a class="lp-button lp-button--primary" href="/create_note_room">共有ノートを作る <span aria-hidden="true">→</span></a>
+            <a class="lp-button lp-button--ghost" href="/note">ノートに参加する</a>
+          </div>
+          <ul class="lp-check-list" aria-label="主な特長">
+            <li><span aria-hidden="true">✓</span> アカウント登録不要</li>
+            <li><span aria-hidden="true">✓</span> インストール不要</li>
+            <li><span aria-hidden="true">✓</span> 編集内容を自動保存</li>
+          </ul>
+        </div>
+
+        <!-- CSS-only product mockup / CSSで描画する共同編集画面 -->
+        <figure class="lp-mockup lp-product-visual lp-note-mock" aria-labelledby="note-mock-caption">
+          <div class="lp-note-mock__window">
+            <div class="lp-note-mock__topbar">
+              <div class="lp-window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="lp-note-mock__room">チーム定例ノート</span>
+              <div class="lp-note-mock__people" aria-label="3人が参加中">
+                <span aria-hidden="true">A</span><span aria-hidden="true">M</span><span aria-hidden="true">K</span>
+              </div>
+            </div>
+            <div class="lp-note-mock__body">
+              <aside class="lp-note-mock__rail" aria-hidden="true">
+                <span class="is-active"></span><span></span><span></span><span></span>
+              </aside>
+              <div class="lp-note-mock__editor">
+                <div class="lp-note-mock__meta"><span>7月20日 チーム定例</span><span class="lp-save-state">● 保存済み</span></div>
+                <div class="lp-note-mock__title">今日決めること</div>
+                <div class="lp-note-mock__line lp-note-mock__line--long"></div>
+                <div class="lp-note-mock__line lp-note-mock__line--medium"></div>
+                <div class="lp-note-mock__line lp-note-mock__line--short"></div>
+                <div class="lp-note-mock__section">次のアクション</div>
+                <div class="lp-note-mock__task"><span aria-hidden="true">✓</span><span>公開前の最終確認</span></div>
+                <div class="lp-note-mock__task"><span aria-hidden="true"></span><span>フィードバックを反映</span></div>
+                <span class="lp-cursor lp-cursor--one" aria-hidden="true"><i></i><b>Akira</b></span>
+                <span class="lp-cursor lp-cursor--two" aria-hidden="true"><i></i><b>Mio</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="lp-floating-status" aria-hidden="true"><span>✓</span><strong>リアルタイム同期</strong></div>
+          <figcaption id="note-mock-caption" class="lp-visually-hidden">複数人が同じノートをリアルタイムで編集している画面イメージ</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="lp-trust" aria-label="FS!QR Noteをすぐに使える理由">
+      <div class="lp-container lp-trust__grid">
+        <div class="lp-trust__item"><span class="lp-trust__icon" aria-hidden="true">01</span><p><strong>登録なし</strong><br>名前やメールアドレスの入力なし</p></div>
+        <div class="lp-trust__item"><span class="lp-trust__icon" aria-hidden="true">02</span><p><strong>ブラウザで完結</strong><br>専用アプリの準備なし</p></div>
+        <div class="lp-trust__item"><span class="lp-trust__icon" aria-hidden="true">03</span><p><strong>URLで共有</strong><br>いつもの連絡手段で送るだけ</p></div>
+      </div>
+    </section>
+
+    <section class="lp-section lp-section--steps" id="how-it-works" aria-labelledby="steps-title">
+      <div class="lp-container">
+        <div class="lp-section-heading lp-section__heading">
+          <p class="lp-kicker lp-section__eyebrow">HOW IT WORKS</p>
+          <h2 class="lp-section__title" id="steps-title">3ステップで、共同編集を開始</h2>
+          <p>複雑な共有設定はありません。必要なときにノートを開いて、相手を招待できます。</p>
+        </div>
+        <ol class="lp-grid lp-steps">
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">01</span>
+            <div class="lp-step-card__icon" aria-hidden="true"><span>＋</span></div>
+            <h3>ノートを作る</h3>
+            <p>ルーム情報を設定して、共同編集用のノートを作成します。</p>
+          </li>
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">02</span>
+            <div class="lp-step-card__icon" aria-hidden="true"><span>↗</span></div>
+            <h3>URLを共有する</h3>
+            <p>発行された共有URLを、参加してほしい相手に送ります。</p>
+          </li>
+          <li class="lp-card lp-step-card">
+            <span class="lp-step-card__number">03</span>
+            <div class="lp-step-card__icon" aria-hidden="true"><span>⌁</span></div>
+            <h3>一緒に書く</h3>
+            <p>同じノートを開き、リアルタイムでテキストを編集します。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="lp-section lp-section--tint" id="features" aria-labelledby="features-title">
+      <div class="lp-container">
+        <div class="lp-section-heading lp-section__heading">
+          <p class="lp-kicker lp-section__eyebrow">FEATURES</p>
+          <h2 class="lp-section__title" id="features-title">速く、迷わず、ひとつにまとまる</h2>
+          <p>共同メモに必要な機能を、シンプルな画面にまとめました。</p>
+        </div>
+        <div class="lp-grid lp-feature-grid">
+          <article class="lp-card lp-feature-card lp-feature-card--wide">
+            <span class="lp-feature-card__icon" aria-hidden="true">⌁</span>
+            <h3>リアルタイム共同編集</h3>
+            <p>同じノートに参加したメンバーの入力をリアルタイムに反映。会話の流れを止めずに、全員で記録を育てられます。</p>
+            <div class="lp-feature-card__demo lp-live-lines" aria-hidden="true"><span></span><span></span><i></i></div>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-feature-card__icon" aria-hidden="true">↗</span>
+            <h3>URLひとつで共有</h3>
+            <p>共有URLを送れば、離れた相手も同じノートに参加できます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-feature-card__icon" aria-hidden="true">✓</span>
+            <h3>自動保存</h3>
+            <p>編集内容は自動で保存。保存ボタンを押す手間なく、書くことに集中できます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-feature-card__icon" aria-hidden="true">○</span>
+            <h3>登録不要ですぐ開始</h3>
+            <p>アカウントを作らずに利用可能。急な打ち合わせにも、その場でノートを用意できます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section" id="use-cases" aria-labelledby="use-cases-title">
+      <div class="lp-container">
+        <div class="lp-section-heading lp-section__heading">
+          <p class="lp-kicker lp-section__eyebrow">USE CASES</p>
+          <h2 class="lp-section__title" id="use-cases-title">「今、一緒に書きたい」場面に</h2>
+        </div>
+        <div class="lp-grid lp-use-case-grid">
+          <article class="lp-card lp-use-case-card">
+            <div class="lp-use-case-card__visual lp-use-case-card__visual--meeting" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">MEETING</p><h3>会議の議事録</h3><p>参加者が気づいたことをその場で追記。決定事項と次のアクションを、ひとつのノートにまとめます。</p></div>
+          </article>
+          <article class="lp-card lp-use-case-card">
+            <div class="lp-use-case-card__visual lp-use-case-card__visual--ideas" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">IDEATION</p><h3>アイデア出し</h3><p>思いついた言葉を全員で書き足し、対話しながら考えを広げます。</p></div>
+          </article>
+          <article class="lp-card lp-use-case-card">
+            <div class="lp-use-case-card__visual lp-use-case-card__visual--learning" aria-hidden="true"><span></span><i></i></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">LEARNING</p><h3>授業・勉強会のメモ</h3><p>参加者それぞれの視点を集めて、あとから読み返しやすい共有ノートを作れます。</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section lp-section--faq" id="faq" aria-labelledby="faq-title">
+      <div class="lp-container lp-faq-layout">
+        <div class="lp-faq-intro">
+          <p class="lp-kicker lp-section__eyebrow">FAQ</p>
+          <h2 class="lp-section__title" id="faq-title">よくある質問</h2>
+          <p>FS!QR Noteの利用前に確認したいポイントをまとめました。</p>
+          <a class="lp-text-link" href="/note_menu">既存のNoteメニューを見る <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="lp-faq-list">
+          <details class="lp-faq-item">
+            <summary>アカウント登録は必要ですか？<span aria-hidden="true"></span></summary>
+            <p>いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>複数人で同時に編集できますか？<span aria-hidden="true"></span></summary>
+            <p>はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>編集内容は保存されますか？<span aria-hidden="true"></span></summary>
+            <p>入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>ノートはどのように共有しますか？<span aria-hidden="true"></span></summary>
+            <p>ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-final-cta" aria-labelledby="cta-title">
+      <div class="lp-final-cta__glow" aria-hidden="true"></div>
+      <div class="lp-container lp-final-cta__inner">
+        <p class="lp-kicker lp-section__eyebrow">START WRITING TOGETHER</p>
+        <h2 id="cta-title">次のメモは、みんなで書こう。</h2>
+        <p>登録は不要です。共有ノートを作って、リアルタイム共同編集を始めましょう。</p>
+        <div class="lp-actions lp-actions--center">
+          <a class="lp-button lp-button--light" href="/create_note_room">共有ノートを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--outline-light" href="/note">ノートに参加する</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-container lp-footer__main">
+      <a class="lp-brand lp-brand--footer" href="/note_menu" aria-label="FS!QR Note トップへ">
+        <span class="lp-brand__mark" aria-hidden="true">N</span>
+        <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
+      </a>
+      <p>登録不要で、思いついたその場から使えるリアルタイム共有ノート。</p>
+      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
+        <a href="/note_menu">Noteメニュー</a>
+        <a href="/usage">使い方</a>
+        <a href="/terms">利用規約</a>
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <a href="/contact">お問い合わせ</a>
+      </nav>
+    </div>
+    <div class="lp-container lp-footer__bottom">
+      <small>&copy; 2026 FS!QR. All Rights Reserved.</small>
+      <a href="/">FS!QR サービス一覧へ</a>
+    </div>
+  </footer>
+</body>
+</html>

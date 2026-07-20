@@ -445,6 +445,24 @@ SITEMAP_PAGES = (
     ("/fs-qr_menu", "weekly", "0.9", ("FSQR/templates/fs-qr.html",)),
     ("/group_menu", "weekly", "0.9", ("Group/templates/group.html",)),
     ("/note_menu", "weekly", "0.9", ("Note/templates/note_menu.html",)),
+    (
+        "/file-sharing",
+        "weekly",
+        "0.9",
+        ("FSQR/templates/fsqr_landing.html", "static/css/15-product-landing.css"),
+    ),
+    (
+        "/group-file-sharing",
+        "weekly",
+        "0.9",
+        ("Group/templates/group_landing.html", "static/css/15-product-landing.css"),
+    ),
+    (
+        "/shared-note",
+        "weekly",
+        "0.9",
+        ("Note/templates/note_landing.html", "static/css/15-product-landing.css"),
+    ),
 )
 
 
