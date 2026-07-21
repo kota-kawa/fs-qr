@@ -44,6 +44,8 @@ PRODUCT_UI_VISUALS = (
     ("/group-file-sharing", "lp-process-preview--group", "提案資料_最新版.pdf"),
 )
 
+HOME_SERVICE_MENU_LINKS = ("/fs-qr_menu", "/group_menu", "/note_menu")
+
 
 @pytest.mark.parametrize("path,brand,primary_cta,search_marker", LANDING_PAGES)
 def test_product_landing_page_has_indexable_seo_content(
@@ -103,13 +105,16 @@ def test_product_landing_pages_are_listed_in_sitemap(test_client: TestClient):
         assert f"https://fs-qr.net{path}" in locations
 
 
-def test_home_page_links_to_product_landing_pages(test_client: TestClient):
-    """検索流入だけでなくサイト内導線からも各LPへ到達できる。"""
+def test_home_page_links_to_service_menu_pages(test_client: TestClient):
+    """トップページのサービスカードはLPではなく各メニュー画面へ案内する。"""
     response = test_client.get("/")
 
     assert response.status_code == 200
-    for path, *_ in LANDING_PAGES:
+    for path in HOME_SERVICE_MENU_LINKS:
         assert f'href="{path}"' in response.text
+
+    for path, *_ in LANDING_PAGES:
+        assert f'href="{path}"' not in response.text
 
 
 @pytest.mark.parametrize("path,icon_name,page_image_name", ILLUSTRATED_LANDING_VISUALS)
