@@ -2500,3 +2500,352 @@ body.product-lp {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ================================================================
+   FS!QR landing refinements / FS!QR ランディングページの意匠調整
+   すべて .product-lp--fsqr にスコープし、Note / Group には影響させない。
+   目的：日本語見出しの字面を整え、余白と影を落ち着かせ、QRを主役にした
+   一貫した記号（ファインダーパターン）で「作り込まれた」印象へ引き上げる。
+   ================================================================ */
+
+/* Grounded shadows / 影を軽く近づけ、浮遊感の強い大ぼかしを避ける */
+.product-lp--fsqr {
+  --lp-shadow-sm: 0 2px 6px rgba(16, 32, 48, 0.05),
+    0 14px 30px -18px rgba(16, 32, 48, 0.22);
+  --lp-shadow-lg: 0 4px 14px rgba(16, 32, 48, 0.06),
+    0 30px 60px -30px rgba(16, 32, 48, 0.28);
+}
+
+/* Typography / 日本語見出しの詰めすぎを解消し、読みやすい字面へ */
+.product-lp--fsqr h1,
+.product-lp--fsqr h2,
+.product-lp--fsqr h3 {
+  letter-spacing: -0.01em;
+  line-height: 1.36;
+}
+
+.product-lp--fsqr .lp-hero h1 {
+  max-width: 12em;
+  font-size: clamp(40px, 4.4vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.32;
+}
+
+.product-lp--fsqr .lp-section__title {
+  font-size: clamp(25px, 3.4vw, 44px);
+  font-weight: 800;
+  line-height: 1.32;
+}
+
+/* 見出しの改行制御 / 単語の途中で折り返さない。<wbr> を句点の後に置き、
+   keep-all で不用意な分割を抑えつつ、狭い画面では anywhere で溢れを防ぐ。 */
+.product-lp--fsqr .lp-hero h1,
+.product-lp--fsqr .lp-section__title,
+.product-lp--fsqr .lp-final-cta h2 {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.product-lp--fsqr .lp-card h3 {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.product-lp--fsqr .lp-hero__lead,
+.product-lp--fsqr .lp-section__description {
+  line-height: 1.9;
+}
+
+/* Signature marker / QRのファインダーパターンを模した共通の目印。
+   見出しラベル・特長・ユースケースに一貫して添え、ブランドの記号にする。 */
+.product-lp--fsqr .lp-section__eyebrow,
+.product-lp--fsqr .lp-use-case-card__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.product-lp--fsqr .lp-section__eyebrow::before,
+.product-lp--fsqr .lp-use-case-card__label::before,
+.product-lp--fsqr .lp-trust__items .lp-trust__item strong::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border: 2px solid currentColor;
+  border-radius: 2.5px;
+  background: radial-gradient(circle at center, currentColor 0 1.3px, transparent 1.7px);
+}
+
+/* Hero / 抽象的なリングと二重の放射グラデーションを整理し、静かな光へ */
+.product-lp--fsqr .lp-hero {
+  padding: 88px 0 84px;
+  background:
+    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.10), transparent 56%),
+    linear-gradient(180deg, #fbfcff 0%, var(--lp-canvas) 100%);
+}
+
+.product-lp--fsqr .lp-hero::before {
+  display: none;
+}
+
+.product-lp--fsqr .lp-hero__title span {
+  color: var(--lp-accent);
+}
+
+.product-lp--fsqr .lp-page-shot {
+  border-color: rgba(16, 32, 48, 0.08);
+  border-radius: 24px;
+  box-shadow: var(--lp-shadow-lg);
+  transform: rotate(0.8deg);
+}
+
+/* Trust band / 目印を添え、行間と区切りを整えて情報の帯として自立させる */
+.product-lp--fsqr .lp-trust__items {
+  overflow: hidden;
+  border: 1px solid var(--lp-line);
+  border-radius: var(--lp-radius-sm);
+}
+
+.product-lp--fsqr .lp-trust__items .lp-trust__item {
+  gap: 6px;
+  padding: 18px 20px;
+  border-right: 1px solid var(--lp-line);
+}
+
+.product-lp--fsqr .lp-trust__items .lp-trust__item:last-child {
+  border-right: 0;
+}
+
+.product-lp--fsqr .lp-trust__items .lp-trust__item strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--lp-ink);
+  font-size: 15px;
+}
+
+/* Step & feature icons / 空箱・記号だった箇所を線画アイコンに置き換える */
+.product-lp--fsqr .lp-step-card__icon svg,
+.product-lp--fsqr .lp-feature-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.product-lp--fsqr .lp-step-card__icon {
+  margin-bottom: 30px;
+}
+
+/* Feature cards / 白背景の淡い青みを抑え、暗色カードを青系のインクへ寄せる */
+.product-lp--fsqr .lp-feature-card--wide {
+  background: linear-gradient(165deg, #16233f 0%, #0f1a30 100%);
+}
+
+.product-lp--fsqr .lp-device-bridge__flow {
+  position: relative;
+  width: 46px;
+  height: 0;
+  border-top: 1.5px dashed rgba(255, 255, 255, 0.5);
+}
+
+.product-lp--fsqr .lp-device-bridge__flow::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: -1px;
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.6);
+  transform: rotate(45deg);
+}
+
+/* Use cases / 装飾リングを弱め、カードの青みを控えめにして上質に */
+.product-lp--fsqr .lp-use-case-card {
+  background: linear-gradient(160deg, #ffffff 0%, #fafbff 100%);
+}
+
+.product-lp--fsqr .lp-use-case-card::after {
+  box-shadow: none;
+  opacity: 0.65;
+}
+
+/* Cool-neutral cohesion / 緑みのある無彩色を青のブランドへ寄せて統一する */
+.product-lp--fsqr .lp-section--faq {
+  background: #eef2f8;
+}
+
+.product-lp--fsqr .lp-final-cta {
+  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 68%, #123a9e 100%);
+}
+
+.product-lp--fsqr .lp-footer {
+  background: #101827;
+}
+
+/* ================================================================
+   Note & Group landing refinements / Note・Group LP の意匠調整
+   FS!QR LP と同じ方針を、Note（紫）・Group（緑）へブランド別に適用する。
+   構造的な調整は両者共通、色はブランドごとに分けて記述する。
+   ================================================================ */
+
+/* Grounded shadows / 影を落ち着かせる（両ブランド共通） */
+.product-lp--note,
+.product-lp--group {
+  --lp-shadow-sm: 0 2px 6px rgba(16, 24, 40, 0.05),
+    0 14px 30px -18px rgba(16, 24, 40, 0.22);
+  --lp-shadow-lg: 0 4px 14px rgba(16, 24, 40, 0.06),
+    0 30px 60px -30px rgba(16, 24, 40, 0.28);
+}
+
+/* Typography / 和文見出しの字間・行間を整える */
+.product-lp--note h1,
+.product-lp--note h2,
+.product-lp--note h3,
+.product-lp--group h1,
+.product-lp--group h2,
+.product-lp--group h3 {
+  letter-spacing: -0.01em;
+  line-height: 1.36;
+}
+
+.product-lp--note .lp-hero h1 {
+  max-width: 12em;
+  font-size: clamp(40px, 4.4vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.product-lp--group .lp-hero h1 {
+  max-width: 13em;
+  font-size: clamp(32px, 3.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.34;
+}
+
+.product-lp--note .lp-section__title,
+.product-lp--group .lp-section__title {
+  font-size: clamp(25px, 3.4vw, 44px);
+  font-weight: 800;
+  line-height: 1.32;
+}
+
+.product-lp--note .lp-card h3,
+.product-lp--group .lp-card h3 {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+/* 見出しの改行制御 / 単語の途中で折り返さない（<wbr> と keep-all の併用） */
+.product-lp--note .lp-hero h1,
+.product-lp--note .lp-section__title,
+.product-lp--note .lp-final-cta h2,
+.product-lp--group .lp-hero h1,
+.product-lp--group .lp-section__title,
+.product-lp--group .lp-final-cta h2 {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Signature marker / 見出しラベルと活用例タグに共通の目印を添える */
+.product-lp--note .lp-section__eyebrow,
+.product-lp--note .lp-use-case-card__tag,
+.product-lp--group .lp-section__eyebrow,
+.product-lp--group .lp-use-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.product-lp--note .lp-section__eyebrow::before,
+.product-lp--note .lp-use-case-card__tag::before,
+.product-lp--group .lp-section__eyebrow::before,
+.product-lp--group .lp-use-card__tag::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border: 2px solid currentColor;
+  border-radius: 2.5px;
+  background: radial-gradient(circle at center, currentColor 0 1.3px, transparent 1.7px);
+}
+
+/* Hero / 抽象的なリングと放射グラデーションを整理して静かな光へ */
+.product-lp--note .lp-hero,
+.product-lp--group .lp-hero {
+  padding: 88px 0 84px;
+}
+
+.product-lp--note .lp-hero::before,
+.product-lp--group .lp-hero::before {
+  display: none;
+}
+
+.product-lp--note .lp-page-shot,
+.product-lp--group .lp-page-shot {
+  border-radius: 24px;
+  box-shadow: var(--lp-shadow-lg);
+  transform: rotate(0.8deg);
+}
+
+/* Icons / 空箱・記号だった箇所を線画アイコンに置き換える */
+.product-lp--note .lp-step-card__icon svg,
+.product-lp--note .lp-feature-card__icon svg,
+.product-lp--group .lp-step__icon svg,
+.product-lp--group .lp-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.product-lp--note .lp-step-card__icon {
+  margin-bottom: 30px;
+}
+
+/* ---- Note color cohesion / Note は紫系へ寄せる ---- */
+.product-lp--note .lp-hero {
+  background:
+    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.12), transparent 56%),
+    linear-gradient(180deg, #fcfbff 0%, var(--lp-canvas) 100%);
+}
+
+.product-lp--note .lp-feature-card--wide {
+  background: linear-gradient(165deg, #2a1f45 0%, #1c1533 100%);
+}
+
+.product-lp--note .lp-section--faq {
+  background: #efecf8;
+}
+
+.product-lp--note .lp-final-cta {
+  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 66%, #3f2593 100%);
+}
+
+.product-lp--note .lp-footer {
+  background: #171226;
+}
+
+/* ---- Group color cohesion / Group は緑系で深みを与える ---- */
+.product-lp--group .lp-hero {
+  background:
+    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.12), transparent 56%),
+    linear-gradient(180deg, #f9fdfb 0%, var(--lp-canvas) 100%);
+}
+
+.product-lp--group .lp-feature-card--wide {
+  background: linear-gradient(165deg, #123b2e 0%, #0c2a20 100%);
+}
+
+.product-lp--group .lp-section--faq {
+  background: #eaf1ed;
+}
+
+.product-lp--group .lp-final-cta {
+  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 68%, #06442f 100%);
+}
+
+.product-lp--group .lp-footer {
+  background: #0f1a15;
+}
