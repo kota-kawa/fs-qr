@@ -32,11 +32,19 @@ LANDING_PAGES = (
     ),
 )
 
-LANDING_VISUALS = (
+ILLUSTRATED_LANDING_VISUALS = (
     ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
     ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
     ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
 )
+
+PRODUCT_UI_VISUALS = (
+    ("/file-sharing", "lp-mockup--fsqr", "共有の準備ができました"),
+    ("/shared-note", "lp-process-preview--note", "リアルタイム同期"),
+    ("/group-file-sharing", "lp-process-preview--group", "提案資料_最新版.pdf"),
+)
+
+HOME_SERVICE_MENU_LINKS = ("/fs-qr_menu", "/group_menu", "/note_menu")
 
 
 @pytest.mark.parametrize("path,brand,primary_cta,search_marker", LANDING_PAGES)
@@ -97,16 +105,19 @@ def test_product_landing_pages_are_listed_in_sitemap(test_client: TestClient):
         assert f"https://fs-qr.net{path}" in locations
 
 
-def test_home_page_links_to_product_landing_pages(test_client: TestClient):
-    """検索流入だけでなくサイト内導線からも各LPへ到達できる。"""
+def test_home_page_links_to_service_menu_pages(test_client: TestClient):
+    """トップページのサービスカードはLPではなく各メニュー画面へ案内する。"""
     response = test_client.get("/")
 
     assert response.status_code == 200
-    for path, *_ in LANDING_PAGES:
+    for path in HOME_SERVICE_MENU_LINKS:
         assert f'href="{path}"' in response.text
 
+    for path, *_ in LANDING_PAGES:
+        assert f'href="{path}"' not in response.text
 
-@pytest.mark.parametrize("path,icon_name,page_image_name", LANDING_VISUALS)
+
+@pytest.mark.parametrize("path,icon_name,page_image_name", ILLUSTRATED_LANDING_VISUALS)
 def test_product_landing_page_uses_service_icon_and_generated_illustration(
     test_client: TestClient,
     path: str,
@@ -124,6 +135,21 @@ def test_product_landing_page_uses_service_icon_and_generated_illustration(
     image_response = test_client.get(image_path)
     assert image_response.status_code == 200
     assert image_response.headers["content-type"] == "image/jpeg"
+
+
+@pytest.mark.parametrize("path,visual_class,content_marker", PRODUCT_UI_VISUALS)
+def test_product_landing_page_also_uses_product_ui_visual(
+    test_client: TestClient,
+    path: str,
+    visual_class: str,
+    content_marker: str,
+):
+    """各LPは生成イラストに加え、利用方法が伝わるUI図解も表示する。"""
+    response = test_client.get(path)
+
+    assert response.status_code == 200
+    assert visual_class in response.text
+    assert content_marker in response.text
 
 
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
