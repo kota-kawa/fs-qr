@@ -139,7 +139,7 @@
     <section class="lp-hero" aria-labelledby="hero-title">
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
-          <p class="lp-eyebrow"><span aria-hidden="true">●</span> 登録不要のグループファイル共有</p>
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のグループファイル共有</p>
           <h1 id="hero-title">チームのファイルを、<br><span>ひとつのルームへ。</span></h1>
           <p class="lp-hero__lead">メンバー登録や招待設定に時間をかけず、必要な人とファイルをまとめて共有。ルームを作り、URLやQRコードを渡すだけで共同作業を始められます。</p>
           <div class="lp-actions">
@@ -149,7 +149,7 @@
             </a>
             <a class="lp-button lp-button--secondary" href="/group">IDでルームに参加</a>
           </div>
-          <ul class="lp-hero__checks" aria-label="サービスの概要">
+          <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
             <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
             <li><span aria-hidden="true">✓</span> ブラウザで完結</li>
             <li><span aria-hidden="true">✓</span> 保存期間を選択</li>
@@ -184,25 +184,43 @@
       <div class="lp-container">
         <div class="lp-section__heading">
           <p class="lp-section__eyebrow">HOW IT WORKS</p>
-          <h2 id="how-title" class="lp-section__title">共有開始まで、わずか3ステップ</h2>
+          <h2 id="how-title" class="lp-section__title">共有開始まで、<wbr>わずか3ステップ</h2>
           <p class="lp-section__lead">専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。</p>
         </div>
         <ol class="lp-steps">
           <li class="lp-step">
             <span class="lp-step__number">01</span>
-            <div class="lp-step__icon" aria-hidden="true">＋</div>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/>
+                <path d="M12 11v5"/>
+                <path d="M9.5 13.5h5"/>
+              </svg>
+            </div>
             <h3>ルームを作成</h3>
             <p>ルームIDと保存期間を設定。6桁のパスワードが自動で発行されます。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">02</span>
-            <div class="lp-step__icon" aria-hidden="true">↗</div>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.5 13.5a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.6 1.6"/>
+                <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
+              </svg>
+            </div>
             <h3>参加情報を共有</h3>
             <p>共有URLやQRコード、またはルームIDとパスワードを必要な相手へ伝えます。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">03</span>
-            <div class="lp-step__icon" aria-hidden="true">⇅</div>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 4v14"/>
+                <path d="M4.5 7.5 8 4l3.5 3.5"/>
+                <path d="M16 20V6"/>
+                <path d="M12.5 16.5 16 20l3.5-3.5"/>
+              </svg>
+            </div>
             <h3>みんなで共有</h3>
             <p>参加者がファイルをアップロード。ルーム内の一覧から必要なファイルを受け取れます。</p>
           </li>
@@ -218,7 +236,16 @@
         </div>
         <div class="lp-grid lp-grid--features">
           <article class="lp-card lp-feature-card lp-feature-card--wide">
-            <span class="lp-card__icon" aria-hidden="true">⌁</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+                <path d="M14 14h3v3"/>
+                <path d="M21 14v7h-4"/>
+                <path d="M14 21v-3"/>
+              </svg>
+            </span>
             <h3>URL・QRコードですぐ招待</h3>
             <p>共有URLをメッセージで送る。対面ならQRコードを見せる。状況に合う渡し方を選べます。</p>
             <div class="lp-card__visual lp-share-visual" aria-hidden="true">
@@ -227,27 +254,60 @@
             </div>
           </article>
           <article class="lp-card lp-feature-card">
-            <span class="lp-card__icon" aria-hidden="true">◎</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8.5" cy="9.5" r="4"/>
+                <path d="M11.3 12.3 20 21"/>
+                <path d="M18.5 19.5l2-2"/>
+                <path d="M15.6 16.6l1.6 1.6"/>
+              </svg>
+            </span>
             <h3>IDとパスワードで参加</h3>
             <p>共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。</p>
           </article>
           <article class="lp-card lp-feature-card">
-            <span class="lp-card__icon" aria-hidden="true">◷</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="13" r="8"/>
+                <path d="M12 9.5V13l2.5 1.8"/>
+                <path d="M9.5 3h5"/>
+              </svg>
+            </span>
             <h3>保存期限を選んで自動削除</h3>
             <p>保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。</p>
           </article>
           <article class="lp-card lp-feature-card">
-            <span class="lp-card__icon" aria-hidden="true">⇅</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 4v14"/>
+                <path d="M4.5 7.5 8 4l3.5 3.5"/>
+                <path d="M16 20V6"/>
+                <path d="M12.5 16.5 16 20l3.5-3.5"/>
+              </svg>
+            </span>
             <h3>メンバーも追加・受け取り</h3>
             <p>参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。</p>
           </article>
           <article class="lp-card lp-feature-card">
-            <span class="lp-card__icon" aria-hidden="true">▣</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4.5" width="18" height="15" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M6.4 6.7h.01M9 6.7h.01"/>
+              </svg>
+            </span>
             <h3>ブラウザだけで完結</h3>
             <p>専用アプリを増やさず、PCやスマートフォンのブラウザからアクセスできます。</p>
           </article>
           <article class="lp-card lp-feature-card lp-feature-card--accent">
-            <span class="lp-card__icon" aria-hidden="true">⌂</span>
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h16"/>
+                <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/>
+                <path d="M10 11v6M14 11v6"/>
+              </svg>
+            </span>
             <h3>作成者はルームを削除可能</h3>
             <p>共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。</p>
           </article>
@@ -306,23 +366,23 @@
         </div>
         <div class="lp-faq-list">
           <details class="lp-faq-item">
-            <summary>アカウント登録は必要ですか？<span aria-hidden="true">＋</span></summary>
+            <summary>アカウント登録は必要ですか？<span aria-hidden="true"></span></summary>
             <p>必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。</p>
           </details>
           <details class="lp-faq-item">
-            <summary>メンバーはどのようにルームへ参加しますか？<span aria-hidden="true">＋</span></summary>
+            <summary>メンバーはどのようにルームへ参加しますか？<span aria-hidden="true"></span></summary>
             <p>共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。</p>
           </details>
           <details class="lp-faq-item">
-            <summary>ファイルはいつまで保存されますか？<span aria-hidden="true">＋</span></summary>
+            <summary>ファイルはいつまで保存されますか？<span aria-hidden="true"></span></summary>
             <p>ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。</p>
           </details>
           <details class="lp-faq-item">
-            <summary>アップロードできるファイル数や容量に上限はありますか？<span aria-hidden="true">＋</span></summary>
+            <summary>アップロードできるファイル数や容量に上限はありますか？<span aria-hidden="true"></span></summary>
             <p>上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。</p>
           </details>
           <details class="lp-faq-item">
-            <summary>機密性の高いファイルにも使えますか？<span aria-hidden="true">＋</span></summary>
+            <summary>機密性の高いファイルにも使えますか？<span aria-hidden="true"></span></summary>
             <p>ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。</p>
           </details>
         </div>
