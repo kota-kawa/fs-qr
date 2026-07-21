@@ -1651,38 +1651,133 @@ body.product-lp {
   right: 42px;
   bottom: 42px;
   left: 42px;
-  display: flex;
+  display: grid;
   min-height: 180px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
+  align-content: center;
+  gap: 16px;
   padding: 28px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.055);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(117, 222, 178, 0.16), transparent 36%),
+    rgba(255, 255, 255, 0.055);
+}
+
+.lp-share-visual__label {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.lp-share-visual__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lp-share-visual__signal {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(157, 245, 204, 0.65);
+  border-radius: 50%;
+}
+
+.lp-share-visual__signal::before,
+.lp-share-visual__signal::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #9df5cc;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.lp-share-visual__signal::after {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(157, 245, 204, 0.25);
+  background: transparent;
 }
 
 .lp-share-visual__url {
   flex: 1;
-  padding: 11px 13px;
   overflow: hidden;
-  border-radius: 9px;
   color: rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.09);
   font-size: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.lp-share-visual__qr {
-  width: 80px;
-  height: 80px;
+.lp-share-visual__arrow {
+  display: grid;
+  width: 24px;
+  height: 24px;
   flex: 0 0 auto;
-  border: 10px solid #fff;
-  background:
-    linear-gradient(90deg, #15221e 50%, transparent 50%) 0 0 / 13px 13px,
-    linear-gradient(#15221e 50%, transparent 50%) 0 0 / 13px 13px,
-    #fff;
+  place-items: center;
+  border-radius: 50%;
+  color: #163d30;
+  background: #9df5cc;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.lp-share-visual__recipients {
+  display: flex;
+  align-items: center;
+  min-height: 26px;
+  padding-left: 3px;
+}
+
+.lp-share-visual__recipients > span,
+.lp-share-visual__recipients > i {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  margin-left: -5px;
+  place-items: center;
+  border: 2px solid #1a4435;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.8);
+  background: #477463;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.lp-share-visual__recipients > span:first-child {
+  margin-left: 0;
+  background: #739c84;
+}
+
+.lp-share-visual__recipients > span:nth-child(2) {
+  background: #356653;
+}
+
+.lp-share-visual__recipients > span:nth-child(3) {
+  background: #5b8976;
+}
+
+.lp-share-visual__recipients > i {
+  color: #9df5cc;
+  background: #285846;
+}
+
+.lp-share-visual__recipients p {
+  margin: 0 0 0 11px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .product-lp--group .lp-step {

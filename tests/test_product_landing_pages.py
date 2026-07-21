@@ -38,12 +38,6 @@ ILLUSTRATED_LANDING_VISUALS = (
     ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
 )
 
-PRODUCT_UI_VISUALS = (
-    ("/file-sharing", "lp-mockup--fsqr", "共有の準備ができました"),
-    ("/shared-note", "lp-process-preview--note", "リアルタイム同期"),
-    ("/group-file-sharing", "lp-process-preview--group", "提案資料_最新版.pdf"),
-)
-
 HOME_SERVICE_MENU_LINKS = ("/fs-qr_menu", "/group_menu", "/note_menu")
 
 
@@ -137,19 +131,45 @@ def test_product_landing_page_uses_service_icon_and_generated_illustration(
     assert image_response.headers["content-type"] == "image/jpeg"
 
 
-@pytest.mark.parametrize("path,visual_class,content_marker", PRODUCT_UI_VISUALS)
-def test_product_landing_page_also_uses_product_ui_visual(
+def test_group_landing_page_does_not_include_room_ui_mockup(
+    test_client: TestClient,
+):
+    """実際の画面と異なるファイルルームのモックアップを掲載しない。"""
+    response = test_client.get("/group-file-sharing")
+
+    assert response.status_code == 200
+    assert "lp-process-preview--group" not in response.text
+    assert "提案資料_最新版.pdf" not in response.text
+
+
+def test_group_landing_page_does_not_include_qr_code_decoration(
+    test_client: TestClient,
+):
+    """共有リンクの案内に、実物らしく見えるQRコード装飾を使用しない。"""
+    response = test_client.get("/group-file-sharing")
+
+    assert response.status_code == 200
+    assert "lp-share-visual__qr" not in response.text
+    assert "lp-share-visual__recipients" in response.text
+
+
+@pytest.mark.parametrize(
+    ("path", "visual_class"),
+    (
+        ("/file-sharing", "lp-mockup--fsqr"),
+        ("/shared-note", "lp-process-preview--note"),
+    ),
+)
+def test_product_landing_pages_do_not_include_generated_ui_mockups(
     test_client: TestClient,
     path: str,
     visual_class: str,
-    content_marker: str,
 ):
-    """各LPは生成イラストに加え、利用方法が伝わるUI図解も表示する。"""
+    """実画面と誤認されうるUIモックアップを掲載しない。"""
     response = test_client.get(path)
 
     assert response.status_code == 200
-    assert visual_class in response.text
-    assert content_marker in response.text
+    assert visual_class not in response.text
 
 
 def test_group_landing_page_use_cases_do_not_include_abstract_scenes(
