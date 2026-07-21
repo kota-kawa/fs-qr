@@ -152,6 +152,17 @@ def test_product_landing_page_also_uses_product_ui_visual(
     assert content_marker in response.text
 
 
+def test_group_landing_page_use_cases_do_not_include_abstract_scenes(
+    test_client: TestClient,
+):
+    """Group LPの利用シーンは装飾図ではなく、読みやすい文章カードで案内する。"""
+    response = test_client.get("/group-file-sharing")
+
+    assert response.status_code == 200
+    assert "lp-use-card__scene" not in response.text
+    assert "プロジェクト資料の集約" in response.text
+
+
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
 def test_product_landing_page_normalizes_tracking_queries(
     test_client: TestClient,
