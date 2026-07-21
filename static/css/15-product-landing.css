@@ -2504,42 +2504,88 @@ body.product-lp {
 /* ================================================================
    FS!QR landing refinements / FS!QR ランディングページの意匠調整
    すべて .product-lp--fsqr にスコープし、Note / Group には影響させない。
-   目的：日本語見出しの字面を整え、余白と影を落ち着かせ、QRを主役にした
-   一貫した記号（ファインダーパターン）で「作り込まれた」印象へ引き上げる。
+   目的：生成イラストや過剰な装飾に頼らず、実際の操作を想像できるUI図解と
+   編集的な余白・タイポグラフィで、信頼感のあるファイル共有LPに整える。
    ================================================================ */
 
-/* Grounded shadows / 影を軽く近づけ、浮遊感の強い大ぼかしを避ける */
 .product-lp--fsqr {
-  --lp-shadow-sm: 0 2px 6px rgba(16, 32, 48, 0.05),
-    0 14px 30px -18px rgba(16, 32, 48, 0.22);
-  --lp-shadow-lg: 0 4px 14px rgba(16, 32, 48, 0.06),
-    0 30px 60px -30px rgba(16, 32, 48, 0.28);
+  --lp-ink: #172033;
+  --lp-muted: #5d6677;
+  --lp-line: rgba(23, 32, 51, 0.13);
+  --lp-canvas: #f6f6f3;
+  --lp-accent: #2858c7;
+  --lp-accent-dark: #1f469f;
+  --lp-accent-soft: #e9eef9;
+  --lp-accent-rgb: 40, 88, 199;
+  --lp-shadow-sm: 0 8px 22px rgba(23, 32, 51, 0.08);
+  --lp-shadow-lg: 0 24px 60px rgba(23, 32, 51, 0.13);
+  color: var(--lp-ink);
+  background: var(--lp-canvas);
 }
 
-/* Typography / 日本語見出しの詰めすぎを解消し、読みやすい字面へ */
+/* Header / 常に現在地が分かる、静かな固定ヘッダー */
+.product-lp--fsqr .lp-header {
+  position: sticky;
+  top: 0;
+  border-color: rgba(23, 32, 51, 0.1);
+  background: rgba(250, 250, 248, 0.94);
+  backdrop-filter: blur(12px);
+}
+
+.product-lp--fsqr .lp-brand__mark {
+  border: 1px solid rgba(23, 32, 51, 0.1);
+  border-radius: 9px;
+  box-shadow: none;
+}
+
+.product-lp--fsqr .lp-nav {
+  color: #525c6d;
+}
+
+.product-lp--fsqr .lp-button {
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.product-lp--fsqr .lp-button:hover {
+  box-shadow: 0 8px 18px rgba(31, 70, 159, 0.18);
+  transform: translateY(-1px);
+}
+
+.product-lp--fsqr .lp-button--secondary {
+  border-color: rgba(23, 32, 51, 0.18);
+  color: var(--lp-ink) !important;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.product-lp--fsqr .lp-button--secondary:hover {
+  border-color: rgba(23, 32, 51, 0.3);
+  background: #fff;
+}
+
+/* Typography / 和文を無理に詰めず、見出しと本文の差を明快にする */
 .product-lp--fsqr h1,
 .product-lp--fsqr h2,
 .product-lp--fsqr h3 {
-  letter-spacing: -0.01em;
-  line-height: 1.36;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
 }
 
 .product-lp--fsqr .lp-hero h1 {
-  max-width: 12em;
-  font-size: clamp(40px, 4.4vw, 58px);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.32;
+  max-width: 9em;
+  margin-bottom: 26px;
+  font-size: clamp(44px, 5vw, 68px);
+  font-weight: 780;
+  letter-spacing: -0.045em;
+  line-height: 1.18;
 }
 
 .product-lp--fsqr .lp-section__title {
-  font-size: clamp(25px, 3.4vw, 44px);
-  font-weight: 800;
-  line-height: 1.32;
+  font-size: clamp(29px, 3.4vw, 43px);
+  font-weight: 760;
+  line-height: 1.38;
 }
 
-/* 見出しの改行制御 / 単語の途中で折り返さない。<wbr> を句点の後に置き、
-   keep-all で不用意な分割を抑えつつ、狭い画面では anywhere で溢れを防ぐ。 */
 .product-lp--fsqr .lp-hero h1,
 .product-lp--fsqr .lp-section__title,
 .product-lp--fsqr .lp-final-cta h2 {
@@ -2549,68 +2595,222 @@ body.product-lp {
 
 .product-lp--fsqr .lp-card h3 {
   font-size: 20px;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 .product-lp--fsqr .lp-hero__lead,
 .product-lp--fsqr .lp-section__description {
-  line-height: 1.9;
+  line-height: 1.85;
 }
 
-/* Signature marker / QRのファインダーパターンを模した共通の目印。
-   見出しラベル・特長・ユースケースに一貫して添え、ブランドの記号にする。 */
+/* Labels / 装飾的な英字ラベルを避け、短い罫線で章立てを示す */
 .product-lp--fsqr .lp-section__eyebrow,
 .product-lp--fsqr .lp-use-case-card__label {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
+  color: var(--lp-accent-dark);
+  letter-spacing: 0.04em;
 }
 
 .product-lp--fsqr .lp-section__eyebrow::before,
-.product-lp--fsqr .lp-use-case-card__label::before,
-.product-lp--fsqr .lp-trust__items .lp-trust__item strong::before {
+.product-lp--fsqr .lp-use-case-card__label::before {
   content: "";
   flex: 0 0 auto;
-  width: 9px;
-  height: 9px;
-  border: 2px solid currentColor;
-  border-radius: 2.5px;
-  background: radial-gradient(circle at center, currentColor 0 1.3px, transparent 1.7px);
+  width: 24px;
+  height: 1px;
+  background: currentColor;
 }
 
-/* Hero / 抽象的なリングと二重の放射グラデーションを整理し、静かな光へ */
+/* Hero / コピーと実際の利用フローを示すUI図解 */
 .product-lp--fsqr .lp-hero {
-  padding: 88px 0 84px;
-  background:
-    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.10), transparent 56%),
-    linear-gradient(180deg, #fbfcff 0%, var(--lp-canvas) 100%);
+  padding: 82px 0 92px;
+  border-bottom: 1px solid var(--lp-line);
+  background: #f6f6f3;
 }
 
 .product-lp--fsqr .lp-hero::before {
   display: none;
 }
 
+.product-lp--fsqr .lp-hero__grid {
+  grid-template-columns: minmax(0, 0.88fr) minmax(480px, 1.12fr);
+  gap: clamp(54px, 7vw, 96px);
+}
+
+.product-lp--fsqr .lp-hero__eyebrow {
+  margin-bottom: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-weight: 700;
+}
+
+.product-lp--fsqr .lp-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
 .product-lp--fsqr .lp-hero__title span {
   color: var(--lp-accent);
 }
 
-.product-lp--fsqr .lp-page-shot {
-  border-color: rgba(16, 32, 48, 0.08);
-  border-radius: 24px;
-  box-shadow: var(--lp-shadow-lg);
-  transform: rotate(0.8deg);
+.product-lp--fsqr .lp-hero__lead {
+  max-width: 34em;
+  font-size: 17px;
 }
 
-/* Trust band / 目印を添え、行間と区切りを整えて情報の帯として自立させる */
+.product-lp--fsqr .lp-page-shot {
+  padding: 10px;
+  border-color: rgba(23, 32, 51, 0.1);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--lp-shadow-lg);
+  transform: none;
+}
+
+.product-lp--fsqr .lp-page-shot img {
+  border-radius: 13px;
+}
+
+.product-lp--fsqr .lp-check-list li::before {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 1px solid rgba(var(--lp-accent-rgb), 0.25);
+  border-radius: 50%;
+  color: var(--lp-accent-dark);
+  background: #fff;
+  content: "✓";
+  font-size: 10px;
+}
+
+.product-lp--fsqr .lp-mockup--fsqr {
+  padding: 10px;
+  border: 1px solid rgba(23, 32, 51, 0.1);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--lp-shadow-lg);
+}
+
+.product-lp--fsqr .lp-browser {
+  overflow: hidden;
+  border: 1px solid rgba(23, 32, 51, 0.12);
+  border-radius: 14px;
+  box-shadow: none;
+  transform: none;
+}
+
+.product-lp--fsqr .lp-browser__bar {
+  min-height: 48px;
+  border-color: rgba(23, 32, 51, 0.1);
+  background: #f2f3f5;
+}
+
+.product-lp--fsqr .lp-browser__address {
+  border-color: rgba(23, 32, 51, 0.1);
+  border-radius: 6px;
+  color: #6f7785;
+}
+
+.product-lp--fsqr .lp-browser__secure {
+  color: #24705d;
+}
+
+.product-lp--fsqr .lp-browser__content {
+  min-height: 418px;
+  padding: 34px;
+  background: #f6f7f9;
+}
+
+.product-lp--fsqr .lp-upload-card,
+.product-lp--fsqr .lp-share-card {
+  border-color: rgba(23, 32, 51, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgba(23, 32, 51, 0.06);
+}
+
+.product-lp--fsqr .lp-upload-card {
+  padding: 18px 20px;
+}
+
+.product-lp--fsqr .lp-upload-card__icon {
+  border-radius: 8px;
+}
+
+.product-lp--fsqr .lp-upload-card__body strong {
+  font-size: 13px;
+}
+
+.product-lp--fsqr .lp-ui-label,
+.product-lp--fsqr .lp-ui-meta {
+  font-size: 10px;
+}
+
+.product-lp--fsqr .lp-transfer-line {
+  padding-block: 19px;
+}
+
+.product-lp--fsqr .lp-transfer-line i {
+  font-size: 10px;
+}
+
+.product-lp--fsqr .lp-share-card {
+  padding: 26px;
+}
+
+.product-lp--fsqr .lp-share-card__copy strong {
+  font-size: 17px;
+}
+
+.product-lp--fsqr .lp-share-card__copy p {
+  max-width: 23em;
+  font-size: 10px;
+}
+
+.product-lp--fsqr .lp-qr {
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  border-radius: 9px;
+  background: #fff;
+}
+
+.product-lp--fsqr .lp-floating-badge {
+  right: -16px;
+  bottom: -18px;
+  border-color: rgba(23, 32, 51, 0.14);
+  border-radius: 9px;
+  box-shadow: var(--lp-shadow-sm);
+}
+
+.product-lp--fsqr .lp-process-preview {
+  width: min(100%, 760px);
+  margin: 54px auto 0;
+}
+
+/* Trust band / 事実を簡潔に並べる情報帯 */
+.product-lp--fsqr .lp-trust {
+  padding: 28px 0 34px;
+}
+
+.product-lp--fsqr .lp-trust__lead {
+  margin-bottom: 16px;
+  color: #697181;
+  letter-spacing: 0.04em;
+}
+
 .product-lp--fsqr .lp-trust__items {
   overflow: hidden;
   border: 1px solid var(--lp-line);
-  border-radius: var(--lp-radius-sm);
+  border-radius: 10px;
 }
 
 .product-lp--fsqr .lp-trust__items .lp-trust__item {
   gap: 6px;
-  padding: 18px 20px;
+  padding: 17px 20px;
   border-right: 1px solid var(--lp-line);
 }
 
@@ -2619,27 +2819,90 @@ body.product-lp {
 }
 
 .product-lp--fsqr .lp-trust__items .lp-trust__item strong {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
   color: var(--lp-ink);
   font-size: 15px;
 }
 
-/* Step & feature icons / 空箱・記号だった箇所を線画アイコンに置き換える */
+/* Sections and cards / 影よりも罫線と余白で情報を整理する */
+.product-lp--fsqr .lp-section {
+  padding: 104px 0;
+}
+
+.product-lp--fsqr .lp-section__heading {
+  margin-bottom: 50px;
+}
+
+.product-lp--fsqr .lp-section--steps {
+  background: #fff;
+}
+
+.product-lp--fsqr .lp-card {
+  border-color: rgba(23, 32, 51, 0.12);
+  border-radius: 14px;
+  box-shadow: none;
+}
+
 .product-lp--fsqr .lp-step-card__icon svg,
 .product-lp--fsqr .lp-feature-card__icon svg {
   width: 26px;
   height: 26px;
 }
 
-.product-lp--fsqr .lp-step-card__icon {
-  margin-bottom: 30px;
+.product-lp--fsqr .lp-step-card {
+  min-height: 286px;
+  padding: 30px;
+  border-top: 3px solid var(--lp-accent);
 }
 
-/* Feature cards / 白背景の淡い青みを抑え、暗色カードを青系のインクへ寄せる */
+.product-lp--fsqr .lp-step-card:hover {
+  box-shadow: var(--lp-shadow-sm);
+  transform: translateY(-2px);
+}
+
+.product-lp--fsqr .lp-step-card__icon {
+  margin-bottom: 32px;
+  border-radius: 10px;
+}
+
+/* Feature cards / 大きな価値と補足機能を明快な段組みで見せる */
+.product-lp--fsqr .lp-section--tinted {
+  background: #f0f2f5;
+}
+
 .product-lp--fsqr .lp-feature-card--wide {
-  background: linear-gradient(165deg, #16233f 0%, #0f1a30 100%);
+  min-height: 340px;
+  grid-column: 1 / -1;
+  grid-row: auto;
+  padding: 42px;
+  background: #172033;
+}
+
+.product-lp--fsqr .lp-feature-card--wide h3,
+.product-lp--fsqr .lp-feature-card--wide > p {
+  max-width: 45%;
+}
+
+.product-lp--fsqr .lp-feature-card {
+  min-height: 235px;
+}
+
+.product-lp--fsqr .lp-feature-card__icon {
+  border-radius: 10px;
+}
+
+.product-lp--fsqr .lp-feature-card--wide .lp-feature-card__icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.product-lp--fsqr .lp-device-bridge {
+  top: 42px;
+  right: 42px;
+  bottom: 42px;
+  left: auto;
+  width: 45%;
+  height: auto;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .product-lp--fsqr .lp-device-bridge__flow {
@@ -2661,27 +2924,155 @@ body.product-lp {
   transform: rotate(45deg);
 }
 
-/* Use cases / 装飾リングを弱め、カードの青みを控えめにして上質に */
+/* Use cases / 日常の場面を読み物のようなカードで見せる */
+.product-lp--fsqr .lp-section--use-cases {
+  background: #fff;
+}
+
 .product-lp--fsqr .lp-use-case-card {
-  background: linear-gradient(160deg, #ffffff 0%, #fafbff 100%);
+  min-height: 230px;
+  padding: 30px;
+  border-left: 3px solid var(--lp-accent);
+  background: #fff;
 }
 
 .product-lp--fsqr .lp-use-case-card::after {
-  box-shadow: none;
-  opacity: 0.65;
+  display: none;
 }
 
-/* Cool-neutral cohesion / 緑みのある無彩色を青のブランドへ寄せて統一する */
+/* FAQ and conversion / 装飾を抑え、質問と行動導線に集中させる */
 .product-lp--fsqr .lp-section--faq {
-  background: #eef2f8;
+  background: #f1f2f0;
+}
+
+.product-lp--fsqr .lp-faq-list {
+  border-color: rgba(23, 32, 51, 0.18);
+}
+
+.product-lp--fsqr .lp-faq-item {
+  border-color: rgba(23, 32, 51, 0.16);
+}
+
+.product-lp--fsqr .lp-faq-item summary {
+  font-weight: 700;
 }
 
 .product-lp--fsqr .lp-final-cta {
-  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 68%, #123a9e 100%);
+  padding: 96px 0;
+  background: #1a2740;
+}
+
+.product-lp--fsqr .lp-final-cta::before,
+.product-lp--fsqr .lp-final-cta::after {
+  display: none;
+}
+
+.product-lp--fsqr .lp-final-cta h2 {
+  font-weight: 760;
+}
+
+.product-lp--fsqr .lp-final-cta .lp-button--secondary {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff !important;
+  background: transparent;
 }
 
 .product-lp--fsqr .lp-footer {
   background: #101827;
+}
+
+@media (max-width: 980px) {
+  .product-lp--fsqr .lp-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-lp--fsqr .lp-mockup--fsqr,
+  .product-lp--fsqr .lp-page-shot {
+    width: min(100%, 680px);
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .product-lp--fsqr .lp-hero {
+    padding: 58px 0 72px;
+  }
+
+  .product-lp--fsqr .lp-hero h1 {
+    font-size: clamp(42px, 13vw, 58px);
+  }
+
+  .product-lp--fsqr .lp-browser__secure {
+    display: none;
+  }
+
+  .product-lp--fsqr .lp-browser__bar {
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+
+  .product-lp--fsqr .lp-browser__content {
+    min-height: 378px;
+    padding: 20px;
+  }
+
+  .product-lp--fsqr .lp-floating-badge {
+    right: 8px;
+  }
+
+  .product-lp--fsqr .lp-trust__items .lp-trust__item:nth-child(even) {
+    border-right: 0;
+  }
+
+  .product-lp--fsqr .lp-section {
+    padding: 78px 0;
+  }
+
+  .product-lp--fsqr .lp-feature-card--wide {
+    min-height: 510px;
+    padding: 30px;
+  }
+
+  .product-lp--fsqr .lp-feature-card--wide h3,
+  .product-lp--fsqr .lp-feature-card--wide > p {
+    max-width: none;
+  }
+
+  .product-lp--fsqr .lp-device-bridge {
+    top: auto;
+    right: 30px;
+    bottom: 30px;
+    left: 30px;
+    width: auto;
+    height: 190px;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-lp--fsqr .lp-mockup--fsqr {
+    padding: 6px;
+    border-radius: 16px;
+  }
+
+  .product-lp--fsqr .lp-browser__content {
+    padding: 14px;
+  }
+
+  .product-lp--fsqr .lp-upload-card {
+    padding: 14px;
+  }
+
+  .product-lp--fsqr .lp-share-card {
+    padding: 16px;
+  }
+
+  .product-lp--fsqr .lp-share-card__copy strong {
+    font-size: 14px;
+  }
+
+  .product-lp--fsqr .lp-floating-badge {
+    display: none;
+  }
 }
 
 /* ================================================================

@@ -32,7 +32,7 @@ LANDING_PAGES = (
     ),
 )
 
-LANDING_VISUALS = (
+ILLUSTRATED_LANDING_VISUALS = (
     ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
     ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
     ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
@@ -106,7 +106,7 @@ def test_home_page_links_to_product_landing_pages(test_client: TestClient):
         assert f'href="{path}"' in response.text
 
 
-@pytest.mark.parametrize("path,icon_name,page_image_name", LANDING_VISUALS)
+@pytest.mark.parametrize("path,icon_name,page_image_name", ILLUSTRATED_LANDING_VISUALS)
 def test_product_landing_page_uses_service_icon_and_generated_illustration(
     test_client: TestClient,
     path: str,
@@ -124,6 +124,18 @@ def test_product_landing_page_uses_service_icon_and_generated_illustration(
     image_response = test_client.get(image_path)
     assert image_response.status_code == 200
     assert image_response.headers["content-type"] == "image/jpeg"
+
+
+def test_file_sharing_landing_page_also_uses_product_ui_visual(
+    test_client: TestClient,
+):
+    """FS!QR LPは生成イラストに加え、利用方法が伝わるUI図解も表示する。"""
+    response = test_client.get("/file-sharing")
+
+    assert response.status_code == 200
+    assert "/static/apple-touch-icon.png" in response.text
+    assert "lp-mockup--fsqr" in response.text
+    assert "fsqr-illustration.jpg" in response.text
 
 
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
