@@ -1855,64 +1855,6 @@ body.product-lp {
   overflow: hidden;
 }
 
-.lp-use-card__scene {
-  position: relative;
-  display: flex;
-  height: 210px;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  overflow: hidden;
-  background: linear-gradient(145deg, var(--lp-accent-soft), #f9faf8);
-}
-
-.lp-use-card__scene::before {
-  position: absolute;
-  width: 190px;
-  height: 190px;
-  border: 1px solid rgba(var(--lp-accent-rgb), 0.15);
-  border-radius: 50%;
-  content: "";
-  box-shadow: 0 0 0 36px rgba(var(--lp-accent-rgb), 0.035);
-}
-
-.lp-use-card__scene span {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 58px;
-  height: 76px;
-  border-radius: 11px;
-  background: #fff;
-  box-shadow: 0 12px 30px rgba(25, 45, 38, 0.12);
-}
-
-.lp-use-card__scene--project span {
-  border-top: 5px solid var(--lp-accent);
-}
-
-.lp-use-card__scene--class span {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-}
-
-.lp-use-card__scene--class span:nth-child(2) {
-  background: var(--lp-accent);
-  transform: translateY(18px);
-}
-
-.lp-use-card__scene--partner span {
-  height: 94px;
-  transform: rotate(-5deg);
-}
-
-.lp-use-card__scene--partner span:nth-child(2) {
-  z-index: 2;
-  background: var(--lp-accent);
-  transform: translateY(14px) rotate(4deg);
-}
-
 .lp-use-card__content {
   padding: 28px;
 }
@@ -3495,13 +3437,13 @@ body.product-lp {
   transform: translateY(-2px);
 }
 
-.product-lp--group .lp-use-card__scene {
-  height: 160px;
-  background: var(--lp-accent-soft);
+.product-lp--group .lp-use-card {
+  min-height: 230px;
+  border-left: 3px solid var(--lp-accent);
 }
 
-.product-lp--group .lp-use-card__scene::before {
-  display: none;
+.product-lp--group .lp-use-card__content {
+  padding: 30px;
 }
 
 /* FAQ, CTA and footer / 質問と行動導線に集中させる */
