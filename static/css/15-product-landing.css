@@ -3077,60 +3077,110 @@ body.product-lp {
 
 /* ================================================================
    Note & Group landing refinements / Note・Group LP の意匠調整
-   FS!QR LP と同じ方針を、Note（紫）・Group（緑）へブランド別に適用する。
-   構造的な調整は両者共通、色はブランドごとに分けて記述する。
+   生成イラストを概念説明として残し、実利用UIの図解と編集的なレイアウトで
+   各サービスの用途と操作を具体的に伝える。
    ================================================================ */
 
-/* Grounded shadows / 影を落ち着かせる（両ブランド共通） */
-.product-lp--note,
-.product-lp--group {
-  --lp-shadow-sm: 0 2px 6px rgba(16, 24, 40, 0.05),
-    0 14px 30px -18px rgba(16, 24, 40, 0.22);
-  --lp-shadow-lg: 0 4px 14px rgba(16, 24, 40, 0.06),
-    0 30px 60px -30px rgba(16, 24, 40, 0.28);
+.product-lp--note {
+  --lp-ink: #211d2d;
+  --lp-muted: #696273;
+  --lp-line: rgba(33, 29, 45, 0.13);
+  --lp-canvas: #f7f5f3;
+  --lp-accent: #6852a3;
+  --lp-accent-dark: #4d3a80;
+  --lp-accent-soft: #eeeaf6;
+  --lp-accent-rgb: 104, 82, 163;
+  --lp-shadow-sm: 0 8px 22px rgba(33, 29, 45, 0.08);
+  --lp-shadow-lg: 0 24px 60px rgba(33, 29, 45, 0.13);
 }
 
-/* Typography / 和文見出しの字間・行間を整える */
+.product-lp--group {
+  --lp-ink: #17251f;
+  --lp-muted: #5e6b65;
+  --lp-line: rgba(23, 37, 31, 0.13);
+  --lp-canvas: #f4f6f3;
+  --lp-accent: #197654;
+  --lp-accent-dark: #115c40;
+  --lp-accent-soft: #e5f1eb;
+  --lp-accent-rgb: 25, 118, 84;
+  --lp-shadow-sm: 0 8px 22px rgba(23, 37, 31, 0.08);
+  --lp-shadow-lg: 0 24px 60px rgba(23, 37, 31, 0.13);
+}
+
+/* Header and controls / 影と丸みを抑えた固定ヘッダー */
+.product-lp--note .lp-header,
+.product-lp--group .lp-header {
+  position: sticky;
+  top: 0;
+  border-color: var(--lp-line);
+  background: rgba(250, 249, 247, 0.94);
+  backdrop-filter: blur(12px);
+}
+
+.product-lp--note .lp-brand__mark,
+.product-lp--group .lp-brand__mark {
+  border: 1px solid var(--lp-line);
+  border-radius: 9px;
+  box-shadow: none;
+}
+
+.product-lp--note .lp-button,
+.product-lp--group .lp-button {
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.product-lp--note .lp-button:hover,
+.product-lp--group .lp-button:hover {
+  box-shadow: 0 8px 18px rgba(var(--lp-accent-rgb), 0.18);
+  transform: translateY(-1px);
+}
+
+.product-lp--group .lp-button--secondary {
+  border-color: var(--lp-line);
+  color: var(--lp-ink) !important;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.product-lp--group .lp-button--secondary:hover {
+  border-color: rgba(var(--lp-accent-rgb), 0.32);
+  background: #fff;
+}
+
+/* Typography / 和文の読みやすさを優先した字間と行間 */
 .product-lp--note h1,
 .product-lp--note h2,
 .product-lp--note h3,
 .product-lp--group h1,
 .product-lp--group h2,
 .product-lp--group h3 {
-  letter-spacing: -0.01em;
-  line-height: 1.36;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
 }
 
-.product-lp--note .lp-hero h1 {
-  max-width: 12em;
-  font-size: clamp(40px, 4.4vw, 58px);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-}
-
+.product-lp--note .lp-hero h1,
 .product-lp--group .lp-hero h1 {
-  max-width: 13em;
-  font-size: clamp(32px, 3.4vw, 46px);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  line-height: 1.34;
+  max-width: 10em;
+  margin-bottom: 26px;
+  font-size: clamp(42px, 4.8vw, 64px);
+  font-weight: 780;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
 }
 
 .product-lp--note .lp-section__title,
 .product-lp--group .lp-section__title {
-  font-size: clamp(25px, 3.4vw, 44px);
-  font-weight: 800;
-  line-height: 1.32;
+  font-size: clamp(29px, 3.4vw, 43px);
+  font-weight: 760;
+  line-height: 1.38;
 }
 
 .product-lp--note .lp-card h3,
 .product-lp--group .lp-card h3 {
   font-size: 20px;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
-/* 見出しの改行制御 / 単語の途中で折り返さない（<wbr> と keep-all の併用） */
 .product-lp--note .lp-hero h1,
 .product-lp--note .lp-section__title,
 .product-lp--note .lp-final-cta h2,
@@ -3141,14 +3191,16 @@ body.product-lp {
   overflow-wrap: anywhere;
 }
 
-/* Signature marker / 見出しラベルと活用例タグに共通の目印を添える */
+/* Labels / 英字の装飾ラベルを日本語の章立てへ置き換える */
 .product-lp--note .lp-section__eyebrow,
 .product-lp--note .lp-use-case-card__tag,
 .product-lp--group .lp-section__eyebrow,
 .product-lp--group .lp-use-card__tag {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
+  color: var(--lp-accent-dark);
+  letter-spacing: 0.04em;
 }
 
 .product-lp--note .lp-section__eyebrow::before,
@@ -3157,17 +3209,24 @@ body.product-lp {
 .product-lp--group .lp-use-card__tag::before {
   content: "";
   flex: 0 0 auto;
-  width: 9px;
-  height: 9px;
-  border: 2px solid currentColor;
-  border-radius: 2.5px;
-  background: radial-gradient(circle at center, currentColor 0 1.3px, transparent 1.7px);
+  width: 24px;
+  height: 1px;
+  background: currentColor;
 }
 
-/* Hero / 抽象的なリングと放射グラデーションを整理して静かな光へ */
+/* Hero / 生成イラストを白いフレーム内の概念図として扱う */
 .product-lp--note .lp-hero,
 .product-lp--group .lp-hero {
-  padding: 88px 0 84px;
+  padding: 82px 0 92px;
+  border-bottom: 1px solid var(--lp-line);
+}
+
+.product-lp--note .lp-hero {
+  background: #f7f5f3;
+}
+
+.product-lp--group .lp-hero {
+  background: #f4f6f3;
 }
 
 .product-lp--note .lp-hero::before,
@@ -3175,14 +3234,142 @@ body.product-lp {
   display: none;
 }
 
-.product-lp--note .lp-page-shot,
-.product-lp--group .lp-page-shot {
-  border-radius: 24px;
-  box-shadow: var(--lp-shadow-lg);
-  transform: rotate(0.8deg);
+.product-lp--note .lp-hero__grid,
+.product-lp--group .lp-hero__grid {
+  grid-template-columns: minmax(0, 0.88fr) minmax(480px, 1.12fr);
+  gap: clamp(54px, 7vw, 96px);
 }
 
-/* Icons / 空箱・記号だった箇所を線画アイコンに置き換える */
+.product-lp--note .lp-eyebrow,
+.product-lp--group .lp-eyebrow {
+  margin-bottom: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-weight: 700;
+}
+
+.product-lp--note .lp-eyebrow > span:first-child,
+.product-lp--group .lp-eyebrow > span:first-child {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.product-lp--note .lp-hero__lead,
+.product-lp--group .lp-hero__lead {
+  max-width: 34em;
+  font-size: 17px;
+}
+
+.product-lp--note .lp-page-shot,
+.product-lp--group .lp-page-shot {
+  padding: 10px;
+  border-color: var(--lp-line);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--lp-shadow-lg);
+  transform: none;
+}
+
+.product-lp--note .lp-page-shot img,
+.product-lp--group .lp-page-shot img {
+  border-radius: 13px;
+}
+
+/* Trust band / 数値の演出ではなく利用上の事実を並べる */
+.product-lp--note .lp-trust,
+.product-lp--group .lp-trust {
+  padding: 28px 0 34px;
+}
+
+.product-lp--note .lp-trust__lead,
+.product-lp--group .lp-trust__lead {
+  margin-bottom: 16px;
+  color: var(--lp-muted);
+  letter-spacing: 0.04em;
+}
+
+.product-lp--note .lp-trust__items,
+.product-lp--group .lp-trust__items {
+  overflow: hidden;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+}
+
+.product-lp--note .lp-trust__items .lp-trust__item,
+.product-lp--group .lp-trust__items .lp-trust__item {
+  gap: 6px;
+  padding: 17px 20px;
+  border-right: 1px solid var(--lp-line);
+}
+
+.product-lp--note .lp-trust__items .lp-trust__item:last-child,
+.product-lp--group .lp-trust__items .lp-trust__item:last-child {
+  border-right: 0;
+}
+
+.product-lp--note .lp-trust__items .lp-trust__item strong,
+.product-lp--group .lp-trust__items .lp-trust__item strong {
+  color: var(--lp-ink);
+  font-size: 15px;
+}
+
+/* Sections and steps / 罫線と余白で情報の順序を明確にする */
+.product-lp--note .lp-section,
+.product-lp--group .lp-section {
+  padding: 104px 0;
+}
+
+.product-lp--note .lp-section__heading,
+.product-lp--group .lp-section__heading {
+  margin-bottom: 50px;
+}
+
+.product-lp--note .lp-section--steps,
+.product-lp--group .lp-section--steps {
+  background: #fff;
+}
+
+.product-lp--note .lp-card,
+.product-lp--group .lp-card {
+  border-color: var(--lp-line);
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.product-lp--note .lp-step-card,
+.product-lp--group .lp-step {
+  min-height: 286px;
+  padding: 30px;
+  border: 1px solid var(--lp-line);
+  border-top: 3px solid var(--lp-accent);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.product-lp--note .lp-step-card:hover {
+  box-shadow: var(--lp-shadow-sm);
+  transform: translateY(-2px);
+}
+
+.product-lp--note .lp-step-card__number,
+.product-lp--group .lp-step__number {
+  top: 24px;
+  right: 26px;
+  left: auto;
+  color: rgba(var(--lp-accent-rgb), 0.26);
+  font-size: 27px;
+}
+
+.product-lp--note .lp-step-card__icon,
+.product-lp--group .lp-step__icon {
+  margin-bottom: 32px;
+  border-radius: 10px;
+}
+
 .product-lp--note .lp-step-card__icon svg,
 .product-lp--note .lp-feature-card__icon svg,
 .product-lp--group .lp-step__icon svg,
@@ -3191,52 +3378,277 @@ body.product-lp {
   height: 26px;
 }
 
-.product-lp--note .lp-step-card__icon {
-  margin-bottom: 30px;
+/* Product UI previews / 共同編集画面とファイルルームの利用イメージ */
+.product-lp--note .lp-process-preview--note,
+.product-lp--group .lp-process-preview--group {
+  width: min(100%, 760px);
+  margin: 54px auto 0;
 }
 
-/* ---- Note color cohesion / Note は紫系へ寄せる ---- */
-.product-lp--note .lp-hero {
-  background:
-    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.12), transparent 56%),
-    linear-gradient(180deg, #fcfbff 0%, var(--lp-canvas) 100%);
+.product-lp--note .lp-product-visual::before {
+  display: none;
+}
+
+.product-lp--note .lp-note-mock__window,
+.product-lp--group .lp-room-mockup {
+  border-color: var(--lp-line);
+  border-radius: 14px;
+  box-shadow: var(--lp-shadow-lg);
+  transform: none;
+}
+
+.product-lp--note .lp-floating-status {
+  right: -16px;
+  bottom: -18px;
+  border-color: var(--lp-line);
+  border-radius: 9px;
+}
+
+.product-lp--group .lp-room-mockup__sidebar {
+  background: #173b2f;
+}
+
+/* Features / 大きな価値を上段、補足機能を下段に整理する */
+.product-lp--note .lp-section--tint {
+  background: #f1eff4;
+}
+
+.product-lp--group .lp-section--tint {
+  background: #edf2ef;
+}
+
+.product-lp--note .lp-feature-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-lp--note .lp-feature-card--wide,
+.product-lp--group .lp-feature-card--wide {
+  min-height: 340px;
+  grid-column: 1 / -1;
+  grid-row: auto;
+  padding: 42px;
 }
 
 .product-lp--note .lp-feature-card--wide {
-  background: linear-gradient(165deg, #2a1f45 0%, #1c1533 100%);
-}
-
-.product-lp--note .lp-section--faq {
-  background: #efecf8;
-}
-
-.product-lp--note .lp-final-cta {
-  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 66%, #3f2593 100%);
-}
-
-.product-lp--note .lp-footer {
-  background: #171226;
-}
-
-/* ---- Group color cohesion / Group は緑系で深みを与える ---- */
-.product-lp--group .lp-hero {
-  background:
-    radial-gradient(120% 92% at 88% -12%, rgba(var(--lp-accent-rgb), 0.12), transparent 56%),
-    linear-gradient(180deg, #f9fdfb 0%, var(--lp-canvas) 100%);
+  background: #292238;
 }
 
 .product-lp--group .lp-feature-card--wide {
-  background: linear-gradient(165deg, #123b2e 0%, #0c2a20 100%);
+  background: #173b2f;
 }
 
+.product-lp--note .lp-feature-card--wide h3,
+.product-lp--note .lp-feature-card--wide > p,
+.product-lp--group .lp-feature-card--wide h3,
+.product-lp--group .lp-feature-card--wide > p {
+  max-width: 44%;
+}
+
+.product-lp--note .lp-feature-card,
+.product-lp--group .lp-feature-card {
+  min-height: 235px;
+}
+
+.product-lp--group .lp-feature-card--accent {
+  min-height: 190px;
+  grid-column: 1 / -1;
+}
+
+.product-lp--note .lp-feature-card__icon,
+.product-lp--group .lp-card__icon {
+  border-radius: 10px;
+}
+
+.product-lp--note .lp-feature-card__demo,
+.product-lp--group .lp-share-visual {
+  top: 42px;
+  right: 42px;
+  bottom: 42px;
+  left: auto;
+  width: 44%;
+  height: auto;
+  min-height: 0;
+  border-radius: 12px;
+}
+
+/* Use cases / 抽象装飾を減らし、用途の文章を主役にする */
+.product-lp--note #use-cases,
+.product-lp--group #use-cases {
+  background: #fff;
+}
+
+.product-lp--note .lp-use-case-card {
+  min-height: 230px;
+  border-left: 3px solid var(--lp-accent);
+}
+
+.product-lp--note .lp-use-case-card__visual {
+  display: none;
+}
+
+.product-lp--note .lp-use-case-card__body {
+  padding: 30px;
+}
+
+.product-lp--note .lp-use-case-card:hover {
+  box-shadow: var(--lp-shadow-sm);
+  transform: translateY(-2px);
+}
+
+.product-lp--group .lp-use-card__scene {
+  height: 160px;
+  background: var(--lp-accent-soft);
+}
+
+.product-lp--group .lp-use-card__scene::before {
+  display: none;
+}
+
+/* FAQ, CTA and footer / 質問と行動導線に集中させる */
+.product-lp--note .lp-section--faq,
 .product-lp--group .lp-section--faq {
-  background: #eaf1ed;
+  background: #f1f0ee;
+}
+
+.product-lp--note .lp-faq-list,
+.product-lp--group .lp-faq-list,
+.product-lp--note .lp-faq-item,
+.product-lp--group .lp-faq-item {
+  border-color: var(--lp-line);
+}
+
+.product-lp--note .lp-faq-item summary,
+.product-lp--group .lp-faq-item summary {
+  font-weight: 700;
+}
+
+.product-lp--note .lp-final-cta,
+.product-lp--group .lp-final-cta {
+  padding: 96px 0;
+}
+
+.product-lp--note .lp-final-cta {
+  background: #292238;
 }
 
 .product-lp--group .lp-final-cta {
-  background: linear-gradient(160deg, var(--lp-accent) 0%, var(--lp-accent-dark) 68%, #06442f 100%);
+  background: #173b2f;
+}
+
+.product-lp--note .lp-final-cta::before,
+.product-lp--note .lp-final-cta::after,
+.product-lp--note .lp-final-cta__glow,
+.product-lp--group .lp-final-cta::before,
+.product-lp--group .lp-final-cta::after {
+  display: none;
+}
+
+.product-lp--note .lp-final-cta h2,
+.product-lp--group .lp-final-cta h2 {
+  font-weight: 760;
+}
+
+.product-lp--group .lp-final-cta .lp-button--primary {
+  color: var(--lp-accent-dark) !important;
+  background: #fff;
+}
+
+.product-lp--group .lp-final-cta .lp-button--secondary {
+  border-color: rgba(255, 255, 255, 0.34);
+  color: #fff !important;
+  background: transparent;
+}
+
+.product-lp--note .lp-footer {
+  background: #171420;
 }
 
 .product-lp--group .lp-footer {
-  background: #0f1a15;
+  background: #101b16;
+}
+
+@media (max-width: 980px) {
+  .product-lp--note .lp-hero__grid,
+  .product-lp--group .lp-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-lp--note .lp-page-shot,
+  .product-lp--group .lp-page-shot {
+    width: min(100%, 680px);
+    margin-inline: auto;
+  }
+
+  .product-lp--note .lp-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-lp--note .lp-feature-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .product-lp--note .lp-hero,
+  .product-lp--group .lp-hero {
+    padding: 58px 0 72px;
+  }
+
+  .product-lp--note .lp-hero h1,
+  .product-lp--group .lp-hero h1 {
+    font-size: clamp(40px, 12vw, 56px);
+  }
+
+  .product-lp--note .lp-trust__items .lp-trust__item:nth-child(even),
+  .product-lp--group .lp-trust__items .lp-trust__item:nth-child(even) {
+    border-right: 0;
+  }
+
+  .product-lp--note .lp-section,
+  .product-lp--group .lp-section {
+    padding: 78px 0;
+  }
+
+  .product-lp--note .lp-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-lp--note .lp-feature-card:last-child {
+    grid-column: auto;
+  }
+
+  .product-lp--note .lp-feature-card--wide,
+  .product-lp--group .lp-feature-card--wide {
+    min-height: 510px;
+    padding: 30px;
+  }
+
+  .product-lp--note .lp-feature-card--wide h3,
+  .product-lp--note .lp-feature-card--wide > p,
+  .product-lp--group .lp-feature-card--wide h3,
+  .product-lp--group .lp-feature-card--wide > p {
+    max-width: none;
+  }
+
+  .product-lp--note .lp-feature-card__demo,
+  .product-lp--group .lp-share-visual {
+    top: auto;
+    right: 30px;
+    bottom: 30px;
+    left: 30px;
+    width: auto;
+    height: 190px;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-lp--note .lp-page-shot,
+  .product-lp--group .lp-page-shot {
+    padding: 6px;
+    border-radius: 16px;
+  }
+
+  .product-lp--note .lp-floating-status {
+    display: none;
+  }
 }
