@@ -182,6 +182,15 @@
   function hideOverlay(overlay, options = {}) {
     closeOpenLangSelects();
     overlay.classList.remove('is-visible');
+
+    // The button that was just clicked (e.g. "accept") still holds focus at
+    // this point. Setting aria-hidden on its ancestor while it is focused
+    // hides a focused element from assistive tech, which browsers flag as a
+    // violation. Blur it first so aria-hidden never applies to a subtree
+    // that contains the active element.
+    if (overlay.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
     overlay.setAttribute('aria-hidden', 'true');
     overlay.removeAttribute('data-cookie-consent-active-view');
     overlay.removeAttribute('data-cookie-consent-closeable');
