@@ -433,6 +433,35 @@
   })();
 
   // ---------------------------------------------------------------------------
+  // Cross-document view transitions: silence expected skips
+  // ---------------------------------------------------------------------------
+  // 遷移は CSS の @view-transition (13-ux-interactions.css) だけで有効化して
+  // いるため、ブラウザが生成する ViewTransition オブジェクトをページ側は
+  // 参照していない。遷移がスキップされると ready promise が AbortError で
+  // reject し、誰も掴んでいないので "Uncaught (in promise)" になる。
+  // スキップ自体は正常な挙動（遷移先が未オプトイン、連続ナビゲーション等）
+  // なので、pagereveal / pageswap で受け取って no-op の catch を付ける。
+  //
+  // Skips are expected, not errors: attach a no-op catch to the promise the
+  // browser owns so the unhandled rejection stops reaching the console.
+  // Animation behaviour is unchanged.
+  (function viewTransitionRejections() {
+    ["pagereveal", "pageswap"].forEach(function (eventName) {
+      window.addEventListener(eventName, function (event) {
+        var transition = event && event.viewTransition;
+        if (!transition || !transition.ready) {
+          return;
+        }
+        try {
+          transition.ready.catch(function () {});
+        } catch (err) {
+          /* no-op */
+        }
+      });
+    });
+  })();
+
+  // ---------------------------------------------------------------------------
   // Link prefetch (connection-aware)
   // ---------------------------------------------------------------------------
   (function prefetch() {
