@@ -267,6 +267,32 @@ def test_google_tags_are_loaded_through_cookie_consent(test_client: TestClient):
         )
 
 
+ADSENSE_ACCOUNT_META = (
+    '<meta name="google-adsense-account" content="ca-pub-4557554518872474">'
+)
+
+
+def test_adsense_account_meta_tag_is_present_on_every_page(test_client: TestClient):
+    """所有権確認メタタグは Cookie も広告も伴わないため全ページへ出す。
+
+    The ownership meta tag sets no cookie and serves no ad, so it is emitted
+    regardless of the ad-serving allowlist.
+    """
+    for path in (
+        "/",
+        "/about",
+        "/usage",
+        "/articles",
+        "/fs-qr",
+        "/group",
+        "/note",
+        "/create_room",
+    ):
+        response = test_client.get(path)
+        assert response.status_code == 200
+        assert ADSENSE_ACCOUNT_META in response.text
+
+
 def test_adsense_is_not_exposed_on_functional_pages(test_client: TestClient):
     for path in (
         "/fs-qr",
@@ -280,7 +306,12 @@ def test_adsense_is_not_exposed_on_functional_pages(test_client: TestClient):
         assert response.status_code == 200
         assert "window.FSQR_TAGS" in response.text
         assert 'googleAnalyticsId: "G-D26D8ZXKNV"' in response.text
-        assert "ca-pub-4557554518872474" not in response.text
+        # 広告は配信しない: ローダーへ client id を渡さず、広告枠も置かない。
+        # pub-ID は所有権確認メタタグの 1 箇所だけに現れる。
+        assert "adsenseClientId: null" in response.text
+        assert 'class="adsbygoogle"' not in response.text
+        assert response.text.count("ca-pub-4557554518872474") == 1
+        assert ADSENSE_ACCOUNT_META in response.text
         assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
         assert (
             'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'

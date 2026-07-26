@@ -352,6 +352,10 @@ def render_template(request: Request, template_name: str, **context: Any):
         "t": make_translator(language),
         "google_analytics_id": GOOGLE_ANALYTICS_ID,
         "google_adsense_client_id": adsense_client_id,
+        # サイト所有権の確認用メタタグは Cookie を使わず広告も配信しないため、
+        # 広告面の制限（_is_adsense_allowed_path）とは無関係に全ページへ出す。
+        # Site ownership verification only; sets no cookie and serves no ad.
+        "google_adsense_account_id": GOOGLE_ADSENSE_CLIENT_ID,
     }
     payload.update(context)
     try:
