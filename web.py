@@ -14,6 +14,8 @@ from starlette.responses import HTMLResponse
 
 from cache_utils import redis_client
 from i18n import (
+    DEFAULT_LANGUAGE,
+    JAPANESE_ONLY_MODE,
     get_language_options,
     get_frontend_messages,
     make_translator,
@@ -173,15 +175,12 @@ ADSENSE_ALLOWED_STATIC_PATHS = frozenset(
         "/about",
         "/usage",
         "/articles",
-        "/fs-qr_menu",
-        "/group_menu",
-        "/note_menu",
     }
 )
 
 
 def _is_adsense_allowed_path(path: str) -> bool:
-    """AdSense は編集・検索・アップロード等の機能画面では読み込まない。"""
+    """AdSense はツール画面へ出さず、公開コンテンツだけで読み込む。"""
     normalized_path = path.rstrip("/") or "/"
     if normalized_path in ADSENSE_ALLOWED_STATIC_PATHS:
         return True
@@ -193,6 +192,41 @@ def _is_adsense_allowed_path(path: str) -> bool:
     except Exception:
         article_paths = set()
     return normalized_path in article_paths
+
+
+def _is_operation_page(path: str) -> bool:
+    """操作画面かどうかを共通判定し、SEO メタタグを一貫させる。"""
+    normalized_path = path.rstrip("/") or "/"
+    if normalized_path in {
+        "/fs-qr",
+        "/upload",
+        "/search_fs-qr",
+        "/try_login",
+        "/remove-succes",
+        "/group",
+        "/create_room",
+        "/search_group",
+        "/manage_rooms",
+        "/logout_management",
+        "/note",
+        "/create_note_room",
+        "/search_note",
+        "/search_note_process",
+        "/note_direct",
+    }:
+        return True
+
+    return normalized_path.startswith(
+        (
+            "/fs-qr/",
+            "/upload_complete/",
+            "/download/",
+            "/group/",
+            "/delete_room/",
+            "/note/",
+            "/note_direct/",
+        )
+    )
 
 
 @pass_context
@@ -344,18 +378,22 @@ def render_template(request: Request, template_name: str, **context: Any):
     adsense_client_id = (
         GOOGLE_ADSENSE_CLIENT_ID if _is_adsense_allowed_path(request.url.path) else None
     )
+    language_options = get_language_options(language)
+    if JAPANESE_ONLY_MODE:
+        # 言語データは保持したまま、審査中の UI からは日本語だけを提示する。
+        language_options = tuple(
+            option for option in language_options if option["code"] == DEFAULT_LANGUAGE
+        )
     payload = {
         "request": TemplateRequestProxy(request),
         "current_language": language,
-        "language_options": get_language_options(language),
+        "language_options": language_options,
         "frontend_messages": get_frontend_messages(language),
         "t": make_translator(language),
         "google_analytics_id": GOOGLE_ANALYTICS_ID,
         "google_adsense_client_id": adsense_client_id,
-        # サイト所有権の確認用メタタグは Cookie を使わず広告も配信しないため、
-        # 広告面の制限（_is_adsense_allowed_path）とは無関係に全ページへ出す。
-        # Site ownership verification only; sets no cookie and serves no ad.
-        "google_adsense_account_id": GOOGLE_ADSENSE_CLIENT_ID,
+        "google_adsense_account_id": adsense_client_id,
+        "force_noindex": _is_operation_page(request.url.path),
     }
     payload.update(context)
     try:

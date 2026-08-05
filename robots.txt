@@ -7,6 +7,14 @@ Disallow: /manage_rooms
 Disallow: /delete_room/
 Disallow: /delete_all_rooms
 Disallow: /all-remove
+Disallow: /create_room
+Disallow: /create_note_room
+Disallow: /search_all
+Disallow: /search_fs-qr
+Disallow: /search_group
+Disallow: /search_note
+Disallow: /search_note_process
+Disallow: /remove-succes
 
 # Disallow dynamic download/upload and private room pages
 Disallow: /download/
@@ -15,19 +23,19 @@ Disallow: /upload_complete/
 Disallow: /group_upload/
 Disallow: /group_direct/
 Disallow: /note_direct/
-Disallow: /group/
-Disallow: /note/
-Disallow: /fs-qr/
+Disallow: /group
+Disallow: /note
+Disallow: /fs-qr
 
 # Allow public marketing and article content
-Allow: /fs-qr
-Allow: /group
-Allow: /note
 Allow: /fs-qr_menu
 Allow: /group_menu
 Allow: /note_menu
-Allow: /articles
+Allow: /file-sharing
+Allow: /group-file-sharing
+Allow: /shared-note
 Allow: /fs-qr-concept
+Allow: /articles
 Allow: /safe-sharing
 Allow: /encryption
 Allow: /education

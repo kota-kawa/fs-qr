@@ -38,7 +38,12 @@ from settings import (
     SESSION_MAX_AGE_SECONDS,
     TRUSTED_PROXY_HOSTS,
 )
-from i18n import is_language_query_only
+from i18n import (
+    DEFAULT_LANGUAGE,
+    SUPPORTED_LANGUAGES,
+    is_language_query_only,
+    normalize_language,
+)
 from security_headers import apply_security_headers
 from web import render_cached_template, render_template, wants_json_response
 from api_response import api_error_response
@@ -120,6 +125,18 @@ async def set_locale_middleware(request: Request, call_next):
         return response
     finally:
         current_language_ctx.reset(token)
+
+
+@app.middleware("http")
+async def pause_non_japanese_language_queries(request: Request, call_next):
+    # 日本語以外の ?lang= は、全ルーター共通で日本語 canonical URL へ戻す。
+    language = request.query_params.get("lang", "")
+    if language and not is_language_query_only(request):
+        normalized = normalize_language(language)
+        if normalized in SUPPORTED_LANGUAGES and normalized != DEFAULT_LANGUAGE:
+            url = request.url.replace(query="")
+            return RedirectResponse(str(url), status_code=301)
+    return await call_next(request)
 
 
 @app.middleware("http")

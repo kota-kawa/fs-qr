@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="{% block meta_description %}FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。{% endblock %}" />
   <meta name="keywords" content="{% block meta_keywords %}リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業{% endblock %}" />
-  <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
+  <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
   <meta name="author" content="FS!QR" />
   <meta name="language" content="ja" />
   <meta name="geo.region" content="JP" />
@@ -59,7 +59,7 @@
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
   {% endfor %}
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-  <meta name="googlebot" content="{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}" />
+  <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
   <meta name="priority" content="1.0" />
   <meta name="importance" content="high" />
   
@@ -82,12 +82,15 @@
   <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
         rel="stylesheet">
+  {% if google_adsense_client_id %}
   <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
   <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+  {% endif %}
   <script>
     window.FSQR_TAGS = Object.freeze({
-      googleAnalyticsId: {{ google_analytics_id | tojson }},
+      googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
       adsenseClientId: {{ google_adsense_client_id | tojson }}
+      {% endif %}
     });
   </script>
   <title>{% block page_title %}FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス{% endblock %}</title>
@@ -225,4 +228,3 @@
   <script src="{{staticfile('accessibility.js')}}" defer></script>
 </body>
 </html>
-

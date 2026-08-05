@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="{% block meta_description %}FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, テキスト共有, グループ活動, グループワーク, 大容量ファイル送信, ファイル転送, 共有フォルダ, 複数人, メモ帳 共有, Webメモ{% endblock %}" />
-    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
+    <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
     <meta name="author" content="FS!QR" />
     <meta name="language" content="ja" />
     <meta name="geo.region" content="JP" />
@@ -60,7 +60,7 @@
     <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
     {% endfor %}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <meta name="googlebot" content="{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}" />
+    <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
     <meta name="priority" content="1.0" />
     <meta name="importance" content="high" />
     
@@ -84,12 +84,15 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
       rel="stylesheet">
+    {% if google_adsense_client_id %}
     <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
     <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+    {% endif %}
     <script>
       window.FSQR_TAGS = Object.freeze({
-        googleAnalyticsId: {{ google_analytics_id | tojson }},
+        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
         adsenseClientId: {{ google_adsense_client_id | tojson }}
+        {% endif %}
       });
     </script>
     <title>{% block page_title %}FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有{% endblock %}</title>
