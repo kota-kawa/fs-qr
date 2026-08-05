@@ -1,57 +1,7 @@
-import json
-import re
-from html.parser import HTMLParser
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from starlette.testclient import TestClient
-
-
-def _json_escaped(value: str) -> str:
-    return json.dumps(value, ensure_ascii=True)[1:-1]
-
-
-class VisibleTextScanner(HTMLParser):
-    LOCALIZED_ATTRS = {
-        "alt",
-        "aria-label",
-        "content",
-        "data-copied-label",
-        "data-default-label",
-        "placeholder",
-        "title",
-        "value",
-    }
-    SKIP_TAGS = {"script", "style", "noscript"}
-
-    def __init__(self):
-        super().__init__()
-        self._skip_stack = []
-        self.values = []
-
-    def handle_starttag(self, tag, attrs):
-        if tag in self.SKIP_TAGS:
-            self._skip_stack.append(tag)
-            return
-        if self._skip_stack:
-            return
-        # 言語切り替えドロップダウンは各言語をその言語自身の名称（自称名）で
-        # 表示するため、英語/韓国語ページでも「日本語」「简体中文」などが
-        # 意図的に現れる。これらは翻訳漏れではないのでスキャン対象外にする。
-        if any(name == "data-lang-select" for name, _ in attrs):
-            self._skip_stack.append(tag)
-            return
-        for name, value in attrs:
-            if name in self.LOCALIZED_ATTRS and value:
-                self.values.append(value)
-
-    def handle_endtag(self, tag):
-        if self._skip_stack and self._skip_stack[-1] == tag:
-            self._skip_stack.pop()
-
-    def handle_data(self, data):
-        if not self._skip_stack and data.strip():
-            self.values.append(data.strip())
 
 
 LOCALIZED_PUBLIC_PATHS = (
@@ -92,61 +42,61 @@ def test_index(test_client: TestClient):
     assert 'placeholder="パスワード"' in response.text
 
 
-def test_index_uses_language_cookie(test_client: TestClient):
+def test_index_ignores_non_japanese_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert 'lang="en"' in response.text
-    assert "File Sharing Menu" in response.text
-    assert "Settings" in response.text
-    assert response.headers["content-language"] == "en"
+    assert 'lang="ja"' in response.text
+    assert "ファイル共有メニュー" in response.text
+    assert "設定" in response.text
+    assert response.headers["content-language"] == "ja"
     assert "Cookie" in response.headers["vary"]
 
 
 def test_index_uses_simplified_chinese_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-CN"})
     assert response.status_code == 200
-    assert 'lang="zh-CN"' in response.text
-    assert "文件共享菜单" in response.text
-    assert response.headers["content-language"] == "zh-CN"
+    assert 'lang="ja"' in response.text
+    assert "ファイル共有メニュー" in response.text
+    assert response.headers["content-language"] == "ja"
 
 
 def test_index_uses_traditional_chinese_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-TW"})
     assert response.status_code == 200
-    assert 'lang="zh-TW"' in response.text
-    assert "檔案共享選單" in response.text
-    assert response.headers["content-language"] == "zh-TW"
+    assert 'lang="ja"' in response.text
+    assert "ファイル共有メニュー" in response.text
+    assert response.headers["content-language"] == "ja"
 
 
 def test_index_uses_korean_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=ko"})
     assert response.status_code == 200
-    assert 'lang="ko"' in response.text
-    assert "파일 공유 메뉴" in response.text
-    assert response.headers["content-language"] == "ko"
+    assert 'lang="ja"' in response.text
+    assert "ファイル共有メニュー" in response.text
+    assert response.headers["content-language"] == "ja"
 
 
-def test_index_accepts_every_supported_language_cookie(test_client: TestClient):
+def test_index_uses_japanese_for_every_supported_language_cookie(
+    test_client: TestClient,
+):
     from i18n import SUPPORTED_LANGUAGES
 
     for language in SUPPORTED_LANGUAGES:
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200
-        assert f'lang="{language}"' in response.text
-        assert response.headers["content-language"] == language
+        assert 'lang="ja"' in response.text
+        assert response.headers["content-language"] == "ja"
 
 
-def test_settings_language_switcher_exposes_every_supported_language(
+def test_settings_language_switcher_is_temporarily_japanese_only(
     test_client: TestClient,
 ):
-    from i18n import SUPPORTED_LANGUAGES
-
     response = test_client.get("/")
     assert response.status_code == 200
-
-    for language in SUPPORTED_LANGUAGES:
-        assert f'value="{language}"' in response.text
-        assert f'data-value="{language}"' in response.text
+    assert 'value="ja"' in response.text
+    assert 'data-value="ja"' in response.text
+    assert 'value="en"' not in response.text
+    assert 'data-value="en"' not in response.text
 
 
 def test_index_uses_native_language_labels_regardless_of_ui_language(
@@ -161,74 +111,57 @@ def test_index_uses_native_language_labels_regardless_of_ui_language(
         )
         assert response.status_code == 200
         assert ">日本語<" in response.text
-        assert ">English<" in response.text
-        assert ">简体中文<" in response.text
-        assert ">繁體中文<" in response.text
-        assert ">한국어<" in response.text
-        # UI言語に翻訳された呼称（例: "Japanese" / "日本語" 以外の和名）は使わない
-        assert ">Japanese<" not in response.text
-        assert ">Korean<" not in response.text
+        assert ">English<" not in response.text
+        assert ">简体中文<" not in response.text
+        assert ">繁體中文<" not in response.text
+        assert ">한국어<" not in response.text
 
 
-def test_note_page_uses_translated_editor_helper_text(test_client: TestClient):
+def test_note_page_stays_japanese_during_review(test_client: TestClient):
     response = test_client.get("/note", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert "Shared note (up to 10000 characters)" in response.text
-    assert "You can enter up to 10000 characters." in response.text
-    assert "最大10000文字まで入力可能です。" not in response.text
+    assert "共有ノート（最大10000文字）" in response.text
+    assert "最大10000文字まで入力可能です。" in response.text
+    assert "Shared note (up to 10000 characters)" not in response.text
 
 
-def test_fsqr_upload_page_uses_translated_upload_limit_hint(test_client: TestClient):
+def test_fsqr_upload_page_stays_japanese_during_review(test_client: TestClient):
     response = test_client.get("/fs-qr", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert "* You can upload up to 30 files, totaling up to 1024 MB." in response.text
-    assert "※最大30ファイル、合計500MBまで扱えます。" not in response.text
+    assert "※最大30ファイル、合計1024MBまでアップロードできます。" in response.text
+    assert (
+        "* You can upload up to 30 files, totaling up to 1024 MB." not in response.text
+    )
 
 
-def test_retention_preview_message_is_translated_for_english(test_client: TestClient):
-    for path in ("/fs-qr", "/create_room", "/create_note_room"):
+def test_retention_preview_message_stays_japanese_during_review(
+    test_client: TestClient,
+):
+    for path in ("/create_room", "/create_note_room"):
         response = test_client.get(path, headers={"Cookie": "fsqr_language=en"})
         assert response.status_code == 200
-        assert "Will be automatically deleted around {time}" in response.text
-        assert "ごろに自動削除されます" not in response.text
-        assert _json_escaped("ごろに自動削除されます") not in response.text
+        assert r"\u81ea\u52d5\u524a\u9664\u3055\u308c\u307e\u3059" in response.text
+        assert "Will be automatically deleted around {time}" not in response.text
 
 
-def test_retention_preview_message_is_translated_for_chinese(test_client: TestClient):
-    translated = "将在 {time} 左右自动删除"
-    for path in ("/fs-qr", "/create_room", "/create_note_room"):
+def test_retention_preview_message_stays_japanese_for_chinese_cookie(
+    test_client: TestClient,
+):
+    for path in ("/create_room", "/create_note_room"):
         response = test_client.get(path, headers={"Cookie": "fsqr_language=zh-CN"})
         assert response.status_code == 200
-        assert translated in response.text or _json_escaped(translated) in response.text
-        assert "ごろに自動削除されます" not in response.text
-        assert _json_escaped("ごろに自動削除されます") not in response.text
+        assert r"\u81ea\u52d5\u524a\u9664\u3055\u308c\u307e\u3059" in response.text
+        assert "将在 {time} 左右自动删除" not in response.text
 
 
-@pytest.mark.parametrize(
-    ("language", "japanese_pattern"),
-    [
-        ("en", re.compile(r"[ぁ-んァ-ヶ一-龠々ー]")),
-        ("zh-CN", re.compile(r"[ぁ-んァ-ヶ々ー]")),
-        ("zh-TW", re.compile(r"[ぁ-んァ-ヶ々ー]")),
-        ("ko", re.compile(r"[ぁ-んァ-ヶ一-龠々ー]")),
-    ],
-)
-def test_localized_public_pages_do_not_render_japanese_text(
-    test_client: TestClient, language: str, japanese_pattern: re.Pattern
+@pytest.mark.parametrize("language", ["en", "zh-CN", "zh-TW", "ko"])
+def test_non_japanese_language_queries_are_redirected(
+    test_client: TestClient, language: str
 ):
     for path in LOCALIZED_PUBLIC_PATHS:
         response = test_client.get(f"{path}?lang={language}")
-        assert response.status_code == 200, path
-        assert response.headers["content-language"] == language
-
-        scanner = VisibleTextScanner()
-        scanner.feed(response.text)
-        leaks = [
-            " ".join(value.split())
-            for value in scanner.values
-            if japanese_pattern.search(value)
-        ]
-        assert leaks == [], f"{path} leaked Japanese text: {leaks[:3]}"
+        assert response.status_code == 301, path
+        assert response.headers["location"].endswith(path)
 
 
 def test_about(test_client: TestClient):
@@ -272,22 +205,10 @@ ADSENSE_ACCOUNT_META = (
 )
 
 
-def test_adsense_account_meta_tag_is_present_on_every_page(test_client: TestClient):
-    """所有権確認メタタグは Cookie も広告も伴わないため全ページへ出す。
-
-    The ownership meta tag sets no cookie and serves no ad, so it is emitted
-    regardless of the ad-serving allowlist.
-    """
-    for path in (
-        "/",
-        "/about",
-        "/usage",
-        "/articles",
-        "/fs-qr",
-        "/group",
-        "/note",
-        "/create_room",
-    ):
+def test_adsense_account_meta_tag_is_kept_only_on_public_content(
+    test_client: TestClient,
+):
+    for path in ("/", "/about", "/usage", "/articles"):
         response = test_client.get(path)
         assert response.status_code == 200
         assert ADSENSE_ACCOUNT_META in response.text
@@ -306,12 +227,11 @@ def test_adsense_is_not_exposed_on_functional_pages(test_client: TestClient):
         assert response.status_code == 200
         assert "window.FSQR_TAGS" in response.text
         assert 'googleAnalyticsId: "G-D26D8ZXKNV"' in response.text
-        # 広告は配信しない: ローダーへ client id を渡さず、広告枠も置かない。
-        # pub-ID は所有権確認メタタグの 1 箇所だけに現れる。
-        assert "adsenseClientId: null" in response.text
+        # ツール画面には AdSense のメタタグ・クライアント ID を出さない。
+        assert "adsenseClientId" not in response.text
         assert 'class="adsbygoogle"' not in response.text
-        assert response.text.count("ca-pub-4557554518872474") == 1
-        assert ADSENSE_ACCOUNT_META in response.text
+        assert "ca-pub-4557554518872474" not in response.text
+        assert ADSENSE_ACCOUNT_META not in response.text
         assert 'src="https://www.googletagmanager.com/gtag/js' not in response.text
         assert (
             'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'

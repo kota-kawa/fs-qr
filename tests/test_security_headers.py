@@ -41,6 +41,35 @@ def test_static_response_has_security_headers(test_client):
     assert response.headers.get("X-Content-Type-Options") == "nosniff"
 
 
+def test_robots_disallows_operation_and_collaboration_pages(test_client):
+    response = test_client.get("/robots.txt")
+    assert response.status_code == 200
+
+    for path in (
+        "/fs-qr",
+        "/group",
+        "/note",
+        "/create_room",
+        "/create_note_room",
+        "/search_fs-qr",
+        "/search_group",
+        "/search_note",
+        "/upload_complete/",
+        "/download/",
+    ):
+        assert f"Disallow: {path}" in response.text
+
+    for path in (
+        "/fs-qr_menu",
+        "/group_menu",
+        "/note_menu",
+        "/file-sharing",
+        "/group-file-sharing",
+        "/shared-note",
+    ):
+        assert f"Allow: {path}" in response.text
+
+
 @pytest.mark.parametrize(
     ("path", "expected"),
     [

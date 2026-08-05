@@ -257,48 +257,19 @@ def test_translate_rendered_html_does_not_corrupt_script_blocks():
     assert parsed["name"] == "Copier l'URL"
 
 
-def test_language_query_only_accepts_supported_language_aliases():
+def test_language_query_only_accepts_japanese_only_during_review():
     import i18n
 
     assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "en")]))
+        DummyRequest(query_params=DummyQueryParams([("lang", "ja")]))
     )
     assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "zh-cn")]))
+        DummyRequest(query_params=DummyQueryParams([("lang", "jp")]))
     )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "zh-tw")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "ko")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "fr")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "es")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "de-DE")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "vi-VN")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "th-TH")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "id-ID")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "tr")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "uk")]))
-    )
-    assert i18n.is_language_query_only(
-        DummyRequest(query_params=DummyQueryParams([("lang", "pl")]))
-    )
+    for language in ("en", "zh-cn", "zh-tw", "ko", "fr", "es", "de-DE"):
+        assert not i18n.is_language_query_only(
+            DummyRequest(query_params=DummyQueryParams([("lang", language)]))
+        )
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "xyz")]))
     )

@@ -1,0 +1,13 @@
+vulnerabilities:
+  # BuildKit reports these packages from a third-party builder SBOM without
+  # file paths. CI separately verifies both Python environments in the image.
+  - id: GHSA-6v7p-g79w-8964
+    purls:
+      - "pkg:pypi/msgpack@1.1.2"
+    expired_at: 2026-09-30
+    statement: "Builder SBOM false positive; msgpack is absent at runtime."
+  - id: CVE-2025-47273
+    purls:
+      - "pkg:pypi/setuptools@70.3.0"
+    expired_at: 2026-09-30
+    statement: "Builder SBOM false positive; runtime setuptools is 83.0.0."

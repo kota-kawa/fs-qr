@@ -46,12 +46,15 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
+    {% if google_adsense_client_id %}
     <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
     <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+    {% endif %}
     <script>
       window.FSQR_TAGS = Object.freeze({
-        googleAnalyticsId: {{ google_analytics_id | tojson }},
+        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
         adsenseClientId: {{ google_adsense_client_id | tojson }}
+        {% endif %}
       });
     </script>
     <title>グループでファイル共有｜アカウント不要・無料でチームに共有 - FS!QR Group</title>

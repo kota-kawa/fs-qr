@@ -5,6 +5,7 @@ from fastapi import Request
 from .constants import (
     COUNTRY_LANGUAGE_MAP,
     DEFAULT_LANGUAGE,
+    JAPANESE_ONLY_MODE,
     LANGUAGE_COOKIE_NAME,
     SUPPORTED_LANGUAGES,
 )
@@ -76,6 +77,10 @@ def resolve_language(
     request: Request,
     country_code_lookup: Callable[[str], str | None] | None = None,
 ) -> str:
+    if JAPANESE_ONLY_MODE:
+        # 審査期間中は Cookie・GeoIP・クエリによる翻訳表示を停止する。
+        return DEFAULT_LANGUAGE
+
     # 1. Query parameter (highest priority for switching)
     language = request.query_params.get("lang")
     if language and language in SUPPORTED_LANGUAGES:
@@ -114,5 +119,8 @@ def is_language_query_only(request: Request) -> bool:
     lowered = lang.lower()
     if lowered.startswith("ja") or lowered.startswith("jp"):
         return True
+    if JAPANESE_ONLY_MODE:
+        # 日本語以外の ?lang= は、審査期間中は通常の正規化対象として扱う。
+        return False
     normalized = normalize_language(lang)
     return normalized in SUPPORTED_LANGUAGES and normalized != DEFAULT_LANGUAGE
