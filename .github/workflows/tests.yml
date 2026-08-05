@@ -178,6 +178,39 @@ jobs:
           set -euo pipefail
           docker build --tag fs-qr-ci:${{ github.sha }} .
 
+      - name: Verify runtime Python package versions
+        run: |
+          set -euo pipefail
+          for python_path in /usr/local/bin/python /opt/venv/bin/python; do
+            docker run --rm -i \
+              --entrypoint "${python_path}" \
+              "fs-qr-ci:${{ github.sha }}" - <<'PY'
+          import re
+          from importlib.metadata import PackageNotFoundError, version
+
+
+          def release_tuple(package_version: str) -> tuple[int, ...]:
+              """Compare the numeric release used by the pinned security fixes."""
+              match = re.match(r"\d+(?:\.\d+)*", package_version)
+              if match is None:
+                  raise SystemExit(f"unsupported package version: {package_version}")
+              return tuple(int(part) for part in match.group().split("."))
+
+
+          setuptools_version = version("setuptools")
+          if release_tuple(setuptools_version) < (78, 1, 1):
+              raise SystemExit(f"unsafe setuptools version: {setuptools_version}")
+
+          try:
+              msgpack_version = version("msgpack")
+          except PackageNotFoundError:
+              pass
+          else:
+              if release_tuple(msgpack_version) < (1, 2, 1):
+                  raise SystemExit(f"unsafe msgpack version: {msgpack_version}")
+          PY
+          done
+
       - name: Scan Docker image with Trivy
         run: |
           set -euo pipefail
@@ -185,13 +218,16 @@ jobs:
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${HOME}/.cache/trivy:/root/.cache/" \
+            -v "${GITHUB_WORKSPACE}/.trivyignore.yaml:/scan-config/.trivyignore.yaml:ro" \
             "${TRIVY_IMAGE}" image \
             --scanners vuln \
             --format table \
             --exit-code 1 \
+            --ignorefile /scan-config/.trivyignore.yaml \
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH \
+            --show-suppressed \
             --skip-version-check \
             fs-qr-ci:${{ github.sha }}
 
