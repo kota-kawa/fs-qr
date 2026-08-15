@@ -28,6 +28,17 @@
     return year + '-' + month + '-' + day;
   }
 
+  function updateAdvancedSection(hasAdvancedData) {
+    var details = document.getElementById('taskEditorAdvanced');
+    var badge = document.getElementById('taskEditorAdvancedBadge');
+    if (details) {
+      details.open = Boolean(hasAdvancedData);
+    }
+    if (badge) {
+      badge.hidden = !hasAdvancedData;
+    }
+  }
+
   function open(item) {
     dialog = dialog || document.getElementById('taskEditorDialog');
     form = form || document.getElementById('taskEditorForm');
@@ -45,6 +56,14 @@
     document.getElementById('taskEditorPriority').value = item.priority || 'normal';
     document.getElementById('taskEditorCategory').value = item.category || '';
     document.getElementById('taskEditorStatus').value = item.board_status || 'todo';
+
+    var hasAdvanced = Boolean(
+      (item.priority && item.priority !== 'normal') ||
+      (item.due_date && String(item.due_date).trim()) ||
+      (item.category && String(item.category).trim()) ||
+      (item.note && String(item.note).trim())
+    );
+    updateAdvancedSection(hasAdvanced);
 
     showError('');
     if (typeof dialog.showModal === 'function') {
@@ -74,6 +93,8 @@
     document.getElementById('taskEditorPriority').value = 'normal';
     document.getElementById('taskEditorCategory').value = '';
     document.getElementById('taskEditorStatus').value = targetNewStatus;
+
+    updateAdvancedSection(false);
 
     showError('');
     if (typeof dialog.showModal === 'function') {
