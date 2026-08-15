@@ -9,7 +9,7 @@
   --task-accent: #f59e0b;
   --task-accent-strong: #b45309;
   --task-accent-soft: rgba(245, 158, 11, 0.14);
-  --task-ring: rgba(245, 158, 11, 0.28);
+  --task-ring: #b45309;
   --task-todo: #64748b;
   --task-doing: #f59e0b;
   --task-done: #10b981;
@@ -41,8 +41,8 @@
   margin: 0.5rem 0 0;
   padding: 0.2rem 0.7rem;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fffbeb;
+  background: rgba(120, 53, 15, 0.82);
+  color: #ffffff;
   font-size: 0.82rem;
 }
 

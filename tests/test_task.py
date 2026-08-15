@@ -284,14 +284,18 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
         'id="taskProgressFill"',
         'data-due-filter="overdue"',
         'data-due-filter="today"',
+        'data-due-filter="week"',
     ):
         assert marker in body
 
     # 共有情報は折りたたみ、ボードが先に見える構成
-    assert 'id="taskRoomDetails"' in body
+    assert '<details class="task-room-details" id="taskRoomDetails">' in body
+    assert '<summary class="task-room-details__summary">' in body
     assert body.index('id="taskBoard"') > body.index('id="taskRoomDetails"')
 
     # カラムごとのインライン追加・操作メニュー・スマホ用タブ
+    assert 'id="taskStatusTabs" role="group"' in body
+    assert 'data-mobile-view="all" aria-pressed="true"' in body
     for status in ("todo", "doing", "done"):
         assert f'data-column-add="{status}"' in body
         assert f'data-column-menu="{status}"' in body
@@ -321,7 +325,10 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
             return_value=ROOM_META,
         ),
     ):
-        body = test_client.get("/task/r/abc123").text
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
 
     modules = [
         "core.js",
@@ -335,5 +342,8 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
         "dnd.js",
         "main.js",
     ]
+    namespace_position = body.index("js/shared/app-namespace.js")
+    config_position = body.index("setConfig('taskBoard'")
     positions = [body.index(f"js/task_board/{name}") for name in modules]
+    assert namespace_position < config_position < positions[0]
     assert positions == sorted(positions)

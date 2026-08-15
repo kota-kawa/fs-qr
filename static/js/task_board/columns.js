@@ -4,12 +4,6 @@
   var modules = window.__FSQR_APP__.api.getModuleNamespace('taskBoard');
   var core = modules.core;
 
-  var MOBILE_QUERY = '(max-width: 899px)';
-
-  function isMobile() {
-    return window.matchMedia(MOBILE_QUERY).matches;
-  }
-
   function columnOf(status) {
     return document.querySelector('.task-column[data-status="' + status + '"]');
   }
@@ -90,7 +84,7 @@
     document.querySelectorAll('.task-status-tab').forEach(function (tab) {
       var active = tab.dataset.mobileView === view;
       tab.classList.toggle('is-active', active);
-      tab.setAttribute('aria-selected', String(active));
+      tab.setAttribute('aria-pressed', String(active));
     });
   }
 
@@ -135,9 +129,6 @@
 
     document.querySelectorAll('.task-column__collapse').forEach(function (button) {
       button.addEventListener('click', function () {
-        // Collapsing is a small-screen affordance only.
-        // 折りたたみは画面が狭いときだけの機能。
-        if (!isMobile()) return;
         var column = button.closest('.task-column');
         if (column) toggleCollapse(column.dataset.status);
       });

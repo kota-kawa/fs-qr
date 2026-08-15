@@ -229,10 +229,10 @@
       </section>
 
       <!-- Mobile column switcher / スマホ用カラム切り替え -->
-      <div class="task-status-tabs" id="taskStatusTabs" role="tablist" aria-label="表示するカラム">
-        <button type="button" role="tab" class="task-status-tab is-active" data-mobile-view="all" aria-selected="true">すべて</button>
+      <div class="task-status-tabs" id="taskStatusTabs" role="group" aria-label="表示するカラム">
+        <button type="button" class="task-status-tab is-active" data-mobile-view="all" aria-pressed="true">すべて</button>
         {% for status, label in [('todo', '未着手'), ('doing', '進行中'), ('done', '完了')] %}
-        <button type="button" role="tab" class="task-status-tab" data-mobile-view="{{ status }}" aria-selected="false">
+        <button type="button" class="task-status-tab" data-mobile-view="{{ status }}" aria-pressed="false">
           {{ label }} <span class="task-status-tab__count" data-tab-count-for="{{ status }}">0</span>
         </button>
         {% endfor %}
