@@ -157,6 +157,97 @@ def test_group_data_remove_data_keeps_record_when_delete_fails(tmp_path):
     run(scenario())
 
 
+def test_task_data_room_item_and_expiration_lifecycle():
+    """Task はルーム作成、カード作成、期限切れ削除を生SQL層で完結する。"""
+    import Task.task_data as td
+    from password_security import hash_password
+
+    hashed = hash_password("123456")
+    calls = []
+
+    class Result:
+        lastrowid = 12
+
+        def mappings(self):
+            return self
+
+        def first(self):
+            return {"last_position": 0}
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            calls.append((str(query), params))
+            return Result()
+
+    async def execute(query, params=None, fetch=False):
+        query_text = str(query)
+        calls.append((query_text, params or {}, fetch))
+        if fetch and "SELECT room_id, password" in query_text:
+            return [{"room_id": "taskA", "password": hashed}]
+        if fetch and "FROM task_room WHERE room_id" in query_text:
+            return [
+                {
+                    "room_id": "taskA",
+                    "id": "public",
+                    "password": hashed,
+                    "retention_hours": 24,
+                    "status": "active",
+                }
+            ]
+        if fetch and "FROM task_item WHERE room_id" in query_text:
+            return [
+                {
+                    "item_id": 12,
+                    "title": "task",
+                    "note": "",
+                    "board_status": "todo",
+                    "priority": "normal",
+                    "category": None,
+                    "due_date": None,
+                    "position": 100,
+                    "version": 0,
+                    "created_at": None,
+                    "updated_at": None,
+                }
+            ]
+        if fetch and "expires_at <= NOW" in query_text:
+            return [{"room_id": "taskA"}]
+        return None
+
+    async def scenario():
+        with (
+            patch("Task.task_data.execute_query", new=execute),
+            patch("Task.task_data.db_session", TaskDbSession()),
+            patch("Task.task_data.invalidate_cache_prefix", new=AsyncMock()),
+            patch("share_links.revoke_resource_links", new=AsyncMock()) as revoke,
+        ):
+            await td.create_room("public", "123456", "taskA", retention_hours=24)
+            assert await td.pick_room_id_direct("public", "123456") == "taskA"
+            assert await td.get_room_meta_direct("taskA", "123456")
+            item = await td.create_item(
+                "taskA",
+                {
+                    "title": "task",
+                    "note": "",
+                    "board_status": "todo",
+                    "priority": "normal",
+                    "category": "",
+                    "due_date": None,
+                },
+            )
+            assert item and item["item_id"] == 12
+            assert await td.remove_expired_rooms() == ["taskA"]
+            revoke.assert_awaited_once()
+
+    run(scenario())
+    assert any("INSERT INTO task_room" in query for query, *_ in calls)
+    assert any("INSERT INTO task_item" in query for query, *_ in calls)
+    assert any("UPDATE task_room SET status" in query for query, *_ in calls)
+
+
 class FakeBegin:
     async def __aenter__(self):
         return self
@@ -515,6 +606,16 @@ def test_scheduler_expiration_jobs_reset_connections_and_notify_notes():
             assert publish.await_count == 2
             reset_db.assert_awaited_once()
 
+        with (
+            patch(
+                "scheduler.task_data.remove_expired_rooms", new=AsyncMock()
+            ) as remove_tasks,
+            patch("scheduler.reset_db_connection", new=AsyncMock()) as reset_db,
+        ):
+            await scheduler._remove_expired_task_rooms_async()
+            remove_tasks.assert_awaited_once()
+            reset_db.assert_awaited_once()
+
     run(scenario())
 
 
@@ -569,6 +670,7 @@ def test_scheduler_run_scheduler_registers_jobs_with_redis_store():
         "remove_expired_fsqr",
         "remove_expired_group_rooms",
         "remove_expired_note_rooms",
+        "remove_expired_task_rooms",
     ]
     assert all(job["replace_existing"] for job in schedulers[0].jobs)
     assert all(job["minutes"] == 5 for job in schedulers[0].jobs)

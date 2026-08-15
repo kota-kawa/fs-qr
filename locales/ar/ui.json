@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "قم بإنشاء مشاركات محدودة الوقت بسرعة لإرسال الملفات عبر رموز QR، ونقل الصور أو ملفات PDF من جهاز الكمبيوتر إلى هاتفك الذكي، ومشاركة الملفات الكبيرة دون الحاجة إلى تطبيق.",
   "seo.group.intent": "استخدم غرف المجموعات كالمجلدات المشتركة لإدارة المستندات الداخلية، ومواد الدروس، ومطبوعات الفعاليات، وتبادل الملفات مع العملاء — كل ذلك دون الحاجة إلى تسجيل حساب.",
   "seo.note.intent": "أداة ملاحظات تعاونية للمذكرات عبر الإنترنت والملاحظات المشتركة وملاحظات الاجتماعات. شارك رابط المشاركة أو رمز QR أو معرّف الغرفة أو كلمة المرور لبدء التحرير المتزامن والحفظ التلقائي من المتصفح."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

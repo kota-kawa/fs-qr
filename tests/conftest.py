@@ -142,7 +142,7 @@ class AppLifespan:
 
 class SimpleASGITestClient:
     SAFE_METHODS = {"GET", "HEAD", "OPTIONS", "TRACE"}
-    CSRF_TOKEN_PATH_CANDIDATES = ("/fs-qr", "/group", "/note", "/admin/")
+    CSRF_TOKEN_PATH_CANDIDATES = ("/fs-qr", "/group", "/note", "/task", "/admin/")
 
     def __init__(self, app):
         self.app = app

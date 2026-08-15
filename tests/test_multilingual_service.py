@@ -19,6 +19,10 @@ SERVICE_SMOKE_PATHS = (
     "/note",
     "/create_note_room",
     "/search_note",
+    "/task_menu",
+    "/task",
+    "/create_task_room",
+    "/search_task",
 )
 
 
@@ -62,6 +66,7 @@ ALLOWED_SEGMENTS = {
     "FS!QR",
     "Group",
     "Note",
+    "Task",
 }
 
 

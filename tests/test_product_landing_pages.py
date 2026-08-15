@@ -30,15 +30,22 @@ LANDING_PAGES = (
         "/create_room",
         "ファイル共有",
     ),
+    (
+        "/shared-task",
+        "FS!QR Task",
+        "/create_task_room",
+        "カンバン",
+    ),
 )
 
 ILLUSTRATED_LANDING_VISUALS = (
     ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
     ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
     ("/shared-note", "apple-touch-icon4.png", "note-illustration.jpg"),
+    ("/shared-task", "apple-touch-icon5.png", "task-illustration.jpg"),
 )
 
-HOME_SERVICE_MENU_LINKS = ("/fs-qr_menu", "/group_menu", "/note_menu")
+HOME_SERVICE_MENU_LINKS = ("/fs-qr_menu", "/group_menu", "/note_menu", "/task_menu")
 
 
 @pytest.mark.parametrize("path,brand,primary_cta,search_marker", LANDING_PAGES)

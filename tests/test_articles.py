@@ -224,7 +224,7 @@ def test_registered_article_route(test_client: TestClient, article):
 
 
 # fsqr / group / note いずれかのサービス入口URL
-SERVICE_MENU_URLS = ("/fs-qr_menu", "/group_menu", "/note_menu")
+SERVICE_MENU_URLS = ("/fs-qr_menu", "/group_menu", "/note_menu", "/task_menu")
 SERVICE_CTA_IMAGES = {
     "fs-qr-concept": "/static/fsqr.png",
     "education": "/static/group.png",

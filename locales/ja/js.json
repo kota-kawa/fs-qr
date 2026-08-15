@@ -116,4 +116,21 @@
   "net.online": "再接続しました",
   "sw.update": "新しいバージョンがあります。選択して更新",
   "group.file_list_stale": "ファイル一覧を更新できませんでした。接続を確認しています…"
+,
+  "task.loading": "タスクを読み込んでいます...",
+  "task.empty": "タスクはまだありません。",
+  "task.create": "タスクを追加",
+  "task.updated": "タスクを更新しました。",
+  "task.deleted": "タスクを削除しました。",
+  "task.delete_confirm": "「{title}」を削除します。この操作は元に戻せません。",
+  "task.conflict": "他の画面でタスクが更新されました。最新の内容を読み込みました。",
+  "task.network_error": "タスクを保存できませんでした。通信状態を確認して再度お試しください。",
+  "task.limit_reached": "このルームのタスク数は上限（{max}件）に達しています。",
+  "task.todo": "未着手",
+  "task.doing": "進行中",
+  "task.done": "完了",
+  "task.moved_to": "「{title}」を{status}へ移動しました。",
+  "task.overdue": "期限超過",
+  "task.due": "期限: {date}",
+  "task.filter_all": "すべてのカテゴリ"
 }

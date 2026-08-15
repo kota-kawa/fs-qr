@@ -17,6 +17,10 @@ LOCALIZED_PUBLIC_PATHS = (
     "/note",
     "/create_note_room",
     "/search_note",
+    "/task_menu",
+    "/task",
+    "/create_task_room",
+    "/search_task",
     "/about",
     "/usage",
     "/contact",
@@ -222,6 +226,9 @@ def test_adsense_is_not_exposed_on_functional_pages(test_client: TestClient):
         "/note",
         "/create_note_room",
         "/search_note",
+        "/task",
+        "/create_task_room",
+        "/search_task",
     ):
         response = test_client.get(path)
         assert response.status_code == 200

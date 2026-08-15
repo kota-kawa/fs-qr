@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "Tạo nhanh liên kết chia sẻ có thời hạn để gửi tệp bằng mã QR, chuyển ảnh hoặc PDF từ PC sang điện thoại, và chia sẻ tệp lớn mà không cần cài ứng dụng.",
   "seo.group.intent": "Dùng phòng nhóm như thư mục dùng chung để quản lý tài liệu nội bộ, tài liệu lớp học, tài liệu sự kiện và trao đổi tệp với khách hàng — không cần đăng ký tài khoản.",
   "seo.note.intent": "Công cụ ghi chú cộng tác cho ghi chú trực tuyến, ghi chú chia sẻ và biên bản họp. Chia sẻ URL, mã QR, ID phòng và mật khẩu để bắt đầu đồng chỉnh sửa trên trình duyệt với tính năng tự động lưu."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

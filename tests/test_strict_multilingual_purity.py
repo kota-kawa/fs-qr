@@ -21,6 +21,10 @@ SERVICE_SMOKE_PATHS = (
     "/note",
     "/create_note_room",
     "/search_note",
+    "/task_menu",
+    "/task",
+    "/create_task_room",
+    "/search_task",
 )
 
 SCRIPT_STYLE_RE = re.compile(r"<(script|style)\b[^>]*>.*?</\1\s*>", re.I | re.S)
@@ -62,6 +66,7 @@ ALLOWED_SEGMENTS = {
     "FS!QR",
     "Group",
     "Note",
+    "Task",
 }
 
 

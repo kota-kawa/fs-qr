@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "Buat tautan berbagi sementara berbatas waktu untuk mengirim file via kode QR, memindahkan foto atau PDF dari PC ke smartphone, dan berbagi file besar tanpa perlu menginstal aplikasi.",
   "seo.group.intent": "Gunakan ruang grup layaknya folder bersama untuk mengelola dokumen internal, materi kelas, bahan acara, dan pertukaran file dengan klien, semuanya tanpa perlu registrasi akun.",
   "seo.note.intent": "Alat pencatat kolaboratif untuk memo online, catatan bersama, dan notulen rapat. Bagikan URL, kode QR, ID ruang, dan kata sandi untuk mulai mengedit bersama secara real time di browser dengan penyimpanan otomatis."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

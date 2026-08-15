@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "สร้างลิงก์แชร์แบบมีวันหมดอายุได้ทันที เพื่อส่งไฟล์ผ่าน QR โค้ด โอนรูปหรือ PDF จาก PC ไปมือถือ และแชร์ไฟล์ขนาดใหญ่โดยไม่ต้องติดตั้งแอป",
   "seo.group.intent": "ใช้ห้องกลุ่มเหมือนโฟลเดอร์แชร์ เพื่อจัดการเอกสารภายใน เอกสารเรียน ไฟล์งานอีเวนต์ และรับส่งไฟล์กับลูกค้า โดยไม่ต้องสมัครสมาชิก",
   "seo.note.intent": "เครื่องมือบันทึกร่วมสำหรับเมโมออนไลน์ โน้ตที่แชร์ และรายงานการประชุม แชร์ URL, QR โค้ด, รหัสห้อง และรหัสผ่านเพื่อเริ่มแก้ไขร่วมกันแบบเรียลไทม์ผ่านเบราว์เซอร์ พร้อมบันทึกอัตโนมัติ"
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

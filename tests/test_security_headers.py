@@ -49,11 +49,14 @@ def test_robots_disallows_operation_and_collaboration_pages(test_client):
         "/fs-qr",
         "/group",
         "/note",
+        "/task",
         "/create_room",
         "/create_note_room",
+        "/create_task_room",
         "/search_fs-qr",
         "/search_group",
         "/search_note",
+        "/search_task",
         "/upload_complete/",
         "/download/",
     ):
@@ -63,9 +66,11 @@ def test_robots_disallows_operation_and_collaboration_pages(test_client):
         "/fs-qr_menu",
         "/group_menu",
         "/note_menu",
+        "/task_menu",
         "/file-sharing",
         "/group-file-sharing",
         "/shared-note",
+        "/shared-task",
     ):
         assert f"Allow: {path}" in response.text
 
