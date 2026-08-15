@@ -32,7 +32,6 @@ from share_links import (
 )
 from web import (
     enforce_csrf,
-    get_or_create_csrf_token,
     render_template,
     wants_json_response,
 )
@@ -97,7 +96,6 @@ def _render_task_room(request: Request, room_id: str, record: dict):
         retention_hours=record.get("retention_hours", 24),
         deletion_date=expires_at.strftime("%Y-%m-%d %H:%M") if expires_at else None,
         can_delete=can_delete_task_room(request, room_id),
-        csrf_token=get_or_create_csrf_token(request),
         presence_scope="task",
         presence_key=room_id,
     )

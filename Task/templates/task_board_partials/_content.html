@@ -1,64 +1,248 @@
 {% import "macros/icons.html" as icons %}
+{% set share_url = share_url if share_url else '' %}
+
 <div class="modern-page-container">
   <div class="modern-content-card task-board-card">
     <div class="modern-card-header">
-      <h1>{{ icons.icon('check_circle', size='xl', with_text=True) }} タスクボード</h1>
+      <h1>
+        {{ icons.icon('check_circle', size='xl', with_text=True) }}
+        タスクボード
+      </h1>
       {% include "_presence_indicator.html" %}
     </div>
+
     <div class="modern-card-body">
       <div id="taskLiveRegion" class="sr-only" role="status" aria-live="polite"></div>
+      <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
+
+      <!-- Room Info + QR Code -->
       <div class="room-info-container task-room-info">
         <div class="room-info-card">
-          <div class="room-info-header"><span class="room-info-header-title">Task ルーム情報</span></div>
-          <div class="room-info-body">
-            <div class="room-info-row"><span class="room-info-label">ルームID</span><span class="room-info-value">{{ room_id }}</span></div>
-            {% if password %}<div class="room-info-row"><span class="room-info-label">パスワード</span><span class="room-info-value">{{ password }}</span></div>{% endif %}
-            <div class="room-info-row"><span class="room-info-label">共有URL</span><span class="room-info-value task-share-value"><input id="taskShareUrl" value="{{ share_url }}" readonly aria-label="共有URL"><button id="taskCopyShare" class="copy-inline-btn" type="button">コピー</button></span></div>
-            <div class="room-info-row"><span class="room-info-label">削除予定日</span><span class="room-info-value">{{ deletion_date or (retention_hours ~ '時間後に自動削除') }}</span></div>
+          <div class="room-info-header">
+            <span class="room-info-header-title">Room情報</span>
+            <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" aria-label="このボードを共有する" title="共有">
+              {{ icons.icon('arrow_up', size='md') }}
+            </button>
           </div>
+          <div class="room-info-body">
+            <div class="room-info-row">
+              <span class="room-info-label">ルームID</span>
+              <span class="room-info-value">
+                <span class="room-info-value-row">
+                  <span class="room-info-value-text" id="taskRoomIdText">{{ room_id }}</span>
+                  <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー">
+                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                  </button>
+                </span>
+              </span>
+            </div>
+            {% if password %}
+            <div class="room-info-row">
+              <span class="room-info-label">パスワード</span>
+              <span class="room-info-value">
+                <span class="room-info-value-row">
+                  <span class="room-info-value-text">{{ password }}</span>
+                  <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー">
+                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                  </button>
+                </span>
+              </span>
+            </div>
+            {% endif %}
+            <div class="room-info-row">
+              <span class="room-info-label">共有URL</span>
+              <span class="room-info-value">
+                <span class="room-info-value-row">
+                  <span class="room-info-url-text" id="taskShareUrlText">{{ share_url }}</span>
+                  <button type="button" class="copy-inline-btn copy-url-button" id="taskCopyShare" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="共有URLをコピー">
+                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                  </button>
+                </span>
+              </span>
+            </div>
+            <div class="room-info-row">
+              <span class="room-info-label">削除予定日</span>
+              <span class="room-info-value">
+                {% if deletion_date %}
+                  {{ deletion_date }} （{{ retention_hours }}時間後）
+                {% else %}
+                  {{ retention_hours }}時間後に自動削除
+                {% endif %}
+              </span>
+            </div>
+          </div>
+          {% if can_delete %}
+          <div class="owner-delete-panel task-owner-delete">
+            <div class="owner-delete-copy">
+              <span class="owner-delete-title">ボードを削除</span>
+              <span class="owner-delete-description">作成者のみ削除可能。すべてのタスクが消去されます。</span>
+            </div>
+            <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？" data-confirm-title="タスクボードの削除" data-confirm-label="削除する">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="modern-btn modern-btn-danger" type="submit">
+                {{ icons.icon('trash', size='md', with_text=True) }}削除
+              </button>
+            </form>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="qr-code-container" id="taskShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
+          <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
         </div>
       </div>
 
-      <section class="task-board-toolbar" aria-label="タスク操作">
+      <!-- Quick Add & Controls Toolbar -->
+      <section class="task-board-toolbar" aria-label="タスク操作ツールバー">
         <form id="taskCreateForm" class="task-create-form" novalidate>
-          <div class="task-create-form__main"><label for="taskTitle" class="sr-only">タスク名</label><input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを入力" autocomplete="off"><button class="modern-btn task-btn" type="submit">追加</button></div>
+          <div class="task-create-form__main">
+            <label for="taskTitle" class="sr-only">タスク名</label>
+            <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを入力... (Enterで追加)" autocomplete="off">
+            <select id="taskCreatePriority" class="task-select-sm" aria-label="優先度">
+              <option value="normal" selected>通常</option>
+              <option value="high">優先: 高</option>
+              <option value="low">優先: 低</option>
+            </select>
+            <button class="modern-btn task-btn" type="submit">
+              {{ icons.icon('plus', size='sm', with_text=True) }}追加
+            </button>
+          </div>
           <p id="taskCreateError" class="task-form-error" role="alert" hidden></p>
         </form>
-        <div class="task-filters">
-          <label>カテゴリ <select id="taskCategoryFilter"><option value="">すべて</option></select></label>
-          <label>優先度 <select id="taskPriorityFilter"><option value="">すべて</option><option value="high">高</option><option value="normal">通常</option><option value="low">低</option></select></label>
+
+        <div class="task-filters-bar">
+          <div class="task-search-box">
+            <svg class="task-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+            <input id="taskSearchInput" type="search" placeholder="タスクを絞り込み..." aria-label="タスクを絞り込み">
+            <button id="taskSearchClear" type="button" class="task-search-clear" aria-label="検索クリア" hidden>×</button>
+          </div>
+          <div class="task-filters">
+            <label>
+              <span class="task-filter-label">カテゴリ</span>
+              <select id="taskCategoryFilter">
+                <option value="">すべて</option>
+              </select>
+            </label>
+            <label>
+              <span class="task-filter-label">優先度</span>
+              <select id="taskPriorityFilter">
+                <option value="">すべて</option>
+                <option value="high">高</option>
+                <option value="normal">通常</option>
+                <option value="low">低</option>
+              </select>
+            </label>
+            <label>
+              <span class="task-filter-label">並び順</span>
+              <select id="taskSortSelect">
+                <option value="position">カスタム順</option>
+                <option value="due_date">期限が近い順</option>
+                <option value="priority">優先度順</option>
+                <option value="title">五十音順</option>
+              </select>
+            </label>
+            <button id="taskClearFiltersBtn" type="button" class="task-clear-filters-btn" hidden>
+              条件解除 <span id="taskActiveFilterCount" class="task-active-filter-badge">0</span>
+            </button>
+          </div>
         </div>
       </section>
 
+      <!-- Kanban Board -->
       <section class="task-board" id="taskBoard" aria-label="カンバンボード">
-        {% for status, label in [('todo', '未着手'), ('doing', '進行中'), ('done', '完了')] %}
-        <section class="task-column" data-status="{{ status }}">
-          <button class="task-column__header" type="button" aria-expanded="true"><span>{{ label }}</span><span class="task-column__count" data-count-for="{{ status }}">0</span></button>
-          <div class="task-column__list" data-list-for="{{ status }}" role="list" aria-label="{{ label }}のタスク"></div>
+        {% for status, label, color_class in [('todo', '未着手', 'is-status-todo'), ('doing', '進行中', 'is-status-doing'), ('done', '完了', 'is-status-done')] %}
+        <section class="task-column {{ color_class }}" data-status="{{ status }}">
+          <div class="task-column__header-wrap">
+            <button class="task-column__header" type="button" aria-expanded="true">
+              <span class="task-column__header-title">
+                <span class="task-column__status-dot" aria-hidden="true"></span>
+                <span>{{ label }}</span>
+              </span>
+              <span class="task-column__count" data-count-for="{{ status }}">0</span>
+            </button>
+            <button type="button" class="task-column__quick-add" data-quick-add-for="{{ status }}" title="{{ label }}にタスクを追加" aria-label="{{ label }}にタスクを追加">+</button>
+          </div>
+          <div class="task-column__list" data-list-for="{{ status }}" role="list" aria-label="{{ label }}のタスク">
+            <!-- Rendered dynamically -->
+          </div>
         </section>
         {% endfor %}
       </section>
-
-      {% if can_delete %}
-      <div class="owner-delete-panel task-owner-delete">
-        <div class="owner-delete-copy"><span class="owner-delete-title">このルームを削除</span><span class="owner-delete-description">削除するとすべてのタスクが消去されます。</span></div>
-        <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="このルームとすべてのタスクを削除します。よろしいですか？"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="modern-btn modern-btn-danger" type="submit">{{ icons.icon('trash', size='md', with_text=True) }}削除</button></form>
-      </div>
-      {% endif %}
     </div>
   </div>
 </div>
 
+<!-- Task Editor Dialog -->
 <dialog id="taskEditorDialog" class="task-editor-dialog" aria-labelledby="taskEditorTitle">
   <form id="taskEditorForm" method="dialog" class="task-editor-form" novalidate>
-    <div class="task-editor-dialog__header"><h2 id="taskEditorTitle">タスクを編集</h2><button type="button" id="taskEditorClose" aria-label="閉じる">×</button></div>
-    <input type="hidden" id="taskEditorId"><input type="hidden" id="taskEditorVersion">
-    <label>タスク名<input id="taskEditorTitleInput" maxlength="{{ task_max_title_length }}" required></label>
-    <label>メモ<textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3"></textarea></label>
-    <div class="task-editor-form__grid"><label>期限<input id="taskEditorDueDate" type="date"></label><label>優先度<select id="taskEditorPriority"><option value="high">高</option><option value="normal">通常</option><option value="low">低</option></select></label></div>
-    <label>カテゴリ<input id="taskEditorCategory" maxlength="{{ task_max_category_length }}" list="taskCategoryOptions"></label><datalist id="taskCategoryOptions"></datalist>
+    <div class="task-editor-dialog__header">
+      <h2 id="taskEditorTitle">タスクを編集</h2>
+      <button type="button" id="taskEditorClose" class="task-editor-close-btn" aria-label="閉じる">×</button>
+    </div>
+    <input type="hidden" id="taskEditorId">
+    <input type="hidden" id="taskEditorVersion">
+
+    <div class="task-editor-field">
+      <label for="taskEditorTitleInput">タスク名 <span class="task-required-badge">*</span></label>
+      <input id="taskEditorTitleInput" maxlength="{{ task_max_title_length }}" required placeholder="タスクのタイトルを入力">
+    </div>
+
+    <div class="task-editor-form__grid">
+      <div class="task-editor-field">
+        <label for="taskEditorStatus">ステータス</label>
+        <select id="taskEditorStatus">
+          <option value="todo">未着手</option>
+          <option value="doing">進行中</option>
+          <option value="done">完了</option>
+        </select>
+      </div>
+      <div class="task-editor-field">
+        <label for="taskEditorPriority">優先度</label>
+        <select id="taskEditorPriority">
+          <option value="high">高 (High)</option>
+          <option value="normal" selected>通常 (Normal)</option>
+          <option value="low">低 (Low)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="task-editor-form__grid">
+      <div class="task-editor-field">
+        <label for="taskEditorDueDate">期限日</label>
+        <input id="taskEditorDueDate" type="date">
+        <div class="task-editor-quick-dates">
+          <button type="button" class="task-quick-date-btn" data-date-offset="0">今日</button>
+          <button type="button" class="task-quick-date-btn" data-date-offset="1">明日</button>
+          <button type="button" class="task-quick-date-btn" data-date-offset="7">来週</button>
+          <button type="button" class="task-quick-date-btn" data-date-clear="true">クリア</button>
+        </div>
+      </div>
+      <div class="task-editor-field">
+        <label for="taskEditorCategory">カテゴリ</label>
+        <input id="taskEditorCategory" maxlength="{{ task_max_category_length }}" placeholder="例: 開発, 事務, イベント" list="taskCategoryOptions">
+        <datalist id="taskCategoryOptions"></datalist>
+      </div>
+    </div>
+
+    <div class="task-editor-field">
+      <label for="taskEditorNote">メモ・詳細</label>
+      <textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3" placeholder="タスクの詳細やURLなどを自由に入力"></textarea>
+    </div>
+
     <p id="taskEditorError" class="task-form-error" role="alert" hidden></p>
-    <div class="task-editor-dialog__actions"><button type="button" id="taskEditorDelete" class="modern-btn modern-btn-danger">削除</button><span></span><button type="button" id="taskEditorCancel" class="modern-btn">キャンセル</button><button type="submit" class="modern-btn task-btn">保存</button></div>
+
+    <div class="task-editor-dialog__actions">
+      <button type="button" id="taskEditorDelete" class="modern-btn modern-btn-danger">
+        {{ icons.icon('trash', size='sm', with_text=True) }}削除
+      </button>
+      <span class="task-actions-spacer"></span>
+      <button type="button" id="taskEditorCancel" class="modern-btn modern-btn--secondary">キャンセル</button>
+      <button type="submit" class="modern-btn task-btn">保存する</button>
+    </div>
   </form>
 </dialog>
+
 <script src="{{ staticfile('js/shared/async-delete-form.js') }}"></script>
