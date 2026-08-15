@@ -212,6 +212,12 @@ def test_upload_single_encrypted_file_returns_redirect_url(
         payload["data"]["redirect_url"]
         == "/upload_complete/abc123-1234567890-report.pdf"
     )
+    assert payload["data"]["share_url"].endswith(
+        "/fs-qr/s/share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    )
+    assert payload["data"]["id"] == "abc123"
+    assert payload["data"]["password"] == "123456"
+    assert payload["data"]["retention_hours"] == 24
     assert (tmp_path / "abc123-1234567890-report.pdf.enc").exists()
     save_mock.assert_awaited_once_with(
         uid="1234567890",

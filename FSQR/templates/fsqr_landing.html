@@ -8,6 +8,7 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="author" content="FS!QR">
   <meta name="theme-color" content="#162033">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <link rel="canonical" href="{{ request.canonical_url }}">
   {% for alt in request.language_alternates %}
@@ -15,7 +16,6 @@
   {% endfor %}
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon.png') }}">
-  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/fsqr-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <meta property="og:type" content="website">
@@ -108,6 +108,14 @@
           "@type": "Answer",
           "text": "はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "選んだファイルはいつ送信されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LP上で選んだファイルは、共有リンクを発行するまでブラウザ内に留まります。発行時にブラウザで暗号化してからアップロードします。"
+        }
       }
     ]
   }
@@ -140,30 +148,117 @@
             登録不要。ブラウザですぐに使えます
           </p>
           <h1 id="hero-title" class="lp-hero__title">
-            ファイルを、<br>
-            <span>迷わず渡せる。</span>
+            ファイルを置けば、<br>
+            <span>もう共有できる。</span>
           </h1>
           <p class="lp-hero__lead">
-            送りたいファイルを選んだら、表示されたQRコードを相手に見せるだけ。FS!QRなら、アカウントも専用アプリも使わずに、端末をまたいで一時共有できます。
+            先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。
           </p>
-          <div class="lp-hero__actions">
-            <a class="lp-button lp-button--primary lp-button--large" href="/fs-qr">
-              ファイルを共有する
-              <span aria-hidden="true">→</span>
-            </a>
-            <a class="lp-button lp-button--secondary lp-button--large" href="/fs-qr_menu">サービス詳細を見る</a>
-          </div>
           <ul class="lp-check-list lp-hero__checks" aria-label="利用条件">
             <li>会員登録なし</li>
             <li>アプリのインストールなし</li>
-            <li>保存期間を選べる</li>
+            <li>発行するまで送信しない</li>
           </ul>
+          <p class="lp-hero__aside">
+            <a class="lp-text-link" href="/fs-qr">ID・保存期間を指定して作成する</a>
+            <span aria-hidden="true">・</span>
+            <a class="lp-text-link" href="/fs-qr_menu">サービス詳細を見る</a>
+          </p>
         </div>
 
-        <figure class="lp-mockup lp-page-shot">
-          <img src="{{ staticfile('images/product-landing-pages/fsqr-illustration.jpg') }}" width="1200" height="900" alt="雲へファイルをアップロードする様子を表すイラスト" fetchpriority="high" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QRのファイル共有を表す、文字のないイラスト</figcaption>
-        </figure>
+        <!-- Instant upload box / ルームを作らずにファイルを選べる共有ボックス -->
+        <section class="lp-instant lp-instant--fsqr"
+                 id="instant-upload-box"
+                 aria-labelledby="instant-upload-title"
+                 data-instant-fsqr
+                 data-upload-url="/upload"
+                 data-max-files="{{ upload_max_files }}"
+                 data-max-total-size-bytes="{{ upload_max_total_size_bytes }}"
+                 data-max-total-size-mb="{{ upload_max_total_size_mb }}">
+          <div class="lp-instant__bar">
+            <h2 class="lp-instant__title" id="instant-upload-title">クイック共有</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末で選択中</p>
+          </div>
+
+          <div class="lp-dropzone" data-instant-dropzone>
+            <p class="lp-dropzone__lead">ここにファイルをドロップ</p>
+            <p class="lp-dropzone__sub">または</p>
+            <label class="lp-dropzone__button" for="instant-file-input">ファイルを選ぶ</label>
+            <input type="file" id="instant-file-input" class="lp-visually-hidden" data-instant-file-input multiple>
+            <p class="lp-dropzone__limits">最大{{ upload_max_files }}個・合計{{ upload_max_total_size_mb }}MBまで</p>
+          </div>
+
+          <ul class="lp-file-list" data-instant-file-list aria-label="選択したファイル"></ul>
+
+          <div class="lp-instant__meta">
+            <span class="lp-instant__count" data-instant-count>ファイル未選択</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear hidden>すべて外す</button>
+          </div>
+
+          <label class="lp-instant__retention">
+            <span>自動削除まで</span>
+            <select data-instant-retention aria-label="自動削除までの期間">
+              <option value="1">1時間</option>
+              <option value="6">6時間</option>
+              <option value="12">12時間</option>
+              <option value="24" selected>24時間</option>
+            </select>
+          </label>
+
+          <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
+          <div class="lp-instant__progress" data-instant-progress hidden role="status" aria-live="polite">
+            <div class="lp-instant__progress-head">
+              <span data-instant-progress-phase>暗号化の準備中</span>
+              <span data-instant-progress-percent>0%</span>
+            </div>
+            <div class="lp-instant__progress-track">
+              <span data-instant-progress-bar></span>
+            </div>
+            <p data-instant-progress-detail>ファイルを安全に準備しています。</p>
+            <button type="button" class="lp-instant__cancel" data-instant-cancel>キャンセル</button>
+          </div>
+          <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-publish disabled>
+            暗号化して共有リンクを発行 <span aria-hidden="true">→</span>
+          </button>
+          <p class="lp-instant__hint" data-instant-hint>発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。</p>
+
+          <div class="lp-instant__share" data-instant-share-panel hidden>
+            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <div class="lp-instant__share-body">
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <dl class="lp-instant__share-list">
+                <div class="lp-instant__share-row">
+                  <dt>共有URL</dt>
+                  <dd>
+                    <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>ID</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-id></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="id">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>パスワード</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-password></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/fs-qr">管理画面を開く <span aria-hidden="true">→</span></a>
+            <p class="lp-instant__hint">共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>別のファイルを共有する</button>
+          </div>
+
+          <noscript>
+            <p class="lp-instant__hint">クイック共有にはJavaScriptが必要です。<a href="/fs-qr">ファイル共有ページ</a>からご利用ください。</p>
+          </noscript>
+        </section>
       </div>
     </section>
 
@@ -196,7 +291,7 @@
         <div class="lp-section__heading">
           <p class="lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
           <h2 id="steps-title" class="lp-section__title">QRコードでのファイル共有は、<wbr>わずか3ステップ</h2>
-          <p class="lp-section__description">複雑な設定や連絡先の交換は不要。ブラウザを開けば、その場で共有を始められます。</p>
+          <p class="lp-section__description">準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。</p>
         </div>
         <ol class="lp-grid lp-grid--three lp-steps">
           <li class="lp-card lp-step-card">
@@ -210,7 +305,7 @@
               </svg>
             </div>
             <h3>ファイルを選ぶ</h3>
-            <p>共有したいファイルと保存期間を選択します。ファイルはブラウザ上で暗号化されます。</p>
+            <p>LPのクイック共有へドロップします。発行するまでファイルは端末から送信されません。</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">02</span>
@@ -224,8 +319,8 @@
                 <path d="M14 21v-3"/>
               </svg>
             </div>
-            <h3>QRコードを発行</h3>
-            <p>アップロードが完了すると、受け取りページへつながるQRコードと共有情報が発行されます。</p>
+            <h3>暗号化して発行</h3>
+            <p>ブラウザで暗号化してアップロードすると、受け取りページのURLとQRコードが表示されます。</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">03</span>
@@ -242,7 +337,8 @@
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="/fs-qr">今すぐファイルを共有する <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--primary" href="#instant-upload-box">クイック共有を開く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/fs-qr">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -325,6 +421,10 @@
           <p class="lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
           <h2 id="use-cases-title" class="lp-section__title">こんなファイル共有を、<wbr>すっきり解決</h2>
         </div>
+        <figure class="lp-mockup lp-page-shot lp-use-case-visual">
+          <img src="{{ staticfile('images/product-landing-pages/fsqr-illustration.jpg') }}" width="1200" height="900" alt="雲へファイルをアップロードする様子を表すイラスト" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QRのファイル共有を表す、文字のないイラスト</figcaption>
+        </figure>
         <div class="lp-grid lp-grid--three lp-use-cases">
           <article class="lp-card lp-use-case-card">
             <p class="lp-use-case-card__label">端末間の移動</p>
@@ -374,6 +474,10 @@
             <summary>QRコードを使わずに共有できますか？</summary>
             <p>はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。</p>
           </details>
+          <details class="lp-faq-item">
+            <summary>選んだファイルはいつ送信されますか？</summary>
+            <p>LP上で選んだファイルは、共有リンクを発行するまでブラウザ内に留まります。発行時にブラウザで暗号化してからアップロードします。</p>
+          </details>
         </div>
       </div>
     </section>
@@ -383,10 +487,10 @@
         <div class="lp-final-cta__inner">
           <p class="lp-section__eyebrow">いますぐ共有</p>
           <h2 id="final-cta-title">ファイルを送りたい、<wbr>その瞬間に。</h2>
-          <p>登録不要。ブラウザからファイルを選んで、QRコードで共有を始めましょう。</p>
+          <p>登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。</p>
           <div class="lp-final-cta__actions">
-            <a class="lp-button lp-button--primary lp-button--large" href="/fs-qr">無料でファイルを共有する <span aria-hidden="true">→</span></a>
-            <a class="lp-button lp-button--secondary lp-button--large" href="/fs-qr_menu">FS!QRについて詳しく見る</a>
+            <a class="lp-button lp-button--primary lp-button--large" href="#instant-upload-box">クイック共有にファイルを置く <span aria-hidden="true">→</span></a>
+            <a class="lp-button lp-button--secondary lp-button--large" href="/fs-qr">ID・保存期間を指定して作る</a>
           </div>
           <ul class="lp-check-list lp-final-cta__checks" aria-label="FS!QRの利用条件">
             <li>登録不要</li>
@@ -435,5 +539,12 @@
       <span>Made for simple sharing.</span>
     </div>
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous" defer></script>
+  <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/upload-validation.js') }}" defer></script>
+  <script src="{{ staticfile('js/fs_qr_upload/encryption.js') }}" defer></script>
+  <script src="{{ staticfile('js/fsqr_landing/instant-upload.js') }}" defer></script>
 </body>
 </html>

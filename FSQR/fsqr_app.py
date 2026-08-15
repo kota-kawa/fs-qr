@@ -411,11 +411,23 @@ async def upload(  # noqa: C901
         request, secure_id, id_val, password, share_token, can_delete=True
     )
 
+    share_url = (
+        build_share_url(request, service_key=ServiceKey.FSQR, token=share_token)
+        if share_token
+        else ""
+    )
+
     return api_ok_response(
         {
             "redirect_url": build_url(
                 request, "fsqr.upload_complete", secure_id=secure_id
-            )
+            ),
+            # LPからページ遷移せず共有情報を表示するための公開情報。
+            # 暗号鍵はブラウザ側で生成・保持しており、サーバーから返さない。
+            "share_url": share_url,
+            "id": id_val,
+            "password": password,
+            "retention_hours": retention_hours_int,
         }
     )
 

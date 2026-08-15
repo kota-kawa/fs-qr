@@ -183,6 +183,51 @@ def test_group_landing_page_shows_share_details_after_publishing(
     assert "/static/qrcode.min.js" in body
 
 
+def test_fsqr_landing_page_offers_instant_upload_box(test_client: TestClient):
+    """FS!QR LPは、ページ上でファイルを選んで発行できる共有ボックスを置く。"""
+    response = test_client.get("/file-sharing")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert 'id="instant-upload-box"' in body
+    assert "data-instant-fsqr" in body
+    assert "data-instant-dropzone" in body
+    assert "data-instant-publish" in body
+    assert "data-instant-retention" in body
+    assert '<meta name="csrf-token"' in body
+    assert "/static/js/fsqr_landing/instant-upload.js" in body
+    assert "/static/js/fs_qr_upload/encryption.js" in body
+    assert "/static/js/shared/upload-validation.js" in body
+
+    # ヒーロー直下でファイルを選べる位置にあること
+    assert body.index('id="instant-upload-box"') < body.index('id="how-it-works"')
+
+    # 詳細設定へ進む従来導線も残す
+    assert 'href="/fs-qr"' in body
+
+
+def test_fsqr_landing_page_shows_share_details_after_publishing(
+    test_client: TestClient,
+):
+    """発行後の共有URL・QR・ID・パスワードを表示する枠を持つ。"""
+    response = test_client.get("/file-sharing")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert "data-instant-share-panel" in body
+    for marker in (
+        "data-instant-share-url",
+        "data-instant-id",
+        "data-instant-password",
+        "data-instant-qr",
+        "data-instant-open",
+    ):
+        assert marker in body, marker
+    assert "/static/qrcode.min.js" in body
+
+
 def test_group_landing_page_does_not_include_room_ui_mockup(
     test_client: TestClient,
 ):

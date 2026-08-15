@@ -3793,6 +3793,27 @@ body.product-lp {
   font-size: 12px;
 }
 
+.lp-instant__retention {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--lp-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.lp-instant__retention select {
+  min-width: 132px;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid var(--lp-line);
+  border-radius: 9px;
+  color: var(--lp-ink);
+  background: #fff;
+  font: inherit;
+}
+
 .lp-instant__clear {
   padding: 4px 2px;
   border: 0;
@@ -3841,6 +3862,64 @@ body.product-lp {
   color: var(--lp-muted);
   font-size: 12px;
   line-height: 1.7;
+}
+
+.lp-instant__progress {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid rgba(var(--lp-accent-rgb), 0.18);
+  border-radius: 12px;
+  background: var(--lp-accent-soft);
+}
+
+.lp-instant__progress-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--lp-accent-dark);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.lp-instant__progress-track {
+  height: 7px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(var(--lp-accent-rgb), 0.14);
+}
+
+.lp-instant__progress-track > span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lp-accent);
+  transition: width 0.15s ease;
+}
+
+.lp-instant__progress p {
+  margin: 8px 0 0;
+  color: var(--lp-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.lp-instant__cancel {
+  margin-top: 8px;
+  padding: 3px 0;
+  border: 0;
+  color: var(--lp-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.lp-instant__cancel:hover {
+  color: var(--lp-ink);
 }
 
 /* Share panel / 発行直後に共有情報をその場で見せる */
@@ -4114,6 +4193,11 @@ body.product-lp {
   margin: 0 auto 40px;
 }
 
+.product-lp--fsqr .lp-use-case-visual {
+  width: min(100%, 520px);
+  margin: 0 auto 40px;
+}
+
 @media (max-width: 760px) {
   /* 共有ボックスを1画面目に寄せるため、ヒーローの余白を詰める */
   .product-lp--group .lp-hero {
@@ -4129,6 +4213,25 @@ body.product-lp {
   }
 
   .product-lp--group .lp-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+  }
+
+  .product-lp--fsqr .lp-hero {
+    padding: 40px 0 56px;
+  }
+
+  .product-lp--fsqr .lp-hero__grid {
+    gap: 28px;
+  }
+
+  .product-lp--fsqr .lp-hero__aside {
+    margin-top: 18px;
+  }
+
+  .product-lp--fsqr .lp-check-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 14px;
