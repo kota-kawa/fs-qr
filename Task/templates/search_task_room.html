@@ -1,3 +1,239 @@
 {% extends "task_layout.html" %}
-{% block page_title %}タスクボードに参加 | FS!QR Task{% endblock %}{% block meta_robots %}noindex, nofollow{% endblock %}
-{% block contents %}<div class="modern-page-container"><form class="modern-content-card modern-form" method="post" action="/search_task_process"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><div class="modern-card-header"><h1>タスクボードに参加</h1></div><div class="modern-card-body"><label class="modern-form-label" for="task-join-id">ルームID</label><input class="modern-form-input" id="task-join-id" name="id" required minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" autocomplete="off"><label class="modern-form-label" for="task-join-password">パスワード</label><input class="modern-form-input" id="task-join-password" name="password" type="password" required minlength="6" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="current-password"><button class="modern-btn modern-btn--primary" type="submit">ルームに参加</button></div></form></div>{% endblock %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+
+{% block page_title %}タスクボード検索 | FS!QR Task - 既存ボードへの参加{% endblock %}
+
+{% block meta_description %}FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。{% endblock %}
+
+{% block meta_keywords %}タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task{% endblock %}
+
+{% block og_title %}タスクボード検索 | FS!QR Task - 既存ボードへの参加{% endblock %}
+
+{% block og_description %}FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。{% endblock %}
+
+{% block twitter_title %}タスクボード検索 | FS!QR Task{% endblock %}
+
+{% block twitter_description %}既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。{% endblock %}
+
+{% block contents %}
+<style>
+/* Unified Modern Design System */
+.page-container {
+    min-height: auto;
+    background: transparent;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.modern-card {
+    --card-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--card-radius);
+    box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 35px -5px rgba(0, 0, 0, 0.15),
+        0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 10px solid rgb(245, 158, 11);
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Kaisei Opti', serif;
+}
+
+.card-body {
+    padding: 2.5rem 2rem 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+    color: #1f2937;
+}
+
+.form-control:focus {
+    border-color: rgb(245, 158, 11);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.form-control:focus-visible {
+    outline: 3px solid transparent;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.32);
+}
+
+.btn-modern {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(180, 83, 9, 0.3);
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 575.98px) {
+    .page-container {
+        padding: 1rem 0.25rem;
+    }
+    
+    .modern-card {
+        max-width: 100%;
+        --card-radius: 20px;
+        border-radius: var(--card-radius);
+    }
+    
+    .card-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 2rem 1rem 1.75rem;
+    }
+    
+    .form-control {
+        padding: 0.875rem 1rem;
+    }
+    
+    .btn-modern {
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
+    }
+}
+</style>
+
+<div class="page-container">
+  <div class="modern-card">
+    <div class="card-header">
+        <h2 class="card-title">タスクボードを検索</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="/search_task_process">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="form-group">
+            <label class="form-label" for="search-task-room-id">ルームID</label>
+            <input type="text" id="search-task-room-id" name="id" class="form-control"
+                   minlength="6" maxlength="6" placeholder="ルームIDを入力（半角英数字6文字）" required
+                   pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="search-task-password">パスワード</label>
+            <input type="password" id="search-task-password" name="password" class="form-control"
+                   minlength="6" maxlength="6" placeholder="パスワードを入力（半角数字6桁）" required
+                   pattern="[0-9]{6}" title="6桁の数字で入力してください"
+                   autocomplete="current-password" inputmode="numeric">
+          </div>
+          <button class="btn-modern" type="submit">検索</button>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

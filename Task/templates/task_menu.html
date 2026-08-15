@@ -1,28 +1,394 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="登録不要で始める共有タスクボード、FS!QR Task。">
-  <meta name="language" content="ja"><meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta property="og:type" content="website"><meta property="og:title" content="FS!QR Task | 共有タスクボード">
-  <meta property="og:description" content="登録不要、URL共有だけで使えるカンバン式タスクボード。">
-  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <link rel="canonical" href="{{ request.canonical_url }}"><link rel="stylesheet" href="{{ staticfile('style.css') }}">
-  <script>window.FSQR_TAGS = Object.freeze({ googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %}, adsenseClientId: {{ google_adsense_client_id | tojson }}{% endif %} }); window.FSQR_LOCALE = Object.freeze({ language: {{ current_language | tojson }} });</script>
-  <title>FS!QR Task | 共有タスクボード</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。" />
+    <meta name="keywords" content="共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, 日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除" />
+    <meta name="geo.region" content="JP" />
+    <meta name="geo.placename" content="Japan" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="FS!QR">
+    <meta name="language" content="ja">
+    <meta name="theme-color" content="#f59e0b">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="FS!QR Task" />
+    <meta property="og:title" content="FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス" />
+    <meta property="og:description" content="URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。" />
+    <meta property="og:url" content="{{ request.canonical_url }}" />
+    <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="723">
+    <meta property="og:image:alt" content="FS!QR Task 共有タスクボードサービス">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス" />
+    <meta name="twitter:description" content="URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。" />
+    <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
+    <meta name="twitter:image:alt" content="FS!QR Task サービス">
+
+    <!-- SEO -->
+    <link rel="canonical" href="{{ request.canonical_url }}" />
+    {% for alt in request.language_alternates %}
+    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
+    {% endfor %}
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="priority" content="1.0" />
+    <meta name="importance" content="high" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+
+    {% if google_adsense_client_id %}
+    <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
+    <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+    {% endif %}
+    <script>
+      window.FSQR_TAGS = Object.freeze({
+        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
+        adsenseClientId: {{ google_adsense_client_id | tojson }}
+        {% endif %}
+      });
+      window.FSQR_LOCALE = Object.freeze({ language: {{ current_language | tojson }} });
+    </script>
+    <title>タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task</title>
+
+    <link rel="preload" as="image" href="{{staticfile('task_logo.png')}}" fetchpriority="high" />
+    <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
+    <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
+    <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
+    <link rel="manifest" href="{{staticfile('manifest_task.json')}}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Task">
+    <link rel="icon" href="{{staticfile('favicon.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon5.png')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap" rel="stylesheet">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FS!QR Task",
+      "alternateName": "エフエスQRタスク",
+      "url": "{{ request.url_root }}task",
+      "description": "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。",
+      "inLanguage": "ja-JP",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.url_root }}search_task?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{staticfile('task_logo.png')}}"
+        }
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FS!QR Task",
+      "description": "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション",
+      "applicationCategory": "WebApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "featureList": [
+        "カンバン式タスク管理（未着手・進行中・完了）",
+        "登録不要・URL共有で即時参加",
+        "ドラッグ＆ドロップ並び替え",
+        "優先度・期限・カテゴリ分類",
+        "リアルタイム同期",
+        "安心の自動削除機能"
+      ],
+      "screenshot": "{{staticfile('task_logo.png')}}",
+      "softwareVersion": "1.0",
+      "author": {
+        "@type": "Organization",
+        "name": "FS!QR"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "FS!QR Taskは本当に無料で使えますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "アカウント登録やアプリのインストールは必要ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "一切不要です。ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "タスクは何件まで登録できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1つのタスクボードにつき最大200件までタスクを登録できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "作成したタスクボードのデータはいつまで保存されますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "作成時に設定した有効期限（1時間〜24時間）が経過すると、サーバーから完全に自動削除されます。"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "FS!QR Taskの使い方",
+      "description": "共有タスクボード・カンバンの基本的な使い方",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "タスクボードを作成",
+          "text": "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。",
+          "url": "{{ request.url_root }}create_task_room"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "URLを共有してメンバーを招待",
+          "text": "発行された共有URLまたはQRコードをメンバーに渡します。"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "タスクを追加・移動して進捗管理",
+          "text": "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "{{ request.url_root }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "タスク管理",
+          "item": "{{ request.url_root }}task_menu"
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --service-accent: #b45309;
+            --service-accent-strong: #92400e;
+            --service-accent-soft: rgba(245, 158, 11, 0.18);
+            --service-accent-shadow: rgba(180, 83, 9, 0.22);
+            --service-bg-start: #f59e0b;
+            --service-bg-end: #b45309;
+            --service-glow-1: rgba(254, 243, 199, 0.34);
+            --service-glow-2: rgba(251, 191, 36, 0.26);
+        }
+    </style>
 </head>
-<body class="service-menu-page task-section">
-  <main class="modern-page-container"><section class="modern-content-card task-menu-card">
-    <div class="modern-card-header"><p>FS!QR Task</p><h1>チームの作業を、ひとつのボードに。</h1></div>
-    <div class="modern-card-body"><p>登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。</p>
-      <div class="task-menu-actions"><a class="modern-btn modern-btn--primary" href="/create_task_room">タスクボードを作成</a><a class="modern-btn modern-btn--secondary" href="/search_task">ルームに参加</a></div>
-      <p><a href="/shared-task">Taskの使い方を見る</a> · <a href="/">FS!QR ホーム</a></p>
+<body class="service-menu-page">
+    <div class="service-shell">
+        <header class="service-hero">
+            <div>
+                <span class="service-hero__eyebrow">FS!QR Task</span>
+                <h1 class="service-hero__title">チームの作業を、ひとつのボードに。</h1>
+                <p class="service-hero__description">登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。</p>
+                <ul class="service-hero__tags" aria-label="FS!QR Taskの特長">
+                    <li class="service-hero__tag"><i class="fas fa-columns" aria-hidden="true"></i> カンバン管理</li>
+                    <li class="service-hero__tag"><i class="fas fa-link" aria-hidden="true"></i> URL共有で即参加</li>
+                    <li class="service-hero__tag"><i class="fas fa-shield-alt" aria-hidden="true"></i> 自動削除で安心</li>
+                </ul>
+            </div>
+            <div class="service-hero__panel" aria-hidden="true">
+                <i class="fas fa-tasks"></i>
+            </div>
+        </header>
+
+        <main class="service-main" role="main">
+            <section class="menu-container" aria-labelledby="task-services">
+                <h2 id="task-services" class="visually-hidden">タスクサービス機能一覧</h2>
+
+                <article class="menu-card">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    <h3>ボードを作成</h3>
+                    <p>新しいタスクボードを作成して、チームの作業を整理・共有しましょう。</p>
+                    <a href="/create_task_room" aria-describedby="create-task-desc">作成する</a>
+                    <span id="create-task-desc" class="visually-hidden">新しいタスクボード作成ページに移動します</span>
+                </article>
+
+                <article class="menu-card">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <h3>ボードを検索</h3>
+                    <p>IDとパスワードを入力して、既存のタスクボードに参加します。</p>
+                    <a href="/search_task" aria-describedby="search-task-desc">検索する</a>
+                    <span id="search-task-desc" class="visually-hidden">タスクボード検索ページに移動します</span>
+                </article>
+
+                <article class="menu-card">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <h3>ホームに戻る</h3>
+                    <p>FS!QRメインページに戻ってその他のサービス（ファイル共有・Group・Note）を利用します。</p>
+                    <a href="/" aria-describedby="home-task-desc">戻る</a>
+                    <span id="home-task-desc" class="visually-hidden">FS!QRホームページに移動します</span>
+                </article>
+            </section>
+
+            <section class="content-section" aria-labelledby="task-faq">
+                <h2 id="task-faq" class="section-title">よくある質問</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>FS!QR Taskは本当に無料で使えますか？</summary>
+                        <p>はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>アカウント登録やログインは必要ですか？</summary>
+                        <p>アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>タスクの登録件数や文字数に制限はありますか？</summary>
+                        <p>1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字、カテゴリは最大40文字まで設定可能です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>スマートフォンからでも操作できますか？</summary>
+                        <p>はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="content-section" aria-labelledby="task-howto">
+                <h2 id="task-howto" class="section-title">FS!QR Taskの使い方</h2>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>タスクボードを作成する</h3>
+                        <p>「ボードを作成」ボタンを押し、保存期間（1〜24時間）を選択してボードを発行します。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>メンバーにURLを共有する</h3>
+                        <p>発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>タスクを追加して進捗を管理する</h3>
+                        <p>タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="task-about">
+                <h2 id="task-about" class="section-title">FS!QR Taskとは</h2>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">FS!QR Taskは、アカウント登録不要でブラウザから即座に使える無料のカンバン式タスク管理サービスです。URLを共有するだけで、チームメンバーやイベント運営メンバーとリアルタイムに進捗を共有できます。保存期間が過ぎると自動消去されるため、一時的なプロジェクトや単発のイベント準備にも安心してご利用いただけます。</p>
+                <ol class="howto-steps">
+                    <li class="howto-step">
+                        <h3>イベント・ハッカソンの進行管理</h3>
+                        <p>単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>ミーティングのアクションアイテム整理</h3>
+                        <p>打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。</p>
+                    </li>
+                    <li class="howto-step">
+                        <h3>日々のTODO・作業整理</h3>
+                        <p>個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="content-section" aria-labelledby="task-comparison">
+                <h2 id="task-comparison" class="section-title">他のタスク管理ツールとの違い</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>TrelloやNotionとの違い</summary>
+                        <p>TrelloやNotionは全員のアカウント登録やワークスペース招待が必要で、初期設定に時間がかかります。FS!QR Taskは登録不要でURLを開くだけで1秒で始められます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>TodoistやAsanaとの違い</summary>
+                        <p>多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>チャットツールのTODOリストとの違い</summary>
+                        <p>チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="content-section" aria-labelledby="task-specs">
+                <h2 id="task-specs" class="section-title">仕様・詳細</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>対応デバイスとブラウザ</summary>
+                        <p>PC・スマートフォン・タブレットに対応しています。Chrome・Safari・Firefox・Edgeなど最新の主要ブラウザで動作します。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>データの有効期限と自動削除</summary>
+                        <p>タスクボード作成時に選択した有効期限（1時間・6時間・12時間・24時間）が経過すると、タスクデータは自動的に消去されます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>アクセス制御とセキュリティ</summary>
+                        <p>ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。</p>
+                    </details>
+                </div>
+            </section>
+        </main>
+
+        {% include '_footer.html' %}
     </div>
-  </section></main>
-  {% include 'cookie-consent.html' %}
-  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+
+    {% include 'cookie-consent.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{{staticfile('js/shared/app-namespace.js')}}" defer></script>
+    <script src="{{staticfile('js/shared/ux-runtime.js')}}" defer></script>
+    <script src="{{staticfile('js/shared/sw-register.js')}}" defer></script>
+    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
+    <script src="{{staticfile('tooltip.js')}}" defer></script>
+    <script src="{{staticfile('accessibility.js')}}" defer></script>
 </body>
 </html>
