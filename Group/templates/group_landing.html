@@ -7,6 +7,7 @@
   <meta name="description" content="FS!QR Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#17261f">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="canonical" href="{{ request.canonical_url }}">
   {% for alt in request.language_alternates %}
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
@@ -31,7 +32,6 @@
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon2.png') }}">
-  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <script type="application/ld+json">
@@ -75,6 +75,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "選んだファイルはいつ送信されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
         }
       },
       {
@@ -140,26 +148,95 @@
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
           <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のグループファイル共有</p>
-          <h1 id="hero-title">チームのファイルを、<br><span>ひとつのルームへ。</span></h1>
-          <p class="lp-hero__lead">メンバー登録や招待設定に時間をかけず、必要な人とファイルをまとめて共有。ルームを作り、URLやQRコードを渡すだけで共同作業を始められます。</p>
-          <div class="lp-actions">
-            <a class="lp-button lp-button--primary" href="/create_room">
-              無料でルームを作る
-              <span aria-hidden="true">→</span>
-            </a>
-            <a class="lp-button lp-button--secondary" href="/group">IDでルームに参加</a>
-          </div>
+          <h1 id="hero-title">ファイルを置けば、<br><span>もう共有できる。</span></h1>
+          <p class="lp-hero__lead">先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。</p>
           <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
             <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
             <li><span aria-hidden="true">✓</span> ブラウザで完結</li>
-            <li><span aria-hidden="true">✓</span> 保存期間を選択</li>
+            <li><span aria-hidden="true">✓</span> 発行するまで送信しない</li>
           </ul>
+          <p class="lp-hero__aside">
+            <a class="lp-text-link" href="/create_room">ルームIDや保存期間を指定して作成する</a>
+            <span aria-hidden="true">・</span>
+            <a class="lp-text-link" href="/group">IDでルームに参加する</a>
+          </p>
         </div>
 
-        <figure class="lp-mockup lp-page-shot">
-          <img src="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}" width="1200" height="900" alt="複数のメンバーでファイルを共有する様子を表すイラスト" fetchpriority="high" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Groupの共同ファイル共有を表す、文字のないイラスト</figcaption>
-        </figure>
+        <!-- Instant share box / ルームを作らずにファイルを選べる共有ボックス -->
+        <section class="lp-instant"
+                 id="instant-share-box"
+                 aria-labelledby="instant-title"
+                 data-instant-share-box
+                 data-create-url="/create_group_room"
+                 data-upload-url="/group_upload"
+                 data-max-files="{{ upload_max_files }}"
+                 data-max-total-size-bytes="{{ upload_max_total_size_bytes }}"
+                 data-max-total-size-mb="{{ upload_max_total_size_mb }}">
+          <div class="lp-instant__bar">
+            <h2 class="lp-instant__title" id="instant-title">共有ボックス</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末で選択中</p>
+          </div>
+
+          <div class="lp-dropzone" data-instant-dropzone>
+            <p class="lp-dropzone__lead">ここにファイルをドロップ</p>
+            <p class="lp-dropzone__sub">または</p>
+            <label class="lp-dropzone__button" for="instant-file-input">ファイルを選ぶ</label>
+            <input type="file" id="instant-file-input" class="lp-visually-hidden" data-instant-file-input multiple>
+            <p class="lp-dropzone__limits">最大{{ upload_max_files }}個・合計{{ upload_max_total_size_mb }}MBまで</p>
+          </div>
+
+          <ul class="lp-file-list" data-instant-file-list aria-label="選択したファイル"></ul>
+
+          <div class="lp-instant__meta">
+            <span class="lp-instant__count" data-instant-count>ファイル未選択</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear hidden>すべて外す</button>
+          </div>
+          <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
+          <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-publish disabled>
+            共有リンクを発行する <span aria-hidden="true">→</span>
+          </button>
+          <p class="lp-instant__hint" data-instant-hint>発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。</p>
+
+          <!-- Share panel / 発行後に共有情報をその場で提示する -->
+          <div class="lp-instant__share" data-instant-share-panel hidden>
+            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <div class="lp-instant__share-body">
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <dl class="lp-instant__share-list">
+                <div class="lp-instant__share-row">
+                  <dt>共有URL</dt>
+                  <dd>
+                    <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>ルームID</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-room-id></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>パスワード</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-password></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/group">
+              ルームを開く <span aria-hidden="true">→</span>
+            </a>
+            <p class="lp-instant__hint">URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>別のルームを新しく作る</button>
+          </div>
+
+          <noscript>
+            <p class="lp-instant__hint">この共有ボックスにはJavaScriptが必要です。<a href="/create_room">グループルームを作成</a>してからご利用ください。</p>
+          </noscript>
+        </section>
       </div>
     </section>
 
@@ -192,8 +269,8 @@
                 <path d="M9.5 13.5h5"/>
               </svg>
             </div>
-            <h3>ルームを作成</h3>
-            <p>ルームIDと保存期間を設定。6桁のパスワードが自動で発行されます。</p>
+            <h3>ファイルを選ぶ</h3>
+            <p>このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">02</span>
@@ -203,8 +280,8 @@
                 <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
               </svg>
             </div>
-            <h3>参加情報を共有</h3>
-            <p>共有URLやQRコード、またはルームIDとパスワードを必要な相手へ伝えます。</p>
+            <h3>共有リンクを発行</h3>
+            <p>ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">03</span>
@@ -217,11 +294,12 @@
               </svg>
             </div>
             <h3>みんなで共有</h3>
-            <p>参加者がファイルをアップロード。ルーム内の一覧から必要なファイルを受け取れます。</p>
+            <p>参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="/create_room">グループルームを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--primary" href="#instant-share-box">共有ボックスを開く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -328,6 +406,10 @@
           <p class="lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
           <h2 id="use-cases-title" class="lp-section__title">仕事、学び、イベント。<br>人が集まる場のファイル共有に。</h2>
         </div>
+        <figure class="lp-mockup lp-page-shot lp-use-case-visual">
+          <img src="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}" width="1200" height="900" alt="複数のメンバーでファイルを共有する様子を表すイラスト" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Groupの共同ファイル共有を表す、文字のないイラスト</figcaption>
+        </figure>
         <div class="lp-grid lp-grid--use-cases">
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
@@ -368,6 +450,10 @@
             <p>必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。</p>
           </details>
           <details class="lp-faq-item">
+            <summary>選んだファイルはいつ送信されますか？<span aria-hidden="true"></span></summary>
+            <p>トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。</p>
+          </details>
+          <details class="lp-faq-item">
             <summary>メンバーはどのようにルームへ参加しますか？<span aria-hidden="true"></span></summary>
             <p>共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。</p>
           </details>
@@ -391,10 +477,10 @@
       <div class="lp-container lp-final-cta__inner">
         <p class="lp-section__eyebrow">いますぐルームを作成</p>
         <h2 id="final-cta-title">次のファイル共有を、<br>もっと軽やかに。</h2>
-        <p>アカウント登録は不要です。まずは保存期間を選び、チームのルームを作成してください。</p>
+        <p>アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--primary" href="/create_room">グループルームを作る <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/group">既存ルームに参加</a>
+          <a class="lp-button lp-button--primary" href="#instant-share-box">共有ボックスにファイルを置く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -419,5 +505,10 @@
       <p>登録不要のファイル共有サービス</p>
     </div>
   </footer>
+
+  <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/upload-validation.js') }}" defer></script>
+  <script src="{{ staticfile('js/group_landing/instant-share.js') }}" defer></script>
 </body>
 </html>

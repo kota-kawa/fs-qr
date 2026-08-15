@@ -138,6 +138,51 @@ def test_product_landing_page_uses_service_icon_and_generated_illustration(
     assert image_response.headers["content-type"] == "image/jpeg"
 
 
+def test_group_landing_page_offers_instant_share_box(test_client: TestClient):
+    """Group LPは、ルームを作らずファイルを選べる共有ボックスを先頭に置く。"""
+    response = test_client.get("/group-file-sharing")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert 'id="instant-share-box"' in body
+    assert "data-instant-share-box" in body
+    assert "data-instant-dropzone" in body
+    assert "data-instant-publish" in body
+    assert '<meta name="csrf-token"' in body
+    assert "/static/js/group_landing/instant-share.js" in body
+    # 送信前の検証は共有モジュールを再利用する
+    assert "/static/js/shared/upload-validation.js" in body
+
+    # ヒーローより下の CTA を待たずにファイルを置ける位置にあること
+    assert body.index('id="instant-share-box"') < body.index('id="how-it-works"')
+
+    # 従来のルーム作成導線も残す
+    assert 'href="/create_room"' in body
+
+
+def test_group_landing_page_shows_share_details_after_publishing(
+    test_client: TestClient,
+):
+    """発行後の共有情報（URL・QR・ID・パスワード）をLP上で提示する枠を持つ。"""
+    response = test_client.get("/group-file-sharing")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert "data-instant-share-panel" in body
+    for marker in (
+        "data-instant-share-url",
+        "data-instant-room-id",
+        "data-instant-password",
+        "data-instant-qr",
+        "data-instant-open",
+    ):
+        assert marker in body, marker
+
+    assert "/static/qrcode.min.js" in body
+
+
 def test_group_landing_page_does_not_include_room_ui_mockup(
     test_client: TestClient,
 ):

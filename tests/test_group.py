@@ -92,6 +92,8 @@ def test_create_group_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["data"]["redirect_url"] == "/group/r/abc123"
     assert payload["data"]["share_url"].startswith("http://testserver/group/s/")
     assert payload["data"]["password"] == "000042"
+    # LP の共有パネルが参加情報を表示できるよう room_id も返す
+    assert payload["data"]["room_id"] == "abc123"
     create_mock.assert_awaited_once_with(
         id="abc123",
         password="000042",
