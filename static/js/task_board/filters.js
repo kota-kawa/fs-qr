@@ -2,10 +2,14 @@
   'use strict';
 
   var modules = window.__FSQR_APP__.api.getModuleNamespace('taskBoard');
-  var query = '';
-  var category = '';
-  var priority = '';
-  var sortBy = 'position';
+
+  var state = {
+    query: '',
+    category: '',
+    priority: '',
+    due: '',
+    sortBy: 'position'
+  };
 
   var priorityRank = {
     high: 1,
@@ -13,11 +17,21 @@
     low: 3
   };
 
+  function matchesDue(item) {
+    if (!state.due) return true;
+    var diff = modules.core.dueDiffDays(item.due_date);
+    if (state.due === 'none') return diff === null;
+    if (diff === null) return false;
+    if (state.due === 'overdue') return diff < 0;
+    if (state.due === 'today') return diff === 0;
+    if (state.due === 'week') return diff >= 0 && diff <= 7;
+    return true;
+  }
+
   function apply(items) {
     var filtered = items.filter(function (item) {
-      // Search keyword
-      if (query) {
-        var q = query.toLowerCase();
+      if (state.query) {
+        var q = state.query.toLowerCase();
         var matchTitle = item.title && item.title.toLowerCase().indexOf(q) >= 0;
         var matchNote = item.note && item.note.toLowerCase().indexOf(q) >= 0;
         var matchCat = item.category && item.category.toLowerCase().indexOf(q) >= 0;
@@ -25,70 +39,93 @@
           return false;
         }
       }
-      // Category
-      if (category && item.category !== category) {
+      if (state.category && item.category !== state.category) {
         return false;
       }
-      // Priority
-      if (priority && item.priority !== priority) {
+      if (state.priority && item.priority !== state.priority) {
         return false;
       }
-      return true;
+      return matchesDue(item);
     });
 
-    // Sorting
     return filtered.sort(function (a, b) {
-      if (sortBy === 'due_date') {
+      if (state.sortBy === 'due_date') {
         if (!a.due_date && !b.due_date) return a.position - b.position || a.item_id - b.item_id;
         if (!a.due_date) return 1;
         if (!b.due_date) return -1;
         if (a.due_date !== b.due_date) return a.due_date.localeCompare(b.due_date);
-      } else if (sortBy === 'priority') {
+      } else if (state.sortBy === 'priority') {
         var rankA = priorityRank[a.priority] || 2;
         var rankB = priorityRank[b.priority] || 2;
         if (rankA !== rankB) return rankA - rankB;
-      } else if (sortBy === 'title') {
-        var comp = (a.title || '').localeCompare(b.title || '');
+      } else if (state.sortBy === 'title') {
+        var comp = (a.title || '').localeCompare(b.title || '', 'ja');
         if (comp !== 0) return comp;
       }
       return a.position - b.position || a.item_id - b.item_id;
     });
   }
 
+  function isCustomOrder() {
+    return state.sortBy === 'position';
+  }
+
+  function hasActiveFilters() {
+    return Boolean(state.query || state.category || state.priority || state.due);
+  }
+
   function getActiveFilterCount() {
     var count = 0;
-    if (query) count++;
-    if (category) count++;
-    if (priority) count++;
-    if (sortBy !== 'position') count++;
+    if (state.category) count++;
+    if (state.priority) count++;
+    if (state.due) count++;
+    if (state.sortBy !== 'position') count++;
     return count;
   }
 
+  function rerender() {
+    if (modules.render) {
+      modules.render.render(modules.store.getItems(), modules.store.getCategories());
+    }
+  }
+
   function updateFilterUI() {
-    var clearBtn = document.getElementById('taskClearFiltersBtn');
     var badge = document.getElementById('taskActiveFilterCount');
+    var clearBtn = document.getElementById('taskClearFiltersBtn');
     var searchClearBtn = document.getElementById('taskSearchClear');
+    var sortNote = document.getElementById('taskSortNote');
     var count = getActiveFilterCount();
 
-    if (clearBtn && badge) {
-      if (count > 0) {
-        clearBtn.hidden = false;
-        badge.textContent = String(count);
-      } else {
-        clearBtn.hidden = true;
-      }
+    if (badge) {
+      badge.hidden = count === 0;
+      badge.textContent = String(count);
+    }
+    if (clearBtn) {
+      clearBtn.hidden = count === 0 && !state.query;
+    }
+    if (searchClearBtn) {
+      searchClearBtn.hidden = !state.query;
+    }
+    if (sortNote) {
+      sortNote.hidden = isCustomOrder();
     }
 
-    if (searchClearBtn) {
-      searchClearBtn.hidden = !query;
-    }
+    document.querySelectorAll('[data-due-filter]').forEach(function (chip) {
+      chip.setAttribute('aria-pressed', String(chip.dataset.dueFilter === state.due));
+    });
   }
 
   function updateCategories(categories) {
     var select = document.getElementById('taskCategoryFilter');
     if (!select) return;
 
-    var selected = category;
+    var names = categories || [];
+    var signature = names.join('');
+    if (select.dataset.signature === signature) {
+      select.value = state.category;
+      return;
+    }
+    select.dataset.signature = signature;
     select.textContent = '';
 
     var all = document.createElement('option');
@@ -96,98 +133,123 @@
     all.textContent = 'すべてのカテゴリ';
     select.appendChild(all);
 
-    (categories || []).forEach(function (name) {
+    names.forEach(function (name) {
       var option = document.createElement('option');
       option.value = name;
       option.textContent = name;
       select.appendChild(option);
     });
 
-    select.value = selected;
+    select.value = state.category;
+  }
+
+  function setDueFilter(value) {
+    state.due = state.due === value ? '' : value;
+    var select = document.getElementById('taskDueFilter');
+    if (select) select.value = state.due;
+    updateFilterUI();
+    rerender();
   }
 
   function clearAll() {
-    query = '';
-    category = '';
-    priority = '';
-    sortBy = 'position';
+    state.query = '';
+    state.category = '';
+    state.priority = '';
+    state.due = '';
+    state.sortBy = 'position';
 
-    var searchInput = document.getElementById('taskSearchInput');
-    var categorySelect = document.getElementById('taskCategoryFilter');
-    var prioritySelect = document.getElementById('taskPriorityFilter');
-    var sortSelect = document.getElementById('taskSortSelect');
-
-    if (searchInput) searchInput.value = '';
-    if (categorySelect) categorySelect.value = '';
-    if (prioritySelect) prioritySelect.value = '';
-    if (sortSelect) sortSelect.value = 'position';
+    var ids = {
+      taskSearchInput: '',
+      taskCategoryFilter: '',
+      taskPriorityFilter: '',
+      taskDueFilter: '',
+      taskSortSelect: 'position'
+    };
+    Object.keys(ids).forEach(function (id) {
+      var element = document.getElementById(id);
+      if (element) element.value = ids[id];
+    });
 
     updateFilterUI();
-    if (modules.render) {
-      modules.render.render(modules.store.getItems(), modules.store.getCategories());
-    }
+    rerender();
+  }
+
+  function bindSelect(id, key) {
+    var select = document.getElementById(id);
+    if (!select) return;
+    select.addEventListener('change', function () {
+      state[key] = this.value;
+      updateFilterUI();
+      rerender();
+    });
   }
 
   function init() {
     var searchInput = document.getElementById('taskSearchInput');
     var searchClearBtn = document.getElementById('taskSearchClear');
-    var categorySelect = document.getElementById('taskCategoryFilter');
-    var prioritySelect = document.getElementById('taskPriorityFilter');
-    var sortSelect = document.getElementById('taskSortSelect');
     var clearBtn = document.getElementById('taskClearFiltersBtn');
+    var filterToggle = document.getElementById('taskFilterToggle');
+    var filterPanel = document.getElementById('taskFilterPanel');
 
     if (searchInput) {
       searchInput.addEventListener('input', function () {
-        query = this.value.trim();
+        state.query = this.value.trim();
         updateFilterUI();
-        modules.render.render(modules.store.getItems(), modules.store.getCategories());
+        rerender();
       });
     }
 
     if (searchClearBtn && searchInput) {
       searchClearBtn.addEventListener('click', function () {
         searchInput.value = '';
-        query = '';
+        state.query = '';
         updateFilterUI();
-        modules.render.render(modules.store.getItems(), modules.store.getCategories());
+        rerender();
         searchInput.focus();
       });
     }
 
-    if (categorySelect) {
-      categorySelect.addEventListener('change', function () {
-        category = this.value;
-        updateFilterUI();
-        modules.render.render(modules.store.getItems(), modules.store.getCategories());
-      });
-    }
-
-    if (prioritySelect) {
-      prioritySelect.addEventListener('change', function () {
-        priority = this.value;
-        updateFilterUI();
-        modules.render.render(modules.store.getItems(), modules.store.getCategories());
-      });
-    }
-
-    if (sortSelect) {
-      sortSelect.addEventListener('change', function () {
-        sortBy = this.value;
-        updateFilterUI();
-        modules.render.render(modules.store.getItems(), modules.store.getCategories());
-      });
-    }
+    bindSelect('taskCategoryFilter', 'category');
+    bindSelect('taskPriorityFilter', 'priority');
+    bindSelect('taskDueFilter', 'due');
+    bindSelect('taskSortSelect', 'sortBy');
 
     if (clearBtn) {
       clearBtn.addEventListener('click', clearAll);
     }
+
+    if (filterToggle && filterPanel) {
+      filterToggle.addEventListener('click', function () {
+        var open = filterPanel.hidden;
+        filterPanel.hidden = !open;
+        filterToggle.setAttribute('aria-expanded', String(open));
+      });
+    }
+
+    document.querySelectorAll('[data-due-filter]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        setDueFilter(this.dataset.dueFilter);
+        if (filterPanel && filterToggle && filterPanel.hidden && state.due) {
+          // Keep the panel in sync so the active condition stays discoverable.
+          // 有効な条件が見つけやすいようにパネルを開いておく。
+          filterPanel.hidden = false;
+          filterToggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
   }
 
   modules.filters = {
     apply: apply,
+    init: init,
+    clearAll: clearAll,
+    setDueFilter: setDueFilter,
     updateCategories: updateCategories,
     updateFilterUI: updateFilterUI,
-    init: init,
-    clearAll: clearAll
+    isCustomOrder: isCustomOrder,
+    hasActiveFilters: hasActiveFilters,
+    getState: function () {
+      return Object.assign({}, state);
+    }
   };
 })(window, document);
