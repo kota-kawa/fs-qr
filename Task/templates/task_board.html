@@ -1,0 +1,11 @@
+{% extends "task_layout.html" %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block meta_googlebot %}noindex, nofollow{% endblock %}
+{% block page_title %}Task ボード {{ room_id }} | FS!QR Task{% endblock %}
+
+{% block contents %}
+{% include "task_board_partials/_styles.html" %}
+{% include "task_board_partials/_content.html" %}
+{% include "task_board_partials/_scripts.html" %}
+{% endblock %}

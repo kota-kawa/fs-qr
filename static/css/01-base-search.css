@@ -43,9 +43,14 @@ th { text-align: right; }
   color: #95d420;
 }
 
+.task-section .search-link span {
+  color: #b45309;
+}
+
 body.group-section,
 body.note-section,
-body.fsqr-section {
+body.fsqr-section,
+body.task-section {
   position: relative;
   min-height: 100vh;
   background-attachment: fixed;
@@ -73,9 +78,17 @@ body.fsqr-section {
     linear-gradient(145deg, #b9f1ff 0%, #23c3df 22%, #3b82f6 64%, #1f27c7 100%);
 }
 
+body.task-section {
+  background:
+    radial-gradient(circle at top left, rgba(254, 243, 199, 0.52) 0%, rgba(254, 243, 199, 0) 34%),
+    radial-gradient(circle at 84% 18%, rgba(245, 158, 11, 0.28) 0%, rgba(245, 158, 11, 0) 30%),
+    linear-gradient(145deg, #fff7ed 0%, #fde68a 22%, #f59e0b 64%, #b45309 100%);
+}
+
 body.group-section::before,
 body.note-section::before,
-body.fsqr-section::before {
+body.fsqr-section::before,
+body.task-section::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -88,27 +101,31 @@ body.fsqr-section::before {
 
 body.group-section > *,
 body.note-section > *,
-body.fsqr-section > * {
+body.fsqr-section > *,
+body.task-section > * {
   position: relative;
   z-index: 1;
 }
 
 body.group-section,
 body.note-section,
-body.fsqr-section {
+body.fsqr-section,
+body.task-section {
   display: flex;
   flex-direction: column;
 }
 
 body.group-section #layout.page,
 body.note-section #layout.page,
-body.fsqr-section #layout.page {
+body.fsqr-section #layout.page,
+body.task-section #layout.page {
   flex: 1 0 auto;
 }
 
 body.group-section footer.simple-footer,
 body.note-section footer.simple-footer,
-body.fsqr-section footer.simple-footer {
+body.fsqr-section footer.simple-footer,
+body.task-section footer.simple-footer {
   margin-bottom: 1.5rem;
   margin-bottom: calc(1.5rem + env(safe-area-inset-bottom));
   margin-left: 1rem;

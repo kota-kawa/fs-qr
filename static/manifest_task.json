@@ -1,0 +1,10 @@
+{
+  "name": "FS!QR Task",
+  "short_name": "Task",
+  "start_url": "/task_menu",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f59e0b",
+  "icons": [{"src": "/static/apple-touch-icon5.png", "sizes": "180x180", "type": "image/png"}]
+}

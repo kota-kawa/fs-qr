@@ -1,0 +1,15 @@
+<script src="{{ staticfile('js/shared/app-namespace.js') }}"></script>
+<script>
+window.__FSQR_APP__.api.setConfig('taskBoard', Object.freeze({
+  roomId: {{ room_id | string | tojson }},
+  debug: {{ frontend_debug | tojson }},
+  limits: Object.freeze({ maxItems: {{ task_max_items_per_room | tojson }}, titleLength: {{ task_max_title_length | tojson }}, noteLength: {{ task_max_note_length | tojson }}, categoryLength: {{ task_max_category_length | tojson }} })
+}));
+</script>
+<script src="{{ staticfile('js/task_board/core.js') }}"></script>
+<script src="{{ staticfile('js/task_board/store.js') }}"></script>
+<script src="{{ staticfile('js/task_board/render.js') }}"></script>
+<script src="{{ staticfile('js/task_board/editor.js') }}"></script>
+<script src="{{ staticfile('js/task_board/dnd.js') }}"></script>
+<script src="{{ staticfile('js/task_board/filters.js') }}"></script>
+<script src="{{ staticfile('js/task_board/main.js') }}"></script>
