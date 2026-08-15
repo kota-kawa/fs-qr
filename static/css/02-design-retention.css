@@ -549,6 +549,25 @@
   box-shadow: var(--retention-citrus-arrow-shadow);
 }
 
+.retention-select-wrapper--amber {
+  --retention-accent: #d97706;
+  --retention-accent-soft: rgba(245, 158, 11, 0.28);
+  --retention-accent-strong: rgba(217, 119, 6, 0.55);
+  --retention-text: #451a03;
+  --retention-trigger-bg: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95));
+  --retention-trigger-hover-bg: linear-gradient(135deg, rgba(217, 119, 6, 0.98), rgba(180, 83, 9, 0.96));
+  --retention-trigger-open-bg: linear-gradient(135deg, rgba(180, 83, 9, 1), rgba(146, 64, 14, 0.98));
+  --retention-trigger-text: #fffbeb;
+  --retention-trigger-hover-text: #fffbeb;
+  --retention-trigger-open-text: #fffbeb;
+  --retention-trigger-shadow: 0 12px 24px -16px rgba(217, 119, 6, 0.6);
+  --retention-trigger-hover-shadow: 0 18px 32px -14px rgba(217, 119, 6, 0.68);
+  --retention-trigger-open-shadow: 0 20px 36px -14px rgba(180, 83, 9, 0.72);
+  --retention-wrapper-border: rgba(245, 158, 11, 0.55);
+  --retention-menu-border: rgba(217, 119, 6, 0.38);
+  --retention-menu-shadow: 0 28px 50px -18px rgba(180, 83, 9, 0.6);
+}
+
 @media (max-width: 575.98px) {
   .retention-select-wrapper {
     max-width: 100%;
