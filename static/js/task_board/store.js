@@ -5,6 +5,12 @@
   var items = [];
   var categories = [];
   var listeners = [];
+  var lastCalendarDay = '';
+
+  function calendarDay() {
+    var now = new Date();
+    return [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
+  }
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
@@ -54,10 +60,16 @@
 
   function setAll(nextItems, nextCategories) {
     var incoming = Array.isArray(nextItems) ? nextItems : [];
-    if (items.length && signature(incoming) === signature(items)) {
+    var today = calendarDay();
+    if (
+      items.length &&
+      signature(incoming) === signature(items) &&
+      today === lastCalendarDay
+    ) {
       return false;
     }
     items = incoming;
+    lastCalendarDay = today;
     if (Array.isArray(nextCategories) && nextCategories.length > 0) {
       categories = nextCategories;
     } else {

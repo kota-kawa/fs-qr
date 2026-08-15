@@ -152,7 +152,7 @@
   function isInteractive(target) {
     return Boolean(
       target.closest(
-        '[data-action="toggle"], [data-action="menu"], a, input, textarea, select, details, summary, .task-menu'
+        'button, a, input, textarea, select, details, summary, .task-menu'
       )
     );
   }

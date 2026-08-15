@@ -30,21 +30,35 @@
       });
   }
 
-  async function persistMove(item, status, position, needReorder) {
+  async function persistMove(item, status, position, needReorder, orderedItemIds) {
     var before = store.snapshot();
     var changed = Object.assign({}, item, { board_status: status, position: position });
+    var moveCommitted = false;
     store.replace(changed);
 
     try {
       if (needReorder) {
-        // Position space collapsed: rewrite the whole column order.
-        // 位置の隙間が無くなったのでカラム全体を振り直す。
-        var list = ordered(status).map(function (candidate) {
-          return candidate.item_id;
-        });
+        // A cross-column item must exist in the destination on the server before
+        // the reorder endpoint can validate the complete destination ID set.
+        // 別カラムへの移動時は、並び替えAPIの集合検証より先に移動を確定する。
+        if (item.board_status !== status) {
+          var moved = await core.request(core.itemsUrl('/' + item.item_id), {
+            method: 'PATCH',
+            body: JSON.stringify({
+              version: item.version,
+              board_status: status,
+              position: position
+            })
+          });
+          moveCommitted = true;
+          store.replace(moved.item);
+        }
+
+        // Position space collapsed: rewrite the whole column in the intended order.
+        // 位置の隙間が無くなったので、意図した順序でカラム全体を振り直す。
         var reorderData = await core.request(core.itemsUrl('/reorder'), {
           method: 'POST',
-          body: JSON.stringify({ board_status: status, ordered_item_ids: list })
+          body: JSON.stringify({ board_status: status, ordered_item_ids: orderedItemIds })
         });
         (reorderData.items || []).forEach(function (updated) {
           store.replace(updated);
@@ -65,6 +79,17 @@
     } catch (err) {
       if (err.status === 409 && err.data && err.data.item) {
         store.replace(err.data.item);
+      } else if (moveCommitted) {
+        // The move succeeded but normalization failed. Re-sync instead of
+        // restoring a snapshot that no longer matches the server.
+        // 移動後の並び替えだけ失敗した場合は、古い状態へ戻さず再同期する。
+        try {
+          var latest = await core.request(core.itemsUrl(), { method: 'GET' });
+          store.setAll(latest.items, latest.categories);
+        } catch (syncError) {
+          // The regular poll will retry synchronization.
+          // 通常ポーリングで再同期を再試行する。
+        }
       } else {
         store.restore(before);
       }
@@ -110,7 +135,15 @@
       position = 100;
     }
 
-    persistMove(item, targetStatus, position, needReorder);
+    persistMove(
+      item,
+      targetStatus,
+      position,
+      needReorder,
+      next.map(function (candidate) {
+        return candidate.item_id;
+      })
+    );
   }
 
   function moveToColumn(item, status) {
@@ -226,11 +259,11 @@
 
   async function deleteItem(itemId, options) {
     var item = store.getItem(itemId);
-    if (!item) return;
+    if (!item) return false;
 
     if (!(options && options.skipConfirm)) {
       var ok = await confirmDialog('「' + item.title + '」を削除しますか？');
-      if (!ok) return;
+      if (!ok) return false;
     }
 
     var before = store.snapshot();
@@ -246,9 +279,11 @@
       core.toastWithUndo('タスクを削除しました。', function () {
         restoreItems([backup]);
       });
+      return true;
     } catch (err) {
       store.restore(before);
       core.toast(err.message || '削除に失敗しました。', 'error');
+      return false;
     }
   }
 
@@ -294,6 +329,12 @@
       return;
     }
 
+    // Restore only the items whose server deletion failed.
+    // サーバーで削除できなかった項目だけを画面へ戻す。
+    failed.forEach(function (item) {
+      store.replace(item);
+    });
+
     var deleted = backups.filter(function (backup) {
       return !failed.some(function (item) {
         return item.item_id === backup.item_id;
@@ -303,6 +344,9 @@
     core.toastWithUndo(deleted.length + '件の完了タスクを削除しました。', function () {
       restoreItems(deleted);
     });
+    if (failed.length > 0) {
+      core.toast(failed.length + '件のタスクを削除できませんでした。', 'error');
+    }
   }
 
   /** Contextual menu shown from a card's ⋮ button. / カードの操作メニュー。 */

@@ -7,6 +7,7 @@
 
   var dialog, form, error;
   var isNewMode = false;
+  var isSaving = false;
   var lastFocus = null;
   var baseline = '';
 
@@ -180,6 +181,7 @@
 
   async function save(event) {
     if (event) event.preventDefault();
+    if (isSaving) return;
 
     var payload = collectPayload();
     if (!payload.title) {
@@ -189,6 +191,7 @@
     }
 
     var submitBtn = form.querySelector('button[type="submit"]');
+    isSaving = true;
     if (submitBtn) submitBtn.disabled = true;
 
     if (isNewMode) {
@@ -200,6 +203,7 @@
       } catch (err) {
         showError(err.message || '追加に失敗しました。');
       } finally {
+        isSaving = false;
         if (submitBtn) submitBtn.disabled = false;
       }
       return;
@@ -232,6 +236,7 @@
         showError(err.message || '更新に失敗しました。');
       }
     } finally {
+      isSaving = false;
       if (submitBtn) submitBtn.disabled = false;
     }
   }
@@ -239,9 +244,11 @@
   async function removeCurrent() {
     var id = Number(element('taskEditorId').value);
     if (!store.getItem(id)) return;
-    baseline = snapshotForm();
-    close();
-    await modules.actions.deleteItem(id);
+    var deleted = await modules.actions.deleteItem(id);
+    if (deleted) {
+      baseline = snapshotForm();
+      close();
+    }
   }
 
   function initQuickDates() {
@@ -294,6 +301,7 @@
     form.addEventListener('keydown', function (event) {
       if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
         event.preventDefault();
+        if (event.repeat) return;
         save();
       }
     });
