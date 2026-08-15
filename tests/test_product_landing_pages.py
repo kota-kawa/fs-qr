@@ -279,6 +279,49 @@ def test_group_landing_page_use_cases_do_not_include_abstract_scenes(
     assert "プロジェクト資料の集約" in response.text
 
 
+def test_task_landing_page_offers_instant_draft_board(test_client: TestClient):
+    """Task LPは、ルームを作らずタスクを書き出せる下書きボードを先頭に置く。"""
+    response = test_client.get("/shared-task")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert 'id="instant-board"' in body
+    assert "data-instant-board" in body
+    assert "data-instant-add-form" in body
+    assert "data-instant-publish" in body
+    assert '<meta name="csrf-token"' in body
+    assert "/static/js/task_landing/instant-board.js" in body
+
+    # ヒーローより下の CTA を待たずにタスクを書ける位置にあること
+    assert body.index('id="instant-board"') < body.index('id="how-it-works"')
+
+    # 従来のルーム作成導線も残す
+    assert 'href="/create_task_room"' in body
+
+
+def test_task_landing_page_shows_share_details_after_publishing(
+    test_client: TestClient,
+):
+    """発行後の共有情報（URL・QR・ID・パスワード）をLP上で提示する枠を持つ。"""
+    response = test_client.get("/shared-task")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert "data-instant-share-panel" in body
+    for marker in (
+        "data-instant-share-url",
+        "data-instant-room-id",
+        "data-instant-password",
+        "data-instant-qr",
+        "data-instant-open",
+    ):
+        assert marker in body, marker
+
+    assert "/static/qrcode.min.js" in body
+
+
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
 def test_product_landing_page_normalizes_tracking_queries(
     test_client: TestClient,

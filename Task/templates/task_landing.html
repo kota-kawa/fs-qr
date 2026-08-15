@@ -7,6 +7,7 @@
   <meta name="description" content="FS!QR Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#f59e0b">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="canonical" href="{{ request.canonical_url }}">
   {% for alt in request.language_alternates %}
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
@@ -31,7 +32,6 @@
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon5.png') }}">
-  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <script type="application/ld+json">
@@ -76,6 +76,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "追加したタスクはいつ送信されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
         }
       },
       {
@@ -133,26 +141,98 @@
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
           <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要の共有タスクボード</p>
-          <h1 id="hero-title">チームの作業を、<br><span>ひとつのボードに。</span></h1>
-          <p class="lp-hero__lead">メンバー登録や面倒な初期設定は不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了の進捗を見える化できます。</p>
-          <div class="lp-actions">
-            <a class="lp-button lp-button--primary" href="/create_task_room">
-              無料でボードを作る
-              <span aria-hidden="true">→</span>
-            </a>
-            <a class="lp-button lp-button--secondary" href="/task">IDでボードに参加</a>
-          </div>
+          <h1 id="hero-title">タスクを書けば、<br><span>もう整理できる。</span></h1>
+          <p class="lp-hero__lead">先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。</p>
           <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
             <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
             <li><span aria-hidden="true">✓</span> シンプルカンバン</li>
-            <li><span aria-hidden="true">✓</span> 自動削除で安心</li>
+            <li><span aria-hidden="true">✓</span> 発行するまで送信しない</li>
           </ul>
+          <p class="lp-hero__aside">
+            <a class="lp-text-link" href="/create_task_room">ルームIDや保存期間を指定して作成する</a>
+            <span aria-hidden="true">・</span>
+            <a class="lp-text-link" href="/task">IDでボードに参加する</a>
+          </p>
         </div>
 
-        <figure class="lp-mockup lp-page-shot">
-          <img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" width="1200" height="900" alt="チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト" fetchpriority="high" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Taskのカンバンボードを表すイラスト</figcaption>
-        </figure>
+        <!-- Instant board / ルームを作らずにタスクを書き出せる下書きボード -->
+        <section class="lp-instant"
+                 id="instant-board"
+                 aria-labelledby="instant-title"
+                 data-instant-board
+                 data-create-url="/create_task_room"
+                 data-item-url-template="/api/task/{room_id}/items"
+                 data-storage-key="fsqr:task-landing-draft"
+                 data-max-items="{{ task_max_items_per_room }}"
+                 data-max-title-length="{{ task_max_title_length }}">
+          <div class="lp-instant__bar">
+            <h2 class="lp-instant__title" id="instant-title">下書きボード</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末にだけ保存</p>
+          </div>
+
+          <form class="lp-task-add" data-instant-add-form>
+            <label class="lp-visually-hidden" for="instant-task-title">タスク名</label>
+            <input type="text"
+                   id="instant-task-title"
+                   class="lp-task-add__input"
+                   data-instant-title-input
+                   maxlength="{{ task_max_title_length }}"
+                   placeholder="やることを入力して追加">
+            <button type="submit" class="lp-task-add__button">追加</button>
+          </form>
+
+          <ul class="lp-task-list" data-instant-task-list aria-label="下書きのタスク"></ul>
+
+          <div class="lp-instant__meta">
+            <span class="lp-instant__count" data-instant-count>タスク未追加</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear hidden>すべて削除</button>
+          </div>
+          <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
+          <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-publish disabled>
+            共有リンクを発行する <span aria-hidden="true">→</span>
+          </button>
+          <p class="lp-instant__hint" data-instant-hint>発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。</p>
+
+          <!-- Share panel / 発行後に共有情報をその場で提示する -->
+          <div class="lp-instant__share" data-instant-share-panel hidden>
+            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <div class="lp-instant__share-body">
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <dl class="lp-instant__share-list">
+                <div class="lp-instant__share-row">
+                  <dt>共有URL</dt>
+                  <dd>
+                    <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>ルームID</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-room-id></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>パスワード</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-password></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/task">
+              ボードを開く <span aria-hidden="true">→</span>
+            </a>
+            <p class="lp-instant__hint">URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>別のボードを新しく作る</button>
+          </div>
+
+          <noscript>
+            <p class="lp-instant__hint">この下書きボードにはJavaScriptが必要です。<a href="/create_task_room">タスクボードを作成</a>してからご利用ください。</p>
+          </noscript>
+        </section>
       </div>
     </section>
 
@@ -173,7 +253,7 @@
         <div class="lp-section__heading">
           <p class="lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
           <h2 id="how-title" class="lp-section__title">タスク管理開始まで、<wbr>わずか3ステップ</h2>
-          <p class="lp-section__lead">専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。</p>
+          <p class="lp-section__lead">準備は不要です。まずタスクを書き出して、共有が必要になった時点でメンバーを招待できます。</p>
         </div>
         <ol class="lp-steps">
           <li class="lp-step">
@@ -185,8 +265,8 @@
                 <path d="M15 3v18"/>
               </svg>
             </div>
-            <h3>ボードを作成</h3>
-            <p>保存期間を設定してタスクボードを作成。ルームIDとパスワードが発行されます。</p>
+            <h3>タスクを書き出す</h3>
+            <p>このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">02</span>
@@ -196,8 +276,8 @@
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
               </svg>
             </div>
-            <h3>共有URLを送る</h3>
-            <p>発行された共有URLまたはQRコードをメンバーに渡すだけで、誰でもすぐにボードへアクセスできます。</p>
+            <h3>共有リンクを発行する</h3>
+            <p>ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">03</span>
@@ -208,11 +288,12 @@
               </svg>
             </div>
             <h3>タスクを整理・更新</h3>
-            <p>タスクを追加し、ドラッグ＆ドロップで進行中・完了へ移動。チームの進捗が一目で分かります。</p>
+            <p>発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="/create_task_room">タスクボードを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--primary" href="#instant-board">下書きボードを開く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_task_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -235,8 +316,8 @@
                 <path d="M14 21v-3"/>
               </svg>
             </span>
-            <h3>URL・QRコードですぐ共有</h3>
-            <p>共有URLをチャットで送るか、対面ならQRコードを見せるだけ。誰でも1秒で参加できます。</p>
+            <h3>書いてすぐ、共有もすぐ</h3>
+            <p>ボードを作る前からタスクを書き出せて、発行すればURL・QRコードでそのまま共有できます。</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">
@@ -267,6 +348,10 @@
           <p class="lp-section__eyebrow">03&nbsp;&nbsp;活用例</p>
           <h2 id="use-cases-title" class="lp-section__title">こんなシーンで活躍します</h2>
         </div>
+        <figure class="lp-mockup lp-page-shot lp-use-case-visual">
+          <img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" width="1200" height="900" alt="チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Taskのカンバンボードを表すイラスト</figcaption>
+        </figure>
         <div class="lp-grid lp-grid--cases">
           <article class="lp-card lp-case-card">
             <h3>イベント・勉強会の運営</h3>
@@ -296,6 +381,10 @@
             <p>はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。</p>
           </details>
           <details class="lp-faq-item">
+            <summary>追加したタスクはいつ送信されますか？</summary>
+            <p>トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。</p>
+          </details>
+          <details class="lp-faq-item">
             <summary>スマートフォンからでも操作できますか？</summary>
             <p>はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。</p>
           </details>
@@ -310,10 +399,10 @@
     <section class="lp-final-cta" aria-labelledby="final-cta-title">
       <div class="lp-container lp-final-cta__inner">
         <h2 id="final-cta-title">今すぐ、チームのタスクを整理しましょう。</h2>
-        <p>アカウント登録不要。わずか数秒でタスクボードを作成できます。</p>
+        <p>アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--primary" href="/create_task_room">無料でボードを作る <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/task">IDでボードに参加</a>
+          <a class="lp-button lp-button--primary" href="#instant-board">下書きボードにタスクを書く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_task_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -330,5 +419,8 @@
       </nav>
     </div>
   </footer>
+
+  <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/task_landing/instant-board.js') }}" defer></script>
 </body>
 </html>

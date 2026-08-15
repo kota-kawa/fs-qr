@@ -4135,3 +4135,123 @@ body.product-lp {
     font-size: 12px;
   }
 }
+
+/* Instant board (Task) / ルームを作らずタスクを書き出す領域 */
+.lp-task-add {
+  display: flex;
+  gap: 8px;
+}
+
+.lp-task-add__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: #fcfbfa;
+  color: var(--lp-ink);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.lp-task-add__input:focus {
+  border-color: rgba(var(--lp-accent-rgb), 0.55);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--lp-accent-rgb), 0.16);
+}
+
+.lp-task-add__button {
+  flex: 0 0 auto;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--lp-accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.lp-task-add__button:hover {
+  background: var(--lp-accent-dark);
+}
+
+.lp-task-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-task-list:empty {
+  margin: 0;
+}
+
+.lp-task-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.lp-task-list__item + .lp-task-list__item {
+  margin-top: 6px;
+}
+
+.lp-task-list__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lp-task-list__remove {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--lp-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lp-task-list__remove:hover {
+  border-color: rgba(190, 40, 60, 0.4);
+  color: #a3202f;
+}
+
+.product-lp--task .lp-use-case-visual {
+  width: min(100%, 520px);
+  margin: 0 auto 40px;
+}
+
+@media (max-width: 760px) {
+  .product-lp--task .lp-hero {
+    padding: 40px 0 56px;
+  }
+
+  .product-lp--task .lp-hero__grid {
+    gap: 28px;
+  }
+
+  .product-lp--task .lp-hero__aside {
+    margin-top: 18px;
+  }
+
+  .product-lp--task .lp-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+  }
+}
