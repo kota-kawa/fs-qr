@@ -11,6 +11,8 @@ from Group import group_data
 from Group.group_common import get_room_if_active, remember_group_room_access
 from Note import note_data
 from Note.note_access import remember_note_room_access
+from Task import task_data
+from Task.task_access import remember_task_room_access
 from rate_limit import (
     SCOPE_TOP_SEARCH,
     check_rate_limit,
@@ -116,6 +118,23 @@ async def search_all(request: Request):
                 "description": "リアルタイムノートルームを開きます。",
                 "url": build_room_url(
                     request, service_key=ServiceKey.NOTE, resource_id=note_room_id
+                ),
+            }
+        )
+
+    task_room_id = await task_data.pick_room_id(id_val, password)
+    task_meta = (
+        await task_data.get_room_meta_direct(task_room_id) if task_room_id else None
+    )
+    if task_room_id and task_meta:
+        remember_task_room_access(request, task_room_id, password=password)
+        matches.append(
+            {
+                "service_key": "task",
+                "service_name": "Task",
+                "description": "タスクボードを開きます。",
+                "url": build_room_url(
+                    request, service_key=ServiceKey.TASK, resource_id=task_room_id
                 ),
             }
         )

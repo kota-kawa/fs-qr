@@ -62,6 +62,8 @@ COUNT_QUERIES = {
     "room": text("SELECT COUNT(*) FROM room"),
     "note_room": text("SELECT COUNT(*) FROM note_room"),
     "note_content": text("SELECT COUNT(*) FROM note_content"),
+    "task_room": text("SELECT COUNT(*) FROM task_room"),
+    "task_item": text("SELECT COUNT(*) FROM task_item"),
 }
 
 RECENT_QUERIES = {
@@ -72,6 +74,12 @@ RECENT_QUERIES = {
     ),
     ("note_content", "updated_at"): text(
         "SELECT * FROM note_content ORDER BY updated_at DESC LIMIT :limit"
+    ),
+    ("task_room", "time"): text(
+        "SELECT * FROM task_room ORDER BY time DESC LIMIT :limit"
+    ),
+    ("task_item", "updated_at"): text(
+        "SELECT * FROM task_item ORDER BY updated_at DESC LIMIT :limit"
     ),
 }
 
@@ -240,6 +248,8 @@ async def dashboard(request: Request):
         {"name": "fsqr", "count": await safe_count(fs_db, "fsqr")},
         {"name": "room", "count": await safe_count(grp_db, "room")},
         {"name": "note_room", "count": await safe_count(grp_db, "note_room")},
+        {"name": "task_room", "count": await safe_count(grp_db, "task_room")},
+        {"name": "task_item", "count": await safe_count(grp_db, "task_item")},
         {"name": "note_content", "count": await safe_count(grp_db, "note_content")},
     ]
 
@@ -247,6 +257,8 @@ async def dashboard(request: Request):
         "fsqr": await safe_recent(fs_db, "fsqr", "time"),
         "room": await safe_recent(grp_db, "room", "time"),
         "note_room": await safe_recent(grp_db, "note_room", "time"),
+        "task_room": await safe_recent(grp_db, "task_room", "time"),
+        "task_item": await safe_recent(grp_db, "task_item", "updated_at"),
         "note_content": await safe_recent(grp_db, "note_content", "updated_at"),
     }
 

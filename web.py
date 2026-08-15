@@ -31,6 +31,10 @@ from settings import (
     GROUP_FILE_LIST_REQUEST_TIMEOUT_MS,
     NOTE_MAX_CONTENT_LENGTH,
     NOTE_SELF_EDIT_TIMEOUT_MS,
+    TASK_MAX_CATEGORY_LENGTH,
+    TASK_MAX_ITEMS_PER_ROOM,
+    TASK_MAX_NOTE_LENGTH,
+    TASK_MAX_TITLE_LENGTH,
     PUBLIC_SITE_URL,
     UPLOAD_MAX_FILES,
     UPLOAD_MAX_TOTAL_SIZE_BYTES,
@@ -42,6 +46,7 @@ TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, "FSQR", "templates"),
     os.path.join(BASE_DIR, "Group", "templates"),
     os.path.join(BASE_DIR, "Note", "templates"),
+    os.path.join(BASE_DIR, "Task", "templates"),
     os.path.join(BASE_DIR, "Admin", "templates"),
     os.path.join(BASE_DIR, "Articles", "templates"),
 ]
@@ -213,6 +218,10 @@ def _is_operation_page(path: str) -> bool:
         "/search_note",
         "/search_note_process",
         "/note_direct",
+        "/task",
+        "/create_task_room",
+        "/search_task",
+        "/search_task_process",
     }:
         return True
 
@@ -225,6 +234,7 @@ def _is_operation_page(path: str) -> bool:
             "/delete_room/",
             "/note/",
             "/note_direct/",
+            "/task/",
         )
     )
 
@@ -525,6 +535,10 @@ templates.env.globals.update(
     upload_max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
     note_max_content_length=NOTE_MAX_CONTENT_LENGTH,
     note_self_edit_timeout_ms=NOTE_SELF_EDIT_TIMEOUT_MS,
+    task_max_items_per_room=TASK_MAX_ITEMS_PER_ROOM,
+    task_max_title_length=TASK_MAX_TITLE_LENGTH,
+    task_max_note_length=TASK_MAX_NOTE_LENGTH,
+    task_max_category_length=TASK_MAX_CATEGORY_LENGTH,
     group_file_list_poll_interval_ms=GROUP_FILE_LIST_POLL_INTERVAL_MS,
     group_file_list_request_timeout_ms=GROUP_FILE_LIST_REQUEST_TIMEOUT_MS,
 )
