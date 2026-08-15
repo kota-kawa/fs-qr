@@ -197,47 +197,61 @@
       <input id="taskEditorTitleInput" maxlength="{{ task_max_title_length }}" required placeholder="タスクのタイトルを入力">
     </div>
 
-    <div class="task-editor-form__grid">
-      <div class="task-editor-field">
-        <label for="taskEditorStatus">ステータス</label>
-        <select id="taskEditorStatus" class="task-select-pill">
-          <option value="todo">未着手</option>
-          <option value="doing">進行中</option>
-          <option value="done">完了</option>
-        </select>
-      </div>
-      <div class="task-editor-field">
-        <label for="taskEditorPriority">優先度</label>
-        <select id="taskEditorPriority" class="task-select-pill">
-          <option value="high">高 (High)</option>
-          <option value="normal" selected>通常 (Normal)</option>
-          <option value="low">低 (Low)</option>
-        </select>
-      </div>
+    <div class="task-editor-field">
+      <label for="taskEditorStatus">ステータス</label>
+      <select id="taskEditorStatus" class="task-select-pill">
+        <option value="todo">未着手</option>
+        <option value="doing">進行中</option>
+        <option value="done">完了</option>
+      </select>
     </div>
 
-    <div class="task-editor-form__grid">
-      <div class="task-editor-field">
-        <label for="taskEditorDueDate">期限日</label>
-        <input id="taskEditorDueDate" type="date">
-        <div class="task-editor-quick-dates">
-          <button type="button" class="task-quick-date-btn" data-date-offset="0">今日</button>
-          <button type="button" class="task-quick-date-btn" data-date-offset="1">明日</button>
-          <button type="button" class="task-quick-date-btn" data-date-offset="7">来週</button>
-          <button type="button" class="task-quick-date-btn" data-date-clear="true">クリア</button>
+    <!-- Collapsible Advanced Options / 詳細設定アコーディオン -->
+    <details class="task-editor-advanced" id="taskEditorAdvanced">
+      <summary class="task-editor-advanced__summary">
+        <span class="task-editor-advanced__title">
+          <svg class="task-editor-advanced__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+          <span>詳細設定（期限・優先度・カテゴリ・メモ）</span>
+        </span>
+        <span class="task-editor-advanced__badge" id="taskEditorAdvancedBadge" hidden>設定あり</span>
+      </summary>
+
+      <div class="task-editor-advanced__body">
+        <div class="task-editor-form__grid">
+          <div class="task-editor-field">
+            <label for="taskEditorPriority">優先度</label>
+            <select id="taskEditorPriority" class="task-select-pill">
+              <option value="high">高 (High)</option>
+              <option value="normal" selected>通常 (Normal)</option>
+              <option value="low">低 (Low)</option>
+            </select>
+          </div>
+          <div class="task-editor-field">
+            <label for="taskEditorCategory">カテゴリ</label>
+            <input id="taskEditorCategory" maxlength="{{ task_max_category_length }}" placeholder="例: 開発, 事務, イベント" list="taskCategoryOptions">
+            <datalist id="taskCategoryOptions"></datalist>
+          </div>
+        </div>
+
+        <div class="task-editor-field">
+          <label for="taskEditorDueDate">期限日</label>
+          <input id="taskEditorDueDate" type="date">
+          <div class="task-editor-quick-dates">
+            <button type="button" class="task-quick-date-btn" data-date-offset="0">今日</button>
+            <button type="button" class="task-quick-date-btn" data-date-offset="1">明日</button>
+            <button type="button" class="task-quick-date-btn" data-date-offset="7">来週</button>
+            <button type="button" class="task-quick-date-btn" data-date-clear="true">クリア</button>
+          </div>
+        </div>
+
+        <div class="task-editor-field">
+          <label for="taskEditorNote">メモ・詳細</label>
+          <textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3" placeholder="タスクの詳細やURLなどを自由に入力"></textarea>
         </div>
       </div>
-      <div class="task-editor-field">
-        <label for="taskEditorCategory">カテゴリ</label>
-        <input id="taskEditorCategory" maxlength="{{ task_max_category_length }}" placeholder="例: 開発, 事務, イベント" list="taskCategoryOptions">
-        <datalist id="taskCategoryOptions"></datalist>
-      </div>
-    </div>
-
-    <div class="task-editor-field">
-      <label for="taskEditorNote">メモ・詳細</label>
-      <textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3" placeholder="タスクの詳細やURLなどを自由に入力"></textarea>
-    </div>
+    </details>
 
     <p id="taskEditorError" class="task-form-error" role="alert" hidden></p>
 

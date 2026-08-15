@@ -836,7 +836,97 @@
 .task-editor-form select:focus {
   outline: none;
   border-color: var(--theme-task-end, #f59e0b);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* ── Task Editor Advanced Collapsible Section ─────────────────────────── */
+.task-editor-advanced {
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: var(--radius-lg, 14px);
+  background: #f8fafc;
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.task-editor-advanced[open] {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: #ffffff;
+}
+
+.task-editor-advanced__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.task-editor-advanced__summary::-webkit-details-marker {
+  display: none;
+}
+
+.task-editor-advanced__summary:hover {
+  color: var(--theme-task-start, #b45309);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.task-editor-advanced__summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--theme-task-end, #f59e0b) inset;
+}
+
+.task-editor-advanced__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-editor-advanced__arrow {
+  width: 16px;
+  height: 16px;
+  color: #94a3b8;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.task-editor-advanced[open] .task-editor-advanced__arrow {
+  transform: rotate(90deg);
+  color: var(--theme-task-end, #f59e0b);
+}
+
+.task-editor-advanced__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+
+.task-editor-advanced__body {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.85rem 0.95rem 1rem;
+  border-top: 1px solid #e2e8f0;
+  animation: taskDetailsFadeIn 0.2s ease;
+}
+
+@keyframes taskDetailsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .task-editor-form__grid {
