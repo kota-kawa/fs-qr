@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note</title>
-  <meta name="description" content="FS!QR Noteは、登録不要で使える共有ノートです。URLを送るだけでリアルタイム共同編集を始められ、入力内容は自動保存。会議の議事録やアイデア共有をすぐに始められます。">
+  <meta name="description" content="FS!QR Noteは、登録不要で使える共有ノートです。開いた画面でそのまま書き始められ、共有リンクを発行すればリアルタイム共同編集に切り替わります。会議の議事録やアイデア共有をすぐに始められます。">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="author" content="FS!QR">
   <meta name="theme-color" content="#7652d6">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- SEO / 検索・SNS向けメタ情報 -->
   <link rel="canonical" href="{{ request.canonical_url }}">
@@ -32,7 +33,6 @@
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon4.png') }}">
-  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}">
   <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
 
   <!-- Structured data / 検索エンジン向け構造化データ -->
@@ -55,6 +55,7 @@
     },
     "featureList": [
       "アカウント登録不要",
+      "ページを開いたまま書き始められる下書きエディタ",
       "リアルタイム共同編集",
       "編集内容の自動保存",
       "URLによるノート共有"
@@ -77,6 +78,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "書いた内容はいつサーバーへ送られますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。"
         }
       },
       {
@@ -131,24 +140,89 @@
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
           <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のリアルタイム共有ノート</p>
-          <h1 id="hero-title">書いた瞬間、<br><span>みんなに届く。</span></h1>
-          <p class="lp-hero__lead">URLを共有したら、すぐに共同編集。FS!QR Noteは、会議の議事録もアイデアも、ひとつの画面で一緒にまとめられる共有ノートです。</p>
-          <div class="lp-actions">
-            <a class="lp-button lp-button--primary" href="/create_note_room">共有ノートを作る <span aria-hidden="true">→</span></a>
-            <a class="lp-button lp-button--ghost" href="/note">ノートに参加する</a>
-          </div>
+          <h1 id="hero-title">開いた瞬間、<br><span>もう書ける。</span></h1>
+          <p class="lp-hero__lead">ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。</p>
           <ul class="lp-check-list" aria-label="主な特長">
             <li><span aria-hidden="true">✓</span> アカウント登録不要</li>
             <li><span aria-hidden="true">✓</span> インストール不要</li>
-            <li><span aria-hidden="true">✓</span> 編集内容を自動保存</li>
+            <li><span aria-hidden="true">✓</span> 共有するまで端末の中だけ</li>
           </ul>
+          <p class="lp-hero__aside">
+            <a class="lp-text-link" href="/create_note_room">ルームIDや保存期間を指定して作成する</a>
+            <span aria-hidden="true">・</span>
+            <a class="lp-text-link" href="/note">共有されたノートに参加する</a>
+          </p>
         </div>
 
-        <!-- Generated hero illustration / 生成したヒーローイラスト -->
-        <figure class="lp-mockup lp-page-shot">
-          <img src="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}" width="1200" height="900" alt="アイデアをカードで整理する様子を表すイラスト" fetchpriority="high" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Noteの共同メモを表す、文字のないイラスト</figcaption>
-        </figure>
+        <!-- Instant draft editor / ルームを作らずにその場で書き始められるエディタ -->
+        <section class="lp-instant"
+                 aria-labelledby="instant-title"
+                 data-instant-note
+                 data-create-url="/create_note_room"
+                 data-storage-key="fsqr:note-landing-draft"
+                 data-max-length="{{ note_max_content_length }}"
+                 data-saved-label="この端末に保存しました">
+          <div class="lp-instant__bar">
+            <h2 class="lp-instant__title" id="instant-title">下書きノート</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末にだけ保存</p>
+          </div>
+          <label class="lp-visually-hidden" for="instant-note-editor">ノートの下書き</label>
+          <textarea id="instant-note-editor"
+                    class="lp-instant__editor"
+                    data-instant-editor
+                    rows="12"
+                    maxlength="{{ note_max_content_length }}"
+                    placeholder="ここに直接書けます。会議のメモも、思いついたアイデアも、まずはそのまま。"></textarea>
+          <div class="lp-instant__meta">
+            <span class="lp-instant__count" data-instant-count>0 / {{ note_max_content_length }}文字</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear>下書きを消す</button>
+          </div>
+          <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
+          <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-share>
+            共有リンクを発行する <span aria-hidden="true">→</span>
+          </button>
+          <p class="lp-instant__hint" data-instant-hint>発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。</p>
+
+          <!-- Share panel / 発行後に共有情報をその場で提示する -->
+          <div class="lp-instant__share" data-instant-share-panel hidden>
+            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <div class="lp-instant__share-body">
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <dl class="lp-instant__share-list">
+                <div class="lp-instant__share-row">
+                  <dt>共有URL</dt>
+                  <dd>
+                    <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>ルームID</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-room-id></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                  </dd>
+                </div>
+                <div class="lp-instant__share-row">
+                  <dt>パスワード</dt>
+                  <dd>
+                    <span class="lp-instant__share-value" data-instant-password></span>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/note">
+              ノートを開く <span aria-hidden="true">→</span>
+            </a>
+            <p class="lp-instant__hint">URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>別のノートを新しく書く</button>
+          </div>
+
+          <noscript>
+            <p class="lp-instant__hint">この下書きエディタにはJavaScriptが必要です。<a href="/create_note_room">ノートルームを作成</a>してからご利用ください。</p>
+          </noscript>
+        </section>
       </div>
     </section>
 
@@ -169,7 +243,7 @@
         <div class="lp-section-heading lp-section__heading">
           <p class="lp-kicker lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
           <h2 class="lp-section__title" id="steps-title">3ステップで、<wbr>共同編集を開始</h2>
-          <p>複雑な共有設定はありません。必要なときにノートを開いて、相手を招待できます。</p>
+          <p>準備は不要です。まず書いて、共有が必要になった時点で相手を招待できます。</p>
         </div>
         <ol class="lp-grid lp-steps">
           <li class="lp-card lp-step-card">
@@ -182,8 +256,8 @@
                 <path d="M9.5 15h5"/>
               </svg>
             </div>
-            <h3>ノートを作る</h3>
-            <p>ルーム情報を設定して、共同編集用のノートを作成します。</p>
+            <h3>その場で書き始める</h3>
+            <p>このページの下書きノートにそのまま入力します。内容はお使いの端末にだけ保存されます。</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">02</span>
@@ -193,8 +267,8 @@
                 <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
               </svg>
             </div>
-            <h3>URLを共有する</h3>
-            <p>発行された共有URLを、参加してほしい相手に送ります。</p>
+            <h3>共有リンクを発行する</h3>
+            <p>ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">03</span>
@@ -205,11 +279,12 @@
               </svg>
             </div>
             <h3>一緒に書く</h3>
-            <p>同じノートを開き、リアルタイムでテキストを編集します。</p>
+            <p>発行されたURLを渡すと、同じノートをリアルタイムに編集できます。</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="/create_note_room">共有ノートを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--primary" href="#instant-note-editor">下書きノートを開く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--ghost" href="/create_note_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -262,8 +337,8 @@
                 <path d="M13 3 5 13h5l-1 8 8-10h-5l1-8Z"/>
               </svg>
             </span>
-            <h3>登録不要ですぐ開始</h3>
-            <p>アカウントを作らずに利用可能。急な打ち合わせにも、その場でノートを用意できます。</p>
+            <h3>開いた画面から即入力</h3>
+            <p>アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。</p>
           </article>
         </div>
       </div>
@@ -275,6 +350,10 @@
           <p class="lp-kicker lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
           <h2 class="lp-section__title" id="use-cases-title">「今、一緒に書きたい」<wbr>場面に</h2>
         </div>
+        <figure class="lp-mockup lp-page-shot lp-use-case-visual">
+          <img src="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}" width="1200" height="900" alt="アイデアをカードで整理する様子を表すイラスト" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Noteの共同メモを表す、文字のないイラスト</figcaption>
+        </figure>
         <div class="lp-grid lp-use-case-grid">
           <article class="lp-card lp-use-case-card">
             <div class="lp-use-case-card__visual lp-use-case-card__visual--meeting" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -306,6 +385,10 @@
             <p>いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。</p>
           </details>
           <details class="lp-faq-item">
+            <summary>書いた内容はいつサーバーへ送られますか？<span aria-hidden="true"></span></summary>
+            <p>トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。</p>
+          </details>
+          <details class="lp-faq-item">
             <summary>複数人で同時に編集できますか？<span aria-hidden="true"></span></summary>
             <p>はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。</p>
           </details>
@@ -326,10 +409,10 @@
       <div class="lp-container lp-final-cta__inner">
         <p class="lp-kicker lp-section__eyebrow">いますぐ共同編集</p>
         <h2 id="cta-title">次のメモは、<wbr>みんなで書こう。</h2>
-        <p>登録は不要です。共有ノートを作って、リアルタイム共同編集を始めましょう。</p>
+        <p>登録は不要です。上の下書きノートに書き始めるか、条件を指定してノートルームを作成してください。</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--light" href="/create_note_room">共有ノートを作る <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--outline-light" href="/note">ノートに参加する</a>
+          <a class="lp-button lp-button--light" href="#instant-note-editor">下書きノートに書く <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--outline-light" href="/create_note_room">ID・保存期間を指定して作る</a>
         </div>
       </div>
     </section>
@@ -355,5 +438,8 @@
       <a href="/">FS!QR サービス一覧へ</a>
     </div>
   </footer>
+
+  <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/note_landing/instant-draft.js') }}" defer></script>
 </body>
 </html>

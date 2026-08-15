@@ -179,6 +179,50 @@ def test_product_landing_pages_do_not_include_generated_ui_mockups(
     assert visual_class not in response.text
 
 
+def test_note_landing_page_offers_instant_draft_editor(test_client: TestClient):
+    """Note LPは、ルームを作らずその場で書ける下書きエディタを先頭に置く。"""
+    response = test_client.get("/shared-note")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # エディタ本体と、JS が必要とする設定・CSRF トークンが揃っていること
+    assert 'id="instant-note-editor"' in body
+    assert "data-instant-note" in body
+    assert "data-instant-share" in body
+    assert '<meta name="csrf-token"' in body
+    assert "/static/js/note_landing/instant-draft.js" in body
+
+    # ヒーローより下の CTA を待たずに書き始められる位置にあること
+    assert body.index('id="instant-note-editor"') < body.index('id="how-it-works"')
+
+    # 従来のルーム作成導線も残す
+    assert 'href="/create_note_room"' in body
+
+
+def test_note_landing_page_shows_share_details_after_publishing(
+    test_client: TestClient,
+):
+    """発行後の共有情報（URL・QR・ID・パスワード）をLP上で提示する枠を持つ。"""
+    response = test_client.get("/shared-note")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert "data-instant-share-panel" in body
+    for marker in (
+        "data-instant-share-url",
+        "data-instant-room-id",
+        "data-instant-password",
+        "data-instant-qr",
+        "data-instant-open",
+    ):
+        assert marker in body, marker
+
+    # QRコード描画に使うライブラリを読み込んでいること
+    assert "/static/qrcode.min.js" in body
+
+
 def test_group_landing_page_use_cases_do_not_include_abstract_scenes(
     test_client: TestClient,
 ):

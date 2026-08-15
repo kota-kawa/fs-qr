@@ -260,7 +260,7 @@ def test_create_note_room_generates_numeric_password(test_client: TestClient):
     assert response.status_code == 302
     assert response.headers["location"] == "/note/r/abc123"
     create_mock.assert_awaited_once_with(
-        "abc123", "000042", "abc123", retention_hours=24
+        "abc123", "000042", "abc123", retention_hours=24, initial_content=""
     )
 
 
@@ -365,8 +365,66 @@ def test_create_note_room_fetch_returns_redirect_url(test_client: TestClient):
     assert payload["data"]["share_url"] == "http://testserver/note/s/Strong_pw1"
     assert payload["data"]["password"] == "000042"
     create_mock.assert_awaited_once_with(
-        "abc123", "000042", "abc123", retention_hours=24
+        "abc123", "000042", "abc123", retention_hours=24, initial_content=""
     )
+
+
+# --- create_note_room: LP の下書きを引き継ぐ ---
+
+
+def test_create_note_room_carries_landing_draft(test_client: TestClient):
+    """LP の下書き本文はルーム作成と同時に保存される"""
+    create_mock = AsyncMock()
+    with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
+        patch("Note.note_app.secrets.token_urlsafe", return_value="Strong_pw1"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            json={
+                "id": "abc123",
+                "idMode": "manual",
+                "content": "会議メモの下書き",
+            },
+        )
+
+    assert response.status_code == 302
+    create_mock.assert_awaited_once_with(
+        "abc123",
+        "000042",
+        "abc123",
+        retention_hours=24,
+        initial_content="会議メモの下書き",
+    )
+
+
+def test_create_note_room_rejects_oversized_draft(test_client: TestClient):
+    """上限を超える下書きは 400 で拒否し、ルームを作成しない"""
+    from settings import NOTE_MAX_CONTENT_LENGTH
+
+    create_mock = AsyncMock()
+    with patch("Note.note_app.nd.create_room", create_mock):
+        response = test_client.post(
+            "/create_note_room",
+            json={
+                "id": "abc123",
+                "idMode": "manual",
+                "content": "あ" * (NOTE_MAX_CONTENT_LENGTH + 1),
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json()["status"] == "error"
+    create_mock.assert_not_awaited()
 
 
 def test_create_note_room_room_check_error_returns_json(test_client: TestClient):
