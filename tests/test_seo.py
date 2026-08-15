@@ -73,6 +73,8 @@ def test_sitemap_keeps_all_existing_public_pages(test_client: TestClient):
         "https://fs-qr.net/fs-qr_menu",
         "https://fs-qr.net/group_menu",
         "https://fs-qr.net/note_menu",
+        "https://fs-qr.net/task_menu",
+        "https://fs-qr.net/shared-task",
     }
 
     assert expected_locs <= locs
@@ -81,6 +83,8 @@ def test_sitemap_keeps_all_existing_public_pages(test_client: TestClient):
     assert "https://fs-qr.net/create_room" not in locs
     assert "https://fs-qr.net/note" not in locs
     assert "https://fs-qr.net/create_note_room" not in locs
+    assert "https://fs-qr.net/task" not in locs
+    assert "https://fs-qr.net/create_task_room" not in locs
 
 
 def test_adsense_risk_copy_does_not_reappear_in_public_copy_sources():
@@ -139,6 +143,8 @@ def test_target_pages_keep_page_specific_meta_descriptions(test_client: TestClie
         "/group": "グループファイル共有ページ",
         "/note_menu": "リアルタイム同時編集",
         "/note": "議事録を同時編集",
+        "/task_menu": "タスク",
+        "/task": "タスク",
         "/fs-qr_menu": "アプリ不要",
         "/fs-qr": "共有リンク",
     }
@@ -222,6 +228,9 @@ def test_functional_pages_are_noindex_for_adsense_review(test_client: TestClient
         "/note",
         "/create_note_room",
         "/search_note",
+        "/task",
+        "/create_task_room",
+        "/search_task",
     ):
         response = test_client.get(route)
         assert response.status_code == 200, route
@@ -232,7 +241,7 @@ def test_functional_pages_are_noindex_for_adsense_review(test_client: TestClient
 def test_tool_menus_do_not_expose_adsense_configuration():
     from web import _is_adsense_allowed_path
 
-    for route in ("/fs-qr_menu", "/group_menu", "/note_menu"):
+    for route in ("/fs-qr_menu", "/group_menu", "/note_menu", "/task_menu"):
         assert not _is_adsense_allowed_path(route)
 
 
@@ -256,6 +265,7 @@ def test_social_card_images_use_public_https_urls(test_client: TestClient):
         "/fs-qr_menu": "fs-qr-og-compressed.jpg",
         "/group_menu": "fs-qr-og-compressed.jpg",
         "/note_menu": "fs-qr-og-compressed.jpg",
+        "/task_menu": "fs-qr-og-compressed.jpg",
         "/safe-sharing": "articles/thumbnails/safe-sharing.jpg",
     }
 

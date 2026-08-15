@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "Quickly create time-limited shares to send files via QR code, transfer photos or PDFs from your PC to your smartphone, and share large files without needing an app.",
   "seo.group.intent": "Use group rooms like shared folders to manage internal documents, class materials, event handouts, and file exchanges with clients—all without account registration.",
   "seo.note.intent": "A collaborative note-taking tool for online memos, shared notes, and meeting minutes. Share the URL, QR code, room ID, and password to start real-time browser-based co-editing with autosave."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

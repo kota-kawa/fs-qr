@@ -37,6 +37,14 @@
   --lp-secondary: #d59a25;
 }
 
+.product-lp--task {
+  --lp-accent: #b45309;
+  --lp-accent-dark: #92400e;
+  --lp-accent-soft: #fef3c7;
+  --lp-accent-rgb: 180, 83, 9;
+  --lp-secondary: #0f766e;
+}
+
 *,
 *::before,
 *::after {

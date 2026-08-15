@@ -116,4 +116,21 @@
   "net.online": "Reconnected",
   "sw.update": "A new version is available. Tap to update",
   "group.file_list_stale": "Failed to update the file list. Checking connection..."
+,
+  "task.loading": "Loading tasks...",
+  "task.empty": "No tasks yet.",
+  "task.create": "Add task",
+  "task.updated": "Task updated.",
+  "task.deleted": "Task deleted.",
+  "task.delete_confirm": "Delete “{title}”? This cannot be undone.",
+  "task.conflict": "This task was updated in another screen. The latest version was loaded.",
+  "task.network_error": "Could not save the task. Check your connection and try again.",
+  "task.limit_reached": "This room has reached the maximum number of tasks ({max}).",
+  "task.todo": "To do",
+  "task.doing": "In progress",
+  "task.done": "Done",
+  "task.moved_to": "“{title}” was moved to {status}.",
+  "task.overdue": "Overdue",
+  "task.due": "Due {date}",
+  "task.filter_all": "All categories"
 }

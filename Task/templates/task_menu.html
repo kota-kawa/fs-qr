@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="登録不要で始める共有タスクボード、FS!QR Task。">
+  <meta name="language" content="ja"><meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta property="og:type" content="website"><meta property="og:title" content="FS!QR Task | 共有タスクボード">
+  <meta property="og:description" content="登録不要、URL共有だけで使えるカンバン式タスクボード。">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <link rel="canonical" href="{{ request.canonical_url }}"><link rel="stylesheet" href="{{ staticfile('style.css') }}">
+  <script>window.FSQR_TAGS = Object.freeze({ googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %}, adsenseClientId: {{ google_adsense_client_id | tojson }}{% endif %} }); window.FSQR_LOCALE = Object.freeze({ language: {{ current_language | tojson }} });</script>
+  <title>FS!QR Task | 共有タスクボード</title>
+</head>
+<body class="service-menu-page task-section">
+  <main class="modern-page-container"><section class="modern-content-card task-menu-card">
+    <div class="modern-card-header"><p>FS!QR Task</p><h1>チームの作業を、ひとつのボードに。</h1></div>
+    <div class="modern-card-body"><p>登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。</p>
+      <div class="task-menu-actions"><a class="modern-btn modern-btn--primary" href="/create_task_room">タスクボードを作成</a><a class="modern-btn modern-btn--secondary" href="/search_task">ルームに参加</a></div>
+      <p><a href="/shared-task">Taskの使い方を見る</a> · <a href="/">FS!QR ホーム</a></p>
+    </div>
+  </section></main>
+  {% include 'cookie-consent.html' %}
+  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+</body>
+</html>

@@ -128,7 +128,8 @@
     "sameAs": [
       "{{ request.url_root }}fs-qr_menu",
       "{{ request.url_root }}group_menu",
-      "{{ request.url_root }}note_menu"
+      "{{ request.url_root }}note_menu",
+      "{{ request.url_root }}task_menu"
     ]
   }
   </script>
@@ -343,6 +344,7 @@
     .menu-item.group   i { font-size: 3rem; color: #4aba95; margin-bottom: 15px; }
     .menu-item.fs-qr   i { font-size: 3rem; color: #4082dd; margin-bottom: 15px; }
     .menu-item.note    i { font-size: 3rem; color: #64ba4a; margin-bottom: 15px; }
+    .menu-item.task    i { font-size: 3rem; color: #d97706; margin-bottom: 15px; }
     .menu-item h2 {
       font-size: 1.5rem;
       margin: 0;
@@ -381,7 +383,8 @@
       .menu-item h2   { font-size: 1.1rem; }
       .menu-item.group i,
       .menu-item.fs-qr i,
-      .menu-item.note i {
+      .menu-item.note i,
+      .menu-item.task i {
         font-size: 2.5rem;
         margin-bottom: 12px;
       }
@@ -402,7 +405,8 @@
       .menu-item h2 { font-size: 1rem; }
       .menu-item.group i,
       .menu-item.fs-qr i,
-      .menu-item.note i {
+      .menu-item.note i,
+      .menu-item.task i {
         font-size: 2.3rem;
         margin-bottom: 10px;
       }
@@ -465,6 +469,7 @@
     .top-seo-feature-icon.fs-qr-color { color: #4082dd; }
     .top-seo-feature-icon.group-color  { color: #4aba95; }
     .top-seo-feature-icon.note-color   { color: #64ba4a; }
+    .top-seo-feature-icon.task-color   { color: #d97706; }
 
     /* ユースケース */
     .top-seo-usecase-list {
@@ -646,6 +651,12 @@
             <h2>ノート共有</h2>
           </a>
         </li>
+        <li>
+          <a href="/task_menu" class="menu-item task mb-3">
+            <i class="fas fa-tasks"></i>
+            <h2>タスク管理</h2>
+          </a>
+        </li>
       </ul>
     </main>
   </div>
@@ -656,12 +667,12 @@
 
       <div class="top-seo-about">
         <h2>FS!QRとは？</h2>
-        <p>FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースのファイル共有サービスです。QRコード・グループルーム・ノートルームの3つの方法で、PC・スマートフォン・タブレット間のファイル転送やテキスト共有が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。</p>
+        <p>FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。</p>
         <p>{{ t('seo.home.intent') }}</p>
       </div>
 
       <div class="top-seo-features">
-        <h2>3つの共有方法</h2>
+        <h2>4つの使い方</h2>
         <div class="top-seo-feature-grid">
           <div class="top-seo-feature-card">
             <div class="top-seo-feature-icon fs-qr-color"><i class="fas fa-qrcode" aria-hidden="true"></i></div>
@@ -677,6 +688,11 @@
             <div class="top-seo-feature-icon note-color"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
             <h3>ノート共有</h3>
             <p>テキストをリアルタイムで複数人が同時編集できるノートルームです。会議メモ、URLの受け渡し、コードスニペットの共有に。入力内容を約1秒ごとに同期し、自動保存します。</p>
+          </div>
+          <div class="top-seo-feature-card">
+            <div class="top-seo-feature-icon task-color"><i class="fas fa-tasks" aria-hidden="true"></i></div>
+            <h3>タスク管理</h3>
+            <p>URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、カテゴリでチームの作業を整理できます。</p>
           </div>
         </div>
       </div>

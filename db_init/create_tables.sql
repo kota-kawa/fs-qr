@@ -90,3 +90,44 @@ CREATE TABLE note_content (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- =======================
+--  Task ボード用テーブル
+-- =======================
+CREATE TABLE task_room (
+    suji INT AUTO_INCREMENT PRIMARY KEY,
+    time DATETIME NOT NULL,
+    id VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    room_id VARCHAR(255) NOT NULL,
+    retention_days INT NOT NULL DEFAULT 1,
+    retention_hours INT NOT NULL DEFAULT 24,
+    expires_at DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'active',
+    deleted_at DATETIME NULL,
+    share_token_hash VARCHAR(64) DEFAULT NULL,
+    UNIQUE KEY uq_task_room_room_id (room_id),
+    UNIQUE KEY uq_task_room_share_token_hash (share_token_hash),
+    INDEX idx_task_room_id_password (id, password),
+    INDEX idx_task_room_time (time),
+    INDEX idx_task_room_expires_status (status, expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE task_item (
+    item_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    room_id VARCHAR(255) NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    note VARCHAR(500) NULL,
+    board_status VARCHAR(16) NOT NULL DEFAULT 'todo',
+    priority VARCHAR(8) NOT NULL DEFAULT 'normal',
+    category VARCHAR(40) NULL,
+    due_date DATE NULL,
+    position INT NOT NULL DEFAULT 0,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    version INT NOT NULL DEFAULT 0,
+    INDEX idx_task_item_room_board (room_id, board_status, position),
+    INDEX idx_task_item_room_due (room_id, due_date),
+    CONSTRAINT fk_task_item_room_id
+        FOREIGN KEY (room_id) REFERENCES task_room(room_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+

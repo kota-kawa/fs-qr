@@ -33,6 +33,7 @@ ALLOWED_SCOPES = frozenset(
         "fsqr-upload",  # /upload_complete/{secure_id}
         "group",  # /group/r/{room_id}
         "note",  # /note/r/{room_id}
+        "task",  # /task/r/{room_id}
     }
 )
 

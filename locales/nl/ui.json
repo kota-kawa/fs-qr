@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "Maak snel tijdelijke deel-links met vervaldatum om bestanden via QR-code te sturen, foto’s of PDF’s van pc naar smartphone te verplaatsen en grote bestanden zonder app te delen.",
   "seo.group.intent": "Gebruik een groepsruimte als gedeelde map om interne documenten, lesmateriaal, eventbestanden en bestandsuitwisseling met klanten zonder registratie te beheren.",
   "seo.note.intent": "Een samenwerkingsnotitie voor online memo's, gedeelde notities, vergadernotities en notulen. Deel de URL, QR-code, ruimte-ID en het wachtwoord om samen bewerken en automatisch opslaan in de browser te starten."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

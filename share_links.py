@@ -22,6 +22,7 @@ class ServiceKey(str, Enum):
     FSQR = "fsqr"
     NOTE = "note"
     GROUP = "group"
+    TASK = "task"
 
 
 @dataclass(frozen=True)
@@ -36,12 +37,14 @@ SHARE_ROUTE_NAMES = {
     ServiceKey.FSQR: "fsqr.share_entry",
     ServiceKey.NOTE: "note.share_entry",
     ServiceKey.GROUP: "group.share_entry",
+    ServiceKey.TASK: "task.share_entry",
 }
 
 
 ROOM_ROUTE_NAMES = {
     ServiceKey.NOTE: "note.note_room",
     ServiceKey.GROUP: "group.group_room",
+    ServiceKey.TASK: "task.task_room",
 }
 
 

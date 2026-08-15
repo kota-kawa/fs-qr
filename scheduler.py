@@ -13,6 +13,7 @@ from FSQR import fsqr_data
 from Group import group_data
 from migration_runner import run_migrations
 from Note import note_data
+from Task import task_data
 from Note.note_realtime import publish_room_expired
 from settings import REDIS_URL
 
@@ -84,6 +85,18 @@ def remove_expired_note_rooms():
     asyncio.run(_remove_expired_note_rooms_async())
 
 
+async def _remove_expired_task_rooms_async():
+    try:
+        await task_data.remove_expired_rooms()
+    finally:
+        await reset_db_connection()
+
+
+@exclusive_job
+def remove_expired_task_rooms():
+    asyncio.run(_remove_expired_task_rooms_async())
+
+
 def run_scheduler():
     asyncio.run(run_migrations())
 
@@ -120,6 +133,13 @@ def run_scheduler():
         trigger="interval",
         minutes=5,
         id="remove_expired_note_rooms",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        remove_expired_task_rooms,
+        trigger="interval",
+        minutes=5,
+        id="remove_expired_task_rooms",
         replace_existing=True,
     )
 

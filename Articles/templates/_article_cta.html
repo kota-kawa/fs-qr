@@ -32,6 +32,13 @@
     "image": "/static/note.png",
     "tag": "共同編集",
     "desc": "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。"
+  },
+  "task": {
+    "name": "Task",
+    "url": "/task_menu",
+    "image": "/static/task.png",
+    "tag": "タスク管理",
+    "desc": "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
   }
 } %}
 {% set _c = _services.get(_svc, _services["fsqr"]) %}
@@ -87,6 +94,13 @@
     --article-cta-accent-soft: rgba(149, 212, 32, 0.18);
     --article-cta-accent-shadow: rgba(95, 134, 20, 0.28);
     --article-cta-accent-shadow-strong: rgba(95, 134, 20, 0.4);
+  }
+  .article-cta--task {
+    --article-cta-accent: #d97706;
+    --article-cta-accent-strong: #92400e;
+    --article-cta-accent-soft: rgba(245, 158, 11, 0.18);
+    --article-cta-accent-shadow: rgba(146, 64, 14, 0.28);
+    --article-cta-accent-shadow-strong: rgba(146, 64, 14, 0.4);
   }
   .article-cta-icon {
     width: 56px;

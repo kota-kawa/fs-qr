@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "QRコードでファイルを送る、PCからスマホへ写真やPDFを転送する、アプリ不要で大容量ファイルを共有するなど、期限付きの一時共有をすぐに作成できます。",
   "seo.group.intent": "共有フォルダのように使えるグループルームで、社内資料、授業資料、イベント配布物、取引先とのファイル受け渡しを登録不要でまとめて管理できます。",
   "seo.note.intent": "オンラインメモ、共有メモ、会議メモ、議事録共有に使える共同編集ノートです。共有URL、QRコード、ルームID、パスワードを共有すると、ブラウザから同時編集と自動保存を始められます。"
+,
+  "task.menu.title": "タスク管理",
+  "task.menu.description": "ルーム単位で使えるシンプルなタスクボードです。",
+  "task.access.title": "タスクルームを開く",
+  "task.create.title": "タスクルームを作成",
+  "task.search.title": "タスクルームを探す",
+  "task.board.title": "タスクボード",
+  "task.delete_room_title": "このルームを終了する",
+  "task.delete_room_description": "作成者だけが、このルームとタスクを削除できます。",
+  "task.delete_room_confirm_message": "このタスクルームとすべてのタスクを削除します。この操作は元に戻せません。",
+  "task.delete_room_button": "ルームを削除",
+  "seo.task.intent": "ファイルやノートを共有した後の作業を追える、シンプルなカンバン式タスクボードです。共有URL、ルームID、パスワードを共有すると、ブラウザから一緒にタスクを管理できます。"
 }

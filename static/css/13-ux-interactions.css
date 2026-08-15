@@ -24,6 +24,11 @@ body.note-section {
   --ux-accent-soft: rgba(132, 204, 22, 0.2);
 }
 
+body.task-section {
+  --ux-accent: var(--theme-task-accent, #f59e0b);
+  --ux-accent-soft: rgba(245, 158, 11, 0.2);
+}
+
 /* ---------------------------------------------------------------------------
    Cross-document view transitions (zero-JS, progressive enhancement)
    --------------------------------------------------------------------------- */
@@ -76,6 +81,10 @@ body.group-section .fsqr-progress__bar {
 
 body.note-section .fsqr-progress__bar {
   background: var(--theme-note-gradient, var(--ux-accent));
+}
+
+body.task-section .fsqr-progress__bar {
+  background: var(--theme-task-gradient, var(--ux-accent));
 }
 
 /* ---------------------------------------------------------------------------

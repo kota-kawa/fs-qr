@@ -9,11 +9,14 @@ Disallow: /delete_all_rooms
 Disallow: /all-remove
 Disallow: /create_room
 Disallow: /create_note_room
+Disallow: /create_task_room
 Disallow: /search_all
 Disallow: /search_fs-qr
 Disallow: /search_group
 Disallow: /search_note
 Disallow: /search_note_process
+Disallow: /search_task
+Disallow: /search_task_process
 Disallow: /remove-succes
 
 # Disallow dynamic download/upload and private room pages
@@ -25,15 +28,18 @@ Disallow: /group_direct/
 Disallow: /note_direct/
 Disallow: /group
 Disallow: /note
+Disallow: /task
 Disallow: /fs-qr
 
 # Allow public marketing and article content
 Allow: /fs-qr_menu
 Allow: /group_menu
 Allow: /note_menu
+Allow: /task_menu
 Allow: /file-sharing
 Allow: /group-file-sharing
 Allow: /shared-note
+Allow: /shared-task
 Allow: /fs-qr-concept
 Allow: /articles
 Allow: /safe-sharing

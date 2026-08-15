@@ -9,7 +9,12 @@ import re
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
-from settings import NOTE_MAX_CONTENT_LENGTH
+from settings import (
+    NOTE_MAX_CONTENT_LENGTH,
+    TASK_MAX_CATEGORY_LENGTH,
+    TASK_MAX_NOTE_LENGTH,
+    TASK_MAX_TITLE_LENGTH,
+)
 
 _ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
@@ -147,3 +152,44 @@ class NoteExportInput(BaseModel):
     """ノートの TXT / PDF 出力 API の POST ボディ。"""
 
     content: str = Field(default="", max_length=NOTE_MAX_CONTENT_LENGTH)
+
+
+class TaskItemInput(BaseModel):
+    """タスク作成 API の入力。カテゴリは短命なルームのため文字列で保持する。"""
+
+    title: str = Field(min_length=1, max_length=TASK_MAX_TITLE_LENGTH)
+    note: str = Field(default="", max_length=TASK_MAX_NOTE_LENGTH)
+    board_status: Literal["todo", "doing", "done"] = "todo"
+    priority: Literal["high", "normal", "low"] = "normal"
+    category: str = Field(default="", max_length=TASK_MAX_CATEGORY_LENGTH)
+    due_date: Optional[str] = None
+
+    @field_validator("title", "note", "category", mode="before")
+    @classmethod
+    def strip_task_text(cls, value: object) -> str:
+        return str(value or "").strip()
+
+
+class TaskItemUpdateInput(BaseModel):
+    """変更された項目だけを受け取る、楽観ロック用のタスク更新入力。"""
+
+    version: int = Field(ge=0)
+    title: Optional[str] = Field(
+        default=None, min_length=1, max_length=TASK_MAX_TITLE_LENGTH
+    )
+    note: Optional[str] = Field(default=None, max_length=TASK_MAX_NOTE_LENGTH)
+    board_status: Optional[Literal["todo", "doing", "done"]] = None
+    priority: Optional[Literal["high", "normal", "low"]] = None
+    category: Optional[str] = Field(default=None, max_length=TASK_MAX_CATEGORY_LENGTH)
+    due_date: Optional[str] = None
+    position: Optional[int] = Field(default=None, ge=0)
+
+    @field_validator("title", "note", "category", mode="before")
+    @classmethod
+    def strip_optional_task_text(cls, value: object) -> object:
+        return str(value or "").strip() if value is not None else value
+
+
+class TaskReorderInput(BaseModel):
+    board_status: Literal["todo", "doing", "done"]
+    ordered_item_ids: list[int] = Field(min_length=0, max_length=200)

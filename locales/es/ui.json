@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "Permite crear rápidamente un entorno de uso compartido temporal con fecha de caducidad para enviar archivos mediante códigos QR, transferir fotos o PDF del PC al móvil, o compartir archivos de gran tamaño sin necesidad de aplicaciones.",
   "seo.group.intent": "Gestiona de forma centralizada y sin necesidad de registro documentos internos, materiales de clase, folletos de eventos e intercambios de archivos con clientes a través de salas de grupo que funcionan como carpetas compartidas.",
   "seo.note.intent": "Un bloc de notas colaborativo ideal para notas en línea, notas compartidas, notas de reuniones y actas. Comparte la URL, el código QR, el ID de la sala y la contraseña para iniciar la edición simultánea y el guardado automático desde el navegador."
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

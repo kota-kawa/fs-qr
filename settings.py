@@ -93,6 +93,10 @@ GROUP_FILE_LIST_POLL_INTERVAL_MS = _env_int(
 )
 
 NOTE_MAX_CONTENT_LENGTH = _env_int("NOTE_MAX_CONTENT_LENGTH", default=10_000, minimum=1)
+TASK_MAX_ITEMS_PER_ROOM = _env_int("TASK_MAX_ITEMS_PER_ROOM", default=200, minimum=1)
+TASK_MAX_TITLE_LENGTH = _env_int("TASK_MAX_TITLE_LENGTH", default=200, minimum=1)
+TASK_MAX_NOTE_LENGTH = _env_int("TASK_MAX_NOTE_LENGTH", default=500, minimum=1)
+TASK_MAX_CATEGORY_LENGTH = _env_int("TASK_MAX_CATEGORY_LENGTH", default=40, minimum=1)
 NOTE_SELF_EDIT_TIMEOUT_MS = _env_int(
     "NOTE_SELF_EDIT_TIMEOUT_MS", default=12_000, minimum=1
 )

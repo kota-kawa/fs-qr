@@ -52,4 +52,16 @@
   "seo.fsqr.intent": "QR कोड के ज़रिए फ़ाइलें भेजने, PC से स्मार्टफोन पर फ़ोटो या PDF ट्रांसफ़र करने, या बिना कोई ऐप इंस्टॉल किए बड़ी फ़ाइलें शेयर करने के लिए तुरंत समय-सीमा वाली (टेम्परेरी) शेयरिंग बनाएं।",
   "seo.group.intent": "ग्रुप रूम का उपयोग शेयर किए गए फ़ोल्डर की तरह करें। बिना रजिस्ट्रेशन के आंतरिक दस्तावेज़ (इंटरनल डॉक्युमेंट्स), क्लास मटीरियल, इवेंट हैंडआउट्स और ग्राहकों के साथ फ़ाइलों का आदान-प्रदान आसानी से मैनेज करें।",
   "seo.note.intent": "ऑनलाइन मेमो, शेयर किए गए नोट्स और मीटिंग मिनट्स (कार्यवाही) के लिए एक कोलैबोरेटिव नोट टूल। ब्राउज़र पर रीयल-टाइम में एक साथ एडिटिंग और ऑटो-सेव की सुविधा शुरू करने के लिए शेयरिंग URL, QR कोड, रूम ID और पासवर्ड शेयर करें।"
+,
+  "task.menu.title": "Task",
+  "task.menu.description": "Simple room-based task board.",
+  "task.access.title": "Open a task room",
+  "task.create.title": "Create a task room",
+  "task.search.title": "Find a task room",
+  "task.board.title": "Task board",
+  "task.delete_room_title": "Close this room",
+  "task.delete_room_description": "Only the creator can delete this room and its tasks.",
+  "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
+  "task.delete_room_button": "Delete room",
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
 }

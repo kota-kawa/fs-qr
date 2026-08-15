@@ -100,6 +100,11 @@ html {
   --section-tab-active-shadow: rgba(132, 204, 22, 0.32);
 }
 
+.task-section {
+  --section-tab-active-bg: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
+  --section-tab-active-shadow: rgba(245, 158, 11, 0.32);
+}
+
 .section-tab:focus-visible,
 .simple-footer a:focus-visible {
   outline: 3px solid var(--focus-ring-color, rgba(37, 99, 235, 0.32));

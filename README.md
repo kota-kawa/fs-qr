@@ -8,6 +8,7 @@ FS-QR is a FastAPI-powered web app that makes file sharing, QR-based downloads, 
 - **Instant sharing via QR codes** — upload a file and scan to download from any device.
 - **Group-based collaboration** — create a room with a shared passphrase and share files safely.
 - **Real-time notes** — collaborate in a shared note area for ideas and coordination.
+- **Shared task boards** — organize a room's work in todo, doing, and done columns without an account.
 - **Redis-backed WebSocket coordination** — connection state is tracked in Redis for multi-instance stability.
 - **Production-like local setup** — Docker Compose mirrors the deployment topology.
 
@@ -63,6 +64,10 @@ GROUP_UPLOAD_DIR=/app/storage/group_uploads
 GROUP_FILE_LIST_REQUEST_TIMEOUT_MS=10000
 NOTE_MAX_CONTENT_LENGTH=10000
 NOTE_SELF_EDIT_TIMEOUT_MS=12000
+TASK_MAX_ITEMS_PER_ROOM=200
+TASK_MAX_TITLE_LENGTH=200
+TASK_MAX_NOTE_LENGTH=500
+TASK_MAX_CATEGORY_LENGTH=40
 # Optional path to a Japanese TTF/TTC font with TrueType outlines for PDF exports.
 NOTE_PDF_FONT_PATH=
 ```
