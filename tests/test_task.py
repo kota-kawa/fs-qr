@@ -255,3 +255,85 @@ def test_task_reorder_rejects_invalid_ids_and_returns_column(test_client: TestCl
     assert invalid_response.status_code == 400
     assert success_response.status_code == 200
     assert success_response.json()["data"]["items"][0]["position"] == 100
+
+
+def test_task_board_page_renders_ux_elements(test_client: TestClient):
+    """タスクボード画面に進捗サマリーと操作UIが描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=True),
+        patch("Task.task_routes_room.get_task_room_password", return_value="pw12345"),
+        patch(
+            "Task.task_routes_room.get_task_room_share_token",
+            return_value="sharetoken123",
+        ),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 進捗サマリーと期限フィルターのチップ
+    for marker in (
+        'id="taskProgressBar"',
+        'id="taskProgressFill"',
+        'data-due-filter="overdue"',
+        'data-due-filter="today"',
+    ):
+        assert marker in body
+
+    # 共有情報は折りたたみ、ボードが先に見える構成
+    assert 'id="taskRoomDetails"' in body
+    assert body.index('id="taskBoard"') > body.index('id="taskRoomDetails"')
+
+    # カラムごとのインライン追加・操作メニュー・スマホ用タブ
+    for status in ("todo", "doing", "done"):
+        assert f'data-column-add="{status}"' in body
+        assert f'data-column-menu="{status}"' in body
+        assert f'data-inline-add-for="{status}"' in body
+        assert f'data-mobile-view="{status}"' in body
+
+    # 絞り込みパネルとショートカットヘルプ
+    for marker in (
+        'id="taskFilterPanel"',
+        'id="taskDueFilter"',
+        'id="taskShortcutDialog"',
+        'id="taskEditorDialog"',
+    ):
+        assert marker in body
+
+
+def test_task_board_page_loads_all_board_modules(test_client: TestClient):
+    """ボードのJSモジュールが依存順にすべて読み込まれる。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        body = test_client.get("/task/r/abc123").text
+
+    modules = [
+        "core.js",
+        "store.js",
+        "filters.js",
+        "render.js",
+        "menu.js",
+        "actions.js",
+        "columns.js",
+        "editor.js",
+        "dnd.js",
+        "main.js",
+    ]
+    positions = [body.index(f"js/task_board/{name}") for name in modules]
+    assert positions == sorted(positions)
