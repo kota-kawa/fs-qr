@@ -1,5 +1,263 @@
 <style>
-  .task-section .modern-card-header { --modern-card-header-gradient: var(--theme-task-gradient); --modern-card-header-accent: var(--theme-task-accent); }
-  .task-section .room-info-card { --room-info-header-gradient: var(--theme-task-gradient); }
-  .task-section .modern-page-container { min-height: auto; background: transparent; }
+/* ==========================================================================
+   Task Room: Theme overrides and layout styles matching Note and Group
+   ========================================================================== */
+
+.task-section .modern-card-header {
+  --modern-card-header-gradient: var(--theme-task-gradient, linear-gradient(135deg, #b45309 0%, #f59e0b 100%));
+  --modern-card-header-accent: var(--theme-task-accent, #f59e0b);
+}
+
+.task-section .room-info-card {
+  --room-info-header-gradient: var(--theme-task-gradient, linear-gradient(135deg, #b45309 0%, #f59e0b 100%));
+  overflow: clip;
+}
+
+.task-section .modern-page-container {
+  min-height: auto;
+  background: transparent;
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+body.task-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#layout.page {
+  flex: 1 0 auto;
+}
+
+/* Room Info Container Grid */
+.task-room-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.25rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .task-room-info {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .task-room-info .room-info-card {
+    width: 100%;
+  }
+}
+
+/* Room Info Card Header Share Button */
+.room-info-card .room-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+}
+
+.room-info-card .room-info-header-title {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.room-info-card .room-info-share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.room-info-card .room-info-share-button svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+}
+
+.room-info-card .room-info-share-button:hover,
+.room-info-card .room-info-share-button:focus-visible {
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.28);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* Room Info Value Rows & Inline Copy */
+.room-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 0.95rem;
+  border-bottom: 1px solid var(--border-light, #e2e8f0);
+}
+
+.room-info-row:last-child {
+  border-bottom: none;
+}
+
+.room-info-label {
+  color: var(--text-muted, #64748b);
+  font-weight: 600;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.room-info-value {
+  font-weight: 700;
+  color: var(--text-dark, #1e293b);
+  text-align: right;
+  min-width: 0;
+}
+
+.room-info-value-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.room-info-value-text {
+  font-weight: 700;
+  word-break: break-all;
+  color: var(--text-dark, #1e293b);
+  font-size: 0.92rem;
+}
+
+.room-info-url-text {
+  font-weight: 600;
+  word-break: break-all;
+  color: var(--text-dark, #1e293b);
+  font-size: var(--font-size-room-url, 0.85rem);
+  line-height: 1.4;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 580px) {
+  .room-info-url-text {
+    max-width: 160px;
+  }
+}
+
+.room-info-value-row .copy-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-inline-action-button, 30px);
+  height: var(--size-inline-action-button, 30px);
+  padding: 0;
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  border-radius: var(--radius-sm, 7px);
+  background: #ffffff;
+  color: var(--text-light, #64748b);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.room-info-value-row .copy-inline-btn:hover,
+.room-info-value-row .copy-inline-btn:focus-visible {
+  color: var(--theme-task-start, #b45309);
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--theme-task-end, #f59e0b);
+  transform: translateY(-1px);
+}
+
+.room-info-value-row .copy-inline-btn.copied {
+  color: #16a34a;
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.room-info-value-row .copy-inline-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.room-info-value-row .copy-inline-btn .icon-check {
+  display: none;
+}
+
+.room-info-value-row .copy-inline-btn.copied .icon-copy {
+  display: none;
+}
+
+.room-info-value-row .copy-inline-btn.copied .icon-check {
+  display: block;
+}
+
+/* QR Code Container */
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.15rem;
+  background: #ffffff;
+  border-radius: var(--radius-xl, 18px);
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.08);
+  min-width: 180px;
+  min-height: 180px;
+}
+
+.qr-code-container:empty {
+  display: none;
+}
+
+.qr-code-container img,
+.qr-code-container canvas {
+  border-radius: 8px;
+  display: block;
+}
+
+/* Share Feedback Notification */
+.share-feedback {
+  display: none;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg, 12px);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.share-feedback.is-visible {
+  display: block;
+}
+
+.share-feedback.is-success {
+  background: var(--status-success-bg, #dcfce7);
+  color: var(--status-success-text, #15803d);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.share-feedback.is-error {
+  background: var(--status-error-bg, #fee2e2);
+  color: var(--status-error-text, #b91c1c);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
 </style>

@@ -15,6 +15,20 @@
     return modules.filters ? modules.filters.apply(items) : items;
   }
 
+  function createCheckSvg() {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('class', 'task-check-icon');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('fill-rule', 'evenodd');
+    path.setAttribute('d', 'M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z');
+    path.setAttribute('clip-rule', 'evenodd');
+    svg.appendChild(path);
+    return svg;
+  }
+
   function createCard(item) {
     var card = document.createElement('article');
     card.className = 'task-card';
@@ -23,42 +37,64 @@
     card.setAttribute('role', 'listitem');
     card.draggable = false;
 
-    if (item.board_status === 'done') {
+    var isDone = item.board_status === 'done';
+    if (isDone) {
       card.classList.add('is-done');
     }
 
-    // Toggle button (checkbox)
+    // ── Top Row: Checkbox + Title + Menu Button ──
+    var topRow = document.createElement('div');
+    topRow.className = 'task-card__top-row';
+
+    // Toggle Checkbox button
     var check = document.createElement('button');
-    check.className = 'task-card__check';
+    check.className = 'task-card__check' + (isDone ? ' is-checked' : '');
     check.type = 'button';
     check.dataset.action = 'toggle';
     check.setAttribute(
       'aria-label',
-      item.board_status === 'done' ? '未着手に戻す' : '完了にする'
+      isDone ? '未着手に戻す' : '完了にする'
     );
-    check.textContent = item.board_status === 'done' ? '✓' : '';
+    check.setAttribute('title', isDone ? '未着手に戻す' : '完了にする');
+    if (isDone) {
+      check.appendChild(createCheckSvg());
+    }
+    topRow.appendChild(check);
 
-    // Body
-    var body = document.createElement('div');
-    body.className = 'task-card__body';
-
-    // Title
+    // Title Button
     var title = document.createElement('button');
     title.type = 'button';
     title.className = 'task-card__title';
     title.dataset.action = 'edit';
     title.textContent = item.title;
-    body.appendChild(title);
+    title.setAttribute('title', 'クリックして編集');
+    topRow.appendChild(title);
 
-    // Note preview
-    if (item.note) {
+    // Action Menu Button (⋮)
+    var menu = document.createElement('button');
+    menu.type = 'button';
+    menu.className = 'task-card__menu-button';
+    menu.dataset.action = 'menu';
+    menu.setAttribute('aria-label', 'タスク操作メニュー');
+    menu.setAttribute('title', 'メニュー');
+    menu.textContent = '⋮';
+    topRow.appendChild(menu);
+
+    card.appendChild(topRow);
+
+    // ── Middle: Note Preview ──
+    if (item.note && item.note.trim()) {
       var note = document.createElement('p');
       note.className = 'task-card__note';
-      note.textContent = item.note;
-      body.appendChild(note);
+      note.textContent = item.note.trim();
+      card.appendChild(note);
     }
 
-    // Meta chips
+    // ── Bottom Row: Meta Chips + Drag Handle ──
+    var bottomRow = document.createElement('div');
+    bottomRow.className = 'task-card__bottom-row';
+
+    // Meta chips wrapper
     var meta = document.createElement('div');
     meta.className = 'task-card__meta';
 
@@ -70,10 +106,10 @@
     meta.appendChild(priority);
 
     // Category chip
-    if (item.category) {
+    if (item.category && item.category.trim()) {
       var category = document.createElement('span');
       category.className = 'task-card__category';
-      category.textContent = item.category;
+      category.textContent = item.category.trim();
       meta.appendChild(category);
     }
 
@@ -83,9 +119,9 @@
       if (dueInfo) {
         var due = document.createElement('span');
         due.className = 'task-card__due';
-        if (dueInfo.isOverdue && item.board_status !== 'done') {
+        if (dueInfo.isOverdue && !isDone) {
           due.classList.add('is-overdue');
-        } else if (dueInfo.isDueToday && item.board_status !== 'done') {
+        } else if (dueInfo.isDueToday && !isDone) {
           due.classList.add('is-due-today');
         }
         due.textContent = dueInfo.text;
@@ -93,7 +129,7 @@
       }
     }
 
-    body.appendChild(meta);
+    bottomRow.appendChild(meta);
 
     // Drag handle
     var handle = document.createElement('button');
@@ -103,17 +139,10 @@
     handle.setAttribute('aria-label', 'ドラッグして移動');
     handle.setAttribute('title', 'ドラッグして移動');
     handle.textContent = '⠿';
+    bottomRow.appendChild(handle);
 
-    // Action menu button
-    var menu = document.createElement('button');
-    menu.type = 'button';
-    menu.className = 'task-card__menu-button';
-    menu.dataset.action = 'menu';
-    menu.setAttribute('aria-label', 'タスクメニュー');
-    menu.setAttribute('title', 'メニュー');
-    menu.textContent = '⋮';
+    card.appendChild(bottomRow);
 
-    card.append(check, body, handle, menu);
     return card;
   }
 
@@ -123,9 +152,10 @@
 
     var icon = document.createElement('span');
     icon.className = 'task-column__empty-icon';
-    icon.textContent = status === 'done' ? '🎉' : '📋';
+    icon.textContent = status === 'done' ? '🎉' : (status === 'doing' ? '⚡' : '📋');
 
     var text = document.createElement('span');
+    text.className = 'task-column__empty-text';
     text.textContent =
       status === 'done'
         ? '完了したタスクはありません'
