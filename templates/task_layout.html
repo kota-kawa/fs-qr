@@ -3,46 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="{% block meta_description %}FS!QR Taskは、登録不要で使える共有タスクボードです。ルームを作ってURLを共有するだけで、チームの作業を未着手・進行中・完了で整理できます。{% endblock %}" />
+  <meta name="description" content="{% block meta_description %}FS!QR Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, 日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除{% endblock %}" />
   <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
-  <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endif %}" />
+  <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
+  <meta name="author" content="FS!QR" />
   <meta name="language" content="ja" />
-  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  <meta name="geo.region" content="JP" />
+  <meta name="geo.placename" content="Japan" />
+  <meta name="distribution" content="global" />
+  <meta name="rating" content="general" />
   <meta name="theme-color" content="#f59e0b" />
-  <meta property="og:type" content="website" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  <script>
+    window.AppConfig = Object.freeze({
+      limits: Object.freeze({
+        task: Object.freeze({
+          maxItemsPerRoom: {{ task_max_items_per_room | default(200) | tojson }},
+          maxTitleLength: {{ task_max_title_length | default(200) | tojson }},
+          maxNoteLength: {{ task_max_note_length | default(500) | tojson }},
+          maxCategoryLength: {{ task_max_category_length | default(40) | tojson }}
+        })
+      })
+    });
+  </script>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
   <meta property="og:locale" content="ja_JP" />
   <meta property="og:site_name" content="FS!QR Task" />
-  <meta property="og:title" content="{% block og_title %}FS!QR Task | 登録不要の共有タスクボード{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}共有URLだけで使える、シンプルなカンバン式タスク管理サービスです。{% endblock %}" />
+  <meta property="og:title" content="{% block og_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。{% endblock %}" />
   <meta property="og:url" content="{{ request.canonical_url }}" />
-  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
+  <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="723" />
+  <meta property="og:image:alt" content="FS!QR Task 共有タスクボードサービス" />
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{% block twitter_title %}FS!QR Task | 登録不要の共有タスクボード{% endblock %}" />
-  <meta name="twitter:description" content="{% block twitter_description %}共有URLだけで使える、シンプルなカンバン式タスク管理サービスです。{% endblock %}" />
+  <meta name="twitter:title" content="{% block twitter_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。{% endblock %}" />
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
+  <meta name="twitter:image:alt" content="FS!QR Task サービス" />
+
+  <!-- SEO -->
   <link rel="canonical" href="{{ request.canonical_url }}" />
-  {% for alt in request.language_alternates %}<link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />{% endfor %}
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
+  {% endfor %}
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+  <link rel="preload" as="image" href="{{ staticfile('task_logo.png') }}" fetchpriority="high" />
   <link rel="stylesheet" href="{{ staticfile('bootstrap.min.css') }}" />
   <link rel="stylesheet" href="{{ staticfile('style.css') }}" />
   <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}" />
+  <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}" />
   <link rel="manifest" href="{{ staticfile('manifest_task.json') }}" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Task" />
   <link rel="icon" href="{{ staticfile('favicon.ico') }}" />
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon5.png') }}" />
-  <title>{% block page_title %}FS!QR Task | 登録不要の共有タスクボード{% endblock %}</title>
-  <script>window.AppConfig = Object.freeze({ limits: Object.freeze({ task: Object.freeze({ maxItemsPerRoom: {{ task_max_items_per_room | default(200) | tojson }}, maxTitleLength: {{ task_max_title_length | default(200) | tojson }}, maxNoteLength: {{ task_max_note_length | default(500) | tojson }}, maxCategoryLength: {{ task_max_category_length | default(40) | tojson }}) }) });
-  window.FSQR_TAGS = Object.freeze({ googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %}, adsenseClientId: {{ google_adsense_client_id | tojson }}{% endif %} });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap" rel="stylesheet" />
+
+  {% if google_adsense_client_id %}
+  <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
+  <meta name="google-adsense-account" content="{{ google_adsense_account_id }}" />
+  {% endif %}
+  <script>
+    window.FSQR_TAGS = Object.freeze({
+      googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
+      adsenseClientId: {{ google_adsense_client_id | tojson }}
+      {% endif %}
+    });
+  </script>
+  <title>{% block page_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}</title>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FS!QR Task",
+    "alternateName": "エフエスQRタスク",
+    "url": "{{ request.url_root }}task",
+    "description": "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。",
+    "inLanguage": "ja-JP",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ request.url_root }}search_task?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": "{{ request.url_root }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ staticfile('task_logo.png') }}"
+      }
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR Task",
+    "description": "登録不要の共有タスクボード・カンバン管理Webアプリケーション",
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "カンバン式タスク管理",
+      "URL共有で即座にコラボレーション",
+      "優先度・期限・カテゴリ分類",
+      "ドラッグ＆ドロップ操作",
+      "自動データ消去"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FS!QR",
+    "alternateName": "エフエスQR",
+    "url": "{{ request.url_root }}",
+    "logo": "{{ staticfile('logo.png') }}",
+    "foundingDate": "2024",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "url": "{{ request.url_root }}contact"
+    },
+    "sameAs": [
+      "{{ request.url_root }}fs-qr_menu",
+      "{{ request.url_root }}group_menu",
+      "{{ request.url_root }}note_menu",
+      "{{ request.url_root }}task_menu"
+    ]
+  }
+  </script>
+
   {% block extra_head %}{% endblock %}
 </head>
 <body class="task-section">
-  <header><div class="container text-center"><div class="site-brand mt-3"><a href="/task_menu"><span class="task-layout-brand">FS!QR <strong>Task</strong></span></a></div></div></header>
+  <!-- ── Header ───────────────────────── -->
+  <header>
+    <div class="container text-center">
+      <div class="site-brand mt-3">
+        <a href="/task_menu" target="_self">
+          <img src="{{ staticfile('task_logo.png') }}" alt="FS!QR Task"
+               width="277" height="100" fetchpriority="high" decoding="async"
+               style="height:100px;width:auto;">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Search-link & Navigation ─────────── -->
   <div class="text-center">
-    <a href="/search_task" class="search-link"><span>検索</span></a>
+    <a href="/search_task" class="search-link">
+      <img src="{{ staticfile('task_search.png') }}" alt="検索" loading="lazy" decoding="async" />
+      <span>検索</span>
+    </a>
     <nav class="section-tabs" aria-label="サービスナビゲーション">
-      <a class="section-tab" href="/">ホーム</a><a class="section-tab" href="/fs-qr_menu">FS!QR</a><a class="section-tab" href="/group_menu">Group</a><a class="section-tab" href="/note_menu">Note</a><a class="section-tab" href="/task_menu" aria-current="page">Task</a>
+      <a class="section-tab" href="/">ホーム</a>
+      <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
+      <a class="section-tab" href="/group_menu">Group</a>
+      <a class="section-tab" href="/note_menu">Note</a>
+      <a class="section-tab" href="/task_menu" aria-current="page">Task</a>
     </nav>
   </div>
-  <div id="layout" class="page"><main id="main" role="main" tabindex="-1"><div class="contents">{% block contents %}{% endblock %}</div></main></div>
-  {% include '_footer.html' %}{% include 'cookie-consent.html' %}{% include 'alert-modal.html' %}
-  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script><script src="{{ staticfile('js/shared/ux-runtime.js') }}" defer></script><script src="{{ staticfile('retention-select.js') }}" defer></script><script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+
+  <!-- ── Main ──────────────────────────── -->
+  <div id="layout" class="page">
+    <main id="main" role="main" tabindex="-1">
+      <div class="contents">
+        {% block contents %}{% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Footer ────────────────────────── -->
+  {% include '_footer.html' %}
+
+  {% include 'cookie-consent.html' %}
+
+  {% include 'alert-modal.html' %}
+
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/ux-runtime.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/sw-register.js') }}" defer></script>
+  <script src="{{ staticfile('retention-select.js') }}" defer></script>
+  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+  <script src="{{ staticfile('tooltip.js') }}" defer></script>
+  <script src="{{ staticfile('accessibility.js') }}" defer></script>
 </body>
 </html>

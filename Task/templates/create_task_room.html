@@ -1,3 +1,563 @@
 {% extends "task_layout.html" %}
-{% block page_title %}タスクボードを作成 | FS!QR Task{% endblock %}{% block meta_robots %}noindex, follow{% endblock %}
-{% block contents %}<div class="modern-page-container"><form class="modern-content-card modern-form" method="post" action="/create_task_room"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><div class="modern-card-header"><h1>タスクボードを作成</h1></div><div class="modern-card-body"><p>ルームIDは自動生成されます。手動で指定することもできます。</p><label class="modern-form-label"><input type="radio" name="idMode" value="auto" checked> 自動生成</label><label class="modern-form-label"><input type="radio" name="idMode" value="manual"> 手動入力</label><label class="modern-form-label" for="task-room-id">ルームID（手動の場合）</label><input class="modern-form-input" id="task-room-id" name="id" minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" placeholder="6文字の半角英数字"><label class="modern-form-label" for="task-retention">自動削除までの期間</label><select class="retention-select" id="task-retention" name="retention_hours"><option value="1">1時間</option><option value="6">6時間</option><option value="12">12時間</option><option value="24" selected>24時間（デフォルト）</option></select><button class="modern-btn modern-btn--primary" type="submit">ボードを作成</button></div></form></div>{% endblock %}
+
+{% block page_title %}タスクボード作成 | FS!QR Task - 共有カンバンボード{% endblock %}
+
+{% block meta_description %}FS!QR Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。{% endblock %}
+
+{% block meta_keywords %}タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task{% endblock %}
+{% block meta_robots %}noindex, follow{% endblock %}
+{% block meta_googlebot %}noindex, follow{% endblock %}
+
+{% block og_title %}タスクボード作成 | FS!QR Task - 共有カンバンボード{% endblock %}
+
+{% block og_description %}FS!QR Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。{% endblock %}
+
+{% block twitter_title %}タスクボード作成 | FS!QR Task{% endblock %}
+
+{% block twitter_description %}チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。{% endblock %}
+
+{% block contents %}
+<style>
+/* Unified Modern Design System */
+.page-container {
+    min-height: auto;
+    background: transparent;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.modern-card {
+    --card-radius: 24px;
+    --card-border-width: 1px;
+    width: 100%;
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--card-radius);
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+    border: var(--card-border-width) solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 35px -5px rgba(0, 0, 0, 0.15),
+        0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
+}
+
+.modern-card > .card-header {
+    border-top-left-radius: var(--card-radius, 24px);
+    border-top-right-radius: var(--card-radius, 24px);
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 10px solid rgb(245, 158, 11);
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Kaisei Opti', serif;
+}
+
+.card-body {
+    padding: 2.5rem 2rem 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+    color: #1f2937;
+}
+
+.form-control:focus {
+    border-color: rgb(245, 158, 11);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.form-control:focus-visible {
+    outline: 3px solid transparent;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.32);
+}
+
+.btn-modern {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgb(180, 83, 9) 0%, rgb(245, 158, 11) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(180, 83, 9, 0.3);
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+.inline-feedback {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    background: rgba(254, 242, 242, 0.95);
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.inline-feedback.is-visible {
+    display: block;
+}
+
+.retention-preview {
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(254, 243, 199, 0.95);
+    border: 1px solid rgba(245, 158, 11, 0.28);
+    color: #92400e;
+}
+
+.retention-preview strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 575.98px) {
+    .page-container {
+        padding: 1rem 0.25rem;
+    }
+
+    .modern-card {
+        max-width: 100%;
+        --card-radius: 20px;
+        border-radius: var(--card-radius);
+    }
+    
+    .card-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 2rem 1rem 1.75rem;
+    }
+    
+    .form-control {
+        padding: 0.875rem 1rem;
+    }
+    
+    .btn-modern {
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
+    }
+}
+</style>
+
+<style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="page-container">
+  <div class="modern-card">
+      <div class="card-header">
+          <h1 class="card-title">タスクボードを作成</h1>
+      </div>
+      <div class="card-body">
+          <form method="POST" action="/create_task_room">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <!-- ID入力方式選択 -->
+              <div class="form-group">
+                  <label class="form-label">ルームID設定方式</label>
+                  <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                      <label style="display: flex; align-items: center; cursor: pointer;">
+                          <input type="radio" name="idMode" value="auto" checked style="margin-right: 5px;">
+                          自動生成
+                      </label>
+                      <label style="display: flex; align-items: center; cursor: pointer;">
+                          <input type="radio" name="idMode" value="manual" style="margin-right: 5px;">
+                          手動入力
+                      </label>
+                  </div>
+              </div>
+              
+              <!-- ID入力欄 -->
+              <div class="form-group" id="manualIdGroup" style="display: none;">
+                  <label for="roomID" class="form-label">ルームID</label>
+                  <input type="text" id="roomID" name="id" class="form-control"
+                         placeholder="6文字の半角英数字で入力" minlength="6" maxlength="6"
+                         pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                         aria-describedby="manualRoomIdHelp createRoomInlineError">
+                  <small id="manualRoomIdHelp" class="retention-select-hint">6文字の半角英数字で入力してください。</small>
+              </div>
+              
+              <!-- 自動生成ID表示 -->
+              <div class="form-group" id="autoIdGroup">
+                  <label class="form-label">自動生成されるID</label>
+                  <input type="text" id="autoGeneratedId" class="form-control" readonly
+                         style="background-color: #f0f0f0;" placeholder="自動生成されます">
+                  <input type="hidden" id="hiddenId" name="id">
+              </div>
+
+              <div class="form-group">
+                  <label class="form-label" for="retention">自動削除までの期間</label>
+                  <div class="retention-select-wrapper retention-select-wrapper--amber" data-retention-select>
+                      <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
+                          <option value="1">{% if current_language == 'ja' %}1時間{% else %}1h{% endif %}</option>
+                          <option value="6">{% if current_language == 'ja' %}6時間{% else %}6h{% endif %}</option>
+                          <option value="12">{% if current_language == 'ja' %}12時間{% else %}12h{% endif %}</option>
+                          <option value="24" selected>{% if current_language == 'ja' %}24時間（デフォルト）{% else %}24h (default){% endif %}</option>
+                      </select>
+                      <span class="retention-select-arrow" aria-hidden="true">
+                          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+                  <small class="retention-select-hint">チームの運用に合わせて保存期間を柔軟に設定できます。</small>
+                  <div class="retention-preview" id="retentionPreview" aria-live="polite">
+                      <strong>この内容で今すぐ作成した場合の削除予定</strong>
+                      <span id="retentionPreviewTime">計算中...</span>
+                  </div>
+              </div>
+
+              <div class="inline-feedback" id="createRoomInlineError" role="alert" aria-live="assertive"></div>
+
+              <button type="submit" class="btn-modern">ボードを作成</button>
+          </form>
+      </div>
+  </div>
+</div>
+
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: var(--z-overlay);">
+    <div style="text-align: center;">
+        <div style="width: 60px; height: 60px; margin: 0 auto; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(245, 158, 11); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
+    </div>
+</div>
+
+<script>
+    const retentionSelect = document.getElementById('retention');
+    const retentionPreviewTime = document.getElementById('retentionPreviewTime');
+    const inlineError = document.getElementById('createRoomInlineError');
+    const retentionAutoDeleteTemplate = {{ frontend_messages.get('retention.auto_delete_at', '{time} ごろに自動削除されます') | tojson }};
+
+    function isPlainObject(value) {
+        return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+    }
+
+    async function safeReadJsonResponse(response) {
+        const fallbackMessage = (() => {
+            if (response.status === 403) {
+                return 'セッションの有効期限が切れた可能性があります。ページを再読み込みしてから再度お試しください。';
+            }
+            if (response.status >= 500) {
+                return 'サーバーで処理に失敗しました。時間をおいて再度お試しください。';
+            }
+            return 'レスポンス形式が不正です。時間をおいて再度お試しください。';
+        })();
+
+        try {
+            const parsed = await response.json();
+            if (!isPlainObject(parsed)) {
+                throw new Error('invalid payload');
+            }
+            return parsed;
+        } catch (error) {
+            throw new Error(fallbackMessage);
+        }
+    }
+
+    async function readErrorMessage(response, fallbackMessage) {
+        if (response.status === 403) {
+            return 'セッションの有効期限が切れた可能性があります。ページを再読み込みしてから再度お試しください。';
+        }
+        try {
+            const data = await safeReadJsonResponse(response);
+            if (typeof data.error === 'string' && data.error) {
+                return data.error;
+            }
+        } catch (error) {
+            if (error instanceof Error && error.message) {
+                return error.message;
+            }
+        }
+        return fallbackMessage;
+    }
+
+    async function redirectFromCreateResponse(response) {
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+        const data = await safeReadJsonResponse(response);
+        const redirectUrl = data && data.data && data.data.redirect_url;
+        if (typeof redirectUrl === 'string' && redirectUrl) {
+            window.location.href = redirectUrl;
+            return;
+        }
+        throw new Error('タスクボード作成後の移動先が取得できませんでした。');
+    }
+
+    function showInlineError(message) {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = message;
+        inlineError.classList.add('is-visible');
+    }
+
+    function clearInlineError() {
+        if (!inlineError) {
+            return;
+        }
+        inlineError.textContent = '';
+        inlineError.classList.remove('is-visible');
+    }
+
+    function formatDateTime(date) {
+        const pad = (value) => String(value).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function formatRetentionAutoDeleteText(timeText) {
+        return retentionAutoDeleteTemplate.replace('{time}', timeText);
+    }
+
+    function updateRetentionPreview() {
+        if (!retentionSelect || !retentionPreviewTime) {
+            return;
+        }
+        const retentionHours = Number(retentionSelect.value || 24);
+        const deletionDate = new Date();
+        deletionDate.setHours(deletionDate.getHours() + retentionHours);
+        retentionPreviewTime.textContent = formatRetentionAutoDeleteText(formatDateTime(deletionDate));
+    }
+
+    function generateRandomId() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 6; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const autoIdInput = document.getElementById('autoGeneratedId');
+        const hiddenIdInput = document.getElementById('hiddenId');
+        const roomIdInput = document.getElementById('roomID');
+        autoIdInput.value = generateRandomId();
+        hiddenIdInput.value = autoIdInput.value;
+        roomIdInput.name = '';
+        hiddenIdInput.name = 'id';
+        updateRetentionPreview();
+    });
+
+    document.querySelectorAll('input[name="idMode"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const manualGroup = document.getElementById('manualIdGroup');
+            const autoGroup = document.getElementById('autoIdGroup');
+            const roomIdInput = document.getElementById('roomID');
+            const hiddenIdInput = document.getElementById('hiddenId');
+            clearInlineError();
+            
+            if (this.value === 'manual') {
+                manualGroup.style.display = 'block';
+                autoGroup.style.display = 'none';
+                roomIdInput.required = true;
+                hiddenIdInput.name = '';
+                roomIdInput.name = 'id';
+            } else {
+                manualGroup.style.display = 'none';
+                autoGroup.style.display = 'block';
+                roomIdInput.required = false;
+                roomIdInput.name = '';
+                hiddenIdInput.name = 'id';
+                const newId = generateRandomId();
+                document.getElementById('autoGeneratedId').value = newId;
+                hiddenIdInput.value = newId;
+            }
+        });
+    });
+
+    function postCreateRoom(form, formData, csrfToken) {
+        return fetch(form.action, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-Token': csrfToken,
+                'X-Requested-With': 'fetch',
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+    }
+
+    async function handleCreateResponse(response, form, csrfToken, retryAutoConflict) {
+        if (response.status === 409) {
+            const data = await safeReadJsonResponse(response);
+            if (retryAutoConflict && data && data.data && data.data.retry_auto === true) {
+                const newId = generateRandomId();
+                document.getElementById('autoGeneratedId').value = newId;
+                document.getElementById('hiddenId').value = newId;
+
+                const newFormData = new FormData(form);
+                newFormData.set('id', newId);
+
+                const retryResponse = await postCreateRoom(form, newFormData, csrfToken);
+                return handleCreateResponse(retryResponse, form, csrfToken, false);
+            }
+            throw new Error(typeof data.error === 'string' ? data.error : 'このIDは既に使用されています。別のIDを使用してください。');
+        }
+
+        if (!response.ok) {
+            const message = await readErrorMessage(response, 'タスクボード作成に失敗しました。時間をおいて再度お試しください。');
+            throw new Error(message);
+        }
+
+        return response;
+    }
+
+    document.querySelector('form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        clearInlineError();
+        
+        const form = event.target;
+        if (!form.reportValidity()) {
+            return;
+        }
+        const formData = new FormData(form);
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        document.getElementById('loading-screen').style.display = 'flex';
+        
+        try {
+            const response = await postCreateRoom(form, formData, csrfToken);
+            const okResponse = await handleCreateResponse(response, form, csrfToken, true);
+            await redirectFromCreateResponse(okResponse);
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('loading-screen').style.display = 'none';
+            showInlineError(error instanceof Error && error.message ? error.message : 'タスクボード作成に失敗しました。時間をおいて再度お試しください。');
+        }
+    });
+
+    const roomIdInput = document.getElementById('roomID');
+    roomIdInput.addEventListener('input', function() {
+        clearInlineError();
+        const value = this.value;
+        const isValid = /^[a-zA-Z0-9]{0,6}$/.test(value);
+
+        if (!isValid) {
+            this.setCustomValidity('半角英数字のみ使用してください');
+            this.style.borderColor = '#ef4444';
+        } else if (value.length < 6 && value.length > 0) {
+            this.setCustomValidity('6文字すべて入力してください');
+            this.style.borderColor = '#f59e0b';
+        } else {
+            this.setCustomValidity('');
+            this.style.borderColor = value.length === 6 ? '#10b981' : '#e5e7eb';
+        }
+    });
+
+    if (retentionSelect) {
+        retentionSelect.addEventListener('change', updateRetentionPreview);
+    }
+</script>
+{% endblock %}

@@ -424,3 +424,222 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
         assert delete_response.status_code == 302
         assert delete_response.headers["location"] == "/remove-succes"
         remove_mock.assert_awaited_once_with(room_id)
+
+
+def test_e2e_task_board_create_join_items_and_delete(test_client):
+    room_id = "te2e01"
+    password = "567890"
+    share_token = "task-e2e-share-token-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    expires_at = datetime(2099, 1, 8, 9, 0, 0)
+    meta = {
+        "id": room_id,
+        "room_id": room_id,
+        "password": password,
+        "retention_hours": 24,
+        "expires_at": expires_at,
+    }
+    item_1 = {
+        "item_id": 101,
+        "room_id": room_id,
+        "title": "タスク1",
+        "note": "メモ",
+        "board_status": "todo",
+        "priority": "high",
+        "category": "機能開発",
+        "due_date": "2099-01-10",
+        "position": 100,
+        "version": 0,
+        "updated_at": "2099-01-01 09:00:00.000000",
+    }
+    item_1_updated = {
+        **item_1,
+        "board_status": "doing",
+        "title": "タスク1 (進行中)",
+        "version": 1,
+    }
+
+    state = {"exists": False, "items": []}
+
+    async def get_task_meta(candidate_room_id):
+        if state["exists"] and candidate_room_id == room_id:
+            return meta
+        return None
+
+    async def create_task_room(candidate_id, candidate_password, name, retention):
+        state["exists"] = True
+
+    async def pick_task_room(candidate_id, candidate_password):
+        if (
+            state["exists"]
+            and candidate_id == room_id
+            and candidate_password == password
+        ):
+            return room_id
+        return None
+
+    async def remove_task_room(candidate_room_id):
+        if candidate_room_id == room_id:
+            state["exists"] = False
+            return True
+        return False
+
+    remove_mock = AsyncMock(side_effect=remove_task_room)
+    with (
+        patch(
+            "Task.task_routes_room.generate_room_password",
+            return_value=password,
+        ),
+        patch(
+            "Task.task_routes_room.create_share_link",
+            new=AsyncMock(return_value=share_token),
+        ),
+        patch(
+            "Task.task_routes_room.resolve_share_link",
+            new=AsyncMock(
+                return_value={
+                    "service_key": "task",
+                    "resource_id": room_id,
+                    "metadata": {
+                        "id": room_id,
+                        "password_enc": encrypt_share_password(password),
+                    },
+                }
+            ),
+        ),
+        patch(
+            "Task.task_common.get_room_meta_direct",
+            new=AsyncMock(side_effect=get_task_meta),
+        ),
+        patch(
+            "Task.task_routes_room.task_data.get_room_meta_direct",
+            new=AsyncMock(side_effect=get_task_meta),
+        ),
+        patch(
+            "Task.task_routes_room.task_data.create_room",
+            new=AsyncMock(side_effect=create_task_room),
+        ) as create_mock,
+        patch(
+            "Task.task_routes_room.task_data.pick_room_id_direct",
+            new=AsyncMock(side_effect=pick_task_room),
+        ),
+        patch(
+            "Task.task_routes_room.task_data.remove_room",
+            remove_mock,
+        ),
+        patch(
+            "Task.task_routes_room.check_rate_limit",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch("Task.task_routes_room.register_success", new=AsyncMock()),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new=AsyncMock(side_effect=get_task_meta),
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new=AsyncMock(return_value=1),
+        ),
+        patch(
+            "Task.task_routes_items.task_data.create_item",
+            new=AsyncMock(return_value=item_1),
+        ) as create_item_mock,
+        patch(
+            "Task.task_routes_items.task_data.list_items",
+            new=AsyncMock(return_value=[item_1]),
+        ),
+        patch(
+            "Task.task_routes_items.task_data.list_categories",
+            new=AsyncMock(return_value=["機能開発"]),
+        ),
+        patch(
+            "Task.task_routes_items.task_data.update_item",
+            new=AsyncMock(return_value=(item_1_updated, True)),
+        ) as update_item_mock,
+        patch(
+            "Task.task_routes_items.task_data.delete_item",
+            new=AsyncMock(),
+        ) as delete_item_mock,
+        patch(
+            "Task.task_routes_items.check_exponential_backoff",
+            new=AsyncMock(return_value=(True, None, None)),
+        ),
+        patch("Task.task_routes_items.clear_exponential_backoff", new=AsyncMock()),
+    ):
+        assert test_client.get("/task").status_code == 200
+        assert test_client.get("/create_task_room").status_code == 200
+        assert test_client.get("/search_task").status_code == 200
+        assert test_client.get("/task_menu").status_code == 200
+        assert test_client.get("/shared-task").status_code == 200
+
+        create_response = test_client.post(
+            "/create_task_room",
+            data={"id": room_id, "idMode": "manual", "retention_hours": 24},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+        assert create_response.status_code == 200
+        create_payload = create_response.json()["data"]
+        assert create_payload["redirect_url"] == f"/task/r/{room_id}"
+        assert create_payload["password"] == password
+        assert create_payload["share_url"].endswith(f"/task/s/{share_token}")
+        create_mock.assert_awaited_once_with(room_id, password, room_id, 24)
+
+        room_response = test_client.get(create_payload["redirect_url"])
+        assert room_response.status_code == 200
+        assert password in room_response.text
+        assert share_token in room_response.text
+
+        create_item_response = test_client.post(
+            f"/api/task/{room_id}/items",
+            json={
+                "title": "タスク1",
+                "note": "メモ",
+                "priority": "high",
+                "category": "機能開発",
+                "due_date": "2099-01-10",
+                "board_status": "todo",
+            },
+        )
+        assert create_item_response.status_code == 201
+        assert create_item_response.json()["data"]["item"] == item_1
+        create_item_mock.assert_awaited_once()
+
+        list_response = test_client.get(f"/api/task/{room_id}/items")
+        assert list_response.status_code == 200
+        assert list_response.json()["data"]["items"] == [item_1]
+        assert list_response.json()["data"]["categories"] == ["機能開発"]
+
+        update_item_response = test_client.request(
+            "PATCH",
+            f"/api/task/{room_id}/items/101",
+            json={
+                "version": 0,
+                "title": "タスク1 (進行中)",
+                "board_status": "doing",
+            },
+        )
+        assert update_item_response.status_code == 200
+        assert update_item_response.json()["data"]["item"] == item_1_updated
+        update_item_mock.assert_awaited_once()
+
+        delete_item_response = test_client.delete(f"/api/task/{room_id}/items/101")
+        assert delete_item_response.status_code == 200
+        delete_item_mock.assert_awaited_once_with(room_id, 101)
+
+        search_client = _fresh_client(test_client)
+        search_response = search_client.post(
+            "/search_task_process",
+            data={"id": room_id, "password": password},
+        )
+        assert search_response.status_code == 302
+        assert search_response.headers["location"] == f"/task/r/{room_id}"
+        assert search_client.get(search_response.headers["location"]).status_code == 200
+
+        share_client = _fresh_client(test_client)
+        share_response = share_client.get(f"/task/s/{share_token}")
+        assert share_response.status_code == 200
+        assert password in share_response.text
+
+        delete_response = test_client.post(f"/task/r/{room_id}/delete")
+        assert delete_response.status_code == 302
+        assert delete_response.headers["location"] == "/remove-succes"
+        remove_mock.assert_awaited_once_with(room_id)

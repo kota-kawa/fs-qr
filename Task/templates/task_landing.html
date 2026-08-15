@@ -1,10 +1,334 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="登録不要・無料で使えるカンバン式共有タスクボード、FS!QR Task。共有URLだけでチームの作業を整理できます。"><meta name="robots" content="index, follow">
-<meta property="og:title" content="FS!QR Task | 登録不要の共有タスクボード"><meta property="og:description" content="URLを共有して、チームの作業を未着手・進行中・完了で整理。"><meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="{{ request.canonical_url }}"><link rel="apple-touch-icon" href="{{ staticfile('apple-touch-icon5.png') }}"><link rel="stylesheet" href="{{ staticfile('style.css') }}"><link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}"><title>共有タスクボード｜登録不要・無料 - FS!QR Task</title>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"FS!QR Task","applicationCategory":"WebApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"アカウント登録は必要ですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。ルームを作成して共有するだけで使えます。"}},{"@type":"Question","name":"タスクはいつ削除されますか？","acceptedAnswer":{"@type":"Answer","text":"選択した保存期間の終了後、ルームとともに自動削除されます。"}}]}</script></head>
-<body class="product-lp product-lp--task"><header class="lp-header"><a class="lp-brand" href="/task_menu">FS!QR <strong>Task</strong></a><nav class="lp-nav"><a href="/">ホーム</a><a href="/task_menu">Task</a></nav></header>
-<main id="main-content"><section class="lp-hero"><div class="lp-hero__grid"><div><p class="lp-eyebrow">NO ACCOUNT. JUST SHARE.</p><h1>渡したあとの作業も、<span>同じルームで。</span></h1><p class="lp-hero__lead">URLを共有するだけで始められる、シンプルなカンバン式タスクボード。期限・優先度・カテゴリで、チームの次の一手を整理します。</p><p><a class="lp-button lp-button--primary" href="/create_task_room">無料でボードを作成</a><a class="lp-button lp-button--secondary" href="/search_task">ルームに参加</a></p></div><div class="lp-process-preview"><img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" alt="FS!QR Taskのカンバンボード" loading="lazy"><p>未着手 · 進行中 · 完了</p></div></div></section>
-<section class="lp-section"><p class="lp-section__eyebrow">HOW IT WORKS</p><h2 class="lp-section__title">3つの列で、状況がすぐ分かる</h2><div class="lp-feature-grid"><article class="lp-card"><h3>すぐに共有</h3><p>ルームを作成し、URLまたはIDとパスワードを渡すだけです。</p></article><article class="lp-card"><h3>優先順位を整理</h3><p>期限日、優先度、カテゴリをカードごとに設定できます。</p></article><article class="lp-card"><h3>自動で削除</h3><p>選択した保存期間のあと、ルームとタスクは自動削除されます。</p></article></div></section><section class="lp-final-cta"><h2>今すぐ、次の作業を整理しましょう。</h2><a class="lp-button lp-button--primary" href="/create_task_room">タスクボードを作成</a></section></main></body></html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>登録不要の共有タスクボード｜チームで使えるFS!QR Task</title>
+  <meta name="description" content="FS!QR Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="theme-color" content="#f59e0b">
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="FS!QR Task">
+  <meta property="og:title" content="登録不要の共有タスクボード｜FS!QR Task">
+  <meta property="og:description" content="チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。">
+  <meta property="og:url" content="{{ request.canonical_url }}">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="723">
+  <meta property="og:image:alt" content="FS!QR Taskの共有タスクボードサービス">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="登録不要の共有タスクボード｜FS!QR Task">
+  <meta name="twitter:description" content="チームのタスクをひとつのボードへ。アカウント登録なしで始められます。">
+  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:image:alt" content="FS!QR Taskの共有タスクボードサービス">
+
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon5.png') }}">
+  <link rel="preload" as="image" href="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}">
+  <link rel="stylesheet" href="{{ staticfile('css/15-product-landing.css') }}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FS!QR Task",
+    "url": {{ request.canonical_url | tojson }},
+    "description": "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。",
+    "applicationCategory": "ProductivityApplication",
+    "applicationSubCategory": "Task Management",
+    "operatingSystem": "Web Browser",
+    "inLanguage": "ja-JP",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "アカウント登録不要のボード作成",
+      "カンバン方式（未着手・進行中・完了）",
+      "共有URLとQRコードによる参加",
+      "優先度・期限・カテゴリ分類",
+      "ドラッグ＆ドロップ操作",
+      "保存期間経過後の自動削除"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FS!QR",
+      "url": {{ request.url_root | tojson }}
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "アカウント登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メンバーはどのようにボードへ参加しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "タスクデータはいつまで保存されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ボード作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "登録できるタスク数に上限はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1つのボードにつき最大200件までタスクを登録できます。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="product-lp product-lp--task">
+  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+
+  <header class="lp-header">
+    <div class="lp-container lp-header__inner">
+      <a class="lp-brand" href="/task_menu" aria-label="FS!QR Task トップへ">
+        <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon5.png') }}" width="180" height="180" alt=""></span>
+        <span class="lp-brand__text">
+          <span class="lp-brand__name">FS!QR <strong>Task</strong></span>
+          <span class="lp-brand__tagline">Kanban task board</span>
+        </span>
+      </a>
+      <nav class="lp-nav" aria-label="ページ内ナビゲーション">
+        <a href="#how-it-works">使い方</a>
+        <a href="#features">特長</a>
+        <a href="#use-cases">活用例</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/task">ボードに参加</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="lp-hero" aria-labelledby="hero-title">
+      <div class="lp-container lp-hero__grid">
+        <div class="lp-hero__content">
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要の共有タスクボード</p>
+          <h1 id="hero-title">チームの作業を、<br><span>ひとつのボードに。</span></h1>
+          <p class="lp-hero__lead">メンバー登録や面倒な初期設定は不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了の進捗を見える化できます。</p>
+          <div class="lp-actions">
+            <a class="lp-button lp-button--primary" href="/create_task_room">
+              無料でボードを作る
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="lp-button lp-button--secondary" href="/task">IDでボードに参加</a>
+          </div>
+          <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
+            <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
+            <li><span aria-hidden="true">✓</span> シンプルカンバン</li>
+            <li><span aria-hidden="true">✓</span> 自動削除で安心</li>
+          </ul>
+        </div>
+
+        <figure class="lp-mockup lp-page-shot">
+          <img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" width="1200" height="900" alt="チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト" fetchpriority="high" decoding="async">
+          <figcaption class="lp-visually-hidden">FS!QR Taskのカンバンボードを表すイラスト</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="lp-trust" aria-label="FS!QR Taskの利用ポイント">
+      <div class="lp-container">
+        <p class="lp-trust__lead">チームのタスク共有に必要なことだけ</p>
+        <div class="lp-trust__items">
+          <div class="lp-trust__item"><strong>登録不要</strong><span>アカウント作成不要で即開始</span></div>
+          <div class="lp-trust__item"><strong>保存期間を選択</strong><span>1・6・12・24時間</span></div>
+          <div class="lp-trust__item"><strong>3つの列で整理</strong><span>未着手・進行中・完了</span></div>
+          <div class="lp-trust__item"><strong>ブラウザ完結</strong><span>PC・スマートフォンに対応</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="lp-section lp-section--steps" aria-labelledby="how-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
+          <h2 id="how-title" class="lp-section__title">タスク管理開始まで、<wbr>わずか3ステップ</h2>
+          <p class="lp-section__lead">専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。</p>
+        </div>
+        <ol class="lp-steps">
+          <li class="lp-step">
+            <span class="lp-step__number">01</span>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 3v18"/>
+                <path d="M15 3v18"/>
+              </svg>
+            </div>
+            <h3>ボードを作成</h3>
+            <p>保存期間を設定してタスクボードを作成。ルームIDとパスワードが発行されます。</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step__number">02</span>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+            </div>
+            <h3>共有URLを送る</h3>
+            <p>発行された共有URLまたはQRコードをメンバーに渡すだけで、誰でもすぐにボードへアクセスできます。</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step__number">03</span>
+            <div class="lp-step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h3>タスクを整理・更新</h3>
+            <p>タスクを追加し、ドラッグ＆ドロップで進行中・完了へ移動。チームの進捗が一目で分かります。</p>
+          </li>
+        </ol>
+        <div class="lp-section__action">
+          <a class="lp-button lp-button--primary" href="/create_task_room">タスクボードを作る <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="lp-section lp-section--tint" aria-labelledby="features-title">
+      <div class="lp-container">
+        <div class="lp-section__heading lp-section__heading--left">
+          <p class="lp-section__eyebrow">02&nbsp;&nbsp;Taskの特長</p>
+          <h2 id="features-title" class="lp-section__title">直感的に使えて、<br>必要な機能が揃っている。</h2>
+        </div>
+        <div class="lp-grid lp-grid--features">
+          <article class="lp-card lp-feature-card lp-feature-card--wide">
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+                <path d="M14 14h3v3"/>
+                <path d="M21 14v7h-4"/>
+                <path d="M14 21v-3"/>
+              </svg>
+            </span>
+            <h3>URL・QRコードですぐ共有</h3>
+            <p>共有URLをチャットで送るか、対面ならQRコードを見せるだけ。誰でも1秒で参加できます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </span>
+            <h3>優先度・期限・カテゴリ</h3>
+            <p>優先度（高・通常・低）、期限日、カテゴリでタスクを柔軟に整理・絞り込みできます。</p>
+          </article>
+          <article class="lp-card lp-feature-card">
+            <span class="lp-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 14 14"/>
+              </svg>
+            </span>
+            <h3>自動削除でクリーン</h3>
+            <p>保存期間が終了するとサーバーから完全に自動削除。一時利用に安心です。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases" class="lp-section" aria-labelledby="use-cases-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">03&nbsp;&nbsp;活用例</p>
+          <h2 id="use-cases-title" class="lp-section__title">こんなシーンで活躍します</h2>
+        </div>
+        <div class="lp-grid lp-grid--cases">
+          <article class="lp-card lp-case-card">
+            <h3>イベント・勉強会の運営</h3>
+            <p>当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。</p>
+          </article>
+          <article class="lp-card lp-case-card">
+            <h3>ミーティングのアクション管理</h3>
+            <p>打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。</p>
+          </article>
+          <article class="lp-card lp-case-card">
+            <h3>個人のデイリーTODO整理</h3>
+            <p>今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="lp-section lp-section--tint" aria-labelledby="faq-title">
+      <div class="lp-container">
+        <div class="lp-section__heading">
+          <p class="lp-section__eyebrow">04&nbsp;&nbsp;よくある質問</p>
+          <h2 id="faq-title" class="lp-section__title">よくある質問</h2>
+        </div>
+        <div class="lp-faq-list">
+          <details class="lp-faq-item">
+            <summary>本当に無料で利用できますか？</summary>
+            <p>はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>スマートフォンからでも操作できますか？</summary>
+            <p>はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。</p>
+          </details>
+          <details class="lp-faq-item">
+            <summary>タスクデータはいつまで保存されますか？</summary>
+            <p>作成時に選択した有効期限（1〜24時間）が経過すると、サーバーから自動的に削除されます。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-final-cta" aria-labelledby="final-cta-title">
+      <div class="lp-container lp-final-cta__inner">
+        <h2 id="final-cta-title">今すぐ、チームのタスクを整理しましょう。</h2>
+        <p>アカウント登録不要。わずか数秒でタスクボードを作成できます。</p>
+        <div class="lp-actions lp-actions--center">
+          <a class="lp-button lp-button--primary" href="/create_task_room">無料でボードを作る <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/task">IDでボードに参加</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-container lp-footer__inner">
+      <p class="lp-footer__copy">© 2024–2026 FS!QR. All rights reserved.</p>
+      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
+        <a href="/">FS!QR ホーム</a>
+        <a href="/terms">利用規約</a>
+        <a href="/privacy">プライバシーポリシー</a>
+        <a href="/contact">お問い合わせ</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
