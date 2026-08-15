@@ -5,18 +5,17 @@
   var core = modules.core;
   var store = modules.store;
 
+  var POLL_INTERVAL_MS = 3500;
   var pollTimer = null;
   var isPolling = false;
-  var POLL_INTERVAL_MS = 3500;
-
-  function url(suffix) {
-    return '/api/task/' + encodeURIComponent(core.config.roomId) + '/items' + (suffix || '');
-  }
 
   function isUserInteracting() {
     var dialog = document.getElementById('taskEditorDialog');
     if (dialog && dialog.open) return true;
-    if (document.querySelector('.is-dragging')) return true;
+    if (modules.dnd && modules.dnd.isDragging()) return true;
+    if (modules.menu && modules.menu.isOpen()) return true;
+    var inlineAdd = document.querySelector('.task-inline-add:not([hidden])');
+    if (inlineAdd && inlineAdd.contains(document.activeElement)) return true;
     return false;
   }
 
@@ -25,8 +24,9 @@
     isPolling = true;
 
     try {
-      var data = await core.request(url(), { method: 'GET' });
-      // If user is actively dragging or has modal open, defer sync to not disrupt
+      var data = await core.request(core.itemsUrl(), { method: 'GET' });
+      // Defer syncing while the user is mid-interaction so nothing jumps.
+      // 操作中に画面が動かないよう、同期を先送りする。
       if (!isUserInteracting()) {
         store.setAll(data.items, data.categories);
       }
@@ -55,7 +55,7 @@
     }
   }
 
-  async function create(event) {
+  async function createFromQuickAdd(event) {
     event.preventDefault();
     var input = document.getElementById('taskTitle');
     var prioritySelect = document.getElementById('taskCreatePriority');
@@ -72,33 +72,19 @@
       return;
     }
 
-    if (store.getItems().length >= core.config.limits.maxItems) {
-      if (error) {
-        error.textContent = 'タスク数の上限（' + core.config.limits.maxItems + '件）に達しました。';
-        error.hidden = false;
-      }
-      return;
-    }
-
     var button = event.currentTarget.querySelector('button[type="submit"]');
     if (button) button.disabled = true;
 
-    var priority = prioritySelect ? prioritySelect.value : 'normal';
-
     try {
-      var data = await core.request(url(), {
-        method: 'POST',
-        body: JSON.stringify({
-          title: title,
-          note: '',
-          priority: priority,
-          category: '',
-          due_date: null,
-          board_status: 'todo'
-        })
+      await modules.actions.createItem({
+        title: title,
+        priority: prioritySelect ? prioritySelect.value : 'normal',
+        board_status: 'todo'
       });
-      store.replace(data.item);
-      if (input) input.value = '';
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
       core.toast('タスクを追加しました。', 'success');
     } catch (err) {
       if (error) {
@@ -110,82 +96,142 @@
     }
   }
 
-  async function toggle(card) {
+  function cardsInColumn(card) {
+    var list = card.closest('.task-column__list');
+    return list ? Array.prototype.slice.call(list.querySelectorAll('.task-card')) : [];
+  }
+
+  function focusSibling(card, offset) {
+    var cards = cardsInColumn(card);
+    var index = cards.indexOf(card);
+    var next = cards[index + offset];
+    if (next) next.focus();
+  }
+
+  function onCardKeydown(event) {
+    var card = event.target.closest ? event.target.closest('.task-card') : null;
+    if (!card) return;
+
     var item = store.getItem(card.dataset.itemId);
     if (!item) return;
 
-    var before = store.snapshot();
-    var status = item.board_status === 'done' ? 'todo' : 'done';
-    store.replace(Object.assign({}, item, { board_status: status }));
+    var isArrow = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].indexOf(event.key) >= 0;
 
-    try {
-      var data = await core.request(url('/' + item.item_id), {
-        method: 'PATCH',
-        body: JSON.stringify({ version: item.version, board_status: status })
-      });
-      store.replace(data.item);
-      modules.render.announce(
-        '「' + item.title + '」を' + (status === 'done' ? '完了' : '未着手') + 'にしました'
-      );
-    } catch (err) {
-      if (err.status === 409 && err.data && err.data.item) {
-        store.replace(err.data.item);
+    if ((event.ctrlKey || event.metaKey) && isArrow) {
+      event.preventDefault();
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        var order = core.STATUSES;
+        var current = order.indexOf(item.board_status);
+        var target = order[
+          Math.max(0, Math.min(order.length - 1, current + (event.key === 'ArrowLeft' ? -1 : 1)))
+        ];
+        if (target !== item.board_status) {
+          modules.actions.moveToColumn(item, target);
+        }
       } else {
-        store.restore(before);
+        modules.actions.moveWithin(item, event.key === 'ArrowUp' ? -1 : 1);
       }
-      core.toast(
-        err.status === 409
-          ? '他の画面で更新されました。'
-          : (err.message || '更新に失敗しました。'),
-        'error'
-      );
+      window.setTimeout(function () {
+        var moved = document.querySelector('.task-card[data-item-id="' + item.item_id + '"]');
+        if (moved) moved.focus();
+      }, 60);
+      return;
+    }
+
+    // Remaining shortcuts only apply when the card itself holds focus.
+    // 以降はカード本体にフォーカスがある場合のみ有効。
+    if (event.target !== card) return;
+
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      focusSibling(card, event.key === 'ArrowUp' ? -1 : 1);
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      modules.editor.open(item);
+    } else if (event.key === ' ' || event.key === 'Spacebar') {
+      event.preventDefault();
+      modules.actions.toggleDone(item.item_id);
+    } else if (event.key === 'Delete') {
+      event.preventDefault();
+      modules.actions.deleteItem(item.item_id);
     }
   }
 
-  function initColumns() {
-    document.querySelectorAll('.task-column__header').forEach(function (header) {
-      header.addEventListener('click', function () {
-        if (window.matchMedia('(min-width: 900px)').matches) return;
-        var column = header.closest('.task-column');
-        var open = !column.classList.toggle('is-collapsed');
-        header.setAttribute('aria-expanded', String(open));
-      });
+  function initBoardEvents() {
+    var board = document.getElementById('taskBoard');
+    if (!board) return;
+
+    board.addEventListener('click', function (event) {
+      var card = event.target.closest('.task-card');
+      if (!card) return;
+
+      if (event.target.closest('[data-action="toggle"]')) {
+        modules.actions.toggleDone(card.dataset.itemId);
+      } else if (event.target.closest('[data-action="edit"]')) {
+        var item = store.getItem(card.dataset.itemId);
+        if (item) modules.editor.open(item);
+      } else if (event.target.closest('[data-action="menu"]')) {
+        modules.actions.openCardMenu(event.target.closest('[data-action="menu"]'), card);
+      }
     });
 
-    document.querySelectorAll('.task-column__quick-add').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var status = this.dataset.quickAddFor || 'todo';
-        if (modules.editor && modules.editor.openCreate) {
-          modules.editor.openCreate(status);
-        }
-      });
-    });
+    board.addEventListener('keydown', onCardKeydown);
   }
 
-  function initKeyboardShortcuts() {
-    document.addEventListener('keydown', function (e) {
-      // Don't trigger if typing in an input or textarea
-      var tag = (e.target && e.target.tagName) || '';
-      var isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+  function initShortcutHelp() {
+    var dialog = document.getElementById('taskShortcutDialog');
+    var openButton = document.getElementById('taskShortcutBtn');
+    var closeButton = document.getElementById('taskShortcutClose');
+    if (!dialog) return;
 
-      if (e.key === 'Escape') {
-        if (modules.editor && modules.editor.close) {
-          modules.editor.close();
+    function open() {
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute('open', '');
+      }
+    }
+
+    if (openButton) openButton.addEventListener('click', open);
+    if (closeButton) closeButton.addEventListener('click', function () {
+      dialog.close();
+    });
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) dialog.close();
+    });
+
+    modules.shortcutHelp = { open: open };
+  }
+
+  function initGlobalShortcuts() {
+    document.addEventListener('keydown', function (event) {
+      var tag = (event.target && event.target.tagName) || '';
+      var isInput =
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        tag === 'SELECT' ||
+        (event.target && event.target.isContentEditable);
+
+      if (event.key === 'Escape') {
+        if (modules.menu && modules.menu.isOpen()) {
+          modules.menu.close();
         }
         return;
       }
 
-      if (!isInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        if (e.key === '/') {
-          e.preventDefault();
-          var search = document.getElementById('taskSearchInput');
-          if (search) search.focus();
-        } else if (e.key === 'n' || e.key === 'N') {
-          e.preventDefault();
-          var titleInput = document.getElementById('taskTitle');
-          if (titleInput) titleInput.focus();
-        }
+      if (isInput || event.ctrlKey || event.metaKey || event.altKey) return;
+
+      if (event.key === '/') {
+        event.preventDefault();
+        var search = document.getElementById('taskSearchInput');
+        if (search) search.focus();
+      } else if (event.key === 'n' || event.key === 'N') {
+        event.preventDefault();
+        var titleInput = document.getElementById('taskTitle');
+        if (titleInput) titleInput.focus();
+      } else if (event.key === '?') {
+        event.preventDefault();
+        if (modules.shortcutHelp) modules.shortcutHelp.open();
       }
     });
   }
@@ -193,30 +239,15 @@
   function init() {
     modules.filters.init();
     modules.editor.init();
+    modules.columns.init();
     modules.dnd.init();
-    initColumns();
-    initKeyboardShortcuts();
+    initBoardEvents();
+    initShortcutHelp();
+    initGlobalShortcuts();
 
     var createForm = document.getElementById('taskCreateForm');
     if (createForm) {
-      createForm.addEventListener('submit', create);
-    }
-
-    var board = document.getElementById('taskBoard');
-    if (board) {
-      board.addEventListener('click', function (event) {
-        var card = event.target.closest('.task-card');
-        if (!card) return;
-
-        if (event.target.closest('[data-action="toggle"]')) {
-          toggle(card);
-        } else if (event.target.closest('[data-action="edit"]')) {
-          var item = store.getItem(card.dataset.itemId);
-          if (item && modules.editor) {
-            modules.editor.open(item);
-          }
-        }
-      });
+      createForm.addEventListener('submit', createFromQuickAdd);
     }
 
     document.addEventListener('visibilitychange', function () {

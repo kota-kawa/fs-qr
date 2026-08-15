@@ -5,398 +5,266 @@
   var core = modules.core;
   var store = modules.store;
 
+  var DRAG_THRESHOLD = 6;
+  var EDGE_SIZE = 90;
+  var EDGE_SPEED = 16;
+
+  var start = null;
   var dragging = null;
   var ghost = null;
-  var start = null;
-  var activePointerId = null;
-  var currentDragOverList = null;
+  var placeholder = null;
+  var pointerId = null;
+  var pointerY = 0;
+  var scrollFrame = null;
+  var sortWarned = false;
 
-  var labels = {
-    todo: '未着手',
-    doing: '進行中',
-    done: '完了'
-  };
-
-  function ordered(status) {
-    return store
-      .getItems()
-      .filter(function (item) {
-        return item.board_status === status;
-      })
-      .sort(function (a, b) {
-        return a.position - b.position || a.item_id - b.item_id;
-      });
+  function isDragging() {
+    return Boolean(dragging);
   }
 
-  function announce(item, status) {
-    if (modules.render && modules.render.announce) {
-      modules.render.announce('「' + item.title + '」を' + (labels[status] || status) + 'へ移動しました');
+  function customOrder() {
+    return !modules.filters || modules.filters.isCustomOrder();
+  }
+
+  function ensurePlaceholder() {
+    if (!placeholder) {
+      placeholder = document.createElement('div');
+      placeholder.className = 'task-drop-placeholder';
+      placeholder.setAttribute('aria-hidden', 'true');
     }
+    return placeholder;
   }
 
-  async function persist(item, status, position, needReorder) {
-    var before = store.snapshot();
-    var changed = Object.assign({}, item, { board_status: status, position: position });
-    store.replace(changed);
+  function listUnderPoint(x, y) {
+    var target = document.elementFromPoint(x, y);
+    if (!target) return null;
+    var list = target.closest('.task-column__list');
+    if (list) return list;
+    var column = target.closest('.task-column');
+    return column ? column.querySelector('.task-column__list') : null;
+  }
 
-    try {
-      if (needReorder) {
-        // Position space collapsed: do clean column reorder
-        var list = ordered(status).map(function (c) {
-          return c.item_id;
-        });
-        var reorderData = await core.request(
-          '/api/task/' + encodeURIComponent(core.config.roomId) + '/items/reorder',
-          {
-            method: 'POST',
-            body: JSON.stringify({ board_status: status, ordered_item_ids: list })
-          }
-        );
-        (reorderData.items || []).forEach(function (updated) {
-          store.replace(updated);
-        });
-        announce(changed, status);
-      } else {
-        // Single fast PATCH
-        var data = await core.request(
-          '/api/task/' + encodeURIComponent(core.config.roomId) + '/items/' + item.item_id,
-          {
-            method: 'PATCH',
-            body: JSON.stringify({
-              version: item.version,
-              board_status: status,
-              position: position
-            })
-          }
-        );
-        store.replace(data.item);
-        announce(data.item, status);
+  /** Insert the placeholder at the position matching the pointer. */
+  /** ポインタ位置に対応する場所へプレースホルダーを差し込む。 */
+  function movePlaceholder(list, clientY) {
+    var node = ensurePlaceholder();
+    var cards = Array.prototype.slice
+      .call(list.querySelectorAll(':scope > .task-card'))
+      .filter(function (card) {
+        return card !== dragging;
+      });
+
+    var reference = null;
+    for (var index = 0; index < cards.length; index += 1) {
+      var rect = cards[index].getBoundingClientRect();
+      if (clientY < rect.top + rect.height / 2) {
+        reference = cards[index];
+        break;
       }
-    } catch (err) {
-      if (err.status === 409 && err.data && err.data.item) {
-        store.replace(err.data.item);
-      } else {
-        store.restore(before);
-      }
-      core.toast(
-        err.status === 409
-          ? '他の画面で更新されました。'
-          : (err.message || '移動に失敗しました。'),
-        'error'
-      );
+    }
+
+    if (node.parentNode === list && node.nextElementSibling === reference) {
+      return;
+    }
+    list.insertBefore(node, reference);
+  }
+
+  function highlightColumn(list) {
+    document.querySelectorAll('.task-column__list.is-drag-over').forEach(function (element) {
+      element.classList.remove('is-drag-over');
+    });
+    document.querySelectorAll('.task-column.is-drop-target').forEach(function (element) {
+      element.classList.remove('is-drop-target');
+    });
+    if (list) {
+      list.classList.add('is-drag-over');
+      var column = list.closest('.task-column');
+      if (column) column.classList.add('is-drop-target');
     }
   }
 
-  function moveBy(item, targetStatus, targetIndex) {
-    var next = ordered(targetStatus).filter(function (candidate) {
-      return candidate.item_id !== item.item_id;
-    });
-
-    var index = Math.max(0, Math.min(targetIndex, next.length));
-    next.splice(index, 0, item);
-
-    var previous = next[index - 1];
-    var following = next[index + 1];
-    var position;
-    var needReorder = false;
-
-    if (previous && following) {
-      var gap = following.position - previous.position;
-      if (gap <= 1) {
-        needReorder = true;
-        position = previous.position + 1;
-      } else {
-        position = Math.floor((previous.position + following.position) / 2);
-      }
-    } else if (previous) {
-      position = previous.position + 100;
-    } else if (following) {
-      if (following.position <= 1) {
-        needReorder = true;
-        position = 0;
-      } else {
-        position = Math.max(0, Math.floor(following.position / 2));
-      }
-    } else {
-      position = 100;
+  function stepAutoScroll() {
+    if (!dragging) {
+      scrollFrame = null;
+      return;
     }
-
-    persist(item, targetStatus, position, needReorder);
+    if (pointerY < EDGE_SIZE) {
+      window.scrollBy(0, -EDGE_SPEED);
+    } else if (pointerY > window.innerHeight - EDGE_SIZE) {
+      window.scrollBy(0, EDGE_SPEED);
+    }
+    scrollFrame = window.requestAnimationFrame(stepAutoScroll);
   }
 
-  function openMenu(card) {
-    document.querySelectorAll('.task-card__move-menu').forEach(function (menu) {
-      menu.remove();
-    });
+  function beginDrag() {
+    dragging = start.card;
+    pointerY = start.y;
 
-    var item = store.getItem(card.dataset.itemId);
-    if (!item) return;
+    var rect = dragging.getBoundingClientRect();
+    var node = ensurePlaceholder();
+    node.style.height = rect.height + 'px';
+    dragging.parentNode.insertBefore(node, dragging);
 
-    var menu = document.createElement('div');
-    menu.className = 'task-card__move-menu';
-    menu.setAttribute('role', 'menu');
+    ghost = dragging.cloneNode(true);
+    ghost.classList.add('task-card--ghost');
+    ghost.style.width = rect.width + 'px';
+    document.body.appendChild(ghost);
 
-    var currentList = ordered(item.board_status);
-    var currentIndex = currentList.findIndex(function (c) {
-      return c.item_id === item.item_id;
-    });
+    dragging.classList.add('is-dragging');
+    dragging.style.display = 'none';
+    document.body.style.userSelect = 'none';
 
-    // Move to different columns
-    ['todo', 'doing', 'done'].forEach(function (st) {
-      if (st === item.board_status) return;
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = (labels[st] || st) + 'へ移動';
-      btn.addEventListener('click', function () {
-        var now = store.getItem(item.item_id);
-        if (now) {
-          moveBy(now, st, ordered(st).length);
-        }
-        menu.remove();
-      });
-      menu.appendChild(btn);
-    });
-
-    // Reorder within column (Up / Down)
-    if (currentIndex > 0) {
-      var upBtn = document.createElement('button');
-      upBtn.type = 'button';
-      upBtn.textContent = '上へ移動';
-      upBtn.addEventListener('click', function () {
-        var now = store.getItem(item.item_id);
-        if (now) {
-          var list = ordered(now.board_status);
-          var idx = list.findIndex(function (c) {
-            return c.item_id === now.item_id;
-          });
-          moveBy(now, now.board_status, Math.max(0, idx - 1));
-        }
-        menu.remove();
-      });
-      menu.appendChild(upBtn);
-    }
-
-    if (currentIndex < currentList.length - 1) {
-      var downBtn = document.createElement('button');
-      downBtn.type = 'button';
-      downBtn.textContent = '下へ移動';
-      downBtn.addEventListener('click', function () {
-        var now = store.getItem(item.item_id);
-        if (now) {
-          var list = ordered(now.board_status);
-          var idx = list.findIndex(function (c) {
-            return c.item_id === now.item_id;
-          });
-          // Fix: index + 1 moves immediately past next element
-          moveBy(now, now.board_status, idx + 1);
-        }
-        menu.remove();
-      });
-      menu.appendChild(downBtn);
-    }
-
-    var divider = document.createElement('div');
-    divider.className = 'task-card__move-menu-divider';
-    menu.appendChild(divider);
-
-    // Edit button
-    var editBtn = document.createElement('button');
-    editBtn.type = 'button';
-    editBtn.textContent = '詳細・編集';
-    editBtn.addEventListener('click', function () {
-      var now = store.getItem(item.item_id);
-      if (now && modules.editor) {
-        modules.editor.open(now);
-      }
-      menu.remove();
-    });
-    menu.appendChild(editBtn);
-
-    // Delete button
-    var delBtn = document.createElement('button');
-    delBtn.type = 'button';
-    delBtn.className = 'is-danger';
-    delBtn.textContent = '削除';
-    delBtn.addEventListener('click', async function () {
-      menu.remove();
-      var now = store.getItem(item.item_id);
-      if (!now) return;
-
-      var ok = true;
-      if (window.showConfirmModal) {
-        ok = await window.showConfirmModal('「' + now.title + '」を削除しますか？', {
-          title: 'タスクを削除',
-          confirmLabel: '削除する',
-          isDanger: true
-        });
-      } else {
-        ok = window.confirm('「' + now.title + '」を削除しますか？');
-      }
-
-      if (!ok) return;
-
-      var before = store.snapshot();
-      store.remove(now.item_id);
-
+    if (start.handle && typeof start.handle.setPointerCapture === 'function' && pointerId !== null) {
       try {
-        await core.request(
-          '/api/task/' + encodeURIComponent(core.config.roomId) + '/items/' + now.item_id,
-          {
-            method: 'DELETE',
-            body: JSON.stringify({ version: now.version })
-          }
-        );
-        core.toast('タスクを削除しました。', 'success');
-      } catch (err) {
-        store.restore(before);
-        core.toast(err.message || '削除に失敗しました。', 'error');
+        start.handle.setPointerCapture(pointerId);
+      } catch (_) {
+        /* pointer capture is best effort / キャプチャ失敗は無視する */
       }
-    });
-    menu.appendChild(delBtn);
+    }
 
-    card.appendChild(menu);
+    scrollFrame = window.requestAnimationFrame(stepAutoScroll);
   }
 
-  function clearDragOverHighlights() {
-    document.querySelectorAll('.task-column__list.is-drag-over').forEach(function (el) {
-      el.classList.remove('is-drag-over');
-    });
-    currentDragOverList = null;
+  function cleanup() {
+    if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
+    if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+    if (dragging) {
+      dragging.classList.remove('is-dragging');
+      dragging.style.display = '';
+    }
+    if (scrollFrame) {
+      window.cancelAnimationFrame(scrollFrame);
+      scrollFrame = null;
+    }
+    highlightColumn(null);
+    document.body.style.userSelect = '';
+
+    ghost = null;
+    dragging = null;
+    start = null;
+    pointerId = null;
+  }
+
+  /**
+   * Controls that must keep their own click behaviour instead of starting a drag.
+   * ドラッグ開始より自身のクリック動作を優先するコントロール。
+   */
+  function isInteractive(target) {
+    return Boolean(
+      target.closest(
+        '[data-action="toggle"], [data-action="menu"], a, input, textarea, select, details, summary, .task-menu'
+      )
+    );
+  }
+
+  /** Swallow the click that follows a completed drag. / ドラッグ直後のクリックを無効化。 */
+  function swallowNextClick() {
+    var timer = null;
+    function handler(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      release();
+    }
+    function release() {
+      document.removeEventListener('click', handler, true);
+      if (timer) window.clearTimeout(timer);
+    }
+    document.addEventListener('click', handler, true);
+    timer = window.setTimeout(release, 300);
   }
 
   function onPointerDown(event) {
-    var handle = event.target.closest('.task-card__drag-handle');
-    if (!handle || event.button !== 0) return;
+    if (event.button !== 0 || dragging) return;
 
-    var card = handle.closest('.task-card');
+    var card = event.target.closest('.task-card');
     if (!card) return;
 
-    start = {
-      x: event.clientX,
-      y: event.clientY,
-      card: card,
-      handle: handle
-    };
-    activePointerId = event.pointerId;
+    var handle = event.target.closest('.task-card__drag-handle');
+    // Pointer devices can grab the card body; touch requires the handle so the
+    // page keeps scrolling normally.
+    // マウスはカード本体、タッチはハンドルのみ。タッチのスクロールを妨げない。
+    var grabbable = handle || (event.pointerType === 'mouse' && !isInteractive(event.target));
+    if (!grabbable) return;
+
+    if (!customOrder()) {
+      if (handle && !sortWarned) {
+        sortWarned = true;
+        core.toast('並び替え中はドラッグできません。「カスタム順」に戻してください。', 'info');
+      }
+      return;
+    }
+
+    start = { x: event.clientX, y: event.clientY, card: card, handle: handle || card };
+    pointerId = event.pointerId;
   }
 
   function onPointerMove(event) {
     if (!start) return;
 
-    if (!dragging && Math.hypot(event.clientX - start.x, event.clientY - start.y) < 8) {
-      return;
-    }
-
     if (!dragging) {
-      dragging = start.card;
-      dragging.classList.add('is-dragging');
-      ghost = dragging.cloneNode(true);
-      ghost.classList.add('task-card--ghost');
-      document.body.appendChild(ghost);
-
-      if (start.handle && typeof start.handle.setPointerCapture === 'function' && activePointerId !== null) {
-        try {
-          start.handle.setPointerCapture(activePointerId);
-        } catch (_) {}
+      if (Math.hypot(event.clientX - start.x, event.clientY - start.y) < DRAG_THRESHOLD) {
+        return;
       }
+      beginDrag();
     }
-
-    if (ghost) {
-      ghost.style.left = event.clientX + 14 + 'px';
-      ghost.style.top = event.clientY + 14 + 'px';
-    }
-
-    // Highlight target column list
-    var target = document.elementFromPoint(event.clientX, event.clientY);
-    var list = target ? target.closest('.task-column__list') : null;
-    if (list !== currentDragOverList) {
-      clearDragOverHighlights();
-      if (list) {
-        list.classList.add('is-drag-over');
-        currentDragOverList = list;
-      }
-    }
-  }
-
-  function onPointerUp(event) {
-    if (!start) return;
-
-    if (start.handle && typeof start.handle.releasePointerCapture === 'function' && activePointerId !== null) {
-      try {
-        start.handle.releasePointerCapture(activePointerId);
-      } catch (_) {}
-    }
-
-    var item = store.getItem(start.card.dataset.itemId);
-    if (dragging && item) {
-      var target = document.elementFromPoint(event.clientX, event.clientY);
-      var list = target ? target.closest('.task-column__list') : null;
-
-      if (!list) {
-        var col = target ? target.closest('.task-column') : null;
-        if (col) {
-          list = col.querySelector('.task-column__list');
-        }
-      }
-
-      if (list && list.dataset.listFor) {
-        var cards = Array.prototype.slice
-          .call(list.querySelectorAll('.task-card'))
-          .filter(function (card) {
-            return card.dataset.itemId !== String(item.item_id);
-          });
-
-        var index = cards.findIndex(function (card) {
-          var rect = card.getBoundingClientRect();
-          return event.clientY < rect.top + rect.height / 2;
-        });
-
-        moveBy(item, list.dataset.listFor, index < 0 ? cards.length : index);
-      }
-    }
-
-    clearDragOverHighlights();
-    if (ghost) {
-      ghost.remove();
-    }
-    if (dragging) {
-      dragging.classList.remove('is-dragging');
-    }
-
-    dragging = null;
-    ghost = null;
-    start = null;
-    activePointerId = null;
-  }
-
-  function keyMove(event) {
-    if (!event.ctrlKey || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
-      return;
-    }
-    var card = event.target.closest('.task-card');
-    if (!card) return;
-    var item = store.getItem(card.dataset.itemId);
-    if (!item) return;
 
     event.preventDefault();
-    var list = ordered(item.board_status);
-    var index = list.findIndex(function (candidate) {
-      return candidate.item_id === item.item_id;
-    });
+    pointerY = event.clientY;
 
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-      var order = ['todo', 'doing', 'done'];
-      var currentOrderIdx = order.indexOf(item.board_status);
-      var targetOrderIdx = Math.max(
-        0,
-        Math.min(order.length - 1, currentOrderIdx + (event.key === 'ArrowLeft' ? -1 : 1))
-      );
-      var targetStatus = order[targetOrderIdx];
-      moveBy(item, targetStatus, ordered(targetStatus).length);
-    } else if (event.key === 'ArrowUp') {
-      moveBy(item, item.board_status, Math.max(0, index - 1));
-    } else if (event.key === 'ArrowDown') {
-      moveBy(item, item.board_status, index + 1);
+    if (ghost) {
+      // Keep the floating copy inside the viewport. / 追従カードを画面内に収める。
+      var size = ghost.getBoundingClientRect();
+      var left = Math.min(event.clientX + 12, window.innerWidth - size.width - 8);
+      var top = Math.min(event.clientY + 12, window.innerHeight - size.height - 8);
+      ghost.style.left = Math.max(8, left) + 'px';
+      ghost.style.top = Math.max(8, top) + 'px';
+    }
+
+    var list = listUnderPoint(event.clientX, event.clientY);
+    highlightColumn(list);
+    if (list) {
+      movePlaceholder(list, event.clientY);
+    }
+  }
+
+  function onPointerUp() {
+    if (!start) return;
+
+    if (start.handle && typeof start.handle.releasePointerCapture === 'function' && pointerId !== null) {
+      try {
+        start.handle.releasePointerCapture(pointerId);
+      } catch (_) {
+        /* noop */
+      }
+    }
+
+    var item = dragging ? store.getItem(dragging.dataset.itemId) : null;
+    var targetList = placeholder && placeholder.parentNode ? placeholder.parentNode : null;
+    var targetStatus = targetList ? targetList.dataset.listFor : null;
+    var targetIndex = 0;
+
+    if (targetList && targetStatus) {
+      var siblings = Array.prototype.slice.call(targetList.children);
+      var cardsBefore = 0;
+      for (var index = 0; index < siblings.length; index += 1) {
+        if (siblings[index] === placeholder) break;
+        if (siblings[index].classList.contains('task-card') && siblings[index] !== dragging) {
+          cardsBefore += 1;
+        }
+      }
+      targetIndex = cardsBefore;
+    }
+
+    var wasDragging = Boolean(dragging);
+    cleanup();
+    if (wasDragging) {
+      swallowNextClick();
+    }
+
+    if (item && targetStatus && modules.actions) {
+      modules.actions.moveBy(item, targetStatus, targetIndex);
+    } else if (modules.render) {
+      modules.render.render(store.getItems(), store.getCategories());
     }
   }
 
@@ -405,29 +273,13 @@
     if (!board) return;
 
     board.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointermove', onPointerMove, { passive: false });
     document.addEventListener('pointerup', onPointerUp);
     document.addEventListener('pointercancel', onPointerUp);
-    board.addEventListener('keydown', keyMove);
-
-    board.addEventListener('click', function (event) {
-      var button = event.target.closest('[data-action="menu"]');
-      if (button) {
-        openMenu(button.closest('.task-card'));
-      }
-    });
-
-    document.addEventListener('click', function (event) {
-      if (!event.target.closest('.task-card__move-menu, [data-action="menu"]')) {
-        document.querySelectorAll('.task-card__move-menu').forEach(function (menu) {
-          menu.remove();
-        });
-      }
-    });
   }
 
   modules.dnd = {
     init: init,
-    moveBy: moveBy
+    isDragging: isDragging
   };
 })(window, document);
