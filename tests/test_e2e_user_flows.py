@@ -377,7 +377,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
         assert create_payload["password"] == password
         assert create_payload["share_url"].endswith(f"/note/s/{share_token}")
         create_mock.assert_awaited_once_with(
-            room_id, password, room_id, retention_hours=24
+            room_id, password, room_id, retention_hours=24, initial_content=""
         )
 
         room_response = test_client.get(create_payload["redirect_url"])

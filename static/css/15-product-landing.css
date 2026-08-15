@@ -3697,3 +3697,561 @@ body.product-lp {
     display: none;
   }
 }
+
+/* Instant draft editor / LPでそのまま書ける下書きノート */
+.lp-hero__aside {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  color: var(--lp-muted);
+  font-size: 14px;
+}
+
+.lp-hero__aside .lp-text-link {
+  margin-top: 0;
+}
+
+.lp-instant {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border: 1px solid var(--lp-line);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--lp-shadow-lg);
+}
+
+/* .lp-button などの display 指定が [hidden] を打ち消すため明示的に隠す */
+.lp-instant [hidden] {
+  display: none !important;
+}
+
+.lp-instant__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.lp-instant__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.lp-instant__state {
+  margin: 0;
+  color: var(--lp-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.lp-instant__editor {
+  width: 100%;
+  min-height: 260px;
+  padding: 16px;
+  border: 1px solid var(--lp-line);
+  border-radius: 14px;
+  background: #fcfbfa;
+  color: var(--lp-ink);
+  font-family: var(--lp-font);
+  font-size: 15px;
+  line-height: 1.85;
+  resize: vertical;
+}
+
+.lp-instant__editor::placeholder {
+  color: rgba(105, 98, 115, 0.7);
+}
+
+/* 発行後は編集の主戦場がルーム側へ移ることを見た目でも示す */
+.lp-instant__editor:read-only {
+  background: #f4f2f0;
+  color: var(--lp-muted);
+}
+
+.lp-instant__editor:focus {
+  border-color: rgba(var(--lp-accent-rgb), 0.55);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--lp-accent-rgb), 0.16);
+}
+
+.lp-instant__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  color: var(--lp-muted);
+  font-size: 12px;
+}
+
+.lp-instant__clear {
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: var(--lp-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.lp-instant__clear:hover {
+  color: var(--lp-ink);
+}
+
+.lp-instant__error {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(190, 40, 60, 0.24);
+  border-radius: 12px;
+  background: #fdeef1;
+  color: #a3202f;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.lp-instant__submit {
+  justify-content: center;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.lp-instant__submit[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lp-instant__submit[aria-busy="true"] {
+  cursor: progress;
+}
+
+.lp-instant__hint {
+  margin: 12px 0 0;
+  color: var(--lp-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Share panel / 発行直後に共有情報をその場で見せる */
+.lp-instant__share {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--lp-line);
+}
+
+.lp-instant__share-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.lp-instant__share-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.lp-instant__qr {
+  flex: 0 0 auto;
+  display: grid;
+  width: 132px;
+  height: 132px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--lp-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.lp-instant__qr img,
+.lp-instant__qr canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lp-instant__share-list {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.lp-instant__share-row + .lp-instant__share-row {
+  margin-top: 10px;
+}
+
+.lp-instant__share-row dt {
+  color: var(--lp-muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
+.lp-instant__share-row dd {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 2px 0 0;
+  min-width: 0;
+}
+
+.lp-instant__share-value {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.lp-instant__share-value--url {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lp-instant__copy {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--lp-accent-dark);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.lp-instant__copy:hover {
+  border-color: rgba(var(--lp-accent-rgb), 0.45);
+  background: var(--lp-accent-soft);
+}
+
+.lp-instant__open {
+  justify-content: center;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.lp-instant__share .lp-instant__clear {
+  display: block;
+  margin: 10px auto 0;
+}
+
+/* 利用シーンの導入に置いた概念イラスト */
+.product-lp--note .lp-use-case-visual {
+  width: min(100%, 520px);
+  margin: 0 auto 40px;
+}
+
+@media (max-width: 980px) {
+  .lp-instant {
+    width: min(100%, 680px);
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  /* 下書きノートを1画面目に寄せるため、ヒーローの余白を詰める */
+  .product-lp--note .lp-hero {
+    padding: 40px 0 56px;
+  }
+
+  .product-lp--note .lp-hero__grid {
+    gap: 28px;
+  }
+
+  .product-lp--note .lp-hero__aside {
+    margin-top: 18px;
+  }
+
+  /* 縦積みをやめて回り込ませ、その分エディタを上へ */
+  .product-lp--note .lp-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+  }
+
+  .lp-instant {
+    padding: 18px;
+  }
+
+  .lp-instant__editor {
+    min-height: 220px;
+    font-size: 16px;
+  }
+
+  .lp-instant__share-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lp-instant__share-list {
+    width: 100%;
+  }
+}
+
+/* Instant share box (Group) / ルームを作らずにファイルを選ぶ領域 */
+.lp-dropzone {
+  padding: 26px 18px;
+  border: 1px dashed rgba(var(--lp-accent-rgb), 0.45);
+  border-radius: 16px;
+  background: #fcfbfa;
+  text-align: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.lp-dropzone.is-dragover {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent-soft);
+}
+
+.lp-dropzone__lead {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.lp-dropzone__sub {
+  margin: 6px 0;
+  color: var(--lp-muted);
+  font-size: 12px;
+}
+
+.lp-dropzone__button {
+  display: inline-block;
+  padding: 9px 18px;
+  border: 1px solid rgba(var(--lp-accent-rgb), 0.4);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--lp-accent-dark);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.lp-dropzone__button:hover {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent-soft);
+}
+
+.lp-dropzone__limits {
+  margin: 12px 0 0;
+  color: var(--lp-muted);
+  font-size: 11px;
+}
+
+.lp-file-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-file-list:empty {
+  margin: 0;
+}
+
+.lp-file-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.lp-file-list__item + .lp-file-list__item {
+  margin-top: 6px;
+}
+
+.lp-file-list__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lp-file-list__size {
+  flex: 0 0 auto;
+  color: var(--lp-muted);
+  font-size: 11px;
+}
+
+.lp-file-list__remove {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--lp-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lp-file-list__remove:hover {
+  border-color: rgba(190, 40, 60, 0.4);
+  color: #a3202f;
+}
+
+.product-lp--group .lp-use-case-visual {
+  width: min(100%, 520px);
+  margin: 0 auto 40px;
+}
+
+@media (max-width: 760px) {
+  /* 共有ボックスを1画面目に寄せるため、ヒーローの余白を詰める */
+  .product-lp--group .lp-hero {
+    padding: 40px 0 56px;
+  }
+
+  .product-lp--group .lp-hero__grid {
+    gap: 28px;
+  }
+
+  .product-lp--group .lp-hero__aside {
+    margin-top: 18px;
+  }
+
+  .product-lp--group .lp-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+/* Instant board (Task) / ルームを作らずタスクを書き出す領域 */
+.lp-task-add {
+  display: flex;
+  gap: 8px;
+}
+
+.lp-task-add__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: #fcfbfa;
+  color: var(--lp-ink);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.lp-task-add__input:focus {
+  border-color: rgba(var(--lp-accent-rgb), 0.55);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--lp-accent-rgb), 0.16);
+}
+
+.lp-task-add__button {
+  flex: 0 0 auto;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--lp-accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.lp-task-add__button:hover {
+  background: var(--lp-accent-dark);
+}
+
+.lp-task-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-task-list:empty {
+  margin: 0;
+}
+
+.lp-task-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.lp-task-list__item + .lp-task-list__item {
+  margin-top: 6px;
+}
+
+.lp-task-list__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lp-task-list__remove {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--lp-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lp-task-list__remove:hover {
+  border-color: rgba(190, 40, 60, 0.4);
+  color: #a3202f;
+}
+
+.product-lp--task .lp-use-case-visual {
+  width: min(100%, 520px);
+  margin: 0 auto 40px;
+}
+
+@media (max-width: 760px) {
+  .product-lp--task .lp-hero {
+    padding: 40px 0 56px;
+  }
+
+  .product-lp--task .lp-hero__grid {
+    gap: 28px;
+  }
+
+  .product-lp--task .lp-hero__aside {
+    margin-top: 18px;
+  }
+
+  .product-lp--task .lp-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+  }
+}

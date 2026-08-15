@@ -76,6 +76,8 @@ def test_create_task_room_returns_room_credentials_for_fetch(test_client: TestCl
     assert payload["data"]["redirect_url"] == "/task/r/abc123"
     assert payload["data"]["share_url"].endswith("/task/s/task-share-token")
     assert payload["data"]["password"] == "000042"
+    # LP の共有パネルとタスク投入APIが参照できるよう room_id も返す
+    assert payload["data"]["room_id"] == "abc123"
     create_room.assert_awaited_once_with("abc123", "000042", "abc123", 24)
 
 

@@ -221,8 +221,18 @@ def hash_share_token(token: str) -> str:
 # ノートルーム作成
 # ────────────────────────────────────────────
 async def create_room(
-    id_, password, room_id, retention_hours=24, share_token_hash=None
+    id_,
+    password,
+    room_id,
+    retention_hours=24,
+    share_token_hash=None,
+    initial_content="",
 ):
+    """Create a note room, optionally seeded with an initial body.
+
+    initial_content を渡すと、ルーム作成と同じトランザクションで本文を保存する。
+    LP の下書きをそのまま引き継ぐ用途で使う。
+    """
     hashed_password = hash_password(password)
     async with db_session.begin():
         await db_session.execute(
@@ -247,9 +257,9 @@ async def create_room(
         await db_session.execute(
             text("""
             INSERT INTO note_content(room_id, content, updated_at, version)
-            VALUES(:r, '', NOW(6), 0)
+            VALUES(:r, :c, NOW(6), 0)
             """),
-            {"r": room_id},
+            {"r": room_id, "c": initial_content or ""},
         )
     await invalidate_cache_entry(get_room_meta, room_id)
     await invalidate_cache_entry(get_room_meta, room_id, password=password)

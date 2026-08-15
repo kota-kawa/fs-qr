@@ -20,6 +20,7 @@ from rate_limit import (
     register_success,
 )
 from room_credentials import generate_room_password, validate_room_credentials
+from settings import NOTE_MAX_CONTENT_LENGTH
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -67,6 +68,17 @@ async def _room_id_exists(room_id: str) -> bool:
         fetch=True,
     )
     return bool(rows)
+
+
+def _extract_initial_content(form_data, json_data) -> str:
+    """Read the optional draft body sent from the landing page editor.
+
+    LP のその場エディタから送られた下書き本文を取り出す。未指定なら空文字。
+    """
+    raw = form_data.get("content") if form_data else None
+    if raw is None:
+        raw = json_data.get("content", "")
+    return "" if raw is None else str(raw)
 
 
 def _canonical_redirect(request: Request):
@@ -177,6 +189,13 @@ async def create_note_room(request: Request):  # noqa: C901
     if raw_retention is None:
         raw_retention = json_data.get("retention_hours", 24)
 
+    initial_content = _extract_initial_content(form_data, json_data)
+    if len(initial_content) > NOTE_MAX_CONTENT_LENGTH:
+        return api_error_response(
+            f"下書きが長すぎます。{NOTE_MAX_CONTENT_LENGTH}文字以内にしてください。",
+            status_code=400,
+        )
+
     try:
         inp = RoomCreateInput(
             id=raw_id, id_mode=raw_id_mode, retention_hours=raw_retention
@@ -239,6 +258,7 @@ async def create_note_room(request: Request):  # noqa: C901
             password,
             room_id,
             retention_hours=retention_hours,
+            initial_content=initial_content,
         )
         created = await _get_room_if_valid(room_id)
     except IntegrityError:

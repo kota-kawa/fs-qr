@@ -231,6 +231,8 @@ def register_task_create_room_route(router: APIRouter) -> None:
                     if share_token
                     else "",
                     "password": password,
+                    # LP 側で共有情報を表示し、初期タスクを投入するために room_id も返す
+                    "room_id": room_id,
                 }
             )
         return RedirectResponse(redirect_url, 302)

@@ -319,6 +319,8 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
                     if share_token
                     else "",
                     "password": password,
+                    # LP 側で共有情報を表示するために room_id も返す
+                    "room_id": room_id,
                 }
             )
         return RedirectResponse(redirect_url, status_code=302)
