@@ -716,11 +716,19 @@ body.product-lp {
   box-shadow: 0 0 0 5px rgba(var(--lp-accent-rgb), 0.1);
 }
 
-.lp-hero__actions,
-.lp-final-cta__actions {
+.lp-hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Final CTA action buttons (centered) / 最終CTAのアクションボタングループ（中央配置） */
+.lp-final-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
 
 .lp-button--large {
@@ -2124,29 +2132,39 @@ body.product-lp {
   position: relative;
   z-index: 2;
   max-width: 800px;
+  margin-inline: auto;
 }
 
 .lp-final-cta .lp-kicker,
 .lp-final-cta .lp-section__eyebrow {
-  color: rgba(255, 255, 255, 0.67);
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .lp-final-cta h2 {
   margin-bottom: 18px;
   font-size: clamp(34px, 4.7vw, 58px);
   font-weight: 850;
+  line-height: 1.25;
 }
 
 .lp-final-cta__inner > p:not(.lp-kicker) {
   max-width: 620px;
   margin: 0 auto 30px;
-  color: rgba(255, 255, 255, 0.74);
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.7;
 }
 
 .lp-final-cta .lp-button--primary {
   color: var(--lp-accent-dark) !important;
   background: #fff;
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.lp-final-cta .lp-button--primary:hover {
+  background: #f0f4fc;
+  color: var(--lp-accent-dark) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
 }
 
 .lp-final-cta .lp-button--secondary {
@@ -2156,9 +2174,16 @@ body.product-lp {
   box-shadow: none;
 }
 
+.lp-final-cta .lp-button--secondary:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff !important;
+}
+
 .lp-final-cta__checks {
   justify-content: center;
-  color: rgba(255, 255, 255, 0.68);
+  margin: 28px auto 0;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .lp-footer {
@@ -2291,6 +2316,12 @@ body.product-lp {
   .lp-hero__actions .lp-button,
   .lp-final-cta__actions .lp-button {
     width: 100%;
+  }
+
+  .lp-final-cta__actions {
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
   }
 
   .lp-check-list {
@@ -3014,14 +3045,50 @@ body.product-lp {
   display: none;
 }
 
+.product-lp--fsqr .lp-final-cta .lp-section__eyebrow {
+  margin-bottom: 12px;
+  color: #93c5fd;
+}
+
 .product-lp--fsqr .lp-final-cta h2 {
+  color: #fff;
   font-weight: 760;
+  line-height: 1.3;
+}
+
+.product-lp--fsqr .lp-final-cta .lp-button--primary {
+  color: #162033 !important;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+}
+
+.product-lp--fsqr .lp-final-cta .lp-button--primary:hover {
+  background: #edf3ff;
+  color: #162033 !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
 }
 
 .product-lp--fsqr .lp-final-cta .lp-button--secondary {
   border-color: rgba(255, 255, 255, 0.35);
   color: #fff !important;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.product-lp--fsqr .lp-final-cta .lp-button--secondary:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff !important;
+}
+
+.product-lp--fsqr .lp-final-cta__checks {
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.product-lp--fsqr .lp-final-cta__checks li::before {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .product-lp--fsqr .lp-footer {
