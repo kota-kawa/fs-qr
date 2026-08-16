@@ -16,6 +16,7 @@
     'taskEditorStatus',
     'taskEditorPriority',
     'taskEditorCategory',
+    'taskEditorStartDate',
     'taskEditorDueDate',
     'taskEditorNote'
   ];
@@ -128,6 +129,7 @@
     element('taskEditorVersion').value = String(item.version);
     element('taskEditorTitleInput').value = item.title || '';
     element('taskEditorNote').value = item.note || '';
+    element('taskEditorStartDate').value = item.start_date || '';
     element('taskEditorDueDate').value = item.due_date || '';
     element('taskEditorPriority').value = item.priority || 'normal';
     if (modules.select) {
@@ -140,6 +142,7 @@
     updateAdvancedSection(
       Boolean(
         (item.priority && item.priority !== 'normal') ||
+          (item.start_date && String(item.start_date).trim()) ||
           (item.due_date && String(item.due_date).trim()) ||
           (item.category && String(item.category).trim()) ||
           (item.note && String(item.note).trim())
@@ -167,6 +170,7 @@
     element('taskEditorVersion').value = '0';
     element('taskEditorTitleInput').value = '';
     element('taskEditorNote').value = '';
+    element('taskEditorStartDate').value = '';
     element('taskEditorDueDate').value = dueDate;
     element('taskEditorPriority').value = 'normal';
     if (modules.select) {
@@ -184,6 +188,7 @@
     return {
       title: element('taskEditorTitleInput').value.trim(),
       note: element('taskEditorNote').value.trim(),
+      start_date: element('taskEditorStartDate').value || null,
       due_date: element('taskEditorDueDate').value || null,
       priority: element('taskEditorPriority').value,
       category: element('taskEditorCategory').value.trim(),
@@ -200,6 +205,12 @@
       showError('タスク名を入力してください。');
       element('taskEditorTitleInput').focus();
       return;
+    }
+    if (payload.start_date && payload.due_date) {
+      if (payload.start_date > payload.due_date) {
+        showError('開始日は期限日以前の日付を指定してください。');
+        return;
+      }
     }
 
     var submitBtn = form.querySelector('button[type="submit"]');

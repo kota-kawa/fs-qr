@@ -79,6 +79,9 @@ def _serialize_item(row: Any) -> dict[str, Any]:
         value = item.get(key)
         if value is not None and hasattr(value, "isoformat"):
             item[key] = value.isoformat(sep=" ", timespec="microseconds")
+    start = item.get("start_date")
+    if start is not None and hasattr(start, "isoformat"):
+        item["start_date"] = start.isoformat()
     due = item.get("due_date")
     if due is not None and hasattr(due, "isoformat"):
         item["due_date"] = due.isoformat()
@@ -88,7 +91,7 @@ def _serialize_item(row: Any) -> dict[str, Any]:
 async def list_items(room_id: str) -> list[dict[str, Any]]:
     rows = await execute_query(
         """
-        SELECT item_id, title, note, board_status, priority, category, due_date, position, version, created_at, updated_at
+        SELECT item_id, title, note, board_status, priority, category, start_date, due_date, position, version, created_at, updated_at
         FROM task_item WHERE room_id = :room_id ORDER BY FIELD(board_status, 'todo', 'doing', 'done'), position, item_id
     """,
         {"room_id": room_id},
@@ -131,13 +134,14 @@ async def create_item(room_id: str, values: dict[str, Any]) -> dict[str, Any] | 
         position = int(result.mappings().first()["last_position"]) + 100
         result = await db_session.execute(
             text("""
-            INSERT INTO task_item (room_id, title, note, board_status, priority, category, due_date, position, created_at, updated_at)
-            VALUES (:room_id, :title, :note, :board_status, :priority, :category, :due_date, :position, NOW(6), NOW(6))
+            INSERT INTO task_item (room_id, title, note, board_status, priority, category, start_date, due_date, position, created_at, updated_at)
+            VALUES (:room_id, :title, :note, :board_status, :priority, :category, :start_date, :due_date, :position, NOW(6), NOW(6))
         """),
             {
                 **values,
                 "room_id": room_id,
                 "category": values.get("category") or None,
+                "start_date": values.get("start_date") or None,
                 "due_date": values.get("due_date") or None,
                 "position": position,
             },
@@ -149,7 +153,7 @@ async def create_item(room_id: str, values: dict[str, Any]) -> dict[str, Any] | 
 async def get_item(room_id: str, item_id: int) -> dict[str, Any] | None:
     rows = await execute_query(
         """
-        SELECT item_id, title, note, board_status, priority, category, due_date, position, version, created_at, updated_at
+        SELECT item_id, title, note, board_status, priority, category, start_date, due_date, position, version, created_at, updated_at
         FROM task_item WHERE room_id = :room_id AND item_id = :item_id
     """,
         {"room_id": room_id, "item_id": item_id},
@@ -167,6 +171,7 @@ async def update_item(
         "board_status",
         "priority",
         "category",
+        "start_date",
         "due_date",
         "position",
     }
@@ -175,6 +180,8 @@ async def update_item(
         return await get_item(room_id, item_id), True
     if "category" in fields:
         fields["category"] = fields["category"] or None
+    if "start_date" in fields:
+        fields["start_date"] = fields["start_date"] or None
     if "due_date" in fields:
         fields["due_date"] = fields["due_date"] or None
     # フィールド名を組み立てず、存在フラグで更新対象を制御する。
@@ -190,6 +197,7 @@ async def update_item(
           board_status = CASE WHEN :has_board_status THEN :board_status ELSE board_status END,
           priority = CASE WHEN :has_priority THEN :priority ELSE priority END,
           category = CASE WHEN :has_category THEN :category ELSE category END,
+          start_date = CASE WHEN :has_start_date THEN :start_date ELSE start_date END,
           due_date = CASE WHEN :has_due_date THEN :due_date ELSE due_date END,
           position = CASE WHEN :has_position THEN :position ELSE position END,
           version = version + 1, updated_at = NOW(6)

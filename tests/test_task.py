@@ -16,10 +16,10 @@ ROOM_META = {
 ITEM = {
     "item_id": 12,
     "title": "資料をまとめる",
-    "note": "",
     "board_status": "todo",
     "priority": "normal",
     "category": "仕事",
+    "start_date": None,
     "due_date": None,
     "position": 100,
     "version": 0,
@@ -237,6 +237,32 @@ def test_task_item_crud_routes(test_client: TestClient):
     assert update_response.json()["data"]["item"] == updated
     assert delete_response.status_code == 200
     delete_item.assert_awaited_once_with("abc123", 12)
+
+
+def test_task_item_date_validation(test_client: TestClient):
+    with (
+        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new_callable=AsyncMock,
+            return_value=0,
+        ),
+    ):
+        # Invalid date combinations
+        invalid_response = test_client.post(
+            "/api/task/abc123/items",
+            json={
+                "title": "日付エラー",
+                "start_date": "2026-08-20",
+                "due_date": "2026-08-15",
+            },
+        )
+        assert invalid_response.status_code == 400
 
 
 def test_task_item_limit_validation_and_conflict(test_client: TestClient):
@@ -507,12 +533,14 @@ def test_task_calendar_span_assets(test_client: TestClient):
         "board_status": "doing",
         "priority": "high",
         "category": "開発",
+        "start_date": datetime(2026, 8, 18).date(),
         "due_date": datetime(2026, 8, 20).date(),
         "created_at": datetime(2026, 8, 16, 10, 0, 0),
         "updated_at": datetime(2026, 8, 16, 10, 0, 0),
     }
     serialized = _serialize_item(sample_row)
     assert serialized["created_at"].startswith("2026-08-16")
+    assert serialized["start_date"] == "2026-08-18"
     assert serialized["due_date"] == "2026-08-20"
 
     # 2. calendar.js に期間算出・スパンバー・締切日テキスト制御ロジックが含まれること

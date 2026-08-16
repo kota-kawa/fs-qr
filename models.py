@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from settings import (
     NOTE_MAX_CONTENT_LENGTH,
     TASK_MAX_CATEGORY_LENGTH,
@@ -184,12 +184,20 @@ class TaskItemInput(BaseModel):
     board_status: Literal["todo", "doing", "done"] = "todo"
     priority: Literal["high", "normal", "low"] = "normal"
     category: str = Field(default="", max_length=TASK_MAX_CATEGORY_LENGTH)
+    start_date: Optional[str] = None
     due_date: Optional[str] = None
 
     @field_validator("title", "note", "category", mode="before")
     @classmethod
     def strip_task_text(cls, value: object) -> str:
         return str(value or "").strip()
+
+    @model_validator(mode="after")
+    def validate_dates(self) -> TaskItemInput:
+        if self.start_date and self.due_date:
+            if self.start_date > self.due_date:
+                raise ValueError("開始日は期限日以前の日付を指定してください。")
+        return self
 
 
 class TaskItemUpdateInput(BaseModel):
@@ -203,6 +211,7 @@ class TaskItemUpdateInput(BaseModel):
     board_status: Optional[Literal["todo", "doing", "done"]] = None
     priority: Optional[Literal["high", "normal", "low"]] = None
     category: Optional[str] = Field(default=None, max_length=TASK_MAX_CATEGORY_LENGTH)
+    start_date: Optional[str] = None
     due_date: Optional[str] = None
     position: Optional[int] = Field(default=None, ge=0)
 
@@ -210,6 +219,13 @@ class TaskItemUpdateInput(BaseModel):
     @classmethod
     def strip_optional_task_text(cls, value: object) -> object:
         return str(value or "").strip() if value is not None else value
+
+    @model_validator(mode="after")
+    def validate_dates(self) -> TaskItemUpdateInput:
+        if self.start_date and self.due_date:
+            if self.start_date > self.due_date:
+                raise ValueError("開始日は期限日以前の日付を指定してください。")
+        return self
 
 
 class TaskReorderInput(BaseModel):
