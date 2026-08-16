@@ -63,7 +63,9 @@ def register_task_io_routes(router: APIRouter) -> None:
 
         content = await file.read()
         if len(content) > 1024 * 1024:
-            return api_error_response("ファイルサイズが1MBを超えています。", status_code=400)
+            return api_error_response(
+                "ファイルサイズが1MBを超えています。", status_code=400
+            )
 
         try:
             data = json.loads(content)
@@ -71,7 +73,9 @@ def register_task_io_routes(router: APIRouter) -> None:
             return api_error_response("無効なJSONファイルです。", status_code=400)
 
         if data.get("version") != 1:
-            return api_error_response("サポートされていないバージョンです。", status_code=400)
+            return api_error_response(
+                "サポートされていないバージョンです。", status_code=400
+            )
 
         tasks = data.get("tasks")
         if not isinstance(tasks, list):
