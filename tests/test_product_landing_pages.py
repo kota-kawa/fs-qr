@@ -367,6 +367,23 @@ def test_task_landing_page_shows_share_details_after_publishing(
     assert "/static/qrcode.min.js" in body
 
 
+def test_task_landing_page_use_cases_display_structured_cards(
+    test_client: TestClient,
+):
+    """Task LPの利用シーンが構造化されたカードとタグで適切に描画されることを検証する。 / Verify that Task LP renders structured use-case cards with tags."""
+    response = test_client.get("/shared-task")
+
+    assert response.status_code == 200
+    body = response.text
+
+    assert 'id="use-cases"' in body
+    assert "lp-grid--use-cases" in body
+    assert "lp-use-card__tag" in body
+    assert "イベント・勉強会の運営" in body
+    assert "ミーティングのアクション管理" in body
+    assert "個人のデイリーTODO整理" in body
+
+
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
 def test_product_landing_page_normalizes_tracking_queries(
     test_client: TestClient,
