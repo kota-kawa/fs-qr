@@ -379,6 +379,9 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
         in body
     )
 
+    # 編集ダイアログの保存ボタンから Ctrl+Enter のヒント表示が削除されている
+    assert '<button type="submit" class="modern-btn task-btn">保存する</button>' in body
+
 
 def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     """ボードのJSモジュールが依存順にすべて読み込まれる。"""
