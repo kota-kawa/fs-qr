@@ -306,9 +306,21 @@
                 <path d="M17.4 13.6A5.6 5.6 0 0 1 20.5 18.6"/>
               </svg>
             </span>
-            <h3>リアルタイム共同編集</h3>
-            <p>同じノートに参加したメンバーの入力をリアルタイムに反映。会話の流れを止めずに、全員で記録を育てられます。</p>
-            <div class="lp-feature-card__demo lp-live-lines" aria-hidden="true"><span></span><span></span><i></i></div>
+            <h3>実際の画面で見る、リアルタイム編集</h3>
+            <p>下書きの入力から共有リンクの発行、ノートルームでの同期まで、実際の操作画面をそのまま録画しました。</p>
+            <div class="lp-feature-card__demo">
+              <video
+                class="lp-feature-card__video"
+                muted
+                loop
+                playsinline
+                controls
+                preload="metadata"
+                poster="{{ staticfile('images/product-landing-pages/note-demo/note-demo-05-sync.jpg') }}"
+                aria-label="下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画">
+                <source src="{{ staticfile('videos/product-landing-pages/note-demo.webm') }}" type="video/webm">
+              </video>
+            </div>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-feature-card__icon" aria-hidden="true">
