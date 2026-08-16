@@ -474,6 +474,13 @@
   flex-shrink: 0;
 }
 
+.task-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Fallback & Hidden native select styling / ネイティブセレクトのスタイルと非表示化 */
 .task-select-pill {
   padding: 0.45rem 0.75rem;
   border: 1px solid #cbd5e1;
@@ -499,6 +506,209 @@
   border-color: var(--task-accent);
   outline: none;
   box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-select-pill--hidden {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Custom Dropdown Trigger / トリガーボタン */
+.task-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.task-select-trigger:hover {
+  border-color: var(--task-accent, #f59e0b);
+  color: #1e293b;
+  background-color: #fffcf7;
+  box-shadow: 0 2px 6px -1px rgba(245, 158, 11, 0.18);
+}
+
+.task-select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--task-accent, #f59e0b);
+  box-shadow: 0 0 0 3px var(--task-ring, rgba(245, 158, 11, 0.28));
+}
+
+.task-select-wrapper.is-open {
+  z-index: 80;
+}
+
+.task-select-wrapper.is-open .task-select-trigger {
+  border-color: var(--task-accent, #f59e0b);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px var(--task-ring, rgba(245, 158, 11, 0.28));
+  color: #1e293b;
+}
+
+.task-select-wrapper--compact .task-select-trigger {
+  padding: 0.32rem 0.6rem;
+  font-size: 0.8rem;
+  gap: 0.35rem;
+}
+
+.task-select-trigger__label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-select-trigger__chevron {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
+}
+
+.task-select-wrapper.is-open .task-select-trigger__chevron {
+  transform: rotate(180deg);
+  color: var(--task-accent-strong, #b45309);
+}
+
+/* Floating Custom Menu Panel / 浮遊ドロップダウンメニュー */
+.task-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 280px;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 120;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top left;
+  transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.16s ease;
+}
+
+.task-select-wrapper.is-open .task-select-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.task-select-wrapper.is-dropup .task-select-menu {
+  top: auto;
+  bottom: calc(100% + 6px);
+  transform: translateY(6px) scale(0.97);
+  transform-origin: bottom left;
+}
+
+.task-select-wrapper.is-dropup.is-open .task-select-menu {
+  transform: translateY(0) scale(1);
+}
+
+/* Option item / オプション項目 */
+.task-select-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.14s ease, color 0.14s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.task-select-option + .task-select-option {
+  margin-top: 0.15rem;
+}
+
+.task-select-option.is-active,
+.task-select-option:hover {
+  background-color: #fff7ed;
+  color: #b45309;
+  font-weight: 600;
+}
+
+.task-select-option.is-selected {
+  background-color: #ffedd5;
+  color: #9a3412;
+  font-weight: 700;
+}
+
+.task-select-option.is-selected::after {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%239a3412'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.task-select-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Specific context styling / 特定の配置場所における調整 */
+.task-filter-field .task-select-wrapper {
+  width: 100%;
+}
+
+.task-filter-field .task-select-trigger {
+  width: 100%;
+}
+
+.task-editor-field .task-select-wrapper {
+  width: 100%;
+}
+
+.task-editor-field .task-select-trigger {
+  width: 100%;
 }
 
 .task-btn--add {
@@ -1522,16 +1732,19 @@
 .task-calendar__chips {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
   min-height: 0;
 }
 
-.task-calendar__chip {
+.task-calendar__chip,
+.task-cal-chip {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   width: 100%;
-  padding: 0.15rem 0.35rem;
+  height: 22px;
+  box-sizing: border-box;
+  padding: 0 0.35rem;
   border: 0;
   border-left: 3px solid var(--task-todo);
   border-radius: 5px;
@@ -1540,51 +1753,159 @@
   text-align: left;
   font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 22px;
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
-.task-calendar__chip:hover {
+.task-calendar__chip:hover,
+.task-cal-chip:hover {
   background: #e2e8f0;
   color: #0f172a;
 }
 
-.task-calendar__chip:focus-visible {
+.task-calendar__chip:focus-visible,
+.task-cal-chip:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--task-accent);
+  position: relative;
+  z-index: 2;
 }
 
-.task-calendar__chip.is-doing {
+/* ステータス別カラー（未着手: todo、進行中: doing、完了: done、期限切れ: overdue） */
+.task-calendar__chip.is-doing,
+.task-cal-chip.is-doing {
   border-left-color: var(--task-doing);
   background: #fff7ed;
   color: #9a3412;
 }
 
-.task-calendar__chip.is-done {
+.task-calendar__chip.is-doing:hover,
+.task-cal-chip.is-doing:hover {
+  background: #ffedd5;
+}
+
+.task-calendar__chip.is-done,
+.task-cal-chip.is-done {
   border-left-color: var(--task-done);
   background: #ecfdf5;
   color: #047857;
   text-decoration: line-through;
 }
 
-.task-calendar__chip.is-overdue {
+.task-calendar__chip.is-done:hover,
+.task-cal-chip.is-done:hover {
+  background: #d1fae5;
+}
+
+.task-calendar__chip.is-overdue,
+.task-cal-chip.is-overdue {
   border-left-color: var(--task-high);
   background: #fee2e2;
   color: #b91c1c;
 }
 
-.task-calendar__chip.is-dragging {
+.task-calendar__chip.is-overdue:hover,
+.task-cal-chip.is-overdue:hover {
+  background: #fecaca;
+}
+
+.task-calendar__chip.is-dragging,
+.task-cal-chip.is-dragging {
   opacity: 0.45;
 }
 
-.task-calendar__chip-text {
+/* 期間バー（スパン表示 / 帯状のスタイリング） */
+.task-calendar__chip.is-span-bar,
+.task-cal-chip.is-span-bar {
+  border-left: 0;
+  justify-content: center;
+}
+
+/* 各スパンパーツの形状とセル間シームレス結合 */
+.task-calendar__chip.is-span-start,
+.task-cal-chip.is-span-start {
+  margin-right: -0.3rem;
+  padding-right: 0.3rem;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left: 3px solid var(--task-todo);
+}
+
+.task-calendar__chip.is-span-start.is-doing,
+.task-cal-chip.is-span-start.is-doing {
+  border-left-color: var(--task-doing);
+}
+
+.task-calendar__chip.is-span-start.is-done,
+.task-cal-chip.is-span-start.is-done {
+  border-left-color: var(--task-done);
+}
+
+.task-calendar__chip.is-span-start.is-overdue,
+.task-cal-chip.is-span-start.is-overdue {
+  border-left-color: var(--task-high);
+}
+
+.task-calendar__chip.is-span-mid,
+.task-cal-chip.is-span-mid {
+  margin-left: -0.3rem;
+  margin-right: -0.3rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  border-radius: 0;
+  border-left: 0;
+}
+
+.task-calendar__chip.is-span-end,
+.task-cal-chip.is-span-end {
+  margin-left: -0.3rem;
+  padding-left: 0.3rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left: 0;
+}
+
+/* 週の境界（日曜日・土曜日）での折り返し時の角丸処理 */
+.task-calendar__cell.is-sunday .task-calendar__chip.is-span-mid,
+.task-calendar__cell.is-sunday .task-calendar__chip.is-span-end,
+.task-calendar__cell.is-sunday .task-cal-chip.is-span-mid,
+.task-calendar__cell.is-sunday .task-cal-chip.is-span-end {
+  margin-left: 0;
+  padding-left: 0.35rem;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.task-calendar__cell.is-saturday .task-calendar__chip.is-span-start,
+.task-calendar__cell.is-saturday .task-calendar__chip.is-span-mid,
+.task-calendar__cell.is-saturday .task-cal-chip.is-span-start,
+.task-calendar__cell.is-saturday .task-cal-chip.is-span-mid {
+  margin-right: 0;
+  padding-right: 0.35rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* 単日（開始＝締切） */
+.task-calendar__chip.is-single,
+.task-cal-chip.is-single {
+  border-radius: 5px;
+}
+
+.task-calendar__chip-text,
+.task-cal-chip-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 0.72rem;
 }
 
 .task-calendar__more {
@@ -1844,13 +2165,19 @@
 /* ── Task editor dialog / 編集ダイアログ ──────────────────────────────── */
 .task-editor-dialog {
   width: min(580px, calc(100vw - 2rem));
-  max-height: min(88vh, 780px);
+  max-height: min(88vh, 88dvh, 780px);
   padding: 0;
   border: 0;
   border-radius: var(--radius-2xl, 20px);
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
   background: #ffffff;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+.task-editor-dialog[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .task-editor-dialog::backdrop,
@@ -1862,16 +2189,45 @@
 .task-editor-form {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
   max-height: inherit;
+  box-sizing: border-box;
+  gap: 0.85rem;
   padding: 1.35rem 1.4rem 1.2rem;
+  overflow: hidden;
 }
 
 .task-editor-scroll {
   display: grid;
   gap: 0.85rem;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  padding-right: 0.15rem;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding-right: 0.35rem;
+  margin-right: -0.15rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+}
+
+.task-editor-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-editor-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.task-editor-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.5);
+  border-radius: 9999px;
+}
+
+.task-editor-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.8);
 }
 
 .task-editor-dialog__header {
@@ -1880,6 +2236,7 @@
   justify-content: space-between;
   padding-bottom: 0.7rem;
   border-bottom: 1px solid var(--task-border);
+  flex-shrink: 0;
 }
 
 .task-editor-dialog__header h2,
@@ -2120,6 +2477,12 @@
   gap: 0.6rem;
   padding-top: 0.7rem;
   border-top: 1px solid var(--task-border);
+  flex-shrink: 0;
+}
+
+.task-editor-form .task-form-error {
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .task-actions-spacer {
@@ -2138,11 +2501,19 @@
 /* ── Shortcut help dialog / ショートカット一覧 ────────────────────────── */
 .task-help-dialog {
   width: min(480px, calc(100vw - 2rem));
+  max-height: min(88vh, 88dvh, 600px);
   padding: 1.35rem 1.4rem;
   border: 0;
   border-radius: var(--radius-2xl, 20px);
   background: #ffffff;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.task-help-dialog[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .task-help-dialog__header {
@@ -2151,12 +2522,38 @@
   justify-content: space-between;
   padding-bottom: 0.7rem;
   border-bottom: 1px solid var(--task-border);
+  flex-shrink: 0;
 }
 
 .task-help-list {
   display: grid;
   gap: 0.5rem;
   margin: 0.9rem 0 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  min-height: 0;
+  flex: 1 1 auto;
+  padding-right: 0.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+}
+
+.task-help-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-help-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.task-help-list::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.5);
+  border-radius: 9999px;
+}
+
+.task-help-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.8);
 }
 
 .task-help-list > div {
@@ -2400,12 +2797,29 @@
     flex: 1 1 100%;
   }
 
+  .task-editor-dialog {
+    width: calc(100vw - 1.25rem);
+    max-height: min(92dvh, calc(100vh - 1.5rem), 780px);
+    border-radius: var(--radius-xl, 16px);
+  }
+
+  .task-editor-form {
+    padding: 1rem 1rem 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .task-editor-dialog__header {
+    padding-bottom: 0.55rem;
+  }
+
   .task-editor-form__grid {
     grid-template-columns: 1fr;
   }
 
   .task-editor-dialog__actions {
+    padding-top: 0.55rem;
     flex-wrap: wrap;
+    gap: 0.45rem;
   }
 
   .task-actions-spacer {

@@ -130,6 +130,9 @@
     element('taskEditorNote').value = item.note || '';
     element('taskEditorDueDate').value = item.due_date || '';
     element('taskEditorPriority').value = item.priority || 'normal';
+    if (modules.select) {
+      modules.select.sync(element('taskEditorPriority'));
+    }
     element('taskEditorCategory').value = item.category || '';
     setStatus(item.board_status || 'todo');
     updateNoteCounter();
@@ -166,6 +169,9 @@
     element('taskEditorNote').value = '';
     element('taskEditorDueDate').value = dueDate;
     element('taskEditorPriority').value = 'normal';
+    if (modules.select) {
+      modules.select.sync(element('taskEditorPriority'));
+    }
     element('taskEditorCategory').value = '';
     setStatus(initialStatus || 'todo');
     updateNoteCounter();

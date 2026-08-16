@@ -74,15 +74,66 @@
     return Boolean(node && !node.hidden);
   }
 
-  /** Group the visible tasks by their due date. / 表示対象のタスクを期限日でまとめる。 */
-  function groupByDueDate(items) {
+  /**
+   * Calculate the date span (start to due) of a task item.
+   * タスクの開始日（作成日）から締切日までの期間を算出する。
+   */
+  function getItemSpan(item) {
+    if (!item || !item.due_date) return null;
+    var dueKey = String(item.due_date);
+    var startKey = item.created_at ? String(item.created_at).slice(0, 10) : dueKey;
+    if (startKey > dueKey) {
+      startKey = dueKey;
+    }
+    return {
+      startKey: startKey,
+      dueKey: dueKey,
+      isMultiDay: startKey < dueKey
+    };
+  }
+
+  /**
+   * Group the visible tasks by all dates included in their span (startKey to dueKey).
+   * 表示対象のタスクを開始日〜締切日の全日程セルに紐付けてグループ化する。
+   */
+  function groupByDateSpan(items) {
     var groups = {};
-    items.forEach(function (item) {
-      if (!item.due_date) return;
-      var key = String(item.due_date);
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(item);
+    if (!Array.isArray(items)) return groups;
+
+    // 期間バーの行位置（スロット）をセル間で安定させるため、開始日・締切日・ID順に安定ソート
+    var sorted = items.slice().sort(function (a, b) {
+      var spanA = getItemSpan(a);
+      var spanB = getItemSpan(b);
+      if (!spanA && !spanB) return 0;
+      if (!spanA) return 1;
+      if (!spanB) return -1;
+      if (spanA.startKey !== spanB.startKey) {
+        return spanA.startKey < spanB.startKey ? -1 : 1;
+      }
+      if (spanA.dueKey !== spanB.dueKey) {
+        return spanA.dueKey < spanB.dueKey ? -1 : 1;
+      }
+      return (Number(a.item_id) || 0) - (Number(b.item_id) || 0);
     });
+
+    sorted.forEach(function (item) {
+      var span = getItemSpan(item);
+      if (!span) return;
+      var start = parseKey(span.startKey);
+      var due = parseKey(span.dueKey);
+      if (!start || !due) return;
+
+      var curr = new Date(start.getTime());
+      var safetyCount = 0;
+      while (curr <= due && safetyCount < 3660) {
+        var key = dateKey(curr);
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(item);
+        curr = addDays(curr, 1);
+        safetyCount += 1;
+      }
+    });
+
     return groups;
   }
 
@@ -99,18 +150,55 @@
     return '';
   }
 
-  function createChip(item) {
+  /**
+   * Create a chip or span bar element for the calendar cell.
+   * カレンダーセル用のタスクチップまたは期間バーを生成する（タスク名は締切日のみ表示）。
+   */
+  function createChip(item, currentKey) {
+    var span = getItemSpan(item);
+    var isMultiDay = Boolean(span && span.isMultiDay);
+    var isDue = !span || currentKey === span.dueKey;
+    var isStart = Boolean(span && currentKey === span.startKey);
+
     var chip = document.createElement('button');
     chip.type = 'button';
-    chip.className = 'task-calendar__chip ' + chipStateClass(item);
-    chip.dataset.calendarOpen = String(item.item_id);
     chip.draggable = true;
-    chip.title = item.title;
+    chip.dataset.calendarOpen = String(item.item_id);
 
-    var text = document.createElement('span');
-    text.className = 'task-calendar__chip-text';
-    text.textContent = item.title;
-    chip.appendChild(text);
+    var stateClass = chipStateClass(item);
+    var spanClass = '';
+
+    if (isMultiDay) {
+      if (isDue) {
+        spanClass = 'is-span-end';
+      } else if (isStart) {
+        spanClass = 'is-span-bar is-span-start';
+      } else {
+        spanClass = 'is-span-bar is-span-mid';
+      }
+    } else {
+      spanClass = 'is-single';
+    }
+
+    chip.className = ['task-calendar__chip', 'task-cal-chip', stateClass, spanClass]
+      .filter(Boolean)
+      .join(' ');
+
+    if (isDue) {
+      // 締切日または単日タスク：タスク名を表示
+      chip.title = isMultiDay ? item.title + ' (締切日)' : item.title;
+      chip.setAttribute('aria-label', item.title + (isMultiDay ? '（締切日）' : ''));
+
+      var text = document.createElement('span');
+      text.className = 'task-calendar__chip-text task-cal-chip-text';
+      text.textContent = item.title;
+      chip.appendChild(text);
+    } else {
+      // 開始日〜締切日前日：タスク名は表示せず色付きバーのみ
+      chip.title = item.title + ' (期間: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
+      chip.setAttribute('aria-label', item.title + '（期間中）');
+    }
+
     return chip;
   }
 
@@ -155,7 +243,7 @@
     var chips = document.createElement('div');
     chips.className = 'task-calendar__chips';
     dayItems.slice(0, MAX_CHIPS).forEach(function (item) {
-      chips.appendChild(createChip(item));
+      chips.appendChild(createChip(item, key));
     });
     cell.appendChild(chips);
 
@@ -275,7 +363,7 @@
     visibleItems = Array.isArray(items) ? items : [];
     if (!isActive()) return;
 
-    var groups = groupByDueDate(visibleItems);
+    var groups = groupByDateSpan(visibleItems);
     renderGrid(groups);
     renderPanels(groups);
   }

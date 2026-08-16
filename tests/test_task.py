@@ -372,6 +372,16 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
     ):
         assert marker in body
 
+    # クイック追加ボタンに plus アイコンが描画されている
+    assert 'class="modern-btn task-btn task-btn--add"' in body
+    assert (
+        '<path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />'
+        in body
+    )
+
+    # 編集ダイアログの保存ボタンから Ctrl+Enter のヒント表示が削除されている
+    assert '<button type="submit" class="modern-btn task-btn">保存する</button>' in body
+
 
 def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     """ボードのJSモジュールが依存順にすべて読み込まれる。"""
@@ -394,6 +404,7 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     modules = [
         "core.js",
         "store.js",
+        "select.js",
         "filters.js",
         "render.js",
         "menu.js",
@@ -410,6 +421,38 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     positions = [body.index(f"js/task_board/{name}") for name in modules]
     assert namespace_position < config_position < positions[0]
     assert positions == sorted(positions)
+
+
+def test_task_board_page_renders_custom_dropdown_targets(test_client: TestClient):
+    """タスクボード内の6つのセレクト要素がカスタムドロップダウン対象として描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 対象の6つのドロップダウン要素が存在し、task-select-pill クラスを持つ
+    target_select_ids = (
+        "taskCreatePriority",
+        "taskCategoryFilter",
+        "taskPriorityFilter",
+        "taskDueFilter",
+        "taskSortSelect",
+        "taskEditorPriority",
+    )
+    for select_id in target_select_ids:
+        assert f'id="{select_id}"' in body
+        assert 'class="task-select-pill' in body
 
 
 def test_task_board_page_renders_calendar_view(test_client: TestClient):
@@ -449,3 +492,53 @@ def test_task_board_page_renders_calendar_view(test_client: TestClient):
         'id="taskCalendarBacklogList"',
     ):
         assert marker in body
+
+
+def test_task_calendar_span_assets(test_client: TestClient):
+    """カレンダーの期間バー（開始日〜締切日スパン）用スクリプトとスタイルが揃っている。"""
+    from pathlib import Path
+    from Task.task_data import _serialize_item
+
+    # 1. アイテムのシリアライズで created_at と due_date が日付として扱える形式で出力されること
+    sample_row = {
+        "item_id": 10,
+        "title": "タスク期間テスト",
+        "note": "",
+        "board_status": "doing",
+        "priority": "high",
+        "category": "開発",
+        "due_date": datetime(2026, 8, 20).date(),
+        "created_at": datetime(2026, 8, 16, 10, 0, 0),
+        "updated_at": datetime(2026, 8, 16, 10, 0, 0),
+    }
+    serialized = _serialize_item(sample_row)
+    assert serialized["created_at"].startswith("2026-08-16")
+    assert serialized["due_date"] == "2026-08-20"
+
+    # 2. calendar.js に期間算出・スパンバー・締切日テキスト制御ロジックが含まれること
+    cal_js_path = Path("static/js/task_board/calendar.js")
+    assert cal_js_path.exists()
+    js_content = cal_js_path.read_text(encoding="utf-8")
+    for keyword in (
+        "getItemSpan",
+        "groupByDateSpan",
+        "is-span-bar",
+        "is-span-start",
+        "is-span-mid",
+        "is-span-end",
+        "is-single",
+    ):
+        assert keyword in js_content
+
+    # 3. 16-task-board.css に期間バー（is-span-bar, is-span-start/mid/end）のスタイルが定義されていること
+    css_path = Path("static/css/16-task-board.css")
+    assert css_path.exists()
+    css_content = css_path.read_text(encoding="utf-8")
+    for css_class in (
+        ".task-calendar__chip.is-span-bar",
+        ".task-calendar__chip.is-span-start",
+        ".task-calendar__chip.is-span-mid",
+        ".task-calendar__chip.is-span-end",
+        ".task-calendar__chip.is-single",
+    ):
+        assert css_class in css_content

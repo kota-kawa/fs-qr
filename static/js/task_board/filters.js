@@ -141,12 +141,20 @@
     });
 
     select.value = state.category;
+    if (modules.select) {
+      modules.select.sync(select);
+    }
   }
 
   function setDueFilter(value) {
     state.due = state.due === value ? '' : value;
     var select = document.getElementById('taskDueFilter');
-    if (select) select.value = state.due;
+    if (select) {
+      select.value = state.due;
+      if (modules.select) {
+        modules.select.sync(select);
+      }
+    }
     updateFilterUI();
     rerender();
   }
@@ -167,7 +175,12 @@
     };
     Object.keys(ids).forEach(function (id) {
       var element = document.getElementById(id);
-      if (element) element.value = ids[id];
+      if (element) {
+        element.value = ids[id];
+        if (modules.select) {
+          modules.select.sync(element);
+        }
+      }
     });
 
     updateFilterUI();
