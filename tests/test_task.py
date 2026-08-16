@@ -641,3 +641,100 @@ def test_task_calendar_item_color(test_client: TestClient):
         ".task-calendar__cell.is-saturday .task-calendar__chip.is-span-start"
         in css_content
     )
+
+
+def _split_top_level_commas(text: str) -> list[str]:
+    """括弧の深さを見ながら最上位のカンマだけで分割する。"""
+    parts: list[str] = []
+    depth = 0
+    current: list[str] = []
+    for ch in text:
+        if ch == "(":
+            depth += 1
+            current.append(ch)
+        elif ch == ")":
+            depth -= 1
+            current.append(ch)
+        elif ch == "," and depth == 0:
+            parts.append("".join(current))
+            current = []
+        else:
+            current.append(ch)
+    parts.append("".join(current))
+    return parts
+
+
+def _extract_create_table_columns(sql_text: str, table_name: str) -> set[str]:
+    """CREATE TABLE 定義から列名の集合を取り出す（INDEX/CONSTRAINT等は除外）。"""
+    import re
+
+    match = re.search(
+        rf"CREATE TABLE {re.escape(table_name)} \((.*?)\)\s*ENGINE",
+        sql_text,
+        re.S,
+    )
+    assert match, f"CREATE TABLE {table_name} が見つかりません"
+    skip_prefixes = {
+        "INDEX",
+        "UNIQUE",
+        "CONSTRAINT",
+        "PRIMARY",
+        "KEY",
+        "FOREIGN",
+    }
+    columns: set[str] = set()
+    for part in _split_top_level_commas(match.group(1)):
+        part = part.strip()
+        if not part:
+            continue
+        first_word = part.split()[0]
+        if first_word.upper() in skip_prefixes:
+            continue
+        columns.add(first_word)
+    return columns
+
+
+def test_task_item_schema_matches_fresh_install_and_migrations():
+    """db_init/create_tables.sql（新規構築用）と alembic マイグレーション
+    （既存環境への適用用）で task_item の列構成が一致することを確認する回帰テスト。
+
+    feature/task-start-date で task_item.start_date を参照するコードが
+    追加されたが、対応する alembic マイグレーションが作られなかったため、
+    既存環境（先に task_item が作られていたルーム）では start_date 列が
+    追加されず、GET /api/task/{room_id}/items が
+    "Unknown column 'start_date'" で 500 を返し続けていた。
+    このテストは同種の列不足を再発時に検知する。
+    """
+    import re
+    from pathlib import Path
+
+    create_tables_sql = Path("db_init/create_tables.sql").read_text(encoding="utf-8")
+    fresh_install_columns = _extract_create_table_columns(
+        create_tables_sql, "task_item"
+    )
+
+    versions_dir = Path("alembic/versions")
+    version_files = sorted(versions_dir.glob("*.py"))
+    assert version_files, "alembic のマイグレーションファイルが見つかりません"
+
+    # 0010 が task_item を新規作成する唯一のマイグレーション
+    task_service_migration = next(
+        f for f in version_files if f.name.endswith("_task_service.py")
+    )
+    migrated_columns = _extract_create_table_columns(
+        task_service_migration.read_text(encoding="utf-8"), "task_item"
+    )
+
+    # それ以降にtask_itemへ列を追加している全マイグレーションを反映する
+    for version_file in version_files:
+        content = version_file.read_text(encoding="utf-8")
+        for match in re.finditer(r"ALTER TABLE task_item ADD COLUMN (\w+)", content):
+            migrated_columns.add(match.group(1))
+
+    missing = fresh_install_columns - migrated_columns
+    assert not missing, (
+        "db_init/create_tables.sql には存在するが、alembic マイグレーションを"
+        f"順番に適用しても task_item に追加されない列があります: {missing}。"
+        "新しいマイグレーション（例: alembic/versions/2xxxxxxx_xxxx_*.py）で"
+        "ALTER TABLE task_item ADD COLUMN ... を追加してください。"
+    )
