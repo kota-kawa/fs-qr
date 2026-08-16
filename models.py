@@ -21,6 +21,9 @@ _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
 _PASSWORD_RE = re.compile(r"^[0-9]{6}$")
 # 共有データは長期保管用途ではないため、保存期間を24時間以内に制限する。
 _RETENTION_HOUR_CHOICES = frozenset({1, 6, 12, 24})
+# Note/Task は共同編集やタスク管理など、より長期の運用でも使われるため、
+# 保存期間を1日・1週間・1か月から選べるようにする。
+_LONG_RETENTION_HOUR_CHOICES = frozenset({24, 24 * 7, 24 * 30})
 
 
 class RoomSearchInput(BaseModel):
@@ -52,7 +55,7 @@ class RoomSearchInput(BaseModel):
 class RoomCreateInput(BaseModel):
     """ルーム作成フォームの入力バリデーション。
 
-    使用箇所: Note /create_note_room、Group /create_group_room
+    使用箇所: Group /create_group_room
     id は auto モードでは空可。manual モードでは 6文字英数字必須。
     """
 
@@ -86,6 +89,25 @@ class RoomCreateInput(BaseModel):
         if len(v) != 6:
             raise ValueError("IDは6文字の半角英数字で入力してください。")
         return v
+
+
+class NoteTaskRoomCreateInput(RoomCreateInput):
+    """Note / Task のルーム作成フォームの入力バリデーション。
+
+    使用箇所: Note /create_note_room、Task /create_task_room
+    保存期間は1日・1週間・1か月から選択する（RoomCreateInputより長期に対応）。
+    """
+
+    retention_hours: int = 24
+
+    @field_validator("retention_hours", mode="before")
+    @classmethod
+    def coerce_retention_hours(cls, v) -> int:
+        try:
+            v = int(v)
+        except (TypeError, ValueError):
+            return 24
+        return v if v in _LONG_RETENTION_HOUR_CHOICES else 24
 
 
 class FsqrUploadInput(BaseModel):

@@ -519,9 +519,30 @@ def _filter_urlencode(value: Any) -> str:
     return quote_plus(str(value))
 
 
+def _filter_retention_label(hours: Any) -> str:
+    """保存期間の時間数を「1日」「1週間」「1か月」のような表示用ラベルに変換する。
+
+    Note/Task の自動削除期間表示で使用。想定外の値は「n時間」にフォールバックする。
+    """
+    try:
+        hours_int = int(hours)
+    except (TypeError, ValueError):
+        return f"{hours}時間"
+    if hours_int == 24 * 30:
+        return "1か月"
+    if hours_int == 24 * 7:
+        return "1週間"
+    if hours_int == 24:
+        return "1日"
+    if hours_int > 0 and hours_int % 24 == 0:
+        return f"{hours_int // 24}日"
+    return f"{hours_int}時間"
+
+
 templates.env.filters["datetime"] = _filter_datetime
 # Provide a safe urlencode filter even if not present.
 templates.env.filters.setdefault("urlencode", _filter_urlencode)
+templates.env.filters["retention_label"] = _filter_retention_label
 
 templates.env.globals.update(
     staticfile=staticfile,

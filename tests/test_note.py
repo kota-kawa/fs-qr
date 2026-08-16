@@ -264,6 +264,58 @@ def test_create_note_room_generates_numeric_password(test_client: TestClient):
     )
 
 
+def test_create_note_room_accepts_one_week_retention(test_client: TestClient):
+    """Note は1週間・1か月の保存期間を選択できる（Groupより長期に対応）。"""
+    create_mock = AsyncMock()
+    with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            json={"id": "abc123", "idMode": "manual", "retention_hours": 168},
+        )
+
+    assert response.status_code == 302
+    create_mock.assert_awaited_once_with(
+        "abc123", "000042", "abc123", retention_hours=168, initial_content=""
+    )
+
+
+def test_create_note_room_rejects_legacy_short_retention(test_client: TestClient):
+    """Group専用の旧選択肢（6時間・12時間）はNoteでは1日にフォールバックする。"""
+    create_mock = AsyncMock()
+    with (
+        patch("Note.note_app.generate_room_password", return_value="000042"),
+        patch(
+            "Note.note_app._room_id_exists", new_callable=AsyncMock, return_value=False
+        ),
+        patch("Note.note_app.nd.create_room", create_mock),
+        patch(
+            "Note.note_app._get_room_if_valid",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+    ):
+        response = test_client.post(
+            "/create_note_room",
+            json={"id": "abc123", "idMode": "manual", "retention_hours": 6},
+        )
+
+    assert response.status_code == 302
+    create_mock.assert_awaited_once_with(
+        "abc123", "000042", "abc123", retention_hours=24, initial_content=""
+    )
+
+
 def test_note_owner_session_can_delete_room(test_client: TestClient):
     """ルーム作成直後の同一セッションだけNoteルームを削除できる"""
     from datetime import datetime

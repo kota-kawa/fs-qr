@@ -114,6 +114,35 @@ def test_retention_hours_allows_only_supported_short_periods():
     assert FsqrUploadInput(retention_hours=30).retention_hours == 24
 
 
+def test_note_task_retention_hours_allows_day_week_month():
+    """Note/Task は1日・1週間・1か月のみを保存期間として受け付ける。"""
+    from models import NoteTaskRoomCreateInput
+
+    for retention_hours in (24, 24 * 7, 24 * 30):
+        assert (
+            NoteTaskRoomCreateInput(retention_hours=retention_hours).retention_hours
+            == retention_hours
+        )
+
+    # 旧仕様の短時間選択肢や範囲外の値はデフォルト（1日）にフォールバックする。
+    for retention_hours in (1, 6, 12, 48, 24 * 6):
+        assert (
+            NoteTaskRoomCreateInput(retention_hours=retention_hours).retention_hours
+            == 24
+        )
+
+
+def test_retention_label_filter_formats_note_task_periods():
+    """保存期間の表示ラベルが1日・1週間・1か月に整形される。"""
+    from web import _filter_retention_label
+
+    assert _filter_retention_label(24) == "1日"
+    assert _filter_retention_label(24 * 7) == "1週間"
+    assert _filter_retention_label(24 * 30) == "1か月"
+    assert _filter_retention_label(48) == "2日"
+    assert _filter_retention_label(1) == "1時間"
+
+
 # ---------------------------------------------------------------------------
 # FSQR.fsqr_app – pure helper functions
 # ---------------------------------------------------------------------------
