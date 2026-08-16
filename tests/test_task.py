@@ -372,6 +372,13 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
     ):
         assert marker in body
 
+    # クイック追加ボタンに plus アイコンが描画されている
+    assert 'class="modern-btn task-btn task-btn--add"' in body
+    assert (
+        '<path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />'
+        in body
+    )
+
 
 def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     """ボードのJSモジュールが依存順にすべて読み込まれる。"""
