@@ -20,6 +20,15 @@
   --task-border: #e2e8f0;
   --task-text: #1f2937;
   --task-text-muted: #64748b;
+  /* カレンダースパン用カラー定義: 開始(Start: ブルー系) と 終了(End: オレンジ/アンバー/レッド/グリーン系) */
+  --task-span-start: #0284c7;
+  --task-span-start-doing: #2563eb;
+  --task-span-start-done: #059669;
+  --task-span-start-overdue: #0284c7;
+  --task-span-end-todo: #ea580c;
+  --task-span-end-doing: #d97706;
+  --task-span-end-done: #16a34a;
+  --task-span-end-overdue: #dc2626;
   max-width: 1320px;
   margin: 0 auto;
 }
@@ -1818,14 +1827,20 @@
   opacity: 0.45;
 }
 
-/* 期間バー（スパン表示 / 帯状のスタイリング） */
+/* 期間バー（スパン表示 / 帯状のスタイリング）
+   期間タスクの開始日〜中間〜締切日をシームレスに繋ぎ、
+   「はじまり（開始日）」は爽やかなブルー系アクセント線、「おわり（締切日）」は締切アクセント線で明確に色分けする。
+   Calendar span styling: Seamless connecting bar with distinct Start (blue-toned line) and End (due-toned line) */
 .task-calendar__chip.is-span-bar,
 .task-cal-chip.is-span-bar {
   border-left: 0;
   justify-content: center;
 }
 
-/* 各スパンパーツの形状とセル間シームレス結合 */
+/* ─────────────────────────────────────────────────────────────
+   1. はじまり（開始日: .is-span-start / Span Start）
+   左端に「開始」を示す鮮明なアクセントカラーの線（3.5px）を配置
+   ───────────────────────────────────────────────────────────── */
 .task-calendar__chip.is-span-start,
 .task-cal-chip.is-span-start {
   margin-right: -0.3rem;
@@ -1834,24 +1849,61 @@
   border-bottom-left-radius: 5px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-left: 3px solid var(--task-todo);
+  border-left: 3.5px solid var(--task-span-start, #0284c7);
+  background: #f0f9ff;
+  color: #0369a1;
+  box-shadow: inset 0 1px 0 rgba(2, 132, 199, 0.08), inset 0 -1px 0 rgba(2, 132, 199, 0.08);
 }
 
+.task-calendar__chip.is-span-start:hover,
+.task-cal-chip.is-span-start:hover {
+  background: #e0f2fe;
+}
+
+/* 進行中（doing）の開始日 */
 .task-calendar__chip.is-span-start.is-doing,
 .task-cal-chip.is-span-start.is-doing {
-  border-left-color: var(--task-doing);
+  border-left-color: var(--task-span-start-doing, #2563eb);
+  background: #eff6ff;
+  color: #1d4ed8;
 }
 
+.task-calendar__chip.is-span-start.is-doing:hover,
+.task-cal-chip.is-span-start.is-doing:hover {
+  background: #dbeafe;
+}
+
+/* 完了（done）の開始日 */
 .task-calendar__chip.is-span-start.is-done,
 .task-cal-chip.is-span-start.is-done {
-  border-left-color: var(--task-done);
+  border-left-color: var(--task-span-start-done, #059669);
+  background: #ecfdf5;
+  color: #047857;
 }
 
+.task-calendar__chip.is-span-start.is-done:hover,
+.task-cal-chip.is-span-start.is-done:hover {
+  background: #d1fae5;
+}
+
+/* 期限切れ（overdue）の開始日 */
 .task-calendar__chip.is-span-start.is-overdue,
 .task-cal-chip.is-span-start.is-overdue {
-  border-left-color: var(--task-high);
+  border-left-color: var(--task-span-start-overdue, #0284c7);
+  background: #f0f9ff;
+  color: #0369a1;
 }
 
+.task-calendar__chip.is-span-start.is-overdue:hover,
+.task-cal-chip.is-span-start.is-overdue:hover {
+  background: #e0f2fe;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   2. 中間（期間帯: .is-span-mid / Span Mid）
+   開始日（青系）から締切日（オレンジ/アンバー/レッド/グリーン系）への
+   自然なトランジショングラデーションとシームレスな帯形状
+   ───────────────────────────────────────────────────────────── */
 .task-calendar__chip.is-span-mid,
 .task-cal-chip.is-span-mid {
   margin-left: -0.3rem;
@@ -1860,8 +1912,60 @@
   padding-right: 0.3rem;
   border-radius: 0;
   border-left: 0;
+  border-right: 0;
+  border-top: 1px solid rgba(2, 132, 199, 0.14);
+  border-bottom: 1px solid rgba(234, 88, 12, 0.14);
+  background: linear-gradient(90deg, #f0f9ff 0%, #fff7ed 100%);
 }
 
+.task-calendar__chip.is-span-mid:hover,
+.task-cal-chip.is-span-mid:hover {
+  background: linear-gradient(90deg, #e0f2fe 0%, #ffedd5 100%);
+}
+
+/* 進行中（doing）の中間帯 */
+.task-calendar__chip.is-span-mid.is-doing,
+.task-cal-chip.is-span-mid.is-doing {
+  border-top: 1px solid rgba(37, 99, 235, 0.16);
+  border-bottom: 1px solid rgba(217, 119, 6, 0.16);
+  background: linear-gradient(90deg, #eff6ff 0%, #fffbeb 100%);
+}
+
+.task-calendar__chip.is-span-mid.is-doing:hover,
+.task-cal-chip.is-span-mid.is-doing:hover {
+  background: linear-gradient(90deg, #dbeafe 0%, #fef3c7 100%);
+}
+
+/* 完了（done）の中間帯 */
+.task-calendar__chip.is-span-mid.is-done,
+.task-cal-chip.is-span-mid.is-done {
+  border-top: 1px solid rgba(16, 185, 129, 0.16);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.16);
+  background: #ecfdf5;
+}
+
+.task-calendar__chip.is-span-mid.is-done:hover,
+.task-cal-chip.is-span-mid.is-done:hover {
+  background: #d1fae5;
+}
+
+/* 期限切れ（overdue）の中間帯 */
+.task-calendar__chip.is-span-mid.is-overdue,
+.task-cal-chip.is-span-mid.is-overdue {
+  border-top: 1px solid rgba(2, 132, 199, 0.16);
+  border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+  background: linear-gradient(90deg, #f0f9ff 0%, #fee2e2 100%);
+}
+
+.task-calendar__chip.is-span-mid.is-overdue:hover,
+.task-cal-chip.is-span-mid.is-overdue:hover {
+  background: linear-gradient(90deg, #e0f2fe 0%, #fecaca 100%);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3. おわり（締切日: .is-span-end / Span End）
+   右端に「締切」を示す明確なアクセントカラーの線（3.5px）を配置
+   ───────────────────────────────────────────────────────────── */
 .task-calendar__chip.is-span-end,
 .task-cal-chip.is-span-end {
   margin-left: -0.3rem;
@@ -1871,6 +1975,55 @@
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   border-left: 0;
+  border-right: 3.5px solid var(--task-span-end-todo, #ea580c);
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.task-calendar__chip.is-span-end:hover,
+.task-cal-chip.is-span-end:hover {
+  background: #ffedd5;
+  color: #7c2d12;
+}
+
+/* 進行中（doing）の締切日 */
+.task-calendar__chip.is-span-end.is-doing,
+.task-cal-chip.is-span-end.is-doing {
+  border-right-color: var(--task-span-end-doing, #d97706);
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.task-calendar__chip.is-span-end.is-doing:hover,
+.task-cal-chip.is-span-end.is-doing:hover {
+  background: #fef3c7;
+}
+
+/* 完了（done）の締切日 */
+.task-calendar__chip.is-span-end.is-done,
+.task-cal-chip.is-span-end.is-done {
+  border-right-color: var(--task-span-end-done, #16a34a);
+  background: #f0fdf4;
+  color: #15803d;
+  text-decoration: line-through;
+}
+
+.task-calendar__chip.is-span-end.is-done:hover,
+.task-cal-chip.is-span-end.is-done:hover {
+  background: #dcfce7;
+}
+
+/* 期限切れ（overdue）の締切日 */
+.task-calendar__chip.is-span-end.is-overdue,
+.task-cal-chip.is-span-end.is-overdue {
+  border-right-color: var(--task-span-end-overdue, #dc2626);
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.task-calendar__chip.is-span-end.is-overdue:hover,
+.task-cal-chip.is-span-end.is-overdue:hover {
+  background: #fecaca;
 }
 
 /* 週の境界（日曜日・土曜日）での折り返し時の角丸処理 */

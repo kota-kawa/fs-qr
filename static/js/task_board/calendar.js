@@ -186,16 +186,20 @@
 
     if (isDue) {
       // 締切日または単日タスク：タスク名を表示
-      chip.title = isMultiDay ? item.title + ' (締切日)' : item.title;
+      chip.title = isMultiDay ? item.title + ' (締切日 / おわり)' : item.title;
       chip.setAttribute('aria-label', item.title + (isMultiDay ? '（締切日）' : ''));
 
       var text = document.createElement('span');
       text.className = 'task-calendar__chip-text task-cal-chip-text';
       text.textContent = item.title;
       chip.appendChild(text);
+    } else if (isStart) {
+      // 開始日（はじまり）：開始アクセントバー
+      chip.title = item.title + ' (開始日 / はじまり: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
+      chip.setAttribute('aria-label', item.title + '（開始日）');
     } else {
-      // 開始日〜締切日前日：タスク名は表示せず色付きバーのみ
-      chip.title = item.title + ' (期間: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
+      // 開始日〜締切日の中間日：帯状バー
+      chip.title = item.title + ' (期間中: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
       chip.setAttribute('aria-label', item.title + '（期間中）');
     }
 
