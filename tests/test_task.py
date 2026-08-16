@@ -530,7 +530,7 @@ def test_task_calendar_span_assets(test_client: TestClient):
     ):
         assert keyword in js_content
 
-    # 3. 16-task-board.css に期間バー（is-span-bar, is-span-start/mid/end）のスタイルが定義されていること
+    # 3. 16-task-board.css に期間バー（is-span-bar, is-span-start/mid/end）のスタイルおよび開始・終了の線色分けが定義されていること
     css_path = Path("static/css/16-task-board.css")
     assert css_path.exists()
     css_content = css_path.read_text(encoding="utf-8")
@@ -540,5 +540,17 @@ def test_task_calendar_span_assets(test_client: TestClient):
         ".task-calendar__chip.is-span-mid",
         ".task-calendar__chip.is-span-end",
         ".task-calendar__chip.is-single",
+        "--task-span-start",
+        "--task-span-end-todo",
+        "--task-span-end-doing",
+        "--task-span-end-done",
+        "--task-span-end-overdue",
     ):
         assert css_class in css_content
+
+    # 開始（is-span-start）に左アクセント線、終了（is-span-end）に右アクセント線が設定されていること
+    assert "border-left: 3.5px solid var(--task-span-start" in css_content
+    assert "border-right: 3.5px solid var(--task-span-end-todo" in css_content
+    assert ".task-calendar__chip.is-span-end.is-doing" in css_content
+    assert ".task-calendar__chip.is-span-end.is-done" in css_content
+    assert ".task-calendar__chip.is-span-end.is-overdue" in css_content
