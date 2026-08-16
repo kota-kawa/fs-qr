@@ -425,9 +425,9 @@
 
 /* ── Quick Add / 追加バー（最大幅を決めて横長になりすぎないようにする） ── */
 .task-quick-add-form {
-  flex: 1 1 320px;
+  flex: 1 1 420px;
   min-width: 0;
-  max-width: 520px;
+  max-width: 640px;
 }
 
 .task-quick-add-bar {
@@ -450,9 +450,9 @@
 .task-quick-add-input-wrap {
   display: flex;
   align-items: center;
-  flex: 1 1 auto;
+  flex: 1 1 110px;
   gap: 0.6rem;
-  min-width: 0;
+  min-width: 90px;
 }
 
 .task-quick-add-icon {
@@ -481,6 +481,58 @@
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+}
+
+/* 日付入力（開始日・期限日）。ネイティブ input[type=date] にモダンな見た目を与え、
+   固定サイズにすることでタイトル入力欄が押し潰されないようにする。
+   Date inputs: give native input[type=date] a modern look and a fixed compact
+   size so the title field never gets squeezed to zero width. */
+.task-input {
+  padding: 0.42rem 0.7rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-input:hover {
+  border-color: var(--task-accent);
+}
+
+.task-input:focus-visible {
+  outline: none;
+  border-color: var(--task-accent);
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-date-input {
+  flex-shrink: 1;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+  color-scheme: light;
+}
+
+.task-date-input::-webkit-calendar-picker-indicator {
+  padding: 0;
+  margin-left: 0.3rem;
+  cursor: pointer;
+  opacity: 0.65;
+  filter: invert(48%) sepia(85%) saturate(1000%) hue-rotate(1deg) brightness(97%);
+}
+
+.task-date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.task-input--compact {
+  width: 8.4rem;
+  padding: 0.38rem 0.55rem;
+  font-size: 0.78rem;
 }
 
 .task-select-wrapper {
