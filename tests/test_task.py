@@ -549,8 +549,67 @@ def test_task_calendar_span_assets(test_client: TestClient):
         assert css_class in css_content
 
     # 開始（is-span-start）に左アクセント線、終了（is-span-end）に右アクセント線が設定されていること
-    assert "border-left: 3.5px solid var(--task-span-start" in css_content
-    assert "border-right: 3.5px solid var(--task-span-end-todo" in css_content
+    assert "border-left: 3.5px solid var(--task-item-color" in css_content
+    assert "border-right: 3.5px solid var(--task-item-color" in css_content
     assert ".task-calendar__chip.is-span-end.is-doing" in css_content
     assert ".task-calendar__chip.is-span-end.is-done" in css_content
     assert ".task-calendar__chip.is-span-end.is-overdue" in css_content
+
+
+def test_task_calendar_item_color(test_client: TestClient):
+    """カレンダーチップにタスク固有識別色が適用されること（TASK_PALETTE・CSS変数・chevron）。"""
+    from pathlib import Path
+
+    cal_js_path = Path("static/js/task_board/calendar.js")
+    assert cal_js_path.exists()
+    js_content = cal_js_path.read_text(encoding="utf-8")
+
+    # 1. TASK_PALETTE 配列が定義されていること（12色）
+    assert "TASK_PALETTE" in js_content
+    # 12色のうち代表色が含まれること
+    for color in ("#2563eb", "#059669", "#dc2626", "#9333ea"):
+        assert color in js_content
+
+    # 2. taskColor() ヘルパー関数が実装されていること
+    assert "function taskColor(" in js_content
+    assert "item_id" in js_content
+    assert "TASK_PALETTE.length" in js_content
+
+    # 3. createChip() で --task-item-color CSS変数が設定されること
+    assert "--task-item-color" in js_content
+    assert "style.setProperty" in js_content
+    assert "taskColor(item)" in js_content
+
+    css_path = Path("static/css/16-task-board.css")
+    assert css_path.exists()
+    css_content = css_path.read_text(encoding="utf-8")
+
+    # 4. CSS側で --task-item-color 変数が各スパン要素のボーダー・背景に使われていること
+    assert "var(--task-item-color" in css_content
+    assert "border-left: 3px solid var(--task-item-color" in css_content
+    assert "border-left: 3.5px solid var(--task-item-color" in css_content
+    assert "border-right: 3.5px solid var(--task-item-color" in css_content
+
+    # 5. done状態が opacity フェードで表現されること
+    assert "opacity: 0.65" in css_content
+
+    # 6. overdue状態が赤系強調（!important 付き）で上書きされること
+    assert "var(--task-high) !important" in css_content
+
+    # 7. chevron 形状（clip-path polygon）が各スパン要素に適用されていること
+    assert "clip-path: polygon" in css_content
+    # is-span-start の右端 chevron
+    assert "calc(100% - 8px) 0, 100% 50%" in css_content
+    # is-span-mid の両端 chevron（平行四辺形）
+    assert "8px 100%, 0 50%)" in css_content
+    # is-span-end の左端くぼみ
+    assert "8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%)" in css_content
+
+    # 8. 週境界（土曜・日曜）でのchevronリセット処理が存在すること
+    assert (
+        ".task-calendar__cell.is-sunday .task-calendar__chip.is-span-mid" in css_content
+    )
+    assert (
+        ".task-calendar__cell.is-saturday .task-calendar__chip.is-span-start"
+        in css_content
+    )

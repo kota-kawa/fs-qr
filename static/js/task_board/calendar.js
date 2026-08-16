@@ -10,6 +10,37 @@
   var MAX_CHIPS = 3;
   var WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
 
+  /**
+   * Task identity color palette (N=12).
+   * item_id % N でインデックスを決定し、毎回同じタスクに同じ色を割り当てる。
+   * Deterministic per-task color: index = item_id % TASK_PALETTE.length
+   */
+  var TASK_PALETTE = [
+    '#2563eb', // blue-600
+    '#0891b2', // cyan-600
+    '#059669', // emerald-600
+    '#65a30d', // lime-600
+    '#ca8a04', // yellow-600
+    '#ea580c', // orange-600
+    '#dc2626', // red-600
+    '#9333ea', // purple-600
+    '#db2777', // pink-600
+    '#0284c7', // sky-600
+    '#16a34a', // green-600
+    '#d97706'  // amber-600
+  ];
+
+  /**
+   * Return the deterministic identity color for a task item.
+   * タスク固有の識別色を返す（item_id % N でパレットから選択）。
+   * @param {Object} item - Task item with item_id
+   * @returns {string} CSS color string
+   */
+  function taskColor(item) {
+    var id = Number(item && item.item_id) || 0;
+    return TASK_PALETTE[id % TASK_PALETTE.length];
+  }
+
   var state = {
     year: 0,
     month: 0, // 0-11
@@ -183,6 +214,10 @@
     chip.className = ['task-calendar__chip', 'task-cal-chip', stateClass, spanClass]
       .filter(Boolean)
       .join(' ');
+
+    // タスク固有色を CSS 変数として設定する（item_id % N でパレットから決定）
+    // Set the per-task identity color as a CSS custom property on the chip element
+    chip.style.setProperty('--task-item-color', taskColor(item));
 
     if (isDue) {
       // 締切日または単日タスク：タスク名を表示
