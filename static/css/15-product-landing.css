@@ -1007,45 +1007,6 @@ body.product-lp {
   background: var(--lp-accent);
 }
 
-.lp-device-bridge {
-  position: absolute;
-  right: 42px;
-  bottom: 52px;
-  left: 42px;
-  display: flex;
-  height: 190px;
-  align-items: center;
-  justify-content: center;
-  gap: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.lp-device {
-  display: block;
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.lp-device--desktop {
-  width: 104px;
-  height: 70px;
-  border-radius: 7px;
-  box-shadow: 0 11px 0 -8px rgba(255, 255, 255, 0.7);
-}
-
-.lp-device--phone {
-  width: 45px;
-  height: 80px;
-  border-radius: 9px;
-}
-
-.lp-device-bridge__flow {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 13px;
-}
-
 /* Group room mockup / Groupルーム画面モック */
 .lp-room-mockup {
   overflow: hidden;
@@ -2830,34 +2791,16 @@ body.product-lp {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.product-lp--fsqr .lp-device-bridge {
+.product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
   top: 42px;
   right: 42px;
   bottom: 42px;
   left: auto;
   width: 45%;
   height: auto;
+  padding: 0;
+  overflow: hidden;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.product-lp--fsqr .lp-device-bridge__flow {
-  position: relative;
-  width: 46px;
-  height: 0;
-  border-top: 1.5px dashed rgba(255, 255, 255, 0.5);
-}
-
-.product-lp--fsqr .lp-device-bridge__flow::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  right: -1px;
-  width: 7px;
-  height: 7px;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.6);
-  border-right: 1.5px solid rgba(255, 255, 255, 0.6);
-  transform: rotate(45deg);
 }
 
 /* Use cases / 日常の場面を読み物のようなカードで見せる */
@@ -3010,7 +2953,7 @@ body.product-lp {
     max-width: none;
   }
 
-  .product-lp--fsqr .lp-device-bridge {
+  .product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
     top: auto;
     right: 30px;
     bottom: 30px;

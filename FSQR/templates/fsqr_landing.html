@@ -360,12 +360,20 @@
                 <path d="M11 20l-4-4 4-4"/>
               </svg>
             </div>
-            <h3>端末をまたいで、QRコードで受け渡し</h3>
-            <p>PCで発行したQRコードをスマートフォンで読み取るなど、端末間のファイル移動にも利用できます。</p>
-            <div class="lp-device-bridge" aria-hidden="true">
-              <span class="lp-device lp-device--desktop"></span>
-              <span class="lp-device-bridge__flow"></span>
-              <span class="lp-device lp-device--phone"></span>
+            <h3>実際の画面で見る、QRコードで受け渡し</h3>
+            <p>クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを、実際の操作画面をそのまま録画しました。</p>
+            <div class="lp-feature-card__demo">
+              <video
+                class="lp-feature-card__video"
+                muted
+                loop
+                playsinline
+                controls
+                preload="metadata"
+                poster="{{ staticfile('images/product-landing-pages/fsqr-demo/fsqr-demo-04-receive.jpg') }}"
+                aria-label="クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画">
+                <source src="{{ staticfile('videos/product-landing-pages/fsqr-demo.webm') }}" type="video/webm">
+              </video>
             </div>
           </article>
           <article class="lp-card lp-feature-card">
