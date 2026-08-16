@@ -164,10 +164,9 @@
                             <label for="retention" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">自動削除までの期間</label>
                             <div class="retention-select-wrapper retention-select-wrapper--amber" data-retention-select>
                                 <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
-                                    <option value="1">1時間</option>
-                                    <option value="6">6時間</option>
-                                    <option value="12">12時間</option>
-                                    <option value="24" selected>24時間（デフォルト）</option>
+                                    <option value="24" selected>1日（デフォルト）</option>
+                                    <option value="168">1週間</option>
+                                    <option value="720">1か月</option>
                                 </select>
                                 <span class="retention-select-arrow" aria-hidden="true">
                                     <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

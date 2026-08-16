@@ -81,6 +81,60 @@ def test_create_task_room_returns_room_credentials_for_fetch(test_client: TestCl
     create_room.assert_awaited_once_with("abc123", "000042", "abc123", 24)
 
 
+def test_create_task_room_accepts_one_month_retention(test_client: TestClient):
+    """Task は1日・1週間・1か月の保存期間を選択できる（Groupより長期に対応）。"""
+    create_room = AsyncMock()
+    with (
+        patch("Task.task_routes_room.generate_room_password", return_value="000042"),
+        patch(
+            "Task.task_routes_room.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch("Task.task_routes_room.task_data.create_room", create_room),
+        patch(
+            "Task.task_routes_room.create_share_link",
+            new_callable=AsyncMock,
+            return_value="task-share-token",
+        ),
+    ):
+        response = test_client.post(
+            "/create_task_room",
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 720},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    create_room.assert_awaited_once_with("abc123", "000042", "abc123", 720)
+
+
+def test_create_task_room_rejects_legacy_short_retention(test_client: TestClient):
+    """Group専用の旧選択肢（6時間・12時間）はTaskでは1日にフォールバックする。"""
+    create_room = AsyncMock()
+    with (
+        patch("Task.task_routes_room.generate_room_password", return_value="000042"),
+        patch(
+            "Task.task_routes_room.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch("Task.task_routes_room.task_data.create_room", create_room),
+        patch(
+            "Task.task_routes_room.create_share_link",
+            new_callable=AsyncMock,
+            return_value="task-share-token",
+        ),
+    ):
+        response = test_client.post(
+            "/create_task_room",
+            data={"id": "abc123", "idMode": "manual", "retention_hours": 12},
+            headers={"X-Requested-With": "fetch", "Accept": "application/json"},
+        )
+
+    assert response.status_code == 200
+    create_room.assert_awaited_once_with("abc123", "000042", "abc123", 24)
+
+
 def test_task_share_entry_rejects_invalid_token(test_client: TestClient):
     with (
         patch(

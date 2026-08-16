@@ -55,7 +55,7 @@
               <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
             </svg>
             <span class="task-room-details__title">共有・ルーム情報</span>
-            <span class="task-room-details__hint">ルームID {{ room_id }} ／ {{ retention_hours }}時間後に自動削除</span>
+            <span class="task-room-details__hint">ルームID {{ room_id }} ／ {{ retention_hours | retention_label }}後に自動削除</span>
           </summary>
 
           <div class="task-room-details__body">
@@ -110,9 +110,9 @@
                     <span class="room-info-label">削除予定日</span>
                     <span class="room-info-value">
                       {% if deletion_date %}
-                        {{ deletion_date }} （{{ retention_hours }}時間後）
+                        {{ deletion_date }} （{{ retention_hours | retention_label }}後）
                       {% else %}
-                        {{ retention_hours }}時間後に自動削除
+                        {{ retention_hours | retention_label }}後に自動削除
                       {% endif %}
                     </span>
                   </div>

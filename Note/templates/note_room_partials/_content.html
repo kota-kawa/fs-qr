@@ -64,9 +64,9 @@
                             <span class="room-info-label">削除予定日</span>
                             <span class="room-info-value">
                                 {% if deletion_date %}
-                                    {{ deletion_date }} （{{ retention_hours }}時間後）
+                                    {{ deletion_date }} （{{ retention_hours | retention_label }}後）
                                 {% else %}
-                                    {{ retention_hours }}時間後に自動削除
+                                    {{ retention_hours | retention_label }}後に自動削除
                                 {% endif %}
                             </span>
                         </div>

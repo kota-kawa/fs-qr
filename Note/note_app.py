@@ -10,7 +10,7 @@ from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
 from i18n import is_language_query_only
-from models import RoomCreateInput
+from models import NoteTaskRoomCreateInput
 from rate_limit import (
     SCOPE_NOTE,
     check_rate_limit,
@@ -197,7 +197,7 @@ async def create_note_room(request: Request):  # noqa: C901
         )
 
     try:
-        inp = RoomCreateInput(
+        inp = NoteTaskRoomCreateInput(
             id=raw_id, id_mode=raw_id_mode, retention_hours=raw_retention
         )
     except ValidationError:

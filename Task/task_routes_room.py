@@ -11,7 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 
 from api_response import api_error_response, api_ok_response
-from models import RoomCreateInput
+from models import NoteTaskRoomCreateInput, RoomCreateInput
 from rate_limit import (
     SCOPE_TASK,
     check_rate_limit,
@@ -168,7 +168,7 @@ def register_task_create_room_route(router: APIRouter) -> None:
             else json_data.get("retention_hours")
         ) or 24
         try:
-            inp = RoomCreateInput(
+            inp = NoteTaskRoomCreateInput(
                 id=raw_id, id_mode=raw_mode, retention_hours=raw_retention
             )
             room_id = (

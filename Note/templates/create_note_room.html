@@ -305,10 +305,9 @@
                   <label class="form-label" for="retention">自動削除までの期間</label>
                   <div class="retention-select-wrapper retention-select-wrapper--citrus" data-retention-select>
                       <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
-                          <option value="1">{% if current_language == 'ja' %}1時間{% else %}1h{% endif %}</option>
-                          <option value="6">{% if current_language == 'ja' %}6時間{% else %}6h{% endif %}</option>
-                          <option value="12">{% if current_language == 'ja' %}12時間{% else %}12h{% endif %}</option>
-                          <option value="24" selected>{% if current_language == 'ja' %}24時間（デフォルト）{% else %}24h (default){% endif %}</option>
+                          <option value="24" selected>{% if current_language == 'ja' %}1日（デフォルト）{% else %}1 day (default){% endif %}</option>
+                          <option value="168">{% if current_language == 'ja' %}1週間{% else %}1 week{% endif %}</option>
+                          <option value="720">{% if current_language == 'ja' %}1か月{% else %}1 month{% endif %}</option>
                       </select>
                       <span class="retention-select-arrow" aria-hidden="true">
                           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
