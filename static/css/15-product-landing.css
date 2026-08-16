@@ -43,6 +43,8 @@
   --lp-accent-soft: #fef3c7;
   --lp-accent-rgb: 180, 83, 9;
   --lp-secondary: #0f766e;
+  --lp-shadow-sm: 0 8px 22px rgba(41, 37, 36, 0.08);
+  --lp-shadow-lg: 0 24px 60px rgba(41, 37, 36, 0.13);
 }
 
 *,
@@ -3121,7 +3123,7 @@ body.product-lp {
 }
 
 /* ================================================================
-   Note & Group landing refinements / Note・Group LP の意匠調整
+   Note, Group & Task landing refinements / Note・Group・Task LP の意匠調整
    生成イラストを概念説明として残し、実利用UIの図解と編集的なレイアウトで
    各サービスの用途と操作を具体的に伝える。
    ================================================================ */
@@ -3198,13 +3200,17 @@ body.product-lp {
 .product-lp--note h3,
 .product-lp--group h1,
 .product-lp--group h2,
-.product-lp--group h3 {
+.product-lp--group h3,
+.product-lp--task h1,
+.product-lp--task h2,
+.product-lp--task h3 {
   letter-spacing: -0.025em;
   line-height: 1.35;
 }
 
 .product-lp--note .lp-hero h1,
-.product-lp--group .lp-hero h1 {
+.product-lp--group .lp-hero h1,
+.product-lp--task .lp-hero h1 {
   max-width: 10em;
   margin-bottom: 26px;
   font-size: clamp(42px, 4.8vw, 64px);
@@ -3214,14 +3220,16 @@ body.product-lp {
 }
 
 .product-lp--note .lp-section__title,
-.product-lp--group .lp-section__title {
+.product-lp--group .lp-section__title,
+.product-lp--task .lp-section__title {
   font-size: clamp(29px, 3.4vw, 43px);
   font-weight: 760;
   line-height: 1.38;
 }
 
 .product-lp--note .lp-card h3,
-.product-lp--group .lp-card h3 {
+.product-lp--group .lp-card h3,
+.product-lp--task .lp-card h3 {
   font-size: 20px;
   line-height: 1.45;
 }
@@ -3231,7 +3239,10 @@ body.product-lp {
 .product-lp--note .lp-final-cta h2,
 .product-lp--group .lp-hero h1,
 .product-lp--group .lp-section__title,
-.product-lp--group .lp-final-cta h2 {
+.product-lp--group .lp-final-cta h2,
+.product-lp--task .lp-hero h1,
+.product-lp--task .lp-section__title,
+.product-lp--task .lp-final-cta h2 {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
@@ -3240,7 +3251,9 @@ body.product-lp {
 .product-lp--note .lp-section__eyebrow,
 .product-lp--note .lp-use-case-card__tag,
 .product-lp--group .lp-section__eyebrow,
-.product-lp--group .lp-use-card__tag {
+.product-lp--group .lp-use-card__tag,
+.product-lp--task .lp-section__eyebrow,
+.product-lp--task .lp-use-card__tag {
   display: inline-flex;
   align-items: center;
   gap: 11px;
@@ -3251,7 +3264,9 @@ body.product-lp {
 .product-lp--note .lp-section__eyebrow::before,
 .product-lp--note .lp-use-case-card__tag::before,
 .product-lp--group .lp-section__eyebrow::before,
-.product-lp--group .lp-use-card__tag::before {
+.product-lp--group .lp-use-card__tag::before,
+.product-lp--task .lp-section__eyebrow::before,
+.product-lp--task .lp-use-card__tag::before {
   content: "";
   flex: 0 0 auto;
   width: 24px;
@@ -3518,7 +3533,8 @@ body.product-lp {
 
 /* Use cases / 抽象装飾を減らし、用途の文章を主役にする */
 .product-lp--note #use-cases,
-.product-lp--group #use-cases {
+.product-lp--group #use-cases,
+.product-lp--task #use-cases {
   background: #fff;
 }
 
@@ -3540,13 +3556,21 @@ body.product-lp {
   transform: translateY(-2px);
 }
 
-.product-lp--group .lp-use-card {
+.product-lp--group .lp-use-card,
+.product-lp--task .lp-use-card {
   min-height: 230px;
   border-left: 3px solid var(--lp-accent);
 }
 
-.product-lp--group .lp-use-card__content {
+.product-lp--group .lp-use-card__content,
+.product-lp--task .lp-use-card__content {
   padding: 30px;
+}
+
+.product-lp--group .lp-use-card:hover,
+.product-lp--task .lp-use-card:hover {
+  box-shadow: var(--lp-shadow-sm);
+  transform: translateY(-2px);
 }
 
 /* FAQ, CTA and footer / 質問と行動導線に集中させる */
