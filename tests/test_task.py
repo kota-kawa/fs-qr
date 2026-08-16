@@ -344,6 +344,11 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
     ):
         assert marker in body
 
+    # 進捗・共有・操作は1つのコンソールへ集約されている
+    assert '<section class="task-console"' in body
+    assert '<div class="task-console__overview">' in body
+    assert '<div class="task-console__controls">' in body
+
     # 共有情報は折りたたみ、ボードが先に見える構成
     assert '<details class="task-room-details" id="taskRoomDetails">' in body
     assert '<summary class="task-room-details__summary">' in body
@@ -396,6 +401,8 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
         "columns.js",
         "editor.js",
         "dnd.js",
+        "calendar.js",
+        "views.js",
         "main.js",
     ]
     namespace_position = body.index("js/shared/app-namespace.js")
@@ -403,3 +410,42 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     positions = [body.index(f"js/task_board/{name}") for name in modules]
     assert namespace_position < config_position < positions[0]
     assert positions == sorted(positions)
+
+
+def test_task_board_page_renders_calendar_view(test_client: TestClient):
+    """ボード表示とカレンダー表示を切り替えるUIが描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 表示切り替えのセグメント
+    assert 'data-view-switch="board"' in body
+    assert 'data-view-switch="calendar"' in body
+
+    # カレンダー本体は初期状態では非表示
+    assert '<section class="task-calendar" id="taskCalendar"' in body
+    assert 'id="taskCalendar" aria-label="カレンダー表示" hidden' in body
+
+    # 月移動・選択日パネル・期限なしパネル
+    for marker in (
+        'data-calendar-nav="-1"',
+        'data-calendar-nav="1"',
+        'id="taskCalendarToday"',
+        'id="taskCalendarGrid"',
+        'id="taskCalendarDayList"',
+        'id="taskCalendarAdd"',
+        'id="taskCalendarBacklogList"',
+    ):
+        assert marker in body

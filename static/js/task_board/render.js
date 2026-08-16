@@ -239,7 +239,9 @@
 
     if (percent) percent.textContent = stats.percent + '%';
     if (count) count.textContent = stats.done + ' / ' + stats.total + ' 完了';
-    if (fill) fill.style.width = stats.percent + '%';
+    // The ring uses pathLength="100", so the offset is simply the remaining %.
+    // リングは pathLength="100" なので、残り割合をそのままオフセットにできる。
+    if (fill) fill.style.strokeDashoffset = String(100 - stats.percent);
     if (bar) {
       bar.setAttribute('aria-valuenow', String(stats.percent));
       bar.classList.toggle('is-complete', stats.total > 0 && stats.done === stats.total);
@@ -287,6 +289,11 @@
     var memo = rememberFocus();
     var visible = filtered(items);
     var filtering = modules.filters && modules.filters.hasActiveFilters();
+
+    // The calendar shares the same filtered set. / カレンダーも同じ絞り込み結果を使う。
+    if (modules.calendar) {
+      modules.calendar.render(visible);
+    }
 
     statuses.forEach(function (status) {
       var list = document.querySelector('[data-list-for="' + status + '"]');

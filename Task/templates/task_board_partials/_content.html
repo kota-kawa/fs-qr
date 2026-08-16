@@ -19,167 +19,180 @@
       <div id="taskLiveRegion" class="sr-only" role="status" aria-live="polite"></div>
       <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
 
-      <!-- Progress summary / 進捗サマリー -->
-      <section class="task-summary" aria-label="ボードの進捗">
-        <div class="task-summary__progress">
-          <div class="task-summary__progress-head">
-            <span class="task-summary__progress-label">全体の進捗</span>
-            <span class="task-summary__progress-value">
-              <strong id="taskProgressPercent">0%</strong>
-              <span id="taskProgressCount">0 / 0 完了</span>
+      <!-- Board console / 進捗・共有・操作を1か所へ集約したコントロールバー -->
+      <section class="task-console" aria-label="ボードの操作">
+        <!-- Overview row / 進捗と共有 -->
+        <div class="task-console__overview">
+          <div class="task-progress" id="taskProgressBar" role="progressbar"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="完了率">
+            <span class="task-progress__ring">
+              <svg viewBox="0 0 40 40" aria-hidden="true">
+                <circle class="task-progress__ring-track" cx="20" cy="20" r="16" pathLength="100"></circle>
+                <circle class="task-progress__ring-value" id="taskProgressFill" cx="20" cy="20" r="16" pathLength="100"></circle>
+              </svg>
+              <span class="task-progress__percent" id="taskProgressPercent">0%</span>
+            </span>
+            <span class="task-progress__meta">
+              <span class="task-progress__label">全体の進捗</span>
+              <span class="task-progress__count" id="taskProgressCount">0 / 0 完了</span>
             </span>
           </div>
-          <div class="task-progress-track" id="taskProgressBar" role="progressbar"
-               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="完了率">
-            <span class="task-progress-fill" id="taskProgressFill"></span>
+
+          <div class="task-summary__chips" id="taskSummaryChips">
+            <button type="button" class="task-stat-chip is-overdue" data-due-filter="overdue" aria-pressed="false" hidden>
+              期限切れ <strong data-stat="overdue">0</strong>
+            </button>
+            <button type="button" class="task-stat-chip is-today" data-due-filter="today" aria-pressed="false" hidden>
+              今日まで <strong data-stat="today">0</strong>
+            </button>
+            <button type="button" class="task-stat-chip is-week" data-due-filter="week" aria-pressed="false" hidden>
+              今週 <strong data-stat="week">0</strong>
+            </button>
           </div>
-        </div>
-        <div class="task-summary__chips" id="taskSummaryChips">
-          <button type="button" class="task-stat-chip is-overdue" data-due-filter="overdue" aria-pressed="false" hidden>
-            期限切れ <strong data-stat="overdue">0</strong>
-          </button>
-          <button type="button" class="task-stat-chip is-today" data-due-filter="today" aria-pressed="false" hidden>
-            今日まで <strong data-stat="today">0</strong>
-          </button>
-          <button type="button" class="task-stat-chip is-week" data-due-filter="week" aria-pressed="false" hidden>
-            今週 <strong data-stat="week">0</strong>
-          </button>
-        </div>
-      </section>
 
-      <!-- Room info / 共有・ルーム情報（初期状態は折りたたみ） -->
-      <div class="task-room-row">
-        <details class="task-room-details" id="taskRoomDetails">
-          <summary class="task-room-details__summary">
-            <svg class="task-room-details__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <span class="task-room-details__title">共有・ルーム情報</span>
-            <span class="task-room-details__hint">ルームID {{ room_id }} ／ {{ retention_hours | retention_label }}後に自動削除</span>
-          </summary>
+          <span class="task-console__spacer" aria-hidden="true"></span>
 
-          <div class="task-room-details__body">
-            <div class="room-info-container task-room-info">
-              <div class="room-info-card">
-                <div class="room-info-header">
-                  <span class="room-info-header-title">Room情報</span>
-                  <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" aria-label="このボードを共有する" title="共有">
-                    {{ icons.icon('arrow_up', size='md') }}
-                  </button>
-                </div>
-                <div class="room-info-body">
-                  <div class="room-info-row">
-                    <span class="room-info-label">ルームID</span>
-                    <span class="room-info-value">
-                      <span class="room-info-value-row">
-                        <span class="room-info-value-text" id="taskRoomIdText">{{ room_id }}</span>
-                        <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー" title="コピー">
-                          <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
-                          <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </button>
-                      </span>
-                    </span>
+          <button type="button" class="task-share-quick share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" title="このボードを共有する">
+            {{ icons.icon('arrow_up', size='sm') }}<span class="task-share-quick__label">共有</span>
+          </button>
+
+          <!-- Room info / 共有・ルーム情報（初期状態は折りたたみ） -->
+          <details class="task-room-details" id="taskRoomDetails">
+            <summary class="task-room-details__summary">
+              <svg class="task-room-details__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+              <span class="task-room-details__title">共有・ルーム情報</span>
+            </summary>
+
+            <div class="task-room-details__body">
+              <div class="room-info-container task-room-info">
+                <div class="room-info-card">
+                  <div class="room-info-header">
+                    <span class="room-info-header-title">Room情報</span>
+                    <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" aria-label="このボードを共有する" title="共有">
+                      {{ icons.icon('arrow_up', size='md') }}
+                    </button>
                   </div>
-                  {% if password %}
-                  <div class="room-info-row">
-                    <span class="room-info-label">パスワード</span>
-                    <span class="room-info-value">
-                      <span class="room-info-value-row">
-                        <span class="room-info-value-text">{{ password }}</span>
-                        <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー" title="コピー">
-                          <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
-                          <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </button>
+                  <div class="room-info-body">
+                    <div class="room-info-row">
+                      <span class="room-info-label">ルームID</span>
+                      <span class="room-info-value">
+                        <span class="room-info-value-row">
+                          <span class="room-info-value-text" id="taskRoomIdText">{{ room_id }}</span>
+                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー" title="コピー">
+                            <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                          </button>
+                        </span>
                       </span>
-                    </span>
+                    </div>
+                    {% if password %}
+                    <div class="room-info-row">
+                      <span class="room-info-label">パスワード</span>
+                      <span class="room-info-value">
+                        <span class="room-info-value-row">
+                          <span class="room-info-value-text">{{ password }}</span>
+                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー" title="コピー">
+                            <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                          </button>
+                        </span>
+                      </span>
+                    </div>
+                    {% endif %}
+                    <div class="room-info-row">
+                      <span class="room-info-label">共有URL</span>
+                      <span class="room-info-value">
+                        <span class="room-info-value-row">
+                          <span class="room-info-url-text" id="taskShareUrlText">{{ share_url }}</span>
+                          <button type="button" class="copy-inline-btn copy-url-button" id="taskCopyShare" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="共有URLをコピー" title="コピー">
+                            <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                          </button>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="room-info-row">
+                      <span class="room-info-label">削除予定日</span>
+                      <span class="room-info-value">
+                        {% if deletion_date %}
+                          {{ deletion_date }} （{{ retention_hours | retention_label }}後）
+                        {% else %}
+                          {{ retention_hours | retention_label }}後に自動削除
+                        {% endif %}
+                      </span>
+                    </div>
+                  </div>
+                  {% if can_delete %}
+                  <div class="owner-delete-panel task-owner-delete">
+                    <div class="owner-delete-copy">
+                      <span class="owner-delete-title">ボードを削除</span>
+                      <span class="owner-delete-description">作成者のみ削除可能。すべてのタスクが消去されます。</span>
+                    </div>
+                    <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？" data-confirm-title="タスクボードの削除" data-confirm-label="削除する">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <button class="modern-btn modern-btn-danger" type="submit">
+                        {{ icons.icon('trash', size='md', with_text=True) }}削除
+                      </button>
+                    </form>
                   </div>
                   {% endif %}
-                  <div class="room-info-row">
-                    <span class="room-info-label">共有URL</span>
-                    <span class="room-info-value">
-                      <span class="room-info-value-row">
-                        <span class="room-info-url-text" id="taskShareUrlText">{{ share_url }}</span>
-                        <button type="button" class="copy-inline-btn copy-url-button" id="taskCopyShare" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="共有URLをコピー" title="コピー">
-                          <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
-                          <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </button>
-                      </span>
-                    </span>
-                  </div>
-                  <div class="room-info-row">
-                    <span class="room-info-label">削除予定日</span>
-                    <span class="room-info-value">
-                      {% if deletion_date %}
-                        {{ deletion_date }} （{{ retention_hours | retention_label }}後）
-                      {% else %}
-                        {{ retention_hours | retention_label }}後に自動削除
-                      {% endif %}
-                    </span>
-                  </div>
                 </div>
-                {% if can_delete %}
-                <div class="owner-delete-panel task-owner-delete">
-                  <div class="owner-delete-copy">
-                    <span class="owner-delete-title">ボードを削除</span>
-                    <span class="owner-delete-description">作成者のみ削除可能。すべてのタスクが消去されます。</span>
-                  </div>
-                  <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？" data-confirm-title="タスクボードの削除" data-confirm-label="削除する">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button class="modern-btn modern-btn-danger" type="submit">
-                      {{ icons.icon('trash', size='md', with_text=True) }}削除
-                    </button>
-                  </form>
-                </div>
-                {% endif %}
-              </div>
 
-              <div class="qr-code-container" id="taskShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
-                <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
+                <div class="qr-code-container" id="taskShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
+                  <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
+                </div>
               </div>
             </div>
+          </details>
+        </div>
+
+        <!-- Controls row / 表示切替・追加・絞り込み -->
+        <div class="task-console__controls">
+          <div class="task-view-switch" role="group" aria-label="タスクの表示方法">
+            <button type="button" class="task-view-switch__btn is-active" data-view-switch="board" aria-pressed="true" title="カードのボードで表示">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 4.5A1.5 1.5 0 014.5 3h2A1.5 1.5 0 018 4.5v11A1.5 1.5 0 016.5 17h-2A1.5 1.5 0 013 15.5v-11zm7 0A1.5 1.5 0 0111.5 3h4A1.5 1.5 0 0117 4.5v6a1.5 1.5 0 01-1.5 1.5h-4A1.5 1.5 0 0110 10.5v-6z"/></svg>
+              <span>ボード</span>
+            </button>
+            <button type="button" class="task-view-switch__btn" data-view-switch="calendar" aria-pressed="false" title="カレンダーで期限を確認">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a.75.75 0 01.75.75V4h6.5V2.75a.75.75 0 011.5 0V4h.75A2.5 2.5 0 0118 6.5v9A2.5 2.5 0 0115.5 18h-11A2.5 2.5 0 012 15.5v-9A2.5 2.5 0 014.5 4h.75V2.75A.75.75 0 016 2zM3.5 8v7.5c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V8h-13z" clip-rule="evenodd"/></svg>
+              <span>カレンダー</span>
+            </button>
           </div>
-        </details>
 
-        <button type="button" class="task-share-quick share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" title="このボードを共有する">
-          {{ icons.icon('arrow_up', size='sm') }}<span class="task-share-quick__label">共有</span>
-        </button>
-      </div>
-
-      <!-- Quick add & filters / 追加バーと絞り込み -->
-      <section class="task-board-toolbar" aria-label="タスク操作ツールバー">
-        <form id="taskCreateForm" class="task-quick-add-form" novalidate>
-          <div class="task-quick-add-bar">
-            <div class="task-quick-add-input-wrap">
-              <svg class="task-quick-add-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-              </svg>
-              <label for="taskTitle" class="sr-only">新しいタスク名</label>
-              <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを入力... (Enterで追加)" autocomplete="off">
+          <form id="taskCreateForm" class="task-quick-add-form" novalidate>
+            <div class="task-quick-add-bar">
+              <div class="task-quick-add-input-wrap">
+                <svg class="task-quick-add-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+                <label for="taskTitle" class="sr-only">新しいタスク名</label>
+                <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを追加 (Enter)" autocomplete="off">
+              </div>
+              <div class="task-quick-add-controls">
+                <select id="taskCreatePriority" class="task-select-pill task-select-pill--compact" aria-label="優先度" title="優先度">
+                  <option value="normal" selected>通常</option>
+                  <option value="high">高</option>
+                  <option value="low">低</option>
+                </select>
+                <button class="modern-btn task-btn task-btn--add" type="submit">
+                  {{ icons.icon('plus', size='sm', with_text=True) }}追加
+                </button>
+              </div>
             </div>
-            <div class="task-quick-add-controls">
-              <select id="taskCreatePriority" class="task-select-pill" aria-label="優先度">
-                <option value="normal" selected>通常</option>
-                <option value="high">優先: 高</option>
-                <option value="low">優先: 低</option>
-              </select>
-              <button class="modern-btn task-btn task-btn--add" type="submit">
-                {{ icons.icon('plus', size='sm', with_text=True) }}追加
-              </button>
-            </div>
-          </div>
-          <p id="taskCreateError" class="task-form-error" role="alert" hidden></p>
-        </form>
+          </form>
 
-        <div class="task-toolbar-row">
           <div class="task-search-pill">
             <svg class="task-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-            <input id="taskSearchInput" type="search" placeholder="タスク名・メモで絞り込み... (/)" aria-label="タスクを絞り込み">
+            <input id="taskSearchInput" type="search" placeholder="絞り込み (/)" aria-label="タスクを絞り込み">
             <button id="taskSearchClear" type="button" class="task-search-clear" aria-label="検索クリア" hidden>×</button>
           </div>
+
           <div class="task-toolbar-actions">
             <button id="taskFilterToggle" type="button" class="task-filter-toggle" aria-expanded="false" aria-controls="taskFilterPanel">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.628 4.5A.75.75 0 013.25 4h13.5a.75.75 0 01.55 1.26l-5.05 5.42v4.07a.75.75 0 01-1.09.67l-2.5-1.27a.75.75 0 01-.41-.67v-2.8L3.2 5.26a.75.75 0 01-.572-.76z" clip-rule="evenodd"/></svg>
-              <span>絞り込み</span>
+              <span class="task-filter-toggle__label">絞り込み</span>
               <span id="taskActiveFilterCount" class="task-active-filter-badge" hidden>0</span>
             </button>
             <button id="taskShortcutBtn" type="button" class="task-icon-btn" aria-label="キーボードショートカットを表示" title="キーボードショートカット (?)">
@@ -187,6 +200,8 @@
             </button>
           </div>
         </div>
+
+        <p id="taskCreateError" class="task-form-error" role="alert" hidden></p>
 
         <div class="task-filter-panel" id="taskFilterPanel" hidden>
           <label class="task-filter-field">
@@ -272,6 +287,57 @@
           </div>
         </section>
         {% endfor %}
+      </section>
+
+      <!-- Calendar view / カレンダー表示（期限日ベースでタスクを確認・管理する） -->
+      <section class="task-calendar" id="taskCalendar" aria-label="カレンダー表示" hidden>
+        <header class="task-calendar__bar">
+          <div class="task-calendar__nav">
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="-1" aria-label="前の月へ">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"/></svg>
+            </button>
+            <h2 class="task-calendar__label" id="taskCalendarLabel" aria-live="polite">-</h2>
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="1" aria-label="次の月へ">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
+            </button>
+            <button type="button" class="task-calendar__today" id="taskCalendarToday">今日</button>
+          </div>
+          <p class="task-calendar__hint">日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。</p>
+        </header>
+
+        <div class="task-calendar__weekdays" aria-hidden="true">
+          {% for weekday in ['日', '月', '火', '水', '木', '金', '土'] %}
+          <span class="task-calendar__weekday">{{ weekday }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="task-calendar__grid" id="taskCalendarGrid" role="grid" aria-labelledby="taskCalendarLabel">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="task-calendar__panels">
+          <section class="task-calendar__day" aria-label="選択した日のタスク">
+            <div class="task-calendar__day-head">
+              <h3 class="task-calendar__day-title" id="taskCalendarDayLabel">-</h3>
+              <button type="button" class="task-calendar__add" id="taskCalendarAdd">
+                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
+                この日に追加
+              </button>
+            </div>
+            <div class="task-calendar__day-list" id="taskCalendarDayList" role="list">
+              <!-- Rendered dynamically -->
+            </div>
+          </section>
+
+          <section class="task-calendar__backlog" aria-label="期限が未設定のタスク">
+            <div class="task-calendar__day-head">
+              <h3 class="task-calendar__day-title">期限なし <span class="task-calendar__backlog-count" id="taskCalendarBacklogCount">0</span></h3>
+            </div>
+            <div class="task-calendar__day-list" id="taskCalendarBacklogList" role="list">
+              <!-- Rendered dynamically -->
+            </div>
+          </section>
+        </div>
       </section>
     </div>
   </div>
@@ -374,6 +440,7 @@
   <dl class="task-help-list">
     <div><dt><kbd>N</kbd></dt><dd>新しいタスクの入力欄へ移動</dd></div>
     <div><dt><kbd>/</kbd></dt><dd>検索ボックスへ移動</dd></div>
+    <div><dt><kbd>V</kbd></dt><dd>ボード表示とカレンダー表示を切り替え</dd></div>
     <div><dt><kbd>?</kbd></dt><dd>このヘルプを開く</dd></div>
     <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>カード間を移動（カードにフォーカス時）</dd></div>
     <div><dt><kbd>Enter</kbd></dt><dd>フォーカス中のカードを編集</dd></div>
