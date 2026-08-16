@@ -192,6 +192,11 @@
           </div>
 
           <div class="task-toolbar-actions">
+            <button id="taskExportBtn" class="modern-btn task-btn-secondary" title="タスクをエクスポート">↓ エクスポート</button>
+            <label id="taskImportBtn" class="modern-btn task-btn-secondary" title="タスクをインポート" style="cursor:pointer">
+              ↑ インポート
+              <input type="file" id="taskImportInput" accept=".json" style="display:none">
+            </label>
             <button id="taskFilterToggle" type="button" class="task-filter-toggle" aria-expanded="false" aria-controls="taskFilterPanel">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.628 4.5A.75.75 0 013.25 4h13.5a.75.75 0 01.55 1.26l-5.05 5.42v4.07a.75.75 0 01-1.09.67l-2.5-1.27a.75.75 0 01-.41-.67v-2.8L3.2 5.26a.75.75 0 01-.572-.76z" clip-rule="evenodd"/></svg>
               <span class="task-filter-toggle__label">絞り込み</span>
