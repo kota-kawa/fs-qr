@@ -112,7 +112,7 @@
   function getItemSpan(item) {
     if (!item || !item.due_date) return null;
     var dueKey = String(item.due_date);
-    var startKey = item.created_at ? String(item.created_at).slice(0, 10) : dueKey;
+    var startKey = item.start_date ? String(item.start_date) : dueKey;
     if (startKey > dueKey) {
       startKey = dueKey;
     }

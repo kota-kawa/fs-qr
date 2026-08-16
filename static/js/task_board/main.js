@@ -60,6 +60,8 @@
     event.preventDefault();
     var input = document.getElementById('taskTitle');
     var prioritySelect = document.getElementById('taskCreatePriority');
+    var startDateInput = document.getElementById('taskCreateStartDate');
+    var dueDateInput = document.getElementById('taskCreateDueDate');
     var error = document.getElementById('taskCreateError');
     var title = input ? input.value.trim() : '';
 
@@ -72,6 +74,17 @@
       }
       return;
     }
+    
+    var start_date = startDateInput ? startDateInput.value || null : null;
+    var due_date = dueDateInput ? dueDateInput.value || null : null;
+
+    if (start_date && due_date && start_date > due_date) {
+      if (error) {
+        error.textContent = '開始日は期限日以前の日付を指定してください。';
+        error.hidden = false;
+      }
+      return;
+    }
 
     var button = event.currentTarget.querySelector('button[type="submit"]');
     if (button) button.disabled = true;
@@ -80,12 +93,16 @@
       await modules.actions.createItem({
         title: title,
         priority: prioritySelect ? prioritySelect.value : 'normal',
-        board_status: 'todo'
+        board_status: 'todo',
+        start_date: start_date,
+        due_date: due_date
       });
       if (input) {
         input.value = '';
         input.focus();
       }
+      if (startDateInput) startDateInput.value = '';
+      if (dueDateInput) dueDateInput.value = '';
       core.toast('タスクを追加しました。', 'success');
     } catch (err) {
       if (error) {

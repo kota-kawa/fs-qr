@@ -120,6 +120,7 @@ CREATE TABLE task_item (
     board_status VARCHAR(16) NOT NULL DEFAULT 'todo',
     priority VARCHAR(8) NOT NULL DEFAULT 'normal',
     category VARCHAR(40) NULL,
+    start_date DATE NULL,
     due_date DATE NULL,
     position INT NOT NULL DEFAULT 0,
     created_at DATETIME(6) NOT NULL,
