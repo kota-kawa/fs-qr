@@ -404,6 +404,7 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     modules = [
         "core.js",
         "store.js",
+        "select.js",
         "filters.js",
         "render.js",
         "menu.js",
@@ -420,6 +421,38 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
     positions = [body.index(f"js/task_board/{name}") for name in modules]
     assert namespace_position < config_position < positions[0]
     assert positions == sorted(positions)
+
+
+def test_task_board_page_renders_custom_dropdown_targets(test_client: TestClient):
+    """タスクボード内の6つのセレクト要素がカスタムドロップダウン対象として描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 対象の6つのドロップダウン要素が存在し、task-select-pill クラスを持つ
+    target_select_ids = (
+        "taskCreatePriority",
+        "taskCategoryFilter",
+        "taskPriorityFilter",
+        "taskDueFilter",
+        "taskSortSelect",
+        "taskEditorPriority",
+    )
+    for select_id in target_select_ids:
+        assert f'id="{select_id}"' in body
+        assert 'class="task-select-pill' in body
 
 
 def test_task_board_page_renders_calendar_view(test_client: TestClient):

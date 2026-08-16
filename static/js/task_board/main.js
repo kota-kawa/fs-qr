@@ -14,6 +14,7 @@
     if (dialog && dialog.open) return true;
     if (modules.dnd && modules.dnd.isDragging()) return true;
     if (modules.menu && modules.menu.isOpen()) return true;
+    if (modules.select && modules.select.isOpen()) return true;
     var inlineAdd = document.querySelector('.task-inline-add:not([hidden])');
     if (inlineAdd && inlineAdd.contains(document.activeElement)) return true;
     return false;
@@ -216,6 +217,9 @@
         if (modules.menu && modules.menu.isOpen()) {
           modules.menu.close();
         }
+        if (modules.select && modules.select.isOpen()) {
+          modules.select.closeAll();
+        }
         return;
       }
 
@@ -240,6 +244,9 @@
   }
 
   function init() {
+    if (modules.select) {
+      modules.select.init();
+    }
     modules.filters.init();
     modules.editor.init();
     modules.columns.init();

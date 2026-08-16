@@ -474,6 +474,13 @@
   flex-shrink: 0;
 }
 
+.task-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Fallback & Hidden native select styling / ネイティブセレクトのスタイルと非表示化 */
 .task-select-pill {
   padding: 0.45rem 0.75rem;
   border: 1px solid #cbd5e1;
@@ -499,6 +506,209 @@
   border-color: var(--task-accent);
   outline: none;
   box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-select-pill--hidden {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Custom Dropdown Trigger / トリガーボタン */
+.task-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.task-select-trigger:hover {
+  border-color: var(--task-accent, #f59e0b);
+  color: #1e293b;
+  background-color: #fffcf7;
+  box-shadow: 0 2px 6px -1px rgba(245, 158, 11, 0.18);
+}
+
+.task-select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--task-accent, #f59e0b);
+  box-shadow: 0 0 0 3px var(--task-ring, rgba(245, 158, 11, 0.28));
+}
+
+.task-select-wrapper.is-open {
+  z-index: 80;
+}
+
+.task-select-wrapper.is-open .task-select-trigger {
+  border-color: var(--task-accent, #f59e0b);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px var(--task-ring, rgba(245, 158, 11, 0.28));
+  color: #1e293b;
+}
+
+.task-select-wrapper--compact .task-select-trigger {
+  padding: 0.32rem 0.6rem;
+  font-size: 0.8rem;
+  gap: 0.35rem;
+}
+
+.task-select-trigger__label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-select-trigger__chevron {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
+}
+
+.task-select-wrapper.is-open .task-select-trigger__chevron {
+  transform: rotate(180deg);
+  color: var(--task-accent-strong, #b45309);
+}
+
+/* Floating Custom Menu Panel / 浮遊ドロップダウンメニュー */
+.task-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 280px;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 120;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top left;
+  transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.16s ease;
+}
+
+.task-select-wrapper.is-open .task-select-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.task-select-wrapper.is-dropup .task-select-menu {
+  top: auto;
+  bottom: calc(100% + 6px);
+  transform: translateY(6px) scale(0.97);
+  transform-origin: bottom left;
+}
+
+.task-select-wrapper.is-dropup.is-open .task-select-menu {
+  transform: translateY(0) scale(1);
+}
+
+/* Option item / オプション項目 */
+.task-select-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.14s ease, color 0.14s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.task-select-option + .task-select-option {
+  margin-top: 0.15rem;
+}
+
+.task-select-option.is-active,
+.task-select-option:hover {
+  background-color: #fff7ed;
+  color: #b45309;
+  font-weight: 600;
+}
+
+.task-select-option.is-selected {
+  background-color: #ffedd5;
+  color: #9a3412;
+  font-weight: 700;
+}
+
+.task-select-option.is-selected::after {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%239a3412'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.task-select-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Specific context styling / 特定の配置場所における調整 */
+.task-filter-field .task-select-wrapper {
+  width: 100%;
+}
+
+.task-filter-field .task-select-trigger {
+  width: 100%;
+}
+
+.task-editor-field .task-select-wrapper {
+  width: 100%;
+}
+
+.task-editor-field .task-select-trigger {
+  width: 100%;
 }
 
 .task-btn--add {
