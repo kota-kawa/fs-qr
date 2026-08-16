@@ -1007,45 +1007,6 @@ body.product-lp {
   background: var(--lp-accent);
 }
 
-.lp-device-bridge {
-  position: absolute;
-  right: 42px;
-  bottom: 52px;
-  left: 42px;
-  display: flex;
-  height: 190px;
-  align-items: center;
-  justify-content: center;
-  gap: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.lp-device {
-  display: block;
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.lp-device--desktop {
-  width: 104px;
-  height: 70px;
-  border-radius: 7px;
-  box-shadow: 0 11px 0 -8px rgba(255, 255, 255, 0.7);
-}
-
-.lp-device--phone {
-  width: 45px;
-  height: 80px;
-  border-radius: 9px;
-}
-
-.lp-device-bridge__flow {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 13px;
-}
-
 /* Group room mockup / Groupルーム画面モック */
 .lp-room-mockup {
   overflow: hidden;
@@ -1605,8 +1566,7 @@ body.product-lp {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.lp-feature-card__demo,
-.lp-live-lines {
+.lp-feature-card__demo {
   position: absolute;
   right: 42px;
   bottom: 46px;
@@ -1616,29 +1576,6 @@ body.product-lp {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.055);
-}
-
-.lp-live-lines span {
-  display: block;
-  width: 86%;
-  height: 9px;
-  margin-bottom: 18px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.lp-live-lines span:nth-child(2) {
-  width: 62%;
-}
-
-.lp-live-lines i {
-  position: absolute;
-  top: 76px;
-  left: 58%;
-  width: 2px;
-  height: 27px;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(var(--lp-accent-rgb), 0.35);
 }
 
 .lp-card__icon {
@@ -1679,123 +1616,6 @@ body.product-lp {
   background:
     radial-gradient(circle at 92% 12%, rgba(117, 222, 178, 0.16), transparent 36%),
     rgba(255, 255, 255, 0.055);
-}
-
-.lp-share-visual__label {
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.lp-share-visual__link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.lp-share-visual__signal {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  flex: 0 0 auto;
-  border: 1px solid rgba(157, 245, 204, 0.65);
-  border-radius: 50%;
-}
-
-.lp-share-visual__signal::before,
-.lp-share-visual__signal::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #9df5cc;
-  content: "";
-  transform: translate(-50%, -50%);
-}
-
-.lp-share-visual__signal::after {
-  width: 26px;
-  height: 26px;
-  border: 1px solid rgba(157, 245, 204, 0.25);
-  background: transparent;
-}
-
-.lp-share-visual__url {
-  flex: 1;
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.lp-share-visual__arrow {
-  display: grid;
-  width: 24px;
-  height: 24px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 50%;
-  color: #163d30;
-  background: #9df5cc;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.lp-share-visual__recipients {
-  display: flex;
-  align-items: center;
-  min-height: 26px;
-  padding-left: 3px;
-}
-
-.lp-share-visual__recipients > span,
-.lp-share-visual__recipients > i {
-  display: grid;
-  width: 26px;
-  height: 26px;
-  margin-left: -5px;
-  place-items: center;
-  border: 2px solid #1a4435;
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.8);
-  background: #477463;
-  font-size: 8px;
-  font-style: normal;
-  font-weight: 800;
-}
-
-.lp-share-visual__recipients > span:first-child {
-  margin-left: 0;
-  background: #739c84;
-}
-
-.lp-share-visual__recipients > span:nth-child(2) {
-  background: #356653;
-}
-
-.lp-share-visual__recipients > span:nth-child(3) {
-  background: #5b8976;
-}
-
-.lp-share-visual__recipients > i {
-  color: #9df5cc;
-  background: #285846;
-}
-
-.lp-share-visual__recipients p {
-  margin: 0 0 0 11px;
-  color: rgba(255, 255, 255, 0.64);
-  font-size: 10px;
-  font-weight: 600;
 }
 
 .product-lp--group .lp-step {
@@ -2559,8 +2379,7 @@ body.product-lp {
     min-height: 470px;
   }
 
-  .lp-feature-card__demo,
-  .lp-live-lines {
+  .lp-feature-card__demo {
     right: 27px;
     left: 27px;
   }
@@ -2972,34 +2791,16 @@ body.product-lp {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.product-lp--fsqr .lp-device-bridge {
+.product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
   top: 42px;
   right: 42px;
   bottom: 42px;
   left: auto;
   width: 45%;
   height: auto;
+  padding: 0;
+  overflow: hidden;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.product-lp--fsqr .lp-device-bridge__flow {
-  position: relative;
-  width: 46px;
-  height: 0;
-  border-top: 1.5px dashed rgba(255, 255, 255, 0.5);
-}
-
-.product-lp--fsqr .lp-device-bridge__flow::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  right: -1px;
-  width: 7px;
-  height: 7px;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.6);
-  border-right: 1.5px solid rgba(255, 255, 255, 0.6);
-  transform: rotate(45deg);
 }
 
 /* Use cases / 日常の場面を読み物のようなカードで見せる */
@@ -3152,7 +2953,7 @@ body.product-lp {
     max-width: none;
   }
 
-  .product-lp--fsqr .lp-device-bridge {
+  .product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
     top: auto;
     right: 30px;
     bottom: 30px;
@@ -3581,6 +3382,31 @@ body.product-lp {
   grid-column: 1 / -1;
 }
 
+.product-lp--group .lp-feature-card--accent-shot {
+  padding-right: 270px;
+}
+
+.lp-feature-card__shot {
+  position: absolute;
+  top: 50%;
+  right: 34px;
+  width: 220px;
+  height: 130px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  transform: translateY(-50%);
+}
+
+.lp-feature-card__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .product-lp--note .lp-feature-card__icon,
 .product-lp--group .lp-card__icon {
   border-radius: 10px;
@@ -3596,6 +3422,22 @@ body.product-lp {
   height: auto;
   min-height: 0;
   border-radius: 12px;
+}
+
+.product-lp--note .lp-feature-card--wide .lp-feature-card__demo,
+.product-lp--task .lp-feature-card--wide .lp-feature-card__demo,
+.product-lp--group .lp-feature-card--wide .lp-share-visual {
+  padding: 0;
+  overflow: hidden;
+}
+
+.lp-feature-card__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  background: #000;
 }
 
 /* Use cases / 抽象装飾を減らし、用途の文章を主役にする */
@@ -3774,6 +3616,20 @@ body.product-lp {
     left: 30px;
     width: auto;
     height: 190px;
+  }
+
+  .product-lp--group .lp-feature-card--accent-shot {
+    padding-right: 34px;
+    padding-bottom: 160px;
+  }
+
+  .lp-feature-card__shot {
+    top: auto;
+    right: 34px;
+    bottom: 34px;
+    left: 34px;
+    width: auto;
+    transform: none;
   }
 }
 

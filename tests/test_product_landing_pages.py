@@ -242,12 +242,14 @@ def test_group_landing_page_does_not_include_room_ui_mockup(
 def test_group_landing_page_does_not_include_qr_code_decoration(
     test_client: TestClient,
 ):
-    """共有リンクの案内に、実物らしく見えるQRコード装飾を使用しない。"""
+    """共有リンクの案内に、実物らしく見えるQRコード装飾ではなく、実際の操作画面を録画した動画を使用する。"""
     response = test_client.get("/group-file-sharing")
 
     assert response.status_code == 200
     assert "lp-share-visual__qr" not in response.text
-    assert "lp-share-visual__recipients" in response.text
+    assert "lp-share-visual__recipients" not in response.text
+    assert "lp-feature-card__video" in response.text
+    assert "/static/videos/product-landing-pages/group-demo.webm" in response.text
 
 
 @pytest.mark.parametrize(
