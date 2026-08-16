@@ -344,6 +344,11 @@ def test_task_board_page_renders_ux_elements(test_client: TestClient):
     ):
         assert marker in body
 
+    # 進捗・共有・操作は1つのコンソールへ集約されている
+    assert '<section class="task-console"' in body
+    assert '<div class="task-console__overview">' in body
+    assert '<div class="task-console__controls">' in body
+
     # 共有情報は折りたたみ、ボードが先に見える構成
     assert '<details class="task-room-details" id="taskRoomDetails">' in body
     assert '<summary class="task-room-details__summary">' in body
