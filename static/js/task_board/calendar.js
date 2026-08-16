@@ -302,6 +302,7 @@
     row.setAttribute('role', 'listitem');
     row.draggable = true;
     row.dataset.itemId = String(item.item_id);
+    row.style.setProperty('--task-item-color', taskColor(item));
 
     var isDone = item.board_status === 'done';
     if (isDone) row.classList.add('is-done');
