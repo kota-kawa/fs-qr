@@ -229,6 +229,9 @@
         event.preventDefault();
         var titleInput = document.getElementById('taskTitle');
         if (titleInput) titleInput.focus();
+      } else if (event.key === 'v' || event.key === 'V') {
+        event.preventDefault();
+        if (modules.views) modules.views.toggle();
       } else if (event.key === '?') {
         event.preventDefault();
         if (modules.shortcutHelp) modules.shortcutHelp.open();
@@ -241,6 +244,8 @@
     modules.editor.init();
     modules.columns.init();
     modules.dnd.init();
+    modules.calendar.init();
+    modules.views.init();
     initBoardEvents();
     initShortcutHelp();
     initGlobalShortcuts();

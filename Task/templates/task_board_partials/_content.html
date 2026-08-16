@@ -150,6 +150,17 @@
 
         <!-- Controls row / 表示切替・追加・絞り込み -->
         <div class="task-console__controls">
+          <div class="task-view-switch" role="group" aria-label="タスクの表示方法">
+            <button type="button" class="task-view-switch__btn is-active" data-view-switch="board" aria-pressed="true" title="カードのボードで表示">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 4.5A1.5 1.5 0 014.5 3h2A1.5 1.5 0 018 4.5v11A1.5 1.5 0 016.5 17h-2A1.5 1.5 0 013 15.5v-11zm7 0A1.5 1.5 0 0111.5 3h4A1.5 1.5 0 0117 4.5v6a1.5 1.5 0 01-1.5 1.5h-4A1.5 1.5 0 0110 10.5v-6z"/></svg>
+              <span>ボード</span>
+            </button>
+            <button type="button" class="task-view-switch__btn" data-view-switch="calendar" aria-pressed="false" title="カレンダーで期限を確認">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a.75.75 0 01.75.75V4h6.5V2.75a.75.75 0 011.5 0V4h.75A2.5 2.5 0 0118 6.5v9A2.5 2.5 0 0115.5 18h-11A2.5 2.5 0 012 15.5v-9A2.5 2.5 0 014.5 4h.75V2.75A.75.75 0 016 2zM3.5 8v7.5c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V8h-13z" clip-rule="evenodd"/></svg>
+              <span>カレンダー</span>
+            </button>
+          </div>
+
           <form id="taskCreateForm" class="task-quick-add-form" novalidate>
             <div class="task-quick-add-bar">
               <div class="task-quick-add-input-wrap">
@@ -278,6 +289,56 @@
         {% endfor %}
       </section>
 
+      <!-- Calendar view / カレンダー表示（期限日ベースでタスクを確認・管理する） -->
+      <section class="task-calendar" id="taskCalendar" aria-label="カレンダー表示" hidden>
+        <header class="task-calendar__bar">
+          <div class="task-calendar__nav">
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="-1" aria-label="前の月へ">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"/></svg>
+            </button>
+            <h2 class="task-calendar__label" id="taskCalendarLabel" aria-live="polite">-</h2>
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="1" aria-label="次の月へ">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
+            </button>
+            <button type="button" class="task-calendar__today" id="taskCalendarToday">今日</button>
+          </div>
+          <p class="task-calendar__hint">日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。</p>
+        </header>
+
+        <div class="task-calendar__weekdays" aria-hidden="true">
+          {% for weekday in ['日', '月', '火', '水', '木', '金', '土'] %}
+          <span class="task-calendar__weekday">{{ weekday }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="task-calendar__grid" id="taskCalendarGrid" role="grid" aria-labelledby="taskCalendarLabel">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="task-calendar__panels">
+          <section class="task-calendar__day" aria-label="選択した日のタスク">
+            <div class="task-calendar__day-head">
+              <h3 class="task-calendar__day-title" id="taskCalendarDayLabel">-</h3>
+              <button type="button" class="task-calendar__add" id="taskCalendarAdd">
+                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
+                この日に追加
+              </button>
+            </div>
+            <div class="task-calendar__day-list" id="taskCalendarDayList" role="list">
+              <!-- Rendered dynamically -->
+            </div>
+          </section>
+
+          <section class="task-calendar__backlog" aria-label="期限が未設定のタスク">
+            <div class="task-calendar__day-head">
+              <h3 class="task-calendar__day-title">期限なし <span class="task-calendar__backlog-count" id="taskCalendarBacklogCount">0</span></h3>
+            </div>
+            <div class="task-calendar__day-list" id="taskCalendarBacklogList" role="list">
+              <!-- Rendered dynamically -->
+            </div>
+          </section>
+        </div>
+      </section>
     </div>
   </div>
 </div>
@@ -379,6 +440,7 @@
   <dl class="task-help-list">
     <div><dt><kbd>N</kbd></dt><dd>新しいタスクの入力欄へ移動</dd></div>
     <div><dt><kbd>/</kbd></dt><dd>検索ボックスへ移動</dd></div>
+    <div><dt><kbd>V</kbd></dt><dd>ボード表示とカレンダー表示を切り替え</dd></div>
     <div><dt><kbd>?</kbd></dt><dd>このヘルプを開く</dd></div>
     <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>カード間を移動（カードにフォーカス時）</dd></div>
     <div><dt><kbd>Enter</kbd></dt><dd>フォーカス中のカードを編集</dd></div>

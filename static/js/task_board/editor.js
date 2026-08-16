@@ -146,10 +146,16 @@
     showDialog();
   }
 
-  function openCreate(initialStatus) {
+  /**
+   * Open the dialog in creation mode.
+   * options.dueDate を渡すと、期限日を事前入力した状態で開く（カレンダー用）。
+   */
+  function openCreate(initialStatus, options) {
     ensureRefs();
     lastFocus = document.activeElement;
     isNewMode = true;
+
+    var dueDate = (options && options.dueDate) || '';
 
     element('taskEditorTitle').textContent = 'タスクを追加';
     element('taskEditorDelete').style.display = 'none';
@@ -158,12 +164,12 @@
     element('taskEditorVersion').value = '0';
     element('taskEditorTitleInput').value = '';
     element('taskEditorNote').value = '';
-    element('taskEditorDueDate').value = '';
+    element('taskEditorDueDate').value = dueDate;
     element('taskEditorPriority').value = 'normal';
     element('taskEditorCategory').value = '';
     setStatus(initialStatus || 'todo');
     updateNoteCounter();
-    updateAdvancedSection(false);
+    updateAdvancedSection(Boolean(dueDate));
 
     showDialog();
   }

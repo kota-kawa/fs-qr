@@ -290,6 +290,11 @@
     var visible = filtered(items);
     var filtering = modules.filters && modules.filters.hasActiveFilters();
 
+    // The calendar shares the same filtered set. / カレンダーも同じ絞り込み結果を使う。
+    if (modules.calendar) {
+      modules.calendar.render(visible);
+    }
+
     statuses.forEach(function (status) {
       var list = document.querySelector('[data-list-for="' + status + '"]');
       var count = document.querySelector('[data-count-for="' + status + '"]');

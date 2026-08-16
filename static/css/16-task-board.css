@@ -367,6 +367,53 @@
   box-shadow: 0 0 0 3px var(--task-ring);
 }
 
+/* ── View switch / ボードとカレンダーの切り替え ───────────────────────── */
+.task-view-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+  padding: 0.2rem;
+  border: 1px solid var(--task-border);
+  border-radius: 9999px;
+  background: var(--task-surface-muted);
+}
+
+.task-view-switch__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.8rem;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-view-switch__btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.task-view-switch__btn:hover {
+  color: var(--task-accent-strong);
+}
+
+.task-view-switch__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-view-switch__btn.is-active {
+  background: #ffffff;
+  color: var(--task-accent-strong);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.14);
+}
+
 /* ── Quick Add / 追加バー（最大幅を決めて横長になりすぎないようにする） ── */
 .task-quick-add-form {
   flex: 1 1 320px;
@@ -1250,6 +1297,456 @@
   color: #94a3b8;
 }
 
+/* ── Calendar view / カレンダー表示 ───────────────────────────────────────
+   期限日ベースでタスクを俯瞰する。ボード表示とは排他で切り替える。 */
+.task-board[hidden],
+.task-calendar[hidden],
+.task-status-tabs[hidden] {
+  display: none;
+}
+
+.task-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-calendar__bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+}
+
+.task-calendar__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.task-calendar__nav-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.task-calendar__nav-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.task-calendar__nav-btn:hover {
+  color: var(--task-accent-strong);
+  border-color: var(--task-accent);
+  background: #fffbeb;
+}
+
+.task-calendar__nav-btn:focus-visible,
+.task-calendar__today:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-calendar__label {
+  margin: 0;
+  min-width: 8.5rem;
+  text-align: center;
+  font-family: "Kaisei Opti", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--task-text);
+}
+
+.task-calendar__today {
+  margin-left: 0.35rem;
+  padding: 0.32rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.task-calendar__today:hover {
+  color: var(--task-accent-strong);
+  border-color: var(--task-accent);
+}
+
+.task-calendar__hint {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--task-text-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.task-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.task-calendar__weekday {
+  padding: 0.15rem 0;
+  color: var(--task-text-muted);
+  text-align: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.task-calendar__weekday:first-child {
+  color: #dc2626;
+}
+
+.task-calendar__weekday:last-child {
+  color: #2563eb;
+}
+
+.task-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.task-calendar__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 104px;
+  padding: 0.3rem 0.3rem 0.35rem;
+  border: 1px solid var(--task-border);
+  border-radius: 12px;
+  background: var(--task-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-calendar__cell:hover {
+  border-color: var(--task-accent);
+  background: #fffdf7;
+}
+
+.task-calendar__cell:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-calendar__cell.is-outside {
+  background: var(--task-surface-muted);
+  color: #94a3b8;
+}
+
+.task-calendar__cell.is-today {
+  border-color: var(--task-accent);
+  box-shadow: inset 0 0 0 1px var(--task-accent);
+}
+
+.task-calendar__cell.is-selected {
+  background: #fffbeb;
+  border-color: var(--task-accent-strong);
+  box-shadow: inset 0 0 0 2px var(--task-accent-strong);
+}
+
+.task-calendar__cell.is-drop-target {
+  border-color: var(--task-accent);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.task-calendar__cell-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+}
+
+.task-calendar__date {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--task-text);
+}
+
+.task-calendar__cell.is-outside .task-calendar__date {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.task-calendar__cell.is-sunday .task-calendar__date {
+  color: #dc2626;
+}
+
+.task-calendar__cell.is-saturday .task-calendar__date {
+  color: #2563eb;
+}
+
+.task-calendar__cell.is-today .task-calendar__date {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--task-accent-strong);
+  color: #ffffff;
+}
+
+.task-calendar__cell-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.task-calendar__cell-count.is-overdue {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.task-calendar__chips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 0;
+}
+
+.task-calendar__chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.15rem 0.35rem;
+  border: 0;
+  border-left: 3px solid var(--task-todo);
+  border-radius: 5px;
+  background: #f1f5f9;
+  color: #334155;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.task-calendar__chip:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.task-calendar__chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--task-accent);
+}
+
+.task-calendar__chip.is-doing {
+  border-left-color: var(--task-doing);
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.task-calendar__chip.is-done {
+  border-left-color: var(--task-done);
+  background: #ecfdf5;
+  color: #047857;
+  text-decoration: line-through;
+}
+
+.task-calendar__chip.is-overdue {
+  border-left-color: var(--task-high);
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.task-calendar__chip.is-dragging {
+  opacity: 0.45;
+}
+
+.task-calendar__chip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-calendar__more {
+  padding: 0.05rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--task-text-muted);
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.task-calendar__more:hover {
+  color: var(--task-accent-strong);
+}
+
+/* Day detail & backlog panels / 選択日と期限なしのパネル */
+.task-calendar__panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.task-calendar__day,
+.task-calendar__backlog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem 0.85rem;
+  border: 1px solid var(--task-border);
+  border-radius: var(--radius-xl, 18px);
+  background: var(--task-surface-muted);
+}
+
+.task-calendar__day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.task-calendar__day-title {
+  margin: 0;
+  font-family: "Kaisei Opti", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--task-text);
+}
+
+.task-calendar__backlog-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.74rem;
+}
+
+.task-calendar__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: 9999px;
+  background: #fffbeb;
+  color: var(--task-accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.task-calendar__add svg {
+  width: 14px;
+  height: 14px;
+}
+
+.task-calendar__add:hover {
+  background: #fef3c7;
+}
+
+.task-calendar__add:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-calendar__day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.task-calendar__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--task-border);
+  border-radius: 10px;
+  background: var(--task-surface);
+}
+
+.task-calendar__row.is-done .task-calendar__row-title {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.task-calendar__row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--task-text);
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.task-calendar__row-title:hover {
+  color: var(--task-accent-strong);
+}
+
+.task-calendar__row-status {
+  flex-shrink: 0;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.task-calendar__row-status.is-doing {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.task-calendar__row-status.is-done {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.task-calendar__empty {
+  padding: 0.85rem 0.5rem;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
 /* ── Floating menu / フローティングメニュー ───────────────────────────── */
 .task-menu {
   position: fixed;
@@ -1763,7 +2260,8 @@
     gap: 0.85rem;
   }
 
-  .task-status-tabs {
+  /* カレンダー表示中は hidden 属性を尊重する */
+  .task-status-tabs:not([hidden]) {
     display: flex;
   }
 
@@ -1794,6 +2292,13 @@
     width: 100%;
   }
 
+  .task-calendar__panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .task-calendar__cell {
+    min-height: 88px;
+  }
 }
 
 @media (max-width: 580px) {
@@ -1823,6 +2328,72 @@
     align-items: stretch;
     padding: 0.7rem;
     gap: 0.55rem;
+  }
+
+  /* 画面が狭いときはセル内をドット表示にして、詳細は選択日パネルで見る。 */
+  .task-calendar__grid {
+    gap: 0.2rem;
+  }
+
+  .task-calendar__cell {
+    min-height: 58px;
+    padding: 0.25rem 0.2rem;
+  }
+
+  .task-calendar__cell-head {
+    gap: 0.1rem;
+  }
+
+  .task-calendar__date {
+    font-size: 0.74rem;
+  }
+
+  .task-calendar__cell-count {
+    min-width: 0.9rem;
+    height: 0.9rem;
+    padding: 0 0.18rem;
+    font-size: 0.6rem;
+  }
+
+  .task-calendar__chip {
+    padding: 0;
+    height: 5px;
+    border-left-width: 0;
+    border-radius: 9999px;
+    background: var(--task-todo);
+    font-size: 0;
+  }
+
+  .task-calendar__chip.is-doing {
+    background: var(--task-doing);
+  }
+
+  .task-calendar__chip.is-done {
+    background: var(--task-done);
+  }
+
+  .task-calendar__chip.is-overdue {
+    background: var(--task-high);
+  }
+
+  .task-calendar__more {
+    font-size: 0.62rem;
+  }
+
+  .task-calendar__label {
+    font-size: 0.95rem;
+    min-width: 7rem;
+  }
+
+  .task-calendar__hint {
+    display: none;
+  }
+
+  .task-quick-add-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .task-filter-field {

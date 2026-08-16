@@ -214,6 +214,39 @@
     }
   }
 
+  /**
+   * Change only the due date of a task (calendar drag & drop).
+   * 期限日だけを更新する。カレンダーのドラッグ＆ドロップで使う。
+   */
+  async function setDueDate(itemId, dueDate) {
+    var item = store.getItem(itemId);
+    if (!item) return;
+
+    var next = dueDate || null;
+    if ((item.due_date || null) === next) return;
+
+    var before = store.snapshot();
+    store.replace(Object.assign({}, item, { due_date: next }));
+
+    try {
+      var data = await core.request(core.itemsUrl('/' + item.item_id), {
+        method: 'PATCH',
+        body: JSON.stringify({ version: item.version, due_date: next })
+      });
+      store.replace(data.item);
+      announce(
+        '「' + data.item.title + '」の期限を' + (next ? next + 'に変更しました' : '解除しました')
+      );
+    } catch (err) {
+      if (err.status === 409 && err.data && err.data.item) {
+        store.replace(err.data.item);
+      } else {
+        store.restore(before);
+      }
+      core.toast(conflictMessage(err), 'error');
+    }
+  }
+
   function payloadOf(item) {
     return {
       title: item.title,
@@ -459,6 +492,7 @@
     moveToColumn: moveToColumn,
     moveWithin: moveWithin,
     toggleDone: toggleDone,
+    setDueDate: setDueDate,
     deleteItem: deleteItem,
     clearDone: clearDone,
     restoreItems: restoreItems,
