@@ -1700,16 +1700,48 @@
 }
 
 .task-calendar__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 週行: 背景（日付セル7列）と前景（連続バーのオーバーレイ）の2層構造。
+   Week row: a 2-layer structure — background day cells + a foreground bar overlay. */
+.task-calendar__week {
+  position: relative;
+  --task-cal-lane-h: 22px; /* 1レーンの高さ / height of a single lane row */
+  --task-cal-lane-gap: 4px;
+  --task-cal-lanes: 0; /* JS側で週ごとに上書きされる実使用レーン数 / overridden per week by JS */
+}
+
+.task-calendar__week-cells {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0.5rem;
+}
+
+/* 期間バーのオーバーレイ。日付セルと同じ7列グリッドを使い、列位置を完全に一致させる。
+   Bars overlay: shares the same 7-column grid as the day cells so columns line up exactly. */
+.task-calendar__bars {
+  position: absolute;
+  top: 2.3rem; /* セル見出し（日付＋件数）の下から始める / starts just below the cell head */
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: var(--task-cal-lane-h);
+  row-gap: var(--task-cal-lane-gap);
+  column-gap: 0.5rem;
+  pointer-events: none; /* セル背景のクリック・ドロップを妨げない。バー自身は再度 auto にする */
 }
 
 .task-calendar__cell {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  min-height: 136px;
+  min-height: calc(
+    2.3rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 22px) + var(--task-cal-lane-gap, 4px)) + 1rem
+  );
   padding: 0.5rem 0.5rem 0.55rem;
   border: 1px solid var(--task-border);
   border-radius: 14px;
@@ -1816,404 +1848,170 @@
   color: #b91c1c;
 }
 
-.task-calendar__chips {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  min-height: 0;
-}
-
-.task-calendar__chip,
-.task-cal-chip {
+/* 期間バー本体。既定は複数日の帯（is-multi）用の見た目。
+   .task-calendar__period-bar Base look for multi-day bars (is-multi); single-day chips (is-single) tone it down below. */
+.task-calendar__period-bar {
   /* --task-item-color: タスク固有色（JS側でitem_id % Nで決定、未設定時は--task-todo） */
   /* Task-specific color variable set by JS via item_id hashing, falls back to todo color */
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  width: 100%;
-  height: 25px;
+  height: calc(var(--task-cal-lane-h, 22px) - 2px);
+  align-self: center;
+  min-width: 0;
   box-sizing: border-box;
-  padding: 0 0.4rem;
+  padding: 0 0.5rem;
   border: 0;
-  border-left: 3px solid var(--task-item-color, var(--task-todo));
   border-radius: 6px;
-  background: #f1f5f9;
-  color: #334155;
+  background: var(--task-item-color, var(--task-todo));
+  color: #ffffff;
   text-align: left;
-  font-size: 0.76rem;
-  font-weight: 600;
-  line-height: 25px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.1;
   cursor: pointer;
+  overflow: hidden;
+  pointer-events: auto; /* 親の .task-calendar__bars は pointer-events:none なのでここで復活させる */
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.22);
+  transition: filter 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.task-calendar__period-bar-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.task-calendar__chip:hover,
-.task-cal-chip:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-  transform: translateX(1px);
-  box-shadow: 0 2px 6px -2px rgba(15, 23, 42, 0.35);
+.task-calendar__period-bar:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 9px -2px rgba(15, 23, 42, 0.38);
 }
 
-.task-calendar__chip:focus-visible,
-.task-cal-chip:focus-visible {
+.task-calendar__period-bar:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--task-accent);
-  position: relative;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--task-item-color, var(--task-accent));
   z-index: 2;
 }
 
 /* ステータス別カラー
-   - doing: タスク固有色の左ボーダーを維持、背景のみ薄いアンバー系に
-   - done:  opacity で完了フェード。固有色のボーダーを保ちつつ取り消し線
-   - overdue: 赤系オーバーレイで緊急性を明示（固有色を赤で上書き）
+   - doing: タスク固有色の帯を維持しつつ彩度を上げて強調
+   - done:  opacity で完了フェード＋取り消し線
+   - overdue: 赤系オーバーレイで緊急性を明示（固有色より優先）
    Status colors layered on top of --task-item-color */
-.task-calendar__chip.is-doing,
-.task-cal-chip.is-doing {
-  background: #fff7ed;
-  color: #9a3412;
+.task-calendar__period-bar.is-doing {
+  filter: saturate(1.15);
 }
 
-.task-calendar__chip.is-doing:hover,
-.task-cal-chip.is-doing:hover {
-  background: #ffedd5;
+.task-calendar__period-bar.is-doing:hover {
+  filter: saturate(1.15) brightness(1.08);
 }
 
-/* 完了（done）: タスク固有色のボーダーを残しつつ opacity で済み感を演出 */
-/* Done: keep task-specific border color but fade via opacity to show completion */
-.task-calendar__chip.is-done,
-.task-cal-chip.is-done {
+/* 完了（done）: opacity で済み感を演出しつつ取り消し線を入れる */
+/* Done: fade via opacity and add a strikethrough to show completion */
+.task-calendar__period-bar.is-done {
   opacity: 0.65;
   text-decoration: line-through;
-  background: #f1f5f9;
-  color: #64748b;
 }
 
-.task-calendar__chip.is-done:hover,
-.task-cal-chip.is-done:hover {
+.task-calendar__period-bar.is-done:hover {
   opacity: 0.85;
-  background: #e2e8f0;
 }
 
 /* 期限切れ（overdue）: 赤系でリスクを強調（固有色より優先） */
 /* Overdue: override with red to emphasize urgency */
-.task-calendar__chip.is-overdue,
-.task-cal-chip.is-overdue {
-  border-left-color: var(--task-high) !important;
-  background: #fee2e2;
-  color: #b91c1c;
+.task-calendar__period-bar.is-overdue {
+  background: var(--task-high) !important;
+  box-shadow: 0 1px 3px rgba(185, 28, 28, 0.4);
 }
 
-.task-calendar__chip.is-overdue:hover,
-.task-cal-chip.is-overdue:hover {
-  background: #fecaca;
-}
-
-.task-calendar__chip.is-dragging,
-.task-cal-chip.is-dragging {
+.task-calendar__period-bar.is-dragging {
   opacity: 0.45;
 }
 
-/* 期間バー共通（is-span-bar = is-span-start と is-span-mid）
-   テキスト表示がないため overflow を visible に変更し、clip-path による矢印形状を有効化
-   No text inside span-bar chips → allow clip-path shapes to work cleanly */
-.task-calendar__chip.is-span-bar,
-.task-cal-chip.is-span-bar {
-  border-left: 0;
-  justify-content: center;
-  overflow: visible;
+/* ─────────────────────────────────────────────────────────────
+   複数日タスク（.is-multi）: 開始日から締切日まで途切れず続く帯。
+   Multi-day task: an unbroken band from the start date to the due date.
+   ───────────────────────────────────────────────────────────── */
+.task-calendar__period-bar.is-multi {
+  border-radius: 0;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   1. はじまり（開始日: .is-span-start / Span Start）
-   左端に「開始」を示すタスク固有色アクセント線（3.5px）を配置
-   The left accent line now uses the task-specific color --task-item-color
-   ───────────────────────────────────────────────────────────── */
-.task-calendar__chip.is-span-start,
-.task-cal-chip.is-span-start {
-  margin-right: -0.3rem;
-  padding-right: 0.3rem;
+/* 開始日を含むセグメント: 左端を丸めて「ここから始まる」ことを示す */
+/* Segment containing the real start date: rounded left cap marks "starts here" */
+.task-calendar__period-bar.is-multi.is-bar-start {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+  padding-left: 0.55rem;
+}
+
+/* 締切日を含むセグメント: 右端を矢じり（右向き三角）にして「ここで終わる」ことを示す */
+/* Segment containing the real due date: a rightward arrow head marks "ends here" */
+.task-calendar__period-bar.is-multi.is-bar-end {
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%);
+  padding-right: 0.75rem;
+}
+
+/* 週をまたいで右へ継続する場合: 矢じりを付けずフラットな右端にする */
+/* Wraps to next week: keep the right edge flat instead of an arrow head */
+.task-calendar__period-bar.is-multi.is-continues-after {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-left: 3.5px solid var(--task-item-color, #0284c7);
-  background: color-mix(in srgb, var(--task-item-color, #0284c7) 20%, #ffffff);
-  color: #0369a1;
-  box-shadow: inset 0 1px 0 rgba(2, 132, 199, 0.08), inset 0 -1px 0 rgba(2, 132, 199, 0.08);
-  /* 右端を右向きの矢印（chevron）にする: 左辺は border-left 込みで直線、右辺は先端形状 */
-  /* Right side is a chevron point; left side keeps the border-left accent line */
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+  clip-path: none;
+  padding-right: 0.4rem;
 }
 
-.task-calendar__chip.is-span-start:hover,
-.task-cal-chip.is-span-start:hover {
-  background: color-mix(in srgb, var(--task-item-color, #0284c7) 32%, #ffffff);
-}
-
-/* 進行中（doing）の開始日 */
-.task-calendar__chip.is-span-start.is-doing,
-.task-cal-chip.is-span-start.is-doing {
-  background: color-mix(in srgb, var(--task-item-color, #2563eb) 12%, #eff6ff);
-  color: #1d4ed8;
-}
-
-.task-calendar__chip.is-span-start.is-doing:hover,
-.task-cal-chip.is-span-start.is-doing:hover {
-  background: color-mix(in srgb, var(--task-item-color, #2563eb) 18%, #dbeafe);
-}
-
-/* 完了（done）の開始日: 透明度フェードで完了を表現 */
-/* Done span-start: fade to show completion, keep task color border */
-.task-calendar__chip.is-span-start.is-done,
-.task-cal-chip.is-span-start.is-done {
-  opacity: 0.65;
-  background: #f1f5f9;
-  color: #64748b;
-}
-
-.task-calendar__chip.is-span-start.is-done:hover,
-.task-cal-chip.is-span-start.is-done:hover {
-  opacity: 0.85;
-  background: #e2e8f0;
-}
-
-/* 期限切れ（overdue）の開始日: 赤系強調（固有色より優先） */
-/* Overdue span-start: red override for urgency */
-.task-calendar__chip.is-span-start.is-overdue,
-.task-cal-chip.is-span-start.is-overdue {
-  border-left-color: var(--task-high) !important;
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.task-calendar__chip.is-span-start.is-overdue:hover,
-.task-cal-chip.is-span-start.is-overdue:hover {
-  background: #fecaca;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   2. 中間（期間帯: .is-span-mid / Span Mid）
-   タスク固有色（--task-item-color）を帯の左側ベースに使用し、
-   右へ向かってフェードするグラデーションで連続感を演出する。
-   Uses --task-item-color at the left end of the gradient band.
-   ───────────────────────────────────────────────────────────── */
-.task-calendar__chip.is-span-mid,
-.task-cal-chip.is-span-mid {
-  margin-left: -0.3rem;
-  margin-right: -0.3rem;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-  border-radius: 0;
-  border-left: 0;
-  border-right: 0;
-  border-top: 1px solid color-mix(in srgb, var(--task-item-color, #0284c7) 30%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--task-item-color, #0284c7) 30%, transparent);
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--task-item-color, #0284c7) 24%, #ffffff) 0%,
-    color-mix(in srgb, var(--task-item-color, #0284c7) 12%, #f8fafc) 100%
-  );
-  /* 左端が前の chevron を受け取り、右端が次へ送り出す矢印形状（平行四辺形） */
-  /* Parallelogram shape: left receives, right sends the chevron arrow */
-  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
-}
-
-.task-calendar__chip.is-span-mid:hover,
-.task-cal-chip.is-span-mid:hover {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--task-item-color, #0284c7) 34%, #ffffff) 0%,
-    color-mix(in srgb, var(--task-item-color, #0284c7) 18%, #f1f5f9) 100%
-  );
-}
-
-/* 進行中（doing）の中間帯 */
-.task-calendar__chip.is-span-mid.is-doing,
-.task-cal-chip.is-span-mid.is-doing {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--task-item-color, #2563eb) 15%, #eff6ff) 0%,
-    color-mix(in srgb, var(--task-item-color, #2563eb) 6%, #fffbeb) 100%
-  );
-}
-
-.task-calendar__chip.is-span-mid.is-doing:hover,
-.task-cal-chip.is-span-mid.is-doing:hover {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--task-item-color, #2563eb) 22%, #dbeafe) 0%,
-    color-mix(in srgb, var(--task-item-color, #2563eb) 10%, #fef3c7) 100%
-  );
-}
-
-/* 完了（done）の中間帯: opacity フェードで完了を表現 */
-/* Done span-mid: fade via opacity */
-.task-calendar__chip.is-span-mid.is-done,
-.task-cal-chip.is-span-mid.is-done {
-  opacity: 0.65;
-  background: #f1f5f9;
-}
-
-.task-calendar__chip.is-span-mid.is-done:hover,
-.task-cal-chip.is-span-mid.is-done:hover {
-  opacity: 0.85;
-  background: #e2e8f0;
-}
-
-/* 期限切れ（overdue）の中間帯: 赤系オーバーレイで緊急性を強調 */
-/* Overdue span-mid: red gradient overlay */
-.task-calendar__chip.is-span-mid.is-overdue,
-.task-cal-chip.is-span-mid.is-overdue {
-  border-top: 1px solid rgba(220, 38, 38, 0.2);
-  border-bottom: 1px solid rgba(220, 38, 38, 0.2);
-  background: linear-gradient(90deg, #fee2e2 0%, #fff1f2 100%);
-}
-
-.task-calendar__chip.is-span-mid.is-overdue:hover,
-.task-cal-chip.is-span-mid.is-overdue:hover {
-  background: linear-gradient(90deg, #fecaca 0%, #ffe4e6 100%);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   3. おわり（締切日: .is-span-end / Span End）
-   右端に「締切」を示すタスク固有色アクセント線（3.5px）を配置。
-   左端は chevron のくぼみを受け取る形状（clip-path）。
-   Left side receives the chevron indent; right side is squared/rounded with task-color accent.
-   ───────────────────────────────────────────────────────────── */
-.task-calendar__chip.is-span-end,
-.task-cal-chip.is-span-end {
-  margin-left: -0.3rem;
-  padding-left: 0.65rem; /* chevron 分の余白 */
+/* 前の週から継続している場合: 左端をくぼませて「続き」であることを示す */
+/* Continues from the previous week: a notch on the left signals "still going" */
+.task-calendar__period-bar.is-multi.is-continues-before {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-left: 0;
-  border-right: 3.5px solid var(--task-item-color, #ea580c);
-  background: color-mix(in srgb, var(--task-item-color, #ea580c) 20%, #ffffff);
-  color: #334155;
-  /* 左端が chevron のくぼみになる形状 */
-  /* Left side has an arrow-notch receiving the span bar direction */
   clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
+  padding-left: 0.65rem;
 }
 
-.task-calendar__chip.is-span-end:hover,
-.task-cal-chip.is-span-end:hover {
-  background: color-mix(in srgb, var(--task-item-color, #ea580c) 32%, #ffffff);
+/* 週の全日をまたいで継続する場合: 両端とも継続の形状にする */
+/* Spans the full week on both sides: combine both continuation shapes */
+.task-calendar__period-bar.is-multi.is-continues-before.is-continues-after {
+  clip-path: polygon(8px 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 8px 100%, 0 50%);
 }
 
-/* 進行中（doing）の締切日: タスク固有色維持 */
-.task-calendar__chip.is-span-end.is-doing,
-.task-cal-chip.is-span-end.is-doing {
-  background: color-mix(in srgb, var(--task-item-color, #d97706) 12%, #fffbeb);
+/* ─────────────────────────────────────────────────────────────
+   単日タスク（.is-single）: 帯より控えめなピル形状。
+   新デザインでも色・状態表現のトーンは複数日の帯と揃える。
+   Single-day task: a smaller pill, styled in the same tone as the multi-day bars.
+   ───────────────────────────────────────────────────────────── */
+.task-calendar__period-bar.is-single {
+  border-radius: 5px;
+  border-left: 3px solid var(--task-item-color, var(--task-todo));
+  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 16%, #ffffff);
+  color: #334155;
+  box-shadow: none;
+}
+
+.task-calendar__period-bar.is-single:hover {
+  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 28%, #ffffff);
+}
+
+.task-calendar__period-bar.is-single.is-doing {
+  background: color-mix(in srgb, var(--task-item-color, var(--task-doing)) 22%, #fffbeb);
   color: #92400e;
 }
 
-.task-calendar__chip.is-span-end.is-doing:hover,
-.task-cal-chip.is-span-end.is-doing:hover {
-  background: color-mix(in srgb, var(--task-item-color, #d97706) 20%, #fef3c7);
-}
-
-/* 完了（done）の締切日: opacity フェードで完了を表現 */
-/* Done span-end: fade via opacity, keep task color border */
-.task-calendar__chip.is-span-end.is-done,
-.task-cal-chip.is-span-end.is-done {
-  opacity: 0.65;
-  text-decoration: line-through;
+.task-calendar__period-bar.is-single.is-done {
   background: #f1f5f9;
   color: #64748b;
 }
 
-.task-calendar__chip.is-span-end.is-done:hover,
-.task-cal-chip.is-span-end.is-done:hover {
-  opacity: 0.85;
-  background: #e2e8f0;
-}
-
-/* 期限切れ（overdue）の締切日: 赤系オーバーレイ（固有色より優先） */
-/* Overdue span-end: red override for urgency */
-.task-calendar__chip.is-span-end.is-overdue,
-.task-cal-chip.is-span-end.is-overdue {
-  border-right-color: var(--task-high) !important;
-  background: #fee2e2;
+.task-calendar__period-bar.is-single.is-overdue {
+  border-left-color: var(--task-high) !important;
+  background: #fee2e2 !important;
   color: #b91c1c;
-}
-
-.task-calendar__chip.is-span-end.is-overdue:hover,
-.task-cal-chip.is-span-end.is-overdue:hover {
-  background: #fecaca;
-}
-
-/* 週の境界（日曜日・土曜日）での折り返し時の角丸・chevron処理
-   日曜セルでは左端の chevron くぼみをフラットに戻す（前週から続く帯の左端を正方形化）
-   土曜セルでは右端の chevron 先端をフラットに戻す（次週へ続く帯の右端を正方形化）
-   Week boundary: flatten the chevron on the wrap-around side */
-
-/* 日曜セル: mid と end の左端を直線に（chevron くぼみをリセット） */
-/* Sunday cell: reset the left chevron indent to a flat/rounded edge */
-.task-calendar__cell.is-sunday .task-calendar__chip.is-span-mid,
-.task-calendar__cell.is-sunday .task-cal-chip.is-span-mid {
-  margin-left: 0;
-  padding-left: 0.35rem;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  /* 左端フラット（くぼみなし）、右端は chevron を維持 */
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
-}
-
-.task-calendar__cell.is-sunday .task-calendar__chip.is-span-end,
-.task-calendar__cell.is-sunday .task-cal-chip.is-span-end {
-  margin-left: 0;
-  padding-left: 0.65rem;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  /* 日曜セルの span-end は左端フラット（くぼみなし） */
-  clip-path: none;
-}
-
-/* 土曜セル: start と mid の右端を直線に（chevron 先端をリセット） */
-/* Saturday cell: reset the right chevron point to a flat/rounded edge */
-.task-calendar__cell.is-saturday .task-calendar__chip.is-span-start,
-.task-calendar__cell.is-saturday .task-cal-chip.is-span-start {
-  margin-right: 0;
-  padding-right: 0.35rem;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  /* 土曜セルの span-start は右端フラット（矢印なし） */
-  clip-path: none;
-}
-
-.task-calendar__cell.is-saturday .task-calendar__chip.is-span-mid,
-.task-calendar__cell.is-saturday .task-cal-chip.is-span-mid {
-  margin-right: 0;
-  padding-right: 0.35rem;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  /* 左端は chevron くぼみを維持、右端はフラット */
-  clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
-}
-
-/* 単日（開始＝締切）: 通常の丸角、矢印不要 */
-/* Single-day chip: regular rounded corners, no chevron needed */
-.task-calendar__chip.is-single,
-.task-cal-chip.is-single {
-  border-left: 3px solid var(--task-item-color, var(--task-todo));
-  border-radius: 5px;
-}
-
-.task-calendar__chip-text,
-.task-cal-chip-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.72rem;
+  box-shadow: none;
 }
 
 .task-calendar__more {
+  margin-top: auto;
   padding: 0.1rem 0.35rem;
   border: 0;
   background: transparent;
@@ -2222,12 +2020,7 @@
   font-size: 0.72rem;
   font-weight: 700;
   white-space: nowrap;
-  cursor: pointer;
-  transition: color 0.15s ease;
-}
-
-.task-calendar__more:hover {
-  color: var(--task-accent-strong);
+  cursor: default;
 }
 
 /* Day detail & backlog panels / 選択日と期限なしのパネル */
@@ -3014,8 +2807,18 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .task-calendar__week {
+    --task-cal-lane-h: 18px;
+  }
+
+  .task-calendar__bars {
+    top: 2rem;
+  }
+
   .task-calendar__cell {
-    min-height: 104px;
+    min-height: calc(
+      2rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 18px) + var(--task-cal-lane-gap, 4px)) + 0.8rem
+    );
   }
 }
 
@@ -3053,8 +2856,24 @@
     gap: 0.2rem;
   }
 
+  .task-calendar__week {
+    --task-cal-lane-h: 6px;
+    --task-cal-lane-gap: 2px;
+  }
+
+  .task-calendar__week-cells {
+    gap: 0.2rem;
+  }
+
+  .task-calendar__bars {
+    top: 1.35rem;
+    column-gap: 0.2rem;
+  }
+
   .task-calendar__cell {
-    min-height: 58px;
+    min-height: calc(
+      1.35rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 6px) + var(--task-cal-lane-gap, 2px)) + 0.4rem
+    );
     padding: 0.25rem 0.2rem;
   }
 
@@ -3073,25 +2892,31 @@
     font-size: 0.6rem;
   }
 
-  .task-calendar__chip {
+  /* 幅が狭い画面では期間バーもドット化し、テキストは非表示にする（詳細は選択日パネルで見る）。 */
+  .task-calendar__period-bar {
     padding: 0;
-    height: 5px;
-    border-left-width: 0;
+    border: 0;
     border-radius: 9999px;
     background: var(--task-todo);
     font-size: 0;
+    box-shadow: none;
+    clip-path: none !important;
   }
 
-  .task-calendar__chip.is-doing {
+  .task-calendar__period-bar-text {
+    display: none;
+  }
+
+  .task-calendar__period-bar.is-doing {
     background: var(--task-doing);
   }
 
-  .task-calendar__chip.is-done {
+  .task-calendar__period-bar.is-done {
     background: var(--task-done);
   }
 
-  .task-calendar__chip.is-overdue {
-    background: var(--task-high);
+  .task-calendar__period-bar.is-overdue {
+    background: var(--task-high) !important;
   }
 
   .task-calendar__more {

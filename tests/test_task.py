@@ -438,6 +438,7 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
         "columns.js",
         "editor.js",
         "dnd.js",
+        "calendar-layout.js",
         "calendar.js",
         "views.js",
         "main.js",
@@ -521,7 +522,13 @@ def test_task_board_page_renders_calendar_view(test_client: TestClient):
 
 
 def test_task_calendar_span_assets(test_client: TestClient):
-    """カレンダーの期間バー（開始日〜締切日スパン）用スクリプトとスタイルが揃っている。"""
+    """カレンダーの期間タスクが、開始日〜締切日をまたぐ「連続した1本の帯」として
+    描画されるためのロジックとスタイルが揃っていることを検証する。
+
+    週境界をまたぐ場合にセグメント分割・レーン割り当てを行う設計になっているため、
+    座標やクラス名の実装詳細ではなく、責務ごとに切り出された関数名・クラス名・
+    CSS変数の「存在」を確認する（実装の細部が変わってもテストが壊れにくいように）。
+    """
     from pathlib import Path
     from Task.task_data import _serialize_item
 
@@ -543,49 +550,75 @@ def test_task_calendar_span_assets(test_client: TestClient):
     assert serialized["start_date"] == "2026-08-18"
     assert serialized["due_date"] == "2026-08-20"
 
-    # 2. calendar.js に期間算出・スパンバー・締切日テキスト制御ロジックが含まれること
+    # 2. calendar-layout.js に「週分割」「レーン割り当て」の純粋関数が存在すること
+    #    （期間バーがセル境界をまたいで連続して見えるようにする核となるロジック）
+    layout_js_path = Path("static/js/task_board/calendar-layout.js")
+    assert layout_js_path.exists()
+    layout_js = layout_js_path.read_text(encoding="utf-8")
+    for keyword in (
+        "function getItemSpan(",
+        "function groupByDateSpan(",
+        "function buildMonthWeeks(",
+        "function assignLanes(",
+        "function layoutWeekBars(",
+        "isSegStart",
+        "isSegEnd",
+        "continuesBefore",
+        "continuesAfter",
+    ):
+        assert keyword in layout_js, f"calendar-layout.js に {keyword} が見つかりません"
+
+    # 3. calendar.js が calendar-layout.js のレイアウト計算結果を使って
+    #    週行（week）・バー要素・単日チップを組み立てていること
     cal_js_path = Path("static/js/task_board/calendar.js")
     assert cal_js_path.exists()
     js_content = cal_js_path.read_text(encoding="utf-8")
     for keyword in (
-        "getItemSpan",
-        "groupByDateSpan",
-        "is-span-bar",
-        "is-span-start",
-        "is-span-mid",
-        "is-span-end",
+        "modules.calendarLayout",
+        "layout.buildMonthWeeks",
+        "layout.assignLanes",
+        "layout.layoutWeekBars",
+        "function createWeek(",
+        "function createBar(",
+        "function createCell(",
+        "task-calendar__week",
+        "task-calendar__bars",
+        "is-multi",
         "is-single",
+        "MAX_LANES",
     ):
-        assert keyword in js_content
+        assert keyword in js_content, f"calendar.js に {keyword} が見つかりません"
 
-    # 3. 16-task-board.css に期間バー（is-span-bar, is-span-start/mid/end）のスタイルおよび開始・終了の線色分けが定義されていること
+    # 4. 16-task-board.css に「週行」「バーのオーバーレイ」「連続バー要素」の
+    #    構造クラス、および開始端・終了端・週継続を表す修飾クラスが定義されていること
     css_path = Path("static/css/16-task-board.css")
     assert css_path.exists()
     css_content = css_path.read_text(encoding="utf-8")
-    for css_class in (
-        ".task-calendar__chip.is-span-bar",
-        ".task-calendar__chip.is-span-start",
-        ".task-calendar__chip.is-span-mid",
-        ".task-calendar__chip.is-span-end",
-        ".task-calendar__chip.is-single",
-        "--task-span-start",
-        "--task-span-end-todo",
-        "--task-span-end-doing",
-        "--task-span-end-done",
-        "--task-span-end-overdue",
+    for css_selector in (
+        ".task-calendar__week {",
+        ".task-calendar__bars {",
+        ".task-calendar__period-bar {",
+        ".task-calendar__period-bar.is-multi",
+        ".task-calendar__period-bar.is-multi.is-bar-start",
+        ".task-calendar__period-bar.is-multi.is-bar-end",
+        ".task-calendar__period-bar.is-multi.is-continues-before",
+        ".task-calendar__period-bar.is-multi.is-continues-after",
+        ".task-calendar__period-bar.is-single",
+        "--task-cal-lanes",
     ):
-        assert css_class in css_content
+        assert css_selector in css_content, (
+            f"16-task-board.css に {css_selector} が見つかりません"
+        )
 
-    # 開始（is-span-start）に左アクセント線、終了（is-span-end）に右アクセント線が設定されていること
-    assert "border-left: 3.5px solid var(--task-item-color" in css_content
-    assert "border-right: 3.5px solid var(--task-item-color" in css_content
-    assert ".task-calendar__chip.is-span-end.is-doing" in css_content
-    assert ".task-calendar__chip.is-span-end.is-done" in css_content
-    assert ".task-calendar__chip.is-span-end.is-overdue" in css_content
+    # 5. 終端（締切日）に矢じり（右向き三角）を描く clip-path ルールが存在すること
+    assert "clip-path: polygon" in css_content
+    assert ".is-bar-end {" in css_content
 
 
 def test_task_calendar_item_color(test_client: TestClient):
-    """カレンダーチップにタスク固有識別色が適用されること（TASK_PALETTE・CSS変数・chevron）。"""
+    """カレンダーの期間バー・単日チップにタスク固有識別色が適用され、
+    is-done/is-doing/is-overdue の状態表現が維持されていることを検証する。
+    """
     from pathlib import Path
 
     cal_js_path = Path("static/js/task_board/calendar.js")
@@ -603,7 +636,7 @@ def test_task_calendar_item_color(test_client: TestClient):
     assert "item_id" in js_content
     assert "TASK_PALETTE.length" in js_content
 
-    # 3. createChip() で --task-item-color CSS変数が設定されること
+    # 3. createBar() で --task-item-color CSS変数が設定されること
     assert "--task-item-color" in js_content
     assert "style.setProperty" in js_content
     assert "taskColor(item)" in js_content
@@ -612,35 +645,29 @@ def test_task_calendar_item_color(test_client: TestClient):
     assert css_path.exists()
     css_content = css_path.read_text(encoding="utf-8")
 
-    # 4. CSS側で --task-item-color 変数が各スパン要素のボーダー・背景に使われていること
+    # 4. CSS側で --task-item-color 変数が期間バー・単日チップの背景/ボーダーに使われていること
     assert "var(--task-item-color" in css_content
+    assert "background: var(--task-item-color" in css_content
     assert "border-left: 3px solid var(--task-item-color" in css_content
-    assert "border-left: 3.5px solid var(--task-item-color" in css_content
-    assert "border-right: 3.5px solid var(--task-item-color" in css_content
 
     # 5. done状態が opacity フェードで表現されること
+    assert ".task-calendar__period-bar.is-done {" in css_content
     assert "opacity: 0.65" in css_content
 
     # 6. overdue状態が赤系強調（!important 付き）で上書きされること
+    assert ".task-calendar__period-bar.is-overdue {" in css_content
     assert "var(--task-high) !important" in css_content
 
-    # 7. chevron 形状（clip-path polygon）が各スパン要素に適用されていること
-    assert "clip-path: polygon" in css_content
-    # is-span-start の右端 chevron
-    assert "calc(100% - 8px) 0, 100% 50%" in css_content
-    # is-span-mid の両端 chevron（平行四辺形）
-    assert "8px 100%, 0 50%)" in css_content
-    # is-span-end の左端くぼみ
-    assert "8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%)" in css_content
+    # 7. doing状態のスタイルが定義されていること
+    assert ".task-calendar__period-bar.is-doing {" in css_content
 
-    # 8. 週境界（土曜・日曜）でのchevronリセット処理が存在すること
-    assert (
-        ".task-calendar__cell.is-sunday .task-calendar__chip.is-span-mid" in css_content
-    )
-    assert (
-        ".task-calendar__cell.is-saturday .task-calendar__chip.is-span-start"
-        in css_content
-    )
+    # 8. 矢じり（arrow head）を描く clip-path ルールが is-bar-end に適用されていること
+    assert ".task-calendar__period-bar.is-multi.is-bar-end {" in css_content
+    assert "clip-path: polygon" in css_content
+
+    # 9. 週境界をまたぐ場合の継続修飾クラス（フラット化・ノッチ）が定義されていること
+    assert ".task-calendar__period-bar.is-multi.is-continues-before {" in css_content
+    assert ".task-calendar__period-bar.is-multi.is-continues-after {" in css_content
 
 
 def _split_top_level_commas(text: str) -> list[str]:
