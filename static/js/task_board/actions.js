@@ -253,6 +253,7 @@
       note: item.note || '',
       priority: item.priority || 'normal',
       category: item.category || '',
+      start_date: item.start_date || null,
       due_date: item.due_date || null,
       board_status: item.board_status || 'todo'
     };

@@ -8,6 +8,7 @@
   var POLL_INTERVAL_MS = 3500;
   var pollTimer = null;
   var isPolling = false;
+  var isCreatingQuickAdd = false;
 
   function isUserInteracting() {
     var dialog = document.getElementById('taskEditorDialog');
@@ -58,6 +59,7 @@
 
   async function createFromQuickAdd(event) {
     event.preventDefault();
+    if (isCreatingQuickAdd) return;
     var input = document.getElementById('taskTitle');
     var prioritySelect = document.getElementById('taskCreatePriority');
     var startDateInput = document.getElementById('taskCreateStartDate');
@@ -87,6 +89,7 @@
     }
 
     var button = event.currentTarget.querySelector('button[type="submit"]');
+    isCreatingQuickAdd = true;
     if (button) button.disabled = true;
 
     try {
@@ -110,6 +113,7 @@
         error.hidden = false;
       }
     } finally {
+      isCreatingQuickAdd = false;
       if (button) button.disabled = false;
     }
   }

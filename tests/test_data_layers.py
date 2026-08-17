@@ -248,6 +248,98 @@ def test_task_data_room_item_and_expiration_lifecycle():
     assert any("UPDATE task_room SET status" in query for query, *_ in calls)
 
 
+def test_task_data_update_rejects_partial_date_range_atomically():
+    """開始日・期限日の片側更新で逆転した値を保存しない。"""
+    import Task.task_data as td
+
+    calls = []
+
+    class Result:
+        def mappings(self):
+            return self
+
+        def first(self):
+            return {
+                "item_id": 12,
+                "title": "task",
+                "note": "",
+                "board_status": "todo",
+                "priority": "normal",
+                "category": None,
+                "start_date": "2026-08-20",
+                "due_date": "2026-08-25",
+                "position": 100,
+                "version": 0,
+                "created_at": None,
+                "updated_at": None,
+            }
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            calls.append(str(query))
+            return Result()
+
+    async def scenario():
+        with patch("Task.task_data.db_session", TaskDbSession()):
+            await td.update_item("taskA", 12, {"due_date": "2026-08-15"}, version=0)
+
+    import pytest
+
+    with pytest.raises(td.InvalidTaskDateRange):
+        run(scenario())
+    assert len(calls) == 1
+    assert not any("UPDATE task_item SET" in query for query in calls)
+
+
+def test_task_data_create_rechecks_room_limit_inside_transaction():
+    """同時追加で事前の件数確認をすり抜けても上限を超えない。"""
+    import Task.task_data as td
+    import pytest
+
+    calls = []
+
+    class Result:
+        def __init__(self, row):
+            self.row = row
+
+        def mappings(self):
+            return self
+
+        def first(self):
+            return self.row
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            calls.append(str(query))
+            return Result({"room_id": "taskA"} if len(calls) == 1 else {"count": 200})
+
+    async def scenario():
+        with patch("Task.task_data.db_session", TaskDbSession()):
+            await td.create_item(
+                "taskA",
+                {
+                    "title": "task",
+                    "note": "",
+                    "board_status": "todo",
+                    "priority": "normal",
+                    "category": "",
+                    "due_date": None,
+                },
+                max_items=200,
+            )
+
+    with pytest.raises(td.TaskItemLimitReached):
+        run(scenario())
+    assert len(calls) == 2
+    assert not any("INSERT INTO task_item" in query for query in calls)
+
+
 class FakeBegin:
     async def __aenter__(self):
         return self

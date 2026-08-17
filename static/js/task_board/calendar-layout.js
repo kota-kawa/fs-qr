@@ -25,8 +25,25 @@
 
   function parseKey(key) {
     var parts = String(key || '').split('-');
-    if (parts.length !== 3) return null;
-    var date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    if (
+      parts.length !== 3 ||
+      !/^\d{4}$/.test(parts[0]) ||
+      !/^\d{2}$/.test(parts[1]) ||
+      !/^\d{2}$/.test(parts[2])
+    ) {
+      return null;
+    }
+    var year = Number(parts[0]);
+    var month = Number(parts[1]);
+    var day = Number(parts[2]);
+    var date = new Date(year, month - 1, day);
+    if (
+      date.getFullYear() !== year ||
+      date.getMonth() !== month - 1 ||
+      date.getDate() !== day
+    ) {
+      return null;
+    }
     return isNaN(date.getTime()) ? null : date;
   }
 

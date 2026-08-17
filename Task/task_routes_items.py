@@ -52,7 +52,12 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
             payload = TaskItemInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
             return api_error_response("入力内容が不正です。", status_code=400)
-        item = await task_data.create_item(room_id, payload.model_dump())
+        try:
+            item = await task_data.create_item(
+                room_id, payload.model_dump(), max_items=TASK_MAX_ITEMS_PER_ROOM
+            )
+        except task_data.TaskItemLimitReached:
+            return api_error_response("タスク数の上限に達しました。", status_code=400)
         return api_ok_response({"item": item}, status_code=201)
 
     @router.patch("/task/{room_id}/items/{item_id}", name="task.update_item")
@@ -64,12 +69,17 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
             payload = TaskItemUpdateInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
             return api_error_response("入力内容が不正です。", status_code=400)
-        item, updated = await task_data.update_item(
-            room_id,
-            item_id,
-            payload.model_dump(exclude_unset=True, exclude={"version"}),
-            payload.version,
-        )
+        try:
+            item, updated = await task_data.update_item(
+                room_id,
+                item_id,
+                payload.model_dump(exclude_unset=True, exclude={"version"}),
+                payload.version,
+            )
+        except task_data.InvalidTaskDateRange:
+            return api_error_response(
+                "開始日は期限日以前の日付を指定してください。", status_code=400
+            )
         if item is None:
             return api_error_response("タスクが見つかりません。", status_code=404)
         if not updated:
@@ -93,8 +103,10 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
                 SCOPE_TASK_ITEM_DELETE, backoff_key
             )
             return denied
-        await task_data.delete_item(room_id, item_id)
+        deleted = await task_data.delete_item(room_id, item_id)
         await clear_exponential_backoff(SCOPE_TASK_ITEM_DELETE, backoff_key)
+        if not deleted:
+            return api_error_response("タスクが見つかりません。", status_code=404)
         return api_ok_response({"item_id": item_id})
 
     @router.post("/task/{room_id}/items/reorder", name="task.reorder_items")

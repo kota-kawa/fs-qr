@@ -123,10 +123,27 @@
   function dueDiffDays(dueDateStr) {
     if (!dueDateStr) return null;
     var parts = String(dueDateStr).split('-');
-    if (parts.length !== 3) return null;
+    if (
+      parts.length !== 3 ||
+      !/^\d{4}$/.test(parts[0]) ||
+      !/^\d{2}$/.test(parts[1]) ||
+      !/^\d{2}$/.test(parts[2])
+    ) {
+      return null;
+    }
 
-    var dueDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    var year = Number(parts[0]);
+    var month = Number(parts[1]);
+    var day = Number(parts[2]);
+    var dueDate = new Date(year, month - 1, day);
     if (isNaN(dueDate.getTime())) return null;
+    if (
+      dueDate.getFullYear() !== year ||
+      dueDate.getMonth() !== month - 1 ||
+      dueDate.getDate() !== day
+    ) {
+      return null;
+    }
     dueDate.setHours(0, 0, 0, 0);
 
     var today = new Date();
