@@ -1541,7 +1541,6 @@ body.product-lp {
 
 .lp-feature-card--wide {
   grid-row: span 2;
-  min-height: 552px;
   padding: 42px;
   background: var(--lp-ink);
 }
@@ -1566,18 +1565,6 @@ body.product-lp {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.lp-feature-card__demo {
-  position: absolute;
-  right: 42px;
-  bottom: 46px;
-  left: 42px;
-  height: 190px;
-  padding: 40px 34px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.055);
-}
-
 .lp-card__icon {
   display: grid;
   width: 52px;
@@ -1599,23 +1586,6 @@ body.product-lp {
 .lp-feature-card--accent {
   border-color: rgba(var(--lp-accent-rgb), 0.2);
   background: var(--lp-accent-soft);
-}
-
-.lp-share-visual {
-  position: absolute;
-  right: 42px;
-  bottom: 42px;
-  left: 42px;
-  display: grid;
-  min-height: 180px;
-  align-content: center;
-  gap: 16px;
-  padding: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 92% 12%, rgba(117, 222, 178, 0.16), transparent 36%),
-    rgba(255, 255, 255, 0.055);
 }
 
 .product-lp--group .lp-step {
@@ -2375,14 +2345,6 @@ body.product-lp {
     padding: 27px;
   }
 
-  .lp-feature-card--wide {
-    min-height: 470px;
-  }
-
-  .lp-feature-card__demo {
-    right: 27px;
-    left: 27px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2770,17 +2732,12 @@ body.product-lp {
   background: #f0f2f5;
 }
 
-.product-lp--fsqr .lp-feature-card--wide {
-  min-height: 340px;
+.product-lp--fsqr .lp-feature-card--wide,
+.product-lp--fsqr .lp-shot-card {
   grid-column: 1 / -1;
   grid-row: auto;
   padding: 42px;
   background: #172033;
-}
-
-.product-lp--fsqr .lp-feature-card--wide h3,
-.product-lp--fsqr .lp-feature-card--wide > p {
-  max-width: 45%;
 }
 
 .product-lp--fsqr .lp-feature-card {
@@ -2793,18 +2750,6 @@ body.product-lp {
 
 .product-lp--fsqr .lp-feature-card--wide .lp-feature-card__icon {
   background: rgba(255, 255, 255, 0.1);
-}
-
-.product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
-  top: 42px;
-  right: 42px;
-  bottom: 42px;
-  left: auto;
-  width: 45%;
-  height: auto;
-  padding: 0;
-  overflow: visible;
-  border-radius: 12px;
 }
 
 /* Use cases / 日常の場面を読み物のようなカードで見せる */
@@ -2947,23 +2892,9 @@ body.product-lp {
     padding: 78px 0;
   }
 
-  .product-lp--fsqr .lp-feature-card--wide {
-    min-height: 510px;
+  .product-lp--fsqr .lp-feature-card--wide,
+  .product-lp--fsqr .lp-shot-card {
     padding: 30px;
-  }
-
-  .product-lp--fsqr .lp-feature-card--wide h3,
-  .product-lp--fsqr .lp-feature-card--wide > p {
-    max-width: none;
-  }
-
-  .product-lp--fsqr .lp-feature-card--wide .lp-feature-card__demo {
-    top: auto;
-    right: 30px;
-    bottom: 30px;
-    left: 30px;
-    width: auto;
-    height: 190px;
   }
 }
 
@@ -3355,32 +3286,28 @@ body.product-lp {
 
 .product-lp--note .lp-feature-card--wide,
 .product-lp--group .lp-feature-card--wide,
-.product-lp--task .lp-feature-card--wide {
-  min-height: 340px;
+.product-lp--task .lp-feature-card--wide,
+.product-lp--note .lp-shot-card,
+.product-lp--group .lp-shot-card,
+.product-lp--task .lp-shot-card {
   grid-column: 1 / -1;
   grid-row: auto;
   padding: 42px;
 }
 
-.product-lp--note .lp-feature-card--wide {
+.product-lp--note .lp-feature-card--wide,
+.product-lp--note .lp-shot-card {
   background: #292238;
 }
 
-.product-lp--group .lp-feature-card--wide {
+.product-lp--group .lp-feature-card--wide,
+.product-lp--group .lp-shot-card {
   background: #173b2f;
 }
 
-.product-lp--task .lp-feature-card--wide {
+.product-lp--task .lp-feature-card--wide,
+.product-lp--task .lp-shot-card {
   background: #2c1a06;
-}
-
-.product-lp--note .lp-feature-card--wide h3,
-.product-lp--note .lp-feature-card--wide > p,
-.product-lp--group .lp-feature-card--wide h3,
-.product-lp--group .lp-feature-card--wide > p,
-.product-lp--task .lp-feature-card--wide h3,
-.product-lp--task .lp-feature-card--wide > p {
-  max-width: 44%;
 }
 
 .product-lp--note .lp-feature-card,
@@ -3399,37 +3326,23 @@ body.product-lp {
   border-radius: 10px;
 }
 
-.product-lp--note .lp-feature-card__demo,
-.product-lp--task .lp-feature-card__demo,
-.product-lp--group .lp-share-visual {
-  top: 42px;
-  right: 42px;
-  bottom: 42px;
-  left: auto;
-  width: 44%;
-  height: auto;
-  min-height: 0;
-  border-radius: 12px;
-}
-
-.product-lp--note .lp-feature-card--wide .lp-feature-card__demo,
-.product-lp--task .lp-feature-card--wide .lp-feature-card__demo,
-.product-lp--group .lp-feature-card--wide .lp-share-visual {
-  display: block;
-  padding: 0;
-  overflow: visible;
-}
-
 /* Demo frame / 動画・スクリーンショットを "見ていて楽しい" ブラウザ風フレームで見せる */
+/* 動画・静止画とも、切り取らず全体をそのまま見せる。高さは実際の縦横比から決まる */
+.lp-feature-card__demo,
+.lp-share-visual {
+  position: relative;
+  margin-top: 32px;
+}
+
 .lp-demo-frame {
   position: relative;
   width: 100%;
-  height: 100%;
+  max-width: 820px;
 }
 
 .lp-demo-frame__glow {
   position: absolute;
-  inset: -18%;
+  inset: -10%;
   z-index: 0;
   background:
     radial-gradient(circle at 20% 12%, rgba(var(--lp-accent-rgb), 0.55), transparent 55%),
@@ -3442,10 +3355,6 @@ body.product-lp {
 .lp-demo-frame__window {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
@@ -3455,7 +3364,6 @@ body.product-lp {
 
 .lp-demo-frame__bar {
   display: flex;
-  flex: none;
   align-items: center;
   gap: 6px;
   padding: 10px 14px;
@@ -3466,6 +3374,7 @@ body.product-lp {
 .lp-demo-frame__bar span {
   width: 8px;
   height: 8px;
+  flex: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.22);
 }
@@ -3498,49 +3407,25 @@ body.product-lp {
 
 .lp-demo-frame__screen {
   position: relative;
-  flex: 1;
-  min-height: 0;
+  line-height: 0;
+}
+
+.lp-feature-card__video,
+.lp-demo-frame__screen img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .lp-feature-card__video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   background: #000;
 }
 
-/* Snapshot / 動画とは別に、実際の画面を静止画で常時表示する */
-.lp-demo-frame__snapshot {
-  position: absolute;
-  right: -14px;
-  bottom: -18px;
-  z-index: 2;
-  width: 132px;
-  margin: 0;
-  padding: 5px 5px 16px;
-  border-radius: 6px;
-  background: #fff;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
-  transform: rotate(-5deg);
-}
-
-.lp-demo-frame__snapshot img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 2px;
-  object-fit: cover;
-  object-position: top;
-}
-
-@media (max-width: 760px) {
-  .lp-demo-frame__snapshot {
-    right: -10px;
-    bottom: -12px;
-    width: 96px;
-    padding: 4px 4px 12px;
-  }
+/* Screenshot card / 動画とは別の場所に、実際の画面をそのまま静止画で見せる */
+.lp-shot-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes lp-demo-glow-drift {
@@ -3710,29 +3595,11 @@ body.product-lp {
 
   .product-lp--note .lp-feature-card--wide,
   .product-lp--group .lp-feature-card--wide,
-  .product-lp--task .lp-feature-card--wide {
-    min-height: 510px;
+  .product-lp--task .lp-feature-card--wide,
+  .product-lp--note .lp-shot-card,
+  .product-lp--group .lp-shot-card,
+  .product-lp--task .lp-shot-card {
     padding: 30px;
-  }
-
-  .product-lp--note .lp-feature-card--wide h3,
-  .product-lp--note .lp-feature-card--wide > p,
-  .product-lp--group .lp-feature-card--wide h3,
-  .product-lp--group .lp-feature-card--wide > p,
-  .product-lp--task .lp-feature-card--wide h3,
-  .product-lp--task .lp-feature-card--wide > p {
-    max-width: none;
-  }
-
-  .product-lp--note .lp-feature-card__demo,
-  .product-lp--task .lp-feature-card__demo,
-  .product-lp--group .lp-share-visual {
-    top: auto;
-    right: 30px;
-    bottom: 30px;
-    left: 30px;
-    width: auto;
-    height: 200px;
   }
 }
 
