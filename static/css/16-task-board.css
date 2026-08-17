@@ -2803,9 +2803,34 @@
 /* ── Body-level overlays / body 直下に描画する要素 ───────────────────────
    `body.task-section > *` (01-base-search.css) forces position: relative on
    every direct child, so the floating layers need a stronger selector.
-   基底スタイルが body 直下の要素を relative にするため、詳細度を上げて上書きする。 */
+   基底スタイルが body 直下の要素を relative にするため、詳細度を上げて上書きする。
+
+   このオーバーライドが無いと、body 直下に追加される共通UI要素
+   （static/tooltip.js の .fsqr-tooltip、static/js/shared/ux-runtime.js の
+   .fsqr-progress / .fsqr-toast-stack / .fsqr-offline-banner）が
+   position: fixed のつもりで実装されているにもかかわらず relative 化されて
+   しまい、以下の不具合を引き起こしていた。
+   - タスクカードのボタンなど title 属性を持つ要素にホバーするたびに
+     ツールチップが通常のドキュメントフローに挿入され、body の高さが
+     増減してページ全体が縦に揺れる（ホバー時のガタつき）。
+   - タスク削除後の完了トーストが画面右下等に固定されず、通常のフロー内で
+     フッターの下（body の末尾）に描画され、スクロールしないと見えない。
+
+   Without this override, shared body-level UI elements appended directly to
+   <body> — .fsqr-tooltip (static/tooltip.js) and .fsqr-progress /
+   .fsqr-toast-stack / .fsqr-offline-banner (static/js/shared/ux-runtime.js)
+   — were built assuming position: fixed but got forced back to relative,
+   causing: (1) page-wide vertical jitter whenever a title-tooltip element
+   (e.g. task card action buttons) is hovered, because the tooltip is
+   inserted into normal flow and changes body's height, and (2) the
+   post-delete toast rendering at the very end of <body> (below the footer)
+   instead of staying fixed on screen. */
 .task-section > .task-menu,
-.task-section > .task-card--ghost {
+.task-section > .task-card--ghost,
+.task-section > .fsqr-tooltip,
+.task-section > .fsqr-progress,
+.task-section > .fsqr-toast-stack,
+.task-section > .fsqr-offline-banner {
   position: fixed;
 }
 
@@ -2815,6 +2840,16 @@
 
 .task-section > .task-card--ghost {
   z-index: 9999;
+}
+
+.task-section > .fsqr-tooltip {
+  z-index: var(--z-tooltip, 1300);
+}
+
+.task-section > .fsqr-progress,
+.task-section > .fsqr-toast-stack,
+.task-section > .fsqr-offline-banner {
+  z-index: var(--z-toast, 1200);
 }
 
 /* ── Utilities & animations ───────────────────────────────────────────── */
