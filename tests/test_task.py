@@ -1001,3 +1001,84 @@ def test_task_item_schema_matches_fresh_install_and_migrations():
         "新しいマイグレーション（例: alembic/versions/2xxxxxxx_xxxx_*.py）で"
         "ALTER TABLE task_item ADD COLUMN ... を追加してください。"
     )
+
+
+def test_task_new_item_forms_default_dates_to_today():
+    """新規タスク作成時、開始日・締切日の入力欄がデフォルトで今日の日付になる。
+
+    - 編集ダイアログを新規作成モードで開く editor.js の openCreate() は、
+      カレンダーから明示的な締切日が渡されなかった場合、開始日・締切日を
+      クライアントのローカル日付（today）で初期化する。
+    - 締切日が今日より前の日付で明示指定された場合（カレンダーで過去日を
+      選んで追加した場合）は、開始日 > 締切日 のバリデーションエラーを
+      避けるため開始日は空欄のままにする。
+    - ボード上部のクイック追加フォーム（taskCreateForm）も、ページ読み込み時
+      および追加成功後の入力欄リセット時に今日の日付を再セットする。
+    既存の編集モード（open()）は item.start_date / item.due_date の値を
+    そのまま使い続けており、既存タスクの値を上書きしないことも確認する。
+    """
+    from pathlib import Path
+
+    editor_js = Path("static/js/task_board/editor.js").read_text(encoding="utf-8")
+    main_js = Path("static/js/task_board/main.js").read_text(encoding="utf-8")
+
+    # 1. openCreate() が今日の日付を既定値として計算していること
+    assert "function openCreate(initialStatus, options) {" in editor_js
+    assert "var todayStr = formatDate(new Date());" in editor_js
+    assert "var dueDate = (options && options.dueDate) || todayStr;" in editor_js
+    assert "var startDate = dueDate >= todayStr ? todayStr : '';" in editor_js
+    assert "element('taskEditorStartDate').value = startDate;" in editor_js
+    assert "element('taskEditorDueDate').value = dueDate;" in editor_js
+
+    # 2. 編集モード（既存タスクを開く open()）は今まで通り item の値をそのまま使い、
+    #    今日の日付で上書きしないこと（新規作成時のみのデフォルト値であることを保証）
+    assert "element('taskEditorStartDate').value = item.start_date || '';" in editor_js
+    assert "element('taskEditorDueDate').value = item.due_date || '';" in editor_js
+
+    # 3. クイック追加フォームの日付欄も今日の日付を初期値・リセット値にすること
+    assert "function quickAddDefaultDate() {" in main_js
+    assert (
+        "return modules.calendarLayout ? modules.calendarLayout.dateKey(new Date()) : '';"
+        in main_js
+    )
+    assert "function initQuickAddDefaultDates() {" in main_js
+    assert (
+        "if (startDateInput && !startDateInput.value) startDateInput.value = todayStr;"
+        in main_js
+    )
+    assert (
+        "if (dueDateInput && !dueDateInput.value) dueDateInput.value = todayStr;"
+        in main_js
+    )
+    assert "initQuickAddDefaultDates();" in main_js
+    assert "var resetDate = quickAddDefaultDate();" in main_js
+    assert "if (startDateInput) startDateInput.value = resetDate;" in main_js
+    assert "if (dueDateInput) dueDateInput.value = resetDate;" in main_js
+
+
+def test_task_board_page_renders_date_input_fields(test_client: TestClient):
+    """タスクボードページに、開始日・締切日を入力する欄（クイック追加・編集ダイアログ双方）が
+    今回の変更後も存在すること（回帰確認）。
+    """
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=True),
+        patch("Task.task_routes_room.get_task_room_password", return_value="pw12345"),
+        patch(
+            "Task.task_routes_room.get_task_room_share_token",
+            return_value="sharetoken123",
+        ),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+    assert 'id="taskCreateStartDate"' in body
+    assert 'id="taskCreateDueDate"' in body
+    assert 'id="taskEditorStartDate"' in body
+    assert 'id="taskEditorDueDate"' in body
