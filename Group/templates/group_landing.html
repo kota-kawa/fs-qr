@@ -322,20 +322,32 @@
                 <path d="M14 21v-3"/>
               </svg>
             </span>
-            <h3>実際の画面で見る、URL・QRコードで招待</h3>
-            <p>共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを、実際の操作画面をそのまま録画しました。</p>
+            <h3>URLひとつで、チーム全員が同じ場所に集まる</h3>
+            <p>共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。</p>
             <div class="lp-share-visual">
-              <video
-                class="lp-feature-card__video"
-                muted
-                loop
-                playsinline
-                controls
-                preload="metadata"
-                poster="{{ staticfile('images/product-landing-pages/group-demo/group-demo-04-room.jpg') }}"
-                aria-label="共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画">
-                <source src="{{ staticfile('videos/product-landing-pages/group-demo.webm') }}" type="video/webm">
-              </video>
+              <div class="lp-demo-frame">
+                <span class="lp-demo-frame__glow" aria-hidden="true"></span>
+                <div class="lp-demo-frame__window">
+                  <div class="lp-demo-frame__bar" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                    <p>fs-qr.net/group</p>
+                  </div>
+                  <div class="lp-demo-frame__screen">
+                    <video
+                      class="lp-feature-card__video"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      controls
+                      preload="metadata"
+                      poster="{{ staticfile('images/product-landing-pages/group-demo/group-page.jpg') }}"
+                      aria-label="共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画">
+                      <source src="{{ staticfile('videos/product-landing-pages/group-demo.mp4') }}" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
             </div>
           </article>
           <article class="lp-card lp-feature-card">
@@ -384,7 +396,7 @@
             <h3>ブラウザだけで完結</h3>
             <p>専用アプリを増やさず、PCやスマートフォンのブラウザからアクセスできます。</p>
           </article>
-          <article class="lp-card lp-feature-card lp-feature-card--accent lp-feature-card--accent-shot">
+          <article class="lp-card lp-feature-card lp-feature-card--accent">
             <span class="lp-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 7h16"/>
@@ -393,12 +405,8 @@
                 <path d="M10 11v6M14 11v6"/>
               </svg>
             </span>
-            <h3>実際の画面で見る、ルーム削除</h3>
-            <p>共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。実際の削除操作画面です。</p>
-            <figure class="lp-feature-card__shot">
-              <img src="{{ staticfile('images/product-landing-pages/group-demo/group-demo-05-delete.jpg') }}" alt="" loading="lazy" decoding="async">
-              <figcaption class="lp-visually-hidden">FS!QR Groupのルーム削除ボタンが表示された実際の画面</figcaption>
-            </figure>
+            <h3>ルームはいつでも即削除</h3>
+            <p>共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。</p>
           </article>
         </div>
       </div>

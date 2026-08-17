@@ -2396,6 +2396,10 @@ body.product-lp {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  .lp-demo-frame__glow {
+    animation: none !important;
+  }
 }
 
 /* ================================================================
@@ -2799,7 +2803,7 @@ body.product-lp {
   width: 45%;
   height: auto;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 12px;
 }
 
@@ -3350,7 +3354,8 @@ body.product-lp {
 }
 
 .product-lp--note .lp-feature-card--wide,
-.product-lp--group .lp-feature-card--wide {
+.product-lp--group .lp-feature-card--wide,
+.product-lp--task .lp-feature-card--wide {
   min-height: 340px;
   grid-column: 1 / -1;
   grid-row: auto;
@@ -3365,15 +3370,22 @@ body.product-lp {
   background: #173b2f;
 }
 
+.product-lp--task .lp-feature-card--wide {
+  background: #2c1a06;
+}
+
 .product-lp--note .lp-feature-card--wide h3,
 .product-lp--note .lp-feature-card--wide > p,
 .product-lp--group .lp-feature-card--wide h3,
-.product-lp--group .lp-feature-card--wide > p {
+.product-lp--group .lp-feature-card--wide > p,
+.product-lp--task .lp-feature-card--wide h3,
+.product-lp--task .lp-feature-card--wide > p {
   max-width: 44%;
 }
 
 .product-lp--note .lp-feature-card,
-.product-lp--group .lp-feature-card {
+.product-lp--group .lp-feature-card,
+.product-lp--task .lp-feature-card {
   min-height: 235px;
 }
 
@@ -3382,37 +3394,13 @@ body.product-lp {
   grid-column: 1 / -1;
 }
 
-.product-lp--group .lp-feature-card--accent-shot {
-  padding-right: 270px;
-}
-
-.lp-feature-card__shot {
-  position: absolute;
-  top: 50%;
-  right: 34px;
-  width: 220px;
-  height: 130px;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-  transform: translateY(-50%);
-}
-
-.lp-feature-card__shot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .product-lp--note .lp-feature-card__icon,
 .product-lp--group .lp-card__icon {
   border-radius: 10px;
 }
 
 .product-lp--note .lp-feature-card__demo,
+.product-lp--task .lp-feature-card__demo,
 .product-lp--group .lp-share-visual {
   top: 42px;
   right: 42px;
@@ -3427,8 +3415,91 @@ body.product-lp {
 .product-lp--note .lp-feature-card--wide .lp-feature-card__demo,
 .product-lp--task .lp-feature-card--wide .lp-feature-card__demo,
 .product-lp--group .lp-feature-card--wide .lp-share-visual {
+  display: block;
   padding: 0;
+  overflow: visible;
+}
+
+/* Demo frame / 動画・スクリーンショットを "見ていて楽しい" ブラウザ風フレームで見せる */
+.lp-demo-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lp-demo-frame__glow {
+  position: absolute;
+  inset: -18%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(var(--lp-accent-rgb), 0.55), transparent 55%),
+    radial-gradient(circle at 88% 82%, rgba(255, 255, 255, 0.18), transparent 46%);
+  filter: blur(28px);
+  opacity: 0.75;
+  animation: lp-demo-glow-drift 9s ease-in-out infinite;
+}
+
+.lp-demo-frame__window {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  background: #05070c;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.4);
+}
+
+.lp-demo-frame__bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lp-demo-frame__bar span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.lp-demo-frame__bar span:nth-child(1) {
+  background: #ff7b6c;
+}
+
+.lp-demo-frame__bar span:nth-child(2) {
+  background: #f6c75f;
+}
+
+.lp-demo-frame__bar span:nth-child(3) {
+  background: #5fcf9c;
+}
+
+.lp-demo-frame__bar p {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  margin: 0 0 0 10px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.lp-demo-frame__screen {
+  position: relative;
+  flex: 1;
+  min-height: 0;
 }
 
 .lp-feature-card__video {
@@ -3436,8 +3507,17 @@ body.product-lp {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: inherit;
   background: #000;
+}
+
+@keyframes lp-demo-glow-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, -3%) scale(1.06);
+  }
 }
 
 /* Use cases / 抽象装飾を減らし、用途の文章を主役にする */
@@ -3596,7 +3676,8 @@ body.product-lp {
   }
 
   .product-lp--note .lp-feature-card--wide,
-  .product-lp--group .lp-feature-card--wide {
+  .product-lp--group .lp-feature-card--wide,
+  .product-lp--task .lp-feature-card--wide {
     min-height: 510px;
     padding: 30px;
   }
@@ -3604,32 +3685,21 @@ body.product-lp {
   .product-lp--note .lp-feature-card--wide h3,
   .product-lp--note .lp-feature-card--wide > p,
   .product-lp--group .lp-feature-card--wide h3,
-  .product-lp--group .lp-feature-card--wide > p {
+  .product-lp--group .lp-feature-card--wide > p,
+  .product-lp--task .lp-feature-card--wide h3,
+  .product-lp--task .lp-feature-card--wide > p {
     max-width: none;
   }
 
   .product-lp--note .lp-feature-card__demo,
+  .product-lp--task .lp-feature-card__demo,
   .product-lp--group .lp-share-visual {
     top: auto;
     right: 30px;
     bottom: 30px;
     left: 30px;
     width: auto;
-    height: 190px;
-  }
-
-  .product-lp--group .lp-feature-card--accent-shot {
-    padding-right: 34px;
-    padding-bottom: 160px;
-  }
-
-  .lp-feature-card__shot {
-    top: auto;
-    right: 34px;
-    bottom: 34px;
-    left: 34px;
-    width: auto;
-    transform: none;
+    height: 200px;
   }
 }
 
