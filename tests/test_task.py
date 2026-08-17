@@ -264,6 +264,39 @@ def test_task_item_date_validation(test_client: TestClient):
         )
         assert invalid_response.status_code == 400
 
+        invalid_format_response = test_client.post(
+            "/api/task/abc123/items",
+            json={"title": "存在しない日付", "due_date": "2026-02-30"},
+        )
+        assert invalid_format_response.status_code == 400
+
+
+def test_task_item_update_rejects_partial_date_range_conflict(test_client: TestClient):
+    """片方の日付だけの更新でも既存値との前後関係を守る。"""
+    from Task import task_data
+
+    with (
+        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.update_item",
+            new_callable=AsyncMock,
+            side_effect=task_data.InvalidTaskDateRange(),
+        ),
+    ):
+        response = test_client.request(
+            "PATCH",
+            "/api/task/abc123/items/12",
+            json={"version": 0, "due_date": "2026-08-15"},
+        )
+
+    assert response.status_code == 400
+    assert "開始日は期限日以前" in response.json()["error"]
+
 
 def test_task_item_limit_validation_and_conflict(test_client: TestClient):
     with (
@@ -309,6 +342,64 @@ def test_task_item_limit_validation_and_conflict(test_client: TestClient):
     assert conflict_response.status_code == 409
     assert conflict_response.json()["data"]["item"]["version"] == 4
     assert invalid_response.status_code == 400
+
+
+def test_task_item_create_rechecks_limit_inside_data_layer(test_client: TestClient):
+    from Task import task_data
+
+    with (
+        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new_callable=AsyncMock,
+            return_value=0,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.create_item",
+            new_callable=AsyncMock,
+            side_effect=task_data.TaskItemLimitReached(),
+        ),
+    ):
+        response = test_client.post(
+            "/api/task/abc123/items", json={"title": "競合追加"}
+        )
+
+    assert response.status_code == 400
+    assert "タスク数の上限" in response.json()["error"]
+
+
+def test_task_delete_reports_missing_item(test_client: TestClient):
+    with (
+        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.delete_item",
+            new_callable=AsyncMock,
+            return_value=False,
+        ),
+        patch(
+            "Task.task_routes_items.check_exponential_backoff",
+            new_callable=AsyncMock,
+            return_value=(True, None, None),
+        ),
+        patch(
+            "Task.task_routes_items.clear_exponential_backoff",
+            new_callable=AsyncMock,
+        ),
+    ):
+        response = test_client.delete("/api/task/abc123/items/12")
+
+    assert response.status_code == 404
+    assert "タスクが見つかりません" in response.json()["error"]
 
 
 def test_task_reorder_rejects_invalid_ids_and_returns_column(test_client: TestClient):
@@ -671,6 +762,20 @@ def test_task_calendar_span_assets(test_client: TestClient):
         assert combination in css_content, (
             f"16-task-board.css に端形状の組み合わせ {combination} が見つかりません"
         )
+
+
+def test_task_undo_preserves_start_date_and_quick_add_is_single_flight():
+    """削除取り消しとクイック追加の重複防止が開始日を壊さない。"""
+    from pathlib import Path
+
+    actions_js = Path("static/js/task_board/actions.js").read_text(encoding="utf-8")
+    main_js = Path("static/js/task_board/main.js").read_text(encoding="utf-8")
+    core_js = Path("static/js/task_board/core.js").read_text(encoding="utf-8")
+
+    assert "start_date: item.start_date || null" in actions_js
+    assert "var isCreatingQuickAdd = false;" in main_js
+    assert "if (isCreatingQuickAdd) return;" in main_js
+    assert "dueDate.getFullYear() !== year" in core_js
 
 
 def test_task_calendar_item_color(test_client: TestClient):

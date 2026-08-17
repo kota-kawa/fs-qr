@@ -155,6 +155,29 @@ def test_import_tasks_invalid_json(test_client):
     assert "無効なJSON" in data["error"]
 
 
+def test_import_tasks_rejects_non_object_json(test_client):
+    """JSON のトップレベルが配列でも 500 ではなく入力エラーにする。"""
+    ROOM_META = {
+        "room_id": "abc123",
+        "id": "abc123",
+        "retention_hours": 24,
+    }
+    with (
+        patch("Task.task_routes_io.enforce_csrf", new_callable=AsyncMock),
+        patch("Task.task_routes_io.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_io.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        files = {"file": ("tasks.json", b"[]", "application/json")}
+        response = test_client.post("/api/task/abc123/import", files=files)
+
+    assert response.status_code == 400
+    assert "タスクリストの形式が不正" in response.json()["error"]
+
+
 def test_import_tasks_invalid_version(test_client):
     ROOM_META = {
         "room_id": "abc123",

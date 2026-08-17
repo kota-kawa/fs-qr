@@ -12,6 +12,27 @@ from database import db_session, execute_query
 from password_security import hash_password, verify_password
 
 
+class InvalidTaskDateRange(ValueError):
+    """タスクの開始日が期限日より後になったことを示す。"""
+
+
+class TaskItemLimitReached(ValueError):
+    """ルーム内のタスク上限に達したことを示す。"""
+
+
+def validate_task_date_range(start_date: Any, due_date: Any) -> None:
+    """開始日と期限日の前後関係を DB 更新直前にも検証する。
+
+    API の部分更新では片方の値しか届かないため、Pydantic の入力検証だけでは
+    既存値との組み合わせを確認できない。ここでは文字列・date のどちらも受け、
+    トランザクション内で合成した最終値を検証する。
+    """
+    start = start_date.isoformat() if hasattr(start_date, "isoformat") else start_date
+    due = due_date.isoformat() if hasattr(due_date, "isoformat") else due_date
+    if start and due and str(start) > str(due):
+        raise InvalidTaskDateRange("開始日は期限日以前の日付を指定してください。")
+
+
 async def create_room(
     id_: str, password: str, room_id: str, retention_hours: int = 24
 ) -> None:
@@ -121,9 +142,31 @@ async def count_items(room_id: str) -> int:
     return int(rows[0]["count"]) if rows else 0
 
 
-async def create_item(room_id: str, values: dict[str, Any]) -> dict[str, Any] | None:
+async def create_item(
+    room_id: str, values: dict[str, Any], max_items: int | None = None
+) -> dict[str, Any] | None:
     status = values["board_status"]
+    validate_task_date_range(values.get("start_date"), values.get("due_date"))
     async with db_session.begin():
+        if max_items is not None:
+            # Serialize concurrent creates per room so the application limit is
+            # enforced atomically. ルーム行をロックして同時追加の上限超過を防ぐ。
+            await db_session.execute(
+                text("""
+                SELECT room_id FROM task_room WHERE room_id = :room_id FOR UPDATE
+            """),
+                {"room_id": room_id},
+            )
+            result = await db_session.execute(
+                text("""
+                SELECT COUNT(*) AS count FROM task_item WHERE room_id = :room_id
+            """),
+                {"room_id": room_id},
+            )
+            count_row = result.mappings().first()
+            if count_row and int(count_row["count"]) >= max_items:
+                raise TaskItemLimitReached
+
         result = await db_session.execute(
             text("""
             SELECT COALESCE(MAX(position), 0) AS last_position FROM task_item
@@ -184,29 +227,54 @@ async def update_item(
         fields["start_date"] = fields["start_date"] or None
     if "due_date" in fields:
         fields["due_date"] = fields["due_date"] or None
-    # フィールド名を組み立てず、存在フラグで更新対象を制御する。
-    params = {"room_id": room_id, "item_id": item_id, "version": version}
-    for key in allowed:
-        params[f"has_{key}"] = key in fields
-        params[key] = fields.get(key)
-    result = await execute_query(
-        text("""
-        UPDATE task_item SET
-          title = CASE WHEN :has_title THEN :title ELSE title END,
-          note = CASE WHEN :has_note THEN :note ELSE note END,
-          board_status = CASE WHEN :has_board_status THEN :board_status ELSE board_status END,
-          priority = CASE WHEN :has_priority THEN :priority ELSE priority END,
-          category = CASE WHEN :has_category THEN :category ELSE category END,
-          start_date = CASE WHEN :has_start_date THEN :start_date ELSE start_date END,
-          due_date = CASE WHEN :has_due_date THEN :due_date ELSE due_date END,
-          position = CASE WHEN :has_position THEN :position ELSE position END,
-          version = version + 1, updated_at = NOW(6)
-        WHERE room_id = :room_id AND item_id = :item_id AND version = :version
+
+    # Lock the current row so a partial date update is checked against the same
+    # values that the UPDATE will modify. 部分更新でも既存値との組み合わせを
+    # 同じトランザクション内で検証し、開始日と期限日の逆転を防ぐ。
+    async with db_session.begin():
+        result = await db_session.execute(
+            text("""
+            SELECT item_id, title, note, board_status, priority, category,
+                   start_date, due_date, position, version, created_at, updated_at
+            FROM task_item
+            WHERE room_id = :room_id AND item_id = :item_id
+            FOR UPDATE
         """),
-        params,
-    )
-    if result != 1:
-        return await get_item(room_id, item_id), False
+            {"room_id": room_id, "item_id": item_id},
+        )
+        current_row = result.mappings().first()
+        if current_row is None:
+            return None, False
+        current = _serialize_item(current_row)
+        if int(current["version"]) != version:
+            return current, False
+
+        validate_task_date_range(
+            fields.get("start_date", current.get("start_date")),
+            fields.get("due_date", current.get("due_date")),
+        )
+
+        # フィールド名を組み立てず、存在フラグで更新対象を制御する。
+        params = {"room_id": room_id, "item_id": item_id, "version": version}
+        for key in allowed:
+            params[f"has_{key}"] = key in fields
+            params[key] = fields.get(key)
+        await db_session.execute(
+            text("""
+            UPDATE task_item SET
+              title = CASE WHEN :has_title THEN :title ELSE title END,
+              note = CASE WHEN :has_note THEN :note ELSE note END,
+              board_status = CASE WHEN :has_board_status THEN :board_status ELSE board_status END,
+              priority = CASE WHEN :has_priority THEN :priority ELSE priority END,
+              category = CASE WHEN :has_category THEN :category ELSE category END,
+              start_date = CASE WHEN :has_start_date THEN :start_date ELSE start_date END,
+              due_date = CASE WHEN :has_due_date THEN :due_date ELSE due_date END,
+              position = CASE WHEN :has_position THEN :position ELSE position END,
+              version = version + 1, updated_at = NOW(6)
+            WHERE room_id = :room_id AND item_id = :item_id AND version = :version
+            """),
+            params,
+        )
     return await get_item(room_id, item_id), True
 
 

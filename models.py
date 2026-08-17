@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import re
+from datetime import date
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -19,11 +20,32 @@ from settings import (
 _ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
 _PASSWORD_RE = re.compile(r"^[0-9]{6}$")
+_TASK_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 # 共有データは長期保管用途ではないため、保存期間を24時間以内に制限する。
 _RETENTION_HOUR_CHOICES = frozenset({1, 6, 12, 24})
 # Note/Task は共同編集やタスク管理など、より長期の運用でも使われるため、
 # 保存期間を1日・1週間・1か月から選べるようにする。
 _LONG_RETENTION_HOUR_CHOICES = frozenset({24, 24 * 7, 24 * 30})
+
+
+def _normalize_task_date(value: object) -> str | None:
+    """日付入力を ISO 形式にそろえ、不正な暦日を拒否する。"""
+    if value is None:
+        return None
+    if isinstance(value, date):
+        return value.isoformat()
+    if not isinstance(value, str):
+        raise ValueError("日付は YYYY-MM-DD 形式で指定してください。")
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if not _TASK_DATE_RE.fullmatch(normalized):
+        raise ValueError("日付は YYYY-MM-DD 形式で指定してください。")
+    try:
+        date.fromisoformat(normalized)
+    except ValueError as exc:
+        raise ValueError("存在しない日付は指定できません。") from exc
+    return normalized
 
 
 class RoomSearchInput(BaseModel):
@@ -192,6 +214,11 @@ class TaskItemInput(BaseModel):
     def strip_task_text(cls, value: object) -> str:
         return str(value or "").strip()
 
+    @field_validator("start_date", "due_date", mode="before")
+    @classmethod
+    def normalize_task_date(cls, value: object) -> str | None:
+        return _normalize_task_date(value)
+
     @model_validator(mode="after")
     def validate_dates(self) -> TaskItemInput:
         if self.start_date and self.due_date:
@@ -219,6 +246,11 @@ class TaskItemUpdateInput(BaseModel):
     @classmethod
     def strip_optional_task_text(cls, value: object) -> object:
         return str(value or "").strip() if value is not None else value
+
+    @field_validator("start_date", "due_date", mode="before")
+    @classmethod
+    def normalize_task_date(cls, value: object) -> str | None:
+        return _normalize_task_date(value)
 
     @model_validator(mode="after")
     def validate_dates(self) -> TaskItemUpdateInput:

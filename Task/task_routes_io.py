@@ -13,7 +13,7 @@ from . import task_data
 from .task_access import has_task_room_access
 
 
-def register_task_io_routes(router: APIRouter) -> None:
+def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
     @router.get("/task/{room_id}/export", name="task.export_items")
     async def export_task_items(request: Request, room_id: str):
         if not has_task_room_access(request, room_id):
@@ -72,6 +72,9 @@ def register_task_io_routes(router: APIRouter) -> None:
         except json.JSONDecodeError:
             return api_error_response("無効なJSONファイルです。", status_code=400)
 
+        if not isinstance(data, dict):
+            return api_error_response("タスクリストの形式が不正です。", status_code=400)
+
         if data.get("version") != 1:
             return api_error_response(
                 "サポートされていないバージョンです。", status_code=400
@@ -92,7 +95,9 @@ def register_task_io_routes(router: APIRouter) -> None:
             try:
                 payload = TaskItemInput.model_validate(task_data_raw)
                 item_values = payload.model_dump()
-                await task_data.create_item(room_id, item_values)
+                await task_data.create_item(
+                    room_id, item_values, max_items=TASK_MAX_ITEMS_PER_ROOM
+                )
                 imported_count += 1
             except (ValidationError, ValueError, TypeError):
                 skipped_count += 1
