@@ -4,11 +4,17 @@
   var modules = window.__FSQR_APP__.api.getModuleNamespace('taskBoard');
   var core = modules.core;
   var store = modules.store;
+  var layout = modules.calendarLayout;
 
-  var GRID_ROWS = 6;
-  var WEEK_LENGTH = 7;
-  var MAX_CHIPS = 3;
+  // 週分割・レーン割り当て（連続バーの座標計算）は calendar-layout.js に切り出している。
+  // Week splitting and lane packing (bar coordinate math) live in calendar-layout.js.
+  var WEEK_LENGTH = layout.WEEK_LENGTH;
+  var MAX_LANES = 3; // レーン上限。超過分は「他N件」に集約する / Lane cap; overflow rolls into the "+N more" indicator
   var WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+
+  var dateKey = layout.dateKey;
+  var parseKey = layout.parseKey;
+  var addDays = layout.addDays;
 
   /**
    * Task identity color palette (N=12).
@@ -49,35 +55,8 @@
   var visibleItems = [];
   var draggingItemId = null;
 
-  function pad(value) {
-    return String(value).padStart(2, '0');
-  }
-
-  function dateKey(date) {
-    return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate());
-  }
-
-  function parseKey(key) {
-    var parts = String(key || '').split('-');
-    if (parts.length !== 3) return null;
-    var date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-    return isNaN(date.getTime()) ? null : date;
-  }
-
   function todayKey() {
     return dateKey(new Date());
-  }
-
-  function addDays(date, days) {
-    var next = new Date(date.getTime());
-    next.setDate(next.getDate() + days);
-    return next;
-  }
-
-  /** First cell of the month grid (the Sunday on/before the 1st). / グリッド先頭の日曜日。 */
-  function gridStart(year, month) {
-    var first = new Date(year, month, 1);
-    return addDays(first, -first.getDay());
   }
 
   function monthLabel(year, month) {
@@ -90,6 +69,13 @@
     return (
       date.getMonth() + 1 + '月' + date.getDate() + '日（' + WEEKDAY_LABELS[date.getDay()] + '）'
     );
+  }
+
+  /** Short date label used inside bar titles/aria-labels, e.g. "8月18日". */
+  function shortDateLabel(key) {
+    var date = parseKey(key);
+    if (!date) return key;
+    return date.getMonth() + 1 + '月' + date.getDate() + '日';
   }
 
   function element(id) {
@@ -105,76 +91,14 @@
     return Boolean(node && !node.hidden);
   }
 
-  /**
-   * Calculate the date span (start to due) of a task item.
-   * タスクの開始日（作成日）から締切日までの期間を算出する。
-   */
-  function getItemSpan(item) {
-    if (!item || !item.due_date) return null;
-    var dueKey = String(item.due_date);
-    var startKey = item.start_date ? String(item.start_date) : dueKey;
-    if (startKey > dueKey) {
-      startKey = dueKey;
-    }
-    return {
-      startKey: startKey,
-      dueKey: dueKey,
-      isMultiDay: startKey < dueKey
-    };
-  }
-
-  /**
-   * Group the visible tasks by all dates included in their span (startKey to dueKey).
-   * 表示対象のタスクを開始日〜締切日の全日程セルに紐付けてグループ化する。
-   */
-  function groupByDateSpan(items) {
-    var groups = {};
-    if (!Array.isArray(items)) return groups;
-
-    // 期間バーの行位置（スロット）をセル間で安定させるため、開始日・締切日・ID順に安定ソート
-    var sorted = items.slice().sort(function (a, b) {
-      var spanA = getItemSpan(a);
-      var spanB = getItemSpan(b);
-      if (!spanA && !spanB) return 0;
-      if (!spanA) return 1;
-      if (!spanB) return -1;
-      if (spanA.startKey !== spanB.startKey) {
-        return spanA.startKey < spanB.startKey ? -1 : 1;
-      }
-      if (spanA.dueKey !== spanB.dueKey) {
-        return spanA.dueKey < spanB.dueKey ? -1 : 1;
-      }
-      return (Number(a.item_id) || 0) - (Number(b.item_id) || 0);
-    });
-
-    sorted.forEach(function (item) {
-      var span = getItemSpan(item);
-      if (!span) return;
-      var start = parseKey(span.startKey);
-      var due = parseKey(span.dueKey);
-      if (!start || !due) return;
-
-      var curr = new Date(start.getTime());
-      var safetyCount = 0;
-      while (curr <= due && safetyCount < 3660) {
-        var key = dateKey(curr);
-        if (!groups[key]) groups[key] = [];
-        groups[key].push(item);
-        curr = addDays(curr, 1);
-        safetyCount += 1;
-      }
-    });
-
-    return groups;
-  }
-
   function withoutDueDate(items) {
     return items.filter(function (item) {
       return !item.due_date;
     });
   }
 
-  function chipStateClass(item) {
+  /** Status modifier class shared by both multi-day bars and single-day chips. */
+  function itemStateClass(item) {
     if (item.board_status === 'done') return 'is-done';
     if (core.dueDiffDays(item.due_date) < 0) return 'is-overdue';
     if (item.board_status === 'doing') return 'is-doing';
@@ -182,67 +106,69 @@
   }
 
   /**
-   * Create a chip or span bar element for the calendar cell.
-   * カレンダーセル用のタスクチップまたは期間バーを生成する（タスク名は締切日のみ表示）。
+   * Create one bar segment element for a week's `.task-calendar__bars` layer.
+   * 週の `.task-calendar__bars` レイヤー用に、期間バー（または単日チップ）の
+   * セグメント要素を1つ生成する。開始日〜締切日にまたがる帯は、週境界をまたぐ
+   * ときだけ複数のセグメントに分割されて呼び出される（layoutWeekBars 側の仕事）。
    */
-  function createChip(item, currentKey) {
-    var span = getItemSpan(item);
-    var isMultiDay = Boolean(span && span.isMultiDay);
-    var isDue = !span || currentKey === span.dueKey;
-    var isStart = Boolean(span && currentKey === span.startKey);
+  function createBar(segment) {
+    var item = segment.item;
+    var span = segment.span;
 
-    var chip = document.createElement('button');
-    chip.type = 'button';
-    chip.draggable = true;
-    chip.dataset.calendarOpen = String(item.item_id);
-
-    var stateClass = chipStateClass(item);
-    var spanClass = '';
-
-    if (isMultiDay) {
-      if (isDue) {
-        spanClass = 'is-span-end';
-      } else if (isStart) {
-        spanClass = 'is-span-bar is-span-start';
-      } else {
-        spanClass = 'is-span-bar is-span-mid';
-      }
-    } else {
-      spanClass = 'is-single';
-    }
-
-    chip.className = ['task-calendar__chip', 'task-cal-chip', stateClass, spanClass]
-      .filter(Boolean)
-      .join(' ');
+    var bar = document.createElement('button');
+    bar.type = 'button';
+    bar.draggable = true;
+    bar.dataset.calendarOpen = String(item.item_id);
+    bar.style.gridColumn = segment.colStart + ' / span ' + segment.colSpan;
+    bar.style.gridRow = String(segment.lane + 1);
 
     // タスク固有色を CSS 変数として設定する（item_id % N でパレットから決定）
-    // Set the per-task identity color as a CSS custom property on the chip element
-    chip.style.setProperty('--task-item-color', taskColor(item));
+    // Set the per-task identity color as a CSS custom property on the bar element
+    bar.style.setProperty('--task-item-color', taskColor(item));
 
-    if (isDue) {
-      // 締切日または単日タスク：タスク名を表示
-      chip.title = isMultiDay ? item.title + ' (締切日 / おわり)' : item.title;
-      chip.setAttribute('aria-label', item.title + (isMultiDay ? '（締切日）' : ''));
-
-      var text = document.createElement('span');
-      text.className = 'task-calendar__chip-text task-cal-chip-text';
-      text.textContent = item.title;
-      chip.appendChild(text);
-    } else if (isStart) {
-      // 開始日（はじまり）：開始アクセントバー
-      chip.title = item.title + ' (開始日 / はじまり: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
-      chip.setAttribute('aria-label', item.title + '（開始日）');
+    // "task-calendar__bar" is already used by the header toolbar (.task-calendar__bar
+    // in the template's <header>), so the period-bar element uses a distinct name.
+    // ヘッダーツールバー（テンプレートの <header class="task-calendar__bar">）と
+    // クラス名が衝突しないよう、期間バー要素には別名を使う。
+    var classes = ['task-calendar__period-bar', itemStateClass(item)];
+    if (span.isMultiDay) {
+      classes.push('is-multi');
+      if (segment.isSegStart) classes.push('is-bar-start');
+      if (segment.isSegEnd) classes.push('is-bar-end');
+      if (segment.continuesBefore) classes.push('is-continues-before');
+      if (segment.continuesAfter) classes.push('is-continues-after');
     } else {
-      // 開始日〜締切日の中間日：帯状バー
-      chip.title = item.title + ' (期間中: ' + span.startKey + ' 〜 ' + span.dueKey + ')';
-      chip.setAttribute('aria-label', item.title + '（期間中）');
+      classes.push('is-single');
     }
+    bar.className = classes.filter(Boolean).join(' ');
 
-    return chip;
+    var rangeLabel = span.isMultiDay
+      ? shortDateLabel(span.startKey) + '〜' + shortDateLabel(span.dueKey)
+      : shortDateLabel(span.dueKey);
+    bar.title = item.title + '（' + rangeLabel + '）';
+    bar.setAttribute('aria-label', item.title + '（' + rangeLabel + '）');
+
+    var text = document.createElement('span');
+    text.className = 'task-calendar__period-bar-text';
+    text.textContent = item.title;
+    bar.appendChild(text);
+
+    return bar;
   }
 
-  function createCell(date, dayItems) {
-    var key = dateKey(date);
+  /** Build the absolutely-positioned bars overlay for one week row. */
+  function createBarsLayer(segments) {
+    var layerEl = document.createElement('div');
+    layerEl.className = 'task-calendar__bars';
+    segments.forEach(function (segment) {
+      if (segment.lane >= MAX_LANES) return; // 上限超過分は「他N件」表示に譲る
+      layerEl.appendChild(createBar(segment));
+    });
+    return layerEl;
+  }
+
+  function createCell(key, dayItems, overflowCount) {
+    var date = parseKey(key);
     var cell = document.createElement('div');
     cell.className = 'task-calendar__cell';
     cell.dataset.date = key;
@@ -279,21 +205,55 @@
     }
     cell.appendChild(head);
 
-    var chips = document.createElement('div');
-    chips.className = 'task-calendar__chips';
-    dayItems.slice(0, MAX_CHIPS).forEach(function (item) {
-      chips.appendChild(createChip(item, key));
-    });
-    cell.appendChild(chips);
-
-    if (dayItems.length > MAX_CHIPS) {
+    if (overflowCount > 0) {
       var more = document.createElement('span');
       more.className = 'task-calendar__more';
-      more.textContent = '他' + (dayItems.length - MAX_CHIPS) + '件';
+      more.textContent = '他' + overflowCount + '件';
       cell.appendChild(more);
     }
 
     return cell;
+  }
+
+  /**
+   * Build one `.task-calendar__week` row: a background grid of 7 day cells
+   * plus a foreground `.task-calendar__bars` overlay carrying the continuous
+   * period bars for that week (lanes are shared across all weeks via laneOf).
+   *
+   * 1週分の `.task-calendar__week` を構築する。背景は7日分のセル、前景は
+   * その週の連続バーを乗せる `.task-calendar__bars` オーバーレイ。
+   * レーン番号は laneOf を通じて全週で共通なので、同じタスクは常に同じ
+   * 縦位置に描画される。
+   */
+  function createWeek(weekKeys, groups, laneOf) {
+    var segments = layout.layoutWeekBars(weekKeys, visibleItems, laneOf);
+
+    var lanesUsed = 0;
+    segments.forEach(function (segment) {
+      if (segment.lane < MAX_LANES && segment.lane + 1 > lanesUsed) {
+        lanesUsed = segment.lane + 1;
+      }
+    });
+
+    var week = document.createElement('div');
+    week.className = 'task-calendar__week';
+    week.setAttribute('role', 'row');
+    week.style.setProperty('--task-cal-lanes', String(lanesUsed));
+
+    var cellsWrap = document.createElement('div');
+    cellsWrap.className = 'task-calendar__week-cells';
+    weekKeys.forEach(function (key) {
+      var dayItems = groups[key] || [];
+      var overflowCount = dayItems.filter(function (item) {
+        var lane = laneOf[String(item.item_id)] || 0;
+        return lane >= MAX_LANES;
+      }).length;
+      cellsWrap.appendChild(createCell(key, dayItems, overflowCount));
+    });
+    week.appendChild(cellsWrap);
+    week.appendChild(createBarsLayer(segments));
+
+    return week;
   }
 
   function createRow(item) {
@@ -363,11 +323,11 @@
     var hadFocus = grid.contains(document.activeElement);
     grid.textContent = '';
 
-    var cursor = gridStart(state.year, state.month);
-    for (var index = 0; index < GRID_ROWS * WEEK_LENGTH; index += 1) {
-      var date = addDays(cursor, index);
-      grid.appendChild(createCell(date, groups[dateKey(date)] || []));
-    }
+    var weeks = layout.buildMonthWeeks(state.year, state.month);
+    var laneOf = layout.assignLanes(visibleItems);
+    weeks.forEach(function (weekKeys) {
+      grid.appendChild(createWeek(weekKeys, groups, laneOf));
+    });
 
     // Keep keyboard focus inside the grid after a rebuild.
     // 再描画のあともキーボード操作の位置を保つ。
@@ -403,7 +363,7 @@
     visibleItems = Array.isArray(items) ? items : [];
     if (!isActive()) return;
 
-    var groups = groupByDateSpan(visibleItems);
+    var groups = layout.groupByDateSpan(visibleItems);
     renderGrid(groups);
     renderPanels(groups);
   }
@@ -496,6 +456,32 @@
     if (cell) cell.classList.add('is-drop-target');
   }
 
+  /**
+   * Resolve the day cell under a drag event, even when the pointer is over a
+   * period bar (which lives in the `.task-calendar__bars` overlay, not
+   * inside the cell DOM). Falls back to mapping the pointer's X position onto
+   * the week's 7-column grid.
+   *
+   * ドラッグ位置の下にある日付セルを解決する。ポインタが期間バー
+   * （`.task-calendar__bars` オーバーレイ内にあり、セルの子要素ではない）の
+   * 上にある場合は、週の7列グリッド上でのX座標から対応する列を割り出す。
+   */
+  function resolveDropCell(event) {
+    var cell = event.target.closest('.task-calendar__cell');
+    if (cell) return cell;
+
+    var week = event.target.closest('.task-calendar__week');
+    if (!week) return null;
+    var cellsWrap = week.querySelector('.task-calendar__week-cells');
+    if (!cellsWrap) return null;
+    var rect = cellsWrap.getBoundingClientRect();
+    if (!rect.width) return null;
+
+    var index = Math.floor(((event.clientX - rect.left) / rect.width) * WEEK_LENGTH);
+    index = Math.max(0, Math.min(WEEK_LENGTH - 1, index));
+    return cellsWrap.children[index] || null;
+  }
+
   function onDragStart(event) {
     var source = event.target.closest('[data-calendar-open], .task-calendar__row');
     if (!source) return;
@@ -520,7 +506,7 @@
 
   function onDragOver(event) {
     if (!draggingItemId) return;
-    var cell = event.target.closest('.task-calendar__cell');
+    var cell = resolveDropCell(event);
     var backlog = event.target.closest('#taskCalendarBacklogList');
     if (!cell && !backlog) return;
     event.preventDefault();
@@ -530,7 +516,7 @@
 
   function onDrop(event) {
     if (!draggingItemId) return;
-    var cell = event.target.closest('.task-calendar__cell');
+    var cell = resolveDropCell(event);
     var backlog = event.target.closest('#taskCalendarBacklogList');
     if (!cell && !backlog) return;
 
