@@ -38,6 +38,13 @@ LANDING_PAGES = (
     ),
 )
 
+HERO_TITLE_LINES = (
+    ("/file-sharing", "ファイルを置けば、", "もう共有できる。"),
+    ("/group-file-sharing", "ファイルを置けば、", "もう共有できる。"),
+    ("/shared-note", "開いた瞬間、", "もう書ける。"),
+    ("/shared-task", "タスクを書けば、", "もう整理できる。"),
+)
+
 ILLUSTRATED_LANDING_VISUALS = (
     ("/file-sharing", "apple-touch-icon.png", "fsqr-illustration.jpg"),
     ("/group-file-sharing", "apple-touch-icon2.png", "group-illustration.jpg"),
@@ -70,6 +77,21 @@ def test_product_landing_page_has_indexable_seo_content(
     assert f'href="{primary_cta}"' in response.text
     assert '<main id="main-content"' in response.text
     assert response.text.count("<h1") == 1
+
+
+@pytest.mark.parametrize("path,first_line,accent_line", HERO_TITLE_LINES)
+def test_product_landing_page_keeps_each_hero_title_line_together(
+    test_client: TestClient,
+    path: str,
+    first_line: str,
+    accent_line: str,
+):
+    """見出しの語尾や句読点が単独行にならないための構造を保つ。"""
+    response = test_client.get(path)
+
+    assert response.status_code == 200
+    assert f'<span class="lp-hero__title-line">{first_line}</span>' in response.text
+    assert f'<span class="lp-hero__title-accent">{accent_line}</span>' in response.text
 
 
 @pytest.mark.parametrize("path,_,__,___", LANDING_PAGES)
