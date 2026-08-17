@@ -192,10 +192,32 @@
           </div>
 
           <div class="task-toolbar-actions">
-            <button id="taskExportBtn" class="modern-btn task-btn-secondary" title="タスクをエクスポート">↓ エクスポート</button>
-            <label id="taskImportBtn" class="modern-btn task-btn-secondary" title="タスクをインポート" style="cursor:pointer">
-              ↑ インポート
-              <input type="file" id="taskImportInput" accept=".json" style="display:none">
+            <!-- 周囲の pill 型ボタン（絞り込み等）に揃えた控えめなツールバーボタン。
+                 Toolbar buttons styled to match the surrounding pill-shaped controls
+                 (filter toggle, etc.) instead of the large generic modern-btn. -->
+            <button id="taskExportBtn" type="button" class="task-toolbar-btn" title="タスクをエクスポート" aria-label="タスクをエクスポート">
+              <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 13.4 13 8.6 11.1 8.6 11.1 3 8.9 3 8.9 8.6 7 8.6Z"/>
+                <rect x="3.4" y="13.7" width="1.6" height="3.3" rx="0.6"/>
+                <rect x="15" y="13.7" width="1.6" height="3.3" rx="0.6"/>
+                <rect x="3.4" y="15.6" width="13.2" height="1.4" rx="0.6"/>
+              </svg>
+              <span class="task-toolbar-btn__label">エクスポート</span>
+            </button>
+            <!-- input[type=file] を包む label。マウスは label クリックで input へ委譲されるが、
+                 label 単体には既定のキーボード操作性がないため tabindex/role/keydown で補う。
+                 Label wrapping the file input. Mouse clicks forward natively, but a
+                 label has no built-in keyboard activation, so tabindex/role/keydown
+                 are added to keep it operable from the keyboard. -->
+            <label id="taskImportBtn" class="task-toolbar-btn" title="タスクをインポート" aria-label="タスクをインポート" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+              <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 3 13 7.8 11.1 7.8 11.1 13.4 8.9 13.4 8.9 7.8 7 7.8Z"/>
+                <rect x="3.4" y="13.7" width="1.6" height="3.3" rx="0.6"/>
+                <rect x="15" y="13.7" width="1.6" height="3.3" rx="0.6"/>
+                <rect x="3.4" y="15.6" width="13.2" height="1.4" rx="0.6"/>
+              </svg>
+              <span class="task-toolbar-btn__label">インポート</span>
+              <input type="file" id="taskImportInput" accept=".json" class="task-toolbar-btn__file-input">
             </label>
             <button id="taskFilterToggle" type="button" class="task-filter-toggle" aria-expanded="false" aria-controls="taskFilterPanel">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.628 4.5A.75.75 0 013.25 4h13.5a.75.75 0 01.55 1.26l-5.05 5.42v4.07a.75.75 0 01-1.09.67l-2.5-1.27a.75.75 0 01-.41-.67v-2.8L3.2 5.26a.75.75 0 01-.572-.76z" clip-rule="evenodd"/></svg>

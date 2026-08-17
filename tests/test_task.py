@@ -481,6 +481,43 @@ def test_task_board_page_renders_custom_dropdown_targets(test_client: TestClient
         assert 'class="task-select-pill' in body
 
 
+def test_task_board_page_renders_toolbar_export_import_buttons(test_client: TestClient):
+    """エクスポート/インポートボタンが周囲の pill 型 UI に揃った専用クラスで描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # io.js が参照する id は維持したまま、汎用ボタンではなく専用の pill 型クラスへ置き換える
+    assert 'id="taskExportBtn"' in body
+    assert 'id="taskImportBtn"' in body
+    assert 'id="taskImportInput"' in body
+    assert 'class="task-toolbar-btn"' in body
+    assert "modern-btn task-btn-secondary" not in body
+
+    # 矢印記号のベタ書きやインラインスタイルは残っていない
+    assert "↓ エクスポート" not in body
+    assert "↑ インポート" not in body
+    assert 'style="cursor:pointer"' not in body
+
+    # label はキーボード操作可能（tabindex 付与）で、file input の id は維持される
+    assert (
+        'id="taskImportBtn" class="task-toolbar-btn" title="タスクをインポート" aria-label="タスクをインポート" tabindex="0"'
+        in body
+    )
+
+
 def test_task_board_page_renders_calendar_view(test_client: TestClient):
     """ボード表示とカレンダー表示を切り替えるUIが描画される。"""
     with (
