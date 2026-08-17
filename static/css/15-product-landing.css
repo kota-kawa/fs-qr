@@ -3510,6 +3510,39 @@ body.product-lp {
   background: #000;
 }
 
+/* Snapshot / 動画とは別に、実際の画面を静止画で常時表示する */
+.lp-demo-frame__snapshot {
+  position: absolute;
+  right: -14px;
+  bottom: -18px;
+  z-index: 2;
+  width: 132px;
+  margin: 0;
+  padding: 5px 5px 16px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
+  transform: rotate(-5deg);
+}
+
+.lp-demo-frame__snapshot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 2px;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 760px) {
+  .lp-demo-frame__snapshot {
+    right: -10px;
+    bottom: -12px;
+    width: 96px;
+    padding: 4px 4px 12px;
+  }
+}
+
 @keyframes lp-demo-glow-drift {
   0%,
   100% {
