@@ -306,20 +306,35 @@
                 <path d="M17.4 13.6A5.6 5.6 0 0 1 20.5 18.6"/>
               </svg>
             </span>
-            <h3>実際の画面で見る、リアルタイム編集</h3>
-            <p>下書きの入力から共有リンクの発行、ノートルームでの同期まで、実際の操作画面をそのまま録画しました。</p>
+            <h3>書きながら、そのまま共有できる</h3>
+            <p>下書きを入力してURLを発行すると、そのままノートルームが開きます。招待した相手の編集は数秒で反映され、同じ画面をリアルタイムに見ながら進められます。</p>
             <div class="lp-feature-card__demo">
-              <video
-                class="lp-feature-card__video"
-                muted
-                loop
-                playsinline
-                controls
-                preload="metadata"
-                poster="{{ staticfile('images/product-landing-pages/note-demo/note-demo-05-sync.jpg') }}"
-                aria-label="下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画">
-                <source src="{{ staticfile('videos/product-landing-pages/note-demo.webm') }}" type="video/webm">
-              </video>
+              <div class="lp-demo-frame">
+                <span class="lp-demo-frame__glow" aria-hidden="true"></span>
+                <div class="lp-demo-frame__window">
+                  <div class="lp-demo-frame__bar" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                    <p>fs-qr.net/note</p>
+                  </div>
+                  <div class="lp-demo-frame__screen">
+                    <video
+                      class="lp-feature-card__video"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      controls
+                      preload="metadata"
+                      poster="{{ staticfile('images/product-landing-pages/note-demo/note-page.jpg') }}"
+                      aria-label="下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画">
+                      <source src="{{ staticfile('videos/product-landing-pages/note-demo.mp4') }}" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+                <figure class="lp-demo-frame__snapshot">
+                  <img src="{{ staticfile('images/product-landing-pages/note-demo/note-page.jpg') }}" alt="FS!QR Noteのノートルーム画面のスクリーンショット" loading="lazy" decoding="async">
+                </figure>
+              </div>
             </div>
           </article>
           <article class="lp-card lp-feature-card">

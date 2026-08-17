@@ -249,7 +249,7 @@ def test_group_landing_page_does_not_include_qr_code_decoration(
     assert "lp-share-visual__qr" not in response.text
     assert "lp-share-visual__recipients" not in response.text
     assert "lp-feature-card__video" in response.text
-    assert "/static/videos/product-landing-pages/group-demo.webm" in response.text
+    assert "/static/videos/product-landing-pages/group-demo.mp4" in response.text
 
 
 @pytest.mark.parametrize(
