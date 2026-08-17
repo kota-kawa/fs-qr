@@ -517,6 +517,14 @@ def test_task_board_page_renders_toolbar_export_import_buttons(test_client: Test
         in body
     )
 
+    # Enter / Space の処理はインラインハンドラーではなく io.js に置く
+    from pathlib import Path
+
+    assert "onkeydown=" not in body
+    io_js = Path("static/js/task_board/io.js").read_text(encoding="utf-8")
+    assert "taskImportBtn" in io_js
+    assert "importInput.click()" in io_js
+
 
 def test_task_board_page_renders_calendar_view(test_client: TestClient):
     """ボード表示とカレンダー表示を切り替えるUIが描画される。"""

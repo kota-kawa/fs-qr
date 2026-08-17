@@ -7,7 +7,22 @@
   var modules = app.api.getModuleNamespace('taskBoard');
 
   var exportBtn = document.getElementById('taskExportBtn');
+  var importBtn = document.getElementById('taskImportBtn');
   var importInput = document.getElementById('taskImportInput');
+
+  // インポートボタンは input[type=file] を包む <label> のため、マウスクリックは
+  // ネイティブに委譲されるがキーボードでは反応しない。Enter / Space で
+  // ファイル選択を開けるよう補う。
+  // The import button is a <label> wrapping the file input: mouse clicks are
+  // forwarded natively, but a label has no keyboard activation, so Enter and
+  // Space are wired up here to open the file picker.
+  if (importBtn && importInput) {
+    importBtn.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+      event.preventDefault();
+      importInput.click();
+    });
+  }
 
   if (exportBtn) {
     exportBtn.addEventListener('click', function () {
