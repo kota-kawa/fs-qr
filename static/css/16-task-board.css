@@ -20,15 +20,10 @@
   --task-border: #e2e8f0;
   --task-text: #1f2937;
   --task-text-muted: #64748b;
-  /* カレンダースパン用カラー定義: 開始(Start: ブルー系) と 終了(End: オレンジ/アンバー/レッド/グリーン系) */
-  --task-span-start: #0284c7;
-  --task-span-start-doing: #2563eb;
-  --task-span-start-done: #059669;
-  --task-span-start-overdue: #0284c7;
-  --task-span-end-todo: #ea580c;
-  --task-span-end-doing: #d97706;
-  --task-span-end-done: #16a34a;
-  --task-span-end-overdue: #dc2626;
+  /* カレンダーの期間バーは開始/終了で色を変えず、タスク固有色（JS が付与する
+     --task-item-color）1色で1本の帯として描くため、旧 --task-span-* は廃止。
+     Period bars use a single per-task color (--task-item-color, set by JS)
+     instead of separate start/end hues, so the old --task-span-* set is gone. */
   max-width: 1320px;
   margin: 0 auto;
 }
@@ -484,11 +479,17 @@
   color: #94a3b8;
 }
 
+/* margin-left: auto で、バーが2行に折り返したときもコントロール列が右端に
+   揃い、追加ボタンの位置がタイトル欄の右端と一致する。
+   margin-left: auto keeps the control column flush right, so when the bar
+   wraps onto a second line the add button still lines up with the right edge
+   of the title field above it. */
 .task-quick-add-controls {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* 日付入力（開始日・期限日）。ネイティブ input[type=date] にモダンな見た目を与え、
@@ -1810,11 +1811,15 @@
   transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
+/* 期間バーはセルの外（週行のオーバーレイ）に描かれるため、セルだけを
+   translate するとバーとの位置がずれてしまう。ホバー表現は色と影だけにする。
+   Period bars are drawn in the week-level overlay, outside the cell, so
+   translating the cell alone would knock the bars out of alignment. Hover is
+   expressed with color and shadow only. */
 .task-calendar__cell:hover {
   border-color: var(--task-accent);
   background: #fffdf7;
   box-shadow: 0 6px 16px -10px rgba(180, 83, 9, 0.45);
-  transform: translateY(-1px);
 }
 
 .task-calendar__cell:focus-visible {
@@ -1828,7 +1833,6 @@
 }
 
 .task-calendar__cell.is-outside:hover {
-  transform: none;
   box-shadow: none;
 }
 
@@ -1993,46 +1997,81 @@
    Multi-day task: an unbroken band from the start date to the due date.
    ───────────────────────────────────────────────────────────── */
 .task-calendar__period-bar.is-multi {
+  --task-bar-arrow: 9px; /* 矢じりの奥行き / depth of the arrow head */
+  --task-bar-notch: 8px; /* 週継続を示す左端のくぼみ / depth of the continuation notch */
   border-radius: 0;
 }
 
-/* 開始日を含むセグメント: 左端を丸めて「ここから始まる」ことを示す */
-/* Segment containing the real start date: rounded left cap marks "starts here" */
+/* 左端の見た目。開始日を含むなら丸め、前の週からの続きならくぼませる。
+   Left cap: rounded when the segment holds the real start date, notched when
+   the bar continues in from the previous week. */
 .task-calendar__period-bar.is-multi.is-bar-start {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
   padding-left: 0.55rem;
 }
 
-/* 締切日を含むセグメント: 右端を矢じり（右向き三角）にして「ここで終わる」ことを示す */
-/* Segment containing the real due date: a rightward arrow head marks "ends here" */
-.task-calendar__period-bar.is-multi.is-bar-end {
-  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%);
-  padding-right: 0.75rem;
-}
-
-/* 週をまたいで右へ継続する場合: 矢じりを付けずフラットな右端にする */
-/* Wraps to next week: keep the right edge flat instead of an arrow head */
-.task-calendar__period-bar.is-multi.is-continues-after {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  clip-path: none;
-  padding-right: 0.4rem;
-}
-
-/* 前の週から継続している場合: 左端をくぼませて「続き」であることを示す */
-/* Continues from the previous week: a notch on the left signals "still going" */
 .task-calendar__period-bar.is-multi.is-continues-before {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
   padding-left: 0.65rem;
 }
 
-/* 週の全日をまたいで継続する場合: 両端とも継続の形状にする */
-/* Spans the full week on both sides: combine both continuation shapes */
+/* 右端の見た目。締切日を含むなら矢じり、次の週へ続くならフラット。
+   Right cap: an arrow head when the segment holds the real due date, flat when
+   the bar continues on into the next week. */
+.task-calendar__period-bar.is-multi.is-bar-end {
+  padding-right: 0.75rem;
+}
+
+.task-calendar__period-bar.is-multi.is-continues-after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 0.4rem;
+}
+
+/* clip-path は1プロパティで左右両端の形を決めるため、左端×右端の4通りを
+   個別に宣言する。単一クラスのルールに分けると、後から書いたほうが必ず
+   もう一方を打ち消してしまい、たとえば「前の週から続いて今週で終わる」バーの
+   矢じりが消えてしまう。
+   clip-path defines both caps in a single property, so all four
+   left-cap x right-cap combinations are spelled out. Splitting them into
+   single-class rules would let whichever comes last silently override the
+   other — e.g. a bar that continues in from the previous week and ends this
+   week would lose its arrow head. */
+.task-calendar__period-bar.is-multi.is-bar-start.is-bar-end {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--task-bar-arrow)) 0,
+    100% 50%,
+    calc(100% - var(--task-bar-arrow)) 100%,
+    0 100%
+  );
+}
+
+.task-calendar__period-bar.is-multi.is-bar-start.is-continues-after {
+  clip-path: none;
+}
+
+.task-calendar__period-bar.is-multi.is-continues-before.is-bar-end {
+  clip-path: polygon(
+    var(--task-bar-notch) 0,
+    calc(100% - var(--task-bar-arrow)) 0,
+    100% 50%,
+    calc(100% - var(--task-bar-arrow)) 100%,
+    var(--task-bar-notch) 100%,
+    0 50%
+  );
+}
+
 .task-calendar__period-bar.is-multi.is-continues-before.is-continues-after {
-  clip-path: polygon(8px 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 8px 100%, 0 50%);
+  clip-path: polygon(
+    var(--task-bar-notch) 0,
+    100% 0,
+    100% 100%,
+    var(--task-bar-notch) 100%,
+    0 50%
+  );
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -2999,15 +3038,24 @@
     display: none;
   }
 
+  /* 縦積みになるので右寄せ（margin-left: auto）を解除し、全幅に伸ばす。
+     Stacked layout: drop the right-alignment and let the grid fill the bar. */
   .task-quick-add-controls {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 0.5rem;
     width: 100%;
+    margin-left: 0;
   }
 
+  /* 既定は content-box のため width:100% だとパディング分だけグリッド列から
+     はみ出す。border-box にして枠内に収める。
+     The inputs are content-box by default, so width:100% overflows the grid
+     column by their padding; border-box keeps them inside the bar. */
   .task-input--compact {
+    box-sizing: border-box;
     width: 100%;
+    min-width: 0;
   }
 
   .task-filter-field {

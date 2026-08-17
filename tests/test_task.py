@@ -659,6 +659,19 @@ def test_task_calendar_span_assets(test_client: TestClient):
     assert "clip-path: polygon" in css_content
     assert ".is-bar-end {" in css_content
 
+    # 6. clip-path は左右両端の形を1プロパティで決めるため、左端×右端の4通りを
+    #    個別に宣言しておく必要がある。単一クラスのルールに分けると後勝ちで
+    #    片方が打ち消され、「前の週から続いて今週で終わる」バーの矢じりが消える。
+    for combination in (
+        ".task-calendar__period-bar.is-multi.is-bar-start.is-bar-end {",
+        ".task-calendar__period-bar.is-multi.is-bar-start.is-continues-after {",
+        ".task-calendar__period-bar.is-multi.is-continues-before.is-bar-end {",
+        ".task-calendar__period-bar.is-multi.is-continues-before.is-continues-after {",
+    ):
+        assert combination in css_content, (
+            f"16-task-board.css に端形状の組み合わせ {combination} が見つかりません"
+        )
+
 
 def test_task_calendar_item_color(test_client: TestClient):
     """カレンダーの期間バー・単日チップにタスク固有識別色が適用され、
