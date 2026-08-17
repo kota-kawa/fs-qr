@@ -57,6 +57,27 @@
     }
   }
 
+  /**
+   * クイック追加フォームの開始日・締切日欄に入れるデフォルト日付（今日、クライアントのローカル日付）を返す。
+   * calendar-layout.js の dateKey() を再利用し、日付整形ロジックの重複を避ける。
+   */
+  function quickAddDefaultDate() {
+    return modules.calendarLayout ? modules.calendarLayout.dateKey(new Date()) : '';
+  }
+
+  /**
+   * クイック追加フォームの開始日・締切日欄を今日の日付で初期化する（未入力の場合のみ）。
+   */
+  function initQuickAddDefaultDates() {
+    var startDateInput = document.getElementById('taskCreateStartDate');
+    var dueDateInput = document.getElementById('taskCreateDueDate');
+    if (!startDateInput && !dueDateInput) return;
+    var todayStr = quickAddDefaultDate();
+    if (!todayStr) return;
+    if (startDateInput && !startDateInput.value) startDateInput.value = todayStr;
+    if (dueDateInput && !dueDateInput.value) dueDateInput.value = todayStr;
+  }
+
   async function createFromQuickAdd(event) {
     event.preventDefault();
     if (isCreatingQuickAdd) return;
@@ -104,8 +125,10 @@
         input.value = '';
         input.focus();
       }
-      if (startDateInput) startDateInput.value = '';
-      if (dueDateInput) dueDateInput.value = '';
+      // 追加後もフィールドを空欄に戻すのではなく、次の入力に備えて今日の日付を再セットする。
+      var resetDate = quickAddDefaultDate();
+      if (startDateInput) startDateInput.value = resetDate;
+      if (dueDateInput) dueDateInput.value = resetDate;
       core.toast('タスクを追加しました。', 'success');
     } catch (err) {
       if (error) {
@@ -277,6 +300,7 @@
     initBoardEvents();
     initShortcutHelp();
     initGlobalShortcuts();
+    initQuickAddDefaultDates();
 
     var createForm = document.getElementById('taskCreateForm');
     if (createForm) {

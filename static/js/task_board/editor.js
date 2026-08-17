@@ -155,13 +155,19 @@
   /**
    * Open the dialog in creation mode.
    * options.dueDate を渡すと、期限日を事前入力した状態で開く（カレンダー用）。
+   * 未指定時は開始日・締切日ともに今日の日付をデフォルトで入力する。
    */
   function openCreate(initialStatus, options) {
     ensureRefs();
     lastFocus = document.activeElement;
     isNewMode = true;
 
-    var dueDate = (options && options.dueDate) || '';
+    // 新規作成時は開始日・締切日を今日の日付（クライアントのローカル日付）でデフォルト初期化する。
+    // カレンダーから明示的な締切日が渡された場合はそれを優先しつつ、
+    // 開始日は締切日が今日以降のときだけ今日をデフォルトにして日付範囲の矛盾（開始日 > 締切日）を避ける。
+    var todayStr = formatDate(new Date());
+    var dueDate = (options && options.dueDate) || todayStr;
+    var startDate = dueDate >= todayStr ? todayStr : '';
 
     element('taskEditorTitle').textContent = 'タスクを追加';
     element('taskEditorDelete').style.display = 'none';
@@ -170,7 +176,7 @@
     element('taskEditorVersion').value = '0';
     element('taskEditorTitleInput').value = '';
     element('taskEditorNote').value = '';
-    element('taskEditorStartDate').value = '';
+    element('taskEditorStartDate').value = startDate;
     element('taskEditorDueDate').value = dueDate;
     element('taskEditorPriority').value = 'normal';
     if (modules.select) {
@@ -179,7 +185,7 @@
     element('taskEditorCategory').value = '';
     setStatus(initialStatus || 'todo');
     updateNoteCounter();
-    updateAdvancedSection(Boolean(dueDate));
+    updateAdvancedSection(Boolean(startDate || dueDate));
 
     showDialog();
   }
