@@ -833,6 +833,79 @@ def test_task_calendar_item_color(test_client: TestClient):
     assert ".task-calendar__period-bar.is-multi.is-continues-after {" in css_content
 
 
+def test_task_board_fixed_overlays_survive_body_relative_override():
+    """body 直下に追加される固定表示UI（ツールチップ・トースト等）が、
+    タスクページ全体を relative 化する基底スタイルに負けないことを確認する。
+
+    01-base-search.css の `body.task-section > *` は、装飾用の背景グラデーション
+    （::before）の上に本文を重ねるため、body の直接の子要素すべてへ
+    `position: relative; z-index: 1;` を強制する。このセレクタの詳細度
+    (要素+クラス+ユニバーサル = 0,1,1) は、共通UIレイヤーが単一クラスで
+    書いた `position: fixed`（0,1,0）より高く、ソースの記述順に関係なく
+    後者を上書きしてしまう。
+
+    影響を受けるのは、いずれも document.body へ直接 appendChild される要素:
+      - .fsqr-tooltip       (static/tooltip.js: title属性ホバー時のツールチップ)
+      - .fsqr-progress      (static/js/shared/ux-runtime.js: 画面上部の進捗バー)
+      - .fsqr-toast-stack   (同上: トースト通知コンテナ)
+      - .fsqr-offline-banner(同上: オフラインバナー)
+
+    これらが relative 化されると、
+      1) タスクカードのボタン等（title属性あり）にホバーするたびに
+         ツールチップが通常のドキュメントフローへ挿入され、body の高さが
+         変化してページ全体が縦にガタつく。
+      2) タスク削除後の完了トーストが画面に固定されず、body の末尾
+         （フッターの下）に描画され、スクロールしないと見えない。
+
+    16-task-board.css は既存の `.task-menu` / `.task-card--ghost` と同様、
+    より詳細度の高い `.task-section > .selector { position: fixed; }` で
+    上書きしている必要がある。
+    """
+    from pathlib import Path
+
+    base_css = Path("static/css/01-base-search.css").read_text(encoding="utf-8")
+    assert "body.task-section > *" in base_css, (
+        "前提となる body.task-section > * { position: relative; } のルールが"
+        " 01-base-search.css から見つかりません（テストの前提が崩れています）"
+    )
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+
+    # 既存の overlay 要素（.task-menu / .task-card--ghost）に加えて、
+    # 共通UIレイヤーが body 直下へ追加する要素も fixed へ上書きされていること
+    for selector in (
+        ".task-section > .task-menu",
+        ".task-section > .task-card--ghost",
+        ".task-section > .fsqr-tooltip",
+        ".task-section > .fsqr-progress",
+        ".task-section > .fsqr-toast-stack",
+        ".task-section > .fsqr-offline-banner",
+    ):
+        assert selector in css_content, (
+            f"16-task-board.css に {selector} の position:fixed 上書きが見つかりません"
+        )
+
+    # 上記セレクタが実際に position: fixed を宣言している「Body-level overlays」
+    # ブロック内に含まれていること、および z-index も
+    # body.task-section > * { z-index: 1; } に埋もれないよう明示的に
+    # 再宣言されていることを確認する
+    body_overlay_start = css_content.index("Body-level overlays")
+    body_overlay_block = css_content[body_overlay_start : body_overlay_start + 2400]
+    assert "position: fixed;" in body_overlay_block
+    assert "var(--z-tooltip" in body_overlay_block
+    assert "var(--z-toast" in body_overlay_block
+
+    # テストの前提となるクラス名・appendChild 先が実装側と一致していること
+    ux_runtime_js = Path("static/js/shared/ux-runtime.js").read_text(encoding="utf-8")
+    assert 'className = "fsqr-progress"' in ux_runtime_js
+    assert 'className = "fsqr-toast-stack"' in ux_runtime_js
+    assert 'className = "fsqr-offline-banner"' in ux_runtime_js
+
+    tooltip_js = Path("static/tooltip.js").read_text(encoding="utf-8")
+    assert 'TOOLTIP_CLASS = "fsqr-tooltip"' in tooltip_js
+    assert "document.body.appendChild(tooltip)" in tooltip_js
+
+
 def _split_top_level_commas(text: str) -> list[str]:
     """括弧の深さを見ながら最上位のカンマだけで分割する。"""
     parts: list[str] = []
