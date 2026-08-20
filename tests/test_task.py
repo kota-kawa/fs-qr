@@ -1144,3 +1144,74 @@ def test_task_quick_add_date_fields_share_one_grid(test_client: TestClient):
     # 4. 狭い画面（<=580px）では 1 列へ落として縦に積む
     narrow_block = css_content.split("@media (max-width: 580px) {", 1)[1]
     assert "grid-template-columns: minmax(0, 1fr);" in narrow_block
+
+
+def test_task_calendar_layout_metrics_are_shared_variables():
+    """カレンダーの寸法を CSS 変数へ集約し、文字とバーが重ならないこと。
+
+    バーは日付セルの外（週行のオーバーレイ）に絶対配置されるため、
+    「見出しの高さ」「列の間隔」がセル側とズレると、バーが日付の数字や
+    「他N件」に重なる。3 レイヤーが同じ変数を参照することで防ぐ。
+    """
+    from pathlib import Path
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+
+    # 1. 寸法は .task-calendar に集約されていること
+    calendar_rule = css_content.split(".task-calendar {", 1)[1].split("}", 1)[0]
+    for variable in (
+        "--task-cal-col-gap",
+        "--task-cal-row-gap",
+        "--task-cal-head-h",
+        "--task-cal-lane-h",
+        "--task-cal-lane-gap",
+        "--task-cal-pad-bottom",
+        "--task-cal-more-h",
+    ):
+        assert variable in calendar_rule, (
+            f".task-calendar に {variable} の定義が見つかりません"
+        )
+
+    # 2. 曜日見出し・日付セル・バーのオーバーレイが同じ列間隔を使うこと
+    #    （揃っていないと曜日ラベルが列の真上から左右にずれる）
+    for selector in (
+        ".task-calendar__weekdays {",
+        ".task-calendar__week-cells {",
+    ):
+        rule = css_content.split(selector, 1)[1].split("}", 1)[0]
+        assert "gap: var(--task-cal-col-gap);" in rule, (
+            f"{selector} が --task-cal-col-gap を使っていません"
+        )
+    bars_rule = css_content.split(".task-calendar__bars {", 1)[1].split("}", 1)[0]
+    assert "column-gap: var(--task-cal-col-gap);" in bars_rule
+    # 3. バーの開始位置とセルの最低高さが同じ見出し高さを参照すること
+    assert "top: var(--task-cal-head-h);" in bars_rule
+    cell_rule = css_content.split(".task-calendar__cell {", 1)[1].split("}", 1)[0]
+    assert "var(--task-cal-head-h)" in cell_rule
+    # 4. 「他N件」を出す週はその 1 行分だけセルを高くすること
+    assert "var(--task-cal-more, 0) *" in cell_rule
+    assert "var(--task-cal-more-h)" in cell_rule
+
+    calendar_js = Path("static/js/task_board/calendar.js").read_text(encoding="utf-8")
+    assert "'--task-cal-more'" in calendar_js
+    assert "hasMore" in calendar_js
+
+
+def test_task_calendar_mobile_bars_keep_task_colors():
+    """狭い画面でも期間バーがタスク固有色を保ち、日付の数字に被らないこと。
+
+    以前はモバイル用の上書きが背景を --task-todo で塗り潰していたため、
+    どの帯も同じ色になり見分けられなかった。
+    """
+    from pathlib import Path
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+    narrow_block = css_content.split("@media (max-width: 580px) {", 1)[1]
+
+    # 1. モバイルでも --task-item-color（タスク固有色）で塗ること
+    assert "background: var(--task-item-color, var(--task-todo));" in narrow_block
+    # 2. 単色で塗り潰す旧実装（identity 色の破棄）へ戻っていないこと
+    assert "background: var(--task-todo);" not in narrow_block
+    # 3. 「今日」の丸バッジを縮め、見出し高さの内側に収めること
+    assert ".task-calendar__cell.is-today .task-calendar__date {" in narrow_block
+    assert "--task-cal-head-h: 1.8rem;" in narrow_block
