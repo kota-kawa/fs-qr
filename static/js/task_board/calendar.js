@@ -242,14 +242,21 @@
 
     var cellsWrap = document.createElement('div');
     cellsWrap.className = 'task-calendar__week-cells';
+    var hasMore = false;
     weekKeys.forEach(function (key) {
       var dayItems = groups[key] || [];
       var overflowCount = dayItems.filter(function (item) {
         var lane = laneOf[String(item.item_id)] || 0;
         return lane >= MAX_LANES;
       }).length;
+      if (overflowCount > 0) hasMore = true;
       cellsWrap.appendChild(createCell(key, dayItems, overflowCount));
     });
+
+    // 「他N件」を表示する週だけセルを1行分高くし、バーと文字が重ならないようにする。
+    // Weeks that show a "+N more" line reserve one extra text row in the cell
+    // height so the bars overlay cannot cover it.
+    week.style.setProperty('--task-cal-more', hasMore ? '1' : '0');
     week.appendChild(cellsWrap);
     week.appendChild(createBarsLayer(segments));
 

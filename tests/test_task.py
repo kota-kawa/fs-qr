@@ -1082,3 +1082,136 @@ def test_task_board_page_renders_date_input_fields(test_client: TestClient):
     assert 'id="taskCreateDueDate"' in body
     assert 'id="taskEditorStartDate"' in body
     assert 'id="taskEditorDueDate"' in body
+
+
+def test_task_quick_add_date_fields_share_one_grid(test_client: TestClient):
+    """クイック追加の開始日・期限日が同じ幅になり、狭い画面で重ならないこと。
+
+    以前は `.task-quick-add-controls` の `1fr auto` により片方だけが縮み、
+    スマホでは日付テキストがカレンダーアイコンと重なって欠けていた。
+    2 つの入力欄を等分グリッドへ入れ、狭い画面では 1 列へ落とすことで防ぐ。
+    """
+    from pathlib import Path
+
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=True),
+        patch("Task.task_routes_room.get_task_room_password", return_value="pw12345"),
+        patch(
+            "Task.task_routes_room.get_task_room_share_token",
+            return_value="sharetoken123",
+        ),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 1. 2 つの日付欄が同じグリッド（.task-quick-add-dates）に入り、
+    #    それぞれ見出しつきの .task-date-field で包まれていること
+    assert 'class="task-quick-add-dates"' in body
+    assert body.count('class="task-date-field"') == 2
+    assert body.count('class="task-date-field__label"') == 2
+    for label in ("開始", "期限"):
+        assert (
+            f'<span class="task-date-field__label" aria-hidden="true">{label}</span>'
+            in body
+        )
+    # 見出しは視覚用。読み上げ用の完全なラベルは aria-label 側に残す
+    assert 'aria-label="開始日"' in body
+    assert 'aria-label="期限日"' in body
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+
+    # 2. 既定は等分の 2 列。片方だけが縮むことがない
+    assert ".task-quick-add-dates {" in css_content
+    dates_rule = css_content.split(".task-quick-add-dates {", 1)[1].split("}", 1)[0]
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr));" in dates_rule
+
+    # 3. 入力欄はグリッド列にぴったり収める（固定幅のままだと溢れる）
+    assert ".task-date-field .task-input {" in css_content
+    input_rule = css_content.split(".task-date-field .task-input {", 1)[1].split(
+        "}", 1
+    )[0]
+    assert "box-sizing: border-box;" in input_rule
+    assert "width: 100%;" in input_rule
+
+    # 4. 狭い画面（<=580px）では 1 列へ落として縦に積む
+    narrow_block = css_content.split("@media (max-width: 580px) {", 1)[1]
+    assert "grid-template-columns: minmax(0, 1fr);" in narrow_block
+
+
+def test_task_calendar_layout_metrics_are_shared_variables():
+    """カレンダーの寸法を CSS 変数へ集約し、文字とバーが重ならないこと。
+
+    バーは日付セルの外（週行のオーバーレイ）に絶対配置されるため、
+    「見出しの高さ」「列の間隔」がセル側とズレると、バーが日付の数字や
+    「他N件」に重なる。3 レイヤーが同じ変数を参照することで防ぐ。
+    """
+    from pathlib import Path
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+
+    # 1. 寸法は .task-calendar に集約されていること
+    calendar_rule = css_content.split(".task-calendar {", 1)[1].split("}", 1)[0]
+    for variable in (
+        "--task-cal-col-gap",
+        "--task-cal-row-gap",
+        "--task-cal-head-h",
+        "--task-cal-lane-h",
+        "--task-cal-lane-gap",
+        "--task-cal-pad-bottom",
+        "--task-cal-more-h",
+    ):
+        assert variable in calendar_rule, (
+            f".task-calendar に {variable} の定義が見つかりません"
+        )
+
+    # 2. 曜日見出し・日付セル・バーのオーバーレイが同じ列間隔を使うこと
+    #    （揃っていないと曜日ラベルが列の真上から左右にずれる）
+    for selector in (
+        ".task-calendar__weekdays {",
+        ".task-calendar__week-cells {",
+    ):
+        rule = css_content.split(selector, 1)[1].split("}", 1)[0]
+        assert "gap: var(--task-cal-col-gap);" in rule, (
+            f"{selector} が --task-cal-col-gap を使っていません"
+        )
+    bars_rule = css_content.split(".task-calendar__bars {", 1)[1].split("}", 1)[0]
+    assert "column-gap: var(--task-cal-col-gap);" in bars_rule
+    # 3. バーの開始位置とセルの最低高さが同じ見出し高さを参照すること
+    assert "top: var(--task-cal-head-h);" in bars_rule
+    cell_rule = css_content.split(".task-calendar__cell {", 1)[1].split("}", 1)[0]
+    assert "var(--task-cal-head-h)" in cell_rule
+    # 4. 「他N件」を出す週はその 1 行分だけセルを高くすること
+    assert "var(--task-cal-more, 0) *" in cell_rule
+    assert "var(--task-cal-more-h)" in cell_rule
+
+    calendar_js = Path("static/js/task_board/calendar.js").read_text(encoding="utf-8")
+    assert "'--task-cal-more'" in calendar_js
+    assert "hasMore" in calendar_js
+
+
+def test_task_calendar_mobile_bars_keep_task_colors():
+    """狭い画面でも期間バーがタスク固有色を保ち、日付の数字に被らないこと。
+
+    以前はモバイル用の上書きが背景を --task-todo で塗り潰していたため、
+    どの帯も同じ色になり見分けられなかった。
+    """
+    from pathlib import Path
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+    narrow_block = css_content.split("@media (max-width: 580px) {", 1)[1]
+
+    # 1. モバイルでも --task-item-color（タスク固有色）で塗ること
+    assert "background: var(--task-item-color, var(--task-todo));" in narrow_block
+    # 2. 単色で塗り潰す旧実装（identity 色の破棄）へ戻っていないこと
+    assert "background: var(--task-todo);" not in narrow_block
+    # 3. 「今日」の丸バッジを縮め、見出し高さの内側に収めること
+    assert ".task-calendar__cell.is-today .task-calendar__date {" in narrow_block
+    assert "--task-cal-head-h: 1.8rem;" in narrow_block

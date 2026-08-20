@@ -546,6 +546,45 @@
   font-size: 0.78rem;
 }
 
+/* 開始日・期限日の並び。等分の 2 列グリッドにすることで、2 つの入力欄の幅は
+   常に一致する（以前は片方だけが縮んで日付が欠け、アイコンと重なっていた）。
+   狭い画面では下のブレークポイントで 1 列に切り替え、縦に積む。
+   Start/due date pair on an even 2-column grid so both fields always end up
+   exactly the same width — previously only one of them shrank, clipping the
+   date text into the picker icon. Narrow screens stack them (see breakpoint). */
+.task-quick-add-dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem 0.5rem;
+  min-width: 0;
+}
+
+.task-date-field {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.task-date-field__label {
+  flex-shrink: 0;
+  color: var(--task-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* グリッド列の幅にぴったり収める（既定は content-box + 固定幅のため溢れる）。
+   Fill the grid column exactly; the shared compact style is fixed-width. */
+.task-date-field .task-input {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
 .task-select-wrapper {
   position: relative;
   display: inline-flex;
@@ -1636,7 +1675,21 @@
   display: none;
 }
 
+/* カレンダーの寸法は 1 か所（ここ）で定義し、曜日見出し・日付セル・期間バーの
+   3 レイヤーがすべて同じ値を参照する。ブレークポイントではこの変数だけを
+   上書きすればよく、列位置のズレやバーと文字の重なりが起きない。
+   All calendar metrics live here so the weekday header, the day cells and the
+   bar overlay share one source of truth. Breakpoints override these variables
+   only, which keeps the three layers aligned and stops bars from colliding
+   with the day numbers. */
 .task-calendar {
+  --task-cal-col-gap: 0.5rem; /* 列の間隔（3レイヤー共通） / column gap shared by all layers */
+  --task-cal-row-gap: 0.5rem;
+  --task-cal-head-h: 2.3rem; /* セル上端から日付見出しの下端まで / cell top to below the day number */
+  --task-cal-lane-h: 22px; /* 1レーンの高さ / height of a single lane row */
+  --task-cal-lane-gap: 4px;
+  --task-cal-pad-bottom: 0.55rem; /* セルの下パディング / the cell's bottom padding */
+  --task-cal-more-h: 1.15rem; /* 「他N件」1行分の高さ / height of the "+N more" line */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -1710,6 +1763,7 @@
 .task-calendar__today {
   margin-left: 0.4rem;
   padding: 0.4rem 0.95rem;
+  white-space: nowrap; /* 狭い画面で「今／日」と分かれないように / keep the label on one line */
   border: 1.5px solid rgba(245, 158, 11, 0.4);
   border-radius: 9999px;
   background: #fffbeb;
@@ -1735,11 +1789,13 @@
   line-height: 1.55;
 }
 
+/* 日付セルと同じ 7 列・同じ列間隔にして、曜日見出しを列の真上に揃える。
+   Same 7 columns and column gap as the day cells so each weekday label sits
+   exactly above its column. */
 .task-calendar__weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.5rem;
-  padding: 0 0.1rem;
+  gap: var(--task-cal-col-gap);
 }
 
 .task-calendar__weekday {
@@ -1762,47 +1818,54 @@
 .task-calendar__grid {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--task-cal-row-gap);
 }
 
 /* 週行: 背景（日付セル7列）と前景（連続バーのオーバーレイ）の2層構造。
    Week row: a 2-layer structure — background day cells + a foreground bar overlay. */
 .task-calendar__week {
   position: relative;
-  --task-cal-lane-h: 22px; /* 1レーンの高さ / height of a single lane row */
-  --task-cal-lane-gap: 4px;
   --task-cal-lanes: 0; /* JS側で週ごとに上書きされる実使用レーン数 / overridden per week by JS */
+  --task-cal-more: 0; /* 「他N件」を出す週だけ JS が 1 にする / set to 1 by JS on weeks showing "+N more" */
 }
 
 .task-calendar__week-cells {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: var(--task-cal-col-gap);
 }
 
 /* 期間バーのオーバーレイ。日付セルと同じ7列グリッドを使い、列位置を完全に一致させる。
    Bars overlay: shares the same 7-column grid as the day cells so columns line up exactly. */
 .task-calendar__bars {
   position: absolute;
-  top: 2.3rem; /* セル見出し（日付＋件数）の下から始める / starts just below the cell head */
+  top: var(--task-cal-head-h); /* セル見出し（日付＋件数）の下から始める / starts just below the cell head */
   left: 0;
   right: 0;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-auto-rows: var(--task-cal-lane-h);
   row-gap: var(--task-cal-lane-gap);
-  column-gap: 0.5rem;
+  column-gap: var(--task-cal-col-gap);
   pointer-events: none; /* セル背景のクリック・ドロップを妨げない。バー自身は再度 auto にする */
 }
 
+/* セルの最低高さ =「見出し + レーン + （必要なら）他N件 + 下パディング」。
+   バーはセルの外（オーバーレイ）に描かれるため、この計算が崩れるとバーが
+   日付や「他N件」と重なる。各項目を変数で持つことでズレを防ぐ。
+   Cell floor height = head + lanes + optional "+N more" line + bottom padding.
+   The bars are drawn in the overlay outside the cell, so keeping every term of
+   this sum in a variable is what stops them from covering the text. */
 .task-calendar__cell {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   min-height: calc(
-    2.3rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 22px) + var(--task-cal-lane-gap, 4px)) + 1rem
+    var(--task-cal-head-h) + var(--task-cal-lanes, 0) *
+      (var(--task-cal-lane-h) + var(--task-cal-lane-gap)) + var(--task-cal-more, 0) *
+      var(--task-cal-more-h) + var(--task-cal-pad-bottom)
   );
-  padding: 0.5rem 0.5rem 0.55rem;
+  padding: 0.5rem 0.5rem var(--task-cal-pad-bottom);
   border: 1px solid var(--task-border);
   border-radius: 14px;
   background: var(--task-surface);
@@ -1834,6 +1897,20 @@
 
 .task-calendar__cell.is-outside:hover {
   box-shadow: none;
+}
+
+/* 週末はごく淡く色を敷いて、週の区切りを目で追いやすくする。今日・選択日・
+   ドロップ先の強調が消えないよう、それらの状態は :not() で明示的に除外する
+   （状態側のルールより詳細度が高くなるため、記述順では勝てない）。
+   A very light weekend tint makes the week boundaries easy to scan. The
+   today/selected/drop states are excluded explicitly: this selector is more
+   specific than theirs, so source order alone would not let them win. */
+.task-calendar__cell.is-sunday:not(.is-outside):not(.is-today):not(.is-selected):not(.is-drop-target) {
+  background: #fff7f6;
+}
+
+.task-calendar__cell.is-saturday:not(.is-outside):not(.is-today):not(.is-selected):not(.is-drop-target) {
+  background: #f6f9ff;
 }
 
 .task-calendar__cell.is-today {
@@ -2081,33 +2158,59 @@
    ───────────────────────────────────────────────────────────── */
 .task-calendar__period-bar.is-single {
   border-radius: 5px;
-  border-left: 3px solid var(--task-item-color, var(--task-todo));
-  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 16%, #ffffff);
-  color: #334155;
+  border: 1px solid var(--task-item-color, var(--task-todo));
+  border-left-width: 4px;
+  /* color-mix 非対応ブラウザ向けのフォールバック。これが無いと基底ルールの
+     濃い背景に濃い文字色が乗り、文字が読めなくなる。
+     Fallback for browsers without color-mix: without it the dark base
+     background would keep the dark text below, making the label unreadable. */
+  background: #f1f5f9;
+  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 22%, #ffffff);
+  color: #1f2937;
   box-shadow: none;
 }
 
 .task-calendar__period-bar.is-single:hover {
-  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 28%, #ffffff);
+  background: #e2e8f0;
+  background: color-mix(in srgb, var(--task-item-color, var(--task-todo)) 34%, #ffffff);
 }
 
 .task-calendar__period-bar.is-single.is-doing {
-  background: color-mix(in srgb, var(--task-item-color, var(--task-doing)) 22%, #fffbeb);
+  background: #fef3c7;
+  background: color-mix(in srgb, var(--task-item-color, var(--task-doing)) 26%, #fffbeb);
   color: #92400e;
 }
 
+/* 完了は淡いグレーだが、識別色の縁は残して他のタスクと見分けられるようにする。
+   淡色チップに基底ルールの opacity: 0.65 まで掛かると文字がほぼ読めなくなるため、
+   ここでは不透明に戻し、完了は背景色と取り消し線だけで表す。
+   Done chips fade to grey but keep the identity-colored edge. The base rule's
+   opacity: 0.65 would make an already pale chip unreadable, so it is reset
+   here; grey plus the strikethrough is enough to read as "done". */
 .task-calendar__period-bar.is-single.is-done {
   background: #f1f5f9;
+  border-color: #cbd5e1;
+  border-left-color: var(--task-item-color, var(--task-todo));
   color: #64748b;
+  opacity: 1;
+}
+
+.task-calendar__period-bar.is-single.is-done:hover {
+  opacity: 1;
 }
 
 .task-calendar__period-bar.is-single.is-overdue {
-  border-left-color: var(--task-high) !important;
+  border-color: var(--task-high) !important;
   background: #fee2e2 !important;
   color: #b91c1c;
   box-shadow: none;
 }
 
+/* セル下端に置く「他N件」。高さは --task-cal-more-h と一致させる必要があるため、
+   line-height を明示して行の高さをフォント設定に左右されないようにする。
+   The "+N more" line is pinned to the bottom of the cell and its height must
+   match --task-cal-more-h, so line-height is pinned rather than left to the
+   font's default. */
 .task-calendar__more {
   margin-top: auto;
   padding: 0.1rem 0.35rem;
@@ -2117,6 +2220,7 @@
   text-align: left;
   font-size: 0.72rem;
   font-weight: 700;
+  line-height: 1.2;
   white-space: nowrap;
   cursor: default;
 }
@@ -2139,10 +2243,14 @@
   background: var(--task-surface-muted);
 }
 
+/* 狭い画面ではボタンが折り返して 2 行になるより、見出しの下へ回り込ませる。
+   On narrow screens let the button drop below the heading instead of having
+   its own label wrap onto two lines. */
 .task-calendar__day-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -2172,6 +2280,7 @@
   align-items: center;
   gap: 0.3rem;
   padding: 0.4rem 0.85rem;
+  white-space: nowrap;
   border: 1px solid rgba(245, 158, 11, 0.45);
   border-radius: 9999px;
   background: #fffbeb;
@@ -2198,12 +2307,16 @@
   box-shadow: 0 0 0 3px var(--task-ring);
 }
 
+/* スクロールバーが行のステータスバッジに被らないよう、右側に余白を確保する。
+   Reserve room on the right so the scrollbar never sits on the status badges. */
 .task-calendar__day-list {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
   max-height: 280px;
+  padding-right: 0.35rem;
   overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .task-calendar__row {
@@ -2940,18 +3053,12 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .task-calendar__week {
+  /* レーンだけ低くする。見出しの高さ（--task-cal-head-h）は「今日」の丸バッジの
+     大きさで決まるので下げない。
+     Only the lanes get shorter here: --task-cal-head-h is dictated by the size
+     of the "today" badge, so it must stay as is. */
+  .task-calendar {
     --task-cal-lane-h: 18px;
-  }
-
-  .task-calendar__bars {
-    top: 2rem;
-  }
-
-  .task-calendar__cell {
-    min-height: calc(
-      2rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 18px) + var(--task-cal-lane-gap, 4px)) + 0.8rem
-    );
   }
 }
 
@@ -2992,30 +3099,25 @@
     gap: 0.55rem;
   }
 
-  /* 画面が狭いときはセル内をドット表示にして、詳細は選択日パネルで見る。 */
-  .task-calendar__grid {
-    gap: 0.2rem;
-  }
-
-  .task-calendar__week {
-    --task-cal-lane-h: 6px;
-    --task-cal-lane-gap: 2px;
-  }
-
-  .task-calendar__week-cells {
-    gap: 0.2rem;
-  }
-
-  .task-calendar__bars {
-    top: 1.35rem;
-    column-gap: 0.2rem;
+  /* 画面が狭いときはセル内を帯（ドット）表示にして、詳細は選択日パネルで見る。
+     見出しの高さは「今日」の丸バッジ（下で 1.35rem に縮小）に合わせて確保し、
+     期間バーが日付の数字に被らないようにする。
+     On narrow screens the bars become thin strips and the details are read in
+     the day panel. The head height is sized for the shrunken "today" badge so
+     the bars can never ride up over the day numbers. */
+  .task-calendar {
+    --task-cal-col-gap: 0.2rem;
+    --task-cal-row-gap: 0.2rem;
+    --task-cal-head-h: 1.8rem;
+    --task-cal-lane-h: 7px;
+    --task-cal-lane-gap: 3px;
+    --task-cal-pad-bottom: 0.3rem;
+    --task-cal-more-h: 1rem;
   }
 
   .task-calendar__cell {
-    min-height: calc(
-      1.35rem + var(--task-cal-lanes, 0) * (var(--task-cal-lane-h, 6px) + var(--task-cal-lane-gap, 2px)) + 0.4rem
-    );
-    padding: 0.25rem 0.2rem;
+    padding: 0.25rem 0.2rem var(--task-cal-pad-bottom);
+    border-radius: 10px;
   }
 
   .task-calendar__cell-head {
@@ -3023,7 +3125,12 @@
   }
 
   .task-calendar__date {
-    font-size: 0.74rem;
+    font-size: 0.78rem;
+  }
+
+  .task-calendar__cell.is-today .task-calendar__date {
+    min-width: 1.35rem;
+    height: 1.35rem;
   }
 
   .task-calendar__cell-count {
@@ -3033,12 +3140,16 @@
     font-size: 0.6rem;
   }
 
-  /* 幅が狭い画面では期間バーもドット化し、テキストは非表示にする（詳細は選択日パネルで見る）。 */
+  /* 幅が狭い画面では期間バーもドット化し、テキストは非表示にする（詳細は選択日パネルで見る）。
+     色はタスク固有色（--task-item-color）を保ち、どの帯がどのタスクかを
+     色で追えるようにする。状態は「期限切れ＝赤」「完了＝薄く」で表す。
+     The strips keep their per-task identity color so a task stays recognizable
+     across weeks; status is conveyed by red (overdue) and fading (done). */
   .task-calendar__period-bar {
     padding: 0;
     border: 0;
     border-radius: 9999px;
-    background: var(--task-todo);
+    background: var(--task-item-color, var(--task-todo));
     font-size: 0;
     box-shadow: none;
     clip-path: none !important;
@@ -3048,19 +3159,49 @@
     display: none;
   }
 
-  .task-calendar__period-bar.is-doing {
-    background: var(--task-doing);
+  /* 複数日の帯は clip-path を使えないため、両端の丸めをここで指定し直す。
+     週をまたいで続く側だけ角を落として「まだ続く」ことを示す。
+     clip-path is off here, so the caps are re-expressed with border-radius:
+     square on the side that continues into the neighbouring week. */
+  .task-calendar__period-bar.is-multi,
+  .task-calendar__period-bar.is-multi.is-bar-start,
+  .task-calendar__period-bar.is-multi.is-bar-end {
+    padding: 0;
+    border-radius: 9999px;
   }
 
-  .task-calendar__period-bar.is-done {
-    background: var(--task-done);
+  .task-calendar__period-bar.is-multi.is-continues-before {
+    padding: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
-  .task-calendar__period-bar.is-overdue {
+  .task-calendar__period-bar.is-multi.is-continues-after {
+    padding: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .task-calendar__period-bar.is-single {
+    border: 0;
+    border-radius: 9999px;
+    background: var(--task-item-color, var(--task-todo));
+  }
+
+  .task-calendar__period-bar.is-done,
+  .task-calendar__period-bar.is-single.is-done {
+    background: var(--task-item-color, var(--task-todo));
+    opacity: 0.4;
+  }
+
+  .task-calendar__period-bar.is-overdue,
+  .task-calendar__period-bar.is-single.is-overdue {
     background: var(--task-high) !important;
+    opacity: 1;
   }
 
   .task-calendar__more {
+    padding: 0 0.15rem;
     font-size: 0.62rem;
   }
 
@@ -3074,13 +3215,20 @@
   }
 
   /* 縦積みになるので右寄せ（margin-left: auto）を解除し、全幅に伸ばす。
-     Stacked layout: drop the right-alignment and let the grid fill the bar. */
+     日付欄は 1 行占有し、優先度と追加ボタンで 1 行を等分する。
+     Stacked layout: drop the right-alignment and let the grid fill the bar.
+     The date pair takes a full row; priority and the add button share the next. */
   .task-quick-add-controls {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: 100%;
     margin-left: 0;
+  }
+
+  .task-quick-add-dates {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   /* 既定は content-box のため width:100% だとパディング分だけグリッド列から

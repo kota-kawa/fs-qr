@@ -171,8 +171,21 @@
                 <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを追加 (Enter)" autocomplete="off">
               </div>
               <div class="task-quick-add-controls">
-                <input type="date" id="taskCreateStartDate" name="start_date" class="task-input task-date-input task-input--compact" aria-label="開始日" title="開始日">
-                <input type="date" id="taskCreateDueDate" name="due_date" class="task-input task-date-input task-input--compact" aria-label="期限日" title="期限日">
+                <!-- 開始日・期限日は 1 つのグリッドに入れて必ず同じ幅にする。狭い画面では
+                     自動で縦積みになり、日付が欠けたり重なったりしない。
+                     Both date fields live in one grid so they always share the same
+                     width; the grid stacks them on narrow screens so the native date
+                     text is never clipped or overlapped. -->
+                <div class="task-quick-add-dates">
+                  <label class="task-date-field" for="taskCreateStartDate">
+                    <span class="task-date-field__label" aria-hidden="true">開始</span>
+                    <input type="date" id="taskCreateStartDate" name="start_date" class="task-input task-date-input task-input--compact" aria-label="開始日" title="開始日">
+                  </label>
+                  <label class="task-date-field" for="taskCreateDueDate">
+                    <span class="task-date-field__label" aria-hidden="true">期限</span>
+                    <input type="date" id="taskCreateDueDate" name="due_date" class="task-input task-date-input task-input--compact" aria-label="期限日" title="期限日">
+                  </label>
+                </div>
                 <select id="taskCreatePriority" class="task-select-pill task-select-pill--compact" aria-label="優先度" title="優先度">
                   <option value="normal" selected>通常</option>
                   <option value="high">高</option>
