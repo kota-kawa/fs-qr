@@ -1082,3 +1082,65 @@ def test_task_board_page_renders_date_input_fields(test_client: TestClient):
     assert 'id="taskCreateDueDate"' in body
     assert 'id="taskEditorStartDate"' in body
     assert 'id="taskEditorDueDate"' in body
+
+
+def test_task_quick_add_date_fields_share_one_grid(test_client: TestClient):
+    """クイック追加の開始日・期限日が同じ幅になり、狭い画面で重ならないこと。
+
+    以前は `.task-quick-add-controls` の `1fr auto` により片方だけが縮み、
+    スマホでは日付テキストがカレンダーアイコンと重なって欠けていた。
+    2 つの入力欄を等分グリッドへ入れ、狭い画面では 1 列へ落とすことで防ぐ。
+    """
+    from pathlib import Path
+
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=True),
+        patch("Task.task_routes_room.get_task_room_password", return_value="pw12345"),
+        patch(
+            "Task.task_routes_room.get_task_room_share_token",
+            return_value="sharetoken123",
+        ),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    # 1. 2 つの日付欄が同じグリッド（.task-quick-add-dates）に入り、
+    #    それぞれ見出しつきの .task-date-field で包まれていること
+    assert 'class="task-quick-add-dates"' in body
+    assert body.count('class="task-date-field"') == 2
+    assert body.count('class="task-date-field__label"') == 2
+    for label in ("開始", "期限"):
+        assert (
+            f'<span class="task-date-field__label" aria-hidden="true">{label}</span>'
+            in body
+        )
+    # 見出しは視覚用。読み上げ用の完全なラベルは aria-label 側に残す
+    assert 'aria-label="開始日"' in body
+    assert 'aria-label="期限日"' in body
+
+    css_content = Path("static/css/16-task-board.css").read_text(encoding="utf-8")
+
+    # 2. 既定は等分の 2 列。片方だけが縮むことがない
+    assert ".task-quick-add-dates {" in css_content
+    dates_rule = css_content.split(".task-quick-add-dates {", 1)[1].split("}", 1)[0]
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr));" in dates_rule
+
+    # 3. 入力欄はグリッド列にぴったり収める（固定幅のままだと溢れる）
+    assert ".task-date-field .task-input {" in css_content
+    input_rule = css_content.split(".task-date-field .task-input {", 1)[1].split(
+        "}", 1
+    )[0]
+    assert "box-sizing: border-box;" in input_rule
+    assert "width: 100%;" in input_rule
+
+    # 4. 狭い画面（<=580px）では 1 列へ落として縦に積む
+    narrow_block = css_content.split("@media (max-width: 580px) {", 1)[1]
+    assert "grid-template-columns: minmax(0, 1fr);" in narrow_block

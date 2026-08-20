@@ -546,6 +546,45 @@
   font-size: 0.78rem;
 }
 
+/* 開始日・期限日の並び。等分の 2 列グリッドにすることで、2 つの入力欄の幅は
+   常に一致する（以前は片方だけが縮んで日付が欠け、アイコンと重なっていた）。
+   狭い画面では下のブレークポイントで 1 列に切り替え、縦に積む。
+   Start/due date pair on an even 2-column grid so both fields always end up
+   exactly the same width — previously only one of them shrank, clipping the
+   date text into the picker icon. Narrow screens stack them (see breakpoint). */
+.task-quick-add-dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem 0.5rem;
+  min-width: 0;
+}
+
+.task-date-field {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.task-date-field__label {
+  flex-shrink: 0;
+  color: var(--task-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* グリッド列の幅にぴったり収める（既定は content-box + 固定幅のため溢れる）。
+   Fill the grid column exactly; the shared compact style is fixed-width. */
+.task-date-field .task-input {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
 .task-select-wrapper {
   position: relative;
   display: inline-flex;
@@ -3074,13 +3113,20 @@
   }
 
   /* 縦積みになるので右寄せ（margin-left: auto）を解除し、全幅に伸ばす。
-     Stacked layout: drop the right-alignment and let the grid fill the bar. */
+     日付欄は 1 行占有し、優先度と追加ボタンで 1 行を等分する。
+     Stacked layout: drop the right-alignment and let the grid fill the bar.
+     The date pair takes a full row; priority and the add button share the next. */
   .task-quick-add-controls {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: 100%;
     margin-left: 0;
+  }
+
+  .task-quick-add-dates {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   /* 既定は content-box のため width:100% だとパディング分だけグリッド列から
