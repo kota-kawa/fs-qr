@@ -27,19 +27,19 @@
 {% set _modified_iso = _modified ~ "T00:00:00+09:00" %}
 {% set _thumbnail = article_thumbnail | default("articles/thumbnails/" ~ article_slug ~ ".jpg") %}
 
-{% block page_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
+{% block page_title %}{{ article_title }} | {{ _("FS!QR解説記事") }}{% endblock %}
 
 {% block meta_description %}{{ article_description }}{% endblock %}
-{% block meta_keywords %}{{ article_keywords | default("FS QR, ファイル共有, 解説記事") }}{% endblock %}
+{% block meta_keywords %}{{ article_keywords | default(_("FS QR, ファイル共有, 解説記事")) }}{% endblock %}
 {% block meta_robots %}{% if article_indexable is defined and not article_indexable %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 {% block meta_googlebot %}{% if article_indexable is defined and not article_indexable %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
-{% block og_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
+{% block og_title %}{{ article_title }} | {{ _("FS!QR解説記事") }}{% endblock %}
 {% block og_description %}{{ article_description }}{% endblock %}
 {% block og_image %}{{ social_staticfile(_thumbnail) }}{% endblock %}
 {% block og_image_alt %}{{ article_title }}{% endblock %}
 
-{% block twitter_title %}{{ article_title }} | FS!QR解説記事{% endblock %}
+{% block twitter_title %}{{ article_title }} | {{ _("FS!QR解説記事") }}{% endblock %}
 {% block twitter_description %}{{ article_description }}{% endblock %}
 {% block twitter_image %}{{ social_staticfile(_thumbnail) }}{% endblock %}
 {% block twitter_image_alt %}{{ article_title }}{% endblock %}
@@ -48,8 +48,8 @@
 {% block extra_og %}
 <meta property="article:published_time" content="{{ _published_iso }}" />
 <meta property="article:modified_time" content="{{ _modified_iso }}" />
-<meta property="article:author" content="こうた" />
-<meta property="article:section" content="{{ article_section | default('解説記事') }}" />
+<meta property="article:author" content="{{ _("こうた") }}" />
+<meta property="article:section" content="{{ article_section | default(_('解説記事')) }}" />
 {% endblock %}
 
 {% block extra_head %}
@@ -64,7 +64,7 @@
   "image": "{{ social_staticfile(_thumbnail) }}",
   "author": {
     "@type": "Person",
-    "name": "こうた",
+    "name": {{ _("こうた") | tojson }},
     "url": "{{ request.url_root }}site-operator"
   },
   "publisher": {
@@ -74,7 +74,7 @@
     "logo": { "@type": "ImageObject", "url": "{{ request.url_root }}static/logo.png" }
   },
   "url": "{{ request.url_root }}{{ article_slug }}",
-  "inLanguage": "ja-JP",
+  "inLanguage": {{ schema_language | tojson }},
   "isPartOf": { "@type": "WebSite", "name": "FS!QR", "url": "{{ request.url_root }}" }
 }
 </script>
@@ -83,8 +83,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "解説記事", "item": "{{ request.url_root }}articles" },
+    { "@type": "ListItem", "position": 1, "name": {{ _("ホーム") | tojson }}, "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ _("解説記事") | tojson }}, "item": "{{ request.url_root }}articles" },
     { "@type": "ListItem", "position": 3, "name": {{ article_title | tojson }}, "item": "{{ request.url_root }}{{ article_slug }}" }
   ]
 }
@@ -96,16 +96,16 @@
 <div class="container my-5">
   <div class="info-box article-reading">
     <div class="info-box-content">
-      <nav class="article-breadcrumb" aria-label="パンくずリスト">
+      <nav class="article-breadcrumb" aria-label="{{ _("パンくずリスト") }}">
         {% set lq = '?lang=' ~ current_language if current_language and current_language != 'ja' else '' %}
-        <a href="/{{ lq }}">ホーム</a>
+        <a href="/{{ lq }}">{{ _("ホーム") }}</a>
         <i class="fas fa-chevron-right breadcrumb-separator"></i>
-        <a href="/articles{{ lq }}">解説記事</a>
+        <a href="/articles{{ lq }}">{{ _("解説記事") }}</a>
       </nav>
       <img class="article-hero-image" src="{{ staticfile(_thumbnail) }}" alt="{{ _heading }}" loading="eager" decoding="async">
       <h1 class="mb-4">{{ _heading }}</h1>
       <p class="article-byline">
-        <a class="article-byline-author" rel="author" href="/site-operator">こうた</a>
+        <a class="article-byline-author" rel="author" href="/site-operator">{{ _("こうた") }}</a>
         <time datetime="{{ _published_iso }}">{{ article_published }}</time>
         {% if _modified != article_published %}
         <span aria-hidden="true">·</span>
@@ -116,7 +116,7 @@
       {% include "_article_cta.html" %}
       <div class="article-footer-nav">
         <a href="/articles{{ lq }}" class="article-back-link">
-          <i class="fas fa-arrow-left"></i> 解説記事一覧へ戻る
+        <i class="fas fa-arrow-left"></i> {{ _("解説記事一覧へ戻る") }}
         </a>
       </div>
     </div>

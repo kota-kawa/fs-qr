@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}FS!QR サイト概要 | 無料QRコードファイル共有サービスについて{% endblock %}
+{% block page_title %}{{ _("FS!QR サイト概要 | 無料QRコードファイル共有サービスについて") }}{% endblock %}
 
-{% block meta_description %}FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。{% endblock %}
+{% block meta_description %}{{ _("FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。") }}{% endblock %}
 
-{% block meta_keywords %}FS QR, サイト概要, ファイル共有サービス, QRコード, セキュリティ, 暗号化, 無料サービス, 運営者情報, サービス紹介{% endblock %}
+{% block meta_keywords %}{{ _("FS QR, サイト概要, ファイル共有サービス, QRコード, セキュリティ, 暗号化, 無料サービス, 運営者情報, サービス紹介") }}{% endblock %}
 
-{% block og_title %}FS!QR サイト概要 | 無料QRコードファイル共有サービスについて{% endblock %}
-{% block og_description %}FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。{% endblock %}
+{% block og_title %}{{ _("FS!QR サイト概要 | 無料QRコードファイル共有サービスについて") }}{% endblock %}
+{% block og_description %}{{ _("FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。") }}{% endblock %}
 
-{% block twitter_title %}FS!QR サイト概要 | 無料QRコードファイル共有サービスについて{% endblock %}
-{% block twitter_description %}FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。{% endblock %}
+{% block twitter_title %}{{ _("FS!QR サイト概要 | 無料QRコードファイル共有サービスについて") }}{% endblock %}
+{% block twitter_description %}{{ _("FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできる無料ファイル共有サービス。ファイル共有、ノート共有、グループ共有機能をブラウザから利用できます。") }}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
@@ -19,8 +19,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "サイト概要", "item": "{{ request.url_root }}about" }
+    { "@type": "ListItem", "position": 1, "name": {{ _("ホーム") | tojson }}, "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ _("サイト概要") | tojson }}, "item": "{{ request.url_root }}about" }
   ]
 }
 </script>
@@ -30,31 +30,31 @@
 <div class="info-page">
   <div class="info-box">
     <div class="info-box-header">
-      <h1>サイト概要</h1>
-      <div class="subtitle">FS!QRについて</div>
+      <h1>{{ _("サイト概要") }}</h1>
+      <div class="subtitle">{{ _("FS!QRについて") }}</div>
     </div>
     <div class="info-box-content">
-      <p>FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできるブラウザ上で利用できる一時共有サービスです。シンプルな操作で、安全かつ迅速にファイルやデータを共有できます。</p>
+      <p>{{ _("FS!QRは、QRコードを使ってブラウザだけでデータをやり取りできるブラウザ上で利用できる一時共有サービスです。シンプルな操作で、安全かつ迅速にファイルやデータを共有できます。") }}</p>
       
-      <h3>{{ icon('rocket', with_text=True) }}主な機能</h3>
+      <h3>{{ icon('rocket', with_text=True) }}{{ _("主な機能") }}</h3>
       <ul>
-        <li><strong>ファイル共有</strong>: ファイルをアップロードするとダウンロード用URLとパスワードに加え、スマートフォンで読み取れるQRコードが生成されます。受け取る側はQRコードをスキャンしてURLにアクセスし、パスワードを入力するだけでファイルを取得できます。</li>
-        <li><strong>ノート共有</strong>: ノートルームを作成すると、そのルームにアクセスするためのQRコードが発行されます。QRコードを共有すれば複数人で同じノートをリアルタイムに編集でき、編集内容は自動保存されます。</li>
-        <li><strong>グループ共有</strong>: ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。</li>
+        <li><strong>{{ _("ファイル共有") }}</strong>{{ _(": ファイルをアップロードするとダウンロード用URLとパスワードに加え、スマートフォンで読み取れるQRコードが生成されます。受け取る側はQRコードをスキャンしてURLにアクセスし、パスワードを入力するだけでファイルを取得できます。") }}</li>
+        <li><strong>{{ _("ノート共有") }}</strong>{{ _(": ノートルームを作成すると、そのルームにアクセスするためのQRコードが発行されます。QRコードを共有すれば複数人で同じノートをリアルタイムに編集でき、編集内容は自動保存されます。") }}</li>
+        <li><strong>{{ _("グループ共有") }}</strong>{{ _(": ルームを開設するとルームURLのQRコードが生成され、メンバーはそれを読み取るだけで参加できます。ルーム内では複数ファイルのアップロード・ダウンロードが可能です。") }}</li>
       </ul>
       
-      <p>共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。</p>
+      <p>{{ _("共有URLやQRコード、ルームID、パスワードを利用して、必要な相手に一時的に共有できます。") }}</p>
 
-      <h3>{{ icon('lock', with_text=True) }}セキュリティ</h3>
-      <p>QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。</p>
+      <h3>{{ icon('lock', with_text=True) }}{{ _("セキュリティ") }}</h3>
+      <p>{{ _("QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。いずれの機能もHTTPSで通信し、設定した保存期間の経過後に自動削除されます。") }}</p>
 
-      <h3>{{ icon('phone', with_text=True) }}運営者情報</h3>
-      <p><strong>運営者:</strong> こうた（FS!QR運営）</p>
-      <p><strong>お問い合わせ:</strong> ご質問やご意見がございましたら、以下のフォームからお気軽にお問い合わせください。</p>
+      <h3>{{ icon('phone', with_text=True) }}{{ _("運営者情報") }}</h3>
+      <p><strong>{{ _("運営者:") }}</strong> {{ _("こうた（FS!QR運営）") }}</p>
+      <p><strong>{{ _("お問い合わせ:") }}</strong> {{ _("ご質問やご意見がございましたら、以下のフォームからお気軽にお問い合わせください。") }}</p>
       <div style="text-align: center; margin-top: 2rem;">
-        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/viewform?hl=ja" target="_blank" rel="noopener" class="contact-form-link">お問い合わせフォーム</a>
+        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/viewform?hl=ja" target="_blank" rel="noopener" class="contact-form-link">{{ _("お問い合わせフォーム") }}</a>
       </div>
-      <p class="page-updated"><span>最終更新日：</span><time datetime="2026-07-17">2026-07-17</time></p>
+      <p class="page-updated"><span>{{ _("最終更新日：") }}</span><time datetime="2026-07-17">2026-07-17</time></p>
     </div>
   </div>
 </div>

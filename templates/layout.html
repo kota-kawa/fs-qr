@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="{% block meta_description %}FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, テキスト共有, グループ活動, グループワーク, 大容量ファイル送信, ファイル転送, 共有フォルダ, 複数人, メモ帳 共有, Webメモ{% endblock %}" />
+    <meta name="description" content="{% block meta_description %}{{ _("FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理できます。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。") }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ _("ファイル共有, QRコード, グループ共有, ノート共有, FS QR, 無料ファイル共有, クラウドストレージ, データ転送, 日本語, セキュア, 暗号化, リアルタイム, テキスト共有, グループ活動, グループワーク, 大容量ファイル送信, ファイル転送, 共有フォルダ, 複数人, メモ帳 共有, Webメモ") }}{% endblock %}" />
     <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
     <meta name="author" content="FS!QR" />
-    <meta name="language" content="ja" />
-    <meta name="geo.region" content="JP" />
-    <meta name="geo.placename" content="Japan" />
+    <meta name="language" content="{{ meta_language }}" />
+    <meta name="geo.region" content="{{ geo_region }}" />
+    <meta name="geo.placename" content="{{ geo_placename }}" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="theme-color" content="#342ae3" />
@@ -34,24 +34,24 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
-    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale" content="{{ og_locale }}" />
     <meta property="og:site_name" content="FS!QR" />
-    <meta property="og:title" content="{% block og_title %}FS!QR | 無料で簡単なファイル共有サービス{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}{{ _("FS!QR | 無料で簡単なファイル共有サービス") }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ _("QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービスです。") }}{% endblock %}" />
     <meta property="og:url" content="{{ request.canonical_url }}" />
     <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
     <meta property="og:image:type" content="{% block og_image_type %}image/jpeg{% endblock %}" />
     <meta property="og:image:width" content="{% block og_image_width %}1200{% endblock %}" />
     <meta property="og:image:height" content="{% block og_image_height %}630{% endblock %}" />
-    <meta property="og:image:alt" content="{% block og_image_alt %}FS!QR ファイル共有サービス{% endblock %}" />
+    <meta property="og:image:alt" content="{% block og_image_alt %}{{ _("FS!QR ファイル共有サービス") }}{% endblock %}" />
     {% block extra_og %}{% endblock %}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{% block twitter_title %}FS!QR | 無料で簡単なファイル共有サービス{% endblock %}" />
-    <meta name="twitter:description" content="{% block twitter_description %}QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービス。{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR | 無料で簡単なファイル共有サービス") }}{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}{{ _("QRコード、グループ、ノートで簡単にファイルを共有。無料で使える日本語対応のクラウドサービス。") }}{% endblock %}" />
     <meta name="twitter:image" content="{% block twitter_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
-    <meta name="twitter:image:alt" content="{% block twitter_image_alt %}FS!QR ファイル共有サービス{% endblock %}" />
+    <meta name="twitter:image:alt" content="{% block twitter_image_alt %}{{ _("FS!QR ファイル共有サービス") }}{% endblock %}" />
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -94,7 +94,7 @@
         {% endif %}
       });
     </script>
-    <title>{% block page_title %}FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有{% endblock %}</title>
+    <title>{% block page_title %}{{ _("FS!QR | 無料で簡単なファイル共有サービス - QRコード・グループ・ノート共有") }}{% endblock %}</title>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -102,10 +102,10 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR",
-      "alternateName": "エフエスQR",
+      "alternateName": {{ _("エフエスQR") | tojson }},
       "url": "{{ request.url_root }}",
-      "description": "無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有機能を提供。",
-      "inLanguage": "ja-JP",
+      "description": {{ _("無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有機能を提供。") | tojson }},
+      "inLanguage": {{ schema_language | tojson }},
       "potentialAction": {
         "@type": "SearchAction",
         "target": "{{ request.url_root }}search_fs-qr?q={search_term_string}",
@@ -128,7 +128,7 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "FS!QR",
-      "alternateName": "エフエスQR",
+      "alternateName": {{ _("エフエスQR") | tojson }},
       "url": "{{ request.url_root }}",
       "logo": "{{ staticfile('logo.png') }}",
       "foundingDate": "2024",
@@ -161,11 +161,11 @@
       </div>
       <div class="text-center">
         <a href="/search_fs-qr" class="search-link">
-          <img src="{{staticfile('kensaku2.png')}}" alt="検索アイコン" loading="lazy" decoding="async" />
-          <span>検索</span>
+          <img src="{{staticfile('kensaku2.png')}}" alt="{{ _("検索アイコン") }}" loading="lazy" decoding="async" />
+          <span>{{ _("検索") }}</span>
         </a>
-        <nav class="section-tabs" aria-label="サービスナビゲーション">
-          <a class="section-tab" href="/">ホーム</a>
+        <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
+          <a class="section-tab" href="/">{{ _("ホーム") }}</a>
           <a class="section-tab" href="/fs-qr_menu" aria-current="page">FS!QR</a>
           <a class="section-tab" href="/group_menu">Group</a>
           <a class="section-tab" href="/note_menu">Note</a>

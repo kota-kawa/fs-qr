@@ -1,6 +1,7 @@
 from typing import Any
 
-from .catalog import get_translation_value, load_translations
+from .babel_catalog import get_translations
+from .catalog import load_translations
 from .constants import LANGUAGE_OPTIONS
 from .language import normalize_language
 
@@ -22,14 +23,18 @@ def get_frontend_messages(language: str) -> dict[str, str]:
 
 def make_translator(language: str):
     normalized_language = normalize_language(language)
+    translations = get_translations(normalized_language)
 
     def translate(key: str, **params: Any) -> str:
-        value = get_translation_value(normalized_language, "ui", key)
+        value = translations.gettext(key)
         if params:
             try:
-                return value.format(**params)
+                return value % params
             except Exception:
-                return value
+                try:
+                    return value.format(**params)
+                except Exception:
+                    return value
         return value
 
     return translate

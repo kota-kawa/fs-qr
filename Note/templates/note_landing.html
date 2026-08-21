@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note</title>
-  <meta name="description" content="FS!QR Noteは、登録不要で使える共有ノートです。開いた画面でそのまま書き始められ、共有リンクを発行すればリアルタイム共同編集に切り替わります。会議の議事録やアイデア共有をすぐに始められます。">
+  <title>{{ _("登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note") }}</title>
+  <meta name="description" content="{{ _("FS!QR Noteは、登録不要で使える共有ノートです。開いた画面でそのまま書き始められ、共有リンクを発行すればリアルタイム共同編集に切り替わります。会議の議事録やアイデア共有をすぐに始められます。") }}">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="author" content="FS!QR">
   <meta name="theme-color" content="#7652d6">
@@ -17,19 +17,19 @@
   {% endfor %}
 
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale" content="{{ og_locale }}">
   <meta property="og:site_name" content="FS!QR Note">
-  <meta property="og:title" content="登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note">
-  <meta property="og:description" content="URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。">
+  <meta property="og:title" content="{{ _("登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note") }}">
+  <meta property="og:description" content="{{ _("URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。") }}">
   <meta property="og:url" content="{{ request.canonical_url }}">
   <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <meta property="og:image:alt" content="FS!QR Noteのリアルタイム共有ノート">
+  <meta property="og:image:alt" content="{{ _("FS!QR Noteのリアルタイム共有ノート") }}">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="登録不要の共有ノート｜FS!QR Note">
-  <meta name="twitter:description" content="URL共有ですぐに始められる、リアルタイム共同編集ノート。入力内容は自動保存されます。">
+  <meta name="twitter:title" content="{{ _("登録不要の共有ノート｜FS!QR Note") }}">
+  <meta name="twitter:description" content="{{ _("URL共有ですぐに始められる、リアルタイム共同編集ノート。入力内容は自動保存されます。") }}">
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <meta name="twitter:image:alt" content="FS!QR Noteのリアルタイム共有ノート">
+  <meta name="twitter:image:alt" content="{{ _("FS!QR Noteのリアルタイム共有ノート") }}">
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon4.png') }}">
@@ -42,11 +42,11 @@
     "@type": "SoftwareApplication",
     "name": "FS!QR Note",
     "url": "{{ request.canonical_url }}",
-    "description": "登録不要でURLを共有し、複数人でリアルタイム共同編集できる自動保存対応のオンライン共有ノート。",
+    "description": {{ _("登録不要でURLを共有し、複数人でリアルタイム共同編集できる自動保存対応のオンライン共有ノート。") | tojson }},
     "applicationCategory": "ProductivityApplication",
     "applicationSubCategory": "Collaborative note-taking application",
     "operatingSystem": "Web browser",
-    "inLanguage": "ja-JP",
+    "inLanguage": {{ schema_language | tojson }},
     "isAccessibleForFree": true,
     "offers": {
       "@type": "Offer",
@@ -54,11 +54,11 @@
       "priceCurrency": "JPY"
     },
     "featureList": [
-      "アカウント登録不要",
-      "ページを開いたまま書き始められる下書きエディタ",
-      "リアルタイム共同編集",
-      "編集内容の自動保存",
-      "URLによるノート共有"
+      {{ _("アカウント登録不要") | tojson }},
+      {{ _("ページを開いたまま書き始められる下書きエディタ") | tojson }},
+      {{ _("リアルタイム共同編集") | tojson }},
+      {{ _("編集内容の自動保存") | tojson }},
+      {{ _("URLによるノート共有") | tojson }}
     ],
     "publisher": {
       "@type": "Organization",
@@ -74,42 +74,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "アカウント登録は必要ですか？",
+        "name": {{ _("アカウント登録は必要ですか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。"
+          "text": {{ _("いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "書いた内容はいつサーバーへ送られますか？",
+        "name": {{ _("書いた内容はいつサーバーへ送られますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。"
+          "text": {{ _("トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "複数人で同時に編集できますか？",
+        "name": {{ _("複数人で同時に編集できますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。"
+          "text": {{ _("はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "編集内容は保存されますか？",
+        "name": {{ _("編集内容は保存されますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+          "text": {{ _("入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "ノートはどのように共有しますか？",
+        "name": {{ _("ノートはどのように共有しますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
+          "text": {{ _("ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。") | tojson }}
         }
       }
     ]
@@ -117,21 +117,21 @@
   </script>
 </head>
 <body class="product-lp product-lp--note">
-  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+  <a class="lp-skip-link" href="#main-content">{{ _("本文へ移動") }}</a>
 
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
-      <a class="lp-brand" href="/note_menu" aria-label="FS!QR Note トップへ">
+      <a class="lp-brand" href="/note_menu" aria-label="{{ _("FS!QR Note トップへ") }}">
         <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon4.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
       </a>
-      <nav class="lp-nav" aria-label="メインナビゲーション">
-        <a href="#how-it-works">使い方</a>
-        <a href="#features">特長</a>
-        <a href="#use-cases">活用例</a>
-        <a href="#faq">よくある質問</a>
+      <nav class="lp-nav" aria-label="{{ _("メインナビゲーション") }}">
+        <a href="#how-it-works">{{ _("使い方") }}</a>
+        <a href="#features">{{ _("特長") }}</a>
+        <a href="#use-cases">{{ _("活用例") }}</a>
+        <a href="#faq">{{ _("よくある質問") }}</a>
       </nav>
-      <a class="lp-button lp-button--small lp-button--secondary" href="/note">ノートに参加</a>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/note">{{ _("ノートに参加") }}</a>
     </div>
   </header>
 
@@ -139,21 +139,21 @@
     <section class="lp-hero" aria-labelledby="hero-title">
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
-          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のリアルタイム共有ノート</p>
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> {{ _("登録不要のリアルタイム共有ノート") }}</p>
           <h1 id="hero-title">
-            <span class="lp-hero__title-line">開いた瞬間、</span>
-            <span class="lp-hero__title-accent">もう書ける。</span>
+            <span class="lp-hero__title-line">{{ _("開いた瞬間、") }}</span>
+            <span class="lp-hero__title-accent">{{ _("もう書ける。") }}</span>
           </h1>
-          <p class="lp-hero__lead">ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。</p>
-          <ul class="lp-check-list" aria-label="主な特長">
-            <li><span aria-hidden="true">✓</span> アカウント登録不要</li>
-            <li><span aria-hidden="true">✓</span> インストール不要</li>
-            <li><span aria-hidden="true">✓</span> 共有するまで端末の中だけ</li>
+          <p class="lp-hero__lead">{{ _("ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。") }}</p>
+          <ul class="lp-check-list" aria-label="{{ _("主な特長") }}">
+            <li><span aria-hidden="true">✓</span> {{ _("アカウント登録不要") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("インストール不要") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("共有するまで端末の中だけ") }}</li>
           </ul>
           <p class="lp-hero__aside">
-            <a class="lp-text-link" href="/create_note_room">ルームIDや保存期間を指定して作成する</a>
+            <a class="lp-text-link" href="/create_note_room">{{ _("ルームIDや保存期間を指定して作成する") }}</a>
             <span aria-hidden="true">・</span>
-            <a class="lp-text-link" href="/note">共有されたノートに参加する</a>
+            <a class="lp-text-link" href="/note">{{ _("共有されたノートに参加する") }}</a>
           </p>
         </div>
 
@@ -164,79 +164,79 @@
                  data-create-url="/create_note_room"
                  data-storage-key="fsqr:note-landing-draft"
                  data-max-length="{{ note_max_content_length }}"
-                 data-saved-label="この端末に保存しました">
+                 data-saved-label="{{ _("この端末に保存しました") }}">
           <div class="lp-instant__bar">
-            <h2 class="lp-instant__title" id="instant-title">下書きノート</h2>
-            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末にだけ保存</p>
+            <h2 class="lp-instant__title" id="instant-title">{{ _("下書きノート") }}</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">{{ _("この端末にだけ保存") }}</p>
           </div>
-          <label class="lp-visually-hidden" for="instant-note-editor">ノートの下書き</label>
+          <label class="lp-visually-hidden" for="instant-note-editor">{{ _("ノートの下書き") }}</label>
           <textarea id="instant-note-editor"
                     class="lp-instant__editor"
                     data-instant-editor
                     rows="12"
                     maxlength="{{ note_max_content_length }}"
-                    placeholder="ここに直接書けます。会議のメモも、思いついたアイデアも、まずはそのまま。"></textarea>
+                    placeholder="{{ _("ここに直接書けます。会議のメモも、思いついたアイデアも、まずはそのまま。") }}"></textarea>
           <div class="lp-instant__meta">
-            <span class="lp-instant__count" data-instant-count>0 / {{ note_max_content_length }}文字</span>
-            <button type="button" class="lp-instant__clear" data-instant-clear>下書きを消す</button>
+          <span class="lp-instant__count" data-instant-count>0 / {{ note_max_content_length }}{{ _("文字") }}</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear>{{ _("下書きを消す") }}</button>
           </div>
           <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
           <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-share>
-            共有リンクを発行する <span aria-hidden="true">→</span>
+            {{ _("共有リンクを発行する") }} <span aria-hidden="true">→</span>
           </button>
-          <p class="lp-instant__hint" data-instant-hint>発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。</p>
+          <p class="lp-instant__hint" data-instant-hint>{{ _("発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。") }}</p>
 
           <!-- Share panel / 発行後に共有情報をその場で提示する -->
           <div class="lp-instant__share" data-instant-share-panel hidden>
-            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <p class="lp-instant__share-title">{{ _("共有の準備ができました") }}</p>
             <div class="lp-instant__share-body">
-              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="{{ _("共有用QRコード") }}"></div>
               <dl class="lp-instant__share-list">
                 <div class="lp-instant__share-row">
-                  <dt>共有URL</dt>
+                  <dt>{{ _("共有URL") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>ルームID</dt>
+                  <dt>{{ _("ルームID") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-room-id></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>パスワード</dt>
+                  <dt>{{ _("パスワード") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-password></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">{{ _("コピー") }}</button>
                   </dd>
                 </div>
               </dl>
             </div>
             <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/note">
-              ノートを開く <span aria-hidden="true">→</span>
+            {{ _("ノートを開く") }} <span aria-hidden="true">→</span>
             </a>
-            <p class="lp-instant__hint">URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。</p>
-            <button type="button" class="lp-instant__clear" data-instant-reset>別のノートを新しく書く</button>
+            <p class="lp-instant__hint">{{ _("URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。") }}</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>{{ _("別のノートを新しく書く") }}</button>
           </div>
 
           <noscript>
-            <p class="lp-instant__hint">この下書きエディタにはJavaScriptが必要です。<a href="/create_note_room">ノートルームを作成</a>してからご利用ください。</p>
+            <p class="lp-instant__hint">{{ _("この下書きエディタにはJavaScriptが必要です。") }}<a href="/create_note_room">{{ _("ノートルームを作成") }}</a>{{ _("してからご利用ください。") }}</p>
           </noscript>
         </section>
       </div>
     </section>
 
-    <section class="lp-trust" aria-label="FS!QR Noteをすぐに使える理由">
+    <section class="lp-trust" aria-label="{{ _("FS!QR Noteをすぐに使える理由") }}">
       <div class="lp-container">
-        <p class="lp-trust__lead">書き始めるまでを、シンプルに</p>
+        <p class="lp-trust__lead">{{ _("書き始めるまでを、シンプルに") }}</p>
         <div class="lp-trust__items">
-          <div class="lp-trust__item"><strong>登録不要</strong><span>個人情報の入力なし</span></div>
-          <div class="lp-trust__item"><strong>ブラウザ完結</strong><span>専用アプリの準備なし</span></div>
-          <div class="lp-trust__item"><strong>リアルタイム同期</strong><span>同じノートへすぐ反映</span></div>
-          <div class="lp-trust__item"><strong>自動保存</strong><span>保存操作を気にせず編集</span></div>
+          <div class="lp-trust__item"><strong>{{ _("登録不要") }}</strong><span>{{ _("個人情報の入力なし") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("ブラウザ完結") }}</strong><span>{{ _("専用アプリの準備なし") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("リアルタイム同期") }}</strong><span>{{ _("同じノートへすぐ反映") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("自動保存") }}</strong><span>{{ _("保存操作を気にせず編集") }}</span></div>
         </div>
       </div>
     </section>
@@ -244,9 +244,9 @@
     <section class="lp-section lp-section--steps" id="how-it-works" aria-labelledby="steps-title">
       <div class="lp-container">
         <div class="lp-section-heading lp-section__heading">
-          <p class="lp-kicker lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
-          <h2 class="lp-section__title" id="steps-title">3ステップで、<wbr>共同編集を開始</h2>
-          <p>準備は不要です。まず書いて、共有が必要になった時点で相手を招待できます。</p>
+          <p class="lp-kicker lp-section__eyebrow">{{ _("01&nbsp;&nbsp;使い方") }}</p>
+          <h2 class="lp-section__title" id="steps-title">{{ _("3ステップで、") }}<wbr>{{ _("共同編集を開始") }}</h2>
+          <p>{{ _("準備は不要です。まず書いて、共有が必要になった時点で相手を招待できます。") }}</p>
         </div>
         <ol class="lp-grid lp-steps">
           <li class="lp-card lp-step-card">
@@ -259,8 +259,8 @@
                 <path d="M9.5 15h5"/>
               </svg>
             </div>
-            <h3>その場で書き始める</h3>
-            <p>このページの下書きノートにそのまま入力します。内容はお使いの端末にだけ保存されます。</p>
+            <h3>{{ _("その場で書き始める") }}</h3>
+            <p>{{ _("このページの下書きノートにそのまま入力します。内容はお使いの端末にだけ保存されます。") }}</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">02</span>
@@ -270,8 +270,8 @@
                 <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
               </svg>
             </div>
-            <h3>共有リンクを発行する</h3>
-            <p>ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。</p>
+            <h3>{{ _("共有リンクを発行する") }}</h3>
+            <p>{{ _("ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。") }}</p>
           </li>
           <li class="lp-card lp-step-card">
             <span class="lp-step-card__number">03</span>
@@ -281,13 +281,13 @@
                 <path d="M14 8l2.8 2.8"/>
               </svg>
             </div>
-            <h3>一緒に書く</h3>
-            <p>発行されたURLを渡すと、同じノートをリアルタイムに編集できます。</p>
+            <h3>{{ _("一緒に書く") }}</h3>
+            <p>{{ _("発行されたURLを渡すと、同じノートをリアルタイムに編集できます。") }}</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="#instant-note-editor">下書きノートを開く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--ghost" href="/create_note_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--primary" href="#instant-note-editor">{{ _("下書きノートを開く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--ghost" href="/create_note_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -295,9 +295,9 @@
     <section class="lp-section lp-section--tint" id="features" aria-labelledby="features-title">
       <div class="lp-container">
         <div class="lp-section-heading lp-section__heading">
-          <p class="lp-kicker lp-section__eyebrow">02&nbsp;&nbsp;Noteの特長</p>
-          <h2 class="lp-section__title" id="features-title">速く、迷わず、<wbr>ひとつにまとまる</h2>
-          <p>共同メモに必要な機能を、シンプルな画面にまとめました。</p>
+          <p class="lp-kicker lp-section__eyebrow">{{ _("02&nbsp;&nbsp;Noteの特長") }}</p>
+          <h2 class="lp-section__title" id="features-title">{{ _("速く、迷わず、") }}<wbr>{{ _("ひとつにまとまる") }}</h2>
+          <p>{{ _("共同メモに必要な機能を、シンプルな画面にまとめました。") }}</p>
         </div>
         <div class="lp-grid lp-feature-grid">
           <article class="lp-card lp-feature-card lp-feature-card--wide">
@@ -309,8 +309,8 @@
                 <path d="M17.4 13.6A5.6 5.6 0 0 1 20.5 18.6"/>
               </svg>
             </span>
-            <h3>書きながら、そのまま共有できる</h3>
-            <p>下書きを入力してURLを発行すると、そのままノートルームが開きます。招待した相手の編集は数秒で反映され、同じ画面をリアルタイムに見ながら進められます。</p>
+            <h3>{{ _("書きながら、そのまま共有できる") }}</h3>
+            <p>{{ _("下書きを入力してURLを発行すると、そのままノートルームが開きます。招待した相手の編集は数秒で反映され、同じ画面をリアルタイムに見ながら進められます。") }}</p>
             <div class="lp-feature-card__demo">
               <div class="lp-demo-frame">
                 <span class="lp-demo-frame__glow" aria-hidden="true"></span>
@@ -331,7 +331,7 @@
                       controls
                       preload="metadata"
                       poster="{{ staticfile('images/product-landing-pages/note-demo/note-page.jpg') }}"
-                      aria-label="下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画">
+                      aria-label="{{ _("下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画") }}">
                       <source src="{{ staticfile('videos/product-landing-pages/note-demo.mp4') }}" type="video/mp4">
                     </video>
                   </div>
@@ -347,7 +347,7 @@
                   <p>fs-qr.net/note</p>
                 </div>
                 <div class="lp-demo-frame__screen">
-                  <img src="{{ staticfile('images/product-landing-pages/note-demo/note-page.jpg') }}" width="1600" height="1168" alt="FS!QR Noteのノートルーム画面のスクリーンショット" loading="lazy" decoding="async">
+<img src="{{ staticfile('images/product-landing-pages/note-demo/note-page.jpg') }}" width="1600" height="1168" alt="{{ _("FS!QR Noteのノートルーム画面のスクリーンショット") }}" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
@@ -359,8 +359,8 @@
                 <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
               </svg>
             </span>
-            <h3>URLひとつで共有</h3>
-            <p>共有URLを送れば、離れた相手も同じノートに参加できます。</p>
+            <h3>{{ _("URLひとつで共有") }}</h3>
+            <p>{{ _("共有URLを送れば、離れた相手も同じノートに参加できます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-feature-card__icon" aria-hidden="true">
@@ -370,8 +370,8 @@
                 <path d="M8.5 13.5l2 2 3.5-3.5"/>
               </svg>
             </span>
-            <h3>自動保存</h3>
-            <p>編集内容は自動で保存。保存ボタンを押す手間なく、書くことに集中できます。</p>
+            <h3>{{ _("自動保存") }}</h3>
+            <p>{{ _("編集内容は自動で保存。保存ボタンを押す手間なく、書くことに集中できます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-feature-card__icon" aria-hidden="true">
@@ -379,8 +379,8 @@
                 <path d="M13 3 5 13h5l-1 8 8-10h-5l1-8Z"/>
               </svg>
             </span>
-            <h3>開いた画面から即入力</h3>
-            <p>アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。</p>
+            <h3>{{ _("開いた画面から即入力") }}</h3>
+            <p>{{ _("アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。") }}</p>
           </article>
         </div>
       </div>
@@ -389,25 +389,25 @@
     <section class="lp-section" id="use-cases" aria-labelledby="use-cases-title">
       <div class="lp-container">
         <div class="lp-section-heading lp-section__heading">
-          <p class="lp-kicker lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
-          <h2 class="lp-section__title" id="use-cases-title">「今、一緒に書きたい」<wbr>場面に</h2>
+          <p class="lp-kicker lp-section__eyebrow">{{ _("03&nbsp;&nbsp;利用シーン") }}</p>
+          <h2 class="lp-section__title" id="use-cases-title">{{ _("「今、一緒に書きたい」") }}<wbr>{{ _("場面に") }}</h2>
         </div>
         <figure class="lp-mockup lp-page-shot lp-use-case-visual">
-          <img src="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}" width="1200" height="900" alt="アイデアをカードで整理する様子を表すイラスト" loading="lazy" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Noteの共同メモを表す、文字のないイラスト</figcaption>
+<img src="{{ staticfile('images/product-landing-pages/note-illustration.jpg') }}" width="1200" height="900" alt="{{ _("アイデアをカードで整理する様子を表すイラスト") }}" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">{{ _("FS!QR Noteの共同メモを表す、文字のないイラスト") }}</figcaption>
         </figure>
         <div class="lp-grid lp-use-case-grid">
           <article class="lp-card lp-use-case-card">
             <div class="lp-use-case-card__visual lp-use-case-card__visual--meeting" aria-hidden="true"><span></span><span></span><span></span></div>
-            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">会議・打ち合わせ</p><h3>会議の議事録</h3><p>参加者が気づいたことをその場で追記。決定事項と次のアクションを、ひとつのノートにまとめます。</p></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">{{ _("会議・打ち合わせ") }}</p><h3>{{ _("会議の議事録") }}</h3><p>{{ _("参加者が気づいたことをその場で追記。決定事項と次のアクションを、ひとつのノートにまとめます。") }}</p></div>
           </article>
           <article class="lp-card lp-use-case-card">
             <div class="lp-use-case-card__visual lp-use-case-card__visual--ideas" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">発想を集める</p><h3>アイデア出し</h3><p>思いついた言葉を全員で書き足し、対話しながら考えを広げます。</p></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">{{ _("発想を集める") }}</p><h3>{{ _("アイデア出し") }}</h3><p>{{ _("思いついた言葉を全員で書き足し、対話しながら考えを広げます。") }}</p></div>
           </article>
           <article class="lp-card lp-use-case-card">
             <div class="lp-use-case-card__visual lp-use-case-card__visual--learning" aria-hidden="true"><span></span><i></i></div>
-            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">授業・学習</p><h3>授業・勉強会のメモ</h3><p>参加者それぞれの視点を集めて、あとから読み返しやすい共有ノートを作れます。</p></div>
+            <div class="lp-use-case-card__body"><p class="lp-use-case-card__tag">{{ _("授業・学習") }}</p><h3>{{ _("授業・勉強会のメモ") }}</h3><p>{{ _("参加者それぞれの視点を集めて、あとから読み返しやすい共有ノートを作れます。") }}</p></div>
           </article>
         </div>
       </div>
@@ -416,31 +416,31 @@
     <section class="lp-section lp-section--faq" id="faq" aria-labelledby="faq-title">
       <div class="lp-container lp-faq-layout">
         <div class="lp-faq-intro">
-          <p class="lp-kicker lp-section__eyebrow">04&nbsp;&nbsp;よくある質問</p>
-          <h2 class="lp-section__title" id="faq-title">よくある質問</h2>
-          <p>FS!QR Noteの利用前に確認したいポイントをまとめました。</p>
-          <a class="lp-text-link" href="/note_menu">既存のNoteメニューを見る <span aria-hidden="true">→</span></a>
+          <p class="lp-kicker lp-section__eyebrow">{{ _("04&nbsp;&nbsp;よくある質問") }}</p>
+          <h2 class="lp-section__title" id="faq-title">{{ _("よくある質問") }}</h2>
+          <p>{{ _("FS!QR Noteの利用前に確認したいポイントをまとめました。") }}</p>
+          <a class="lp-text-link" href="/note_menu">{{ _("既存のNoteメニューを見る") }} <span aria-hidden="true">→</span></a>
         </div>
         <div class="lp-faq-list">
           <details class="lp-faq-item">
-            <summary>アカウント登録は必要ですか？<span aria-hidden="true"></span></summary>
-            <p>いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。</p>
+            <summary>{{ _("アカウント登録は必要ですか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>書いた内容はいつサーバーへ送られますか？<span aria-hidden="true"></span></summary>
-            <p>トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。</p>
+            <summary>{{ _("書いた内容はいつサーバーへ送られますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>複数人で同時に編集できますか？<span aria-hidden="true"></span></summary>
-            <p>はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。</p>
+            <summary>{{ _("複数人で同時に編集できますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>編集内容は保存されますか？<span aria-hidden="true"></span></summary>
-            <p>入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。</p>
+            <summary>{{ _("編集内容は保存されますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>ノートはどのように共有しますか？<span aria-hidden="true"></span></summary>
-            <p>ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。</p>
+            <summary>{{ _("ノートはどのように共有しますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。") }}</p>
           </details>
         </div>
       </div>
@@ -449,12 +449,12 @@
     <section class="lp-final-cta" aria-labelledby="cta-title">
       <div class="lp-final-cta__glow" aria-hidden="true"></div>
       <div class="lp-container lp-final-cta__inner">
-        <p class="lp-kicker lp-section__eyebrow">いますぐ共同編集</p>
-        <h2 id="cta-title">次のメモは、<wbr>みんなで書こう。</h2>
-        <p>登録は不要です。上の下書きノートに書き始めるか、条件を指定してノートルームを作成してください。</p>
+        <p class="lp-kicker lp-section__eyebrow">{{ _("いますぐ共同編集") }}</p>
+        <h2 id="cta-title">{{ _("次のメモは、") }}<wbr>{{ _("みんなで書こう。") }}</h2>
+        <p>{{ _("登録は不要です。上の下書きノートに書き始めるか、条件を指定してノートルームを作成してください。") }}</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--light" href="#instant-note-editor">下書きノートに書く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--outline-light" href="/create_note_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--light" href="#instant-note-editor">{{ _("下書きノートに書く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--outline-light" href="/create_note_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -462,22 +462,22 @@
 
   <footer class="lp-footer">
     <div class="lp-container lp-footer__main">
-      <a class="lp-brand lp-brand--footer" href="/note_menu" aria-label="FS!QR Note トップへ">
+      <a class="lp-brand lp-brand--footer" href="/note_menu" aria-label="{{ _("FS!QR Note トップへ") }}">
         <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon4.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text"><strong>FS!QR</strong> Note</span>
       </a>
-      <p>登録不要で、思いついたその場から使えるリアルタイム共有ノート。</p>
-      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
-        <a href="/note_menu">Noteメニュー</a>
-        <a href="/usage">使い方</a>
-        <a href="/terms">利用規約</a>
-        <a href="/privacy-policy">プライバシーポリシー</a>
-        <a href="/contact">お問い合わせ</a>
+      <p>{{ _("登録不要で、思いついたその場から使えるリアルタイム共有ノート。") }}</p>
+      <nav class="lp-footer__nav" aria-label="{{ _("フッターナビゲーション") }}">
+        <a href="/note_menu">{{ _("Noteメニュー") }}</a>
+        <a href="/usage">{{ _("使い方") }}</a>
+        <a href="/terms">{{ _("利用規約") }}</a>
+        <a href="/privacy-policy">{{ _("プライバシーポリシー") }}</a>
+        <a href="/contact">{{ _("お問い合わせ") }}</a>
       </nav>
     </div>
     <div class="lp-container lp-footer__bottom">
       <small>&copy; 2026 FS!QR. All Rights Reserved.</small>
-      <a href="/">FS!QR サービス一覧へ</a>
+      <a href="/">{{ _("FS!QR サービス一覧へ") }}</a>
     </div>
   </footer>
 

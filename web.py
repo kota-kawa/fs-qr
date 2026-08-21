@@ -15,13 +15,19 @@ from starlette.responses import HTMLResponse
 from cache_utils import redis_client
 from i18n import (
     DEFAULT_LANGUAGE,
+    GEO_REGION_MAP,
+    HTML_LANG_MAP,
     JAPANESE_ONLY_MODE,
+    META_LANGUAGE_MAP,
+    OG_LOCALE_MAP,
+    SCHEMA_LANGUAGE_MAP,
+    current_language_ctx,
     get_language_options,
     get_frontend_messages,
-    make_translator,
+    get_plural_translator,
+    get_translator,
     normalize_language,
     resolve_language,
-    translate_rendered_html,
 )
 
 from settings import (
@@ -56,6 +62,27 @@ TEMPLATE_DIRS = [
 TEMPLATE_DIRS = [path for path in TEMPLATE_DIRS if os.path.isdir(path)]
 
 templates = Jinja2Templates(directory=TEMPLATE_DIRS)
+templates.env.add_extension("jinja2.ext.i18n")
+
+
+def _gettext(message: str) -> str:
+    """Resolve gettext through the request's ContextVar-safe language."""
+
+    return get_translator(current_language_ctx.get())(message)
+
+
+def _ngettext(singular: str, plural: str, number: int) -> str:
+    """Resolve plural messages through the request's current language."""
+
+    return get_plural_translator(current_language_ctx.get())(singular, plural, number)
+
+
+# Jinja's i18n extension provides ``_``, ``gettext`` and ``ngettext``.  The
+# callables read a ContextVar instead of mutating the shared environment per
+# request, which keeps concurrent FastAPI requests isolated.
+templates.env.install_gettext_callables(  # type: ignore[attr-defined]
+    _gettext, _ngettext, newstyle=True
+)
 
 CSRF_SESSION_KEY = "_csrf_token"
 CSRF_FORM_FIELD = "csrf_token"
@@ -398,9 +425,17 @@ def render_template(request: Request, template_name: str, **context: Any):
     payload = {
         "request": TemplateRequestProxy(request),
         "current_language": language,
+        "html_lang": HTML_LANG_MAP.get(language, language),
+        "html_dir": "rtl" if language == "ar" else "ltr",
+        "meta_language": META_LANGUAGE_MAP.get(language, language),
+        "og_locale": OG_LOCALE_MAP.get(language, "en_US"),
+        "schema_language": SCHEMA_LANGUAGE_MAP.get(language, language),
+        "geo_region": GEO_REGION_MAP.get(language, GEO_REGION_MAP[DEFAULT_LANGUAGE])[0],
+        "geo_placename": GEO_REGION_MAP.get(language, GEO_REGION_MAP[DEFAULT_LANGUAGE])[
+            1
+        ],
         "language_options": language_options,
         "frontend_messages": get_frontend_messages(language),
-        "t": make_translator(language),
         "google_analytics_id": GOOGLE_ANALYTICS_ID,
         "google_adsense_client_id": adsense_client_id,
         "google_adsense_account_id": adsense_client_id,
@@ -409,8 +444,11 @@ def render_template(request: Request, template_name: str, **context: Any):
     payload.update(context)
     try:
         template = templates.env.get_template(template_name)
-        content = template.render(payload)
-        content = translate_rendered_html(content, language)
+        token = current_language_ctx.set(language)
+        try:
+            content = template.render(payload)
+        finally:
+            current_language_ctx.reset(token)
         return HTMLResponse(
             content,
             headers={
@@ -454,8 +492,8 @@ async def render_cached_template(
 ):
     """フォーム送信を伴わない静的ページ向けのキャッシュ付きレンダラ。
 
-    レンダリング結果（多言語変換後の HTML）を Redis に保存し、再リクエスト時の
-    Jinja2 レンダ＋多言語置換（数百フレーズ）を省略する。
+    Babel/Jinja でレンダリングした HTML を Redis に保存し、再リクエスト時の
+    テンプレート描画を省略する。
 
     セッション依存の CSRF トークンはプレースホルダに置換して保存し、配信時に
     リクエスト毎のトークンへ差し替える。``context`` を渡した呼び出しは

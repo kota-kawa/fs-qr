@@ -30,16 +30,16 @@
         </svg>
       </div>
       <div class="cookie-consent-headings">
-        <h2 id="cookieConsentTitle">{{ t('settings.title') }}</h2>
+        <h2 id="cookieConsentTitle">{{ _('settings.title') }}</h2>
         <p id="cookieConsentDescription">
-          {{ t('settings.description') }}
+          {{ _('settings.description') }}
         </p>
       </div>
       <button
         type="button"
         class="cookie-consent-close"
         data-cookie-consent="close"
-        aria-label="{{ t('settings.close') }}"
+        aria-label="{{ _('settings.close') }}"
         hidden
       >
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
@@ -53,7 +53,7 @@
     <div class="cookie-consent-view" data-cookie-consent-view="summary" aria-live="polite">
       <div class="lang-select-summary-row">
         <div class="lang-select" data-lang-select>
-          <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ t('settings.language.title') }}">
+          <button type="button" class="lang-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="{{ _('settings.language.title') }}">
             <span class="lang-select-flag-current" aria-hidden="true"></span>
             <span class="lang-select-label-current"></span>
             <svg class="lang-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -69,7 +69,7 @@
         </div>
       </div>
       <p class="cookie-consent-subtext">
-        {{ t('settings.cookie.summary') }}
+        {{ _('settings.cookie.summary') }}
       </p>
       <div class="cookie-consent-actions">
         <button
@@ -78,14 +78,14 @@
           data-cookie-consent="accept"
           data-cookie-consent-focus
         >
-          {{ t('settings.accept') }}
+          {{ _('settings.accept') }}
         </button>
         <button
           type="button"
           class="cookie-consent-button cookie-consent-button--outline"
           data-cookie-consent="reject"
         >
-          {{ t('settings.reject') }}
+          {{ _('settings.reject') }}
         </button>
       </div>
       <div class="cookie-consent-actions-sub">
@@ -94,9 +94,9 @@
           class="cookie-consent-link-button"
           data-cookie-consent="customize"
         >
-          {{ t('settings.customize') }}
+          {{ _('settings.customize') }}
         </button>
-        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ t('settings.privacy') }}</a>
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ _('settings.privacy') }}</a>
       </div>
     </div>
 
@@ -108,13 +108,13 @@
     >
       <div class="cookie-consent-settings-body">
         <p class="cookie-consent-subtext">
-          {{ t('settings.cookie.description') }}
+          {{ _('settings.cookie.description') }}
         </p>
         <div class="cookie-consent-settings">
           <div class="cookie-consent-setting">
             <div>
-              <h3>{{ t('settings.language.title') }}</h3>
-              <p>{{ t('settings.language.description') }}</p>
+              <h3>{{ _('settings.language.title') }}</h3>
+              <p>{{ _('settings.language.description') }}</p>
             </div>
             <div class="lang-select" data-lang-select>
               <select data-language-select hidden aria-hidden="true" tabindex="-1">
@@ -127,7 +127,7 @@
                 class="lang-select-trigger"
                 aria-haspopup="listbox"
                 aria-expanded="false"
-                aria-label="{{ t('settings.language.title') }}"
+                aria-label="{{ _('settings.language.title') }}"
                 data-cookie-consent-settings-focus
               >
                 <span class="lang-select-flag-current" aria-hidden="true"></span>
@@ -146,24 +146,24 @@
           </div>
           <div class="cookie-consent-setting">
             <div>
-              <h3>{{ t('settings.cookie.necessary.title') }}</h3>
-              <p>{{ t('settings.cookie.necessary.description') }}</p>
+              <h3>{{ _('settings.cookie.necessary.title') }}</h3>
+              <p>{{ _('settings.cookie.necessary.description') }}</p>
             </div>
-            <span class="cookie-consent-setting-state">{{ t('settings.cookie.always_on') }}</span>
+            <span class="cookie-consent-setting-state">{{ _('settings.cookie.always_on') }}</span>
           </div>
           <label class="cookie-consent-setting cookie-consent-setting--toggle">
             <div>
               <h3>
-                {{ t('settings.cookie.analytics.title') }}
-                <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
+                {{ _('settings.cookie.analytics.title') }}
+                <span class="cookie-consent-setting-badge">{{ _('settings.optional') }}</span>
               </h3>
-              <p>{{ t('settings.cookie.analytics.description') }}</p>
+              <p>{{ _('settings.cookie.analytics.description') }}</p>
             </div>
             <span class="cookie-consent-toggle">
               <input
                 type="checkbox"
                 data-cookie-consent-toggle="analytics"
-                aria-label="{{ t('settings.cookie.analytics.aria') }}"
+                aria-label="{{ _('settings.cookie.analytics.aria') }}"
               />
               <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
             </span>
@@ -171,26 +171,26 @@
           <label class="cookie-consent-setting cookie-consent-setting--toggle">
             <div>
               <h3>
-                {{ t('settings.cookie.marketing.title') }}
-                <span class="cookie-consent-setting-badge">{{ t('settings.optional') }}</span>
+                {{ _('settings.cookie.marketing.title') }}
+                <span class="cookie-consent-setting-badge">{{ _('settings.optional') }}</span>
               </h3>
-              <p>{{ t('settings.cookie.marketing.description') }}</p>
+              <p>{{ _('settings.cookie.marketing.description') }}</p>
             </div>
             <span class="cookie-consent-toggle">
-              <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="{{ t('settings.cookie.marketing.aria') }}" />
+              <input type="checkbox" data-cookie-consent-toggle="marketing" aria-label="{{ _('settings.cookie.marketing.aria') }}" />
               <span class="cookie-consent-toggle-slider" aria-hidden="true"></span>
             </span>
           </label>
         </div>
       </div>
       <div class="cookie-consent-settings-footer">
-        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ t('settings.privacy') }}</a>
+        <a class="cookie-consent-policy-link cookie-consent-policy-link-small" href="/privacy-policy">{{ _('settings.privacy') }}</a>
         <div class="cookie-consent-settings-actions">
           <button type="button" class="cookie-consent-button cookie-consent-button--ghost" data-cookie-consent="back">
-            {{ t('settings.back') }}
+            {{ _('settings.back') }}
           </button>
           <button type="button" class="cookie-consent-button cookie-consent-button--primary" data-cookie-consent="save">
-            {{ t('settings.save') }}
+            {{ _('settings.save') }}
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -72,9 +72,9 @@
   <h3 class="mt-4">{{ tbl }} <small class="text-muted">latest&nbsp;10</small></h3>
 
   {% if tbl == 'fsqr' %}
-    <p class="text-muted">行をクリックするとファイル情報を表示します。</p>
+    <p class="text-muted">{{ _("行をクリックするとファイル情報を表示します。") }}</p>
   {% elif tbl == 'room' %}
-    <p class="text-muted">行をクリックするとルームのファイル一覧を表示します。</p>
+    <p class="text-muted">{{ _("行をクリックするとルームのファイル一覧を表示します。") }}</p>
   {% endif %}
 
   {% if rows is none %}
@@ -128,19 +128,19 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="fileModalLabel">ファイル情報</h5>
+        <h5 class="modal-title" id="fileModalLabel">{{ _("ファイル情報") }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div id="fileModalAlert" class="alert alert-danger d-none" role="alert"></div>
         <dl class="row mb-0" id="fileMeta"></dl>
         <hr>
-        <h6>保存ファイル</h6>
+        <h6>{{ _("保存ファイル") }}</h6>
         <ul class="list-group" id="fileList"></ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">閉じる</button>
-        <a id="fileDownloadBtn" class="btn btn-primary disabled" role="button" aria-disabled="true">ダウンロード</a>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ _("閉じる") }}</button>
+        <a id="fileDownloadBtn" class="btn btn-primary disabled" role="button" aria-disabled="true">{{ _("ダウンロード") }}</a>
       </div>
     </div>
   </div>

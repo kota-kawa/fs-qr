@@ -6,23 +6,23 @@
 
 {% block contents %}
 <div class="container mt-4" style="max-width: 800px; margin: 0 auto;">
-    <h1 class="mb-4 text-center">ルーム管理</h1>
+    <h1 class="mb-4 text-center">{{ _("ルーム管理") }}</h1>
 
     <!-- すべて削除ボタン -->
-    <form method="post" action="/delete_all_rooms" class="text-center" data-confirm-submit="本当にすべてのルームを削除しますか？">
+    <form method="post" action="/delete_all_rooms" class="text-center" data-confirm-submit="{{ _("本当にすべてのルームを削除しますか？") }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <button type="submit" class="btn btn-danger mb-3">すべて削除</button>
+        <button type="submit" class="btn btn-danger mb-3">{{ _("すべて削除") }}</button>
     </form>
 
     <!-- ルーム一覧テーブル -->
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ルームID</th>
+                <th>{{ _("ルームID") }}</th>
                 <th>ID</th>
-                <th>パスワード</th>
-                <th>自動削除</th>
-                <th>操作</th>
+                <th>{{ _("パスワード") }}</th>
+                <th>{{ _("自動削除") }}</th>
+                <th>{{ _("操作") }}</th>
             </tr>
         </thead>
         <tbody>
@@ -31,17 +31,17 @@
                 <td>{{ room.room_id }}</td>
                 <td>{{ room.id }}</td>
                 <td>{{ room.password }}</td>
-                <td>{{ room.retention_hours }}時間</td>
+<td>{{ room.retention_hours }}{{ _("時間") }}</td>
                 <td>
-                    <form method="post" action="/delete_room/{{ room.room_id }}" data-confirm-submit="このルームを削除しますか？">
+<form method="post" action="/delete_room/{{ room.room_id }}" data-confirm-submit="{{ _("このルームを削除しますか？") }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="btn btn-sm btn-danger">削除</button>
+                        <button type="submit" class="btn btn-sm btn-danger">{{ _("削除") }}</button>
                     </form>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" class="text-center">ルームがありません</td>
+                <td colspan="5" class="text-center">{{ _("ルームがありません") }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -55,8 +55,8 @@ document.querySelectorAll('[data-confirm-submit]').forEach(function(form) {
         }
         event.preventDefault();
         var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
-            title: {{ t('alert.confirm_delete') | tojson }},
-            confirmLabel: {{ t('alert.delete_action') | tojson }}
+            title: {{ _('alert.confirm_delete') | tojson }},
+            confirmLabel: {{ _('alert.delete_action') | tojson }}
         });
         if (confirmed) {
             form.dataset.confirmed = 'true';

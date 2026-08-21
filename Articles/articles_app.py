@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from starlette.responses import RedirectResponse
 
-from i18n import is_language_query_only
+from i18n import get_translator, is_language_query_only, resolve_language
 from web import render_cached_template, render_template
 
 from Articles.articles_registry import (
@@ -43,13 +43,32 @@ def _paginate_articles(articles: list[dict], page_number: int) -> dict:
     }
 
 
+def _localize_articles(articles: list[dict], language: str) -> list[dict]:
+    """Translate registry-owned card fields before Jinja receives them."""
+
+    gettext = get_translator(language)
+    localized: list[dict] = []
+    for article in articles:
+        copy = dict(article)
+        for field in ("title", "description", "category"):
+            value = copy.get(field)
+            if isinstance(value, str):
+                copy[field] = gettext(value)
+        localized.append(copy)
+    return localized
+
+
 def _articles_page_response(request: Request, page_number: int):
     canonical = _canonical_redirect(request)
     if canonical:
         return canonical
 
+    language = resolve_language(request)
+    gettext = get_translator(language)
     guides = get_indexable_guides() if page_number == 1 else []
     pagination = _paginate_articles(get_indexable_blog_articles_sorted(), page_number)
+    guides = _localize_articles(guides, language)
+    pagination["articles"] = _localize_articles(pagination["articles"], language)
     visible_categories = {
         article["category"] for article in [*guides, *pagination["articles"]]
     }
@@ -58,7 +77,9 @@ def _articles_page_response(request: Request, page_number: int):
         "articles.html",
         guides=guides,
         categories=[
-            category for category in CATEGORIES if category in visible_categories
+            gettext(category)
+            for category in CATEGORIES
+            if gettext(category) in visible_categories
         ],
         **pagination,
     )

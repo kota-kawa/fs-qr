@@ -5,6 +5,7 @@ from functools import lru_cache
 from locale_store import load_language_translations
 from settings import BASE_DIR
 
+from .babel_catalog import get_translations
 from .constants import LANGUAGE_FALLBACKS, SUPPORTED_LANGUAGES
 from .language import normalize_language
 
@@ -25,29 +26,27 @@ def load_translations():
 
 
 def get_translation_value(language: str, section: str, key: str) -> str:
+    if section in {"ui", "phrases"}:
+        return get_translations(language).gettext(key)
+
+    # JS catalogs remain JSON because they are serialized into the browser.
     translations = load_translations()
     normalized_language = normalize_language(language)
-
-    # 1. Try specified language
     value = translations.get(normalized_language, {}).get(section, {}).get(key)
     if value:
         return value
 
-    # 2. Try fallbacks
-    fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
-    for fallback in fallbacks:
+    for fallback in LANGUAGE_FALLBACKS.get(normalized_language, ()):
         value = translations.get(fallback, {}).get(section, {}).get(key)
         if value:
             return value
 
-    # 3. Try English if not already tried
-    if normalized_language != "en" and "en" not in fallbacks:
+    if normalized_language != "en":
         value = translations.get("en", {}).get(section, {}).get(key)
         if value:
             return value
 
-    # 4. Try Japanese if not already tried
-    if normalized_language != "ja" and "ja" not in fallbacks:
+    if normalized_language != "ja":
         value = translations.get("ja", {}).get(section, {}).get(key)
         if value:
             return value
@@ -56,28 +55,5 @@ def get_translation_value(language: str, section: str, key: str) -> str:
 
 
 def get_phrase_translation(language: str, source: str) -> str | None:
-    translations = load_translations()
-    normalized_language = normalize_language(language)
-
-    language_phrases = translations.get(normalized_language, {}).get("phrases", {})
-    if isinstance(language_phrases, dict):
-        value = language_phrases.get(source)
-        if isinstance(value, str) and value:
-            return value
-
-    fallbacks = LANGUAGE_FALLBACKS.get(normalized_language, ())
-    for fallback in fallbacks:
-        fallback_phrases = translations.get(fallback, {}).get("phrases", {})
-        if isinstance(fallback_phrases, dict):
-            value = fallback_phrases.get(source)
-            if isinstance(value, str) and value:
-                return value
-
-    if normalized_language != "en" and "en" not in fallbacks:
-        english_phrases = translations.get("en", {}).get("phrases", {})
-        if isinstance(english_phrases, dict):
-            value = english_phrases.get(source)
-            if isinstance(value, str) and value:
-                return value
-
-    return None
+    translated = get_translations(language).gettext(source)
+    return translated if translated != source else None

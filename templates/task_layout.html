@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="{% block meta_description %}FS!QR Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。{% endblock %}" />
-  <meta name="keywords" content="{% block meta_keywords %}共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, 日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除{% endblock %}" />
+  <meta name="description" content="{% block meta_description %}{{ _("FS!QR Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。") }}{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}{{ _("共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, 日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除") }}{% endblock %}" />
   <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
   <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
   <meta name="author" content="FS!QR" />
-  <meta name="language" content="ja" />
-  <meta name="geo.region" content="JP" />
-  <meta name="geo.placename" content="Japan" />
+  <meta name="language" content="{{ meta_language }}" />
+  <meta name="geo.region" content="{{ geo_region }}" />
+  <meta name="geo.placename" content="{{ geo_placename }}" />
   <meta name="distribution" content="global" />
   <meta name="rating" content="general" />
   <meta name="theme-color" content="#f59e0b" />
@@ -30,23 +30,23 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
-  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:locale" content="{{ og_locale }}" />
   <meta property="og:site_name" content="FS!QR Task" />
-  <meta property="og:title" content="{% block og_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。{% endblock %}" />
+  <meta property="og:title" content="{% block og_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ _("登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。") }}{% endblock %}" />
   <meta property="og:url" content="{{ request.canonical_url }}" />
   <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="723" />
-  <meta property="og:image:alt" content="FS!QR Task 共有タスクボードサービス" />
+  <meta property="og:image:alt" content="{{ _("FS!QR Task 共有タスクボードサービス") }}" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{% block twitter_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}" />
-  <meta name="twitter:description" content="{% block twitter_description %}登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。{% endblock %}" />
+  <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}{{ _("登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。") }}{% endblock %}" />
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-  <meta name="twitter:image:alt" content="FS!QR Task サービス" />
+  <meta name="twitter:image:alt" content="{{ _("FS!QR Task サービス") }}" />
 
   <!-- SEO -->
   <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -84,7 +84,7 @@
       {% endif %}
     });
   </script>
-  <title>{% block page_title %}FS!QR Task | 無料で使える共有タスクボード・カンバン管理{% endblock %}</title>
+  <title>{% block page_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}</title>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -92,10 +92,10 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FS!QR Task",
-    "alternateName": "エフエスQRタスク",
+    "alternateName": {{ _("エフエスQRタスク") | tojson }},
     "url": "{{ request.url_root }}task",
-    "description": "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。",
-    "inLanguage": "ja-JP",
+    "description": {{ _("無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。") | tojson }},
+    "inLanguage": {{ schema_language | tojson }},
     "isPartOf": {
       "@type": "WebSite",
       "name": "FS!QR",
@@ -123,7 +123,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "FS!QR Task",
-    "description": "登録不要の共有タスクボード・カンバン管理Webアプリケーション",
+    "description": {{ _("登録不要の共有タスクボード・カンバン管理Webアプリケーション") | tojson }},
     "applicationCategory": "WebApplication",
     "operatingSystem": "Web Browser",
     "offers": {
@@ -132,11 +132,11 @@
       "priceCurrency": "JPY"
     },
     "featureList": [
-      "カンバン式タスク管理",
-      "URL共有で即座にコラボレーション",
-      "優先度・期限・タグ分類",
-      "ドラッグ＆ドロップ操作",
-      "自動データ消去"
+      {{ _("カンバン式タスク管理") | tojson }},
+      {{ _("URL共有で即座にコラボレーション") | tojson }},
+      {{ _("優先度・期限・タグ分類") | tojson }},
+      {{ _("ドラッグ＆ドロップ操作") | tojson }},
+      {{ _("自動データ消去") | tojson }}
     ]
   }
   </script>
@@ -146,7 +146,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "FS!QR",
-    "alternateName": "エフエスQR",
+    "alternateName": {{ _("エフエスQR") | tojson }},
     "url": "{{ request.url_root }}",
     "logo": "{{ staticfile('logo.png') }}",
     "foundingDate": "2024",
@@ -183,11 +183,11 @@
   <!-- ── Search-link & Navigation ─────────── -->
   <div class="text-center">
     <a href="/search_task" class="search-link">
-      <img src="{{ staticfile('task_search.png') }}" alt="検索" loading="lazy" decoding="async" />
-      <span>検索</span>
+      <img src="{{ staticfile('task_search.png') }}" alt="{{ _("検索") }}" loading="lazy" decoding="async" />
+      <span>{{ _("検索") }}</span>
     </a>
-    <nav class="section-tabs" aria-label="サービスナビゲーション">
-      <a class="section-tab" href="/">ホーム</a>
+    <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
+      <a class="section-tab" href="/">{{ _("ホーム") }}</a>
       <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
       <a class="section-tab" href="/group_menu">Group</a>
       <a class="section-tab" href="/note_menu">Note</a>

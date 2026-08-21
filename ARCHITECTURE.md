@@ -113,7 +113,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 - `rate_limit.py`: Redis を使う IP 単位の失敗回数制限と、Task 等の操作 backoff。
 - `presence.py` / `presence_api.py`: Redis Sorted Set を基本とし、Redis 障害時はプロセス内
   メモリへフォールバックする閲覧者数 API。
-- `i18n.py` と `i18n_support/`: 言語解決、サーバー / ブラウザ文言、HTML 変換。
+- `i18n.py` と `i18n_support/`: 言語解決、Babel/Jinja のサーバー gettext、ブラウザ文言。
 - `security_headers.py` と `log_config.py`: 全レスポンスのセキュリティヘッダーと、URL 内の
   認証情報・共有 token のログ伏せ字。
 
@@ -153,9 +153,11 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 
 ### 翻訳
 
-`locales/<lang>/ui.json` は Jinja、`js.json` は `window.FSQR_I18N`、
-`phrases/**/*.json` は既存テンプレート本文の互換置換に使います。新規 UI は安定キーを
-優先し、phrases に日本語本文を新規追加しません。ファイル配置と検証の詳細は
+`locales/<lang>/LC_MESSAGES/messages.po` は Jinja の gettext カタログ、`js.json` は
+`window.FSQR_I18N` 用です。`ui.json` と `phrases/**/*.json` は PO の生成元として既存の
+翻訳資産を保持します。テンプレートの文言は `_()` / `{% trans %}` で描画時に翻訳し、
+HTML 生成後の文字列置換は行いません。新規 UI は安定キーを優先し、phrases に日本語本文を
+新規追加しません。ファイル配置と検証の詳細は
 [locales/README.md](locales/README.md)、実行時の言語判定は
 `i18n_support/constants.py` と `i18n_support/language.py` を参照します。
 現在は `JAPANESE_ONLY_MODE` が有効で、公開ページの表示・hreflang は日本語に固定される

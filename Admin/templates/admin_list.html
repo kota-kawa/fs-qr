@@ -8,15 +8,15 @@
 {% block contents %}
 <div class="container py-4" style="max-width: 800px;">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="h4 fw-bold mb-0">管理ページ</h2>
+    <h2 class="h4 fw-bold mb-0">{{ _("管理ページ") }}</h2>
     <div class="d-flex gap-2">
       <a href="/admin/logout" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-        {{ icon('arrow_left', size='sm', with_text=True) }} ログアウト
+    {{ icon('arrow_left', size='sm', with_text=True) }} {{ _("ログアウト") }}
       </a>
-      <form action="/all-remove" method="POST" class="d-inline" data-confirm-submit="本当にすべて削除しますか？">
+      <form action="/all-remove" method="POST" class="d-inline" data-confirm-submit="{{ _("本当にすべて削除しますか？") }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="btn btn-danger btn-sm rounded-pill px-3" type="submit">
-          {{ icon('trash', size='sm', with_text=True) }} すべて削除
+    {{ icon('trash', size='sm', with_text=True) }} {{ _("すべて削除") }}
         </button>
       </form>
     </div>
@@ -38,14 +38,14 @@
               </div>
             </div>
             <div class="d-flex gap-2 mt-3">
-              <form action="/admin/remove/{{ f.secure_id }}" method="POST" class="flex-fill" data-confirm-submit="削除しますか？">
+<form action="/admin/remove/{{ f.secure_id }}" method="POST" class="flex-fill" data-confirm-submit="{{ _("削除しますか？") }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
-                  {{ icon('trash', size='sm') }} 削除
+{{ icon('trash', size='sm') }} {{ _("削除") }}
                 </button>
               </form>
               <a href="/download/{{ f.secure_id }}" class="btn btn-outline-primary btn-sm flex-fill rounded-pill">
-                {{ icon('arrow_down', size='sm') }} ダウンロード
+{{ icon('arrow_down', size='sm') }} {{ _("ダウンロード") }}
               </a>
             </div>
           </div>
@@ -58,7 +58,7 @@
       <div class="mb-3 text-muted">
         {{ icon('archive_box', size='xxl') }}
       </div>
-      <p class="text-secondary">ファイルはありません</p>
+      <p class="text-secondary">{{ _("ファイルはありません") }}</p>
     </div>
   {% endif %}
 </div>
@@ -70,8 +70,8 @@ document.querySelectorAll('[data-confirm-submit]').forEach(function(form) {
         }
         event.preventDefault();
         var confirmed = await window.showConfirmModal(form.dataset.confirmSubmit, {
-            title: {{ t('alert.confirm_delete') | tojson }},
-            confirmLabel: {{ t('alert.delete_action') | tojson }}
+            title: {{ _('alert.confirm_delete') | tojson }},
+            confirmLabel: {{ _('alert.delete_action') | tojson }}
         });
         if (confirmed) {
             form.dataset.confirmed = 'true';

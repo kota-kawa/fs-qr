@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}エラー | FS!QR{% endblock %}
+{% block page_title %}{{ _("エラー | FS!QR") }}{% endblock %}
 
 {% block extra_head %}
   <meta name="robots" content="noindex, nofollow">
@@ -34,7 +34,7 @@
 <div class="modern-page-container">
   <div class="modern-content-card" style="max-width: 600px; margin: 0 auto;">
     <div class="modern-card-header" style="--modern-card-header-gradient: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); --modern-card-header-accent: #dc2626;">
-      <h1 class="h3"><i class="bi bi-exclamation-triangle-fill me-2"></i>エラー</h1>
+      <h1 class="h3"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ _("エラー") }}</h1>
     </div>
     <div class="modern-card-body text-center">
       <div class="mb-4 text-danger icon-shake">
@@ -42,20 +42,20 @@
       </div>
       <h2 class="h4 mb-4 fw-bold text-dark">{{ message }}</h2>
       <p class="text-secondary mb-5 small">
-        お探しのページが見つからないか、一時的にアクセスできない可能性があります。<br>
-        URLまたは入力内容を再度ご確認ください。
+        {{ _("お探しのページが見つからないか、一時的にアクセスできない可能性があります。") }}<br>
+        {{ _("URLまたは入力内容を再度ご確認ください。") }}
       </p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <a href="/" class="modern-btn modern-btn-success px-4 py-2">
           <i class="bi bi-house-door-fill me-2"></i>
-          ホームへ戻る
+          {{ _("ホームへ戻る") }}
         </a>
         {% if request.url.path.startswith('/group') %}
-        <a href="/group" class="modern-btn modern-muted-btn px-4 py-2">グループへ</a>
+        <a href="/group" class="modern-btn modern-muted-btn px-4 py-2">{{ _("グループへ") }}</a>
         {% elif request.url.path.startswith('/note') %}
-        <a href="/note" class="modern-btn modern-muted-btn px-4 py-2">ノートへ</a>
+        <a href="/note" class="modern-btn modern-muted-btn px-4 py-2">{{ _("ノートへ") }}</a>
         {% else %}
-        <a href="/fs-qr" class="modern-btn modern-muted-btn px-4 py-2">アップロードへ</a>
+        <a href="/fs-qr" class="modern-btn modern-muted-btn px-4 py-2">{{ _("アップロードへ") }}</a>
         {% endif %}
       </div>
     </div>

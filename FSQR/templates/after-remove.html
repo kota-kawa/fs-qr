@@ -31,20 +31,20 @@
 <div class="modern-page-container">
   <div class="modern-content-card" style="max-width: 600px; margin: 0 auto;">
     <div class="modern-card-header" style="--modern-card-header-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%); --modern-card-header-accent: #10b981;">
-      <h1 class="h3"><i class="bi bi-trash-fill me-2"></i>削除完了</h1>
+      <h1 class="h3"><i class="bi bi-trash-fill me-2"></i>{{ _("削除完了") }}</h1>
     </div>
     <div class="modern-card-body text-center">
       <div class="mb-4 text-success icon-bounce">
         {{ icon('check_circle', size='xxl') }}
       </div>
-      <h2 class="h4 mb-4 fw-bold text-dark">削除しました</h2>
+      <h2 class="h4 mb-4 fw-bold text-dark">{{ _("削除しました") }}</h2>
       <p class="text-secondary mb-5 small">
-        対象のルームまたはファイルは正常に削除されました。
+        {{ _("対象のルームまたはファイルは正常に削除されました。") }}
       </p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <a href="/" class="modern-btn modern-btn-success px-4 py-2">
           <i class="bi bi-house-door-fill me-2"></i>
-          ホームへ戻る
+          {{ _("ホームへ戻る") }}
         </a>
       </div>
     </div>

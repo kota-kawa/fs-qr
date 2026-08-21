@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="QRコード共有・グループ共有・リアルタイムノートを1画面で扱える、FS!QR の統合ワークスペース。">
+    <meta name="description" content="{{ _("QRコード共有・グループ共有・リアルタイムノートを1画面で扱える、FS!QR の統合ワークスペース。") }}">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#342ae3">
-    <title>FS!QR ワークスペース｜QR・グループ・ノートを1画面で</title>
+    <title>{{ _("FS!QR ワークスペース｜QR・グループ・ノートを1画面で") }}</title>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="ja_JP">
+    <meta property="og:locale" content="{{ og_locale }}">
     <meta property="og:site_name" content="FS!QR">
-    <meta property="og:title" content="FS!QR ワークスペース｜QR・グループ・ノートを1画面で">
-    <meta property="og:description" content="QRコード共有・グループ共有・リアルタイムノートを、1つの画面でまとめて使える FS!QR の統合ワークスペース。">
+    <meta property="og:title" content="{{ _("FS!QR ワークスペース｜QR・グループ・ノートを1画面で") }}">
+    <meta property="og:description" content="{{ _("QRコード共有・グループ共有・リアルタイムノートを、1つの画面でまとめて使える FS!QR の統合ワークスペース。") }}">
     <meta property="og:url" content="{{ request.canonical_url }}">
     <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="723">
-    <meta property="og:image:alt" content="FS!QR ファイル共有サービス">
+    <meta property="og:image:alt" content="{{ _("FS!QR ファイル共有サービス") }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FS!QR ワークスペース｜QR・グループ・ノートを1画面で">
-    <meta name="twitter:description" content="QRコード共有・グループ共有・リアルタイムノートを、1つの画面でまとめて使える FS!QR の統合ワークスペース。">
+    <meta name="twitter:title" content="{{ _("FS!QR ワークスペース｜QR・グループ・ノートを1画面で") }}">
+    <meta name="twitter:description" content="{{ _("QRコード共有・グループ共有・リアルタイムノートを、1つの画面でまとめて使える FS!QR の統合ワークスペース。") }}">
     <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-    <meta name="twitter:image:alt" content="FS!QR ファイル共有サービス">
+    <meta name="twitter:image:alt" content="{{ _("FS!QR ファイル共有サービス") }}">
 
     <link rel="icon" href="{{staticfile('favicon3.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon3.png')}}">
@@ -537,49 +537,49 @@
         <div class="brand">
             <span class="brand-mark"><i class="fas fa-layer-group"></i></span>
             <span class="brand-text">
-                <span class="name">FS!QR ワークスペース</span>
-                <span class="sub">QR共有・グループ・ノートを1画面で</span>
+                <span class="name">{{ _("FS!QR ワークスペース") }}</span>
+                <span class="sub">{{ _("QR共有・グループ・ノートを1画面で") }}</span>
             </span>
         </div>
 
         <div class="topbar-spacer"></div>
 
         <div class="workspace-status" aria-live="polite">
-            <span class="status-pill" title="現在の表示">
+            <span class="status-pill" title="{{ _("現在の表示") }}">
                 <i class="fas fa-location-dot" aria-hidden="true"></i>
-                <span id="workspace-current">QRコード共有</span>
+                <span id="workspace-current">{{ _("QRコード共有") }}</span>
             </span>
-            <span class="status-pill subtle" title="この端末に表示設定を保存します">
+            <span class="status-pill subtle" title="{{ _("この端末に表示設定を保存します") }}">
                 <i class="fas fa-check" aria-hidden="true"></i>
-                <span id="workspace-mode-label">タブ表示</span>
+                <span id="workspace-mode-label">{{ _("タブ表示") }}</span>
             </span>
         </div>
 
-        <div class="seg" role="group" aria-label="レイアウト切替">
-            <button type="button" id="mode-tabs" aria-pressed="true" aria-label="タブ表示に切り替え" title="タブ表示に切り替え">
-                <i class="fas fa-window-maximize"></i><span>タブ</span>
+        <div class="seg" role="group" aria-label="{{ _("レイアウト切替") }}">
+            <button type="button" id="mode-tabs" aria-pressed="true" aria-label="{{ _("タブ表示に切り替え") }}" title="{{ _("タブ表示に切り替え") }}">
+                <i class="fas fa-window-maximize"></i><span>{{ _("タブ") }}</span>
             </button>
-            <button type="button" id="mode-split" aria-pressed="false" aria-label="分割表示に切り替え" title="分割表示に切り替え">
-                <i class="fas fa-table-columns fa-rotate-90"></i><span>分割</span>
+            <button type="button" id="mode-split" aria-pressed="false" aria-label="{{ _("分割表示に切り替え") }}" title="{{ _("分割表示に切り替え") }}">
+                <i class="fas fa-table-columns fa-rotate-90"></i><span>{{ _("分割") }}</span>
             </button>
         </div>
 
         <div class="topbar-actions">
-            <a class="tbtn" href="/" aria-label="ホームに戻る" title="ホームに戻る">
-                <i class="fas fa-house"></i><span class="label">ホーム</span>
+            <a class="tbtn" href="/" aria-label="{{ _("ホームに戻る") }}" title="{{ _("ホームに戻る") }}">
+                <i class="fas fa-house"></i><span class="label">{{ _("ホーム") }}</span>
             </a>
-            <button type="button" class="tbtn" id="btn-reset" aria-label="レイアウトを初期状態に戻す" title="レイアウトを初期状態に戻す">
-                <i class="fas fa-rotate-left"></i><span class="label">リセット</span>
+            <button type="button" class="tbtn" id="btn-reset" aria-label="{{ _("レイアウトを初期状態に戻す") }}" title="{{ _("レイアウトを初期状態に戻す") }}">
+                <i class="fas fa-rotate-left"></i><span class="label">{{ _("リセット") }}</span>
             </button>
-            <button type="button" class="tbtn primary" id="btn-help" aria-label="ヘルプを開く" title="ヘルプを開く">
-                <i class="far fa-circle-question"></i><span class="label">ヘルプ</span>
+            <button type="button" class="tbtn primary" id="btn-help" aria-label="{{ _("ヘルプを開く") }}" title="{{ _("ヘルプを開く") }}">
+                <i class="far fa-circle-question"></i><span class="label">{{ _("ヘルプ") }}</span>
             </button>
         </div>
     </header>
 
     <!-- ============ ステージ ============ -->
-    <main class="stage mode-tabs" id="stage" aria-label="サービスワークスペース">
-        <div class="tabbar" id="tabbar" role="tablist" aria-label="サービス選択"></div>
+    <main class="stage mode-tabs" id="stage" aria-label="{{ _("サービスワークスペース") }}">
+        <div class="tabbar" id="tabbar" role="tablist" aria-label="{{ _("サービス選択") }}"></div>
         <div class="panes" id="panes"></div>
     </main>
 </div>
@@ -588,36 +588,36 @@
 <div class="scrim" id="scrim"></div>
 <aside class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
     <div class="help-head">
-        <h2 id="help-title"><i class="far fa-circle-question" style="color:var(--brand)"></i>&nbsp;使い方ガイド</h2>
-        <button type="button" class="ibtn" id="help-close" aria-label="ヘルプを閉じる"><i class="fas fa-xmark"></i></button>
+        <h2 id="help-title"><i class="far fa-circle-question" style="color:var(--brand)"></i>{{ _("&nbsp;使い方ガイド") }}</h2>
+        <button type="button" class="ibtn" id="help-close" aria-label="{{ _("ヘルプを閉じる") }}"><i class="fas fa-xmark"></i></button>
     </div>
     <div class="help-body">
         <div class="help-sec">
-            <h3>このページについて</h3>
-            <p class="help-row"><span class="ht">FS!QR の3つのサービス（<b>QRコード共有</b>・<b>グループ共有</b>・<b>リアルタイムノート</b>）を、ページを移動せず1つの画面でまとめて使えます。</span></p>
+            <h3>{{ _("このページについて") }}</h3>
+            <p class="help-row"><span class="ht">{{ _("FS!QR の3つのサービス（") }}<b>{{ _("QRコード共有") }}</b>・<b>{{ _("グループ共有") }}</b>・<b>{{ _("リアルタイムノート") }}</b>{{ _("）を、ページを移動せず1つの画面でまとめて使えます。") }}</span></p>
         </div>
         <div class="help-sec">
-            <h3>基本操作</h3>
-            <div class="help-row"><span class="hi"><i class="fas fa-window-maximize"></i></span><span class="ht"><b>タブ表示</b>：上部のタブで使うサービスを切り替え。1つを大きく表示します。</span></div>
-            <div class="help-row"><span class="hi"><i class="fas fa-table-columns fa-rotate-90"></i></span><span class="ht"><b>分割表示</b>：大きい画面では3つを横に並べ、狭い画面では縦に並べて表示します。</span></div>
-            <div class="help-row"><span class="hi"><i class="fas fa-expand"></i></span><span class="ht"><b>最大化</b>：パネル右上のアイコンで全画面表示。<kbd>Esc</kbd> で戻ります。</span></div>
-            <div class="help-row"><span class="hi"><i class="fas fa-magnifying-glass-plus"></i></span><span class="ht"><b>ズーム</b>：見やすい大きさに拡大・縮小（各サービスごとに保存）。</span></div>
-            <div class="help-row"><span class="hi"><i class="fas fa-arrow-up-right-from-square"></i></span><span class="ht"><b>別タブで開く</b>：そのサービスだけを新しいタブで開きます。</span></div>
+            <h3>{{ _("基本操作") }}</h3>
+            <div class="help-row"><span class="hi"><i class="fas fa-window-maximize"></i></span><span class="ht"><b>{{ _("タブ表示") }}</b>{{ _("：上部のタブで使うサービスを切り替え。1つを大きく表示します。") }}</span></div>
+            <div class="help-row"><span class="hi"><i class="fas fa-table-columns fa-rotate-90"></i></span><span class="ht"><b>{{ _("分割表示") }}</b>{{ _("：大きい画面では3つを横に並べ、狭い画面では縦に並べて表示します。") }}</span></div>
+            <div class="help-row"><span class="hi"><i class="fas fa-expand"></i></span><span class="ht"><b>{{ _("最大化") }}</b>{{ _("：パネル右上のアイコンで全画面表示。") }}<kbd>Esc</kbd> {{ _("で戻ります。") }}</span></div>
+            <div class="help-row"><span class="hi"><i class="fas fa-magnifying-glass-plus"></i></span><span class="ht"><b>{{ _("ズーム") }}</b>{{ _("：見やすい大きさに拡大・縮小（各サービスごとに保存）。") }}</span></div>
+            <div class="help-row"><span class="hi"><i class="fas fa-arrow-up-right-from-square"></i></span><span class="ht"><b>{{ _("別タブで開く") }}</b>{{ _("：そのサービスだけを新しいタブで開きます。") }}</span></div>
         </div>
         <div class="help-sec">
-            <h3>キーボードショートカット</h3>
+            <h3>{{ _("キーボードショートカット") }}</h3>
             <div class="kbd-list">
-                <kbd>1</kbd><span>QRコード共有に切替</span>
-                <kbd>2</kbd><span>グループ共有に切替</span>
-                <kbd>3</kbd><span>ノート共有に切替</span>
-                <kbd>T</kbd><span>タブ表示 / 分割表示を切替</span>
-                <kbd>?</kbd><span>このヘルプを開閉</span>
-                <kbd>Esc</kbd><span>最大化・ヘルプを閉じる</span>
+                <kbd>1</kbd><span>{{ _("QRコード共有に切替") }}</span>
+                <kbd>2</kbd><span>{{ _("グループ共有に切替") }}</span>
+                <kbd>3</kbd><span>{{ _("ノート共有に切替") }}</span>
+                <kbd>T</kbd><span>{{ _("タブ表示 / 分割表示を切替") }}</span>
+                <kbd>?</kbd><span>{{ _("このヘルプを開閉") }}</span>
+                <kbd>Esc</kbd><span>{{ _("最大化・ヘルプを閉じる") }}</span>
             </div>
         </div>
         <div class="help-sec">
-            <h3>保存について</h3>
-            <p class="help-row"><span class="ht">表示モード・選択中のサービス・ズームは、この端末に<b>自動保存</b>されます。共有内容そのものは各サービス側で管理されます。</span></p>
+            <h3>{{ _("保存について") }}</h3>
+            <p class="help-row"><span class="ht">{{ _("表示モード・選択中のサービス・ズームは、この端末に") }}<b>{{ _("自動保存") }}</b>{{ _("されます。共有内容そのものは各サービス側で管理されます。") }}</span></p>
         </div>
     </div>
 </aside>

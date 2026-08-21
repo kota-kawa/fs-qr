@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>登録不要の共有タスクボード｜チームで使えるFS!QR Task</title>
-  <meta name="description" content="FS!QR Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。">
+  <title>{{ _("登録不要の共有タスクボード｜チームで使えるFS!QR Task") }}</title>
+  <meta name="description" content="{{ _("FS!QR Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。") }}">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#f59e0b">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,21 +14,21 @@
   {% endfor %}
 
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale" content="{{ og_locale }}">
   <meta property="og:site_name" content="FS!QR Task">
-  <meta property="og:title" content="登録不要の共有タスクボード｜FS!QR Task">
-  <meta property="og:description" content="チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。">
+  <meta property="og:title" content="{{ _("登録不要の共有タスクボード｜FS!QR Task") }}">
+  <meta property="og:description" content="{{ _("チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。") }}">
   <meta property="og:url" content="{{ request.canonical_url }}">
   <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="723">
-  <meta property="og:image:alt" content="FS!QR Taskの共有タスクボードサービス">
+  <meta property="og:image:alt" content="{{ _("FS!QR Taskの共有タスクボードサービス") }}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="登録不要の共有タスクボード｜FS!QR Task">
-  <meta name="twitter:description" content="チームのタスクをひとつのボードへ。アカウント登録なしで始められます。">
+  <meta name="twitter:title" content="{{ _("登録不要の共有タスクボード｜FS!QR Task") }}">
+  <meta name="twitter:description" content="{{ _("チームのタスクをひとつのボードへ。アカウント登録なしで始められます。") }}">
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <meta name="twitter:image:alt" content="FS!QR Taskの共有タスクボードサービス">
+  <meta name="twitter:image:alt" content="{{ _("FS!QR Taskの共有タスクボードサービス") }}">
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon5.png') }}">
@@ -40,23 +40,23 @@
     "@type": "SoftwareApplication",
     "name": "FS!QR Task",
     "url": {{ request.canonical_url | tojson }},
-    "description": "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。",
+    "description": {{ _("アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。") | tojson }},
     "applicationCategory": "ProductivityApplication",
     "applicationSubCategory": "Task Management",
     "operatingSystem": "Web Browser",
-    "inLanguage": "ja-JP",
+    "inLanguage": {{ schema_language | tojson }},
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "JPY"
     },
     "featureList": [
-      "アカウント登録不要のボード作成",
-      "カンバン方式（未着手・進行中・完了）",
-      "共有URLとQRコードによる参加",
-      "優先度・期限・タグ分類",
-      "ドラッグ＆ドロップ操作",
-      "保存期間経過後の自動削除"
+      {{ _("アカウント登録不要のボード作成") | tojson }},
+      {{ _("カンバン方式（未着手・進行中・完了）") | tojson }},
+      {{ _("共有URLとQRコードによる参加") | tojson }},
+      {{ _("優先度・期限・タグ分類") | tojson }},
+      {{ _("ドラッグ＆ドロップ操作") | tojson }},
+      {{ _("保存期間経過後の自動削除") | tojson }}
     ],
     "publisher": {
       "@type": "Organization",
@@ -72,42 +72,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "アカウント登録は必要ですか？",
+        "name": {{ _("アカウント登録は必要ですか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
+          "text": {{ _("必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "追加したタスクはいつ送信されますか？",
+        "name": {{ _("追加したタスクはいつ送信されますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
+          "text": {{ _("トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "メンバーはどのようにボードへ参加しますか？",
+        "name": {{ _("メンバーはどのようにボードへ参加しますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
+          "text": {{ _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "タスクデータはいつまで保存されますか？",
+        "name": {{ _("タスクデータはいつまで保存されますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
+          "text": {{ _("ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "登録できるタスク数に上限はありますか？",
+        "name": {{ _("登録できるタスク数に上限はありますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1つのボードにつき最大200件までタスクを登録できます。"
+          "text": {{ _("1つのボードにつき最大200件までタスクを登録できます。") | tojson }}
         }
       }
     ]
@@ -115,24 +115,24 @@
   </script>
 </head>
 <body class="product-lp product-lp--task">
-  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+  <a class="lp-skip-link" href="#main-content">{{ _("本文へ移動") }}</a>
 
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
-      <a class="lp-brand" href="/task_menu" aria-label="FS!QR Task トップへ">
+      <a class="lp-brand" href="/task_menu" aria-label="{{ _("FS!QR Task トップへ") }}">
         <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon5.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text">
           <span class="lp-brand__name">FS!QR <strong>Task</strong></span>
           <span class="lp-brand__tagline">Kanban task board</span>
         </span>
       </a>
-      <nav class="lp-nav" aria-label="ページ内ナビゲーション">
-        <a href="#how-it-works">使い方</a>
-        <a href="#features">特長</a>
-        <a href="#use-cases">利用シーン</a>
-        <a href="#faq">よくある質問</a>
+      <nav class="lp-nav" aria-label="{{ _("ページ内ナビゲーション") }}">
+        <a href="#how-it-works">{{ _("使い方") }}</a>
+        <a href="#features">{{ _("特長") }}</a>
+        <a href="#use-cases">{{ _("利用シーン") }}</a>
+        <a href="#faq">{{ _("よくある質問") }}</a>
       </nav>
-      <a class="lp-button lp-button--small lp-button--secondary" href="/task">ボードに参加</a>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/task">{{ _("ボードに参加") }}</a>
     </div>
   </header>
 
@@ -140,21 +140,21 @@
     <section class="lp-hero" aria-labelledby="hero-title">
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
-          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要の共有タスクボード</p>
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> {{ _("登録不要の共有タスクボード") }}</p>
           <h1 id="hero-title">
-            <span class="lp-hero__title-line">タスクを書けば、</span>
-            <span class="lp-hero__title-accent">もう整理できる。</span>
+            <span class="lp-hero__title-line">{{ _("タスクを書けば、") }}</span>
+            <span class="lp-hero__title-accent">{{ _("もう整理できる。") }}</span>
           </h1>
-          <p class="lp-hero__lead">先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。</p>
-          <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
-            <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
-            <li><span aria-hidden="true">✓</span> シンプルカンバン</li>
-            <li><span aria-hidden="true">✓</span> 発行するまで送信しない</li>
+          <p class="lp-hero__lead">{{ _("先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。") }}</p>
+          <ul class="lp-check-list lp-hero__checks" aria-label="{{ _("サービスの概要") }}">
+            <li><span aria-hidden="true">✓</span> {{ _("アカウント登録なし") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("シンプルカンバン") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("発行するまで送信しない") }}</li>
           </ul>
           <p class="lp-hero__aside">
-            <a class="lp-text-link" href="/create_task_room">ルームIDや保存期間を指定して作成する</a>
+            <a class="lp-text-link" href="/create_task_room">{{ _("ルームIDや保存期間を指定して作成する") }}</a>
             <span aria-hidden="true">・</span>
-            <a class="lp-text-link" href="/task">IDでボードに参加する</a>
+            <a class="lp-text-link" href="/task">{{ _("IDでボードに参加する") }}</a>
           </p>
         </div>
 
@@ -169,84 +169,84 @@
                  data-max-items="{{ task_max_items_per_room }}"
                  data-max-title-length="{{ task_max_title_length }}">
           <div class="lp-instant__bar">
-            <h2 class="lp-instant__title" id="instant-title">下書きボード</h2>
-            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末にだけ保存</p>
+            <h2 class="lp-instant__title" id="instant-title">{{ _("下書きボード") }}</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">{{ _("この端末にだけ保存") }}</p>
           </div>
 
           <form class="lp-task-add" data-instant-add-form>
-            <label class="lp-visually-hidden" for="instant-task-title">タスク名</label>
+            <label class="lp-visually-hidden" for="instant-task-title">{{ _("タスク名") }}</label>
             <input type="text"
                    id="instant-task-title"
                    class="lp-task-add__input"
                    data-instant-title-input
                    maxlength="{{ task_max_title_length }}"
-                   placeholder="やることを入力して追加">
-            <button type="submit" class="lp-task-add__button">追加</button>
+                   placeholder="{{ _("やることを入力して追加") }}">
+            <button type="submit" class="lp-task-add__button">{{ _("追加") }}</button>
           </form>
 
-          <ul class="lp-task-list" data-instant-task-list aria-label="下書きのタスク"></ul>
+          <ul class="lp-task-list" data-instant-task-list aria-label="{{ _("下書きのタスク") }}"></ul>
 
           <div class="lp-instant__meta">
-            <span class="lp-instant__count" data-instant-count>タスク未追加</span>
-            <button type="button" class="lp-instant__clear" data-instant-clear hidden>すべて削除</button>
+            <span class="lp-instant__count" data-instant-count>{{ _("タスク未追加") }}</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear hidden>{{ _("すべて削除") }}</button>
           </div>
           <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
           <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-publish disabled>
-            共有リンクを発行する <span aria-hidden="true">→</span>
+            {{ _("共有リンクを発行する") }} <span aria-hidden="true">→</span>
           </button>
-          <p class="lp-instant__hint" data-instant-hint>発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。</p>
+          <p class="lp-instant__hint" data-instant-hint>{{ _("発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。") }}</p>
 
           <!-- Share panel / 発行後に共有情報をその場で提示する -->
           <div class="lp-instant__share" data-instant-share-panel hidden>
-            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <p class="lp-instant__share-title">{{ _("共有の準備ができました") }}</p>
             <div class="lp-instant__share-body">
-              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="{{ _("共有用QRコード") }}"></div>
               <dl class="lp-instant__share-list">
                 <div class="lp-instant__share-row">
-                  <dt>共有URL</dt>
+                  <dt>{{ _("共有URL") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>ルームID</dt>
+                  <dt>{{ _("ルームID") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-room-id></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>パスワード</dt>
+                  <dt>{{ _("パスワード") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-password></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">{{ _("コピー") }}</button>
                   </dd>
                 </div>
               </dl>
             </div>
             <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/task">
-              ボードを開く <span aria-hidden="true">→</span>
+            {{ _("ボードを開く") }} <span aria-hidden="true">→</span>
             </a>
-            <p class="lp-instant__hint">URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。</p>
-            <button type="button" class="lp-instant__clear" data-instant-reset>別のボードを新しく作る</button>
+            <p class="lp-instant__hint">{{ _("URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。") }}</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>{{ _("別のボードを新しく作る") }}</button>
           </div>
 
           <noscript>
-            <p class="lp-instant__hint">この下書きボードにはJavaScriptが必要です。<a href="/create_task_room">タスクボードを作成</a>してからご利用ください。</p>
+            <p class="lp-instant__hint">{{ _("この下書きボードにはJavaScriptが必要です。") }}<a href="/create_task_room">{{ _("タスクボードを作成") }}</a>{{ _("してからご利用ください。") }}</p>
           </noscript>
         </section>
       </div>
     </section>
 
-    <section class="lp-trust" aria-label="FS!QR Taskの利用ポイント">
+    <section class="lp-trust" aria-label="{{ _("FS!QR Taskの利用ポイント") }}">
       <div class="lp-container">
-        <p class="lp-trust__lead">チームのタスク共有に必要なことだけ</p>
+        <p class="lp-trust__lead">{{ _("チームのタスク共有に必要なことだけ") }}</p>
         <div class="lp-trust__items">
-          <div class="lp-trust__item"><strong>登録不要</strong><span>アカウント作成不要で即開始</span></div>
-          <div class="lp-trust__item"><strong>保存期間を選択</strong><span>1日・1週間・1か月</span></div>
-          <div class="lp-trust__item"><strong>3つの列で整理</strong><span>未着手・進行中・完了</span></div>
-          <div class="lp-trust__item"><strong>ブラウザ完結</strong><span>PC・スマートフォンに対応</span></div>
+          <div class="lp-trust__item"><strong>{{ _("登録不要") }}</strong><span>{{ _("アカウント作成不要で即開始") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("保存期間を選択") }}</strong><span>{{ _("1日・1週間・1か月") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("3つの列で整理") }}</strong><span>{{ _("未着手・進行中・完了") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("ブラウザ完結") }}</strong><span>{{ _("PC・スマートフォンに対応") }}</span></div>
         </div>
       </div>
     </section>
@@ -254,9 +254,9 @@
     <section id="how-it-works" class="lp-section lp-section--steps" aria-labelledby="how-title">
       <div class="lp-container">
         <div class="lp-section__heading">
-          <p class="lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
-          <h2 id="how-title" class="lp-section__title">タスク管理開始まで、<wbr>わずか3ステップ</h2>
-          <p class="lp-section__lead">準備は不要です。まずタスクを書き出して、共有が必要になった時点でメンバーを招待できます。</p>
+          <p class="lp-section__eyebrow">{{ _("01&nbsp;&nbsp;使い方") }}</p>
+          <h2 id="how-title" class="lp-section__title">{{ _("タスク管理開始まで、") }}<wbr>{{ _("わずか3ステップ") }}</h2>
+          <p class="lp-section__lead">{{ _("準備は不要です。まずタスクを書き出して、共有が必要になった時点でメンバーを招待できます。") }}</p>
         </div>
         <ol class="lp-steps">
           <li class="lp-step">
@@ -268,8 +268,8 @@
                 <path d="M15 3v18"/>
               </svg>
             </div>
-            <h3>タスクを書き出す</h3>
-            <p>このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。</p>
+            <h3>{{ _("タスクを書き出す") }}</h3>
+            <p>{{ _("このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。") }}</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">02</span>
@@ -279,8 +279,8 @@
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
               </svg>
             </div>
-            <h3>共有リンクを発行する</h3>
-            <p>ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。</p>
+            <h3>{{ _("共有リンクを発行する") }}</h3>
+            <p>{{ _("ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。") }}</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">03</span>
@@ -290,13 +290,13 @@
                 <polyline points="22 4 12 14.01 9 11.01"/>
               </svg>
             </div>
-            <h3>タスクを整理・更新</h3>
-            <p>発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。</p>
+            <h3>{{ _("タスクを整理・更新") }}</h3>
+            <p>{{ _("発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。") }}</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="#instant-board">下書きボードを開く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/create_task_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--primary" href="#instant-board">{{ _("下書きボードを開く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_task_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -304,8 +304,8 @@
     <section id="features" class="lp-section lp-section--tint" aria-labelledby="features-title">
       <div class="lp-container">
         <div class="lp-section__heading lp-section__heading--left">
-          <p class="lp-section__eyebrow">02&nbsp;&nbsp;Taskの特長</p>
-          <h2 id="features-title" class="lp-section__title">直感的に使えて、<br>必要な機能が揃っている。</h2>
+          <p class="lp-section__eyebrow">{{ _("02&nbsp;&nbsp;Taskの特長") }}</p>
+          <h2 id="features-title" class="lp-section__title">{{ _("直感的に使えて、") }}<br>{{ _("必要な機能が揃っている。") }}</h2>
         </div>
         <div class="lp-grid lp-grid--features">
           <article class="lp-card lp-feature-card lp-feature-card--wide">
@@ -319,8 +319,8 @@
                 <path d="M14 21v-3"/>
               </svg>
             </span>
-            <h3>書き出したタスクが、そのままボードになる</h3>
-            <p>下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。</p>
+            <h3>{{ _("書き出したタスクが、そのままボードになる") }}</h3>
+            <p>{{ _("下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。") }}</p>
             <div class="lp-feature-card__demo">
               <div class="lp-demo-frame">
                 <span class="lp-demo-frame__glow" aria-hidden="true"></span>
@@ -341,7 +341,7 @@
                       controls
                       preload="metadata"
                       poster="{{ staticfile('images/product-landing-pages/task-demo/task-page.jpg') }}"
-                      aria-label="下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画">
+                      aria-label="{{ _("下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画") }}">
                       <source src="{{ staticfile('videos/product-landing-pages/task-demo.mp4') }}" type="video/mp4">
                     </video>
                   </div>
@@ -357,7 +357,7 @@
                   <p>fs-qr.net/task</p>
                 </div>
                 <div class="lp-demo-frame__screen">
-                  <img src="{{ staticfile('images/product-landing-pages/task-demo/task-page.jpg') }}" width="1600" height="916" alt="FS!QR Taskの下書きボード画面のスクリーンショット" loading="lazy" decoding="async">
+<img src="{{ staticfile('images/product-landing-pages/task-demo/task-page.jpg') }}" width="1600" height="916" alt="{{ _("FS!QR Taskの下書きボード画面のスクリーンショット") }}" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
@@ -368,8 +368,8 @@
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
             </span>
-            <h3>優先度・期限・タグ</h3>
-            <p>優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。</p>
+            <h3>{{ _("優先度・期限・タグ") }}</h3>
+            <p>{{ _("優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">
@@ -378,8 +378,8 @@
                 <polyline points="12 6 12 12 14 14"/>
               </svg>
             </span>
-            <h3>自動削除でクリーン</h3>
-            <p>保存期間が終了するとサーバーから完全に自動削除。一時利用に安心です。</p>
+            <h3>{{ _("自動削除でクリーン") }}</h3>
+            <p>{{ _("保存期間が終了するとサーバーから完全に自動削除。一時利用に安心です。") }}</p>
           </article>
         </div>
       </div>
@@ -388,33 +388,33 @@
     <section id="use-cases" class="lp-section" aria-labelledby="use-cases-title">
       <div class="lp-container">
         <div class="lp-section__heading">
-          <p class="lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
-          <h2 id="use-cases-title" class="lp-section__title">イベントから日常の整理まで、<br>様々なタスク管理に。</h2>
+          <p class="lp-section__eyebrow">{{ _("03&nbsp;&nbsp;利用シーン") }}</p>
+          <h2 id="use-cases-title" class="lp-section__title">{{ _("イベントから日常の整理まで、") }}<br>{{ _("様々なタスク管理に。") }}</h2>
         </div>
         <figure class="lp-mockup lp-page-shot lp-use-case-visual">
-          <img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" width="1200" height="900" alt="チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト" loading="lazy" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Taskのカンバンボードを表すイラスト</figcaption>
+<img src="{{ staticfile('images/product-landing-pages/task-illustration.jpg') }}" width="1200" height="900" alt="{{ _("チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト") }}" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">{{ _("FS!QR Taskのカンバンボードを表すイラスト") }}</figcaption>
         </figure>
         <div class="lp-grid lp-grid--use-cases">
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">イベント・運営</p>
-              <h3>イベント・勉強会の運営</h3>
-              <p>当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。</p>
+              <p class="lp-use-card__tag">{{ _("イベント・運営") }}</p>
+              <h3>{{ _("イベント・勉強会の運営") }}</h3>
+              <p>{{ _("当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。") }}</p>
             </div>
           </article>
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">会議・プロジェクト</p>
-              <h3>ミーティングのアクション管理</h3>
-              <p>打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。</p>
+              <p class="lp-use-card__tag">{{ _("会議・プロジェクト") }}</p>
+              <h3>{{ _("ミーティングのアクション管理") }}</h3>
+              <p>{{ _("打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。") }}</p>
             </div>
           </article>
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">個人のTODO</p>
-              <h3>個人のデイリーTODO整理</h3>
-              <p>今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。</p>
+              <p class="lp-use-card__tag">{{ _("個人のTODO") }}</p>
+              <h3>{{ _("個人のデイリーTODO整理") }}</h3>
+              <p>{{ _("今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。") }}</p>
             </div>
           </article>
         </div>
@@ -424,25 +424,25 @@
     <section id="faq" class="lp-section lp-section--tint" aria-labelledby="faq-title">
       <div class="lp-container">
         <div class="lp-section__heading">
-          <p class="lp-section__eyebrow">04&nbsp;&nbsp;よくある質問</p>
-          <h2 id="faq-title" class="lp-section__title">よくある質問</h2>
+          <p class="lp-section__eyebrow">{{ _("04&nbsp;&nbsp;よくある質問") }}</p>
+          <h2 id="faq-title" class="lp-section__title">{{ _("よくある質問") }}</h2>
         </div>
         <div class="lp-faq-list">
           <details class="lp-faq-item">
-            <summary>本当に無料で利用できますか？</summary>
-            <p>はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。</p>
+            <summary>{{ _("本当に無料で利用できますか？") }}</summary>
+            <p>{{ _("はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>追加したタスクはいつ送信されますか？</summary>
-            <p>トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。</p>
+            <summary>{{ _("追加したタスクはいつ送信されますか？") }}</summary>
+            <p>{{ _("トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>スマートフォンからでも操作できますか？</summary>
-            <p>はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。</p>
+            <summary>{{ _("スマートフォンからでも操作できますか？") }}</summary>
+            <p>{{ _("はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>タスクデータはいつまで保存されますか？</summary>
-            <p>作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。</p>
+            <summary>{{ _("タスクデータはいつまで保存されますか？") }}</summary>
+            <p>{{ _("作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。") }}</p>
           </details>
         </div>
       </div>
@@ -450,11 +450,11 @@
 
     <section class="lp-final-cta" aria-labelledby="final-cta-title">
       <div class="lp-container lp-final-cta__inner">
-        <h2 id="final-cta-title">今すぐ、チームのタスクを整理しましょう。</h2>
-        <p>アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。</p>
+        <h2 id="final-cta-title">{{ _("今すぐ、チームのタスクを整理しましょう。") }}</h2>
+        <p>{{ _("アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。") }}</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--primary" href="#instant-board">下書きボードにタスクを書く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/create_task_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--primary" href="#instant-board">{{ _("下書きボードにタスクを書く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_task_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -463,11 +463,11 @@
   <footer class="lp-footer">
     <div class="lp-container lp-footer__inner">
       <p class="lp-footer__copy">© 2024–2026 FS!QR. All rights reserved.</p>
-      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
-        <a href="/">FS!QR ホーム</a>
-        <a href="/terms">利用規約</a>
-        <a href="/privacy">プライバシーポリシー</a>
-        <a href="/contact">お問い合わせ</a>
+      <nav class="lp-footer__nav" aria-label="{{ _("フッターナビゲーション") }}">
+        <a href="/">{{ _("FS!QR ホーム") }}</a>
+        <a href="/terms">{{ _("利用規約") }}</a>
+        <a href="/privacy">{{ _("プライバシーポリシー") }}</a>
+        <a href="/contact">{{ _("お問い合わせ") }}</a>
       </nav>
     </div>
   </footer>

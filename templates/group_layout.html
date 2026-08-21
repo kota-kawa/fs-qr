@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="{% block meta_description %}FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有{% endblock %}" />
+    <meta name="description" content="{% block meta_description %}{{ _("FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。") }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ _("グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有") }}{% endblock %}" />
     <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
     <meta name="author" content="FS!QR" />
-    <meta name="language" content="ja" />
-    <meta name="geo.region" content="JP" />
-    <meta name="geo.placename" content="Japan" />
+    <meta name="language" content="{{ meta_language }}" />
+    <meta name="geo.region" content="{{ geo_region }}" />
+    <meta name="geo.placename" content="{{ geo_placename }}" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="theme-color" content="#342ae3" />
@@ -35,23 +35,23 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale" content="{{ og_locale }}" />
     <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="{% block og_title %}FS!QR Group | 無料グループファイル共有・チーム協業サービス{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。") }}{% endblock %}" />
     <meta property="og:url" content="{{ request.canonical_url }}" />
     <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="723" />
-    <meta property="og:image:alt" content="FS!QR Group グループファイル共有サービス" />
+    <meta property="og:image:alt" content="{{ _("FS!QR Group グループファイル共有サービス") }}" />
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{% block twitter_title %}FS!QR Group | 無料グループファイル共有・チーム協業サービス{% endblock %}" />
-    <meta name="twitter:description" content="{% block twitter_description %}安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}{{ _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。") }}{% endblock %}" />
     <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="FS!QR Group サービス" />
+    <meta name="twitter:image:alt" content="{{ _("FS!QR Group サービス") }}" />
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -94,7 +94,7 @@
         {% endif %}
       });
     </script>
-    <title>{% block page_title %}FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス{% endblock %}</title>
+    <title>{% block page_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス") }}{% endblock %}</title>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -102,10 +102,10 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "FS!QR Group",
-      "alternateName": "エフエスQRグループ",
+      "alternateName": {{ _("エフエスQRグループ") | tojson }},
       "url": "{{ request.url_root }}group",
-      "description": "無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理に最適。",
-      "inLanguage": "ja-JP",
+      "description": {{ _("無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理に最適。") | tojson }},
+      "inLanguage": {{ schema_language | tojson }},
       "isPartOf": {
         "@type": "WebSite",
         "name": "FS!QR",
@@ -133,7 +133,7 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "FS!QR Group",
-      "description": "グループファイル共有・チーム協業のための無料Webアプリケーション",
+      "description": {{ _("グループファイル共有・チーム協業のための無料Webアプリケーション") | tojson }},
       "applicationCategory": "WebApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -142,10 +142,10 @@
         "priceCurrency": "JPY"
       },
       "featureList": [
-        "グループルーム作成",
-        "複数人でのファイル共有",
-        "チームコラボレーション",
-        "プロジェクト管理支援"
+      {{ _("グループルーム作成") | tojson }},
+      {{ _("複数人でのファイル共有") | tojson }},
+      {{ _("チームコラボレーション") | tojson }},
+      {{ _("プロジェクト管理支援") | tojson }}
       ]
     }
     </script>
@@ -155,7 +155,7 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "FS!QR",
-      "alternateName": "エフエスQR",
+      "alternateName": {{ _("エフエスQR") | tojson }},
       "url": "{{ request.url_root }}",
       "logo": "{{ staticfile('logo.png') }}",
       "foundingDate": "2024",
@@ -190,11 +190,11 @@
 
     <div class="text-center">
       <a href="/search_group" class="search-link">
-        <img src="{{staticfile('kensaku.png')}}" alt="検索アイコン" loading="lazy" decoding="async" />
-        <span>検索</span>
+        <img src="{{staticfile('kensaku.png')}}" alt="{{ _("検索アイコン") }}" loading="lazy" decoding="async" />
+        <span>{{ _("検索") }}</span>
       </a>
-      <nav class="section-tabs" aria-label="サービスナビゲーション">
-        <a class="section-tab" href="/">ホーム</a>
+      <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
+        <a class="section-tab" href="/">{{ _("ホーム") }}</a>
         <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
         <a class="section-tab" href="/group_menu" aria-current="page">Group</a>
         <a class="section-tab" href="/note_menu">Note</a>

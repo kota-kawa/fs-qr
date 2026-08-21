@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}FS!QR プライバシーポリシー | 個人情報の取り扱いについて{% endblock %}
+{% block page_title %}{{ _("FS!QR プライバシーポリシー | 個人情報の取り扱いについて") }}{% endblock %}
 
-{% block meta_description %}FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。{% endblock %}
+{% block meta_description %}{{ _("FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。") }}{% endblock %}
 
-{% block meta_keywords %}FS QR, プライバシーポリシー, 個人情報保護, データ保護, セキュリティ, 暗号化, HTTPS, 広告配信, UGC運用ポリシー{% endblock %}
+{% block meta_keywords %}{{ _("FS QR, プライバシーポリシー, 個人情報保護, データ保護, セキュリティ, 暗号化, HTTPS, 広告配信, UGC運用ポリシー") }}{% endblock %}
 
-{% block og_title %}FS!QR プライバシーポリシー | 個人情報の取り扱いについて{% endblock %}
-{% block og_description %}FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。{% endblock %}
+{% block og_title %}{{ _("FS!QR プライバシーポリシー | 個人情報の取り扱いについて") }}{% endblock %}
+{% block og_description %}{{ _("FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。") }}{% endblock %}
 
-{% block twitter_title %}FS!QR プライバシーポリシー | 個人情報の取り扱いについて{% endblock %}
-{% block twitter_description %}FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。{% endblock %}
+{% block twitter_title %}{{ _("FS!QR プライバシーポリシー | 個人情報の取り扱いについて") }}{% endblock %}
+{% block twitter_description %}{{ _("FS!QRのプライバシーポリシー。個人情報の取り扱い、ファイルデータの安全な管理、広告配信、UGC運用ポリシーについて詳しく説明しています。") }}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
@@ -19,8 +19,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "プライバシーポリシー", "item": "{{ request.url_root }}privacy-policy" }
+    { "@type": "ListItem", "position": 1, "name": {{ _("ホーム") | tojson }}, "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ _("プライバシーポリシー") | tojson }}, "item": "{{ request.url_root }}privacy-policy" }
   ]
 }
 </script>
@@ -30,68 +30,68 @@
 <div class="info-page">
   <div class="info-box">
     <div class="info-box-header">
-      <h1>プライバシーポリシー</h1>
-      <div class="subtitle">個人情報の取り扱いについて</div>
+      <h1>{{ _("プライバシーポリシー") }}</h1>
+      <div class="subtitle">{{ _("個人情報の取り扱いについて") }}</div>
     </div>
     <div class="info-box-content">
-      <p>FS!QRは、ユーザーの皆様の個人情報とプライバシーを保護することを重要な責務と考え、以下のプライバシーポリシーを定めています。</p>
-      <p class="page-updated"><span>最終更新日：</span><time datetime="2026-07-17">2026-07-17</time></p>
+      <p>{{ _("FS!QRは、ユーザーの皆様の個人情報とプライバシーを保護することを重要な責務と考え、以下のプライバシーポリシーを定めています。") }}</p>
+      <p class="page-updated"><span>{{ _("最終更新日：") }}</span><time datetime="2026-07-17">2026-07-17</time></p>
 
-      <h3>{{ icon('document_text', with_text=True) }}取得する情報</h3>
-      <p>本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。</p>
-      <p>アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。</p>
+      <h3>{{ icon('document_text', with_text=True) }}{{ _("取得する情報") }}</h3>
+      <p>{{ _("本サービスでは、アップロードされたファイル、ノート本文、ルームID、共有URL、保存期間、ファイル名、問い合わせ内容、Cookie設定、アクセス時のIPアドレスやブラウザ情報など、サービス提供と安全な運用に必要な情報を取り扱います。") }}</p>
+      <p>{{ _("アカウント登録は不要ですが、利用者がファイルやノートに個人情報を含めた場合、その内容も本サービス上で一時的に処理されます。") }}</p>
 
-      <h3>{{ icon('shield_check', with_text=True) }}利用目的と保存場所</h3>
-      <p>取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。</p>
-      <p>本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。</p>
+      <h3>{{ icon('shield_check', with_text=True) }}{{ _("利用目的と保存場所") }}</h3>
+      <p>{{ _("取得した情報は、ファイル共有、グループルーム、ノート共有、認証、レート制限、不正利用対策、障害調査、問い合わせ対応、サービス改善、広告配信のために利用します。") }}</p>
+      <p>{{ _("本サービスのデータは主に日本国内のサーバーで保管されます。Google Analytics、Google AdSense、Google Forms、DB-IPなどの外部サービスを利用する場合、各提供事業者により日本国外で情報が処理されることがあります。") }}</p>
 
-      <h3 id="cookie-consent-settings">{{ icon('gear', with_text=True) }}設定のカスタマイズ</h3>
+      <h3 id="cookie-consent-settings">{{ icon('gear', with_text=True) }}{{ _("設定のカスタマイズ") }}</h3>
       <p>
-        Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。
+        {{ _("Cookieバナーからは「同意する」「拒否」「設定をカスタマイズ」の各ボタンを選択できます。必須Cookieはサービス提供のため常に使用されます。分析Cookieと広告Cookieは、利用者が同意した場合にのみ使用されます。") }}
       </p>
 
-      <h3>{{ icon('chart', with_text=True) }}広告配信について</h3>
-      <p>当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。</p>
-      <p>広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。</p>
-      <p>ユーザーは <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener">Google 広告設定</a> ・ <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> のページから、パーソナライズド広告に使用される Cookie を無効にできます。</p>
+      <h3>{{ icon('chart', with_text=True) }}{{ _("広告配信について") }}</h3>
+      <p>{{ _("当サイトでは、Google AdSenseなどの第三者配信事業者がCookieを使用して広告を配信する場合があります。") }}</p>
+      <p>{{ _("広告Cookieに同意した場合、ユーザーの興味・関心に合わせたパーソナライズド広告が表示される場合があります。拒否した場合でも、広告配信事業者の仕様により非パーソナライズド広告が表示されることがあります。") }}</p>
+      <p>{{ _("ユーザーは") }} <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener">{{ _("Google 広告設定") }}</a> ・ <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> {{ _("のページから、パーソナライズド広告に使用される Cookie を無効にできます。") }}</p>
 
-      <h3>{{ icon('chart', with_text=True) }}アクセス解析について</h3>
-      <p>本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。</p>
+      <h3>{{ icon('chart', with_text=True) }}{{ _("アクセス解析について") }}</h3>
+      <p>{{ _("本サービスでは、利用状況の把握と改善のためにGoogle Analyticsを利用する場合があります。Google Analyticsは、利用者が分析Cookieに同意した場合にのみ読み込まれます。") }}</p>
 
-      <h3>{{ icon('lock', with_text=True) }}ファイルデータの取り扱い</h3>
-      <p>アップロードされたファイルは一定期間後に自動的に削除され、運営者が、利用者の指定した共有相手以外の第三者へファイル内容を提供することはありません。FS!QR（QRコード共有）のファイルは利用者のブラウザ上でAES-256により暗号化されたうえでサーバーに送信・保存されるため、運営者を含む第三者は内容を復号できません。グループルームおよびノートルームのコンテンツは、サーバー上では暗号化されない状態で保管されます。</p>
-      <p>すべての通信は HTTPS で暗号化されており、セキュリティの確保に努めています。</p>
+      <h3>{{ icon('lock', with_text=True) }}{{ _("ファイルデータの取り扱い") }}</h3>
+      <p>{{ _("アップロードされたファイルは一定期間後に自動的に削除され、運営者が、利用者の指定した共有相手以外の第三者へファイル内容を提供することはありません。FS!QR（QRコード共有）のファイルは利用者のブラウザ上でAES-256により暗号化されたうえでサーバーに送信・保存されるため、運営者を含む第三者は内容を復号できません。グループルームおよびノートルームのコンテンツは、サーバー上では暗号化されない状態で保管されます。") }}</p>
+      <p>{{ _("すべての通信は HTTPS で暗号化されており、セキュリティの確保に努めています。") }}</p>
 
-      <h3>{{ icon('trash', with_text=True) }}保存期間と削除依頼</h3>
-      <p>FS!QR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。</p>
-      <p>削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて<a href="/contact">お問い合わせ</a>からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。</p>
+      <h3>{{ icon('trash', with_text=True) }}{{ _("保存期間と削除依頼") }}</h3>
+      <p>{{ _("FS!QR、グループルーム、ノートルームのデータは、利用者が選択した保存期間の経過後に自動削除されます。削除権限を持つ利用者は、各共有画面から手動削除できます。") }}</p>
+      <p>{{ _("削除依頼、個人情報に関する問い合わせ、違法または権利侵害のおそれがあるコンテンツの通報は、対象URL、ルームID、事情を添えて") }}<a href="/contact">{{ _("お問い合わせ") }}</a>{{ _("からご連絡ください。内容を確認し、必要に応じて削除その他の対応を行います。") }}</p>
 
-      <h3>{{ icon('clipboard', with_text=True) }}UGC運用ポリシー</h3>
-      <p>本サービスで公開されるユーザー生成コンテンツ（UGC）は運営が責任をもって管理します。以下の方針を遵守してください。</p>
+      <h3>{{ icon('clipboard', with_text=True) }}{{ _("UGC運用ポリシー") }}</h3>
+      <p>{{ _("本サービスで公開されるユーザー生成コンテンツ（UGC）は運営が責任をもって管理します。以下の方針を遵守してください。") }}</p>
       
-      <h4>利用規約</h4>
-      <p>投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。</p>
+      <h4>{{ _("利用規約") }}</h4>
+      <p>{{ _("投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。") }}</p>
       
-      <h4>著作権/削除方針</h4>
-      <p>著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。</p>
+      <h4>{{ _("著作権/削除方針") }}</h4>
+      <p>{{ _("著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。") }}</p>
       
-      <h4>禁止事項</h4>
-      <p>違法、暴力的、または不適切な内容の投稿を禁止します。</p>
+      <h4>{{ _("禁止事項") }}</h4>
+      <p>{{ _("違法、暴力的、または不適切な内容の投稿を禁止します。") }}</p>
       
-      <h4>通報/削除フロー</h4>
-      <p>問題のあるコンテンツを発見した場合は<a href="/contact">お問い合わせ</a>から通報してください。確認後、必要に応じて削除します。</p>
+      <h4>{{ _("通報/削除フロー") }}</h4>
+      <p>{{ _("問題のあるコンテンツを発見した場合は") }}<a href="/contact">{{ _("お問い合わせ") }}</a>{{ _("から通報してください。確認後、必要に応じて削除します。") }}</p>
 
-      <h3>{{ icon('globe', with_text=True) }}位置情報サービス</h3>
-      <p>当サイトでは、言語の自動判定のために IP アドレスベースの位置情報サービスを使用しています。</p>
+      <h3>{{ icon('globe', with_text=True) }}{{ _("位置情報サービス") }}</h3>
+      <p>{{ _("当サイトでは、言語の自動判定のために IP アドレスベースの位置情報サービスを使用しています。") }}</p>
       <p><a href="https://db-ip.com" target="_blank" rel="noopener noreferrer">IP Geolocation by DB-IP</a></p>
 
-      <h3>{{ icon('chat_bubble', with_text=True) }}外部フォームについて</h3>
-      <p>お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。</p>
+      <h3>{{ icon('chat_bubble', with_text=True) }}{{ _("外部フォームについて") }}</h3>
+      <p>{{ _("お問い合わせにはGoogle Formsを利用しています。フォームに入力された内容は、問い合わせ対応とサービス改善のために利用します。Googleによる情報の取り扱いについては、Googleのプライバシーポリシーをご確認ください。") }}</p>
 
-      <h3>{{ icon('chat_bubble', with_text=True) }}お問い合わせ</h3>
-      <p>その他、ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+      <h3>{{ icon('chat_bubble', with_text=True) }}{{ _("お問い合わせ") }}</h3>
+      <p>{{ _("その他、ご不明な点がございましたら、お気軽にお問い合わせください。") }}</p>
       <div style="text-align: center; margin-top: 2rem;">
-        <a href="/contact" class="contact-form-link">お問い合わせページへ</a>
+        <a href="/contact" class="contact-form-link">{{ _("お問い合わせページへ") }}</a>
       </div>
     </div>
   </div>

@@ -179,6 +179,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/validate_locales.py --strict-phrases
+          python scripts/generate_babel_catalogs.py --check
 
       - name: Run test suite
         run: |

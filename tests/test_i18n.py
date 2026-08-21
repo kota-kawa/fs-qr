@@ -1,6 +1,8 @@
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
 
 class DummyRequest:
     def __init__(
@@ -155,106 +157,82 @@ def test_resolve_language_falls_back_to_japanese_for_private_ip(monkeypatch):
     assert i18n.resolve_language(request) == "ja"
 
 
-def test_translate_rendered_html_updates_language_metadata():
-    from i18n import translate_rendered_html
+def test_jinja_uses_babel_catalogs_for_server_translation():
+    import i18n
+    from web import templates
 
-    content = (
-        '<html lang="ja"><head>'
-        '<meta name="language" content="ja">'
-        '<meta property="og:locale" content="ja_JP">'
-        '<script>{"inLanguage": "ja-JP"}</script>'
-        "</head><body>ホーム</body></html>"
-    )
+    token = i18n.current_language_ctx.set("fr")
+    try:
+        rendered = templates.env.from_string(
+            '<html lang="{{ html_lang }}" dir="{{ html_dir }}">'
+            "{{ _('URLをコピー') }}|{{ _('settings.title') }}"
+            "</html>"
+        ).render(html_lang="fr", html_dir="ltr")
+    finally:
+        i18n.current_language_ctx.reset(token)
 
-    # Test English (LTR)
-    translated_en = translate_rendered_html(content, "en")
-    assert '<html lang="en" dir="ltr">' in translated_en
-    assert '<meta name="language" content="en">' in translated_en
-    assert '<meta property="og:locale" content="en_US">' in translated_en
-    assert '"inLanguage": "en"' in translated_en
-    assert "Home" in translated_en
-
-    # Test Arabic (RTL)
-    translated_ar = translate_rendered_html(content, "ar")
-    assert '<html lang="ar" dir="rtl">' in translated_ar
-    assert '<meta name="language" content="ar">' in translated_ar
-    assert '<meta property="og:locale" content="ar_SA">' in translated_ar
-    assert '"inLanguage": "ar"' in translated_ar
-    assert "الرئيسية" in translated_ar
+    assert 'lang="fr" dir="ltr"' in rendered
+    assert "Copier l'URL" in rendered
+    assert "Paramètres" in rendered
 
 
-def test_translate_rendered_html_keeps_page_specific_meta_description():
-    from i18n import translate_rendered_html
-
-    page_description = (
-        "FS!QRでファイルをアップロードしてQRコードや共有リンクで簡単共有。"
-        "アプリ不要・登録不要でPCとスマホ間の写真、動画、PDFを安全に転送でき、"
-        "自動削除にも対応する無料ファイル共有サービス。"
-    )
-    content = (
-        '<html lang="ja"><head>'
-        f'<meta name="description" content="{page_description}">'
-        "</head><body></body></html>"
-    )
-
-    translated_en = translate_rendered_html(content, "en")
-
-    assert "Upload files with FS!QR" in translated_en
-    assert "QR code transfers, group file sharing" not in translated_en
-
-
-def test_translate_rendered_html_falls_back_for_unknown_meta_description():
-    from i18n import translate_rendered_html
-
-    content = (
-        '<html lang="ja"><head>'
-        '<meta name="description" content="未翻訳のページ固有説明">'
-        "</head><body></body></html>"
-    )
-
-    translated_ja = translate_rendered_html(content, "ja")
-    translated_en = translate_rendered_html(content, "en")
-
-    assert 'content="未翻訳のページ固有説明"' in translated_ja
-    assert "free file-sharing service" in translated_en
-    assert "未翻訳のページ固有説明" not in translated_en
-
-
-def test_translate_rendered_html_does_not_corrupt_script_blocks():
-    """Phrase replacement must never rewrite text inside <script>/<style>.
-
-    The French translation of "URLをコピー" is "Copier l'URL"; injecting that
-    apostrophe into a JS string literal used to break the whole <script> block,
-    which stopped buttons from working and QR codes from rendering.
-    """
+def test_jinja_gettext_keeps_json_ld_valid_when_translation_has_quotes():
     import json
+    import i18n
+    from web import templates
 
-    from i18n import translate_rendered_html
+    token = i18n.current_language_ctx.set("fr")
+    try:
+        rendered = templates.env.from_string(
+            '<script type="application/ld+json">'
+            "{\"name\": {{ _('URLをコピー') | tojson }}}"
+            "</script>"
+        ).render()
+    finally:
+        i18n.current_language_ctx.reset(token)
 
-    content = (
-        '<html lang="ja"><head>'
-        '<script type="application/ld+json">'
-        '{"name": "URLをコピー", "inLanguage": "ja-JP"}'
-        "</script></head><body>"
-        '<button class="share">URLをコピー</button>'
-        "<script>\n"
-        "  setShareFeedback('URLをコピーしました。', 'success');\n"
-        "</script>"
-        "</body></html>"
-    )
+    document = json.loads(rendered.split(">", 1)[1].split("</script>", 1)[0])
+    assert document["name"] == "Copier l'URL"
 
-    translated = translate_rendered_html(content, "fr")
 
-    # Body text outside scripts is still translated.
-    assert ">Copier l'URL<" in translated
-    # The executable script keeps its Japanese fallback literal verbatim, so the
-    # apostrophe is never injected and the block stays valid JavaScript.
-    assert "setShareFeedback('URLをコピーしました。', 'success');" in translated
-    assert "l'URL" not in translated.split("<script>")[-1]
-    # JSON-LD is still translated, but escaped so it remains valid JSON.
-    ld_json = translated.split('application/ld+json">')[1].split("</script>")[0]
-    parsed = json.loads(ld_json)
-    assert parsed["name"] == "Copier l'URL"
+def test_multilingual_route_is_rendered_by_jinja_when_mode_is_enabled(
+    test_client, monkeypatch
+):
+    import i18n_support.language as language_support
+    import web
+
+    monkeypatch.setattr(language_support, "JAPANESE_ONLY_MODE", False)
+    monkeypatch.setattr(web, "JAPANESE_ONLY_MODE", False)
+
+    response = test_client.get("/?lang=en")
+
+    assert response.status_code == 200
+    assert response.headers["content-language"] == "en"
+    assert '<html lang="en" dir="ltr">' in response.text
+    assert '<meta name="language" content="en">' in response.text
+    assert '<meta property="og:locale" content="en_US">' in response.text
+    assert '"inLanguage": "en"' in response.text
+    assert ">Home<" in response.text
+
+
+@pytest.mark.parametrize(
+    "path",
+    ["/", "/fs-qr_menu", "/group_menu", "/note_menu", "/task_menu", "/articles"],
+)
+def test_multilingual_public_routes_render_without_postprocessing(
+    test_client, monkeypatch, path
+):
+    import i18n_support.language as language_support
+    import web
+
+    monkeypatch.setattr(language_support, "JAPANESE_ONLY_MODE", False)
+    monkeypatch.setattr(web, "JAPANESE_ONLY_MODE", False)
+
+    response = test_client.get(path, headers={"Cookie": "fsqr_language=fr"})
+
+    assert response.status_code == 200, response.text[:500]
+    assert response.headers["content-language"] == "fr"
+    assert '<html lang="fr" dir="ltr">' in response.text
 
 
 def test_language_query_only_accepts_japanese_only_during_review():
