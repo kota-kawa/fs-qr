@@ -483,11 +483,23 @@
    揃い、追加ボタンの位置がタイトル欄の右端と一致する。
    margin-left: auto keeps the control column flush right, so when the bar
    wraps onto a second line the add button still lines up with the right edge
-   of the title field above it. */
+   of the title field above it.
+
+   580px 未満ではさらに専用レイアウト（下の @media 内）に切り替わるが、580px
+   〜900px 弱の範囲は日付ペア＋優先度＋追加ボタンの実寸合計がバー幅を超えるため、
+   flex-wrap と max-width を指定しないと列全体がカードの右端からはみ出していた。
+   Below 580px the layout switches to a dedicated stacked design (see the
+   @media block further down), but in the roughly 580px-900px range the
+   combined natural width of the date pair, priority select, and add button
+   exceeds the bar's width. Without flex-wrap/max-width here, the whole
+   control group overflowed past the card's right edge instead of wrapping. */
 .task-quick-add-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+  row-gap: 0.5rem;
+  max-width: 100%;
   flex-shrink: 0;
   margin-left: auto;
 }
