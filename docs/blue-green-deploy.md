@@ -22,11 +22,10 @@ upstream fsqr_app {
 | green | `web-green`     | `green` | `127.0.0.1:5030`   |
 
 db / redis / scheduler は常駐の単一インスタンスで、Blue-Green の対象外。
-セッション・レート制限・キャッシュ・ロック・presence・Note の WebSocket fanout は
+セッション・レート制限・キャッシュ・ロック・presence・Group / Note の WebSocket fanout は
 Redis を共有するので、切替時に blue/green が一瞬重なっても状態を共有できる。
-Group の WebSocket fanout は `Group/group_realtime.py` のプロセス内ハブであり、Redis
-横断配信ではない。Blue-Green の待機側は nginx からトラフィックを受けないため、切替時の
-Group 同期を Redis が保証する、という意味ではない。詳細は
+Group / Note は各 worker のローカル WebSocket 接続へ Redis pub/sub から fanout するため、
+切替前後に両方へ接続したクライアントにも更新・ルーム閉鎖を通知できる。詳細は
 [ARCHITECTURE.md](../ARCHITECTURE.md) と [realtime の知識](knowledge/realtime.md)を参照する。
 
 ---

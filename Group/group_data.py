@@ -10,7 +10,7 @@ from sqlalchemy import text
 from password_security import hash_password, verify_password
 from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
-from .group_realtime import hub as group_ws_hub
+from .group_realtime import notify_group_room_closed
 from .group_storage import iter_room_folders
 
 # ログ設定
@@ -163,7 +163,7 @@ async def remove_data(secure_id):
 
     await asyncio.gather(
         _revoke_links(),
-        group_ws_hub.close_room(secure_id, code=1001),
+        notify_group_room_closed(secure_id, code=1001),
         _invalidate_caches(),
     )
     return True

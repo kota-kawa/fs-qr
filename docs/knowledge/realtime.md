@@ -16,8 +16,10 @@ shutdown 時に自身の接続を掃除します。Redis が使えない場合�
 ### Group
 
 `/ws/group/{room_id}` は `Group/group_routes_ws.py` と `Group/group_realtime.py` が入口です。
-ファイル更新時の `files_updated` は `GroupRoomHub` 内の同じプロセスの WebSocket にだけ
-broadcast されます。Note と異なり、Group に Redis pub/sub の横断配信はありません。
+WebSocket 自体は各 worker の `GroupRoomHub` で保持し、ファイル更新の `files_updated` と
+ルーム削除の `room_closed` は Redis channel `group:room:{room_id}` を通じて他 worker に
+配信します。接続の room / instance 集計も Redis に記録し、shutdown 時に自身の残骸を
+掃除します。Redis 障害時は同一プロセス通知とクライアントのポーリングに縮退します。
 
 ## 変更時の不変条件
 
@@ -27,16 +29,16 @@ broadcast されます。Note と異なり、Group に Redis pub/sub の横断�
   内容を黙って上書きせず、既存の merge / conflict 応答を使う。
 - room 期限切れ時は DB の状態だけでなく、接続中クライアントへの通知・close を確認する。
 - Redis を使う処理では、接続失敗、pub/sub 再開、shutdown cleanup をテストする。
-- Group の multi-worker 同期を必要にする変更は、単なる修正ではなく配信方式の変更として
-  decision record を追加する。
+- Group の更新 payload は `files_updated` と `room_closed` 以外を受け付けない。ルームを
+  削除した場合は、全 worker の WebSocket を閉じ、ブラウザが再接続を繰り返さないことを確認する。
 
 ## 調査の順序
 
 1. ブラウザの WebSocket close code、network payload、session cookie の有無を確認する。
 2. `tests/test_note_ws.py` / `tests/test_group_realtime.py` の CSRF と disconnect の期待値を確認する。
-3. Note なら `get_redis()`、pub/sub task、`INSTANCE_ID` ごとの cleanup を確認する。
-4. Group なら、クライアントが同じ worker に接続しているか、更新 endpoint が同じ hub の
-   `broadcast` を呼んでいるかを確認する。
+3. Note / Group ともに `get_redis()`、pub/sub task、`INSTANCE_ID` ごとの cleanup を確認する。
+4. Group では、更新 endpoint が `notify_group_files_updated()` を呼び、Redis channel
+   `group:room:{room_id}` と各 worker の hub に同じイベントが届いているかを確認する。
 5. DB の version / room status、Redis の該当 channel / key、アプリログを同じ時刻帯で照合する。
 
 ## 代表的な検証
