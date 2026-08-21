@@ -50,6 +50,8 @@ from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
 
 from Group.group_app import router as group_router
+from Group.group_realtime import shutdown as group_realtime_shutdown
+from Group.group_realtime import startup as group_realtime_startup
 from Note.note_app import router as note_router
 from Note.note_api import router as note_api_router
 from Note.note_realtime import shutdown as note_realtime_shutdown
@@ -191,6 +193,7 @@ async def startup():
         logger.info("FSQR startup expiration cleanup completed: %s", fsqr_cleanup_stats)
     except Exception:
         logger.exception("FSQR startup expiration cleanup failed")
+    await group_realtime_startup()
     await note_realtime_startup()
     await db_session.remove()
 
@@ -205,6 +208,7 @@ async def shutdown():
             await _geoip_update_task
         _geoip_update_task = None
         _geoip_update_stop_event = None
+    await group_realtime_shutdown()
     await note_realtime_shutdown()
 
 

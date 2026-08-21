@@ -9,7 +9,8 @@
    `SQL_DB`、`REDIS_URL`、`SECRET_KEY` が意図した対象を指しているか確認する。
 2. Docker なら`db`、`redis`、`hocuspocus`のhealthcheck、アプリの`logs/error.log`、
    各コンテナlogを分けて確認する。
-3. `app.py` の startup は GeoIP 更新、DB migration、期限切れ掃除、Note realtime の順に
+3. `app.py` の startup は GeoIP 更新、DB migration、期限切れ掃除、Group realtime、
+   Note期限切れcontrol publisherの順に
    進む。DB migration の失敗は既定では起動拒否であり、`ALLOW_START_WITHOUT_DB=true`
    は調査用の一時的な緩和に過ぎない。
 4. 初回の空 volume だけは `db_init/create_tables.sql` が使われる。既存 DB の更新は
@@ -34,9 +35,9 @@ Redis は全機能で同じ失敗動作ではありません。
   worker 間の人数は一時的に分割される。
 - Note共同編集はRedisをinstance間同期、session認可、store lockに使う。Redis障害時は
   新規接続を認可せず、同期済みに見せるメモリfallbackを行わない。
-- Group realtime はもともと `GroupRoomHub` のプロセス内状態であり、Redis の pub/sub
-  で横断同期していない。複数 Gunicorn worker をまたぐ同期を期待する変更は、現状仕様を
-  変える設計判断として扱う。
+- Group realtime は Redis pub/sub が使えないと同一プロセス内の接続だけで動く。別 worker /
+  別コンテナのファイル更新・ルーム閉鎖通知が届かない可能性がある。Redis 復旧後は購読 task
+  が再接続を試みる。
 - セッション、レート制限、scheduler の排他は Redis への依存度が高い。フォールバックを
   追加する場合は、認証・安全性・二重実行の影響を先に decision record に残す。
 

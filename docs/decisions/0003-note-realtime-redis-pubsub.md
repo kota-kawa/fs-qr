@@ -1,6 +1,6 @@
 # ADR-0003: Note realtime は Redis pub/sub を使う
 
-- 状態: 採用
+- 状態: [ADR-0006](0006-note-collaboration-hocuspocus-yjs.md) により置換済み
 - 対象: `Note/note_ws.py`、`Note/note_realtime.py`、`Note/note_sync.py`
 
 ## 背景

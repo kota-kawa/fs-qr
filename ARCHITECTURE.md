@@ -29,7 +29,7 @@ FastAPI app:app (Gunicorn + UvicornWorker, port 5000)
   ├─ feature routers: FSQR / Group / Note / Task / Admin / Articles
   ├─ shared services: session, CSRF, rate limit, i18n, file serving
   ├─ MySQL 8 (async SQLAlchemy / Alembic)
-  ├─ Redis (sessions, cache, rate limit, presence, Note pub/sub)
+  ├─ Redis (sessions, cache, rate limit, presence, Group / Note pub/sub)
   └─ bind-mounted files: storage / geoip / logs
 
 scheduler.py (single process)
@@ -80,13 +80,14 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 2. `app.py` が Proxy headers、Redis セッション、静的ファイル mount、共通 middleware
    を登録する。middleware はセキュリティヘッダー、言語コンテキスト、canonical URL、
    リクエスト終了時の DB session cleanup を担当する。
-3. startup で GeoIP 更新、Alembic upgrade、FSQR の期限切れ掃除、Note期限切れcontrol
-   publisherの初期化を行う。DB が準備できない場合は、既定では起動を拒否する。
+3. startup で GeoIP 更新、Alembic upgrade、FSQR の期限切れ掃除、Group realtime と
+   Note期限切れcontrol publisherの初期化を行う。DB が準備できない場合は、既定では
+   起動を拒否する。
 4. `app.include_router(...)` で各機能の router を登録し、HTML、JSON API、WebSocket
    の各 endpoint が同じ middleware を通る。
 5. データ層は `database.execute_query()` などを通して MySQL にアクセスする。通常の
    HTTP リクエスト終了時に `db_session.remove()` が実行される。
-6. shutdown で GeoIP task と Note realtime の接続を停止する。
+6. shutdown で GeoIP task と Group / Note realtime の接続を停止する。
 
 ### 機能モジュール
 
@@ -188,11 +189,13 @@ Redis は次の共有状態に使われます。
 - `cache_utils.py` のキャッシュ
 - `rate_limit.py` の失敗カウンタと block / backoff
 - `presence.py` の閲覧者 heartbeat
+- Group の接続数管理と room 更新・閉鎖の pub/sub
 - Hocuspocus instance間のYjs update、store lock、Note期限切れcontrol event
 - scheduler などの単一実行ロック
 
-Redis 障害時の挙動は機能ごとに異なります。presence は限定的なフォールバックがありますが、
-Note共同編集、認証、レート制限、セッションの前提を無条件にメモリだけで
+Redis 障害時の挙動は機能ごとに異なります。presence と Group realtime は限定的な
+フォールバックがありますが、Note共同編集、認証、レート制限、セッションの前提を
+無条件にメモリだけで
 代替しないため、変更時は [realtime の知識](docs/knowledge/realtime.md) と
 [デバッグ手順](docs/knowledge/debugging.md)を確認します。
 

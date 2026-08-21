@@ -22,12 +22,12 @@ upstream fsqr_app {
 | green | `web-green`     | `green` | `127.0.0.1:5030`   |
 
 db / redis / scheduler / Hocuspocus は常駐の共有インスタンスで、webのBlue-Green対象外。
-セッション・レート制限・キャッシュ・ロック・presence・NoteのYjs updateはRedisを共有する。
+セッション・レート制限・キャッシュ・ロック・presence・GroupのWebSocket fanout・Noteの
+Yjs updateはRedisを共有するため、切替時にblue/greenが一瞬重なっても状態を共有できる。
 デプロイスクリプトはweb切替前にHocuspocus imageを更新し、healthyをgateにする。sidecar更新時は
 既存providerが一度切断されるが、Yjs stateを保持したまま自動再接続する。
-Group の WebSocket fanout は `Group/group_realtime.py` のプロセス内ハブであり、Redis
-横断配信ではない。Blue-Green の待機側は nginx からトラフィックを受けないため、切替時の
-Group 同期を Redis が保証する、という意味ではない。詳細は
+Groupは各workerのローカルWebSocket接続へRedis pub/subからfanoutし、NoteはHocuspocusの
+Redis extensionでYjs updateを同期する。詳細は
 [ARCHITECTURE.md](../ARCHITECTURE.md) と [realtime の知識](knowledge/realtime.md)を参照する。
 
 ---
