@@ -141,6 +141,9 @@ jobs:
         python-version: ["3.13", "3.14"]
     env:
       PYTHONFAULTHANDLER: "1"
+      # Note collaboration signs short-lived test tokens. This value is scoped to
+      # CI only and must never be reused as an application secret.
+      SECRET_KEY: "ci-only-note-collaboration-key"
 
     steps:
       - name: Checkout repository
