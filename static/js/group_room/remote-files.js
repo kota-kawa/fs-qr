@@ -24,6 +24,7 @@
     var fileListReconnectTimer = null;
     var fileListPollTimer = null;
     var isPageUnloading = false;
+    var isGroupRoomClosed = false;
     var isFetchingFileList = false;
     var shouldRefetchFileList = false;
     var lastRenderedFileSignature = null;
@@ -385,6 +386,9 @@
     }
 
     function connectFileListWebSocket() {
+      if (isGroupRoomClosed) {
+        return;
+      }
       var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
       var wsUrl = new URL(`${protocol}://${window.location.host}/ws/group/${roomId}`);
       if (websocketCsrfToken) {
@@ -414,6 +418,13 @@
         }
         if (payload.type === 'files_updated') {
           fetchAndDisplayOtherFiles();
+        } else if (payload.type === 'room_closed') {
+          isGroupRoomClosed = true;
+          stopPolling();
+          if (fileListReconnectTimer) {
+            clearTimeout(fileListReconnectTimer);
+            fileListReconnectTimer = null;
+          }
         }
       };
 
@@ -424,7 +435,7 @@
       };
 
       fileListSocket.onclose = function (event) {
-        if (isPageUnloading) {
+        if (isPageUnloading || isGroupRoomClosed) {
           return;
         }
         if (event && event.code === 1008) {

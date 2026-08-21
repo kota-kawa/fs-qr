@@ -108,7 +108,7 @@ def test_group_data_room_lifecycle_and_expiration(tmp_path):
             patch("Group.group_data.invalidate_cache_entry", new=AsyncMock()),
             patch("Group.group_data.invalidate_cache_prefix", new=AsyncMock()),
             patch("Group.group_data.iter_room_folders") as folders,
-            patch("Group.group_data.group_ws_hub.close_room", new=AsyncMock()),
+            patch("Group.group_data.notify_group_room_closed", new=AsyncMock()),
             patch("share_links.revoke_resource_links", new=AsyncMock()),
         ):
             folders.return_value = (
