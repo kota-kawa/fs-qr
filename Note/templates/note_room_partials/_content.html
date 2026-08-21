@@ -105,7 +105,7 @@
             <div class="modern-form-group">
                 <label for="editor" class="modern-form-label">{{ t('note.editor.label', max_length=note_max_content_length) }}</label>
                 <textarea id="editor" class="modern-editor"
-                          placeholder="ここに入力すると1秒ごとに同期されます…"
+                          placeholder="ここに入力するとリアルタイムで共同編集されます…"
                           maxlength="{{ note_max_content_length }}" style="height: 60vh;"></textarea>
                 <div class="note-editor-toolbar">
                     <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}文字</span>
@@ -130,7 +130,6 @@
                     <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
                     <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;" role="status" aria-live="polite">同期中…</span>
                 </div>
-                <small id="mergeStatus" style="display: block; margin-top: 0.4rem; color: var(--text-medium);" role="status" aria-live="polite"></small>
             </div>
         </div>
     </div>
@@ -147,7 +146,7 @@
     <p>
       このルームではテキストをリアルタイムに共有できます。<br>
 	      上記のURL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
-      エディタに入力すると入力内容を約1秒ごとに同期・自動保存しますされ、変更はすぐに反映されます。<br>
+      エディタの変更はYjsで同期され、自動保存されます。複数人が同時に入力しても変更は失われません。<br>
       {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
     </p>
   </div>

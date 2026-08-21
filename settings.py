@@ -101,10 +101,6 @@ TASK_MAX_NOTE_LENGTH = _env_int("TASK_MAX_NOTE_LENGTH", default=500, minimum=1)
 TASK_MAX_TAG_LENGTH = _env_int("TASK_MAX_TAG_LENGTH", default=40, minimum=1)
 TASK_MAX_TAGS_PER_ROOM = _env_int("TASK_MAX_TAGS_PER_ROOM", default=50, minimum=1)
 TASK_MAX_TAGS_PER_ITEM = _env_int("TASK_MAX_TAGS_PER_ITEM", default=10, minimum=1)
-NOTE_SELF_EDIT_TIMEOUT_MS = _env_int(
-    "NOTE_SELF_EDIT_TIMEOUT_MS", default=12_000, minimum=1
-)
-
 SESSION_MAX_AGE_SECONDS = _env_int("SESSION_MAX_AGE_SECONDS", default=3600, minimum=60)
 AUTH_SESSION_TIMEOUT_SECONDS = _env_int(
     "AUTH_SESSION_TIMEOUT_SECONDS", default=1800, minimum=60

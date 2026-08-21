@@ -143,7 +143,26 @@ on_error() {
 
 trap on_error ERR
 
-# --- 1. 非アクティブ色をビルド＆起動（依存は触らない） ---------------------------
+# --- 1. 共同編集サイドカーと非アクティブ色をビルド＆起動 -------------------------
+log "refreshing Hocuspocus collaboration service ..."
+docker compose up -d --build hocuspocus
+collaboration_cid="$(docker compose ps -q hocuspocus)"
+if [ -z "$collaboration_cid" ]; then
+  abort_deploy "ERROR: Hocuspocus container was not created"
+fi
+collaboration_deadline=$(( $(date +%s) + HEALTH_TIMEOUT ))
+collaboration_status=starting
+while [ "$(date +%s)" -lt "$collaboration_deadline" ]; do
+  collaboration_status="$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "$collaboration_cid" 2>/dev/null || echo none)"
+  [ "$collaboration_status" = healthy ] && break
+  [ "$collaboration_status" = unhealthy ] && break
+  sleep 3
+done
+if [ "$collaboration_status" != healthy ]; then
+  docker compose logs --tail=80 hocuspocus || true
+  abort_deploy "ERROR: Hocuspocus did not become healthy"
+fi
+
 log "building $target_svc ..."
 docker compose --profile "$target_color" build "$target_svc"
 log "starting $target_svc ..."

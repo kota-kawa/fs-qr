@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import re
 import secrets
@@ -32,7 +31,6 @@ from share_links import (
 )
 from web import (
     enforce_csrf,
-    get_or_create_csrf_token,
     render_template,
     wants_json_response,
 )
@@ -45,8 +43,8 @@ from .note_access import (
     has_note_room_access,
     remember_note_room_access,
 )
-from .note_realtime import hub as note_ws_hub
 from .note_realtime import publish_room_expired
+from .note_collaboration import create_collaboration_token
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -120,7 +118,6 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         if share_token
         else ""
     )
-
     return render_template(
         request,
         "note_room.html",
@@ -131,7 +128,7 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=can_delete_note_room(request, room_id),
-        websocket_csrf_token=get_or_create_csrf_token(request),
+        yjs_token=create_collaboration_token(room_id),
         presence_scope="note",
         presence_key=room_id,
     )
@@ -453,18 +450,9 @@ async def delete_note_room(request: Request, room_id: str):
     await nd.remove_room(room_id)
     forget_note_room_access(request, room_id)
 
-    expired_payload = {
-        "type": "room_expired",
-        "status": "error",
-        "data": {},
-        "error": "Room has expired or was deleted.",
-    }
-    # WS通知とルームクローズを並列実行して高速化
-    await asyncio.gather(
-        note_ws_hub.broadcast(room_id, expired_payload),
-        publish_room_expired(room_id),
-    )
-    await note_ws_hub.close_room(room_id)
+    # Hocuspocus instances subscribe to this shared close event.
+    # 全 Hocuspocus instance が購読する共有クローズイベントを送る。
+    await publish_room_expired(room_id)
 
     if wants_json_response(request):
         return api_ok_response({"redirect_url": "/remove-succes"})

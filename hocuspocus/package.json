@@ -1,0 +1,23 @@
+{
+  "name": "fsqr-note-collaboration",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:client": "esbuild client.js --bundle --format=iife --minify --outfile=../static/js/note_room_realtime/yjs-collaboration.js",
+    "start": "node server.js",
+    "smoke:docker": "node docker-smoke.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@hocuspocus/extension-redis": "4.6.0",
+    "@hocuspocus/server": "4.6.0",
+    "ioredis": "5.6.1",
+    "mysql2": "3.14.4",
+    "yjs": "13.6.32"
+  },
+  "devDependencies": {
+    "@hocuspocus/provider": "4.6.0",
+    "esbuild": "0.28.2",
+    "ws": "8.21.3"
+  }
+}

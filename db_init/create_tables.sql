@@ -84,6 +84,7 @@ CREATE TABLE note_content (
     content LONGTEXT,
     updated_at DATETIME(6),
     version BIGINT NOT NULL DEFAULT 0,
+    yjs_state LONGBLOB NULL,
     INDEX idx_note_content_updated_at (updated_at),
     CONSTRAINT fk_note_content_room_id
         FOREIGN KEY (room_id) REFERENCES note_room(room_id)
@@ -155,4 +156,3 @@ CREATE TABLE task_item_tag (
     CONSTRAINT fk_task_item_tag_tag
         FOREIGN KEY (tag_id) REFERENCES task_tag(tag_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
