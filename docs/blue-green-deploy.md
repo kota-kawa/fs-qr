@@ -21,9 +21,10 @@ upstream fsqr_app {
 | blue  | `web-blue`      | `blue`  | `127.0.0.1:5000`   |
 | green | `web-green`     | `green` | `127.0.0.1:5030`   |
 
-db / redis / scheduler は常駐の単一インスタンスで、Blue-Green の対象外。
-セッション・レート制限・キャッシュ・ロック・presence・Note の WebSocket fanout は
-Redis を共有するので、切替時に blue/green が一瞬重なっても状態を共有できる。
+db / redis / scheduler / Hocuspocus は常駐の共有インスタンスで、webのBlue-Green対象外。
+セッション・レート制限・キャッシュ・ロック・presence・NoteのYjs updateはRedisを共有する。
+デプロイスクリプトはweb切替前にHocuspocus imageを更新し、healthyをgateにする。sidecar更新時は
+既存providerが一度切断されるが、Yjs stateを保持したまま自動再接続する。
 Group の WebSocket fanout は `Group/group_realtime.py` のプロセス内ハブであり、Redis
 横断配信ではない。Blue-Green の待機側は nginx からトラフィックを受けないため、切替時の
 Group 同期を Redis が保証する、という意味ではない。詳細は
@@ -81,10 +82,10 @@ sudo cp "$backup" "$conf"
 sudo nginx -t && sudo nginx -s reload
 ```
 
-3. インフラ（db / redis）を起動:
+3. インフラ（db / redis / Hocuspocus）を起動:
 
    ```bash
-   docker compose up -d db redis
+   docker compose up -d db redis hocuspocus
    ```
 
 4. 最初の色（blue）をデプロイ（scheduler もこの中で起動・更新される）:
@@ -125,8 +126,9 @@ command -v cat cp nginx
 bash scripts/deploy_bluegreen.sh
 ```
 
-スクリプトが自動で「非アクティブな色」をビルド→healthy 待ち→nginx 切替→旧色停止
-を行う。**新コンテナが healthy にならない / `nginx -t` が通らない場合は切替せず中断**
+スクリプトがHocuspocusをbuild→healthy待ちし、その後「非アクティブな色」をbuild→
+healthy待ち→nginx切替→旧色停止を行う。**新コンテナが healthy にならない /
+`nginx -t` が通らない場合は切替せず中断**
 するため、サービスは止まらない。
 
 調整用の環境変数: `HEALTH_TIMEOUT`（既定180秒）, `DRAIN_SECONDS`（既定15秒）,
@@ -159,6 +161,9 @@ bash scripts/deploy_bluegreen.sh
 
 - **scheduler は単一のまま。** 2重起動・スケールさせない（Redis ロックで単一実行前提）。
 
+- **Hocuspocusの認証設定をwebと揃える。** `SECRET_KEY`、`REDIS_URL`、`PUBLIC_SITE_URL`、
+  MySQL接続先を共有する。`PUBLIC_SITE_URL`とブラウザOriginが異なると接続を拒否する。
+
 - **GeoIP 自動更新**は各 web で `./geoip` 共有に書き込む。steady-state は単一 web の
   ため実害は小さいが、起動時 DL が healthy 到達を遅らせる場合は
   `GEOIP_AUTO_UPDATE=false` を web 側 env に設定し、更新を別途運用する。
@@ -183,3 +188,8 @@ sudo sed -ri \
 sudo nginx -t && sudo nginx -s reload
 echo blue > .deploy/active_color
 ```
+
+`yjs_state`はNULL許容の追加列なので、旧webはそのまま`content`を読み書きできる。旧版へ戻す間は
+Hocuspocusを停止し、旧HTTP/WebSocketとYjsから同一roomへ同時に書き込ませない。新版へ戻すと、
+plain text mirrorとYjs stateの差を検出してplain textからstateを再生成する。完全に戻す必要がある
+場合だけ、全Note接続を停止した後にmigration downgradeで`yjs_state`列を削除する。
