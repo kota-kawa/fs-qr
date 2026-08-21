@@ -25,9 +25,8 @@ SUPPORTED_LANGUAGES = (
     "ar",
 )
 DEFAULT_LANGUAGE = "ja"
-# AdSense 審査中は、公開ページを日本語へ一時的に固定する。
-# Set this switch to False when the multilingual feature is restored.
-JAPANESE_ONLY_MODE = True
+# 多言語版を公開する。審査対応などで一時停止する場合は True に切り替える。
+JAPANESE_ONLY_MODE = False
 LANGUAGE_COOKIE_NAME = "fsqr_language"
 LANGUAGE_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60
 current_language_ctx: ContextVar[str] = ContextVar("current_language", default="ja")

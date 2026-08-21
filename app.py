@@ -40,6 +40,7 @@ from settings import (
 )
 from i18n import (
     DEFAULT_LANGUAGE,
+    JAPANESE_ONLY_MODE,
     SUPPORTED_LANGUAGES,
     is_language_query_only,
     normalize_language,
@@ -131,10 +132,10 @@ async def set_locale_middleware(request: Request, call_next):
 
 
 @app.middleware("http")
-async def pause_non_japanese_language_queries(request: Request, call_next):
-    # 日本語以外の ?lang= は、全ルーター共通で日本語 canonical URL へ戻す。
+async def redirect_paused_language_queries(request: Request, call_next):
+    # 多言語版を一時停止する設定のときだけ、非日本語の ?lang= を戻す。
     language = request.query_params.get("lang", "")
-    if language and not is_language_query_only(request):
+    if JAPANESE_ONLY_MODE and language and not is_language_query_only(request):
         normalized = normalize_language(language)
         if normalized in SUPPORTED_LANGUAGES and normalized != DEFAULT_LANGUAGE:
             url = request.url.replace(query="")

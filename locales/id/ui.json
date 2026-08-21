@@ -63,5 +63,8 @@
   "task.delete_room_description": "Only the creator can delete this room and its tasks.",
   "task.delete_room_confirm_message": "Delete this task room and every task in it? This cannot be undone.",
   "task.delete_room_button": "Delete room",
-  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser."
+  "seo.task.intent": "A simple kanban task board for tracking work after sharing files or notes. Share a room URL, ID, and password to manage tasks together in the browser.",
+  "home.uses.title": "Four ways to use FS!QR",
+  "home.description": "FS!QR is a free, browser-based sharing service that requires no app, account, or registration. Use QR codes, group rooms, note rooms, and task boards to transfer files, share text, and manage work between PCs, smartphones, and tablets. No cable or Bluetooth is needed—just open a URL to get started.",
+  "home.task.description": "A Kanban-style task board you can use by sharing a URL. Organize team work across three columns—To do, In progress, and Done—with due dates, priorities, and tags."
 }

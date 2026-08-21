@@ -476,9 +476,6 @@ msgstr "404 - Pagina non trovata | FS!QR"
 msgid "4K動画1分"
 msgstr "1 minuto di video 4K"
 
-msgid "4つの使い方"
-msgstr "4つのIstruzioni per l'uso"
-
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "Differenze fondamentali tra le frequenze a 5 GHz e 2,4 GHz"
 
@@ -1865,14 +1862,6 @@ msgstr ""
 "gruppo e stanza delle note. Nessun cavo o Bluetooth necessario; basta "
 "aprire un URL per iniziare."
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS QR）は、アプリ・アカウント不要でNessuna registrazione "
-"richiesta・Gratisで使えるBrowser WebベースのCondividiサービス.Codice "
-"QR・GruppoStanza・NotaStanza・タスクボードの4つのIstruzioni per "
-"l'usoで、PC・スマートフォン・Schedaレット間のTrasferimento file、condivisione di "
-"testo、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR è un servizio di condivisione file gratuito. Invia e gestisci "
@@ -2884,9 +2873,6 @@ msgstr "Copiare l'URL e aprirlo manualmente"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLをCondividiしてinvita membri"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLをCondividiして使うカンバン式タスクボード.未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr ""
 "URLをCondividiするだけで、みんなのメモがひとつにつながる。Nessuna registrazione "
@@ -3278,6 +3264,23 @@ msgstr "Solo il creatore può eliminare la stanza e i file caricati."
 msgid "group.delete_room_title"
 msgstr "Termina stanza"
 
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Usa iCloud (Apple), Google Foto o OneDrive per eseguire il backup "
@@ -3653,9 +3656,6 @@ msgid "「Files by Google」アプリ、または端末にプリインストー�
 msgstr ""
 "Avvia l'app \"Files by Google\" o le app \"I miei file\" e \"File\" "
 "preinstallate sul tuo dispositivo."
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「Condivisione file sicuraリンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -4773,9 +4773,6 @@ msgstr "Perché le foto perdono qualità durante l'invio?"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "Perché non si possono inviare file di grandi dimensioni via email?"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFをCaricaだけで、相手に渡すためのScarica用URLやCodice QRをその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr ", seleziona e carica i file che desideri condividere."
 
@@ -5039,9 +5036,6 @@ msgstr ") fanno parte dei presenti Termini."
 
 msgid "を押すと、即座に録画が始まります。"
 msgstr "per avviare immediatamente la registrazione."
-
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成してInvia方法が最適."
 
 msgid "を選択します。"
 msgstr "e selezionalo."
@@ -11497,6 +11491,9 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "Selezione di una linea di rete stabile"
 
+msgid "安心の自動削除機能"
+msgstr "安心のEliminazione automatica機能"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "Dopo la condivisione: conferma l'avvenuta condivisione e l'eliminazione"
 
@@ -13246,6 +13243,9 @@ msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!Q
 msgstr ""
 "Nessuna registrazione richiestaのCondividiNota｜リアルタイムModifica "
 "collaborativaならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "Nessuna registrazione richiesta・URLCondividiで即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr ""

@@ -1,11 +1,11 @@
-"""SEO-related tests for the temporary Japanese-only review mode.
+"""SEO-related multilingual tests.
 
 These cover:
 - sitemap.xml lists canonical URLs without sitemap-managed hreflang alternates
-- public pages keep Japanese metadata while multilingual output is paused
-- geo.region and geo.placename stay on the Japanese canonical region
-- JSON-LD inLanguage stays on the Japanese locale
-- non-Japanese language queries redirect to the Japanese canonical URL
+- meta description / og:description / title are translated for every locale
+- geo.region and geo.placename adapt to the request locale
+- JSON-LD inLanguage matches the request locale
+- Arabic responses set dir="rtl"
 - operation pages are noindex during AdSense review
 """
 
@@ -118,105 +118,147 @@ def test_adsense_risk_copy_does_not_reappear_in_public_copy_sources():
     assert offenders == []
 
 
-def test_home_meta_description_stays_japanese_during_review(
+def test_home_meta_description_is_translated_for_every_locale(
     test_client: TestClient,
 ):
-    """All locale cookies must resolve to the Japanese canonical content."""
+    """Meta descriptions must use the selected locale rather than a fallback."""
     from i18n import SUPPORTED_LANGUAGES
+
+    language_markers = {
+        "ja": "日本語",
+        "en": "free file sharing",
+        "zh-CN": "免费",
+        "zh-TW": "免費",
+        "ko": "무료",
+        "fr": "gratuit",
+        "es": "gratuito",
+        "de": "kostenlos",
+        "pt": "gratuito",
+        "it": "gratuito",
+        "ru": "бесплат",
+        "nl": "gratis",
+        "hi": "मुफ्त",
+        "bn": "বিনামূল্যে",
+        "vi": "miễn phí",
+        "th": "ฟรี",
+        "id": "gratis",
+        "tr": "ücretsiz",
+        "uk": "безкоштов",
+        "pl": "darmow",
+        "sw": "bila malipo",
+        "ar": "مجاني",
+    }
 
     for language in SUPPORTED_LANGUAGES:
         cookie = {"Cookie": f"fsqr_language={language}"}
         response = test_client.get("/", headers=cookie)
         assert response.status_code == 200, language
-        assert response.headers["content-language"] == "ja"
-        assert '<html lang="ja"' in response.text
+        assert response.headers["content-language"] == language
+        assert f'<html lang="{language}"' in response.text
 
         match = DESC_RE.search(response.text)
         assert match, f"{language}: no meta description"
-        assert "日本語ファイル共有サービス" in match.group(1)
+        assert language_markers[language].lower() in match.group(1).lower(), language
 
 
 def test_target_pages_keep_page_specific_meta_descriptions(test_client: TestClient):
     routes = {
-        "/": "登録不要",
-        "/group_menu": "アカウント不要",
-        "/group": "グループファイル共有ページ",
-        "/note_menu": "リアルタイム同時編集",
-        "/note": "議事録を同時編集",
-        "/task_menu": "タスク",
-        "/task": "タスク",
-        "/fs-qr_menu": "アプリ不要",
-        "/fs-qr": "共有リンク",
+        "/": ("登録不要", "no registration"),
+        "/group_menu": ("アカウント不要", "without accounts"),
+        "/group": ("グループファイル共有ページ", "without registration"),
+        "/note_menu": ("リアルタイム同時編集", "collaborative note"),
+        "/note": ("議事録を同時編集", "co-edit meeting notes"),
+        "/fs-qr_menu": ("アプリ不要", "No app"),
+        "/fs-qr": ("共有リンク", "share them by QR code or link"),
     }
 
-    for route, marker in routes.items():
+    for route, (ja_marker, en_marker) in routes.items():
         response_ja = test_client.get(route)
         assert response_ja.status_code == 200, route
         match_ja = DESC_RE.search(response_ja.text)
         assert match_ja, f"{route}: no Japanese meta description"
-        assert marker in match_ja.group(1), route
+        assert ja_marker in match_ja.group(1), route
+
+        response_en = test_client.get(f"{route}?lang=en")
+        assert response_en.status_code == 200, route
+        match_en = DESC_RE.search(response_en.text)
+        assert match_en, f"{route}: no English meta description"
+        desc_en = match_en.group(1)
+        assert en_marker.lower() in desc_en.lower(), route
+        assert "QR code transfers, group file sharing" not in desc_en, route
 
 
-def test_non_japanese_language_query_redirects_to_japanese_canonical(
-    test_client: TestClient,
-):
+def test_target_pages_render_seo_intent_text_in_english(test_client: TestClient):
+    routes = {
+        "/": "file transfer",
+        "/group_menu": "shared folder",
+        "/group": "shared folder",
+        "/note_menu": "meeting notes",
+        "/note": "meeting notes",
+        "/fs-qr_menu": "time-limited shares",
+        "/fs-qr": "time-limited shares",
+    }
+
+    for route, marker in routes.items():
+        response = test_client.get(f"{route}?lang=en")
+        assert response.status_code == 200, route
+        assert marker in response.text, route
+        assert "seo." not in response.text, route
+
+
+def test_localized_language_query_is_indexable(test_client: TestClient):
     response = test_client.get("/?lang=en")
-    assert response.status_code == 301
-    assert response.headers["location"].endswith("/")
+    assert response.status_code == 200
+    assert '<meta name="robots" content="index, follow">' in response.text
+    assert '<meta name="googlebot" content="index, follow,' in response.text
 
 
-def test_home_geo_region_stays_japanese_during_review(test_client: TestClient):
-    from i18n import SUPPORTED_LANGUAGES
+def test_home_geo_region_adapts_to_locale(test_client: TestClient):
+    from i18n import GEO_REGION_MAP, SUPPORTED_LANGUAGES
 
     region_re = re.compile(r'<meta name="geo\.region" content="([^"]+)"')
 
     for language in SUPPORTED_LANGUAGES:
+        region = GEO_REGION_MAP[language][0]
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         match = region_re.search(response.text)
         assert match, f"{language}: no geo.region meta"
-        assert match.group(1) == "JP"
+        assert match.group(1) == region, language
 
 
-def test_home_jsonld_inlanguage_stays_japanese_during_review(
-    test_client: TestClient,
-):
-    from i18n import SUPPORTED_LANGUAGES
+def test_home_jsonld_inlanguage_matches_request_locale(test_client: TestClient):
+    from i18n import SCHEMA_LANGUAGE_MAP, SUPPORTED_LANGUAGES
 
     pattern = re.compile(r'"inLanguage":\s*"([^"]+)"')
 
     for language in SUPPORTED_LANGUAGES:
+        in_language = SCHEMA_LANGUAGE_MAP[language]
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200, language
         matches = pattern.findall(response.text)
         assert matches, f"{language}: no JSON-LD inLanguage"
-        assert all(m == "ja-JP" for m in matches)
+        assert all(m == in_language for m in matches), language
 
 
-def test_arabic_cookie_stays_japanese_ltr_during_review(test_client: TestClient):
+def test_arabic_renders_with_rtl_direction(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=ar"})
     assert response.status_code == 200
-    assert re.search(r'<html[^>]*\blang="ja"[^>]*\bdir="ltr"', response.text), (
-        'Japanese-only mode must render dir="ltr"'
+    assert re.search(r'<html[^>]*\blang="ar"[^>]*\bdir="rtl"', response.text), (
+        'Arabic responses must include dir="rtl" on the <html> element'
     )
 
 
-def test_home_hreflang_alternates_are_limited_during_adsense_review(
+def test_home_hreflang_alternates_include_every_supported_language(
     test_client: TestClient,
 ):
+    from i18n import SUPPORTED_LANGUAGES
+
     response = test_client.get("/")
     assert response.status_code == 200
 
     hreflangs = set(re.findall(r'rel="alternate"\s+hreflang="([^"]+)"', response.text))
-    assert hreflangs == {"ja", "x-default"}
-
-
-def test_non_default_language_pages_are_redirected_during_review(
-    test_client: TestClient,
-):
-    response = test_client.get("/?lang=en")
-    assert response.status_code == 301
-    assert response.headers["location"].endswith("/")
+    assert hreflangs == {*SUPPORTED_LANGUAGES, "x-default"}
 
 
 def test_functional_pages_are_noindex_for_adsense_review(test_client: TestClient):

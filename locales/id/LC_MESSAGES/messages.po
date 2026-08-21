@@ -473,9 +473,6 @@ msgstr "404 - Halaman tidak ditemukan | FS!QR"
 msgid "4K動画1分"
 msgstr "1 menit video 4K"
 
-msgid "4つの使い方"
-msgstr "4つのCara Penggunaan"
-
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "Perbedaan Utama Antara Frekuensi 5 GHz dan 2,4 GHz"
 
@@ -1785,13 +1782,6 @@ msgstr ""
 "ruang grup, dan ruang catatan. Tanpa kabel atau Bluetooth; cukup buka URL"
 " untuk memulai."
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS QR）は、アプリ・アカウント不要でTanpa registrasi・Gratisで使えるBrowser "
-"webベースのBagikanサービス.Kode QR・GrupRuang・CatatanRuang・タスクボードの4つのCara "
-"Penggunaanで、PC・スマートフォン・Tabレット間のTransfer file、berbagi "
-"teks、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR adalah layanan berbagi file gratis. Kirim dan kelola data dengan "
@@ -2778,9 +2768,6 @@ msgstr "Salin URL dan buka secara manual"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLをBagikanしてundang anggota"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLをBagikanして使うカンバン式タスクボード.未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr ""
 "URLをBagikanするだけで、みんなのメモがひとつにつながる。Tanpa registrasi・Simpan "
@@ -3168,6 +3155,23 @@ msgstr ""
 msgid "group.delete_room_title"
 msgstr "Tutup Ruang"
 
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Gunakan layanan seperti iCloud (Apple), Google Photos, atau OneDrive "
@@ -3542,9 +3546,6 @@ msgid "「Files by Google」アプリ、または端末にプリインストー�
 msgstr ""
 "Luncurkan aplikasi \"Files by Google\" atau aplikasi \"File Saya\" dan "
 "\"File\" yang sudah diinstal sebelumnya di perangkat Anda."
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「berbagi file dengan akses yang dibatasi ID dan kata sandiリンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -4652,9 +4653,6 @@ msgstr "Mengapa Kualitas Foto Menurun Saat Dikirim"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "Mengapa File Berukuran Besar Tidak Bisa Dikirim Melalui Email?"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFをUnggahだけで、相手に渡すためのUnduh用URLやKode QRをその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr "Pilih file yang ingin dibagikan dan unggah."
 
@@ -4920,9 +4918,6 @@ msgstr ") merupakan bagian dari Ketentuan ini."
 
 msgid "を押すと、即座に録画が始まります。"
 msgstr "untuk langsung memulai perekaman."
-
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成してKirim方法が最適."
 
 msgid "を選択します。"
 msgstr "untuk menerapkannya."
@@ -11237,6 +11232,9 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "Gunakan koneksi jaringan yang stabil"
 
+msgid "安心の自動削除機能"
+msgstr "安心のHapus otomatis機能"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "Setelah selesai: Pastikan file sudah diterima dan aksesnya ditutup"
 
@@ -12945,6 +12943,9 @@ msgstr "Tanpa registrasiのBagikanCatatan｜FS!QR Note"
 
 msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note"
 msgstr "Tanpa registrasiのBagikanCatatan｜リアルタイムPengeditan kolaboratifならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "Tanpa registrasi・URLBagikanで即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr ""

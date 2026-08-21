@@ -416,9 +416,6 @@ msgstr "404 - 페이지를 찾을 수 없습니다 | FS!QR"
 msgid "4K動画1分"
 msgstr "4K 동영상 1분"
 
-msgid "4つの使い方"
-msgstr "4つの사용 방법"
-
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "5GHz와 2.4GHz 주파수 특성: 반드시 알아두어야 할 차이점"
 
@@ -1464,12 +1461,6 @@ msgstr ""
 " 3가지 방법으로 PC, 스마트폰, 태블릿 간 파일 전송 및 텍스트 공유가 가능합니다. 케이블이나 Bluetooth 없이 URL만 "
 "열면 바로 사용할 수 있습니다."
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS QR）は、アプリ・アカウント不要で가입 불필요・무료で使える웹 브라우저ベースの공유サービス입니다.QR "
-"코드・그룹룸・노트룸・タスクボードの4つの사용 방법で、PC・スマートフォン・탭レット間の파일 전송、텍스트 "
-"공유、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR(에프에스 QR)은 무료로 사용할 수 있는 일본어 파일 공유 서비스입니다. QR 코드 생성, 그룹 파일 공유, 실시간 노트"
@@ -2290,9 +2281,6 @@ msgstr "URL을 복사해서 수동으로 열기"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLを공유して멤버 초대"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLを공유して使うカンバン式タスクボード입니다.未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr "URLを공유するだけで、みんなのメモがひとつにつながる。가입 불필요・자동 저장のリアルタイム공유노트。"
 
@@ -2604,6 +2592,23 @@ msgstr "생성자만 룸과 업로드된 파일을 삭제할 수 있습니다."
 
 msgid "group.delete_room_title"
 msgstr "룸 종료"
+
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
@@ -2921,9 +2926,6 @@ msgstr ""
 
 msgid "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。"
 msgstr "'Files by Google' 앱 또는 기기에 기본 설치된 '내 파일', '파일' 앱을 실행합니다."
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「안전한 파일 공유リンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -3774,9 +3776,6 @@ msgstr "왜 사진을 보내면 화질이 떨어지나"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "대용량 파일은 왜 이메일로 보낼 수 없을까요?"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFを업로드하기だけで、相手に渡すための다운로드用URLやQR 코드をその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr "에 접속하여 공유할 파일을 선택하고 업로드합니다."
 
@@ -3981,9 +3980,6 @@ msgstr "포함)은 본 약관의 일부를 구성합니다."
 
 msgid "を押すと、即座に録画が始まります。"
 msgstr "을 누르면 바로 녹화가 시작됩니다."
-
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成して보내기方法が最適입니다."
 
 msgid "を選択します。"
 msgstr "를 선택합니다."
@@ -9108,6 +9104,9 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "안정적인 네트워크 회선의 선택"
 
+msgid "安心の自動削除機能"
+msgstr "安心の자동 삭제機能"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "완료 후: 공유 사실 및 삭제 여부 확인하기"
 
@@ -10446,6 +10445,9 @@ msgstr "가입 불필요の공유노트｜FS!QR Note"
 
 msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note"
 msgstr "가입 불필요の공유노트｜リアルタイム공동 편집ならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "가입 불필요・URL공유で即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr "가입 불필요・アプリ不要で、암호화したファイルをQR 코드や공유情報から一時공유できるWebアプリケーション"

@@ -410,9 +410,6 @@ msgstr "404 - 找不到頁面 | FS!QR"
 msgid "4K動画1分"
 msgstr "4K 影片 1 分鐘"
 
-msgid "4つの使い方"
-msgstr "4つの使用方法"
-
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "5GHz與2.4GHz的電波特性：必須了解的決定性差異"
 
@@ -1339,11 +1336,6 @@ msgstr ""
 "FS!QR 是一款無需安裝應用程式或註冊帳號、完全免費的瀏覽器端檔案分享服務。透過 QR Code、群組房間和筆記房間三種方式，實現 "
 "PC、智慧型手機、平板之間的檔案傳輸和文字分享。無需傳輸線或藍牙，開啟 URL 即可立即使用。"
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS QR）は、アプリ・アカウント不要で無需註冊・免費で使えるWeb 瀏覽器ベースの分享サービス。QR "
-"Code・群組房間・筆記房間・タスクボードの4つの使用方法で、PC・スマートフォン・標籤頁レット間の檔案傳輸、文字分享、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR 是一款免費的檔案分享服務。透過 QR Code "
@@ -2084,9 +2076,6 @@ msgstr "複製 URL 並手動開啟"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLを分享して邀請成員"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLを分享して使うカンバン式タスクボード。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr "URLを分享するだけで、みんなのメモがひとつにつながる。無需註冊・自動儲存のリアルタイム分享筆記。"
 
@@ -2348,6 +2337,23 @@ msgstr "只有建立者可以刪除房間和已上傳的檔案。"
 
 msgid "group.delete_room_title"
 msgstr "關閉房間"
+
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr "利用iCloud（Apple）、Google相簿、OneDrive等服務將相片自動備份到雲端。備份完成後，刪除手機上的原始相片（或將其轉換為最佳化後的較小尺寸），即可顯著減少手機本身的佔用空間。"
@@ -2634,9 +2640,6 @@ msgstr "。例如「500MB」和「1GB」相比，1GB 是 2 倍大。（嚴格來
 
 msgid "「Files by Google」アプリ、または端末にプリインストールされている「マイファイル」「ファイル」アプリを起動します。"
 msgstr "啟動裝置上預先安裝的「Google 檔案」應用程式或「我的檔案」和「檔案」應用程式。"
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「以 ID 與密碼限制存取的檔案分享リンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -3384,9 +3387,6 @@ msgstr "為什麼傳送照片會降低畫質"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "為什麼不能透過電子郵件傳送大檔案？"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFを上傳だけで、相手に渡すための下載用URLやQR Codeをその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr "存取並選擇欲分享的檔案進行上傳。"
 
@@ -3569,9 +3569,6 @@ msgstr "）構成本條款的一部分。"
 
 msgid "を押すと、即座に録画が始まります。"
 msgstr "即可立即開始錄製。"
-
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成して傳送方法が最適。"
 
 msgid "を選択します。"
 msgstr "即可套用。"
@@ -8141,6 +8138,9 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "選擇穩定的網路連線"
 
+msgid "安心の自動削除機能"
+msgstr "安心の自動刪除機能"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "完成後：確認分享的事實與刪除"
 
@@ -9306,6 +9306,9 @@ msgstr "無需註冊の分享筆記｜FS!QR Note"
 
 msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note"
 msgstr "無需註冊の分享筆記｜リアルタイム協同編輯ならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "無需註冊・URL分享で即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr "無需註冊・アプリ不要で、加密したファイルをQR Codeや分享情報から一時分享できるWebアプリケーション"

@@ -46,41 +46,41 @@ def test_index(test_client: TestClient):
     assert 'placeholder="パスワード"' in response.text
 
 
-def test_index_ignores_non_japanese_language_cookie(test_client: TestClient):
+def test_index_uses_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert 'lang="ja"' in response.text
-    assert "ファイル共有メニュー" in response.text
-    assert "設定" in response.text
-    assert response.headers["content-language"] == "ja"
+    assert 'lang="en"' in response.text
+    assert "File Sharing Menu" in response.text
+    assert "Settings" in response.text
+    assert response.headers["content-language"] == "en"
     assert "Cookie" in response.headers["vary"]
 
 
 def test_index_uses_simplified_chinese_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-CN"})
     assert response.status_code == 200
-    assert 'lang="ja"' in response.text
-    assert "ファイル共有メニュー" in response.text
-    assert response.headers["content-language"] == "ja"
+    assert 'lang="zh-CN"' in response.text
+    assert "文件共享菜单" in response.text
+    assert response.headers["content-language"] == "zh-CN"
 
 
 def test_index_uses_traditional_chinese_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=zh-TW"})
     assert response.status_code == 200
-    assert 'lang="ja"' in response.text
-    assert "ファイル共有メニュー" in response.text
-    assert response.headers["content-language"] == "ja"
+    assert 'lang="zh-TW"' in response.text
+    assert "檔案共享選單" in response.text
+    assert response.headers["content-language"] == "zh-TW"
 
 
 def test_index_uses_korean_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=ko"})
     assert response.status_code == 200
-    assert 'lang="ja"' in response.text
-    assert "ファイル共有メニュー" in response.text
-    assert response.headers["content-language"] == "ja"
+    assert 'lang="ko"' in response.text
+    assert "파일 공유 메뉴" in response.text
+    assert response.headers["content-language"] == "ko"
 
 
-def test_index_uses_japanese_for_every_supported_language_cookie(
+def test_index_accepts_every_supported_language_cookie(
     test_client: TestClient,
 ):
     from i18n import SUPPORTED_LANGUAGES
@@ -88,19 +88,20 @@ def test_index_uses_japanese_for_every_supported_language_cookie(
     for language in SUPPORTED_LANGUAGES:
         response = test_client.get("/", headers={"Cookie": f"fsqr_language={language}"})
         assert response.status_code == 200
-        assert 'lang="ja"' in response.text
-        assert response.headers["content-language"] == "ja"
+        assert f'lang="{language}"' in response.text
+        assert response.headers["content-language"] == language
 
 
-def test_settings_language_switcher_is_temporarily_japanese_only(
+def test_settings_language_switcher_exposes_every_supported_language(
     test_client: TestClient,
 ):
+    from i18n import SUPPORTED_LANGUAGES
+
     response = test_client.get("/")
     assert response.status_code == 200
-    assert 'value="ja"' in response.text
-    assert 'data-value="ja"' in response.text
-    assert 'value="en"' not in response.text
-    assert 'data-value="en"' not in response.text
+    for language in SUPPORTED_LANGUAGES:
+        assert f'value="{language}"' in response.text
+        assert f'data-value="{language}"' in response.text
 
 
 def test_index_uses_native_language_labels_regardless_of_ui_language(
@@ -115,57 +116,63 @@ def test_index_uses_native_language_labels_regardless_of_ui_language(
         )
         assert response.status_code == 200
         assert ">日本語<" in response.text
-        assert ">English<" not in response.text
-        assert ">简体中文<" not in response.text
-        assert ">繁體中文<" not in response.text
-        assert ">한국어<" not in response.text
+        assert ">English<" in response.text
+        assert ">简体中文<" in response.text
+        assert ">繁體中文<" in response.text
+        assert ">한국어<" in response.text
 
 
-def test_note_page_stays_japanese_during_review(test_client: TestClient):
+def test_note_page_uses_translated_editor_helper_text(test_client: TestClient):
     response = test_client.get("/note", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert "共有ノート（最大10000文字）" in response.text
-    assert "最大10000文字まで入力可能です。" in response.text
-    assert "Shared note (up to 10000 characters)" not in response.text
+    assert "Shared note (up to 10000 characters)" in response.text
+    assert "You can enter up to 10000 characters." in response.text
+    assert "最大10000文字まで入力可能です。" not in response.text
 
 
-def test_fsqr_upload_page_stays_japanese_during_review(test_client: TestClient):
+def test_fsqr_upload_page_uses_translated_upload_limit_hint(test_client: TestClient):
     response = test_client.get("/fs-qr", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200
-    assert "※最大30ファイル、合計1024MBまでアップロードできます。" in response.text
-    assert (
-        "* You can upload up to 30 files, totaling up to 1024 MB." not in response.text
-    )
+    assert "* You can upload up to 30 files, totaling up to 1024 MB." in response.text
+    assert "※最大30ファイル、合計500MBまで扱えます。" not in response.text
 
 
-def test_retention_preview_message_stays_japanese_during_review(
+def test_retention_preview_message_is_translated_for_english(
     test_client: TestClient,
 ):
-    for path in ("/create_room", "/create_note_room"):
+    for path in ("/fs-qr", "/create_room", "/create_note_room"):
         response = test_client.get(path, headers={"Cookie": "fsqr_language=en"})
         assert response.status_code == 200
-        assert r"\u81ea\u52d5\u524a\u9664\u3055\u308c\u307e\u3059" in response.text
-        assert "Will be automatically deleted around {time}" not in response.text
+        assert "Will be automatically deleted around {time}" in response.text
+        assert "ごろに自動削除されます" not in response.text
+        assert (
+            r"\u3054\u308d\u306b\u81ea\u52d5\u524a\u9664\u3055\u308c\u307e\u3059"
+            not in response.text
+        )
 
 
-def test_retention_preview_message_stays_japanese_for_chinese_cookie(
+def test_retention_preview_message_is_translated_for_chinese(
     test_client: TestClient,
 ):
-    for path in ("/create_room", "/create_note_room"):
+    translated = "将在 {time} 左右自动删除"
+    for path in ("/fs-qr", "/create_room", "/create_note_room"):
         response = test_client.get(path, headers={"Cookie": "fsqr_language=zh-CN"})
         assert response.status_code == 200
-        assert r"\u81ea\u52d5\u524a\u9664\u3055\u308c\u307e\u3059" in response.text
-        assert "将在 {time} 左右自动删除" not in response.text
+        assert (
+            translated in response.text
+            or translated.encode("unicode_escape").decode() in response.text
+        )
+        assert "ごろに自動削除されます" not in response.text
 
 
 @pytest.mark.parametrize("language", ["en", "zh-CN", "zh-TW", "ko"])
-def test_non_japanese_language_queries_are_redirected(
+def test_non_japanese_language_queries_render_localized_pages(
     test_client: TestClient, language: str
 ):
     for path in LOCALIZED_PUBLIC_PATHS:
         response = test_client.get(f"{path}?lang={language}")
-        assert response.status_code == 301, path
-        assert response.headers["location"].endswith(path)
+        assert response.status_code == 200, path
+        assert response.headers["content-language"] == language, path
 
 
 def test_about(test_client: TestClient):

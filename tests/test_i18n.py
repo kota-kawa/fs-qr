@@ -195,15 +195,7 @@ def test_jinja_gettext_keeps_json_ld_valid_when_translation_has_quotes():
     assert document["name"] == "Copier l'URL"
 
 
-def test_multilingual_route_is_rendered_by_jinja_when_mode_is_enabled(
-    test_client, monkeypatch
-):
-    import i18n_support.language as language_support
-    import web
-
-    monkeypatch.setattr(language_support, "JAPANESE_ONLY_MODE", False)
-    monkeypatch.setattr(web, "JAPANESE_ONLY_MODE", False)
-
+def test_multilingual_route_is_rendered_by_jinja(test_client):
     response = test_client.get("/?lang=en")
 
     assert response.status_code == 200
@@ -219,15 +211,7 @@ def test_multilingual_route_is_rendered_by_jinja_when_mode_is_enabled(
     "path",
     ["/", "/fs-qr_menu", "/group_menu", "/note_menu", "/task_menu", "/articles"],
 )
-def test_multilingual_public_routes_render_without_postprocessing(
-    test_client, monkeypatch, path
-):
-    import i18n_support.language as language_support
-    import web
-
-    monkeypatch.setattr(language_support, "JAPANESE_ONLY_MODE", False)
-    monkeypatch.setattr(web, "JAPANESE_ONLY_MODE", False)
-
+def test_multilingual_public_routes_render_without_postprocessing(test_client, path):
     response = test_client.get(path, headers={"Cookie": "fsqr_language=fr"})
 
     assert response.status_code == 200, response.text[:500]
@@ -235,19 +219,25 @@ def test_multilingual_public_routes_render_without_postprocessing(
     assert '<html lang="fr" dir="ltr">' in response.text
 
 
-def test_language_query_only_accepts_japanese_only_during_review():
+def test_language_query_only_accepts_supported_language_aliases():
     import i18n
 
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "en")]))
+    )
+    assert i18n.is_language_query_only(
+        DummyRequest(query_params=DummyQueryParams([("lang", "zh-cn")]))
+    )
+    for language in ("zh-tw", "ko", "fr", "es", "de-DE", "vi-VN", "th-TH"):
+        assert i18n.is_language_query_only(
+            DummyRequest(query_params=DummyQueryParams([("lang", language)]))
+        )
     assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "ja")]))
     )
     assert i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "jp")]))
     )
-    for language in ("en", "zh-cn", "zh-tw", "ko", "fr", "es", "de-DE"):
-        assert not i18n.is_language_query_only(
-            DummyRequest(query_params=DummyQueryParams([("lang", language)]))
-        )
     assert not i18n.is_language_query_only(
         DummyRequest(query_params=DummyQueryParams([("lang", "xyz")]))
     )
