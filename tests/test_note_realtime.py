@@ -1,73 +1,43 @@
 import asyncio
+import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from Note import note_realtime
 
 
-def test_room_hub_connect_disconnect_tracks_connections_in_redis():
-    hub = note_realtime.RoomHub()
-    websocket = MagicMock()
-    websocket.accept = AsyncMock()
-
-    register_pipeline = MagicMock()
-    register_pipeline.execute = AsyncMock(return_value=[1, 1])
-
-    unregister_pipeline = MagicMock()
-    unregister_pipeline.execute = AsyncMock(return_value=[1, 1, 0, 0])
-
-    redis_client = MagicMock()
-    redis_client.pipeline.side_effect = [register_pipeline, unregister_pipeline]
-    redis_client.delete = AsyncMock()
-
-    room_id = "abc123"
-    room_key = f"note:ws:room:{room_id}:connections"
-    instance_key = f"note:ws:instance:{note_realtime.INSTANCE_ID}:connections"
+def test_publish_room_expired_sends_hocuspocus_control_event():
+    client = MagicMock()
+    client.publish = AsyncMock(return_value=1)
 
     async def scenario():
-        with patch(
-            "Note.note_realtime.get_redis", new=AsyncMock(return_value=redis_client)
-        ):
-            await hub.connect(room_id, websocket)
-            connection_id = hub._rooms[room_id][websocket]
-            member = f"{note_realtime.INSTANCE_ID}:{room_id}:{connection_id}"
+        with patch("Note.note_realtime.get_redis", new=AsyncMock(return_value=client)):
+            assert await note_realtime.publish_room_expired("room1") is True
 
-            await hub.disconnect(room_id, websocket)
+    asyncio.run(scenario())
+    channel, raw = client.publish.await_args.args
+    assert channel == "note:room:room1"
+    assert json.loads(raw) == {
+        "room_id": "room1",
+        "payload": {"type": "room_expired"},
+    }
 
-            register_pipeline.sadd.assert_any_call(room_key, member)
-            register_pipeline.sadd.assert_any_call(instance_key, member)
 
-            unregister_pipeline.srem.assert_any_call(room_key, member)
-            unregister_pipeline.srem.assert_any_call(instance_key, member)
-            unregister_pipeline.scard.assert_any_call(room_key)
-            unregister_pipeline.scard.assert_any_call(instance_key)
-
-            redis_client.delete.assert_any_await(room_key)
-            redis_client.delete.assert_any_await(instance_key)
-            assert room_id not in hub._rooms
+def test_publish_room_expired_degrades_when_redis_is_unavailable():
+    async def scenario():
+        with patch("Note.note_realtime.get_redis", new=AsyncMock(return_value=None)):
+            assert await note_realtime.publish_room_expired("room1") is False
 
     asyncio.run(scenario())
 
 
-def test_room_hub_disconnect_all_unregisters_every_connection():
-    hub = note_realtime.RoomHub()
-    ws1 = object()
-    ws2 = object()
-    hub._rooms = {"room1": {ws1: "conn1", ws2: "conn2"}}
+def test_shutdown_closes_cached_redis_client():
+    client = MagicMock()
+    client.aclose = AsyncMock()
 
     async def scenario():
-        with (
-            patch.object(
-                hub, "_unregister_connection", new=AsyncMock()
-            ) as unregister_mock,
-            patch.object(
-                hub, "_clear_instance_connections", new=AsyncMock()
-            ) as clear_instance_mock,
-        ):
-            await hub.disconnect_all()
-
-            unregister_mock.assert_any_await("room1", "conn1")
-            unregister_mock.assert_any_await("room1", "conn2")
-            clear_instance_mock.assert_awaited_once()
-            assert hub._rooms == {}
+        note_realtime._redis_client = client
+        await note_realtime.shutdown()
 
     asyncio.run(scenario())
+    client.aclose.assert_awaited_once()
+    assert note_realtime._redis_client is None

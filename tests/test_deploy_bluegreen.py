@@ -16,6 +16,16 @@ def test_nginx_upload_limit_accepts_1gib_files_and_upload_envelopes() -> None:
     assert "client_body_timeout 3600s;" in nginx_config
 
 
+def test_nginx_routes_exact_yjs_endpoint_to_hocuspocus() -> None:
+    """Hocuspocus v4の単一WebSocket endpointをPythonへ誤転送しない。"""
+    nginx_config = (ROOT / "fs-qr.conf").read_text(encoding="utf-8")
+
+    assert "location = /yjs {" in nginx_config
+    assert "proxy_pass http://127.0.0.1:1234;" in nginx_config
+    assert "proxy_set_header Upgrade $http_upgrade;" in nginx_config
+    assert "proxy_send_timeout 3600;" in nginx_config
+
+
 def _write_executable(path: Path, content: str) -> None:
     path.write_text(content)
     path.chmod(path.stat().st_mode | stat.S_IXUSR)
@@ -62,6 +72,10 @@ def _write_docker_stub(fakebin: Path) -> None:
 echo "$@" >> "$DOCKER_LOG"
 if [ "$1" = "inspect" ]; then
   echo healthy
+  exit 0
+fi
+if [ "$1" = "compose" ] && [ "$2" = "ps" ] && [ "$3" = "-q" ]; then
+  echo cid-hocuspocus
   exit 0
 fi
 if [ "$1" = "compose" ] && [ "$4" = "ps" ] && [ "$5" = "-q" ]; then
@@ -145,6 +159,7 @@ def test_deploy_switches_nginx_and_stops_old_slot(tmp_path: Path) -> None:
     result = _run_deploy_script(tmp_path, fakebin, nginx_conf)
 
     assert result.returncode == 0, result.stderr + result.stdout
+    assert "compose up -d --build hocuspocus" in (tmp_path / "docker.log").read_text()
     assert "server 127.0.0.1:5030;        # active" in nginx_conf.read_text()
     assert "server 127.0.0.1:5000 down;   # standby" in nginx_conf.read_text()
     assert (deploy_dir / "active_color").read_text() == "green\n"

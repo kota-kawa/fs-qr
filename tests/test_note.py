@@ -140,8 +140,8 @@ def test_note_room_injects_realtime_limits_into_config(test_client: TestClient):
         "window.__FSQR_APP__.api.setConfig('noteRoomRealtime', Object.freeze({" in html
     )
     assert "maxContentLength" in html
-    assert "selfEditTimeoutMs" in html
-    assert "mergeStatus" in html
+    assert "selfEditTimeoutMs" not in html
+    assert "mergeStatus" not in html
     assert 'id="noteShareQrCode"' in html
     assert 'data-share-url=""' in html
     assert "/static/qrcode.min.js" in html
@@ -340,14 +340,8 @@ def test_note_owner_session_can_delete_room(test_client: TestClient):
         ),
         patch("Note.note_app.nd.remove_room", remove_mock),
         patch(
-            "Note.note_app.note_ws_hub.broadcast", new_callable=AsyncMock
-        ) as broadcast_mock,
-        patch(
             "Note.note_app.publish_room_expired", new_callable=AsyncMock
         ) as publish_mock,
-        patch(
-            "Note.note_app.note_ws_hub.close_room", new_callable=AsyncMock
-        ) as close_mock,
     ):
         create_response = test_client.post(
             "/create_note_room",
@@ -359,9 +353,7 @@ def test_note_owner_session_can_delete_room(test_client: TestClient):
     assert delete_response.status_code == 302
     assert delete_response.headers["location"] == "/remove-succes"
     remove_mock.assert_awaited_once_with(room_id)
-    broadcast_mock.assert_awaited_once()
     publish_mock.assert_awaited_once_with(room_id)
-    close_mock.assert_awaited_once_with(room_id)
 
 
 def test_note_delete_room_requires_owner_session(test_client: TestClient):
@@ -620,11 +612,8 @@ def test_note_api_post_not_found(test_client: TestClient):
     assert response.status_code == 410
 
 
-def test_note_api_post_content_too_long_returns_400(test_client: TestClient):
-    """コンテンツが最大長を超える場合は 400 を返す"""
-    from Note.note_sync import MAX_CONTENT_LENGTH
-
-    long_content = "x" * (MAX_CONTENT_LENGTH + 1)
+def test_note_api_post_is_retired_for_yjs(test_client: TestClient):
+    """旧保存 API は Yjs 状態との分岐を防ぐため 410 を返す。"""
     with (
         patch("Note.note_api.has_note_room_access", return_value=True),
         patch(
@@ -636,16 +625,16 @@ def test_note_api_post_content_too_long_returns_400(test_client: TestClient):
         response = test_client.post(
             "/api/note/abc123",
             json={
-                "content": long_content,
+                "content": "legacy write",
                 "base_version": 0,
                 "original_content": "",
             },
         )
-    assert response.status_code == 400
+    assert response.status_code == 410
 
 
-def test_note_api_post_success_returns_ok(test_client: TestClient):
-    """正常な POST は status=ok を返す"""
+def test_note_api_post_does_not_write_legacy_content(test_client: TestClient):
+    """旧 API は本文を更新せず Yjs WebSocket への移行を要求する。"""
     from datetime import datetime
 
     mock_row = {
@@ -679,15 +668,11 @@ def test_note_api_post_success_returns_ok(test_client: TestClient):
                 "original_content": "original",
             },
         )
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "ok"
-    assert payload["data"]["note_status"] == "ok"
-    assert payload["data"]["version"] == 1
+    assert response.status_code == 410
 
 
-def test_note_api_post_rejects_missing_sync_params(test_client: TestClient):
-    """base_version が未指定の POST は 400 を返す"""
+def test_note_api_post_without_legacy_sync_params_is_retired(test_client: TestClient):
+    """旧同期パラメータの有無に関係なく POST は 410 を返す。"""
     with (
         patch("Note.note_api.has_note_room_access", return_value=True),
         patch(
@@ -700,7 +685,7 @@ def test_note_api_post_rejects_missing_sync_params(test_client: TestClient):
             "/api/note/abc123",
             json={"content": "some content"},
         )
-    assert response.status_code == 400
+    assert response.status_code == 410
     payload = response.json()
     assert payload["status"] == "error"
 

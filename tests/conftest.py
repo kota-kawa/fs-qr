@@ -100,10 +100,6 @@ sys.modules["starsessions.stores"] = mock_starsessions_stores
 mock_starsessions_stores_redis = MagicMock()
 sys.modules["starsessions.stores.redis"] = mock_starsessions_stores_redis
 
-# diff_match_patchモジュールもモック化
-mock_dmp = MagicMock()
-sys.modules["diff_match_patch"] = mock_dmp
-
 # 実際にモジュールとして登録
 sys.modules["database"] = mock_database
 
