@@ -4,7 +4,31 @@
 利用者への説明や、作業途中の経過報告・進捗共有は、すべて日本語で行ってください。コード、コミットメッセージ、識別子など本ガイドラインの他項目で英語表記が定められているものを除き、利用者に向けたテキストは日本語を基本としてください。
 
 ## プロジェクト構成とモジュール構成
-FastAPI のエントリーポイントは `app.py` で、`Core/`、`Group/`、`Note/`、`Admin/`、`Articles/` の各ルーターを接続します。共通のデータベースヘルパーは `fs_data.py` にあり、モジュール固有のデータ処理コードは各パッケージ内（例：`Group/group_data.py`）にあります。HTML テンプレートはモジュールごとの `templates/` フォルダーに配置し、共通レイアウトはルートの `templates/`、静的アセットは `static/` に配置します。MySQL コンテナ用のデータベース初期化 SQL は `db_init/` に格納されています。
+FastAPI のエントリーポイントは `app.py` で、`FSQR/`、`Group/`、`Note/`、`Task/`、`Admin/`、`Articles/` の各 router と、presence / 検索などの横断 router を接続します。共通の DB ヘルパーは `database.py`、起動時 migration は `migration_runner.py`、設定は `settings.py` にあります。機能固有のデータ処理は各パッケージ内（例：`Group/group_data.py`）に置きます。HTML テンプレートはルート `templates/` とモジュールごとの `templates/`、静的アセットは `static/`、翻訳カタログは `locales/`、MySQL の初期 SQL は `db_init/`、運用中の schema 変更は `alembic/` にあります。
+
+構成全体を確認するときは、まず [ARCHITECTURE.md](ARCHITECTURE.md) の「リポジトリの地図」「機能モジュール」「変更箇所からの参照先」を読みます。ここにはフロントエンド、バックエンド、DB / Redis、Docker / nginx、テストの対応関係を集約し、個別ファイルの詳細は重複して記載しません。
+
+## ドキュメントの参照先
+
+追加・整理した文書は、必要な領域だけ読めるように次の入口から辿ります。
+
+- `ARCHITECTURE.md`: リポジトリ全体の設計概要、モジュール境界、データ保存、実行環境、変更時の参照先。
+- `docs/knowledge/README.md`: 再利用可能な知識の索引。
+- `docs/knowledge/debugging.md`: 起動 / DB / Redis / upload / デプロイ / テストの切り分け。
+- `docs/knowledge/realtime.md`: Note / Group の WebSocket、同期、Redis 障害時の注意。
+- `docs/decisions/README.md`: 技術判断の索引と ADR の追加ルール。
+- `docs/decisions/0001-startup-alembic-migrations.md`: 起動時 Alembic migration と DB lock の判断。
+- `docs/decisions/0002-blue-green-deployment.md`: web の Blue-Green 切替と共有インフラの判断。
+- `docs/decisions/0003-note-realtime-redis-pubsub.md`: Note の複数 worker 同期方式の判断。
+- `docs/decisions/0004-browser-side-fsqr-encryption.md`: FSQR のブラウザ側 AES-GCM と保存形式の判断。
+- `docs/blue-green-deploy.md`: Blue-Green の初回セットアップ、切替、sudo、rollback などの運用手順。構成の概要は `ARCHITECTURE.md` から参照します。
+- `docs/eu-readiness.md`: EU 対応に関するデータ取扱い、公開告知、cookie / 広告、運用上の既知 gap。法務・プライバシー文書の変更時に確認します。
+- `locales/README.md`: locale の分割、キー、phrases shard、検証方法。翻訳の詳細はここだけを更新先とします。
+- `spec.md`: 画面文言、エラー表示、命名、テストなどのプロジェクト規約。
+- `README.md`: 利用者向けのセットアップ、技術スタック、CI/CD の説明。今回の作業では変更しません。
+- `CLAUDE.md`: `AGENTS.md` を読むための委譲ファイル。新しい作業ルールをここへ重複記載しません。
+
+作業ログや一時的な環境情報は文書へ保存しません。再利用価値のある新しい知見は `docs/knowledge/`、採用した技術判断と理由は `docs/decisions/` へ追加し、追加した各ファイルをこの索引と `ARCHITECTURE.md` の関連箇所から参照可能にします。
 
 ## ビルド、テスト、開発用コマンド
 - ローカルで Python コマンドを実行する際は `python3` を使用してください。想定される環境には `python` コマンドがありません。
