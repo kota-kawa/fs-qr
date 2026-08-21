@@ -11,6 +11,7 @@
 - [ADR-0003: Note realtime の Redis pub/sub](0003-note-realtime-redis-pubsub.md)
 - [ADR-0004: FSQR のブラウザ側暗号化](0004-browser-side-fsqr-encryption.md)
 - [ADR-0005: Group realtime の Redis pub/sub](0005-group-realtime-redis-pubsub.md)
+- [ADR-0006: Note共同編集をHocuspocus / Yjsへ移行](0006-note-collaboration-hocuspocus-yjs.md)
 
 ## 追加ルール
 

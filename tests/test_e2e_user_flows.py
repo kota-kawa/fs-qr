@@ -343,25 +343,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
             new=AsyncMock(return_value=(True, None, None)),
         ),
         patch("Note.note_app.register_success", new=AsyncMock()),
-        patch(
-            "Note.note_api.sync_note_content",
-            new=AsyncMock(
-                return_value=(
-                    {
-                        "data": {
-                            "note_status": "ok",
-                            "content": "updated note",
-                            "version": 1,
-                        }
-                    },
-                    200,
-                    None,
-                )
-            ),
-        ) as sync_mock,
-        patch("Note.note_app.note_ws_hub.broadcast", new_callable=AsyncMock),
         patch("Note.note_app.publish_room_expired", new_callable=AsyncMock),
-        patch("Note.note_app.note_ws_hub.close_room", new_callable=AsyncMock),
     ):
         assert test_client.get("/note").status_code == 200
         assert test_client.get("/create_note_room").status_code == 200
@@ -397,14 +379,7 @@ def test_e2e_note_room_create_join_sync_share_and_delete(test_client):
                 "original_content": "initial note",
             },
         )
-        assert note_post_response.status_code == 200
-        assert note_post_response.json()["data"]["note_status"] == "ok"
-        sync_mock.assert_awaited_once_with(
-            room_id,
-            "updated note",
-            0,
-            "initial note",
-        )
+        assert note_post_response.status_code == 410
 
         search_client = _fresh_client(test_client)
         search_response = search_client.post(

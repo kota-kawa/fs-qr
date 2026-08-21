@@ -12,6 +12,8 @@
 !static/manifest.json
 !static/manifest_group.json
 !static/manifest_note.json
+!hocuspocus/package.json
+!hocuspocus/package-lock.json
 *.Identifier
 # ログファイルを無視
 
@@ -109,6 +111,7 @@ geoip/*
 
 # ビルドディレクトリを無視
 /build/
+/hocuspocus/node_modules/
 .coverage
 .mypy_cache/
 .pytest_cache/

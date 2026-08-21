@@ -80,8 +80,9 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 2. `app.py` が Proxy headers、Redis セッション、静的ファイル mount、共通 middleware
    を登録する。middleware はセキュリティヘッダー、言語コンテキスト、canonical URL、
    リクエスト終了時の DB session cleanup を担当する。
-3. startup で GeoIP 更新、Alembic upgrade、FSQR の期限切れ掃除、Group / Note realtime の
-   初期化を行う。DB が準備できない場合は、既定では起動を拒否する。
+3. startup で GeoIP 更新、Alembic upgrade、FSQR の期限切れ掃除、Group realtime と
+   Note期限切れcontrol publisherの初期化を行う。DB が準備できない場合は、既定では
+   起動を拒否する。
 4. `app.include_router(...)` で各機能の router を登録し、HTML、JSON API、WebSocket
    の各 endpoint が同じ middleware を通る。
 5. データ層は `database.execute_query()` などを通して MySQL にアクセスする。通常の
@@ -94,7 +95,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 | --- | --- | --- | --- | --- |
 | FSQR | `FSQR/fsqr_app.py` | `FSQR/fsqr_data.py`, `file_validation.py`, `file_serving.py` | `FSQR/templates/`, `static/js/fs_qr_upload/`, `static/js/fsqr_landing/` | `tests/test_fsqr.py`, `tests/test_file_serving.py` |
 | Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py` |
-| Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_sync.py`, `note_export.py` | `Note/templates/`, `static/js/note_landing/`, `static/js/note_room_realtime/`, `note_ws.py` | `tests/test_note.py`, `tests/test_note_realtime.py`, `tests/test_note_ws.py`, `tests/test_note_export.py` |
+| Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_collaboration.py`, `note_export.py` | `Note/templates/`, `static/js/note_room_realtime/`, `hocuspocus/` | `tests/test_note.py`, `tests/test_note_collaboration.py`, `tests/test_note_realtime.py`, `hocuspocus/*.test.js` |
 | Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_authorize.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
 | Admin | `Admin/admin_app.py`, `Admin/db_admin.py` | `session_auth.py`, `rate_limit.py` | `Admin/templates/` | `tests/test_admin.py` |
 | Articles | `Articles/articles_app.py` | `Articles/articles_registry.py`, `article_locale_shards.py` | `Articles/templates/` | `tests/test_articles.py`, `tests/test_product_landing_pages.py` |
@@ -139,7 +140,7 @@ templates/layout.html                  共通 HTML shell / meta / common assets
 - `static/js/shared/`: namespace、UX、アップロード制限、service worker などの共通基盤。
 - `static/js/fs_qr_upload/`: FSQR の暗号化、選択、送信、progress。
 - `static/js/group_room/`: Group の一覧、preview、upload、download、remote update。
-- `static/js/note_room_realtime/`: WebSocket、同期、self-edit、UI、export。
+- `static/js/note_room_realtime/`: bundled Yjs provider、textarea連携、clipboard、export。
 - `static/js/task_board/`: board state、CRUD、D&D、calendar、view、import-export。
 - `static/css/`: 役割別に番号付けされた共通 CSS。機能固有の大きな style は各 template
   の partial に残ることがある。
@@ -188,11 +189,13 @@ Redis は次の共有状態に使われます。
 - `cache_utils.py` のキャッシュ
 - `rate_limit.py` の失敗カウンタと block / backoff
 - `presence.py` の閲覧者 heartbeat
-- Group / Note の接続数管理と room 更新・閉鎖の pub/sub
+- Group の接続数管理と room 更新・閉鎖の pub/sub
+- Hocuspocus instance間のYjs update、store lock、Note期限切れcontrol event
 - scheduler などの単一実行ロック
 
-Redis 障害時の挙動は機能ごとに異なります。presence と Group / Note realtime は限定的な
-フォールバックがありますが、認証・レート制限・セッションの前提を無条件にメモリだけで
+Redis 障害時の挙動は機能ごとに異なります。presence と Group realtime は限定的な
+フォールバックがありますが、Note共同編集、認証、レート制限、セッションの前提を
+無条件にメモリだけで
 代替しないため、変更時は [realtime の知識](docs/knowledge/realtime.md) と
 [デバッグ手順](docs/knowledge/debugging.md)を確認します。
 
@@ -202,8 +205,8 @@ Redis 障害時の挙動は機能ごとに異なります。presence と Group /
 
 - `Dockerfile`: Python 3.14 の builder と runtime を分け、runtime は `kota` 非 root
   ユーザーで Gunicorn を起動する。
-- `docker-compose.yml`: `web-blue`（host 5000）と `web-green`（host 5030）は profile
-  で選択し、`db`、`redis`、`scheduler` は共有する。
+- `docker-compose.yml`: `web-blue`（host 5000）と`web-green`（host 5030）はprofileで
+  選択し、`db`、`redis`、`scheduler`、Note用`hocuspocus` sidecarは共有する。
 - `gunicorn_conf.py`: worker 数、timeout、keepalive、log path を環境変数から読む。
 - `fs-qr.conf`: nginx が WebSocket と通常 HTTP を proxy し、保護されたファイルだけを
   `X-Accel-Redirect` で直接配信する。認証情報を含む legacy URL と share token は access
@@ -226,7 +229,7 @@ Note / Task を掃除し、Note の期限切れを pub/sub で通知します。
 | 共通 middleware / セッション / CSRF | `test_basic_routes.py`, `test_room_access.py`, `test_security_headers.py` | `test_share_links.py`, 関連 feature テスト |
 | FSQR upload / download | `test_fsqr.py`, `test_file_serving.py` | 1 GiB 上限、暗号化 payload、X-Accel の両分岐 |
 | Group file / WebSocket | `test_group.py`, `test_group_realtime.py` | 接続・切断・再接続、Redis 不在時の影響、path traversal |
-| Note sync / WebSocket | `test_note.py`, `test_note_realtime.py`, `test_note_ws.py` | 複数クライアント、競合 merge、期限切れ通知、Redis pub/sub |
+| Note共同編集 | `test_note.py`, `test_note_collaboration.py`, `test_note_realtime.py`, `hocuspocus/*.test.js` | 2クライアント収束、認証拒否、永続化、期限切れclose、Redis/MySQL |
 | Task board / import-export | `test_task.py`, `test_task_io.py` | CRUD、並べ替え、日付整合、件数上限、タグの追加 / 名前変更 / 削除 |
 | 翻訳 / テンプレート | `test_i18n.py`, `test_locale_files.py`, `test_no_japanese_leakage.py` | `python3 scripts/validate_locales.py --strict-phrases` |
 | DB / 設定 / デプロイ | `test_data_layers.py`, `test_runtime_config.py`, `test_deploy_bluegreen.py` | `pytest`、Ruff、mypy、Docker / nginx の実環境確認 |
@@ -240,7 +243,7 @@ CI の実際のバージョンと順序は `.github/workflows/tests.yml` を正�
 | 新しい画面・ルート | 対象 feature の `*_app.py` と template | `web.py`、該当 `static/js`、feature テスト |
 | DB カラム・テーブル変更 | `alembic/versions/` | `db_init/create_tables.sql`、`migration_runner.py`、expand/contract の ADR |
 | アップロード・ダウンロード | `file_validation.py`、`file_serving.py`、feature data 層 | `fs-qr.conf`、`settings.py`、セキュリティ知識 |
-| WebSocket / 同期 | `Group/group_routes_ws.py` または `Note/note_ws.py` | realtime 知識、対応テスト、Redis 設定 |
+| WebSocket / 同期 | `Group/group_routes_ws.py` または `hocuspocus/server.js` | realtime 知識、対応テスト、Redis設定、nginx `/yjs` |
 | 翻訳・SEO | `locales/`、`i18n_support/`、template | `locales/README.md`、locale 検証スクリプト |
 | 本番切替・障害復旧 | `scripts/deploy_bluegreen.sh` | `docs/blue-green-deploy.md`、デバッグ知識 |
 

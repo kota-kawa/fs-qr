@@ -23,8 +23,7 @@
             maxTotalSizeMB: {{ upload_max_total_size_mb | tojson }}
           }),
           note: Object.freeze({
-            maxContentLength: {{ note_max_content_length | tojson }},
-            selfEditTimeoutMs: {{ note_self_edit_timeout_ms | tojson }}
+            maxContentLength: {{ note_max_content_length | tojson }}
           }),
           group: Object.freeze({
             fileListRequestTimeoutMs: {{ group_file_list_request_timeout_ms | tojson }}

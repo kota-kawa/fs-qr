@@ -11,7 +11,9 @@ x-web-common: &web-common
     - SQL_PW=${SQL_PW}
     - SQL_DB=${SQL_DB}
     - SQL_HOST=${SQL_HOST:-db}
-    - REDIS_URL=redis://redis:6379/0
+    - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+    - SECRET_KEY=${SECRET_KEY}
+    - PUBLIC_SITE_URL=${PUBLIC_SITE_URL:-https://fs-qr.net}
     - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
     - UPLOAD_MAX_FILES=${UPLOAD_MAX_FILES:-30}
     - UPLOAD_MAX_TOTAL_SIZE_MB=${UPLOAD_MAX_TOTAL_SIZE_MB:-1024}
@@ -35,6 +37,34 @@ x-web-common: &web-common
     - app-network
 
 services:
+  hocuspocus:
+    build: ./hocuspocus
+    environment:
+      - SQL_USER=${SQL_USER}
+      - SQL_PW=${SQL_PW}
+      - SQL_DB=${SQL_DB}
+      - SQL_HOST=${SQL_HOST:-db}
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - PUBLIC_SITE_URL=${PUBLIC_SITE_URL:-https://fs-qr.net}
+      - NOTE_MAX_CONTENT_LENGTH=${NOTE_MAX_CONTENT_LENGTH:-10000}
+    ports:
+      - "127.0.0.1:1234:1234"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "const s=require('node:net').connect(1234,'127.0.0.1',()=>{s.end();process.exit(0)});s.on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - app-network
+
   # blue スロット: ホスト 127.0.0.1:5000。profiles により bare `up` では起動せず、
   # デプロイスクリプト（scripts/deploy_bluegreen.sh）が色を指定して制御する。
   web-blue:
@@ -57,7 +87,7 @@ services:
       - SQL_PW=${SQL_PW}
       - SQL_DB=${SQL_DB}
       - SQL_HOST=${SQL_HOST:-db}
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
       - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
     volumes:
       - .:/app

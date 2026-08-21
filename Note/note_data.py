@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS note_content(
   content LONGTEXT,
   updated_at DATETIME(6),
   version BIGINT NOT NULL DEFAULT 0,
+  yjs_state LONGBLOB NULL,
   INDEX idx_note_content_updated_at (updated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
@@ -175,6 +176,11 @@ async def ensure_tables():
         "note_content",
         "version",
         "ALTER TABLE note_content ADD COLUMN version BIGINT NOT NULL DEFAULT 0",
+    )
+    await ensure_column(
+        "note_content",
+        "yjs_state",
+        "ALTER TABLE note_content ADD COLUMN yjs_state LONGBLOB NULL",
     )
     await ensure_unique_key(
         "note_room",

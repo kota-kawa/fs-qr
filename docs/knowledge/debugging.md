@@ -7,9 +7,10 @@
 
 1. `.env.example` と実際の環境変数を比較し、`SQL_HOST`、`SQL_USER`、`SQL_PW`、
    `SQL_DB`、`REDIS_URL`、`SECRET_KEY` が意図した対象を指しているか確認する。
-2. Docker なら `db` と `redis` の healthcheck、アプリの `logs/error.log`、コンテナログを
-   分けて確認する。
-3. `app.py` の startup は GeoIP 更新、DB migration、期限切れ掃除、Group / Note realtime の順に
+2. Docker なら`db`、`redis`、`hocuspocus`のhealthcheck、アプリの`logs/error.log`、
+   各コンテナlogを分けて確認する。
+3. `app.py` の startup は GeoIP 更新、DB migration、期限切れ掃除、Group realtime、
+   Note期限切れcontrol publisherの順に
    進む。DB migration の失敗は既定では起動拒否であり、`ALLOW_START_WITHOUT_DB=true`
    は調査用の一時的な緩和に過ぎない。
 4. 初回の空 volume だけは `db_init/create_tables.sql` が使われる。既存 DB の更新は
@@ -32,8 +33,8 @@ Redis は全機能で同じ失敗動作ではありません。
 
 - presence は Sorted Set が使えないとプロセス内 store へフォールバックするため、複数
   worker 間の人数は一時的に分割される。
-- Note realtime は Redis が使えないと同一プロセス内の接続だけで動く。別 worker / 別
-  コンテナの編集通知が届かない可能性がある。
+- Note共同編集はRedisをinstance間同期、session認可、store lockに使う。Redis障害時は
+  新規接続を認可せず、同期済みに見せるメモリfallbackを行わない。
 - Group realtime は Redis pub/sub が使えないと同一プロセス内の接続だけで動く。別 worker /
   別コンテナのファイル更新・ルーム閉鎖通知が届かない可能性がある。Redis 復旧後は購読 task
   が再接続を試みる。
@@ -62,6 +63,14 @@ Redis は全機能で同じ失敗動作ではありません。
   その後の HTTP / WS 操作で access と期限を再確認する。
 - legacy URL に認証情報が含まれるため、URL をそのままログやテスト出力へ残さない。
   `log_config.py` と nginx の redaction が効いているかを確認する。
+
+Noteの`/yjs`が接続できない場合は、次の順に確認します。
+
+1. nginxの`location = /yjs`がHocuspocusのhost port 1234へupgradeしているか。
+2. `PUBLIC_SITE_URL`と`Origin`が完全に同じoriginか。
+3. `session` cookieがあり、対応する`starsessions.<id>`に対象roomの`note_room_access`があるか。
+4. `note_room`がactiveかつ期限内で、`note_content.yjs_state` migrationが適用済みか。
+5. `docker compose logs hocuspocus`でMySQL、Redis、payload上限のどこで拒否されたか。
 
 ## テスト失敗の順序
 
