@@ -264,7 +264,7 @@
     if (item && targetStatus && modules.actions) {
       modules.actions.moveBy(item, targetStatus, targetIndex);
     } else if (modules.render) {
-      modules.render.render(store.getItems(), store.getCategories());
+      modules.render.render(store.getItems(), store.getTags());
     }
   }
 

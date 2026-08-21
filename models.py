@@ -12,8 +12,9 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 from settings import (
     NOTE_MAX_CONTENT_LENGTH,
-    TASK_MAX_CATEGORY_LENGTH,
     TASK_MAX_NOTE_LENGTH,
+    TASK_MAX_TAG_LENGTH,
+    TASK_MAX_TAGS_PER_ITEM,
     TASK_MAX_TITLE_LENGTH,
 )
 
@@ -46,6 +47,68 @@ def _normalize_task_date(value: object) -> str | None:
     except ValueError as exc:
         raise ValueError("存在しない日付は指定できません。") from exc
     return normalized
+
+
+def _normalize_tag_name(value: object) -> str:
+    """タグ名の前後空白と連続空白を整え、比較・重複判定をそろえる。"""
+    return " ".join(str(value or "").split())
+
+
+def _normalize_tag_ids(value: object) -> object:
+    """タグ ID の重複を取り除き、指定順を保ったまま整数の一覧にする。"""
+    if value is None:
+        return None
+    if not isinstance(value, (list, tuple)):
+        raise ValueError("タグの指定が不正です。")
+    seen: set[int] = set()
+    tag_ids: list[int] = []
+    for raw in value:
+        if isinstance(raw, bool):
+            raise ValueError("タグの指定が不正です。")
+        try:
+            tag_id = int(raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("タグの指定が不正です。") from exc
+        if tag_id <= 0:
+            raise ValueError("タグの指定が不正です。")
+        if tag_id in seen:
+            continue
+        seen.add(tag_id)
+        tag_ids.append(tag_id)
+    if len(tag_ids) > TASK_MAX_TAGS_PER_ITEM:
+        raise ValueError(
+            f"1つのタスクに設定できるタグは{TASK_MAX_TAGS_PER_ITEM}件までです。"
+        )
+    return tag_ids
+
+
+def _normalize_tag_names(value: object) -> object:
+    """タグ名の一覧を正規化する。インポートなど名前で指定する経路で使う。"""
+    if value is None:
+        return None
+    if isinstance(value, str):
+        value = [value]
+    if not isinstance(value, (list, tuple)):
+        raise ValueError("タグの指定が不正です。")
+    seen: set[str] = set()
+    names: list[str] = []
+    for raw in value:
+        name = _normalize_tag_name(raw)
+        if not name:
+            continue
+        if len(name) > TASK_MAX_TAG_LENGTH:
+            raise ValueError(
+                f"タグ名は{TASK_MAX_TAG_LENGTH}文字以内で入力してください。"
+            )
+        if name in seen:
+            continue
+        seen.add(name)
+        names.append(name)
+    if len(names) > TASK_MAX_TAGS_PER_ITEM:
+        raise ValueError(
+            f"1つのタスクに設定できるタグは{TASK_MAX_TAGS_PER_ITEM}件までです。"
+        )
+    return names
 
 
 class RoomSearchInput(BaseModel):
@@ -199,20 +262,36 @@ class NoteExportInput(BaseModel):
 
 
 class TaskItemInput(BaseModel):
-    """タスク作成 API の入力。カテゴリは短命なルームのため文字列で保持する。"""
+    """タスク作成 API の入力。
+
+    分類はタグに統一しているため、カテゴリのような単一文字列は持たない。
+    ``tag_ids`` は既存タグの ID、``tags`` は名前での指定（インポート用）で、
+    どちらも指定できる。名前指定のタグはルーム内に無ければ作成される。
+    """
 
     title: str = Field(min_length=1, max_length=TASK_MAX_TITLE_LENGTH)
     note: str = Field(default="", max_length=TASK_MAX_NOTE_LENGTH)
     board_status: Literal["todo", "doing", "done"] = "todo"
     priority: Literal["high", "normal", "low"] = "normal"
-    category: str = Field(default="", max_length=TASK_MAX_CATEGORY_LENGTH)
+    tag_ids: list[int] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
     start_date: Optional[str] = None
     due_date: Optional[str] = None
 
-    @field_validator("title", "note", "category", mode="before")
+    @field_validator("title", "note", mode="before")
     @classmethod
     def strip_task_text(cls, value: object) -> str:
         return str(value or "").strip()
+
+    @field_validator("tag_ids", mode="before")
+    @classmethod
+    def normalize_tag_ids(cls, value: object) -> object:
+        return _normalize_tag_ids(value) or []
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def normalize_tag_names(cls, value: object) -> object:
+        return _normalize_tag_names(value) or []
 
     @field_validator("start_date", "due_date", mode="before")
     @classmethod
@@ -237,15 +316,21 @@ class TaskItemUpdateInput(BaseModel):
     note: Optional[str] = Field(default=None, max_length=TASK_MAX_NOTE_LENGTH)
     board_status: Optional[Literal["todo", "doing", "done"]] = None
     priority: Optional[Literal["high", "normal", "low"]] = None
-    category: Optional[str] = Field(default=None, max_length=TASK_MAX_CATEGORY_LENGTH)
+    # 指定されたときはタスクのタグを丸ごと置き換える。
+    tag_ids: Optional[list[int]] = None
     start_date: Optional[str] = None
     due_date: Optional[str] = None
     position: Optional[int] = Field(default=None, ge=0)
 
-    @field_validator("title", "note", "category", mode="before")
+    @field_validator("title", "note", mode="before")
     @classmethod
     def strip_optional_task_text(cls, value: object) -> object:
         return str(value or "").strip() if value is not None else value
+
+    @field_validator("tag_ids", mode="before")
+    @classmethod
+    def normalize_tag_ids(cls, value: object) -> object:
+        return _normalize_tag_ids(value)
 
     @field_validator("start_date", "due_date", mode="before")
     @classmethod
@@ -263,3 +348,17 @@ class TaskItemUpdateInput(BaseModel):
 class TaskReorderInput(BaseModel):
     board_status: Literal["todo", "doing", "done"]
     ordered_item_ids: list[int] = Field(min_length=0, max_length=200)
+
+
+class TaskTagInput(BaseModel):
+    """タグの追加・名前変更 API の入力。
+
+    使用箇所: Task /api/task/{room_id}/tags
+    """
+
+    name: str = Field(min_length=1, max_length=TASK_MAX_TAG_LENGTH)
+
+    @field_validator("name", mode="before")
+    @classmethod
+    def normalize_name(cls, value: object) -> str:
+        return _normalize_tag_name(value)

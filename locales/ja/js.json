@@ -132,5 +132,5 @@
   "task.moved_to": "「{title}」を{status}へ移動しました。",
   "task.overdue": "期限超過",
   "task.due": "期限: {date}",
-  "task.filter_all": "すべてのカテゴリ"
+  "task.tag_filter_all": "すべてのタグ"
 }

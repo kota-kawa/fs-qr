@@ -18,7 +18,7 @@ ITEM = {
     "title": "資料をまとめる",
     "board_status": "todo",
     "priority": "normal",
-    "category": "仕事",
+    "tags": [{"tag_id": 5, "name": "仕事"}],
     "start_date": None,
     "due_date": None,
     "position": 100,
@@ -169,7 +169,7 @@ def test_task_item_api_requires_access_and_csrf(test_client: TestClient):
             "POST", "/api/task/abc123/items", json={"title": "新しいタスク"}
         )
 
-    with patch("Task.task_routes_items.has_task_room_access", return_value=True):
+    with patch("Task.task_authorize.has_task_room_access", return_value=True):
         response = asyncio.run(request_without_csrf())
     assert response.status_code == 403
 
@@ -178,7 +178,7 @@ def test_task_item_crud_routes(test_client: TestClient):
     created = {**ITEM, "version": 0}
     updated = {**ITEM, "title": "更新後", "version": 1}
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -200,9 +200,9 @@ def test_task_item_crud_routes(test_client: TestClient):
             return_value=[created],
         ),
         patch(
-            "Task.task_routes_items.task_data.list_categories",
+            "Task.task_routes_items.task_data.list_tags",
             new_callable=AsyncMock,
-            return_value=["仕事"],
+            return_value=[{"tag_id": 5, "name": "仕事", "item_count": 1}],
         ),
         patch(
             "Task.task_routes_items.task_data.update_item",
@@ -233,7 +233,10 @@ def test_task_item_crud_routes(test_client: TestClient):
 
     assert create_response.status_code == 201
     assert create_response.json()["data"]["item"] == created
-    assert list_response.json()["data"] == {"items": [created], "categories": ["仕事"]}
+    assert list_response.json()["data"] == {
+        "items": [created],
+        "tags": [{"tag_id": 5, "name": "仕事", "item_count": 1}],
+    }
     assert update_response.json()["data"]["item"] == updated
     assert delete_response.status_code == 200
     delete_item.assert_awaited_once_with("abc123", 12)
@@ -241,7 +244,7 @@ def test_task_item_crud_routes(test_client: TestClient):
 
 def test_task_item_date_validation(test_client: TestClient):
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -276,7 +279,7 @@ def test_task_item_update_rejects_partial_date_range_conflict(test_client: TestC
     from Task import task_data
 
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -300,7 +303,7 @@ def test_task_item_update_rejects_partial_date_range_conflict(test_client: TestC
 
 def test_task_item_limit_validation_and_conflict(test_client: TestClient):
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -317,7 +320,7 @@ def test_task_item_limit_validation_and_conflict(test_client: TestClient):
         )
 
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -348,7 +351,7 @@ def test_task_item_create_rechecks_limit_inside_data_layer(test_client: TestClie
     from Task import task_data
 
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -375,7 +378,7 @@ def test_task_item_create_rechecks_limit_inside_data_layer(test_client: TestClie
 
 def test_task_delete_reports_missing_item(test_client: TestClient):
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -404,7 +407,7 @@ def test_task_delete_reports_missing_item(test_client: TestClient):
 
 def test_task_reorder_rejects_invalid_ids_and_returns_column(test_client: TestClient):
     with (
-        patch("Task.task_routes_items.has_task_room_access", return_value=True),
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
         patch(
             "Task.task_routes_items.task_data.get_room_meta_direct",
             new_callable=AsyncMock,
@@ -523,6 +526,7 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
         "store.js",
         "select.js",
         "filters.js",
+        "tags.js",
         "render.js",
         "menu.js",
         "actions.js",
@@ -542,7 +546,7 @@ def test_task_board_page_loads_all_board_modules(test_client: TestClient):
 
 
 def test_task_board_page_renders_custom_dropdown_targets(test_client: TestClient):
-    """タスクボード内の6つのセレクト要素がカスタムドロップダウン対象として描画される。"""
+    """タスクボード内の5つのセレクト要素がカスタムドロップダウン対象として描画される。"""
     with (
         patch("Task.task_routes_room.has_task_room_access", return_value=True),
         patch("Task.task_routes_room.can_delete_task_room", return_value=False),
@@ -559,10 +563,10 @@ def test_task_board_page_renders_custom_dropdown_targets(test_client: TestClient
     assert response.status_code == 200
     body = response.text
 
-    # 対象の6つのドロップダウン要素が存在し、task-select-pill クラスを持つ
+    # 対象の5つのドロップダウン要素が存在し、task-select-pill クラスを持つ
+    # （分類はタグに統一したため、カテゴリの select は存在しない）
     target_select_ids = (
         "taskCreatePriority",
-        "taskCategoryFilter",
         "taskPriorityFilter",
         "taskDueFilter",
         "taskSortSelect",
@@ -675,7 +679,6 @@ def test_task_calendar_span_assets(test_client: TestClient):
         "note": "",
         "board_status": "doing",
         "priority": "high",
-        "category": "開発",
         "start_date": datetime(2026, 8, 18).date(),
         "due_date": datetime(2026, 8, 20).date(),
         "created_at": datetime(2026, 8, 16, 10, 0, 0),
@@ -1215,3 +1218,195 @@ def test_task_calendar_mobile_bars_keep_task_colors():
     # 3. 「今日」の丸バッジを縮め、見出し高さの内側に収めること
     assert ".task-calendar__cell.is-today .task-calendar__date {" in narrow_block
     assert "--task-cal-head-h: 1.8rem;" in narrow_block
+
+
+def test_task_board_page_renders_tag_controls(test_client: TestClient):
+    """分類はタグに統一しているため、タグの絞り込み・選択・管理 UI が描画される。"""
+    with (
+        patch("Task.task_routes_room.has_task_room_access", return_value=True),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch("Task.task_routes_room.get_task_room_password", return_value=""),
+        patch("Task.task_routes_room.get_task_room_share_token", return_value="tok"),
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+    ):
+        response = test_client.get("/task/r/abc123")
+
+    assert response.status_code == 200
+    body = response.text
+
+    for element_id in (
+        "taskTagFilter",
+        "taskEditorTags",
+        "taskEditorTagInput",
+        "taskEditorTagAdd",
+        "taskTagManagerDialog",
+        "taskTagManagerList",
+        "taskTagManagerBtn",
+    ):
+        assert f'id="{element_id}"' in body
+
+    assert "js/task_board/tags.js" in body
+    # カテゴリの入力欄・選択肢は残っていない
+    assert "taskEditorCategory" not in body
+    assert "taskCategoryFilter" not in body
+
+
+def test_task_tag_api_crud_routes(test_client: TestClient):
+    """タグはルーム単位で自由に追加・名前変更・削除できる。"""
+    with (
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_tags.task_data.list_tags",
+            new_callable=AsyncMock,
+            return_value=[{"tag_id": 5, "name": "デザイン", "item_count": 2}],
+        ),
+        patch(
+            "Task.task_routes_tags.task_data.create_tag",
+            new_callable=AsyncMock,
+            return_value={"tag_id": 6, "name": "調査"},
+        ) as create_tag,
+        patch(
+            "Task.task_routes_tags.task_data.rename_tag",
+            new_callable=AsyncMock,
+            return_value={"tag_id": 6, "name": "情報収集"},
+        ) as rename_tag,
+        patch(
+            "Task.task_routes_tags.task_data.delete_tag",
+            new_callable=AsyncMock,
+            return_value=True,
+        ) as delete_tag,
+    ):
+        list_response = test_client.get("/api/task/abc123/tags")
+        create_response = test_client.post(
+            "/api/task/abc123/tags", json={"name": "  調査  "}
+        )
+        rename_response = test_client.request(
+            "PATCH", "/api/task/abc123/tags/6", json={"name": "情報収集"}
+        )
+        delete_response = test_client.delete("/api/task/abc123/tags/6")
+
+    assert list_response.json()["data"]["tags"] == [
+        {"tag_id": 5, "name": "デザイン", "item_count": 2}
+    ]
+    assert create_response.status_code == 201
+    assert create_response.json()["data"]["tag"] == {"tag_id": 6, "name": "調査"}
+    # 前後の空白は正規化してから保存する
+    assert create_tag.await_args.args[1] == "調査"
+    assert rename_response.json()["data"]["tag"]["name"] == "情報収集"
+    rename_tag.assert_awaited_once_with("abc123", 6, "情報収集")
+    assert delete_response.status_code == 200
+    delete_tag.assert_awaited_once_with("abc123", 6)
+
+
+def test_task_tag_api_rejects_duplicate_rename(test_client: TestClient):
+    """同名タグができる名前変更は 400 で拒否する。"""
+    with (
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_tags.task_data.rename_tag",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+    ):
+        response = test_client.request(
+            "PATCH", "/api/task/abc123/tags/6", json={"name": "デザイン"}
+        )
+
+    assert response.status_code == 400
+    assert response.json()["status"] == "error"
+
+
+def test_task_tag_api_requires_access_and_csrf(test_client: TestClient):
+    assert test_client.get("/api/task/abc123/tags").status_code == 404
+
+    async def request_without_csrf():
+        return await test_client._raw_request(
+            "POST", "/api/task/abc123/tags", json={"name": "調査"}
+        )
+
+    with patch("Task.task_authorize.has_task_room_access", return_value=True):
+        response = asyncio.run(request_without_csrf())
+    assert response.status_code == 403
+
+
+def test_task_item_accepts_tag_ids(test_client: TestClient):
+    """タスクの作成・更新でタグを複数指定できる。"""
+    created = {
+        **ITEM,
+        "tags": [{"tag_id": 5, "name": "仕事"}, {"tag_id": 6, "name": "調査"}],
+    }
+    with (
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new_callable=AsyncMock,
+            return_value=0,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.create_item",
+            new_callable=AsyncMock,
+            return_value=created,
+        ) as create_item,
+        patch(
+            "Task.task_routes_items.task_data.update_item",
+            new_callable=AsyncMock,
+            return_value=(created, True),
+        ) as update_item,
+    ):
+        create_response = test_client.post(
+            "/api/task/abc123/items",
+            json={"title": "資料をまとめる", "tag_ids": [5, 6, 5]},
+        )
+        update_response = test_client.request(
+            "PATCH", "/api/task/abc123/items/12", json={"version": 0, "tag_ids": []}
+        )
+
+    assert create_response.status_code == 201
+    # 重複した指定は取り除かれる
+    assert create_item.await_args.args[1]["tag_ids"] == [5, 6]
+    assert "category" not in create_item.await_args.args[1]
+    assert update_response.status_code == 200
+    # 空配列はタグの全解除として更新対象に含める
+    assert update_item.await_args.args[2] == {"tag_ids": []}
+
+
+def test_task_item_rejects_too_many_tags(test_client: TestClient):
+    with (
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new_callable=AsyncMock,
+            return_value=0,
+        ),
+    ):
+        response = test_client.post(
+            "/api/task/abc123/items",
+            json={"title": "タグが多すぎる", "tag_ids": list(range(1, 20))},
+        )
+
+    assert response.status_code == 400
+    assert response.json()["status"] == "error"

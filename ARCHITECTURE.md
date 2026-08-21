@@ -95,7 +95,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 | FSQR | `FSQR/fsqr_app.py` | `FSQR/fsqr_data.py`, `file_validation.py`, `file_serving.py` | `FSQR/templates/`, `static/js/fs_qr_upload/`, `static/js/fsqr_landing/` | `tests/test_fsqr.py`, `tests/test_file_serving.py` |
 | Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py` |
 | Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_sync.py`, `note_export.py` | `Note/templates/`, `static/js/note_landing/`, `static/js/note_room_realtime/`, `note_ws.py` | `tests/test_note.py`, `tests/test_note_realtime.py`, `tests/test_note_ws.py`, `tests/test_note_export.py` |
-| Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
+| Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_authorize.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
 | Admin | `Admin/admin_app.py`, `Admin/db_admin.py` | `session_auth.py`, `rate_limit.py` | `Admin/templates/` | `tests/test_admin.py` |
 | Articles | `Articles/articles_app.py` | `Articles/articles_registry.py`, `article_locale_shards.py` | `Articles/templates/` | `tests/test_articles.py`, `tests/test_product_landing_pages.py` |
 
@@ -172,7 +172,7 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 | FSQR | `fsqr`、`share_links` | `FSQR_UPLOAD_DIR`（通常は `storage/fsqr_uploads`）の `.enc` / `.zip` |
 | Group | `room` | `GROUP_UPLOAD_DIR`（通常は `storage/group_uploads`）の room 別ディレクトリ。旧 `static/group_uploads` は読み取り互換 |
 | Note | `note_room`、`note_content` | 本文は DB。接続状態と更新通知は Redis / WebSocket |
-| Task | `task_room`、`task_item` | ルームと board item は DB |
+| Task | `task_room`、`task_item`、`task_tag`、`task_item_tag` | ルームと board item は DB。分類はカテゴリを持たず、ルーム単位のタグ（`task_tag`）を `task_item_tag` で多対多に紐づける |
 
 `db_init/create_tables.sql` は空の Docker volume を作る初期スキーマ、
 `alembic/versions/` は既存環境へ適用する変更履歴です。アプリ起動時は
@@ -227,7 +227,7 @@ Note / Task を掃除し、Note の期限切れを pub/sub で通知します。
 | FSQR upload / download | `test_fsqr.py`, `test_file_serving.py` | 1 GiB 上限、暗号化 payload、X-Accel の両分岐 |
 | Group file / WebSocket | `test_group.py`, `test_group_realtime.py` | 接続・切断・再接続、Redis 不在時の影響、path traversal |
 | Note sync / WebSocket | `test_note.py`, `test_note_realtime.py`, `test_note_ws.py` | 複数クライアント、競合 merge、期限切れ通知、Redis pub/sub |
-| Task board / import-export | `test_task.py`, `test_task_io.py` | CRUD、並べ替え、日付整合、件数上限 |
+| Task board / import-export | `test_task.py`, `test_task_io.py` | CRUD、並べ替え、日付整合、件数上限、タグの追加 / 名前変更 / 削除 |
 | 翻訳 / テンプレート | `test_i18n.py`, `test_locale_files.py`, `test_no_japanese_leakage.py` | `python3 scripts/validate_locales.py --strict-phrases` |
 | DB / 設定 / デプロイ | `test_data_layers.py`, `test_runtime_config.py`, `test_deploy_bluegreen.py` | `pytest`、Ruff、mypy、Docker / nginx の実環境確認 |
 

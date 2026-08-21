@@ -12,20 +12,30 @@ from rate_limit import (
     get_client_ip,
     register_exponential_backoff_failure,
 )
-from settings import TASK_MAX_ITEMS_PER_ROOM
+from settings import (
+    TASK_MAX_ITEMS_PER_ROOM,
+    TASK_MAX_TAGS_PER_ITEM,
+    TASK_MAX_TAGS_PER_ROOM,
+)
 from web import enforce_csrf
 from . import task_data
-from .task_access import has_task_room_access
+from .task_authorize import authorize_task_room as _authorize
 
 
-async def _authorize(request: Request, room_id: str, *, csrf: bool = False):
-    if csrf:
-        await enforce_csrf(request)
-    if not has_task_room_access(request, room_id):
-        return api_error_response("room access is not established", status_code=404)
-    if not await task_data.get_room_meta_direct(room_id):
-        return api_error_response("room expired or deleted", status_code=404)
-    return None
+async def _resolve_tag_ids(room_id: str, payload: TaskItemInput) -> list[int]:
+    """作成時のタグ指定を ID の一覧へそろえる。
+
+    ``tag_ids`` は既存タグの ID、``tags`` は名前指定（インポートや復元で使う）で、
+    名前の側はルームに無ければ作成してから ID を得る。ID と名前の両方が届いた
+    場合は合算されるため、1タスクあたりの上限で最後に切り詰める。
+    """
+    tag_ids = list(payload.tag_ids)
+    if payload.tags:
+        resolved = await task_data.resolve_tag_names(
+            room_id, payload.tags, max_tags=TASK_MAX_TAGS_PER_ROOM
+        )
+        tag_ids.extend(tag_id for tag_id in resolved if tag_id not in tag_ids)
+    return tag_ids[:TASK_MAX_TAGS_PER_ITEM]
 
 
 def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
@@ -37,7 +47,7 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
         return api_ok_response(
             {
                 "items": await task_data.list_items(room_id),
-                "categories": await task_data.list_categories(room_id),
+                "tags": await task_data.list_tags(room_id),
             }
         )
 
@@ -52,9 +62,11 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
             payload = TaskItemInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
             return api_error_response("入力内容が不正です。", status_code=400)
+        values = payload.model_dump(exclude={"tags"})
+        values["tag_ids"] = await _resolve_tag_ids(room_id, payload)
         try:
             item = await task_data.create_item(
-                room_id, payload.model_dump(), max_items=TASK_MAX_ITEMS_PER_ROOM
+                room_id, values, max_items=TASK_MAX_ITEMS_PER_ROOM
             )
         except task_data.TaskItemLimitReached:
             return api_error_response("タスク数の上限に達しました。", status_code=400)

@@ -116,6 +116,15 @@
     );
   }
 
+  function tagsUrl(suffix) {
+    return (
+      '/api/task/' +
+      encodeURIComponent(modules.core.config.roomId) +
+      '/tags' +
+      (suffix || '')
+    );
+  }
+
   /**
    * Days between today and the due date. Returns null when unset/invalid.
    * 期限日までの残り日数。未設定・不正な値のときは null。
@@ -223,6 +232,7 @@
     toastWithUndo: toastWithUndo,
     request: request,
     itemsUrl: itemsUrl,
+    tagsUrl: tagsUrl,
     dueDiffDays: dueDiffDays,
     formatRelativeDueDate: formatRelativeDueDate
   };

@@ -98,7 +98,7 @@
         })
         .then(function (data) {
           if (data && data.items) {
-            modules.store.setAll(data.items, data.categories);
+            modules.store.setAll(data.items, data.tags);
           }
         })
         .catch(function (error) {

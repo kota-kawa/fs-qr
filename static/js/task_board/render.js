@@ -34,13 +34,21 @@
     return item.due_date ? core.formatRelativeDueDate(item.due_date) : null;
   }
 
+  function tagSignatureOf(item) {
+    return (item.tags || [])
+      .map(function (tag) {
+        return String(tag.tag_id) + ':' + String(tag.name);
+      })
+      .join(',');
+  }
+
   function signatureOf(item) {
     var due = dueInfoFor(item);
     return [
       item.title,
       item.note,
       item.priority,
-      item.category,
+      tagSignatureOf(item),
       item.board_status,
       due ? due.text : '',
       due && due.isOverdue ? 'o' : '',
@@ -124,12 +132,14 @@
       meta.appendChild(priority);
     }
 
-    if (item.category && item.category.trim()) {
-      var category = document.createElement('span');
-      category.className = 'task-card__category';
-      category.textContent = item.category.trim();
-      meta.appendChild(category);
-    }
+    // 分類はタグに統一しているため、付いているタグをすべて並べる。
+    // Classification is unified on tags, so every tag of the card is shown.
+    (item.tags || []).forEach(function (tag) {
+      var chip = document.createElement('span');
+      chip.className = 'task-card__tag';
+      chip.textContent = tag.name;
+      meta.appendChild(chip);
+    });
 
     var dueInfo = dueInfoFor(item);
     if (dueInfo) {
@@ -280,7 +290,7 @@
     (target || card).focus();
   }
 
-  function render(items, categories) {
+  function render(items, tags) {
     if (modules.dnd && modules.dnd.isDragging && modules.dnd.isDragging()) {
       // Never reshuffle the DOM mid-drag. / ドラッグ中は DOM を組み替えない。
       return;
@@ -327,22 +337,8 @@
     updateSummary(store.getStats());
 
     if (modules.filters) {
-      modules.filters.updateCategories(categories);
+      modules.filters.updateTags(tags);
       modules.filters.updateFilterUI();
-    }
-
-    var datalist = document.getElementById('taskCategoryOptions');
-    if (datalist) {
-      var signature = (categories || []).join('');
-      if (datalist.dataset.signature !== signature) {
-        datalist.dataset.signature = signature;
-        datalist.textContent = '';
-        (categories || []).forEach(function (category) {
-          var option = document.createElement('option');
-          option.value = category;
-          datalist.appendChild(option);
-        });
-      }
     }
 
     restoreFocus(memo);

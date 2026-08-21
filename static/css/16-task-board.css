@@ -1632,7 +1632,7 @@
 }
 
 .task-card__chip,
-.task-card__category,
+.task-card__tag,
 .task-card__due {
   display: inline-flex;
   align-items: center;
@@ -1654,7 +1654,7 @@
   color: #0369a1;
 }
 
-.task-card__category {
+.task-card__tag {
   background: #fff7ed;
   color: #92400e;
 }
@@ -1677,6 +1677,258 @@
 .task-card.is-done .task-card__due {
   background: #f1f5f9;
   color: #94a3b8;
+}
+
+/* ── Tags / タグ ────────────────────────────────────────────────────────
+   分類はカテゴリではなくタグに統一している。絞り込み・編集ダイアログ・管理
+   ダイアログで同じチップを使い回し、見た目のぶれを防ぐ。
+   Classification is unified on tags; the same chip is reused by the filter,
+   the editor and the tag manager. */
+.task-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid #e2d3c0;
+  border-radius: 9999px;
+  background: #fffaf3;
+  color: #92400e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.task-tag-chip:hover {
+  background: #fff2e0;
+  border-color: #d9b48b;
+}
+
+.task-tag-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-tag-chip.is-selected {
+  border-color: var(--task-accent, #b45309);
+  background: var(--task-accent, #b45309);
+  color: #ffffff;
+}
+
+.task-tag-filter,
+.task-tag-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.task-filter-field--tags {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.task-tag-filter__empty,
+.task-tag-picker__empty,
+.task-tag-manager__empty {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* 編集ダイアログのタグ追加行 / Tag add row inside the editor */
+.task-editor-tag-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.task-editor-tag-add .task-input {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.task-editor-form .task-editor-tag-add__btn {
+  flex: 0 0 auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+.task-editor-tag-manage {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--task-accent, #b45309);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Tag manager dialog / タグ管理ダイアログ */
+.task-tag-manager-dialog {
+  width: min(520px, calc(100vw - 2rem));
+  max-height: min(88vh, 88dvh, 640px);
+  padding: 1.35rem 1.4rem;
+  border: 0;
+  border-radius: var(--radius-2xl, 20px);
+  background: #ffffff;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.task-tag-manager-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.task-tag-manager-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.task-tag-manager__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--task-border);
+  flex-shrink: 0;
+}
+
+.task-tag-manager__header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.task-tag-manager__note {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.task-tag-manager__add {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.task-tag-manager__add .task-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.92rem;
+}
+
+.task-tag-manager__add .task-input:focus {
+  outline: none;
+  border-color: var(--task-accent);
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-tag-manager__list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.task-tag-manager__row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem;
+  border: 1px solid var(--task-border);
+  border-radius: 10px;
+  background: #fdfdfd;
+}
+
+.task-tag-manager__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.4rem 0.55rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.task-tag-manager__input:focus {
+  outline: none;
+  border-color: var(--task-accent);
+  box-shadow: 0 0 0 3px var(--task-ring);
+}
+
+.task-tag-manager__count {
+  flex: 0 0 auto;
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.task-tag-manager__action {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--task-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.task-tag-manager__action:hover {
+  background: #f1f5f9;
+}
+
+.task-tag-manager__action.is-danger {
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.task-tag-manager__action.is-danger:hover {
+  background: #fee2e2;
+}
+
+.task-tag-manager__actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .task-tag-manager-dialog {
+    width: calc(100vw - 1.25rem);
+    padding: 1.05rem 1rem;
+  }
+
+  .task-tag-manager__row {
+    flex-wrap: wrap;
+  }
+
+  .task-tag-manager__input {
+    flex: 1 1 100%;
+  }
 }
 
 /* ── Calendar view / カレンダー表示 ───────────────────────────────────────

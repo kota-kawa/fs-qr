@@ -85,7 +85,7 @@
         // 移動後の並び替えだけ失敗した場合は、古い状態へ戻さず再同期する。
         try {
           var latest = await core.request(core.itemsUrl(), { method: 'GET' });
-          store.setAll(latest.items, latest.categories);
+          store.setAll(latest.items, latest.tags);
         } catch (syncError) {
           // The regular poll will retry synchronization.
           // 通常ポーリングで再同期を再試行する。
@@ -176,7 +176,7 @@
             title: '',
             note: '',
             priority: 'normal',
-            category: '',
+            tag_ids: [],
             due_date: null,
             board_status: 'todo'
           },
@@ -252,7 +252,11 @@
       title: item.title,
       note: item.note || '',
       priority: item.priority || 'normal',
-      category: item.category || '',
+      // 復元は名前で行う。取り消しまでの間にタグが消えても付け直せる。
+      // Undo restores tags by name so a tag deleted meanwhile is recreated.
+      tags: (item.tags || []).map(function (tag) {
+        return tag.name;
+      }),
       start_date: item.start_date || null,
       due_date: item.due_date || null,
       board_status: item.board_status || 'todo'

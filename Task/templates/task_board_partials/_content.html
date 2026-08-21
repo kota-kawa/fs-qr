@@ -233,6 +233,12 @@
               <span class="task-toolbar-btn__label">インポート</span>
               <input type="file" id="taskImportInput" accept=".json" class="task-toolbar-btn__file-input">
             </label>
+            <button id="taskTagManagerBtn" type="button" class="task-toolbar-btn" title="タグを管理" aria-label="タグを管理">
+              <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M3 3.75A.75.75 0 013.75 3h5.19c.4 0 .78.16 1.06.44l6.31 6.31a1.5 1.5 0 010 2.12l-4.44 4.44a1.5 1.5 0 01-2.12 0L3.44 10a1.5 1.5 0 01-.44-1.06V3.75zm3.25 3.5a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z" clip-rule="evenodd"/>
+              </svg>
+              <span class="task-toolbar-btn__label">タグ</span>
+            </button>
             <button id="taskFilterToggle" type="button" class="task-filter-toggle" aria-expanded="false" aria-controls="taskFilterPanel">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.628 4.5A.75.75 0 013.25 4h13.5a.75.75 0 01.55 1.26l-5.05 5.42v4.07a.75.75 0 01-1.09.67l-2.5-1.27a.75.75 0 01-.41-.67v-2.8L3.2 5.26a.75.75 0 01-.572-.76z" clip-rule="evenodd"/></svg>
               <span class="task-filter-toggle__label">絞り込み</span>
@@ -247,12 +253,12 @@
         <p id="taskCreateError" class="task-form-error" role="alert" hidden></p>
 
         <div class="task-filter-panel" id="taskFilterPanel" hidden>
-          <label class="task-filter-field">
-            <span class="task-filter-label">カテゴリ</span>
-            <select id="taskCategoryFilter" class="task-select-pill">
-              <option value="">すべて</option>
-            </select>
-          </label>
+          <div class="task-filter-field task-filter-field--tags">
+            <span class="task-filter-label">タグ</span>
+            <!-- 複数選択できる。選んだタグのいずれかを持つタスクが表示される。
+                 Multi-select: items carrying ANY of the selected tags are shown. -->
+            <div id="taskTagFilter" class="task-tag-filter" role="group" aria-label="タグで絞り込み"></div>
+          </div>
           <label class="task-filter-field">
             <span class="task-filter-label">優先度</span>
             <select id="taskPriorityFilter" class="task-select-pill">
@@ -419,7 +425,7 @@
             <svg class="task-editor-advanced__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
             </svg>
-            <span>詳細設定（期限・優先度・カテゴリ・メモ）</span>
+            <span>詳細設定（期限・優先度・タグ・メモ）</span>
           </span>
           <span class="task-editor-advanced__badge" id="taskEditorAdvancedBadge" hidden>設定あり</span>
         </summary>
@@ -434,10 +440,21 @@
                 <option value="low">低 (Low)</option>
               </select>
             </div>
-            <div class="task-editor-field">
-              <label for="taskEditorCategory">カテゴリ</label>
-              <input id="taskEditorCategory" maxlength="{{ task_max_category_length }}" placeholder="例: 開発, 事務, イベント" list="taskCategoryOptions">
-              <datalist id="taskCategoryOptions"></datalist>
+          </div>
+
+          <div class="task-editor-field">
+            <span class="task-editor-field__label">
+              タグ
+              <span class="task-editor-counter" id="taskEditorTagCounter">0 / {{ task_max_tags_per_item }}</span>
+            </span>
+            <!-- 既存タグをクリックで付け外しする。分類はタグに統一している。
+                 Click a chip to attach or detach a tag; classification is tag-only. -->
+            <div id="taskEditorTags" class="task-tag-picker" role="group" aria-label="このタスクのタグ"></div>
+            <div class="task-editor-tag-add">
+              <label for="taskEditorTagInput" class="sr-only">新しいタグ名</label>
+              <input id="taskEditorTagInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="例: デザイン, 情報収集, 開発, 調査" autocomplete="off">
+              <button type="button" id="taskEditorTagAdd" class="modern-btn modern-btn--secondary task-editor-tag-add__btn">タグを追加</button>
+              <button type="button" id="taskEditorTagManage" class="task-editor-tag-manage">タグを管理</button>
             </div>
           </div>
 
@@ -477,6 +494,27 @@
       <button type="submit" class="modern-btn task-btn">保存する</button>
     </div>
   </form>
+</dialog>
+
+<!-- Tag manager / タグの追加・名前変更・削除 -->
+<dialog id="taskTagManagerDialog" class="task-tag-manager-dialog" aria-labelledby="taskTagManagerTitle">
+  <div class="task-tag-manager__header">
+    <h2 id="taskTagManagerTitle">タグを管理</h2>
+    <button type="button" id="taskTagManagerClose" class="task-editor-close-btn" aria-label="閉じる">×</button>
+  </div>
+  <p class="task-tag-manager__note">
+    タグはこのボード全体で共有されます。1つのタスクに最大{{ task_max_tags_per_item }}件、ボード全体で最大{{ task_max_tags_per_room }}件まで登録できます。
+  </p>
+  <div class="task-tag-manager__add">
+    <label for="taskTagManagerInput" class="sr-only">新しいタグ名</label>
+    <input id="taskTagManagerInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="例: デザイン, 情報収集, 開発, 調査" autocomplete="off">
+    <button type="button" id="taskTagManagerAdd" class="modern-btn task-btn">追加</button>
+  </div>
+  <p id="taskTagManagerError" class="task-form-error" role="alert" hidden></p>
+  <ul id="taskTagManagerList" class="task-tag-manager__list"></ul>
+  <div class="task-tag-manager__actions">
+    <button type="button" id="taskTagManagerDone" class="modern-btn modern-btn--secondary">閉じる</button>
+  </div>
 </dialog>
 
 <!-- Keyboard shortcut help / ショートカット一覧 -->

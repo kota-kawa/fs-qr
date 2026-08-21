@@ -10,12 +10,14 @@
   var isSaving = false;
   var lastFocus = null;
   var baseline = '';
+  // 編集中のタスクに付けるタグ（タグ ID の配列）。分類はタグに統一している。
+  // Tag ids selected for the task being edited; classification is tag-only.
+  var selectedTagIds = [];
 
   var FIELD_IDS = [
     'taskEditorTitleInput',
     'taskEditorStatus',
     'taskEditorPriority',
-    'taskEditorCategory',
     'taskEditorStartDate',
     'taskEditorDueDate',
     'taskEditorNote'
@@ -25,6 +27,22 @@
     return document.getElementById(id);
   }
 
+  /** タグ選択チップを描き直す。 / Re-render the tag picker chips. */
+  function renderTagPicker() {
+    if (!modules.tags) return;
+    modules.tags.renderPicker(element('taskEditorTags'), selectedTagIds, {
+      onChange: updateTagCounter
+    });
+    updateTagCounter();
+  }
+
+  function updateTagCounter() {
+    var counter = element('taskEditorTagCounter');
+    if (!counter) return;
+    var max = (core.config.limits && core.config.limits.tagsPerItem) || 10;
+    counter.textContent = selectedTagIds.length + ' / ' + max;
+  }
+
   function showError(message) {
     if (!error) return;
     error.hidden = !message;
@@ -32,10 +50,13 @@
   }
 
   function snapshotForm() {
+    // タグの選択も未保存の変更として扱う。 / Tag selection counts as a change too.
     return FIELD_IDS.map(function (id) {
       var node = element(id);
       return node ? node.value : '';
-    }).join('');
+    })
+      .concat(selectedTagIds.slice().sort().join(','))
+      .join('');
   }
 
   function isDirty() {
@@ -135,7 +156,8 @@
     if (modules.select) {
       modules.select.sync(element('taskEditorPriority'));
     }
-    element('taskEditorCategory').value = item.category || '';
+    selectedTagIds = store.tagIdsOf(item);
+    renderTagPicker();
     setStatus(item.board_status || 'todo');
     updateNoteCounter();
 
@@ -144,7 +166,7 @@
         (item.priority && item.priority !== 'normal') ||
           (item.start_date && String(item.start_date).trim()) ||
           (item.due_date && String(item.due_date).trim()) ||
-          (item.category && String(item.category).trim()) ||
+          selectedTagIds.length ||
           (item.note && String(item.note).trim())
       )
     );
@@ -182,7 +204,8 @@
     if (modules.select) {
       modules.select.sync(element('taskEditorPriority'));
     }
-    element('taskEditorCategory').value = '';
+    selectedTagIds = [];
+    renderTagPicker();
     setStatus(initialStatus || 'todo');
     updateNoteCounter();
     updateAdvancedSection(Boolean(startDate || dueDate));
@@ -197,9 +220,21 @@
       start_date: element('taskEditorStartDate').value || null,
       due_date: element('taskEditorDueDate').value || null,
       priority: element('taskEditorPriority').value,
-      category: element('taskEditorCategory').value.trim(),
+      tag_ids: selectedTagIds.slice(),
       board_status: element('taskEditorStatus').value
     };
+  }
+
+  /** タグ ID から表示用のタグ情報へ戻す。 / Map tag ids back to tag objects. */
+  function tagsOf(tagIds) {
+    return (tagIds || [])
+      .map(function (id) {
+        return store.getTag(id);
+      })
+      .filter(Boolean)
+      .map(function (tag) {
+        return { tag_id: Number(tag.tag_id), name: tag.name };
+      });
   }
 
   async function save(event) {
@@ -243,7 +278,7 @@
     payload.version = Number(element('taskEditorVersion').value);
 
     var before = store.snapshot();
-    store.replace(Object.assign({}, current, payload));
+    store.replace(Object.assign({}, current, payload, { tags: tagsOf(payload.tag_ids) }));
 
     try {
       var updated = await core.request(core.itemsUrl('/' + id), {
@@ -295,6 +330,60 @@
         dueInput.value = formatDate(target);
       });
     });
+  }
+
+  /**
+   * 編集ダイアログからタグを新規追加する。追加したタグはそのまま選択状態にする。
+   * Adds a tag straight from the editor and selects it for the current task.
+   */
+  async function addTagFromEditor() {
+    var input = element('taskEditorTagInput');
+    if (!input || !modules.tags) return;
+    var name = input.value.trim();
+    if (!name) return;
+
+    var max = (core.config.limits && core.config.limits.tagsPerItem) || 10;
+    if (selectedTagIds.length >= max) {
+      showError('1つのタスクに設定できるタグは' + max + '件までです。');
+      return;
+    }
+
+    try {
+      var tag = await modules.tags.createTag(name);
+      var id = Number(tag.tag_id);
+      if (selectedTagIds.indexOf(id) < 0) {
+        selectedTagIds.push(id);
+      }
+      input.value = '';
+      input.focus();
+      showError('');
+      renderTagPicker();
+    } catch (err) {
+      showError(err.message || 'タグを追加できませんでした。');
+    }
+  }
+
+  function initTagControls() {
+    var addBtn = element('taskEditorTagAdd');
+    if (addBtn) {
+      addBtn.addEventListener('click', addTagFromEditor);
+    }
+    var input = element('taskEditorTagInput');
+    if (input) {
+      // Enter でフォーム送信されないよう、ここでタグ追加として処理する。
+      // Enter adds a tag instead of submitting the whole editor form.
+      input.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+        addTagFromEditor();
+      });
+    }
+    var manageBtn = element('taskEditorTagManage');
+    if (manageBtn && modules.tags) {
+      manageBtn.addEventListener('click', function () {
+        modules.tags.openManager();
+      });
+    }
   }
 
   function initStatusSegments() {
@@ -357,6 +446,15 @@
 
     initQuickDates();
     initStatusSegments();
+    initTagControls();
+
+    // タグの追加・改名・削除を編集画面のチップへ反映する。
+    // Keep the picker in sync with tag add / rename / delete.
+    store.subscribe(function () {
+      if (dialog && dialog.open) {
+        renderTagPicker();
+      }
+    });
   }
 
   modules.editor = {
