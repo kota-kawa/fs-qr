@@ -1158,11 +1158,6 @@
   --column-color: var(--task-done);
 }
 
-.task-column.is-drop-target {
-  border-color: var(--task-accent);
-  box-shadow: 0 0 0 3px var(--task-ring);
-}
-
 .task-column__header {
   display: flex;
   align-items: center;
@@ -1342,12 +1337,6 @@
   gap: 0.55rem;
   min-height: 96px;
   padding: 0.6rem;
-  transition: background-color 0.2s ease;
-}
-
-.task-column__list.is-drag-over {
-  background-color: rgba(245, 158, 11, 0.07);
-  border-radius: 0 0 var(--radius-xl, 18px) var(--radius-xl, 18px);
 }
 
 .task-column.is-collapsed .task-column__list,
@@ -1470,15 +1459,6 @@
   border-radius: 13px;
   background: #ffffff;
   box-shadow: 0 22px 40px -12px rgba(15, 23, 42, 0.45);
-}
-
-/* Drop placeholder / ドロップ位置プレースホルダー */
-.task-drop-placeholder {
-  height: 46px;
-  border: 2px dashed var(--task-accent);
-  border-radius: 12px;
-  background: rgba(245, 158, 11, 0.09);
-  animation: taskFadeIn 0.12s ease;
 }
 
 .task-card__check {
@@ -3556,7 +3536,6 @@
   .task-column,
   .task-menu,
   .task-progress__ring-value,
-  .task-drop-placeholder,
   .task-inline-add,
   .task-filter-panel,
   .task-editor-advanced__body,
