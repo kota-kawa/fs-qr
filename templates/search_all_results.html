@@ -2,13 +2,13 @@
 
 {% block meta_robots %}noindex, nofollow{% endblock %}
 {% block meta_googlebot %}noindex, nofollow{% endblock %}
-{% block page_title %}横断検索結果 | FS!QR{% endblock %}
-{% block meta_description %}FS!QRの横断検索結果ページです。{% endblock %}
-{% block meta_keywords %}FS QR, 横断検索, 検索結果{% endblock %}
-{% block og_title %}横断検索結果 | FS!QR{% endblock %}
-{% block og_description %}FS!QRの横断検索結果ページです。{% endblock %}
-{% block twitter_title %}横断検索結果 | FS!QR{% endblock %}
-{% block twitter_description %}FS!QRの横断検索結果ページです。{% endblock %}
+{% block page_title %}{{ _("横断検索結果 | FS!QR") }}{% endblock %}
+{% block meta_description %}{{ _("FS!QRの横断検索結果ページです。") }}{% endblock %}
+{% block meta_keywords %}{{ _("FS QR, 横断検索, 検索結果") }}{% endblock %}
+{% block og_title %}{{ _("横断検索結果 | FS!QR") }}{% endblock %}
+{% block og_description %}{{ _("FS!QRの横断検索結果ページです。") }}{% endblock %}
+{% block twitter_title %}{{ _("横断検索結果 | FS!QR") }}{% endblock %}
+{% block twitter_description %}{{ _("FS!QRの横断検索結果ページです。") }}{% endblock %}
 
 {% block contents %}
 <style>
@@ -144,9 +144,9 @@
 
 <div class="search-result-shell">
   <div class="search-result-panel">
-    <h2 class="search-result-title">横断検索結果</h2>
+    <h2 class="search-result-title">{{ _("横断検索結果") }}</h2>
     {% if searched_id %}
-      <p class="search-result-id">検索ID: {{ searched_id }}</p>
+<p class="search-result-id">{{ _("検索ID:") }} {{ searched_id }}</p>
     {% endif %}
     <p class="search-result-message">{{ message }}</p>
 
@@ -160,20 +160,20 @@
         {% endfor %}
       </div>
     {% else %}
-      <ul class="search-result-checklist" aria-label="検索できない場合の確認事項">
-        <li>IDは6文字の半角英数字です。</li>
-        <li>大文字と小文字は区別されます。</li>
-        <li>パスワードは6桁の数字です。</li>
-        <li>保存期間を過ぎた共有は自動削除されます。</li>
+      <ul class="search-result-checklist" aria-label="{{ _("検索できない場合の確認事項") }}">
+        <li>{{ _("IDは6文字の半角英数字です。") }}</li>
+        <li>{{ _("大文字と小文字は区別されます。") }}</li>
+        <li>{{ _("パスワードは6桁の数字です。") }}</li>
+        <li>{{ _("保存期間を過ぎた共有は自動削除されます。") }}</li>
       </ul>
     {% endif %}
 
     <div class="search-result-actions">
-      <a class="search-result-back" href="/">トップページへ戻る</a>
+      <a class="search-result-back" href="/">{{ _("トップページへ戻る") }}</a>
       {% if not matches %}
-        <a class="search-result-cta" href="/fs-qr">新しく共有する</a>
-        <a class="search-result-cta" href="/group">グループを作成する</a>
-        <a class="search-result-cta" href="/note">ノートを作成する</a>
+        <a class="search-result-cta" href="/fs-qr">{{ _("新しく共有する") }}</a>
+        <a class="search-result-cta" href="/group">{{ _("グループを作成する") }}</a>
+        <a class="search-result-cta" href="/note">{{ _("ノートを作成する") }}</a>
       {% endif %}
     </div>
   </div>

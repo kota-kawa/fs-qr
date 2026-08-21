@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>登録不要のグループファイル共有｜チームで使えるFS!QR Group</title>
-  <meta name="description" content="FS!QR Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。">
+  <title>{{ _("登録不要のグループファイル共有｜チームで使えるFS!QR Group") }}</title>
+  <meta name="description" content="{{ _("FS!QR Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。") }}">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#17261f">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,21 +14,21 @@
   {% endfor %}
 
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale" content="{{ og_locale }}">
   <meta property="og:site_name" content="FS!QR Group">
-  <meta property="og:title" content="登録不要のグループファイル共有｜FS!QR Group">
-  <meta property="og:description" content="チームのファイルをひとつのルームへ。登録なしで作成し、URL・QRコード・IDとパスワードで共有できます。">
+  <meta property="og:title" content="{{ _("登録不要のグループファイル共有｜FS!QR Group") }}">
+  <meta property="og:description" content="{{ _("チームのファイルをひとつのルームへ。登録なしで作成し、URL・QRコード・IDとパスワードで共有できます。") }}">
   <meta property="og:url" content="{{ request.canonical_url }}">
   <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="723">
-  <meta property="og:image:alt" content="FS!QR Groupのグループファイル共有サービス">
+  <meta property="og:image:alt" content="{{ _("FS!QR Groupのグループファイル共有サービス") }}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="登録不要のグループファイル共有｜FS!QR Group">
-  <meta name="twitter:description" content="チームのファイルをひとつのルームへ。アカウント登録なしで始められます。">
+  <meta name="twitter:title" content="{{ _("登録不要のグループファイル共有｜FS!QR Group") }}">
+  <meta name="twitter:description" content="{{ _("チームのファイルをひとつのルームへ。アカウント登録なしで始められます。") }}">
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
-  <meta name="twitter:image:alt" content="FS!QR Groupのグループファイル共有サービス">
+  <meta name="twitter:image:alt" content="{{ _("FS!QR Groupのグループファイル共有サービス") }}">
 
   <link rel="icon" href="{{ staticfile('favicon.ico') }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon2.png') }}">
@@ -40,22 +40,22 @@
     "@type": "SoftwareApplication",
     "name": "FS!QR Group",
     "url": {{ request.canonical_url | tojson }},
-    "description": "アカウント登録不要で使える、ルーム型のグループファイル共有Webアプリケーションです。",
+    "description": {{ _("アカウント登録不要で使える、ルーム型のグループファイル共有Webアプリケーションです。") | tojson }},
     "applicationCategory": "BusinessApplication",
     "applicationSubCategory": "File Sharing",
     "operatingSystem": "Web Browser",
-    "inLanguage": "ja-JP",
+    "inLanguage": {{ schema_language | tojson }},
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "JPY"
     },
     "featureList": [
-      "アカウント登録不要のルーム作成",
-      "複数人でのファイル共有",
-      "共有URLとQRコードによる参加",
-      "ルームIDとパスワードによる参加",
-      "保存期間経過後の自動削除"
+      {{ _("アカウント登録不要のルーム作成") | tojson }},
+      {{ _("複数人でのファイル共有") | tojson }},
+      {{ _("共有URLとQRコードによる参加") | tojson }},
+      {{ _("ルームIDとパスワードによる参加") | tojson }},
+      {{ _("保存期間経過後の自動削除") | tojson }}
     ],
     "publisher": {
       "@type": "Organization",
@@ -71,50 +71,50 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "アカウント登録は必要ですか？",
+        "name": {{ _("アカウント登録は必要ですか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
+          "text": {{ _("必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "選んだファイルはいつ送信されますか？",
+        "name": {{ _("選んだファイルはいつ送信されますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
+          "text": {{ _("トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "メンバーはどのようにルームへ参加しますか？",
+        "name": {{ _("メンバーはどのようにルームへ参加しますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
+          "text": {{ _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "ファイルはいつまで保存されますか？",
+        "name": {{ _("ファイルはいつまで保存されますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
+          "text": {{ _("ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "アップロードできるファイル数や容量に上限はありますか？",
+        "name": {{ _("アップロードできるファイル数や容量に上限はありますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
+          "text": {{ _("上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。") | tojson }}
         }
       },
       {
         "@type": "Question",
-        "name": "機密性の高いファイルにも使えますか？",
+        "name": {{ _("機密性の高いファイルにも使えますか？") | tojson }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
+          "text": {{ _("ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。") | tojson }}
         }
       }
     ]
@@ -122,24 +122,24 @@
   </script>
 </head>
 <body class="product-lp product-lp--group">
-  <a class="lp-skip-link" href="#main-content">本文へ移動</a>
+  <a class="lp-skip-link" href="#main-content">{{ _("本文へ移動") }}</a>
 
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
-      <a class="lp-brand" href="/group_menu" aria-label="FS!QR Group トップへ">
+      <a class="lp-brand" href="/group_menu" aria-label="{{ _("FS!QR Group トップへ") }}">
         <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon2.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__text">
           <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
           <span class="lp-brand__tagline">Team file room</span>
         </span>
       </a>
-      <nav class="lp-nav" aria-label="ページ内ナビゲーション">
-        <a href="#how-it-works">使い方</a>
-        <a href="#features">特長</a>
-        <a href="#use-cases">活用例</a>
-        <a href="#faq">よくある質問</a>
+      <nav class="lp-nav" aria-label="{{ _("ページ内ナビゲーション") }}">
+        <a href="#how-it-works">{{ _("使い方") }}</a>
+        <a href="#features">{{ _("特長") }}</a>
+        <a href="#use-cases">{{ _("活用例") }}</a>
+        <a href="#faq">{{ _("よくある質問") }}</a>
       </nav>
-      <a class="lp-button lp-button--small lp-button--secondary" href="/group">ルームに参加</a>
+      <a class="lp-button lp-button--small lp-button--secondary" href="/group">{{ _("ルームに参加") }}</a>
     </div>
   </header>
 
@@ -147,21 +147,21 @@
     <section class="lp-hero" aria-labelledby="hero-title">
       <div class="lp-container lp-hero__grid">
         <div class="lp-hero__content">
-          <p class="lp-eyebrow"><span aria-hidden="true"></span> 登録不要のグループファイル共有</p>
+          <p class="lp-eyebrow"><span aria-hidden="true"></span> {{ _("登録不要のグループファイル共有") }}</p>
           <h1 id="hero-title">
-            <span class="lp-hero__title-line">ファイルを置けば、</span>
-            <span class="lp-hero__title-accent">もう共有できる。</span>
+            <span class="lp-hero__title-line">{{ _("ファイルを置けば、") }}</span>
+            <span class="lp-hero__title-accent">{{ _("もう共有できる。") }}</span>
           </h1>
-          <p class="lp-hero__lead">先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。</p>
-          <ul class="lp-check-list lp-hero__checks" aria-label="サービスの概要">
-            <li><span aria-hidden="true">✓</span> アカウント登録なし</li>
-            <li><span aria-hidden="true">✓</span> ブラウザで完結</li>
-            <li><span aria-hidden="true">✓</span> 発行するまで送信しない</li>
+          <p class="lp-hero__lead">{{ _("先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。") }}</p>
+          <ul class="lp-check-list lp-hero__checks" aria-label="{{ _("サービスの概要") }}">
+            <li><span aria-hidden="true">✓</span> {{ _("アカウント登録なし") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("ブラウザで完結") }}</li>
+            <li><span aria-hidden="true">✓</span> {{ _("発行するまで送信しない") }}</li>
           </ul>
           <p class="lp-hero__aside">
-            <a class="lp-text-link" href="/create_room">ルームIDや保存期間を指定して作成する</a>
+            <a class="lp-text-link" href="/create_room">{{ _("ルームIDや保存期間を指定して作成する") }}</a>
             <span aria-hidden="true">・</span>
-            <a class="lp-text-link" href="/group">IDでルームに参加する</a>
+            <a class="lp-text-link" href="/group">{{ _("IDでルームに参加する") }}</a>
           </p>
         </div>
 
@@ -176,81 +176,81 @@
                  data-max-total-size-bytes="{{ upload_max_total_size_bytes }}"
                  data-max-total-size-mb="{{ upload_max_total_size_mb }}">
           <div class="lp-instant__bar">
-            <h2 class="lp-instant__title" id="instant-title">共有ボックス</h2>
-            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">この端末で選択中</p>
+            <h2 class="lp-instant__title" id="instant-title">{{ _("共有ボックス") }}</h2>
+            <p class="lp-instant__state" data-instant-state role="status" aria-live="polite">{{ _("この端末で選択中") }}</p>
           </div>
 
           <div class="lp-dropzone" data-instant-dropzone>
-            <p class="lp-dropzone__lead">ここにファイルをドロップ</p>
-            <p class="lp-dropzone__sub">または</p>
-            <label class="lp-dropzone__button" for="instant-file-input">ファイルを選ぶ</label>
+            <p class="lp-dropzone__lead">{{ _("ここにファイルをドロップ") }}</p>
+            <p class="lp-dropzone__sub">{{ _("または") }}</p>
+            <label class="lp-dropzone__button" for="instant-file-input">{{ _("ファイルを選ぶ") }}</label>
             <input type="file" id="instant-file-input" class="lp-visually-hidden" data-instant-file-input multiple>
-            <p class="lp-dropzone__limits">最大{{ upload_max_files }}個・合計{{ upload_max_total_size_mb }}MBまで</p>
+          <p class="lp-dropzone__limits">{{ _("最大") }}{{ upload_max_files }}{{ _("個・合計") }}{{ upload_max_total_size_mb }}{{ _("MBまで") }}</p>
           </div>
 
-          <ul class="lp-file-list" data-instant-file-list aria-label="選択したファイル"></ul>
+          <ul class="lp-file-list" data-instant-file-list aria-label="{{ _("選択したファイル") }}"></ul>
 
           <div class="lp-instant__meta">
-            <span class="lp-instant__count" data-instant-count>ファイル未選択</span>
-            <button type="button" class="lp-instant__clear" data-instant-clear hidden>すべて外す</button>
+            <span class="lp-instant__count" data-instant-count>{{ _("ファイル未選択") }}</span>
+            <button type="button" class="lp-instant__clear" data-instant-clear hidden>{{ _("すべて外す") }}</button>
           </div>
           <p class="lp-instant__error" data-instant-error role="alert" hidden></p>
           <button type="button" class="lp-button lp-button--primary lp-instant__submit" data-instant-publish disabled>
-            共有リンクを発行する <span aria-hidden="true">→</span>
+            {{ _("共有リンクを発行する") }} <span aria-hidden="true">→</span>
           </button>
-          <p class="lp-instant__hint" data-instant-hint>発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。</p>
+          <p class="lp-instant__hint" data-instant-hint>{{ _("発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。") }}</p>
 
           <!-- Share panel / 発行後に共有情報をその場で提示する -->
           <div class="lp-instant__share" data-instant-share-panel hidden>
-            <p class="lp-instant__share-title">共有の準備ができました</p>
+            <p class="lp-instant__share-title">{{ _("共有の準備ができました") }}</p>
             <div class="lp-instant__share-body">
-              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="共有用QRコード"></div>
+              <div class="lp-instant__qr" data-instant-qr role="img" aria-label="{{ _("共有用QRコード") }}"></div>
               <dl class="lp-instant__share-list">
                 <div class="lp-instant__share-row">
-                  <dt>共有URL</dt>
+                  <dt>{{ _("共有URL") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value lp-instant__share-value--url" data-instant-share-url></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="url">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="url">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>ルームID</dt>
+                  <dt>{{ _("ルームID") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-room-id></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="room">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="room">{{ _("コピー") }}</button>
                   </dd>
                 </div>
                 <div class="lp-instant__share-row">
-                  <dt>パスワード</dt>
+                  <dt>{{ _("パスワード") }}</dt>
                   <dd>
                     <span class="lp-instant__share-value" data-instant-password></span>
-                    <button type="button" class="lp-instant__copy" data-instant-copy="password">コピー</button>
+                    <button type="button" class="lp-instant__copy" data-instant-copy="password">{{ _("コピー") }}</button>
                   </dd>
                 </div>
               </dl>
             </div>
             <a class="lp-button lp-button--primary lp-instant__open" data-instant-open href="/group">
-              ルームを開く <span aria-hidden="true">→</span>
+            {{ _("ルームを開く") }} <span aria-hidden="true">→</span>
             </a>
-            <p class="lp-instant__hint">URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。</p>
-            <button type="button" class="lp-instant__clear" data-instant-reset>別のルームを新しく作る</button>
+            <p class="lp-instant__hint">{{ _("URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。") }}</p>
+            <button type="button" class="lp-instant__clear" data-instant-reset>{{ _("別のルームを新しく作る") }}</button>
           </div>
 
           <noscript>
-            <p class="lp-instant__hint">この共有ボックスにはJavaScriptが必要です。<a href="/create_room">グループルームを作成</a>してからご利用ください。</p>
+            <p class="lp-instant__hint">{{ _("この共有ボックスにはJavaScriptが必要です。") }}<a href="/create_room">{{ _("グループルームを作成") }}</a>{{ _("してからご利用ください。") }}</p>
           </noscript>
         </section>
       </div>
     </section>
 
-    <section class="lp-trust" aria-label="FS!QR Groupの利用ポイント">
+    <section class="lp-trust" aria-label="{{ _("FS!QR Groupの利用ポイント") }}">
       <div class="lp-container">
-        <p class="lp-trust__lead">チーム共有に必要なことだけ</p>
+        <p class="lp-trust__lead">{{ _("チーム共有に必要なことだけ") }}</p>
         <div class="lp-trust__items">
-          <div class="lp-trust__item"><strong>登録不要</strong><span>メンバーのアカウント作成なし</span></div>
-          <div class="lp-trust__item"><strong>保存期間を選択</strong><span>1・6・12・24時間</span></div>
-          <div class="lp-trust__item"><strong>ひとつのルーム</strong><span>ファイルを一か所に集約</span></div>
-          <div class="lp-trust__item"><strong>ブラウザ完結</strong><span>PC・スマートフォンに対応</span></div>
+          <div class="lp-trust__item"><strong>{{ _("登録不要") }}</strong><span>{{ _("メンバーのアカウント作成なし") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("保存期間を選択") }}</strong><span>{{ _("1・6・12・24時間") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("ひとつのルーム") }}</strong><span>{{ _("ファイルを一か所に集約") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("ブラウザ完結") }}</strong><span>{{ _("PC・スマートフォンに対応") }}</span></div>
         </div>
       </div>
     </section>
@@ -258,9 +258,9 @@
     <section id="how-it-works" class="lp-section lp-section--steps" aria-labelledby="how-title">
       <div class="lp-container">
         <div class="lp-section__heading">
-          <p class="lp-section__eyebrow">01&nbsp;&nbsp;使い方</p>
-          <h2 id="how-title" class="lp-section__title">共有開始まで、<wbr>わずか3ステップ</h2>
-          <p class="lp-section__lead">専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。</p>
+          <p class="lp-section__eyebrow">{{ _("01&nbsp;&nbsp;使い方") }}</p>
+          <h2 id="how-title" class="lp-section__title">{{ _("共有開始まで、") }}<wbr>{{ _("わずか3ステップ") }}</h2>
+          <p class="lp-section__lead">{{ _("専用アプリのインストールも、参加メンバーのアカウント作成も必要ありません。") }}</p>
         </div>
         <ol class="lp-steps">
           <li class="lp-step">
@@ -272,8 +272,8 @@
                 <path d="M9.5 13.5h5"/>
               </svg>
             </div>
-            <h3>ファイルを選ぶ</h3>
-            <p>このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。</p>
+            <h3>{{ _("ファイルを選ぶ") }}</h3>
+            <p>{{ _("このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。") }}</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">02</span>
@@ -283,8 +283,8 @@
                 <path d="M14.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.6-1.6"/>
               </svg>
             </div>
-            <h3>共有リンクを発行</h3>
-            <p>ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。</p>
+            <h3>{{ _("共有リンクを発行") }}</h3>
+            <p>{{ _("ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。") }}</p>
           </li>
           <li class="lp-step">
             <span class="lp-step__number">03</span>
@@ -296,13 +296,13 @@
                 <path d="M12.5 16.5 16 20l3.5-3.5"/>
               </svg>
             </div>
-            <h3>みんなで共有</h3>
-            <p>参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。</p>
+            <h3>{{ _("みんなで共有") }}</h3>
+            <p>{{ _("参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。") }}</p>
           </li>
         </ol>
         <div class="lp-section__action">
-          <a class="lp-button lp-button--primary" href="#instant-share-box">共有ボックスを開く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/create_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--primary" href="#instant-share-box">{{ _("共有ボックスを開く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -310,8 +310,8 @@
     <section id="features" class="lp-section lp-section--tint" aria-labelledby="features-title">
       <div class="lp-container">
         <div class="lp-section__heading lp-section__heading--left">
-          <p class="lp-section__eyebrow">02&nbsp;&nbsp;Groupの特長</p>
-          <h2 id="features-title" class="lp-section__title">チームの一時共有に、<br>ちょうどいい仕組み。</h2>
+          <p class="lp-section__eyebrow">{{ _("02&nbsp;&nbsp;Groupの特長") }}</p>
+          <h2 id="features-title" class="lp-section__title">{{ _("チームの一時共有に、") }}<br>{{ _("ちょうどいい仕組み。") }}</h2>
         </div>
         <div class="lp-grid lp-grid--features">
           <article class="lp-card lp-feature-card lp-feature-card--wide">
@@ -325,8 +325,8 @@
                 <path d="M14 21v-3"/>
               </svg>
             </span>
-            <h3>URLひとつで、チーム全員が同じ場所に集まる</h3>
-            <p>共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。</p>
+            <h3>{{ _("URLひとつで、チーム全員が同じ場所に集まる") }}</h3>
+            <p>{{ _("共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。") }}</p>
             <div class="lp-share-visual">
               <div class="lp-demo-frame">
                 <span class="lp-demo-frame__glow" aria-hidden="true"></span>
@@ -347,7 +347,7 @@
                       controls
                       preload="metadata"
                       poster="{{ staticfile('images/product-landing-pages/group-demo/group-page.jpg') }}"
-                      aria-label="共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画">
+                      aria-label="{{ _("共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画") }}">
                       <source src="{{ staticfile('videos/product-landing-pages/group-demo.mp4') }}" type="video/mp4">
                     </video>
                   </div>
@@ -363,7 +363,7 @@
                   <p>fs-qr.net/group</p>
                 </div>
                 <div class="lp-demo-frame__screen">
-                  <img src="{{ staticfile('images/product-landing-pages/group-demo/group-page.jpg') }}" width="1600" height="1290" alt="FS!QR Groupのルーム画面のスクリーンショット" loading="lazy" decoding="async">
+<img src="{{ staticfile('images/product-landing-pages/group-demo/group-page.jpg') }}" width="1600" height="1290" alt="{{ _("FS!QR Groupのルーム画面のスクリーンショット") }}" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
@@ -377,8 +377,8 @@
                 <path d="M15.6 16.6l1.6 1.6"/>
               </svg>
             </span>
-            <h3>IDとパスワードで参加</h3>
-            <p>共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。</p>
+            <h3>{{ _("IDとパスワードで参加") }}</h3>
+            <p>{{ _("共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">
@@ -388,8 +388,8 @@
                 <path d="M9.5 3h5"/>
               </svg>
             </span>
-            <h3>保存期限を選んで自動削除</h3>
-            <p>保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。</p>
+            <h3>{{ _("保存期限を選んで自動削除") }}</h3>
+            <p>{{ _("保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">
@@ -400,8 +400,8 @@
                 <path d="M12.5 16.5 16 20l3.5-3.5"/>
               </svg>
             </span>
-            <h3>メンバーも追加・受け取り</h3>
-            <p>参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。</p>
+            <h3>{{ _("メンバーも追加・受け取り") }}</h3>
+            <p>{{ _("参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">
@@ -411,8 +411,8 @@
                 <path d="M6.4 6.7h.01M9 6.7h.01"/>
               </svg>
             </span>
-            <h3>ブラウザだけで完結</h3>
-            <p>専用アプリを増やさず、PCやスマートフォンのブラウザからアクセスできます。</p>
+            <h3>{{ _("ブラウザだけで完結") }}</h3>
+            <p>{{ _("専用アプリを増やさず、PCやスマートフォンのブラウザからアクセスできます。") }}</p>
           </article>
           <article class="lp-card lp-feature-card lp-feature-card--accent">
             <span class="lp-card__icon" aria-hidden="true">
@@ -423,8 +423,8 @@
                 <path d="M10 11v6M14 11v6"/>
               </svg>
             </span>
-            <h3>ルームはいつでも即削除</h3>
-            <p>共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。</p>
+            <h3>{{ _("ルームはいつでも即削除") }}</h3>
+            <p>{{ _("共有を早く終えたい場合、作成者は保存期間を待たずにルームを削除できます。") }}</p>
           </article>
         </div>
       </div>
@@ -433,33 +433,33 @@
     <section id="use-cases" class="lp-section" aria-labelledby="use-cases-title">
       <div class="lp-container">
         <div class="lp-section__heading">
-          <p class="lp-section__eyebrow">03&nbsp;&nbsp;利用シーン</p>
-          <h2 id="use-cases-title" class="lp-section__title">仕事、学び、イベント。<br>人が集まる場のファイル共有に。</h2>
+          <p class="lp-section__eyebrow">{{ _("03&nbsp;&nbsp;利用シーン") }}</p>
+          <h2 id="use-cases-title" class="lp-section__title">{{ _("仕事、学び、イベント。") }}<br>{{ _("人が集まる場のファイル共有に。") }}</h2>
         </div>
         <figure class="lp-mockup lp-page-shot lp-use-case-visual">
-          <img src="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}" width="1200" height="900" alt="複数のメンバーでファイルを共有する様子を表すイラスト" loading="lazy" decoding="async">
-          <figcaption class="lp-visually-hidden">FS!QR Groupの共同ファイル共有を表す、文字のないイラスト</figcaption>
+<img src="{{ staticfile('images/product-landing-pages/group-illustration.jpg') }}" width="1200" height="900" alt="{{ _("複数のメンバーでファイルを共有する様子を表すイラスト") }}" loading="lazy" decoding="async">
+          <figcaption class="lp-visually-hidden">{{ _("FS!QR Groupの共同ファイル共有を表す、文字のないイラスト") }}</figcaption>
         </figure>
         <div class="lp-grid lp-grid--use-cases">
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">プロジェクトチーム</p>
-              <h3>プロジェクト資料の集約</h3>
-              <p>提案書や画像、進行資料をひとつのルームへ。メール添付が複数のスレッドに散らばるのを防ぎます。</p>
+              <p class="lp-use-card__tag">{{ _("プロジェクトチーム") }}</p>
+              <h3>{{ _("プロジェクト資料の集約") }}</h3>
+              <p>{{ _("提案書や画像、進行資料をひとつのルームへ。メール添付が複数のスレッドに散らばるのを防ぎます。") }}</p>
             </div>
           </article>
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">授業・イベント</p>
-              <h3>授業・研修・イベント</h3>
-              <p>会場にQRコードを掲示し、資料や写真を共有。参加者ごとのアカウント準備は不要です。</p>
+              <p class="lp-use-card__tag">{{ _("授業・イベント") }}</p>
+              <h3>{{ _("授業・研修・イベント") }}</h3>
+              <p>{{ _("会場にQRコードを掲示し、資料や写真を共有。参加者ごとのアカウント準備は不要です。") }}</p>
             </div>
           </article>
           <article class="lp-card lp-use-card">
             <div class="lp-use-card__content">
-              <p class="lp-use-card__tag">社外との連携</p>
-              <h3>社外メンバーとの受け渡し</h3>
-              <p>取引先や協力メンバーと必要な期間だけ共有。相手に新しいサービスへの登録を依頼せず始められます。</p>
+              <p class="lp-use-card__tag">{{ _("社外との連携") }}</p>
+              <h3>{{ _("社外メンバーとの受け渡し") }}</h3>
+              <p>{{ _("取引先や協力メンバーと必要な期間だけ共有。相手に新しいサービスへの登録を依頼せず始められます。") }}</p>
             </div>
           </article>
         </div>
@@ -469,35 +469,35 @@
     <section id="faq" class="lp-section lp-section--faq" aria-labelledby="faq-title">
       <div class="lp-container lp-faq-layout">
         <div class="lp-faq-layout__intro">
-          <p class="lp-section__eyebrow">04&nbsp;&nbsp;よくある質問</p>
-          <h2 id="faq-title" class="lp-section__title">よくある質問</h2>
-          <p>使い始める前に知っておきたい内容をまとめました。</p>
-          <a class="lp-text-link" href="/group_menu">Groupの既存メニューを見る <span aria-hidden="true">→</span></a>
+          <p class="lp-section__eyebrow">{{ _("04&nbsp;&nbsp;よくある質問") }}</p>
+          <h2 id="faq-title" class="lp-section__title">{{ _("よくある質問") }}</h2>
+          <p>{{ _("使い始める前に知っておきたい内容をまとめました。") }}</p>
+          <a class="lp-text-link" href="/group_menu">{{ _("Groupの既存メニューを見る") }} <span aria-hidden="true">→</span></a>
         </div>
         <div class="lp-faq-list">
           <details class="lp-faq-item">
-            <summary>アカウント登録は必要ですか？<span aria-hidden="true"></span></summary>
-            <p>必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。</p>
+            <summary>{{ _("アカウント登録は必要ですか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>選んだファイルはいつ送信されますか？<span aria-hidden="true"></span></summary>
-            <p>トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。</p>
+            <summary>{{ _("選んだファイルはいつ送信されますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>メンバーはどのようにルームへ参加しますか？<span aria-hidden="true"></span></summary>
-            <p>共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。</p>
+            <summary>{{ _("メンバーはどのようにルームへ参加しますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>ファイルはいつまで保存されますか？<span aria-hidden="true"></span></summary>
-            <p>ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。</p>
+            <summary>{{ _("ファイルはいつまで保存されますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>アップロードできるファイル数や容量に上限はありますか？<span aria-hidden="true"></span></summary>
-            <p>上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。</p>
+            <summary>{{ _("アップロードできるファイル数や容量に上限はありますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。") }}</p>
           </details>
           <details class="lp-faq-item">
-            <summary>機密性の高いファイルにも使えますか？<span aria-hidden="true"></span></summary>
-            <p>ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。</p>
+            <summary>{{ _("機密性の高いファイルにも使えますか？") }}<span aria-hidden="true"></span></summary>
+            <p>{{ _("ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。") }}</p>
           </details>
         </div>
       </div>
@@ -505,12 +505,12 @@
 
     <section class="lp-final-cta" aria-labelledby="final-cta-title">
       <div class="lp-container lp-final-cta__inner">
-        <p class="lp-section__eyebrow">いますぐルームを作成</p>
-        <h2 id="final-cta-title">次のファイル共有を、<br>もっと軽やかに。</h2>
-        <p>アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。</p>
+        <p class="lp-section__eyebrow">{{ _("いますぐルームを作成") }}</p>
+        <h2 id="final-cta-title">{{ _("次のファイル共有を、") }}<br>{{ _("もっと軽やかに。") }}</h2>
+        <p>{{ _("アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。") }}</p>
         <div class="lp-actions lp-actions--center">
-          <a class="lp-button lp-button--primary" href="#instant-share-box">共有ボックスにファイルを置く <span aria-hidden="true">→</span></a>
-          <a class="lp-button lp-button--secondary" href="/create_room">ID・保存期間を指定して作る</a>
+          <a class="lp-button lp-button--primary" href="#instant-share-box">{{ _("共有ボックスにファイルを置く") }} <span aria-hidden="true">→</span></a>
+          <a class="lp-button lp-button--secondary" href="/create_room">{{ _("ID・保存期間を指定して作る") }}</a>
         </div>
       </div>
     </section>
@@ -518,21 +518,21 @@
 
   <footer class="lp-footer">
     <div class="lp-container lp-footer__top">
-      <a class="lp-brand lp-brand--footer" href="/group_menu" aria-label="FS!QR Group トップへ">
+      <a class="lp-brand lp-brand--footer" href="/group_menu" aria-label="{{ _("FS!QR Group トップへ") }}">
         <span class="lp-brand__mark"><img src="{{ staticfile('apple-touch-icon2.png') }}" width="180" height="180" alt=""></span>
         <span class="lp-brand__name">FS!QR <strong>Group</strong></span>
       </a>
-      <nav class="lp-footer__nav" aria-label="フッターナビゲーション">
-        <a href="/group_menu">Groupメニュー</a>
-        <a href="/usage">使い方</a>
-        <a href="/terms">利用規約</a>
-        <a href="/privacy-policy">プライバシーポリシー</a>
-        <a href="/contact">お問い合わせ</a>
+      <nav class="lp-footer__nav" aria-label="{{ _("フッターナビゲーション") }}">
+        <a href="/group_menu">{{ _("Groupメニュー") }}</a>
+        <a href="/usage">{{ _("使い方") }}</a>
+        <a href="/terms">{{ _("利用規約") }}</a>
+        <a href="/privacy-policy">{{ _("プライバシーポリシー") }}</a>
+        <a href="/contact">{{ _("お問い合わせ") }}</a>
       </nav>
     </div>
     <div class="lp-container lp-footer__bottom">
       <small>&copy; 2026 FS!QR. All rights reserved.</small>
-      <p>登録不要のファイル共有サービス</p>
+      <p>{{ _("登録不要のファイル共有サービス") }}</p>
     </div>
   </footer>
 

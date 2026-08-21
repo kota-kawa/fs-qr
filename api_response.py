@@ -4,7 +4,7 @@ from typing import Any, Mapping
 
 from starlette.responses import JSONResponse
 
-from i18n import current_language_ctx, get_translation_value
+from i18n import current_language_ctx, get_frontend_messages, get_translator
 
 
 def _normalize_data(data: Mapping[str, Any] | None) -> dict[str, Any]:
@@ -22,16 +22,12 @@ def api_error_payload(
 ) -> dict[str, Any]:
     lang = current_language_ctx.get()
 
-    # 1. Try to translate in "ui" section (if error matches a ui key)
-    translated_error = get_translation_value(lang, "ui", error)
-
-    # 2. Try to translate in "phrases" section (since error message might be a phrase)
+    # Server errors use the same Babel catalog as Jinja.  JSON JS messages are
+    # retained only as a compatibility fallback for API callers that pass a
+    # browser message key.
+    translated_error = get_translator(lang)(error)
     if translated_error == error:
-        translated_error = get_translation_value(lang, "phrases", error)
-
-    # 3. Try to translate in "js" section (just in case)
-    if translated_error == error:
-        translated_error = get_translation_value(lang, "js", error)
+        translated_error = get_frontend_messages(lang).get(error, error)
 
     return {
         "status": "error",

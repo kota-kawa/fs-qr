@@ -7,6 +7,8 @@ locales/
   en/
     ui.json
     js.json
+    LC_MESSAGES/
+      messages.po
     phrases/
       articles/
         _shared.json
@@ -20,9 +22,10 @@ locales/
 
 ## セクション
 
-- `ui.json`: Jinja の `t("...")` で参照するサーバーサイドUI文言。
+- `LC_MESSAGES/messages.po`: Babel が読み込むサーバーサイドの gettext カタログ。
+- `ui.json`: 安定キーと翻訳文の管理元。`messages.po` の生成元であり、実行時に Jinja が直接読むファイルではない。
 - `js.json`: `window.FSQR_I18N` 経由で参照するフロントエンド文言。
-- `phrases/*.json`: 既存テンプレートの日本語原文を、レンダリング後に置換するための互換カタログ。
+- `phrases/*.json`: 既存テンプレートの msgid と翻訳文を保持する互換カタログ。サーバー実行時は Babel の PO へ取り込まれ、HTML 生成後の置換には使わない。
 
 `phrases` は肥大化しやすいため、用途ごとにシャードを分ける。
 
@@ -46,6 +49,21 @@ SEO補完は
 
 `locale_store.py` は `phrases/**/*.json` を再帰的に読み込むため、記事が増えても
 1ファイルへ追記し続ける必要はない。
+
+## Babel カタログの更新
+
+テンプレートの `_()`、`gettext()`、`ngettext()` を追加・変更した場合や、JSON の
+翻訳を更新した場合は、次のコマンドで PO を再生成する。
+
+```bash
+python3 scripts/generate_babel_catalogs.py
+python3 scripts/generate_babel_catalogs.py --check
+```
+
+アプリケーションは `messages.po` を Babel でプロセス内コンパイルし、Jinja の
+`jinja2.ext.i18n` へリクエストごとの gettext を接続する。言語フォールバックは
+`i18n_support/constants.py` の定義に従う。JSON の `js` セクションだけは、ブラウザへ
+シリアライズするため従来どおり JSON として扱う。
 
 ## 検証
 

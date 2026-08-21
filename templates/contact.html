@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}FS!QR お問い合わせ | ご質問・ご意見をお聞かせください{% endblock %}
+{% block page_title %}{{ _("FS!QR お問い合わせ | ご質問・ご意見をお聞かせください") }}{% endblock %}
 
-{% block meta_description %}FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。使い方やFAQもご確認いただけます。{% endblock %}
+{% block meta_description %}{{ _("FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。使い方やFAQもご確認いただけます。") }}{% endblock %}
 
-{% block meta_keywords %}FS QR, お問い合わせ, 問い合わせフォーム, サポート, 質問, FAQ, よくある質問, 使い方, ヘルプ, カスタマーサポート{% endblock %}
+{% block meta_keywords %}{{ _("FS QR, お問い合わせ, 問い合わせフォーム, サポート, 質問, FAQ, よくある質問, 使い方, ヘルプ, カスタマーサポート") }}{% endblock %}
 
-{% block og_title %}FS!QR お問い合わせ | ご質問・ご意見をお聞かせください{% endblock %}
-{% block og_description %}FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。{% endblock %}
+{% block og_title %}{{ _("FS!QR お問い合わせ | ご質問・ご意見をお聞かせください") }}{% endblock %}
+{% block og_description %}{{ _("FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。") }}{% endblock %}
 
-{% block twitter_title %}FS!QR お問い合わせ | ご質問・ご意見をお聞かせください{% endblock %}
-{% block twitter_description %}FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。{% endblock %}
+{% block twitter_title %}{{ _("FS!QR お問い合わせ | ご質問・ご意見をお聞かせください") }}{% endblock %}
+{% block twitter_description %}{{ _("FS!QRファイル共有サービスに関するご質問、ご意見、ご要望をお気軽にお問い合わせください。運営チームが迅速に対応いたします。") }}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
@@ -19,8 +19,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "お問い合わせ", "item": "{{ request.url_root }}contact" }
+    { "@type": "ListItem", "position": 1, "name": {{ _("ホーム") | tojson }}, "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ _("お問い合わせ") | tojson }}, "item": "{{ request.url_root }}contact" }
   ]
 }
 </script>
@@ -30,43 +30,43 @@
 <div class="info-page">
   <div class="info-box">
     <div class="info-box-header">
-      <h1>お問い合わせ</h1>
-      <div class="subtitle">ご質問・ご意見をお聞かせください</div>
+      <h1>{{ _("お問い合わせ") }}</h1>
+      <div class="subtitle">{{ _("ご質問・ご意見をお聞かせください") }}</div>
     </div>
     <div class="info-box-content">
-      <p>FS!QRに関するご質問、ご意見、ご要望などがございましたら、お気軽にお問い合わせください。運営チームが迅速に対応いたします。</p>
+      <p>{{ _("FS!QRに関するご質問、ご意見、ご要望などがございましたら、お気軽にお問い合わせください。運営チームが迅速に対応いたします。") }}</p>
 
-      <h3>{{ icon('pencil_square', with_text=True) }}お問い合わせの前に</h3>
-      <p>お問い合わせの前に、以下のページもご確認ください：</p>
+      <h3>{{ icon('pencil_square', with_text=True) }}{{ _("お問い合わせの前に") }}</h3>
+      <p>{{ _("お問い合わせの前に、以下のページもご確認ください：") }}</p>
       <ul>
-        <li><a href="/usage">使い方</a> - サービスの基本的な使用方法</li>
-        <li><a href="/articles">解説記事</a> - 詳細な機能説明とFAQ</li>
-        <li><a href="/privacy-policy">プライバシーポリシー</a> - データの取り扱いについて</li>
+        <li><a href="/usage">{{ _("使い方") }}</a> {{ _("- サービスの基本的な使用方法") }}</li>
+        <li><a href="/articles">{{ _("解説記事") }}</a> {{ _("- 詳細な機能説明とFAQ") }}</li>
+        <li><a href="/privacy-policy">{{ _("プライバシーポリシー") }}</a> {{ _("- データの取り扱いについて") }}</li>
       </ul>
 
-      <h3>{{ icon('envelope', with_text=True) }}お問い合わせフォーム</h3>
-      <p>以下のフォームから、お気軽にお問い合わせください。いただいたメッセージは運営チームが確認し、できるだけ早くご返信いたします。</p>
-      <p>プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。</p>
+      <h3>{{ icon('envelope', with_text=True) }}{{ _("お問い合わせフォーム") }}</h3>
+      <p>{{ _("以下のフォームから、お気軽にお問い合わせください。いただいたメッセージは運営チームが確認し、できるだけ早くご返信いたします。") }}</p>
+      <p>{{ _("プライバシーに関する問い合わせ、削除依頼、違法または権利侵害のおそれがあるコンテンツの通報も、このフォームから受け付けています。対象URL、ルームID、問題の内容、返信先をできるだけ具体的に記載してください。") }}</p>
       
       <div style="text-align: center; margin: 2rem 0;">
-        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/viewform?hl=ja" target="_blank" rel="noopener" class="contact-form-link">お問い合わせフォーム</a>
+        <a href="https://docs.google.com/forms/d/187L9ICmitA7QHKMrwSGRcWQ2HPUfaoHKmXae2hcjbG8/viewform?hl=ja" target="_blank" rel="noopener" class="contact-form-link">{{ _("お問い合わせフォーム") }}</a>
       </div>
 
-      <h3>{{ icon('bolt', with_text=True) }}よくある質問</h3>
+      <h3>{{ icon('bolt', with_text=True) }}{{ _("よくある質問") }}</h3>
       
-      <h4>ファイルはどのくらいの期間保存されますか？</h4>
-      <p>アップロードされたファイルは暗号化されて一時的に保存され、一定期間後に自動的に削除されます。</p>
+      <h4>{{ _("ファイルはどのくらいの期間保存されますか？") }}</h4>
+      <p>{{ _("アップロードされたファイルは暗号化されて一時的に保存され、一定期間後に自動的に削除されます。") }}</p>
       
-      <h4>パスワードを忘れてしまいました</h4>
-      <p>セキュリティ上の理由により、パスワードの復旧はできません。新しくファイルをアップロードしてください。</p>
+      <h4>{{ _("パスワードを忘れてしまいました") }}</h4>
+      <p>{{ _("セキュリティ上の理由により、パスワードの復旧はできません。新しくファイルをアップロードしてください。") }}</p>
       
-      <h4>大きなファイルをアップロードできますか？</h4>
-      <p>ファイルサイズには制限があります。詳細は<a href="/usage">使い方</a>ページをご確認ください。</p>
+      <h4>{{ _("大きなファイルをアップロードできますか？") }}</h4>
+      <p>{{ _("ファイルサイズには制限があります。詳細は") }}<a href="/usage">{{ _("使い方") }}</a>{{ _("ページをご確認ください。") }}</p>
 
       <p style="margin-top: 2rem; text-align: center; color: var(--text-medium);">
-        <small>お問い合わせいただいた内容は、サービスの改善にも活用させていただきます。</small>
+        <small>{{ _("お問い合わせいただいた内容は、サービスの改善にも活用させていただきます。") }}</small>
       </p>
-      <p class="page-updated"><span>最終更新日：</span><time datetime="2026-07-17">2026-07-17</time></p>
+      <p class="page-updated"><span>{{ _("最終更新日：") }}</span><time datetime="2026-07-17">2026-07-17</time></p>
     </div>
   </div>
 </div>

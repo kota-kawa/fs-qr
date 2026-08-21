@@ -3,19 +3,19 @@
 {% block meta_robots %}noindex, nofollow{% endblock %}
 {% block meta_googlebot %}noindex, nofollow{% endblock %}
 
-{% block page_title %}グループルーム検索 | FS!QR Group - 既存ルームへの参加{% endblock %}
+{% block page_title %}{{ _("グループルーム検索 | FS!QR Group - 既存ルームへの参加") }}{% endblock %}
 
-{% block meta_description %}FS!QR Groupで既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有を始めましょう。{% endblock %}
+{% block meta_description %}{{ _("FS!QR Groupで既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有を始めましょう。") }}{% endblock %}
 
-{% block meta_keywords %}グループルーム検索, ルーム参加, チームファイル共有検索, 既存ルーム参加, グループファイル管理, FS QR Group{% endblock %}
+{% block meta_keywords %}{{ _("グループルーム検索, ルーム参加, チームファイル共有検索, 既存ルーム参加, グループファイル管理, FS QR Group") }}{% endblock %}
 
-{% block og_title %}グループルーム検索 | FS!QR Group - 既存ルームへの参加{% endblock %}
+{% block og_title %}{{ _("グループルーム検索 | FS!QR Group - 既存ルームへの参加") }}{% endblock %}
 
-{% block og_description %}FS!QR Groupで既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有を始めましょう。{% endblock %}
+{% block og_description %}{{ _("FS!QR Groupで既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有を始めましょう。") }}{% endblock %}
 
-{% block twitter_title %}グループルーム検索 | FS!QR Group{% endblock %}
+{% block twitter_title %}{{ _("グループルーム検索 | FS!QR Group") }}{% endblock %}
 
-{% block twitter_description %}既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有できます。{% endblock %}
+{% block twitter_description %}{{ _("既存のチームファイル共有ルームを検索・参加。ルームIDとパスワードで既存のグループルームに参加してファイル共有できます。") }}{% endblock %}
 
 {% block contents %}
 <style>
@@ -213,27 +213,27 @@
 <div class="page-container">
   <div class="modern-card">
       <div class="card-header">
-          <h2 class="card-title">ルームを検索</h2>
+          <h2 class="card-title">{{ _("ルームを検索") }}</h2>
       </div>
       <div class="card-body">
           <form method="POST" action="/search_group_process">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <div class="form-group">
-                  <label for="roomID" class="form-label">ルームID</label>
+                  <label for="roomID" class="form-label">{{ _("ルームID") }}</label>
                   <input type="text" id="ID" name="id" class="form-control"
-                         placeholder="ルームIDを入力（半角英数字6文字）" required
-                         pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                         placeholder="{{ _("ルームIDを入力（半角英数字6文字）") }}" required
+                         pattern="[a-zA-Z0-9]{6}" title="{{ _("6文字の半角英数字で入力してください") }}"
                          minlength="6" maxlength="6">
               </div>
               <div class="form-group">
-                  <label for="password" class="form-label">パスワード</label>
+                  <label for="password" class="form-label">{{ _("パスワード") }}</label>
                   <input type="password" id="password" name="password" class="form-control"
-                         placeholder="パスワードを入力" required
-                         pattern="[0-9]{6}" title="6桁の数字で入力してください"
+                         placeholder="{{ _("パスワードを入力") }}" required
+                         pattern="[0-9]{6}" title="{{ _("6桁の数字で入力してください") }}"
                          minlength="6" maxlength="6"
                          autocomplete="current-password" inputmode="numeric">
               </div>
-              <button type="submit" class="btn-modern">検索</button>
+              <button type="submit" class="btn-modern">{{ _("検索") }}</button>
           </form>
       </div>
   </div>

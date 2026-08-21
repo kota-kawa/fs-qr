@@ -6,10 +6,10 @@
     <div class="modern-card-header task-board-header">
       <h1>
         {{ icons.icon('check_circle', size='xl', with_text=True) }}
-        タスクボード
+        {{ _("タスクボード") }}
       </h1>
       <p class="task-board-header__room">
-        <span class="task-board-header__room-label">ルーム</span>
+        <span class="task-board-header__room-label">{{ _("ルーム") }}</span>
         <span class="task-board-header__room-id">{{ room_id }}</span>
       </p>
       {% include "_presence_indicator.html" %}
@@ -20,11 +20,11 @@
       <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
 
       <!-- Board console / 進捗・共有・操作を1か所へ集約したコントロールバー -->
-      <section class="task-console" aria-label="ボードの操作">
+      <section class="task-console" aria-label="{{ _("ボードの操作") }}">
         <!-- Overview row / 進捗と共有 -->
         <div class="task-console__overview">
           <div class="task-progress" id="taskProgressBar" role="progressbar"
-               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="完了率">
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{ _("完了率") }}">
             <span class="task-progress__ring">
               <svg viewBox="0 0 40 40" aria-hidden="true">
                 <circle class="task-progress__ring-track" cx="20" cy="20" r="16" pathLength="100"></circle>
@@ -33,27 +33,27 @@
               <span class="task-progress__percent" id="taskProgressPercent">0%</span>
             </span>
             <span class="task-progress__meta">
-              <span class="task-progress__label">全体の進捗</span>
-              <span class="task-progress__count" id="taskProgressCount">0 / 0 完了</span>
+              <span class="task-progress__label">{{ _("全体の進捗") }}</span>
+              <span class="task-progress__count" id="taskProgressCount">{{ _("0 / 0 完了") }}</span>
             </span>
           </div>
 
           <div class="task-summary__chips" id="taskSummaryChips">
             <button type="button" class="task-stat-chip is-overdue" data-due-filter="overdue" aria-pressed="false" hidden>
-              期限切れ <strong data-stat="overdue">0</strong>
+              {{ _("期限切れ") }} <strong data-stat="overdue">0</strong>
             </button>
             <button type="button" class="task-stat-chip is-today" data-due-filter="today" aria-pressed="false" hidden>
-              今日まで <strong data-stat="today">0</strong>
+              {{ _("今日まで") }} <strong data-stat="today">0</strong>
             </button>
             <button type="button" class="task-stat-chip is-week" data-due-filter="week" aria-pressed="false" hidden>
-              今週 <strong data-stat="week">0</strong>
+              {{ _("今週") }} <strong data-stat="week">0</strong>
             </button>
           </div>
 
           <span class="task-console__spacer" aria-hidden="true"></span>
 
-          <button type="button" class="task-share-quick share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" title="このボードを共有する">
-            {{ icons.icon('arrow_up', size='sm') }}<span class="task-share-quick__label">共有</span>
+          <button type="button" class="task-share-quick share-url-button" data-share-url="{{ share_url | e }}" data-share-title="{{ _("FS!QR Task 共有タスクボード") }}" title="{{ _("このボードを共有する") }}">
+            {{ icons.icon('arrow_up', size='sm') }}<span class="task-share-quick__label">{{ _("共有") }}</span>
           </button>
 
           <!-- Room info / 共有・ルーム情報（初期状態は折りたたみ） -->
@@ -62,25 +62,25 @@
               <svg class="task-room-details__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
               </svg>
-              <span class="task-room-details__title">共有・ルーム情報</span>
+              <span class="task-room-details__title">{{ _("共有・ルーム情報") }}</span>
             </summary>
 
             <div class="task-room-details__body">
               <div class="room-info-container task-room-info">
                 <div class="room-info-card">
                   <div class="room-info-header">
-                    <span class="room-info-header-title">Room情報</span>
-                    <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR Task 共有タスクボード" aria-label="このボードを共有する" title="共有">
+                    <span class="room-info-header-title">{{ _("Room情報") }}</span>
+                    <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="{{ _("FS!QR Task 共有タスクボード") }}" aria-label="{{ _("このボードを共有する") }}" title="{{ _("共有") }}">
                       {{ icons.icon('arrow_up', size='md') }}
                     </button>
                   </div>
                   <div class="room-info-body">
                     <div class="room-info-row">
-                      <span class="room-info-label">ルームID</span>
+                      <span class="room-info-label">{{ _("ルームID") }}</span>
                       <span class="room-info-value">
                         <span class="room-info-value-row">
                           <span class="room-info-value-text" id="taskRoomIdText">{{ room_id }}</span>
-                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー" title="コピー">
+                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("ルームIDをコピー") }}" title="{{ _("コピー") }}">
                             <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                             <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                           </button>
@@ -89,11 +89,11 @@
                     </div>
                     {% if password %}
                     <div class="room-info-row">
-                      <span class="room-info-label">パスワード</span>
+                      <span class="room-info-label">{{ _("パスワード") }}</span>
                       <span class="room-info-value">
                         <span class="room-info-value-row">
                           <span class="room-info-value-text">{{ password }}</span>
-                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー" title="コピー">
+                          <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("パスワードをコピー") }}" title="{{ _("コピー") }}">
                             <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                             <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                           </button>
@@ -102,11 +102,11 @@
                     </div>
                     {% endif %}
                     <div class="room-info-row">
-                      <span class="room-info-label">共有URL</span>
+                      <span class="room-info-label">{{ _("共有URL") }}</span>
                       <span class="room-info-value">
                         <span class="room-info-value-row">
                           <span class="room-info-url-text" id="taskShareUrlText">{{ share_url }}</span>
-                          <button type="button" class="copy-inline-btn copy-url-button" id="taskCopyShare" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="共有URLをコピー" title="コピー">
+                          <button type="button" class="copy-inline-btn copy-url-button" id="taskCopyShare" data-copy-value="{{ share_url | e }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("共有URLをコピー") }}" title="{{ _("コピー") }}">
                             <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                             <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                           </button>
@@ -114,12 +114,12 @@
                       </span>
                     </div>
                     <div class="room-info-row">
-                      <span class="room-info-label">削除予定日</span>
+                      <span class="room-info-label">{{ _("削除予定日") }}</span>
                       <span class="room-info-value">
                         {% if deletion_date %}
-                          {{ deletion_date }} （{{ retention_hours | retention_label }}後）
+                          {{ deletion_date }} （{{ retention_hours | retention_label }}{{ _("後") }}）
                         {% else %}
-                          {{ retention_hours | retention_label }}後に自動削除
+                          {{ retention_hours | retention_label }}{{ _("後に自動削除") }}
                         {% endif %}
                       </span>
                     </div>
@@ -127,21 +127,21 @@
                   {% if can_delete %}
                   <div class="owner-delete-panel task-owner-delete">
                     <div class="owner-delete-copy">
-                      <span class="owner-delete-title">ボードを削除</span>
-                      <span class="owner-delete-description">作成者のみ削除可能。すべてのタスクが消去されます。</span>
+                      <span class="owner-delete-title">{{ _("ボードを削除") }}</span>
+                      <span class="owner-delete-description">{{ _("作成者のみ削除可能。すべてのタスクが消去されます。") }}</span>
                     </div>
-                    <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？" data-confirm-title="タスクボードの削除" data-confirm-label="削除する">
+                    <form action="{{ url_for('task.delete_own_room', room_id=room_id) }}" method="POST" class="owner-delete-form" data-confirm-submit="{{ _("このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？") }}" data-confirm-title="{{ _("タスクボードの削除") }}" data-confirm-label="{{ _("削除する") }}">
                       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                       <button class="modern-btn modern-btn-danger" type="submit">
-                        {{ icons.icon('trash', size='md', with_text=True) }}削除
+                        {{ icons.icon('trash', size='md', with_text=True) }}{{ _("削除") }}
                       </button>
                     </form>
                   </div>
                   {% endif %}
                 </div>
 
-                <div class="qr-code-container" id="taskShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
-                  <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
+                <div class="qr-code-container" id="taskShareQrCode" data-share-url="{{ share_url | e }}" aria-label="{{ _("共有用QRコード") }}">
+                  <noscript>{{ _("QRコードを表示するにはJavaScriptを有効にしてください。") }}</noscript>
                 </div>
               </div>
             </div>
@@ -150,14 +150,14 @@
 
         <!-- Controls row / 表示切替・追加・絞り込み -->
         <div class="task-console__controls">
-          <div class="task-view-switch" role="group" aria-label="タスクの表示方法">
-            <button type="button" class="task-view-switch__btn is-active" data-view-switch="board" aria-pressed="true" title="カードのボードで表示">
+          <div class="task-view-switch" role="group" aria-label="{{ _("タスクの表示方法") }}">
+            <button type="button" class="task-view-switch__btn is-active" data-view-switch="board" aria-pressed="true" title="{{ _("カードのボードで表示") }}">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 4.5A1.5 1.5 0 014.5 3h2A1.5 1.5 0 018 4.5v11A1.5 1.5 0 016.5 17h-2A1.5 1.5 0 013 15.5v-11zm7 0A1.5 1.5 0 0111.5 3h4A1.5 1.5 0 0117 4.5v6a1.5 1.5 0 01-1.5 1.5h-4A1.5 1.5 0 0110 10.5v-6z"/></svg>
-              <span>ボード</span>
+              <span>{{ _("ボード") }}</span>
             </button>
-            <button type="button" class="task-view-switch__btn" data-view-switch="calendar" aria-pressed="false" title="カレンダーで期限を確認">
+            <button type="button" class="task-view-switch__btn" data-view-switch="calendar" aria-pressed="false" title="{{ _("カレンダーで期限を確認") }}">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a.75.75 0 01.75.75V4h6.5V2.75a.75.75 0 011.5 0V4h.75A2.5 2.5 0 0118 6.5v9A2.5 2.5 0 0115.5 18h-11A2.5 2.5 0 012 15.5v-9A2.5 2.5 0 014.5 4h.75V2.75A.75.75 0 016 2zM3.5 8v7.5c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V8h-13z" clip-rule="evenodd"/></svg>
-              <span>カレンダー</span>
+              <span>{{ _("カレンダー") }}</span>
             </button>
           </div>
 
@@ -167,8 +167,8 @@
                 <svg class="task-quick-add-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>
-                <label for="taskTitle" class="sr-only">新しいタスク名</label>
-                <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="新しいタスクを追加 (Enter)" autocomplete="off">
+                <label for="taskTitle" class="sr-only">{{ _("新しいタスク名") }}</label>
+                <input id="taskTitle" name="title" maxlength="{{ task_max_title_length }}" required placeholder="{{ _("新しいタスクを追加 (Enter)") }}" autocomplete="off">
               </div>
               <div class="task-quick-add-controls">
                 <!-- 開始日・期限日は 1 つのグリッドに入れて必ず同じ幅にする。狭い画面では
@@ -178,21 +178,21 @@
                      text is never clipped or overlapped. -->
                 <div class="task-quick-add-dates">
                   <label class="task-date-field" for="taskCreateStartDate">
-                    <span class="task-date-field__label" aria-hidden="true">開始</span>
-                    <input type="date" id="taskCreateStartDate" name="start_date" class="task-input task-date-input task-input--compact" aria-label="開始日" title="開始日">
+                    <span class="task-date-field__label" aria-hidden="true">{{ _("開始") }}</span>
+                    <input type="date" id="taskCreateStartDate" name="start_date" class="task-input task-date-input task-input--compact" aria-label="{{ _("開始日") }}" title="{{ _("開始日") }}">
                   </label>
                   <label class="task-date-field" for="taskCreateDueDate">
-                    <span class="task-date-field__label" aria-hidden="true">期限</span>
-                    <input type="date" id="taskCreateDueDate" name="due_date" class="task-input task-date-input task-input--compact" aria-label="期限日" title="期限日">
+                    <span class="task-date-field__label" aria-hidden="true">{{ _("期限") }}</span>
+                    <input type="date" id="taskCreateDueDate" name="due_date" class="task-input task-date-input task-input--compact" aria-label="{{ _("期限日") }}" title="{{ _("期限日") }}">
                   </label>
                 </div>
-                <select id="taskCreatePriority" class="task-select-pill task-select-pill--compact" aria-label="優先度" title="優先度">
-                  <option value="normal" selected>通常</option>
-                  <option value="high">高</option>
-                  <option value="low">低</option>
+                <select id="taskCreatePriority" class="task-select-pill task-select-pill--compact" aria-label="{{ _("優先度") }}" title="{{ _("優先度") }}">
+                  <option value="normal" selected>{{ _("通常") }}</option>
+                  <option value="high">{{ _("高") }}</option>
+                  <option value="low">{{ _("低") }}</option>
                 </select>
                 <button class="modern-btn task-btn task-btn--add" type="submit">
-                  {{ icons.icon('plus', size='sm', with_text=True) }}追加
+              {{ icons.icon('plus', size='sm', with_text=True) }}{{ _("追加") }}
                 </button>
               </div>
             </div>
@@ -200,22 +200,22 @@
 
           <div class="task-search-pill">
             <svg class="task-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-            <input id="taskSearchInput" type="search" placeholder="絞り込み (/)" aria-label="タスクを絞り込み">
-            <button id="taskSearchClear" type="button" class="task-search-clear" aria-label="検索クリア" hidden>×</button>
+            <input id="taskSearchInput" type="search" placeholder="{{ _("絞り込み (/)") }}" aria-label="{{ _("タスクを絞り込み") }}">
+            <button id="taskSearchClear" type="button" class="task-search-clear" aria-label="{{ _("検索クリア") }}" hidden>×</button>
           </div>
 
           <div class="task-toolbar-actions">
             <!-- 周囲の pill 型ボタン（絞り込み等）に揃えた控えめなツールバーボタン。
                  Toolbar buttons styled to match the surrounding pill-shaped controls
                  (filter toggle, etc.) instead of the large generic modern-btn. -->
-            <button id="taskExportBtn" type="button" class="task-toolbar-btn" title="タスクをエクスポート" aria-label="タスクをエクスポート">
+            <button id="taskExportBtn" type="button" class="task-toolbar-btn" title="{{ _("タスクをエクスポート") }}" aria-label="{{ _("タスクをエクスポート") }}">
               <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M10 13.4 13 8.6 11.1 8.6 11.1 3 8.9 3 8.9 8.6 7 8.6Z"/>
                 <rect x="3.4" y="13.7" width="1.6" height="3.3" rx="0.6"/>
                 <rect x="15" y="13.7" width="1.6" height="3.3" rx="0.6"/>
                 <rect x="3.4" y="15.6" width="13.2" height="1.4" rx="0.6"/>
               </svg>
-              <span class="task-toolbar-btn__label">エクスポート</span>
+              <span class="task-toolbar-btn__label">{{ _("エクスポート") }}</span>
             </button>
             <!-- input[type=file] を包む label。マウスは label クリックで input へ委譲されるが、
                  label 単体には既定のキーボード操作性がないため tabindex/role を付与し、
@@ -223,28 +223,28 @@
                  Label wrapping the file input. Mouse clicks forward natively, but a
                  label has no built-in keyboard activation, so tabindex/role are added
                  here and the Enter / Space handling lives in io.js. -->
-            <label id="taskImportBtn" class="task-toolbar-btn" title="タスクをインポート" aria-label="タスクをインポート" tabindex="0" role="button">
+            <label id="taskImportBtn" class="task-toolbar-btn" title="{{ _("タスクをインポート") }}" aria-label="{{ _("タスクをインポート") }}" tabindex="0" role="button">
               <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M10 3 13 7.8 11.1 7.8 11.1 13.4 8.9 13.4 8.9 7.8 7 7.8Z"/>
                 <rect x="3.4" y="13.7" width="1.6" height="3.3" rx="0.6"/>
                 <rect x="15" y="13.7" width="1.6" height="3.3" rx="0.6"/>
                 <rect x="3.4" y="15.6" width="13.2" height="1.4" rx="0.6"/>
               </svg>
-              <span class="task-toolbar-btn__label">インポート</span>
+              <span class="task-toolbar-btn__label">{{ _("インポート") }}</span>
               <input type="file" id="taskImportInput" accept=".json" class="task-toolbar-btn__file-input">
             </label>
-            <button id="taskTagManagerBtn" type="button" class="task-toolbar-btn" title="タグを管理" aria-label="タグを管理">
+            <button id="taskTagManagerBtn" type="button" class="task-toolbar-btn" title="{{ _("タグを管理") }}" aria-label="{{ _("タグを管理") }}">
               <svg class="task-toolbar-btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M3 3.75A.75.75 0 013.75 3h5.19c.4 0 .78.16 1.06.44l6.31 6.31a1.5 1.5 0 010 2.12l-4.44 4.44a1.5 1.5 0 01-2.12 0L3.44 10a1.5 1.5 0 01-.44-1.06V3.75zm3.25 3.5a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z" clip-rule="evenodd"/>
               </svg>
-              <span class="task-toolbar-btn__label">タグ</span>
+              <span class="task-toolbar-btn__label">{{ _("タグ") }}</span>
             </button>
             <button id="taskFilterToggle" type="button" class="task-filter-toggle" aria-expanded="false" aria-controls="taskFilterPanel">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.628 4.5A.75.75 0 013.25 4h13.5a.75.75 0 01.55 1.26l-5.05 5.42v4.07a.75.75 0 01-1.09.67l-2.5-1.27a.75.75 0 01-.41-.67v-2.8L3.2 5.26a.75.75 0 01-.572-.76z" clip-rule="evenodd"/></svg>
-              <span class="task-filter-toggle__label">絞り込み</span>
+              <span class="task-filter-toggle__label">{{ _("絞り込み") }}</span>
               <span id="taskActiveFilterCount" class="task-active-filter-badge" hidden>0</span>
             </button>
-            <button id="taskShortcutBtn" type="button" class="task-icon-btn" aria-label="キーボードショートカットを表示" title="キーボードショートカット (?)">
+            <button id="taskShortcutBtn" type="button" class="task-icon-btn" aria-label="{{ _("キーボードショートカットを表示") }}" title="{{ _("キーボードショートカット (?)") }}">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10A8 8 0 112 10a8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
             </button>
           </div>
@@ -254,48 +254,48 @@
 
         <div class="task-filter-panel" id="taskFilterPanel" hidden>
           <div class="task-filter-field task-filter-field--tags">
-            <span class="task-filter-label">タグ</span>
+            <span class="task-filter-label">{{ _("タグ") }}</span>
             <!-- 複数選択できる。選んだタグのいずれかを持つタスクが表示される。
                  Multi-select: items carrying ANY of the selected tags are shown. -->
-            <div id="taskTagFilter" class="task-tag-filter" role="group" aria-label="タグで絞り込み"></div>
+            <div id="taskTagFilter" class="task-tag-filter" role="group" aria-label="{{ _("タグで絞り込み") }}"></div>
           </div>
           <label class="task-filter-field">
-            <span class="task-filter-label">優先度</span>
+            <span class="task-filter-label">{{ _("優先度") }}</span>
             <select id="taskPriorityFilter" class="task-select-pill">
-              <option value="">すべて</option>
-              <option value="high">高</option>
-              <option value="normal">通常</option>
-              <option value="low">低</option>
+              <option value="">{{ _("すべて") }}</option>
+              <option value="high">{{ _("高") }}</option>
+              <option value="normal">{{ _("通常") }}</option>
+              <option value="low">{{ _("低") }}</option>
             </select>
           </label>
           <label class="task-filter-field">
-            <span class="task-filter-label">期限</span>
+            <span class="task-filter-label">{{ _("期限") }}</span>
             <select id="taskDueFilter" class="task-select-pill">
-              <option value="">すべて</option>
-              <option value="overdue">期限切れ</option>
-              <option value="today">今日まで</option>
-              <option value="week">今週（7日以内）</option>
-              <option value="none">期限なし</option>
+              <option value="">{{ _("すべて") }}</option>
+              <option value="overdue">{{ _("期限切れ") }}</option>
+              <option value="today">{{ _("今日まで") }}</option>
+              <option value="week">{{ _("今週（7日以内）") }}</option>
+              <option value="none">{{ _("期限なし") }}</option>
             </select>
           </label>
           <label class="task-filter-field">
-            <span class="task-filter-label">並び順</span>
+            <span class="task-filter-label">{{ _("並び順") }}</span>
             <select id="taskSortSelect" class="task-select-pill">
-              <option value="position">カスタム順</option>
-              <option value="due_date">期限が近い順</option>
-              <option value="priority">優先度順</option>
-              <option value="title">五十音順</option>
+              <option value="position">{{ _("カスタム順") }}</option>
+              <option value="due_date">{{ _("期限が近い順") }}</option>
+              <option value="priority">{{ _("優先度順") }}</option>
+              <option value="title">{{ _("五十音順") }}</option>
             </select>
           </label>
-          <button id="taskClearFiltersBtn" type="button" class="task-clear-filters-btn" hidden>条件をクリア</button>
-          <p class="task-filter-note" id="taskSortNote" hidden>並び替え中はドラッグでの並べ替えができません。</p>
+          <button id="taskClearFiltersBtn" type="button" class="task-clear-filters-btn" hidden>{{ _("条件をクリア") }}</button>
+          <p class="task-filter-note" id="taskSortNote" hidden>{{ _("並び替え中はドラッグでの並べ替えができません。") }}</p>
         </div>
       </section>
 
       <!-- Mobile column switcher / スマホ用カラム切り替え -->
-      <div class="task-status-tabs" id="taskStatusTabs" role="group" aria-label="表示するカラム">
-        <button type="button" class="task-status-tab is-active" data-mobile-view="all" aria-pressed="true">すべて</button>
-        {% for status, label in [('todo', '未着手'), ('doing', '進行中'), ('done', '完了')] %}
+      <div class="task-status-tabs" id="taskStatusTabs" role="group" aria-label="{{ _("表示するカラム") }}">
+        <button type="button" class="task-status-tab is-active" data-mobile-view="all" aria-pressed="true">{{ _("すべて") }}</button>
+        {% for status, label in [('todo', _('未着手')), ('doing', _('進行中')), ('done', _('完了'))] %}
         <button type="button" class="task-status-tab" data-mobile-view="{{ status }}" aria-pressed="false">
           {{ label }} <span class="task-status-tab__count" data-tab-count-for="{{ status }}">0</span>
         </button>
@@ -303,35 +303,35 @@
       </div>
 
       <!-- Kanban board / カンバンボード -->
-      <section class="task-board" id="taskBoard" data-mobile-view="all" aria-label="カンバンボード">
-        {% for status, label, color_class in [('todo', '未着手', 'is-status-todo'), ('doing', '進行中', 'is-status-doing'), ('done', '完了', 'is-status-done')] %}
+      <section class="task-board" id="taskBoard" data-mobile-view="all" aria-label="{{ _("カンバンボード") }}">
+        {% for status, label, color_class in [('todo', _('未着手'), 'is-status-todo'), ('doing', _('進行中'), 'is-status-doing'), ('done', _('完了'), 'is-status-done')] %}
         <section class="task-column {{ color_class }}" data-status="{{ status }}">
           <div class="task-column__header">
-            <button class="task-column__collapse" type="button" aria-expanded="true" aria-label="{{ label }}カラムの開閉">
+            <button class="task-column__collapse" type="button" aria-expanded="true" aria-label="{{ label }}{{ _("カラムの開閉") }}">
               <span class="task-column__status-dot" aria-hidden="true"></span>
               <span class="task-column__title">{{ label }}</span>
               <span class="task-column__count" data-count-for="{{ status }}">0</span>
             </button>
             <div class="task-column__tools">
-              <button type="button" class="task-column__tool" data-column-add="{{ status }}" title="{{ label }}にタスクを追加" aria-label="{{ label }}にタスクを追加">
+              <button type="button" class="task-column__tool" data-column-add="{{ status }}" title="{{ label }}{{ _("にタスクを追加") }}" aria-label="{{ label }}{{ _("にタスクを追加") }}">
                 <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
               </button>
-              <button type="button" class="task-column__tool" data-column-menu="{{ status }}" title="{{ label }}カラムの操作" aria-label="{{ label }}カラムの操作" aria-haspopup="menu" aria-expanded="false">
+              <button type="button" class="task-column__tool" data-column-menu="{{ status }}" title="{{ label }}{{ _("カラムの操作") }}" aria-label="{{ label }}{{ _("カラムの操作") }}" aria-haspopup="menu" aria-expanded="false">
                 <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
               </button>
             </div>
           </div>
 
           <form class="task-inline-add" data-inline-add-for="{{ status }}" hidden>
-            <label class="sr-only" for="taskInlineAdd-{{ status }}">{{ label }}に追加するタスク名</label>
-            <input id="taskInlineAdd-{{ status }}" type="text" maxlength="{{ task_max_title_length }}" autocomplete="off" placeholder="タスク名を入力（Enterで追加 / Escで閉じる）">
+            <label class="sr-only" for="taskInlineAdd-{{ status }}">{{ label }}{{ _("に追加するタスク名") }}</label>
+            <input id="taskInlineAdd-{{ status }}" type="text" maxlength="{{ task_max_title_length }}" autocomplete="off" placeholder="{{ _("タスク名を入力（Enterで追加 / Escで閉じる）") }}">
             <div class="task-inline-add__actions">
-              <button type="submit" class="task-inline-add__submit">追加</button>
-              <button type="button" class="task-inline-add__cancel" data-inline-cancel>キャンセル</button>
+              <button type="submit" class="task-inline-add__submit">{{ _("追加") }}</button>
+              <button type="button" class="task-inline-add__cancel" data-inline-cancel>{{ _("キャンセル") }}</button>
             </div>
           </form>
 
-          <div class="task-column__list" data-list-for="{{ status }}" role="list" aria-label="{{ label }}のタスク">
+          <div class="task-column__list" data-list-for="{{ status }}" role="list" aria-label="{{ label }}{{ _("のタスク") }}">
             <!-- Rendered dynamically -->
           </div>
         </section>
@@ -339,23 +339,23 @@
       </section>
 
       <!-- Calendar view / カレンダー表示（期限日ベースでタスクを確認・管理する） -->
-      <section class="task-calendar" id="taskCalendar" aria-label="カレンダー表示" hidden>
+      <section class="task-calendar" id="taskCalendar" aria-label="{{ _("カレンダー表示") }}" hidden>
         <header class="task-calendar__bar">
           <div class="task-calendar__nav">
-            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="-1" aria-label="前の月へ">
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="-1" aria-label="{{ _("前の月へ") }}">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"/></svg>
             </button>
             <h2 class="task-calendar__label" id="taskCalendarLabel" aria-live="polite">-</h2>
-            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="1" aria-label="次の月へ">
+            <button type="button" class="task-calendar__nav-btn" data-calendar-nav="1" aria-label="{{ _("次の月へ") }}">
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
             </button>
-            <button type="button" class="task-calendar__today" id="taskCalendarToday">今日</button>
+            <button type="button" class="task-calendar__today" id="taskCalendarToday">{{ _("今日") }}</button>
           </div>
-          <p class="task-calendar__hint">日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。</p>
+          <p class="task-calendar__hint">{{ _("日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。") }}</p>
         </header>
 
         <div class="task-calendar__weekdays" aria-hidden="true">
-          {% for weekday in ['日', '月', '火', '水', '木', '金', '土'] %}
+          {% for weekday in [_('日'), _('月'), _('火'), _('水'), _('木'), _('金'), _('土')] %}
           <span class="task-calendar__weekday">{{ weekday }}</span>
           {% endfor %}
         </div>
@@ -365,12 +365,12 @@
         </div>
 
         <div class="task-calendar__panels">
-          <section class="task-calendar__day" aria-label="選択した日のタスク">
+          <section class="task-calendar__day" aria-label="{{ _("選択した日のタスク") }}">
             <div class="task-calendar__day-head">
               <h3 class="task-calendar__day-title" id="taskCalendarDayLabel">-</h3>
               <button type="button" class="task-calendar__add" id="taskCalendarAdd">
                 <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
-                この日に追加
+                {{ _("この日に追加") }}
               </button>
             </div>
             <div class="task-calendar__day-list" id="taskCalendarDayList" role="list">
@@ -378,9 +378,9 @@
             </div>
           </section>
 
-          <section class="task-calendar__backlog" aria-label="期限が未設定のタスク">
+          <section class="task-calendar__backlog" aria-label="{{ _("期限が未設定のタスク") }}">
             <div class="task-calendar__day-head">
-              <h3 class="task-calendar__day-title">期限なし <span class="task-calendar__backlog-count" id="taskCalendarBacklogCount">0</span></h3>
+              <h3 class="task-calendar__day-title">{{ _("期限なし") }} <span class="task-calendar__backlog-count" id="taskCalendarBacklogCount">0</span></h3>
             </div>
             <div class="task-calendar__day-list" id="taskCalendarBacklogList" role="list">
               <!-- Rendered dynamically -->
@@ -396,22 +396,22 @@
 <dialog id="taskEditorDialog" class="task-editor-dialog" aria-labelledby="taskEditorTitle">
   <form id="taskEditorForm" method="dialog" class="task-editor-form" novalidate>
     <div class="task-editor-dialog__header">
-      <h2 id="taskEditorTitle">タスクを編集</h2>
-      <button type="button" id="taskEditorClose" class="task-editor-close-btn" aria-label="閉じる">×</button>
+      <h2 id="taskEditorTitle">{{ _("タスクを編集") }}</h2>
+      <button type="button" id="taskEditorClose" class="task-editor-close-btn" aria-label="{{ _("閉じる") }}">×</button>
     </div>
     <input type="hidden" id="taskEditorId">
     <input type="hidden" id="taskEditorVersion">
 
     <div class="task-editor-scroll">
       <div class="task-editor-field">
-        <label for="taskEditorTitleInput">タスク名 <span class="task-required-badge">*</span></label>
-        <input id="taskEditorTitleInput" maxlength="{{ task_max_title_length }}" required placeholder="タスクのタイトルを入力">
+        <label for="taskEditorTitleInput">{{ _("タスク名") }} <span class="task-required-badge">*</span></label>
+        <input id="taskEditorTitleInput" maxlength="{{ task_max_title_length }}" required placeholder="{{ _("タスクのタイトルを入力") }}">
       </div>
 
       <div class="task-editor-field">
-        <span class="task-editor-field__label">ステータス</span>
-        <div class="task-status-segments" role="radiogroup" aria-label="ステータス">
-          {% for status, label in [('todo', '未着手'), ('doing', '進行中'), ('done', '完了')] %}
+        <span class="task-editor-field__label">{{ _("ステータス") }}</span>
+        <div class="task-status-segments" role="radiogroup" aria-label="{{ _("ステータス") }}">
+          {% for status, label in [('todo', _('未着手')), ('doing', _('進行中')), ('done', _('完了'))] %}
           <button type="button" class="task-status-segment is-{{ status }}" data-status-value="{{ status }}" role="radio" aria-checked="false">{{ label }}</button>
           {% endfor %}
         </div>
@@ -425,58 +425,58 @@
             <svg class="task-editor-advanced__arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
             </svg>
-            <span>詳細設定（期限・優先度・タグ・メモ）</span>
+            <span>{{ _("詳細設定（期限・優先度・タグ・メモ）") }}</span>
           </span>
-          <span class="task-editor-advanced__badge" id="taskEditorAdvancedBadge" hidden>設定あり</span>
+          <span class="task-editor-advanced__badge" id="taskEditorAdvancedBadge" hidden>{{ _("設定あり") }}</span>
         </summary>
 
         <div class="task-editor-advanced__body">
           <div class="task-editor-form__grid">
             <div class="task-editor-field">
-              <label for="taskEditorPriority">優先度</label>
+              <label for="taskEditorPriority">{{ _("優先度") }}</label>
               <select id="taskEditorPriority" class="task-select-pill">
-                <option value="high">高 (High)</option>
-                <option value="normal" selected>通常 (Normal)</option>
-                <option value="low">低 (Low)</option>
+                <option value="high">{{ _("高 (High)") }}</option>
+                <option value="normal" selected>{{ _("通常 (Normal)") }}</option>
+                <option value="low">{{ _("低 (Low)") }}</option>
               </select>
             </div>
           </div>
 
           <div class="task-editor-field">
             <span class="task-editor-field__label">
-              タグ
+              {{ _("タグ") }}
               <span class="task-editor-counter" id="taskEditorTagCounter">0 / {{ task_max_tags_per_item }}</span>
             </span>
             <!-- 既存タグをクリックで付け外しする。分類はタグに統一している。
                  Click a chip to attach or detach a tag; classification is tag-only. -->
-            <div id="taskEditorTags" class="task-tag-picker" role="group" aria-label="このタスクのタグ"></div>
+            <div id="taskEditorTags" class="task-tag-picker" role="group" aria-label="{{ _("このタスクのタグ") }}"></div>
             <div class="task-editor-tag-add">
-              <label for="taskEditorTagInput" class="sr-only">新しいタグ名</label>
-              <input id="taskEditorTagInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="例: デザイン, 情報収集, 開発, 調査" autocomplete="off">
-              <button type="button" id="taskEditorTagAdd" class="modern-btn modern-btn--secondary task-editor-tag-add__btn">タグを追加</button>
-              <button type="button" id="taskEditorTagManage" class="task-editor-tag-manage">タグを管理</button>
+              <label for="taskEditorTagInput" class="sr-only">{{ _("新しいタグ名") }}</label>
+              <input id="taskEditorTagInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="{{ _("例: デザイン, 情報収集, 開発, 調査") }}" autocomplete="off">
+              <button type="button" id="taskEditorTagAdd" class="modern-btn modern-btn--secondary task-editor-tag-add__btn">{{ _("タグを追加") }}</button>
+              <button type="button" id="taskEditorTagManage" class="task-editor-tag-manage">{{ _("タグを管理") }}</button>
             </div>
           </div>
 
           <div class="task-editor-field">
-            <label for="taskEditorStartDate">開始日</label>
+            <label for="taskEditorStartDate">{{ _("開始日") }}</label>
             <input id="taskEditorStartDate" type="date" name="start_date" class="task-input task-date-input">
           </div>
 
           <div class="task-editor-field">
-            <label for="taskEditorDueDate">期限日</label>
+            <label for="taskEditorDueDate">{{ _("期限日") }}</label>
             <input id="taskEditorDueDate" type="date" class="task-input task-date-input">
             <div class="task-editor-quick-dates">
-              <button type="button" class="task-quick-date-btn" data-date-offset="0">今日</button>
-              <button type="button" class="task-quick-date-btn" data-date-offset="1">明日</button>
-              <button type="button" class="task-quick-date-btn" data-date-offset="7">来週</button>
-              <button type="button" class="task-quick-date-btn" data-date-clear="true">クリア</button>
+              <button type="button" class="task-quick-date-btn" data-date-offset="0">{{ _("今日") }}</button>
+              <button type="button" class="task-quick-date-btn" data-date-offset="1">{{ _("明日") }}</button>
+              <button type="button" class="task-quick-date-btn" data-date-offset="7">{{ _("来週") }}</button>
+              <button type="button" class="task-quick-date-btn" data-date-clear="true">{{ _("クリア") }}</button>
             </div>
           </div>
 
           <div class="task-editor-field">
-            <label for="taskEditorNote">メモ・詳細</label>
-            <textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3" placeholder="タスクの詳細やURLなどを自由に入力"></textarea>
+            <label for="taskEditorNote">{{ _("メモ・詳細") }}</label>
+            <textarea id="taskEditorNote" maxlength="{{ task_max_note_length }}" rows="3" placeholder="{{ _("タスクの詳細やURLなどを自由に入力") }}"></textarea>
             <span class="task-editor-counter" id="taskEditorNoteCounter">0 / {{ task_max_note_length }}</span>
           </div>
         </div>
@@ -487,11 +487,11 @@
 
     <div class="task-editor-dialog__actions">
       <button type="button" id="taskEditorDelete" class="modern-btn modern-btn-danger">
-        {{ icons.icon('trash', size='sm', with_text=True) }}削除
+        {{ icons.icon('trash', size='sm', with_text=True) }}{{ _("削除") }}
       </button>
       <span class="task-actions-spacer"></span>
-      <button type="button" id="taskEditorCancel" class="modern-btn modern-btn--secondary">キャンセル</button>
-      <button type="submit" class="modern-btn task-btn">保存する</button>
+      <button type="button" id="taskEditorCancel" class="modern-btn modern-btn--secondary">{{ _("キャンセル") }}</button>
+      <button type="submit" class="modern-btn task-btn">{{ _("保存する") }}</button>
     </div>
   </form>
 </dialog>
@@ -499,42 +499,42 @@
 <!-- Tag manager / タグの追加・名前変更・削除 -->
 <dialog id="taskTagManagerDialog" class="task-tag-manager-dialog" aria-labelledby="taskTagManagerTitle">
   <div class="task-tag-manager__header">
-    <h2 id="taskTagManagerTitle">タグを管理</h2>
-    <button type="button" id="taskTagManagerClose" class="task-editor-close-btn" aria-label="閉じる">×</button>
+    <h2 id="taskTagManagerTitle">{{ _("タグを管理") }}</h2>
+    <button type="button" id="taskTagManagerClose" class="task-editor-close-btn" aria-label="{{ _("閉じる") }}">×</button>
   </div>
   <p class="task-tag-manager__note">
-    タグはこのボード全体で共有されます。1つのタスクに最大{{ task_max_tags_per_item }}件、ボード全体で最大{{ task_max_tags_per_room }}件まで登録できます。
+    {{ _("タグはこのボード全体で共有されます。1つのタスクに最大") }}{{ task_max_tags_per_item }}{{ _("件、ボード全体で最大") }}{{ task_max_tags_per_room }}{{ _("件まで登録できます。") }}
   </p>
   <div class="task-tag-manager__add">
-    <label for="taskTagManagerInput" class="sr-only">新しいタグ名</label>
-    <input id="taskTagManagerInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="例: デザイン, 情報収集, 開発, 調査" autocomplete="off">
-    <button type="button" id="taskTagManagerAdd" class="modern-btn task-btn">追加</button>
+    <label for="taskTagManagerInput" class="sr-only">{{ _("新しいタグ名") }}</label>
+    <input id="taskTagManagerInput" class="task-input" maxlength="{{ task_max_tag_length }}" placeholder="{{ _("例: デザイン, 情報収集, 開発, 調査") }}" autocomplete="off">
+    <button type="button" id="taskTagManagerAdd" class="modern-btn task-btn">{{ _("追加") }}</button>
   </div>
   <p id="taskTagManagerError" class="task-form-error" role="alert" hidden></p>
   <ul id="taskTagManagerList" class="task-tag-manager__list"></ul>
   <div class="task-tag-manager__actions">
-    <button type="button" id="taskTagManagerDone" class="modern-btn modern-btn--secondary">閉じる</button>
+    <button type="button" id="taskTagManagerDone" class="modern-btn modern-btn--secondary">{{ _("閉じる") }}</button>
   </div>
 </dialog>
 
 <!-- Keyboard shortcut help / ショートカット一覧 -->
 <dialog id="taskShortcutDialog" class="task-help-dialog" aria-labelledby="taskShortcutTitle">
   <div class="task-help-dialog__header">
-    <h2 id="taskShortcutTitle">キーボードショートカット</h2>
-    <button type="button" id="taskShortcutClose" class="task-editor-close-btn" aria-label="閉じる">×</button>
+    <h2 id="taskShortcutTitle">{{ _("キーボードショートカット") }}</h2>
+    <button type="button" id="taskShortcutClose" class="task-editor-close-btn" aria-label="{{ _("閉じる") }}">×</button>
   </div>
   <dl class="task-help-list">
-    <div><dt><kbd>N</kbd></dt><dd>新しいタスクの入力欄へ移動</dd></div>
-    <div><dt><kbd>/</kbd></dt><dd>検索ボックスへ移動</dd></div>
-    <div><dt><kbd>V</kbd></dt><dd>ボード表示とカレンダー表示を切り替え</dd></div>
-    <div><dt><kbd>?</kbd></dt><dd>このヘルプを開く</dd></div>
-    <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>カード間を移動（カードにフォーカス時）</dd></div>
-    <div><dt><kbd>Enter</kbd></dt><dd>フォーカス中のカードを編集</dd></div>
-    <div><dt><kbd>Space</kbd></dt><dd>フォーカス中のカードの完了を切り替え</dd></div>
-    <div><dt><kbd>Ctrl</kbd> + <kbd>←</kbd> <kbd>→</kbd></dt><dd>カードを隣のカラムへ移動</dd></div>
-    <div><dt><kbd>Ctrl</kbd> + <kbd>↑</kbd> <kbd>↓</kbd></dt><dd>カードをカラム内で並べ替え</dd></div>
-    <div><dt><kbd>Ctrl</kbd> + <kbd>Enter</kbd></dt><dd>編集ダイアログを保存</dd></div>
-    <div><dt><kbd>Esc</kbd></dt><dd>ダイアログ・メニューを閉じる</dd></div>
+    <div><dt><kbd>N</kbd></dt><dd>{{ _("新しいタスクの入力欄へ移動") }}</dd></div>
+    <div><dt><kbd>/</kbd></dt><dd>{{ _("検索ボックスへ移動") }}</dd></div>
+    <div><dt><kbd>V</kbd></dt><dd>{{ _("ボード表示とカレンダー表示を切り替え") }}</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>{{ _("このヘルプを開く") }}</dd></div>
+    <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>{{ _("カード間を移動（カードにフォーカス時）") }}</dd></div>
+    <div><dt><kbd>Enter</kbd></dt><dd>{{ _("フォーカス中のカードを編集") }}</dd></div>
+    <div><dt><kbd>Space</kbd></dt><dd>{{ _("フォーカス中のカードの完了を切り替え") }}</dd></div>
+    <div><dt><kbd>Ctrl</kbd> + <kbd>←</kbd> <kbd>→</kbd></dt><dd>{{ _("カードを隣のカラムへ移動") }}</dd></div>
+    <div><dt><kbd>Ctrl</kbd> + <kbd>↑</kbd> <kbd>↓</kbd></dt><dd>{{ _("カードをカラム内で並べ替え") }}</dd></div>
+    <div><dt><kbd>Ctrl</kbd> + <kbd>Enter</kbd></dt><dd>{{ _("編集ダイアログを保存") }}</dd></div>
+    <div><dt><kbd>Esc</kbd></dt><dd>{{ _("ダイアログ・メニューを閉じる") }}</dd></div>
   </dl>
 </dialog>
 

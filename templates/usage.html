@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}FS!QR 使い方 | QRコードファイル共有の基本的な使用方法{% endblock %}
+{% block page_title %}{{ _("FS!QR 使い方 | QRコードファイル共有の基本的な使用方法") }}{% endblock %}
 
-{% block meta_description %}FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策、使用上の注意点をわかりやすく説明します。{% endblock %}
+{% block meta_description %}{{ _("FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策、使用上の注意点をわかりやすく説明します。") }}{% endblock %}
 
-{% block meta_keywords %}FS QR, 使い方, 操作方法, チュートリアル, QRコードファイル共有, ノート共有, グループ共有, セキュリティ, 暗号化, 使用方法{% endblock %}
+{% block meta_keywords %}{{ _("FS QR, 使い方, 操作方法, チュートリアル, QRコードファイル共有, ノート共有, グループ共有, セキュリティ, 暗号化, 使用方法") }}{% endblock %}
 
-{% block og_title %}FS!QR 使い方 | QRコードファイル共有の基本的な使用方法{% endblock %}
-{% block og_description %}FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。{% endblock %}
+{% block og_title %}{{ _("FS!QR 使い方 | QRコードファイル共有の基本的な使用方法") }}{% endblock %}
+{% block og_description %}{{ _("FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。") }}{% endblock %}
 
-{% block twitter_title %}FS!QR 使い方 | QRコードファイル共有の基本的な使用方法{% endblock %}
-{% block twitter_description %}FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。{% endblock %}
+{% block twitter_title %}{{ _("FS!QR 使い方 | QRコードファイル共有の基本的な使用方法") }}{% endblock %}
+{% block twitter_description %}{{ _("FS!QRの基本的な使い方を詳しく解説。QRコードでのファイル共有、ノート共有、グループ共有の操作方法とセキュリティ対策をわかりやすく説明します。") }}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
@@ -19,8 +19,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "{{ request.url_root }}" },
-    { "@type": "ListItem", "position": 2, "name": "使い方", "item": "{{ request.url_root }}usage" }
+    { "@type": "ListItem", "position": 1, "name": {{ _("ホーム") | tojson }}, "item": "{{ request.url_root }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ _("使い方") | tojson }}, "item": "{{ request.url_root }}usage" }
   ]
 }
 </script>
@@ -28,41 +28,41 @@
 {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": "QRコードでファイルを共有する手順",
-  "description": "FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。",
-  "inLanguage": "ja-JP",
+  "name": {{ _("QRコードでファイルを共有する手順") | tojson }},
+  "description": {{ _("FS!QRを使ってブラウザだけでファイルをQRコード経由で共有する方法。") | tojson }},
+  "inLanguage": {{ schema_language | tojson }},
   "totalTime": "PT2M",
   "supply": [
-    { "@type": "HowToSupply", "name": "共有したいファイル" }
+    { "@type": "HowToSupply", "name": {{ _("共有したいファイル") | tojson }} }
   ],
   "tool": [
-    { "@type": "HowToTool", "name": "WebブラウザまたはQRコードリーダー搭載端末" }
+    { "@type": "HowToTool", "name": {{ _("WebブラウザまたはQRコードリーダー搭載端末") | tojson }} }
   ],
   "step": [
     {
       "@type": "HowToStep",
       "position": 1,
-      "name": "ファイルをアップロード",
-      "text": "/fs-qr にアクセスし、共有したいファイルを選択してアップロードします。",
+      "name": {{ _("ファイルをアップロード") | tojson }},
+      "text": {{ _("/fs-qr にアクセスし、共有したいファイルを選択してアップロードします。") | tojson }},
       "url": "{{ request.url_root }}fs-qr"
     },
     {
       "@type": "HowToStep",
       "position": 2,
-      "name": "QRコードを取得",
-      "text": "アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。"
+      "name": {{ _("QRコードを取得") | tojson }},
+      "text": {{ _("アップロード完了後、ダウンロード用URLとパスワード、アクセス用のQRコードが表示されます。") | tojson }}
     },
     {
       "@type": "HowToStep",
       "position": 3,
-      "name": "受信側がQRコードを読み取り",
-      "text": "受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。"
+      "name": {{ _("受信側がQRコードを読み取り") | tojson }},
+      "text": {{ _("受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。") | tojson }}
     },
     {
       "@type": "HowToStep",
       "position": 4,
-      "name": "パスワードを入力してダウンロード",
-      "text": "画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。"
+      "name": {{ _("パスワードを入力してダウンロード") | tojson }},
+      "text": {{ _("画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。") | tojson }}
     }
   ]
 }
@@ -71,32 +71,32 @@
 {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": "リアルタイムでノートを共有する手順",
-  "description": "FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。",
-  "inLanguage": "ja-JP",
+  "name": {{ _("リアルタイムでノートを共有する手順") | tojson }},
+  "description": {{ _("FS!QRのノート機能を使い、複数人で同時編集できるノートルームを共有する方法。") | tojson }},
+  "inLanguage": {{ schema_language | tojson }},
   "totalTime": "PT1M",
   "tool": [
-    { "@type": "HowToTool", "name": "Webブラウザ" }
+    { "@type": "HowToTool", "name": {{ _("Webブラウザ") | tojson }} }
   ],
   "step": [
     {
       "@type": "HowToStep",
       "position": 1,
-      "name": "ノートルームを作成",
-      "text": "/note で6文字の半角英数字のルームIDを指定するか、自動生成してノートルームを作成します。作成後にアクセス用QRコードが表示されます。",
+      "name": {{ _("ノートルームを作成") | tojson }},
+      "text": {{ _("/note で6文字の半角英数字のルームIDを指定するか、自動生成してノートルームを作成します。作成後にアクセス用QRコードが表示されます。") | tojson }},
       "url": "{{ request.url_root }}note"
     },
     {
       "@type": "HowToStep",
       "position": 2,
-      "name": "参加者がルームに入る",
-      "text": "参加者はQRコードを読み取るかURLを開いてルームに入り、ノートを編集します。"
+      "name": {{ _("参加者がルームに入る") | tojson }},
+      "text": {{ _("参加者はQRコードを読み取るかURLを開いてルームに入り、ノートを編集します。") | tojson }}
     },
     {
       "@type": "HowToStep",
       "position": 3,
-      "name": "リアルタイムで同時編集",
-      "text": "編集内容はリアルタイムで全員に反映され、自動的に保存されます。"
+      "name": {{ _("リアルタイムで同時編集") | tojson }},
+      "text": {{ _("編集内容はリアルタイムで全員に反映され、自動的に保存されます。") | tojson }}
     }
   ]
 }
@@ -105,32 +105,32 @@
 {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": "グループでファイルを共有する手順",
-  "description": "FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。",
-  "inLanguage": "ja-JP",
+  "name": {{ _("グループでファイルを共有する手順") | tojson }},
+  "description": {{ _("FS!QRのグループ機能を使って共有用ルームを作成し、複数人でファイルをやり取りする方法。") | tojson }},
+  "inLanguage": {{ schema_language | tojson }},
   "totalTime": "PT2M",
   "tool": [
-    { "@type": "HowToTool", "name": "Webブラウザ" }
+    { "@type": "HowToTool", "name": {{ _("Webブラウザ") | tojson }} }
   ],
   "step": [
     {
       "@type": "HowToStep",
       "position": 1,
-      "name": "グループルームを作成",
-      "text": "/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。",
+      "name": {{ _("グループルームを作成") | tojson }},
+      "text": {{ _("/group で共有用ルームを作成すると、ルームURLのQRコードが表示されます。") | tojson }},
       "url": "{{ request.url_root }}group"
     },
     {
       "@type": "HowToStep",
       "position": 2,
-      "name": "メンバーが参加",
-      "text": "メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。"
+      "name": {{ _("メンバーが参加") | tojson }},
+      "text": {{ _("メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。") | tojson }}
     },
     {
       "@type": "HowToStep",
       "position": 3,
-      "name": "自動削除で一時利用",
-      "text": "ルーム内のファイルは一定期間後に自動削除されるため、一時的なやり取りに適しています。"
+      "name": {{ _("自動削除で一時利用") | tojson }},
+      "text": {{ _("ルーム内のファイルは一定期間後に自動削除されるため、一時的なやり取りに適しています。") | tojson }}
     }
   ]
 }
@@ -141,57 +141,57 @@
 <div class="info-page">
   <div class="info-box">
     <div class="info-box-header">
-      <h1>使い方</h1>
-      <div class="subtitle">FS!QRの基本的な使用方法</div>
+      <h1>{{ _("使い方") }}</h1>
+      <div class="subtitle">{{ _("FS!QRの基本的な使用方法") }}</div>
     </div>
     <div class="info-box-content">
       
-      <h3>{{ icon('star', with_text=True) }}サービス概要と特徴</h3>
-      <p>FS!QRはブラウザだけでファイルを簡単に共有できるサービスです。IDとパスワードを利用して一時的にファイルを保管し、QRコードやURLで共有できます。</p>
+      <h3>{{ icon('star', with_text=True) }}{{ _("サービス概要と特徴") }}</h3>
+      <p>{{ _("FS!QRはブラウザだけでファイルを簡単に共有できるサービスです。IDとパスワードを利用して一時的にファイルを保管し、QRコードやURLで共有できます。") }}</p>
 
-      <h3>{{ icon('target', with_text=True) }}想定用途</h3>
-      <p>大学の共同作業や勉強会など、ユーザー同士が迅速にファイルを交換したい場面でご利用ください。プレゼンテーション資料の共有、グループワークでの資料交換、授業での課題提出など、様々な場面で活用できます。</p>
+      <h3>{{ icon('target', with_text=True) }}{{ _("想定用途") }}</h3>
+      <p>{{ _("大学の共同作業や勉強会など、ユーザー同士が迅速にファイルを交換したい場面でご利用ください。プレゼンテーション資料の共有、グループワークでの資料交換、授業での課題提出など、様々な場面で活用できます。") }}</p>
 
-      <h3>{{ icon('shield_check', with_text=True) }}安全な使い方</h3>
-      <p>公開したくない情報を含むファイルをアップロードする際は、第三者にパスワードを知られないようご注意ください。また、共有するQRコードやURLの取り扱いにもご注意ください。</p>
+      <h3>{{ icon('shield_check', with_text=True) }}{{ _("安全な使い方") }}</h3>
+      <p>{{ _("公開したくない情報を含むファイルをアップロードする際は、第三者にパスワードを知られないようご注意ください。また、共有するQRコードやURLの取り扱いにもご注意ください。") }}</p>
 
-      <h3>{{ icon('book_open', with_text=True) }}使い方チュートリアル</h3>
+      <h3>{{ icon('book_open', with_text=True) }}{{ _("使い方チュートリアル") }}</h3>
       
-      <h4>QRコードでファイル共有</h4>
+      <h4>{{ _("QRコードでファイル共有") }}</h4>
       <ol>
-        <li><code>/fs-qr</code>にアクセスし、共有したいファイルを選択してアップロードします。</li>
-        <li>アップロード完了後、ダウンロード用URLとパスワード、そしてアクセス用のQRコードが表示されます。</li>
-        <li>受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。</li>
-        <li>画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。</li>
+        <li><code>/fs-qr</code>{{ _("にアクセスし、共有したいファイルを選択してアップロードします。") }}</li>
+        <li>{{ _("アップロード完了後、ダウンロード用URLとパスワード、そしてアクセス用のQRコードが表示されます。") }}</li>
+        <li>{{ _("受け取る相手はQRコードをスマートフォンなどで読み取り、表示されたURLにアクセスします。") }}</li>
+        <li>{{ _("画面の指示に従ってパスワードを入力すると、ファイルのダウンロードが開始されます。") }}</li>
       </ol>
 
-      <h4>ノート共有</h4>
+      <h4>{{ _("ノート共有") }}</h4>
       <ol>
-        <li><code>/note</code>で6文字の半角英数字のルームIDを指定するか、自動生成してノートルームを作成します。作成後にアクセス用QRコードが表示されます。</li>
-        <li>参加者はQRコードを読み取るかURLを開いてルームに入り、ノートを編集します。</li>
-        <li>編集内容はリアルタイムで全員に反映され、自動的に保存されます。</li>
+        <li><code>/note</code>{{ _("で6文字の半角英数字のルームIDを指定するか、自動生成してノートルームを作成します。作成後にアクセス用QRコードが表示されます。") }}</li>
+        <li>{{ _("参加者はQRコードを読み取るかURLを開いてルームに入り、ノートを編集します。") }}</li>
+        <li>{{ _("編集内容はリアルタイムで全員に反映され、自動的に保存されます。") }}</li>
       </ol>
 
-      <h4>グループ共有</h4>
+      <h4>{{ _("グループ共有") }}</h4>
       <ol>
-        <li><code>/group</code>で共有用ルームを作成すると、ルームURLのQRコードが表示されます。</li>
-        <li>メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。</li>
-        <li>ルーム内のファイルは一定期間後に自動削除されるため、一時的なやり取りに適しています。</li>
+        <li><code>/group</code>{{ _("で共有用ルームを作成すると、ルームURLのQRコードが表示されます。") }}</li>
+        <li>{{ _("メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。") }}</li>
+        <li>{{ _("ルーム内のファイルは一定期間後に自動削除されるため、一時的なやり取りに適しています。") }}</li>
       </ol>
 
-      <h3>{{ icon('lock', with_text=True) }}セキュリティと暗号化の説明</h3>
-      <p>QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。</p>
+      <h3>{{ icon('lock', with_text=True) }}{{ _("セキュリティと暗号化の説明") }}</h3>
+      <p>{{ _("QRコード共有のファイルはブラウザ上でAES-256暗号化してからサーバーに保存されます。グループルームのファイルとノート本文はサーバー上では暗号化されない状態で保管されます。通信はHTTPSで暗号化され、各データは設定した保存期間の経過後に自動削除されます。") }}</p>
 
-      <h3>{{ icon('lightbulb', with_text=True) }}使用上の注意点</h3>
+      <h3>{{ icon('lightbulb', with_text=True) }}{{ _("使用上の注意点") }}</h3>
       <ul>
-        <li><strong>ファイルサイズ制限:</strong> 大きなファイルのアップロードには時間がかかる場合があります</li>
-        <li><strong>保存期間:</strong> ファイルは一定期間後に自動削除されます</li>
-        <li><strong>パスワード管理:</strong> パスワードは安全に管理し、必要な相手にのみ共有してください</li>
-        <li><strong>ブラウザ対応:</strong> 最新のブラウザでのご利用を推奨します</li>
+        <li><strong>{{ _("ファイルサイズ制限:") }}</strong> {{ _("大きなファイルのアップロードには時間がかかる場合があります") }}</li>
+        <li><strong>{{ _("保存期間:") }}</strong> {{ _("ファイルは一定期間後に自動削除されます") }}</li>
+        <li><strong>{{ _("パスワード管理:") }}</strong> {{ _("パスワードは安全に管理し、必要な相手にのみ共有してください") }}</li>
+        <li><strong>{{ _("ブラウザ対応:") }}</strong> {{ _("最新のブラウザでのご利用を推奨します") }}</li>
       </ul>
 
       <p style="text-align: center; margin-top: 2rem;">
-        <a href="/articles" class="contact-form-link">より詳しい解説記事を見る</a>
+        <a href="/articles" class="contact-form-link">{{ _("より詳しい解説記事を見る") }}</a>
       </p>
     </div>
   </div>

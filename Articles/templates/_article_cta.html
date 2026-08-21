@@ -16,29 +16,29 @@
     "name": "FS!QR",
     "url": "/fs-qr_menu",
     "image": "/static/fsqr.png",
-    "tag": "ファイル共有",
-    "desc": "QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。"
+    "tag": _("ファイル共有"),
+    "desc": _("QRコードでかんたん・安全にファイルを共有。アプリ不要、ブラウザだけで完結します。")
   },
   "group": {
     "name": "Group",
     "url": "/group_menu",
     "image": "/static/group.png",
-    "tag": "グループ共有",
-    "desc": "複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。"
+    "tag": _("グループ共有"),
+    "desc": _("複数人でファイルをアップロード・ダウンロードできる共有ルーム。授業やチームでの配布に便利です。")
   },
   "note": {
     "name": "Note",
     "url": "/note_menu",
     "image": "/static/note.png",
-    "tag": "共同編集",
-    "desc": "リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。"
+    "tag": _("共同編集"),
+    "desc": _("リアルタイムに同時編集できる共有ノート。メモや議事録の共同編集に活用できます。")
   },
   "task": {
     "name": "Task",
     "url": "/task_menu",
     "image": "/static/task.png",
-    "tag": "タスク管理",
-    "desc": "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+    "tag": _("タスク管理"),
+    "desc": _("共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。")
   }
 } %}
 {% set _c = _services.get(_svc, _services["fsqr"]) %}
@@ -48,14 +48,14 @@
   </div>
   <div class="article-cta-body">
     <div class="article-cta-meta">
-      <span class="article-cta-eyebrow">関連サービス</span>
+      <span class="article-cta-eyebrow">{{ _("関連サービス") }}</span>
       <span class="article-cta-tag">{{ _c.tag }}</span>
     </div>
-    <h3 class="article-cta-title">{{ _c.name }}を使ってみる</h3>
+    <h3 class="article-cta-title">{{ _c.name }}{{ _("を使ってみる") }}</h3>
     <p class="article-cta-desc">{{ _c.desc }}</p>
   </div>
   <a class="article-cta-button" href="{{ _c.url }}">
-    今すぐ使ってみる <i class="fas fa-arrow-right"></i>
+    {{ _("今すぐ使ってみる") }} <i class="fas fa-arrow-right"></i>
   </a>
 </aside>
 <style>

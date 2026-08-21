@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="{% block meta_description %}FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。{% endblock %}" />
-  <meta name="keywords" content="{% block meta_keywords %}リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業{% endblock %}" />
+  <meta name="description" content="{% block meta_description %}{{ _("FS!QR Noteは無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。ブラウザだけで始められる日本語対応のコラボレーションツール。") }}{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}{{ _("リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業") }}{% endblock %}" />
   <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
   <meta name="author" content="FS!QR" />
-  <meta name="language" content="ja" />
-  <meta name="geo.region" content="JP" />
-  <meta name="geo.placename" content="Japan" />
+  <meta name="language" content="{{ meta_language }}" />
+  <meta name="geo.region" content="{{ geo_region }}" />
+  <meta name="geo.placename" content="{{ geo_placename }}" />
   <meta name="distribution" content="global" />
   <meta name="rating" content="general" />
   <meta name="theme-color" content="#342ae3" />
@@ -34,23 +34,23 @@
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:locale" content="{{ og_locale }}" />
   <meta property="og:site_name" content="FS!QR Note" />
-  <meta property="og:title" content="{% block og_title %}FS!QR Note | 無料リアルタイム同時編集ノートサービス{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。{% endblock %}" />
+  <meta property="og:title" content="{% block og_title %}{{ _("FS!QR Note | 無料リアルタイム同時編集ノートサービス") }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。") }}{% endblock %}" />
   <meta property="og:url" content="{{ request.canonical_url }}" />
   <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="723" />
-  <meta property="og:image:alt" content="FS!QR Note リアルタイムノート共有サービス" />
+  <meta property="og:image:alt" content="{{ _("FS!QR Note リアルタイムノート共有サービス") }}" />
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{% block twitter_title %}FS!QR Note | 無料リアルタイム同時編集ノートサービス{% endblock %}" />
-  <meta name="twitter:description" content="{% block twitter_description %}複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。{% endblock %}" />
+  <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR Note | 無料リアルタイム同時編集ノートサービス") }}{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}{{ _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。") }}{% endblock %}" />
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-  <meta name="twitter:image:alt" content="FS!QR Note サービス" />
+  <meta name="twitter:image:alt" content="{{ _("FS!QR Note サービス") }}" />
   
   <!-- SEO -->
   <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -92,7 +92,7 @@
       {% endif %}
     });
   </script>
-  <title>{% block page_title %}FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス{% endblock %}</title>
+  <title>{% block page_title %}{{ _("FS!QR Note | 無料リアルタイム同時編集ノート・コラボレーションサービス") }}{% endblock %}</title>
   
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -100,10 +100,10 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FS!QR Note",
-    "alternateName": "エフエスQRノート",
+    "alternateName": {{ _("エフエスQRノート") | tojson }},
     "url": "{{ request.url_root }}note",
-    "description": "無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。",
-    "inLanguage": "ja-JP",
+    "description": {{ _("無料のリアルタイムノート共有・同時編集サービス。複数人でオンラインノートを共同編集、プロジェクト管理、学習支援、会議メモに最適。") | tojson }},
+    "inLanguage": {{ schema_language | tojson }},
     "isPartOf": {
       "@type": "WebSite",
       "name": "FS!QR",
@@ -131,7 +131,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "FS!QR Note",
-    "description": "リアルタイムノート共有・同時編集のための無料Webアプリケーション",
+    "description": {{ _("リアルタイムノート共有・同時編集のための無料Webアプリケーション") | tojson }},
     "applicationCategory": "WebApplication",
     "operatingSystem": "Web Browser",
     "offers": {
@@ -140,11 +140,11 @@
       "priceCurrency": "JPY"
     },
     "featureList": [
-      "リアルタイム同時編集",
-      "ノート共有ルーム作成",
-      "会議メモ作成",
-      "プロジェクト管理支援",
-      "学習グループ支援"
+      {{ _("リアルタイム同時編集") | tojson }},
+      {{ _("ノート共有ルーム作成") | tojson }},
+      {{ _("会議メモ作成") | tojson }},
+      {{ _("プロジェクト管理支援") | tojson }},
+      {{ _("学習グループ支援") | tojson }}
     ]
   }
   </script>
@@ -154,7 +154,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "FS!QR",
-    "alternateName": "エフエスQR",
+    "alternateName": {{ _("エフエスQR") | tojson }},
     "url": "{{ request.url_root }}",
     "logo": "{{ staticfile('logo.png') }}",
     "foundingDate": "2024",
@@ -191,11 +191,11 @@
   <!-- ── Search-link（虫眼鏡）───────────── -->
   <div class="text-center">
     <a href="/search_note" class="search-link">
-      <img src="{{staticfile('note_search.png')}}" alt="検索" loading="lazy" decoding="async" />
-      <span>検索</span>
+      <img src="{{staticfile('note_search.png')}}" alt="{{ _("検索") }}" loading="lazy" decoding="async" />
+      <span>{{ _("検索") }}</span>
     </a>
-    <nav class="section-tabs" aria-label="サービスナビゲーション">
-      <a class="section-tab" href="/">ホーム</a>
+    <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
+      <a class="section-tab" href="/">{{ _("ホーム") }}</a>
       <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
       <a class="section-tab" href="/group_menu">Group</a>
       <a class="section-tab" href="/note_menu" aria-current="page">Note</a>

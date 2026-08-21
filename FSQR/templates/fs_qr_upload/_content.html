@@ -5,21 +5,21 @@
         <div class="modern-card-header">
             <h1>
                 {{ icons.icon('folder', size='xl', with_text=True) }}
-                ファイルアップロード
+                {{ _("ファイルアップロード") }}
             </h1>
         </div>
         
         <div class="modern-card-body">
             <section class="operation-intro" aria-labelledby="fsqr-upload-intro-title">
-                <h2 id="fsqr-upload-intro-title" class="operation-intro__title">QRコードでファイルを共有できます</h2>
+                <h2 id="fsqr-upload-intro-title" class="operation-intro__title">{{ _("QRコードでファイルを共有できます") }}</h2>
                 <p class="operation-intro__text">
-                    アプリやアカウントを使わず、PCとスマホ間でファイルを送受信できます。アップロード後に表示される共有リンクやQRコードを相手に渡すだけで、資料や画像をすぐに受け取れます。
+                    {{ _("アプリやアカウントを使わず、PCとスマホ間でファイルを送受信できます。アップロード後に表示される共有リンクやQRコードを相手に渡すだけで、資料や画像をすぐに受け取れます。") }}
                 </p>
-                <p class="operation-intro__text">{{ t('seo.fsqr.intent') }}</p>
-                <ul class="operation-intro__points" aria-label="このページでできること">
-                    <li class="operation-intro__point">複数ファイルをアップロード</li>
-                    <li class="operation-intro__point">共有リンクとQRコードを発行</li>
-                    <li class="operation-intro__point">保存期間を選んで自動削除</li>
+                <p class="operation-intro__text">{{ _('seo.fsqr.intent') }}</p>
+                <ul class="operation-intro__points" aria-label="{{ _("このページでできること") }}">
+                    <li class="operation-intro__point">{{ _("複数ファイルをアップロード") }}</li>
+                    <li class="operation-intro__point">{{ _("共有リンクとQRコードを発行") }}</li>
+                    <li class="operation-intro__point">{{ _("保存期間を選んで自動削除") }}</li>
                 </ul>
             </section>
 
@@ -30,12 +30,12 @@
                     <div class="upload-icon-modern">
                         {{ icons.icon('cloud_upload', size='xxl') }}
                     </div>
-                    <p class="upload-text-modern">ここをクリックまたはドラッグしてファイルをアップロード</p>
-                    <button type="button" onclick="fileInput.click()" class="upload-button-modern" aria-label="アップロードするファイルを選択">
+                    <p class="upload-text-modern">{{ _("ここをクリックまたはドラッグしてファイルをアップロード") }}</p>
+                    <button type="button" onclick="fileInput.click()" class="upload-button-modern" aria-label="{{ _("アップロードするファイルを選択") }}">
                         {{ icons.icon('arrow_up', size='lg', with_text=True) }}
-                        ファイルを選択
+                        {{ _("ファイルを選択") }}
                     </button>
-                    <input type="file" name="upfile" id="fileInput" multiple style="display: none;" aria-label="アップロードするファイルを選択">
+                    <input type="file" name="upfile" id="fileInput" multiple style="display: none;" aria-label="{{ _("アップロードするファイルを選択") }}">
                 </div>
                 <div id="uploadLimitStatus" class="upload-limit-status" role="status" aria-live="polite"></div>
                 
@@ -45,44 +45,44 @@
 
                 <!-- ID Input Mode Selection -->
                 <div class="modern-form-group">
-                    <label class="modern-form-label">共有ID設定方式</label>
+                    <label class="modern-form-label">{{ _("共有ID設定方式") }}</label>
                     <div style="display: flex; gap: 15px; margin-bottom: 10px;">
                         <label style="display: flex; align-items: center; cursor: pointer;">
                             <input type="radio" name="idMode" value="auto" checked style="margin-right: 5px;">
-                            自動生成
+                            {{ _("自動生成") }}
                         </label>
                         <label style="display: flex; align-items: center; cursor: pointer;">
                             <input type="radio" name="idMode" value="manual" style="margin-right: 5px;">
-                            手動入力
+                            {{ _("手動入力") }}
                         </label>
                     </div>
                 </div>
 
                 <!-- Manual ID Input -->
                 <div class="modern-form-group" id="manualIdGroup" style="display: none;">
-                    <label for="name" class="modern-form-label">共有ID（6文字）</label>
+                    <label for="name" class="modern-form-label">{{ _("共有ID（6文字）") }}</label>
                     <input type="text" class="modern-form-input" minlength="6" maxlength="6"
-                           name="name" id="name" placeholder="共有用のIDを入力してください（半角英数字6文字）"
-                           pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                           name="name" id="name" placeholder="{{ _("共有用のIDを入力してください（半角英数字6文字）") }}"
+                           pattern="[a-zA-Z0-9]{6}" title="{{ _("6文字の半角英数字で入力してください") }}"
                            style="max-width: 300px;">
                 </div>
 
                 <!-- Auto Generated ID Display -->
                 <div class="modern-form-group" id="autoIdGroup">
-                    <label class="modern-form-label">自動生成される共有ID</label>
+                    <label class="modern-form-label">{{ _("自動生成される共有ID") }}</label>
                     <input type="text" id="autoGeneratedId" class="modern-form-input" readonly
-                           style="max-width: 300px; background-color: #f0f0f0;" placeholder="自動生成されます">
+                           style="max-width: 300px; background-color: #f0f0f0;" placeholder="{{ _("自動生成されます") }}">
                     <input type="hidden" id="hiddenId" name="name">
                 </div>
 
                 <div class="modern-form-group">
-                    <label class="modern-form-label" for="retention">自動削除までの期間</label>
+                    <label class="modern-form-label" for="retention">{{ _("自動削除までの期間") }}</label>
                     <div class="retention-select-wrapper retention-select-wrapper--azure" data-retention-select>
                         <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
-                            <option value="1">{% if current_language == 'ja' %}1時間{% else %}1h{% endif %}</option>
-                            <option value="6">{% if current_language == 'ja' %}6時間{% else %}6h{% endif %}</option>
-                            <option value="12">{% if current_language == 'ja' %}12時間{% else %}12h{% endif %}</option>
-                            <option value="24" selected>{% if current_language == 'ja' %}24時間（デフォルト）{% else %}24h (default){% endif %}</option>
+                    <option value="1">{% if current_language == 'ja' %}{{ _("1時間") }}{% else %}1h{% endif %}</option>
+                    <option value="6">{% if current_language == 'ja' %}{{ _("6時間") }}{% else %}6h{% endif %}</option>
+                    <option value="12">{% if current_language == 'ja' %}{{ _("12時間") }}{% else %}12h{% endif %}</option>
+                    <option value="24" selected>{% if current_language == 'ja' %}{{ _("24時間（デフォルト）") }}{% else %}24h (default){% endif %}</option>
                         </select>
                         <span class="retention-select-arrow" aria-hidden="true">
                             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,19 +90,19 @@
                             </svg>
                         </span>
                     </div>
-                    <small class="retention-select-hint">選択した期間の終了後に自動で削除されます。</small>
+                    <small class="retention-select-hint">{{ _("選択した期間の終了後に自動で削除されます。") }}</small>
                     <div class="retention-preview" id="retentionPreview" aria-live="polite">
-                        <strong>この内容で今すぐ作成した場合の削除予定</strong>
-                        <span class="retention-preview-time" id="retentionPreviewTime">計算中...</span>
+                        <strong>{{ _("この内容で今すぐ作成した場合の削除予定") }}</strong>
+                        <span class="retention-preview-time" id="retentionPreviewTime">{{ _("計算中...") }}</span>
                     </div>
                 </div>
 
                 <div class="inline-feedback" id="uploadInlineError" role="alert" aria-live="assertive"></div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="modern-btn modern-btn-success" id="startUploadBtn" aria-label="ファイルをアップロード開始">
+                <button type="submit" class="modern-btn modern-btn-success" id="startUploadBtn" aria-label="{{ _("ファイルをアップロード開始") }}">
                     {{ icons.icon('rocket', size='lg', with_text=True) }}
-                    アップロード開始
+                    {{ _("アップロード開始") }}
                 </button>
 
                 <div id="uploadProgressContainer" class="fsqr-transfer-card fsqr-transfer-card--upload" style="display: none;">
@@ -119,24 +119,24 @@
                         </div>
                     </div>
                     <div class="fsqr-transfer-card__content">
-                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">暗号化</div>
+                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">{{ _("暗号化") }}</div>
                         <div class="fsqr-transfer-card__title">
-                            <span id="uploadProgressText">暗号化中...</span>
+                            <span id="uploadProgressText">{{ _("暗号化中...") }}</span>
                         </div>
-                        <div class="fsqr-transfer-card__detail" id="uploadProgressDetail" aria-live="polite">ファイルを準備しています。</div>
+                        <div class="fsqr-transfer-card__detail" id="uploadProgressDetail" aria-live="polite">{{ _("ファイルを準備しています。") }}</div>
                         <div class="fsqr-transfer-card__stage">
-                            <span>暗号化</span>
-                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="暗号化の進捗">
+                            <span>{{ _("暗号化") }}</span>
+                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("暗号化の進捗") }}">
                                 <div class="progress-bar" id="encryptionProgressBar"></div>
                             </div>
                         </div>
                         <div class="fsqr-transfer-card__stage">
-                            <span>アップロード</span>
-                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="アップロードの進捗">
+                            <span>{{ _("アップロード") }}</span>
+                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("アップロードの進捗") }}">
                                 <div class="progress-bar" id="uploadProgressBar"></div>
                             </div>
                         </div>
-                        <button type="button" class="fsqr-transfer-card__cancel" id="cancelUploadBtn">キャンセル</button>
+                        <button type="button" class="fsqr-transfer-card__cancel" id="cancelUploadBtn">{{ _("キャンセル") }}</button>
                     </div>
                 </div>
             </form>
@@ -146,14 +146,14 @@
     <!-- Usage Section -->
     <div class="usage-section">
         <div class="usage-section-header">
-            <h5>使い方</h5>
+            <h5>{{ _("使い方") }}</h5>
         </div>
         <div class="usage-section-content">
             <p>
-                1. 上のエリアにファイルをドラッグ＆ドロップするか「ファイルを選択」で追加します。<br>
-                2. 共有IDと保存期間を確認して「アップロード開始」を押すと、共有用のページが作成されます。<br>
-                3. 完了画面では共有リンクのコピーが最短です。共有リンクとパスワードを送ると、相手が受け取れます。<br>
-                 {{ t("upload.usage.limit_hint", max_files=upload_max_files, max_total_mb=upload_max_total_size_mb) }}
+                {{ _("1. 上のエリアにファイルをドラッグ＆ドロップするか「ファイルを選択」で追加します。") }}<br>
+                {{ _("2. 共有IDと保存期間を確認して「アップロード開始」を押すと、共有用のページが作成されます。") }}<br>
+                {{ _("3. 完了画面では共有リンクのコピーが最短です。共有リンクとパスワードを送ると、相手が受け取れます。") }}<br>
+                 {{ _("upload.usage.limit_hint", max_files=upload_max_files, max_total_mb=upload_max_total_size_mb) }}
             </p>
         </div>
     </div>

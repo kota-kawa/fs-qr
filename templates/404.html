@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% from "macros/icons.html" import icon %}
 
-{% block page_title %}404 - ページが見つかりません | FS!QR{% endblock %}
+{% block page_title %}{{ _("404 - ページが見つかりません | FS!QR") }}{% endblock %}
 
 {% block extra_head %}
   <meta name="robots" content="noindex, nofollow">
@@ -41,18 +41,18 @@
           {{ icon('face_frown', size='xxl') }}
         </span>
       </div>
-      <h2 class="h4 mb-4 fw-bold text-dark">おっと…ページが見つかりません</h2>
+      <h2 class="h4 mb-4 fw-bold text-dark">{{ _("おっと…ページが見つかりません") }}</h2>
       <p class="text-secondary mb-5 small">
-        お探しのページは削除されたか、移動した可能性があります。
+        {{ _("お探しのページは削除されたか、移動した可能性があります。") }}
       </p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <a href="/" class="modern-btn modern-btn-success px-4 py-2">
           <i class="bi bi-house-door-fill me-2"></i>
-          トップページへ戻る
+          {{ _("トップページへ戻る") }}
         </a>
       </div>
       <p class="mt-4 text-muted small" style="opacity: 0.8;">
-        もしこちらのURLにお心当たりがある場合は、少し時間をおいてから再度アクセスしてみてください。
+        {{ _("もしこちらのURLにお心当たりがある場合は、少し時間をおいてから再度アクセスしてみてください。") }}
       </p>
     </div>
   </div>

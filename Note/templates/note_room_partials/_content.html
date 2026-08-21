@@ -5,7 +5,7 @@
         <div class="modern-card-header">
             <h1>
                 {{ icons.icon('document_text', size='xl', with_text=True) }}
-                リアルタイムノート
+                {{ _("リアルタイムノート") }}
             </h1>
             {% include "_presence_indicator.html" %}
         </div>
@@ -16,18 +16,18 @@
             <div class="room-info-container">
                 <div class="room-info-card">
                     <div class="room-info-header">
-                        <span class="room-info-header-title">Room情報</span>
-                        <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="FS!QR ノート共有" aria-label="このノートを共有する" title="共有">
+                        <span class="room-info-header-title">{{ _("Room情報") }}</span>
+                        <button type="button" class="room-info-share-button share-url-button" data-share-url="{{ share_url | e }}" data-share-title="{{ _("FS!QR ノート共有") }}" aria-label="{{ _("このノートを共有する") }}" title="{{ _("共有") }}">
                             {{ icons.icon('arrow_up', size='md') }}
                         </button>
                     </div>
                     <div class="room-info-body">
                         <div class="room-info-row">
-                            <span class="room-info-label">ルームID</span>
+                            <span class="room-info-label">{{ _("ルームID") }}</span>
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
                                     <span class="room-info-value-text">{{ room_id }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="ルームIDをコピー">
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ room_id }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("ルームIDをコピー") }}">
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
@@ -36,11 +36,11 @@
                         </div>
                         {% if password %}
                         <div class="room-info-row">
-                            <span class="room-info-label">パスワード</span>
+                            <span class="room-info-label">{{ _("パスワード") }}</span>
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
                                     <span class="room-info-value-text">{{ password }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="パスワードをコピー">
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ password | e }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("パスワードをコピー") }}">
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
@@ -53,7 +53,7 @@
                             <span class="room-info-value">
                                 <span class="room-info-value-row">
                                     <span class="room-info-url-text">{{ share_url }}</span>
-                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ share_url | e }}" data-default-label="コピー" data-copied-label="コピー済み" aria-label="URLをコピー">
+                                    <button type="button" class="copy-inline-btn copy-url-button" data-copy-value="{{ share_url | e }}" data-default-label="{{ _("コピー") }}" data-copied-label="{{ _("コピー済み") }}" aria-label="{{ _("URLをコピー") }}">
                                         <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h12v14Z"/></svg>
                                         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                                     </button>
@@ -61,12 +61,12 @@
                             </span>
                         </div>
                         <div class="room-info-row">
-                            <span class="room-info-label">削除予定日</span>
+                            <span class="room-info-label">{{ _("削除予定日") }}</span>
                             <span class="room-info-value">
                                 {% if deletion_date %}
-                                    {{ deletion_date }} （{{ retention_hours | retention_label }}後）
+                                    {{ deletion_date }} （{{ retention_hours | retention_label }}{{ _("後") }}）
                                 {% else %}
-                                    {{ retention_hours | retention_label }}後に自動削除
+                                    {{ retention_hours | retention_label }}{{ _("後に自動削除") }}
                                 {% endif %}
                             </span>
                         </div>
@@ -74,61 +74,61 @@
                     {% if can_delete %}
                     <div class="owner-delete-panel">
                         <div class="owner-delete-copy">
-                            <span class="owner-delete-title">ルームを終了する</span>
-                            <span class="owner-delete-description">作成者だけが、ルームと保存済みの本文を削除できます。</span>
+                            <span class="owner-delete-title">{{ _("ルームを終了する") }}</span>
+                            <span class="owner-delete-description">{{ _("作成者だけが、ルームと保存済みの本文を削除できます。") }}</span>
                         </div>
                         <form
                             action="{{ url_for('note.delete_own_room', room_id=room_id) }}"
                             method="POST"
                             class="owner-delete-form"
-                            data-confirm-submit="このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
-                            data-confirm-title="{{ t('alert.confirm_delete') }}"
-                            data-confirm-label="{{ t('alert.delete_action') }}"
-                            data-deleting-label="ルームを削除中..."
+                            data-confirm-submit="{{ _("このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。") }}"
+                            data-confirm-title="{{ _('alert.confirm_delete') }}"
+                            data-confirm-label="{{ _('alert.delete_action') }}"
+                            data-deleting-label="{{ _("ルームを削除中...") }}"
                         >
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="modern-btn modern-btn-danger">
                                 {{ icons.icon('trash', size='md', with_text=True) }}
-                                ルームを削除
+                                {{ _("ルームを削除") }}
                             </button>
                         </form>
                     </div>
                     {% endif %}
                 </div>
 
-                <div class="qr-code-container" id="noteShareQrCode" data-share-url="{{ share_url | e }}" aria-label="共有用QRコード">
-                    <noscript>QRコードを表示するにはJavaScriptを有効にしてください。</noscript>
+                <div class="qr-code-container" id="noteShareQrCode" data-share-url="{{ share_url | e }}" aria-label="{{ _("共有用QRコード") }}">
+                    <noscript>{{ _("QRコードを表示するにはJavaScriptを有効にしてください。") }}</noscript>
                 </div>
             </div>
 
             <!-- Editor -->
             <div class="modern-form-group">
-                <label for="editor" class="modern-form-label">{{ t('note.editor.label', max_length=note_max_content_length) }}</label>
+                <label for="editor" class="modern-form-label">{{ _('note.editor.label', max_length=note_max_content_length) }}</label>
                 <textarea id="editor" class="modern-editor"
-                          placeholder="ここに入力するとリアルタイムで共同編集されます…"
+                          placeholder="{{ _("ここに入力するとリアルタイムで共同編集されます…") }}"
                           maxlength="{{ note_max_content_length }}" style="height: 60vh;"></textarea>
                 <div class="note-editor-toolbar">
-                    <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}文字</span>
+                    <span id="charCount" class="note-char-count" aria-live="polite">0 / {{ note_max_content_length }}{{ _("文字") }}</span>
                     <div class="note-editor-actions">
-                        <button type="button" id="txtDownloadButton" class="note-action-button note-export-button" aria-label="TXTとしてダウンロード" data-tooltip="TXTとしてダウンロード" data-tooltip-skip>
+                        <button type="button" id="txtDownloadButton" class="note-action-button note-export-button" aria-label="{{ _("TXTとしてダウンロード") }}" data-tooltip="{{ _("TXTとしてダウンロード") }}" data-tooltip-skip>
                             <span aria-hidden="true">TXT</span>
                         </button>
-                        <button type="button" id="pdfDownloadButton" class="note-action-button note-export-button" aria-label="PDFとしてダウンロード" data-tooltip="PDFとしてダウンロード" data-tooltip-skip>
+                        <button type="button" id="pdfDownloadButton" class="note-action-button note-export-button" aria-label="{{ _("PDFとしてダウンロード") }}" data-tooltip="{{ _("PDFとしてダウンロード") }}" data-tooltip-skip>
                             <span aria-hidden="true">PDF</span>
                         </button>
-                        <button type="button" id="pasteButton" class="note-action-button" aria-label="ペースト" data-tooltip="ペースト" data-tooltip-skip>
+                        <button type="button" id="pasteButton" class="note-action-button" aria-label="{{ _("ペースト") }}" data-tooltip="{{ _("ペースト") }}" data-tooltip-skip>
                             <svg class="note-action-icon-default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                             <svg class="note-action-icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         </button>
-                        <button type="button" id="copyAllButton" class="note-action-button" aria-label="全文コピー" data-tooltip="全文コピー" data-tooltip-skip>
+                        <button type="button" id="copyAllButton" class="note-action-button" aria-label="{{ _("全文コピー") }}" data-tooltip="{{ _("全文コピー") }}" data-tooltip-skip>
                             <svg class="note-action-icon-default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                             <svg class="note-action-icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         </button>
                     </div>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                    <small style="color: var(--text-medium);">リアルタイムで同期・保存されます</small>
-                    <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;" role="status" aria-live="polite">同期中…</span>
+                    <small style="color: var(--text-medium);">{{ _("リアルタイムで同期・保存されます") }}</small>
+                    <span id="status" class="badge bg-secondary" style="padding: 0.5rem 1rem; border-radius: 20px;" role="status" aria-live="polite">{{ _("同期中…") }}</span>
                 </div>
             </div>
         </div>
@@ -140,14 +140,14 @@
 
 <div class="usage-section">
   <div class="usage-section-header">
-    <h5>使い方</h5>
+    <h5>{{ _("使い方") }}</h5>
   </div>
   <div class="usage-section-content">
     <p>
-      このルームではテキストをリアルタイムに共有できます。<br>
-	      上記のURL、またはQRコードを共有すると他の参加者も同じノートを編集できます。<br>
-      エディタの変更はYjsで同期され、自動保存されます。複数人が同時に入力しても変更は失われません。<br>
-      {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
+      {{ _("このルームではテキストをリアルタイムに共有できます。") }}<br>
+      {{ _("上記のURL、またはQRコードを共有すると他の参加者も同じノートを編集できます。") }}<br>
+      {{ _("エディタの変更はYjsで同期され、自動保存されます。複数人が同時に入力しても変更は失われません。") }}<br>
+      {{ _('note.editor.max_length_hint', max_length=note_max_content_length) }}
     </p>
   </div>
 </div>

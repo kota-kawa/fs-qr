@@ -14,8 +14,8 @@
           <div class="mb-3 text-primary">
             {{ icon('lock', size='xxl') }}
           </div>
-          <h2 class="h4 fw-bold mb-1">管理ページログイン</h2>
-          <p class="text-secondary small mb-0">管理者パスワードを入力してください。</p>
+          <h2 class="h4 fw-bold mb-1">{{ _("管理ページログイン") }}</h2>
+          <p class="text-secondary small mb-0">{{ _("管理者パスワードを入力してください。") }}</p>
         </div>
 
         {% with messages = get_flashed_messages() %}
@@ -30,7 +30,7 @@
 
         <form action="/admin/list" method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <label for="pw" class="form-label fw-semibold">マスターパスワード</label>
+          <label for="pw" class="form-label fw-semibold">{{ _("マスターパスワード") }}</label>
           <input
             id="pw"
             name="pw"
@@ -41,7 +41,7 @@
             maxlength="128"
           >
           <button type="submit" class="btn btn-primary w-100 rounded-pill">
-            {{ icon('arrow_right', size='sm', with_text=True) }} ログイン
+          {{ icon('arrow_right', size='sm', with_text=True) }} {{ _("ログイン") }}
           </button>
         </form>
       </div>

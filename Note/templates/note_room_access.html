@@ -1,21 +1,21 @@
 {% extends "note_layout.html" %}
 {% import "macros/icons.html" as icons %}
 
-{% block page_title %}登録不要のリアルタイム共同編集ノート | FS!QR Note{% endblock %}
+{% block page_title %}{{ _("登録不要のリアルタイム共同編集ノート | FS!QR Note") }}{% endblock %}
 
-{% block meta_description %}FS!QR Noteは登録不要で使えるリアルタイム共同編集ノートです。ノートルームを作成してID・パスワード・QRコードを共有すると、複数人で会議メモや議事録を同時編集できます。{% endblock %}
+{% block meta_description %}{{ _("FS!QR Noteは登録不要で使えるリアルタイム共同編集ノートです。ノートルームを作成してID・パスワード・QRコードを共有すると、複数人で会議メモや議事録を同時編集できます。") }}{% endblock %}
 
-{% block meta_keywords %}ノートルームアクセス, リアルタイムノート共有, オンライン共同編集, ノート参加, 同時編集, コラボレーションツール, FS QR Note{% endblock %}
+{% block meta_keywords %}{{ _("ノートルームアクセス, リアルタイムノート共有, オンライン共同編集, ノート参加, 同時編集, コラボレーションツール, FS QR Note") }}{% endblock %}
 {% block meta_robots %}noindex, follow{% endblock %}
 {% block meta_googlebot %}noindex, follow{% endblock %}
 
-{% block og_title %}登録不要のリアルタイム共同編集ノート | FS!QR Note{% endblock %}
+{% block og_title %}{{ _("登録不要のリアルタイム共同編集ノート | FS!QR Note") }}{% endblock %}
 
-{% block og_description %}ノートルームを作成してID・パスワード・QRコードを共有。登録不要で複数人が会議メモや議事録を同時編集できます。{% endblock %}
+{% block og_description %}{{ _("ノートルームを作成してID・パスワード・QRコードを共有。登録不要で複数人が会議メモや議事録を同時編集できます。") }}{% endblock %}
 
-{% block twitter_title %}登録不要の共同編集ノート | FS!QR Note{% endblock %}
+{% block twitter_title %}{{ _("登録不要の共同編集ノート | FS!QR Note") }}{% endblock %}
 
-{% block twitter_description %}登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。{% endblock %}
+{% block twitter_description %}{{ _("登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。") }}{% endblock %}
 
 {% block contents %}
 <style>
@@ -60,35 +60,35 @@
     <div class="glossy-room-card">
         <!-- Header -->
         <div class="glossy-room-header">
-            <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('document_text', size='xl', with_text=True) }}リアルタイムノート</h1>
+            <h1 style="margin: 0; font-size: 1.75rem;">{{ icons.icon('document_text', size='xl', with_text=True) }}{{ _("リアルタイムノート") }}</h1>
         </div>
         
         <!-- Body -->
         <div class="glossy-room-body">
             <section class="operation-intro" aria-labelledby="note-access-intro-title">
-                <h2 id="note-access-intro-title" class="operation-intro__title">会議メモや議事録をリアルタイムに共同編集できます</h2>
+                <h2 id="note-access-intro-title" class="operation-intro__title">{{ _("会議メモや議事録をリアルタイムに共同編集できます") }}</h2>
                 <p class="operation-intro__text">
-                    ノートルームを作成して共有すると、複数人が同じメモをブラウザから同時に編集できます。会議、授業、作業メモなど、短時間で共有したいテキストの整理に向いています。
+                    {{ _("ノートルームを作成して共有すると、複数人が同じメモをブラウザから同時に編集できます。会議、授業、作業メモなど、短時間で共有したいテキストの整理に向いています。") }}
                 </p>
-                <p class="operation-intro__text">{{ t('seo.note.intent') }}</p>
-                <ul class="operation-intro__points" aria-label="このページでできること">
-                    <li class="operation-intro__point">ノートルームを新規作成</li>
-                    <li class="operation-intro__point">IDとパスワードで参加</li>
-                    <li class="operation-intro__point">自動保存で内容を同期</li>
+                <p class="operation-intro__text">{{ _('seo.note.intent') }}</p>
+                <ul class="operation-intro__points" aria-label="{{ _("このページでできること") }}">
+                    <li class="operation-intro__point">{{ _("ノートルームを新規作成") }}</li>
+                    <li class="operation-intro__point">{{ _("IDとパスワードで参加") }}</li>
+                    <li class="operation-intro__point">{{ _("自動保存で内容を同期") }}</li>
                 </ul>
             </section>
 
             <!-- Access Form Section -->
             <div class="glossy-surface" style="margin-bottom: 2rem;">
-                <h2 style="margin-top: 0; color: #374151; font-size: 1.35rem;">ルームにアクセス</h2>
+                <h2 style="margin-top: 0; color: #374151; font-size: 1.35rem;">{{ _("ルームにアクセス") }}</h2>
                 
                 <!-- Tab Buttons -->
                 <div class="glossy-tab-track" style="display: flex; border-radius: 10px; margin-bottom: 1rem;">
                     <button type="button" onclick="switchTab('join')" id="join-btn" class="glossy-action-btn" style="flex: 1; padding: 0.75rem; color: white; border: none; border-radius: 10px 0 0 10px; cursor: pointer; font-weight: 600;">
-                        ルームに参加
+                    {{ _("ルームに参加") }}
                     </button>
                     <button type="button" onclick="switchTab('create')" id="create-btn" class="glossy-muted-btn" style="flex: 1; padding: 0.75rem; color: #6b7280; border: none; border-radius: 0 10px 10px 0; cursor: pointer; font-weight: 600;">
-                        新規ルーム作成
+                    {{ _("新規ルーム作成") }}
                     </button>
                 </div>
                 
@@ -97,28 +97,28 @@
                     <form method="POST" action="/search_note_process">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div style="margin-bottom: 1rem;">
-                            <label for="noteJoinRoomId" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID</label>
-                            <input type="text" id="noteJoinRoomId" name="id" placeholder="ルームIDを入力" required
-                                   minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="6文字の半角英数字で入力してください"
+                            <label for="noteJoinRoomId" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">{{ _("ルームID") }}</label>
+                            <input type="text" id="noteJoinRoomId" name="id" placeholder="{{ _("ルームIDを入力") }}" required
+                                   minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="{{ _("6文字の半角英数字で入力してください") }}"
                                    aria-describedby="noteJoinRoomIdHelp"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
-                            <small id="noteJoinRoomIdHelp" class="field-help">共有された6文字のルームIDを入力してください。</small>
+                            <small id="noteJoinRoomIdHelp" class="field-help">{{ _("共有された6文字のルームIDを入力してください。") }}</small>
                         </div>
                         <div style="margin-bottom: 1rem;">
-                            <label for="noteJoinPassword" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">パスワード</label>
+                            <label for="noteJoinPassword" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">{{ _("パスワード") }}</label>
                             <div class="password-field">
-                                <input type="password" id="noteJoinPassword" name="password" placeholder="パスワードを入力" required
+                                <input type="password" id="noteJoinPassword" name="password" placeholder="{{ _("パスワードを入力") }}" required
                                        minlength="6" maxlength="6" pattern="[0-9]{6}"
-                                       title="6桁の数字で入力してください"
+                                       title="{{ _("6桁の数字で入力してください") }}"
                                        autocomplete="current-password" inputmode="numeric"
                                        aria-describedby="noteJoinPasswordHelp"
                                        style="width: 100%; padding: 0.75rem 6.5rem 0.75rem 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
-                                <button type="button" class="password-toggle" data-password-toggle="noteJoinPassword" aria-controls="noteJoinPassword" aria-label="パスワードを表示">表示</button>
+                                <button type="button" class="password-toggle" data-password-toggle="noteJoinPassword" aria-controls="noteJoinPassword" aria-label="{{ _("パスワードを表示") }}">{{ _("表示") }}</button>
                             </div>
-                            <small id="noteJoinPasswordHelp" class="field-help">6桁の数字で入力してください</small>
+                            <small id="noteJoinPasswordHelp" class="field-help">{{ _("6桁の数字で入力してください") }}</small>
                         </div>
                     <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            {{ icons.icon('search', size='lg', with_text=True) }}ルームに参加
+                        {{ icons.icon('search', size='lg', with_text=True) }}{{ _("ルームに参加") }}
                         </button>
                     </form>
                 </div>
@@ -129,46 +129,46 @@
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <!-- ID入力方式選択 -->
                         <div style="margin-bottom: 1rem;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID設定方式</label>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">{{ _("ルームID設定方式") }}</label>
                             <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                                 <label style="display: flex; align-items: center; cursor: pointer;">
                                     <input type="radio" name="idMode" value="auto" checked style="margin-right: 5px;">
-                                    自動生成
+                                    {{ _("自動生成") }}
                                 </label>
                                 <label style="display: flex; align-items: center; cursor: pointer;">
                                     <input type="radio" name="idMode" value="manual" style="margin-right: 5px;">
-                                    手動入力
+                                    {{ _("手動入力") }}
                                 </label>
                             </div>
                         </div>
                         
                         <!-- ID入力欄（手動） -->
                         <div id="manualIdGroup" style="display: none; margin-bottom: 1rem;">
-                            <label for="roomID" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">ルームID</label>
-                            <input type="text" id="roomID" name="id" placeholder="6文字の半角英数字で入力"
+                            <label for="roomID" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">{{ _("ルームID") }}</label>
+                            <input type="text" id="roomID" name="id" placeholder="{{ _("6文字の半角英数字で入力") }}"
                                    minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}"
                                    aria-describedby="manualRoomIdHelp"
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;"
-                                   title="6文字の半角英数字で入力してください">
-                            <small id="manualRoomIdHelp" class="field-help">6文字の半角英数字で入力してください。</small>
+                                   title="{{ _("6文字の半角英数字で入力してください") }}">
+                            <small id="manualRoomIdHelp" class="field-help">{{ _("6文字の半角英数字で入力してください。") }}</small>
                         </div>
                         
                         <!-- 自動生成ID表示 -->
                         <div id="autoIdGroup" style="margin-bottom: 1rem;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">自動生成されるID</label>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">{{ _("自動生成されるID") }}</label>
                             <input type="text" id="autoGeneratedId" readonly
                                    style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; background-color: #f0f0f0;"
-                                   placeholder="自動生成されます">
+                                   placeholder="{{ _("自動生成されます") }}">
                             <input type="hidden" id="hiddenId" name="id">
                         </div>
 
                         <div style="margin-bottom: 1.25rem;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;" for="retention">自動削除までの期間</label>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;" for="retention">{{ _("自動削除までの期間") }}</label>
                             <div class="retention-select-wrapper retention-select-wrapper--citrus" data-retention-select>
                                 <select id="retention" name="retention_hours" class="retention-select" autocomplete="off">
-                                    <option value="24" selected>{% if current_language == 'ja' %}1日（デフォルト）{% else %}1 day (default){% endif %}</option>
-                                    <option value="168">{% if current_language == 'ja' %}1週間{% else %}1 week{% endif %}</option>
-                                    <option value="720">{% if current_language == 'ja' %}1か月{% else %}1 month{% endif %}</option>
+                                    <option value="24" selected>{% if current_language == 'ja' %}{{ _("1日（デフォルト）") }}{% else %}1 day (default){% endif %}</option>
+                                    <option value="168">{% if current_language == 'ja' %}{{ _("1週間") }}{% else %}1 week{% endif %}</option>
+                                    <option value="720">{% if current_language == 'ja' %}{{ _("1か月") }}{% else %}1 month{% endif %}</option>
                                 </select>
                                 <span class="retention-select-arrow" aria-hidden="true">
                                     <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,11 +176,11 @@
                                     </svg>
                                 </span>
                             </div>
-                            <small class="retention-select-hint">終了予定日をあらかじめ決めると、ノートも安全に管理できます。</small>
+                            <small class="retention-select-hint">{{ _("終了予定日をあらかじめ決めると、ノートも安全に管理できます。") }}</small>
                         </div>
 
                         <button type="submit" class="glossy-action-btn" style="width: 100%; padding: 1rem; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-                            {{ icons.icon('rocket', size='lg', with_text=True) }}ルームを作成
+                    {{ icons.icon('rocket', size='lg', with_text=True) }}{{ _("ルームを作成") }}
                         </button>
                     </form>
                 </div>
@@ -188,12 +188,12 @@
             
             <!-- Demo Editor -->
             <div style="margin-bottom: 1rem;">
-                <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; font-size: 1.1rem;">{{ t('note.editor.label', max_length=note_max_content_length) }}</label>
-                <textarea readonly placeholder="{{ t('note.editor.demo_placeholder', max_length=note_max_content_length) }}"
+                <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; font-size: 1.1rem;">{{ _('note.editor.label', max_length=note_max_content_length) }}</label>
+                <textarea readonly placeholder="{{ _('note.editor.demo_placeholder', max_length=note_max_content_length) }}"
                           style="width: 100%; height: 200px; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.78); border-radius: 14px; font-size: 1rem; background: linear-gradient(155deg, rgba(243, 244, 246, 0.92) 0%, rgba(255, 255, 255, 0.78) 100%); color: #6b7280; resize: vertical; font-family: monospace; line-height: 1.6; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 10px 20px rgba(15, 23, 42, 0.08);"></textarea>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                    <small style="color: #6b7280;">上記のフォームでルームを作成・参加すると編集できます</small>
-                    <span style="padding: 0.25rem 0.75rem; background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%); color: white; border-radius: 999px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);">デモ表示</span>
+                    <small style="color: #6b7280;">{{ _("上記のフォームでルームを作成・参加すると編集できます") }}</small>
+                    <span style="padding: 0.25rem 0.75rem; background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%); color: white; border-radius: 999px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);">{{ _("デモ表示") }}</span>
                 </div>
             </div>
         </div>
@@ -202,14 +202,14 @@
     <!-- Usage Section -->
     <div class="glossy-usage-card">
         <div class="glossy-usage-header">
-            <h5 style="margin: 0;">使い方</h5>
+            <h5 style="margin: 0;">{{ _("使い方") }}</h5>
         </div>
         <div class="glossy-usage-body">
             <p style="margin: 0; line-height: 1.6;">
-                ノートルームではテキストをリアルタイムに共有できます。<br>
-                上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。<br>
-                エディタに入力すると入力内容を約1秒ごとに同期・自動保存しますされ、変更はすぐに反映されます。<br>
-                {{ t('note.editor.max_length_hint', max_length=note_max_content_length) }}
+                {{ _("ノートルームではテキストをリアルタイムに共有できます。") }}<br>
+                {{ _("上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。") }}<br>
+                {{ _("エディタに入力すると入力内容を約1秒ごとに同期・自動保存しますされ、変更はすぐに反映されます。") }}<br>
+                {{ _('note.editor.max_length_hint', max_length=note_max_content_length) }}
             </p>
         </div>
     </div>
@@ -219,7 +219,7 @@
 <div id="spinner-overlay" class="glossy-spinner-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6, 10, 20, 0.36); display: none; justify-content: center; align-items: center; z-index: var(--z-overlay);">
     <div style="text-align: center;">
         <div style="width: 60px; height: 60px; margin: 0 auto; border: 6px solid rgba(255, 255, 255, 0.55); border-top: 6px solid rgb(163, 230, 53); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">処理中...</div>
+        <div style="margin-top: 1rem; color: white; font-size: 1.1rem;">{{ _("処理中...") }}</div>
     </div>
 </div>
 

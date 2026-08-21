@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="QRコードを読み取るだけでファイルを受け取れる無料サービス。アプリ不要・アカウント不要でPCからスマホ、スマホからPCに安全にファイルを送れます。AES-256暗号化・パスワード設定・自動削除対応。" />
-    <meta name="keywords" content="QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応" />
-    <meta name="geo.region" content="JP" />
-    <meta name="geo.placename" content="Japan" />
+    <meta name="description" content="{{ _("QRコードを読み取るだけでファイルを受け取れる無料サービス。アプリ不要・アカウント不要でPCからスマホ、スマホからPCに安全にファイルを送れます。AES-256暗号化・パスワード設定・自動削除対応。") }}" />
+    <meta name="keywords" content="{{ _("QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応") }}" />
+    <meta name="geo.region" content="{{ geo_region }}" />
+    <meta name="geo.placename" content="{{ geo_placename }}" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="FS!QR">
-    <meta name="language" content="ja">
+    <meta name="language" content="{{ meta_language }}">
     <meta name="theme-color" content="#23c3df">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale" content="{{ og_locale }}" />
     <meta property="og:site_name" content="FS!QR" />
-    <meta property="og:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
-    <meta property="og:description" content="ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。" />
+    <meta property="og:title" content="{{ _("FS!QR | 無料QRコード暗号化ファイル共有サービス") }}" />
+    <meta property="og:description" content="{{ _("ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。") }}" />
     <meta property="og:url" content="{{ request.canonical_url }}" />
     <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="723">
-    <meta property="og:image:alt" content="FS!QR QRコードファイル共有サービス">
+    <meta property="og:image:alt" content="{{ _("FS!QR QRコードファイル共有サービス") }}">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FS!QR | 無料QRコード暗号化ファイル共有サービス" />
-    <meta name="twitter:description" content="ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。" />
+    <meta name="twitter:title" content="{{ _("FS!QR | 無料QRコード暗号化ファイル共有サービス") }}" />
+    <meta name="twitter:description" content="{{ _("ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。") }}" />
     <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="FS!QR サービス">
+    <meta name="twitter:image:alt" content="{{ _("FS!QR サービス") }}">
     
     <!-- SEO -->
     <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -58,7 +58,7 @@
         {% endif %}
       });
     </script>
-    <title>QRコードでファイル共有｜アプリ不要・無料でPC/スマホに送信 - FS!QR</title>
+    <title>{{ _("QRコードでファイル共有｜アプリ不要・無料でPC/スマホに送信 - FS!QR") }}</title>
     <link rel="icon" href="{{staticfile('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
       <!-- Bootstrap CSS -->
@@ -77,8 +77,8 @@
       "@type": "WebSite",
       "name": "FS!QR",
       "url": "{{ request.url_root }}fs-qr_menu",
-      "description": "無料のQRコードファイル共有サービス。ファイルを暗号化してQRコード化、安全にアップロード・共有。",
-      "inLanguage": "ja-JP",
+      "description": {{ _("無料のQRコードファイル共有サービス。ファイルを暗号化してQRコード化、安全にアップロード・共有。") | tojson }},
+      "inLanguage": {{ schema_language | tojson }},
       "isPartOf": {
         "@type": "WebSite",
         "name": "FS!QR",
@@ -87,12 +87,12 @@
       "potentialAction": [
         {
           "@type": "UploadAction",
-          "name": "ファイルアップロード",
+          "name": {{ _("ファイルアップロード") | tojson }},
           "target": "{{ request.url_root }}fs-qr"
         },
         {
           "@type": "SearchAction",
-          "name": "ファイル検索",
+          "name": {{ _("ファイル検索") | tojson }},
           "target": "{{ request.url_root }}search_fs-qr"
         }
       ]
@@ -104,7 +104,7 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "FS!QR",
-      "description": "QRコードでファイルを暗号化・共有できる無料Webアプリケーション",
+      "description": {{ _("QRコードでファイルを暗号化・共有できる無料Webアプリケーション") | tojson }},
       "applicationCategory": "WebApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -138,50 +138,50 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "QRコードのファイル共有はアプリが必要ですか？",
+          "name": {{ _("QRコードのファイル共有はアプリが必要ですか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "不要です。ブラウザだけで利用できます。アップロード側・ダウンロード側ともにアプリのインストールは必要ありません。"
+            "text": {{ _("不要です。ブラウザだけで利用できます。アップロード側・ダウンロード側ともにアプリのインストールは必要ありません。") | tojson }}
           }
         },
         {
           "@type": "Question",
-          "name": "PCからスマホにファイルを送るにはどうすればいいですか？",
+          "name": {{ _("PCからスマホにファイルを送るにはどうすればいいですか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "PCでファイルをアップロードするとQRコードが生成されます。そのQRコードをスマホのカメラで読み取るだけでダウンロードできます。アカウント不要・無料です。"
+            "text": {{ _("PCでファイルをアップロードするとQRコードが生成されます。そのQRコードをスマホのカメラで読み取るだけでダウンロードできます。アカウント不要・無料です。") | tojson }}
           }
         },
         {
           "@type": "Question",
-          "name": "ファイルサイズの上限はいくつですか？",
+          "name": {{ _("ファイルサイズの上限はいくつですか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "1回のアップロードで合計1GBまでアップロードできます。HTML/SVGなど一部の形式は安全上の理由で制限しています。"
+            "text": {{ _("1回のアップロードで合計1GBまでアップロードできます。HTML/SVGなど一部の形式は安全上の理由で制限しています。") | tojson }}
           }
         },
         {
           "@type": "Question",
-          "name": "アップロードしたファイルはいつまで保存されますか？",
+          "name": {{ _("アップロードしたファイルはいつまで保存されますか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間終了後はサーバーから自動削除されます。発行されたパスワードでダウンロードを制限できます。"
+            "text": {{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間終了後はサーバーから自動削除されます。発行されたパスワードでダウンロードを制限できます。") | tojson }}
           }
         },
         {
           "@type": "Question",
-          "name": "QRコードの有効期限は設定できますか？",
+          "name": {{ _("QRコードの有効期限は設定できますか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限内は何度でもダウンロード可能です。"
+            "text": {{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限内は何度でもダウンロード可能です。") | tojson }}
           }
         },
         {
           "@type": "Question",
-          "name": "暗号化の方式は何を使っていますか？",
+          "name": {{ _("暗号化の方式は何を使っていますか？") | tojson }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "AES-256による暗号化を採用しています。サーバー上でも暗号化状態で保持されます。"
+            "text": {{ _("AES-256による暗号化を採用しています。サーバー上でも暗号化状態で保持されます。") | tojson }}
           }
         }
       ]
@@ -192,24 +192,24 @@
     {
       "@context": "https://schema.org",
       "@type": "HowTo",
-      "name": "FS!QRでのQRコードファイル共有方法",
-      "description": "QRコード暗号化ファイル共有サービスの基本的な使い方",
+      "name": {{ _("FS!QRでのQRコードファイル共有方法") | tojson }},
+      "description": {{ _("QRコード暗号化ファイル共有サービスの基本的な使い方") | tojson }},
       "step": [
         {
           "@type": "HowToStep",
-          "name": "ファイルをアップロード",
-          "text": "「ファイルアップロード」からファイルを選択し、暗号化アップロードを行います。",
+          "name": {{ _("ファイルをアップロード") | tojson }},
+          "text": {{ _("「ファイルアップロード」からファイルを選択し、暗号化アップロードを行います。") | tojson }},
           "url": "{{ request.url_root }}fs-qr"
         },
         {
           "@type": "HowToStep", 
-          "name": "QRコードが自動生成",
-          "text": "アップロード完了と同時にファイルのQRコードが自動生成されます。"
+          "name": {{ _("QRコードが自動生成") | tojson }},
+          "text": {{ _("アップロード完了と同時にファイルのQRコードが自動生成されます。") | tojson }}
         },
         {
           "@type": "HowToStep",
-          "name": "QRコードを共有",
-          "text": "生成されたQRコードを相手に送信し、安全にファイルを共有します。"
+          "name": {{ _("QRコードを共有") | tojson }},
+          "text": {{ _("生成されたQRコードを相手に送信し、安全にファイルを共有します。") | tojson }}
         }
       ]
     }
@@ -223,13 +223,13 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "ホーム",
+          "name": {{ _("ホーム") | tojson }},
           "item": "{{ request.url_root }}"
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "QRコード共有",
+          "name": {{ _("QRコード共有") | tojson }},
           "item": "{{ request.url_root }}fs-qr_menu"
         }
       ]
@@ -243,7 +243,7 @@
       "name": "FS!QR",
       "url": "{{ request.url_root }}",
       "logo": "{{staticfile('logo.png')}}",
-      "description": "QRコード暗号化ファイル共有サービスを提供する無料Webサービス",
+      "description": {{ _("QRコード暗号化ファイル共有サービスを提供する無料Webサービス") | tojson }},
       "foundingDate": "2024",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -275,12 +275,12 @@
         <header class="service-hero">
             <div>
                 <span class="service-hero__eyebrow">FS!QR</span>
-                <h1 class="service-hero__title">QRコード暗号化ファイル共有</h1>
-                <p class="service-hero__description">{{ t('seo.fsqr.intent') }}</p>
-                <ul class="service-hero__tags" aria-label="FS!QRの特長">
-                    <li class="service-hero__tag">暗号化アップロード</li>
-                    <li class="service-hero__tag">QRで共有</li>
-                    <li class="service-hero__tag">無料で利用可能</li>
+                <h1 class="service-hero__title">{{ _("QRコード暗号化ファイル共有") }}</h1>
+                <p class="service-hero__description">{{ _('seo.fsqr.intent') }}</p>
+                <ul class="service-hero__tags" aria-label="{{ _("FS!QRの特長") }}">
+                    <li class="service-hero__tag">{{ _("暗号化アップロード") }}</li>
+                    <li class="service-hero__tag">{{ _("QRで共有") }}</li>
+                    <li class="service-hero__tag">{{ _("無料で利用可能") }}</li>
                 </ul>
             </div>
             <div class="service-hero__panel" aria-hidden="true">
@@ -290,134 +290,134 @@
         
         <main class="service-main" role="main">
             <section class="menu-container" aria-labelledby="qr-services">
-                <h2 id="qr-services" class="visually-hidden">QRコードサービス機能一覧</h2>
+                <h2 id="qr-services" class="visually-hidden">{{ _("QRコードサービス機能一覧") }}</h2>
                 
                 <article class="menu-card">
                     <i class="fas fa-upload" aria-hidden="true"></i>
-                    <h3>ファイルアップロード</h3>
-                    <p>新しいファイルをアップロードして暗号化・QRコード化しましょう。</p>
-                    <a href="/fs-qr" aria-describedby="upload-desc">アップロードする</a>
-                    <span id="upload-desc" class="visually-hidden">ファイルアップロード・暗号化ページに移動します</span>
+                    <h3>{{ _("ファイルアップロード") }}</h3>
+                    <p>{{ _("新しいファイルをアップロードして暗号化・QRコード化しましょう。") }}</p>
+                    <a href="/fs-qr" aria-describedby="upload-desc">{{ _("アップロードする") }}</a>
+                    <span id="upload-desc" class="visually-hidden">{{ _("ファイルアップロード・暗号化ページに移動します") }}</span>
                 </article>
                 
                 <article class="menu-card">
                     <i class="fas fa-search" aria-hidden="true"></i>
-                    <h3>ファイル検索</h3>
-                    <p>アップロード済みのファイルを検索・ダウンロードしましょう。</p>
-                    <a href="/search_fs-qr" aria-describedby="search-desc">検索する</a>
-                    <span id="search-desc" class="visually-hidden">ファイル検索・ダウンロードページに移動します</span>
+                    <h3>{{ _("ファイル検索") }}</h3>
+                    <p>{{ _("アップロード済みのファイルを検索・ダウンロードしましょう。") }}</p>
+                    <a href="/search_fs-qr" aria-describedby="search-desc">{{ _("検索する") }}</a>
+                    <span id="search-desc" class="visually-hidden">{{ _("ファイル検索・ダウンロードページに移動します") }}</span>
                 </article>
                 
                 <article class="menu-card">
                     <i class="fas fa-home" aria-hidden="true"></i>
-                    <h3>ホームに戻る</h3>
-                    <p>FS!QRメインページに戻ってその他のサービスを利用します。</p>
-                    <a href="/" aria-describedby="home-desc">戻る</a>
-                    <span id="home-desc" class="visually-hidden">FS!QRホームページに移動します</span>
+                    <h3>{{ _("ホームに戻る") }}</h3>
+                    <p>{{ _("FS!QRメインページに戻ってその他のサービスを利用します。") }}</p>
+                    <a href="/" aria-describedby="home-desc">{{ _("戻る") }}</a>
+                    <span id="home-desc" class="visually-hidden">{{ _("FS!QRホームページに移動します") }}</span>
                 </article>
             </section>
             <section class="content-section" aria-labelledby="fsqr-faq">
-                <h2 id="fsqr-faq" class="section-title">よくある質問</h2>
+                <h2 id="fsqr-faq" class="section-title">{{ _("よくある質問") }}</h2>
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary>QRコードの有効期限は設定できますか？</summary>
-                        <p>アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。</p>
+                        <summary>{{ _("QRコードの有効期限は設定できますか？") }}</summary>
+                        <p>{{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>暗号化の方式は何を使っていますか？</summary>
-                        <p>AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。</p>
+                        <summary>{{ _("暗号化の方式は何を使っていますか？") }}</summary>
+                        <p>{{ _("AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>ファイルは何回でもダウンロードできますか？</summary>
-                        <p>保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。</p>
+                        <summary>{{ _("ファイルは何回でもダウンロードできますか？") }}</summary>
+                        <p>{{ _("保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>共有相手にアカウントは必要ですか？</summary>
-                        <p>いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。</p>
+                        <summary>{{ _("共有相手にアカウントは必要ですか？") }}</summary>
+                        <p>{{ _("いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。") }}</p>
                     </details>
                 </div>
             </section>
             <section class="content-section" aria-labelledby="fsqr-howto">
-                <h2 id="fsqr-howto" class="section-title">FS!QRの使い方</h2>
+                <h2 id="fsqr-howto" class="section-title">{{ _("FS!QRの使い方") }}</h2>
                 <ol class="howto-steps">
                     <li class="howto-step">
-                        <h3>ファイルをアップロードする</h3>
-                        <p>「ファイルアップロード」を選択し、共有したいファイルを追加します。自動的に暗号化とQRコード生成が始まります。</p>
+                        <h3>{{ _("ファイルをアップロードする") }}</h3>
+                        <p>{{ _("「ファイルアップロード」を選択し、共有したいファイルを追加します。自動的に暗号化とQRコード生成が始まります。") }}</p>
                     </li>
                     <li class="howto-step">
-                        <h3>共有方法を選択する</h3>
-                        <p>生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。</p>
+                        <h3>{{ _("共有方法を選択する") }}</h3>
+                        <p>{{ _("生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。") }}</p>
                     </li>
                     <li class="howto-step">
-                        <h3>相手が受け取る</h3>
-                        <p>相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。</p>
+                        <h3>{{ _("相手が受け取る") }}</h3>
+                        <p>{{ _("相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。") }}</p>
                     </li>
                 </ol>
             </section>
 
             <section class="content-section" aria-labelledby="fsqr-about">
-                <h2 id="fsqr-about" class="section-title">QRコードファイル共有とは</h2>
-                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">QRコードファイル共有とは、ファイルをクラウドにアップロードして生成されたQRコードを読み取るだけでダウンロードできる仕組みです。メールアドレスやアカウントの交換は不要で、スマートフォンのカメラを向けるだけでファイルを受け取れます。FS!QRではアップロード時にAES-256暗号化を自動適用するため、安全性を確保しながら手軽にファイルを共有できます。</p>
+                <h2 id="fsqr-about" class="section-title">{{ _("QRコードファイル共有とは") }}</h2>
+                <p style="margin:0 0 20px;color:#526072;line-height:1.75;">{{ _("QRコードファイル共有とは、ファイルをクラウドにアップロードして生成されたQRコードを読み取るだけでダウンロードできる仕組みです。メールアドレスやアカウントの交換は不要で、スマートフォンのカメラを向けるだけでファイルを受け取れます。FS!QRではアップロード時にAES-256暗号化を自動適用するため、安全性を確保しながら手軽にファイルを共有できます。") }}</p>
                 <ol class="howto-steps">
                     <li class="howto-step">
-                        <h3>PCからスマホに送る</h3>
-                        <p>PCでファイルをアップロード → QRコードが生成される → スマホのカメラで読み取るだけ。アプリのインストールもアカウント作成も不要です。</p>
+                        <h3>{{ _("PCからスマホに送る") }}</h3>
+                        <p>{{ _("PCでファイルをアップロード → QRコードが生成される → スマホのカメラで読み取るだけ。アプリのインストールもアカウント作成も不要です。") }}</p>
                     </li>
                     <li class="howto-step">
-                        <h3>スマホからPCに送る</h3>
-                        <p>スマホでファイルをアップロード → 生成されたダウンロードリンクをPCブラウザで開くだけ。QRコードを画像で共有する方法でも受け取れます。</p>
+                        <h3>{{ _("スマホからPCに送る") }}</h3>
+                        <p>{{ _("スマホでファイルをアップロード → 生成されたダウンロードリンクをPCブラウザで開くだけ。QRコードを画像で共有する方法でも受け取れます。") }}</p>
                     </li>
                     <li class="howto-step">
-                        <h3>複数人に一度に共有</h3>
-                        <p>QRコードはサービス仕様上、明示的な人数上限は設けていません。プレゼンや会議でスクリーンに映すだけで全員がダウンロードできます。</p>
+                        <h3>{{ _("複数人に一度に共有") }}</h3>
+                        <p>{{ _("QRコードはサービス仕様上、明示的な人数上限は設けていません。プレゼンや会議でスクリーンに映すだけで全員がダウンロードできます。") }}</p>
                     </li>
                 </ol>
             </section>
 
             <section class="content-section" aria-labelledby="fsqr-comparison">
-                <h2 id="fsqr-comparison" class="section-title">メール・LINE・Google Driveとの違い</h2>
+                <h2 id="fsqr-comparison" class="section-title">{{ _("メール・LINE・Google Driveとの違い") }}</h2>
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary>メール添付との違い</summary>
-                        <p>メール添付はファイルサイズ制限（多くは25MB以下）があり、相手のメールアドレスが必要です。FS!QRはメールアドレス不要でQRコードを渡すだけ。添付ファイルが受信ボックスに残り続ける心配もありません。</p>
+                        <summary>{{ _("メール添付との違い") }}</summary>
+                        <p>{{ _("メール添付はファイルサイズ制限（多くは25MB以下）があり、相手のメールアドレスが必要です。FS!QRはメールアドレス不要でQRコードを渡すだけ。添付ファイルが受信ボックスに残り続ける心配もありません。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>LINEで送るとの違い</summary>
-                        <p>LINEはお互いに友だち登録が必要で、動画など大きなファイルは画質が落ちる場合があります。FS!QRはLINEの友だち登録なしに使え、ファイルは暗号化されたまま保存されます。</p>
+                        <summary>{{ _("LINEで送るとの違い") }}</summary>
+                        <p>{{ _("LINEはお互いに友だち登録が必要で、動画など大きなファイルは画質が落ちる場合があります。FS!QRはLINEの友だち登録なしに使え、ファイルは暗号化されたまま保存されます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>Google Driveとの違い</summary>
-                        <p>Google Driveは共有権限の設定を誤ると、意図せず公開される可能性があります。FS!QRは複雑な権限設定を行わず、ID・パスワードと保存期間を使って期限付きで共有できます。</p>
+                        <summary>{{ _("Google Driveとの違い") }}</summary>
+                        <p>{{ _("Google Driveは共有権限の設定を誤ると、意図せず公開される可能性があります。FS!QRは複雑な権限設定を行わず、ID・パスワードと保存期間を使って期限付きで共有できます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>AirDropとの違い</summary>
-                        <p>AirDropはAppleデバイス同士・近距離のみで使えます。FS!QRはAndroidでもWindowsでもブラウザがあれば動作し、離れた場所でも共有できます。</p>
+                        <summary>{{ _("AirDropとの違い") }}</summary>
+                        <p>{{ _("AirDropはAppleデバイス同士・近距離のみで使えます。FS!QRはAndroidでもWindowsでもブラウザがあれば動作し、離れた場所でも共有できます。") }}</p>
                     </details>
                 </div>
             </section>
 
             <section class="content-section" aria-labelledby="fsqr-specs">
-                <h2 id="fsqr-specs" class="section-title">仕様・詳細</h2>
+                <h2 id="fsqr-specs" class="section-title">{{ _("仕様・詳細") }}</h2>
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary>使えるファイル形式</summary>
-                        <p>PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。</p>
+                        <summary>{{ _("使えるファイル形式") }}</summary>
+                        <p>{{ _("PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>ファイルサイズ上限</summary>
-                        <p>1回のアップロードで合計1GBまでアップロードできます。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。</p>
+                        <summary>{{ _("ファイルサイズ上限") }}</summary>
+                        <p>{{ _("1回のアップロードで合計1GBまでアップロードできます。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>保存期間</summary>
-                        <p>アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。</p>
+                        <summary>{{ _("保存期間") }}</summary>
+                        <p>{{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>パスワード・自動削除の仕組み</summary>
-                        <p>アップロード完了時に6桁のパスワードが発行されます。ダウンロード時にパスワードの入力が求められるため、QRコードやURLだけでは取得できません。ファイルは保存期間終了後に自動削除されます。</p>
+                        <summary>{{ _("パスワード・自動削除の仕組み") }}</summary>
+                        <p>{{ _("アップロード完了時に6桁のパスワードが発行されます。ダウンロード時にパスワードの入力が求められるため、QRコードやURLだけでは取得できません。ファイルは保存期間終了後に自動削除されます。") }}</p>
                     </details>
                     <details class="faq-item">
-                        <summary>よくある失敗例</summary>
-                        <p>①QRコードを保存せずページを閉じてしまった → 共有IDとパスワードが分かれば検索ページから開けます。②パスワードを忘れた → パスワードのリセット機能はないため、アップロード時にメモを残してください。③保存期間を過ぎてダウンロードしようとした → 期限切れのファイルは自動削除済みです。</p>
+                        <summary>{{ _("よくある失敗例") }}</summary>
+                        <p>{{ _("①QRコードを保存せずページを閉じてしまった → 共有IDとパスワードが分かれば検索ページから開けます。②パスワードを忘れた → パスワードのリセット機能はないため、アップロード時にメモを残してください。③保存期間を過ぎてダウンロードしようとした → 期限切れのファイルは自動削除済みです。") }}</p>
                     </details>
                 </div>
             </section>
