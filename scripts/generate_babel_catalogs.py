@@ -32,6 +32,7 @@ LOCALE_NAMES = {"zh-CN": "zh_CN", "zh-TW": "zh_TW"}
 BRACE_PLACEHOLDER_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 PERCENT_RE = re.compile(r"%(?!\([A-Za-z_][A-Za-z0-9_]*\)s)")
 GENERATED_BY_RE = re.compile(rb'"Generated-By: Babel [^\\n]+\\n"')
+PO_HEADER_LINE_END = b'\\n"\n'
 GETTEXT_CALL_RE = re.compile(
     r"_\(\s*(?P<quote>['\"])(?P<body>(?:\\.|(?! (?P=quote) ).)*)"
     r"(?P=quote)\s*\)",
@@ -101,6 +102,30 @@ def _replace_phrases(source: str, phrases: dict[str, str]) -> str:
     return source
 
 
+def _normalize_po_headers(output: bytes) -> bytes:
+    """Keep non-semantic PO header formatting stable across Babel versions."""
+
+    output = GENERATED_BY_RE.sub(b'"Generated-By: Babel 2.17.0\\n"', output, count=1)
+
+    lines = output.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        if not line.startswith(b'"Plural-Forms:'):
+            continue
+        for end in range(start, len(lines)):
+            if not lines[end].endswith(PO_HEADER_LINE_END):
+                continue
+            header = b"".join(lines[start : end + 1])
+            # Babel 2.8 omitted the terminal semicolon; current Babel versions
+            # add it. Both forms have the same meaning, so emit the canonical
+            # form without touching the following MIME header.
+            if not header[: -len(PO_HEADER_LINE_END)].endswith(b";"):
+                header = header[: -len(PO_HEADER_LINE_END)] + b";" + PO_HEADER_LINE_END
+            lines[start : end + 1] = [header]
+            break
+        break
+    return b"".join(lines)
+
+
 def _render(language: str) -> bytes:
     catalog = Catalog(
         locale=LOCALE_NAMES.get(language, language),
@@ -118,10 +143,8 @@ def _render(language: str) -> bytes:
     write_po(output, catalog, no_location=True, sort_output=True)
     # Keep committed catalogs stable when a developer and CI use different
     # Babel patch versions.  The runtime package remains pinned in
-    # requirements.txt; this only removes a non-semantic source of churn.
-    normalized = GENERATED_BY_RE.sub(
-        b'"Generated-By: Babel 2.17.0\\n"', output.getvalue(), count=1
-    )
+    # requirements.txt; this only removes non-semantic source churn.
+    normalized = _normalize_po_headers(output.getvalue())
     return normalized.rstrip(b"\n") + b"\n"
 
 
