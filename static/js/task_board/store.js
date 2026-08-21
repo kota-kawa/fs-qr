@@ -3,7 +3,7 @@
 
   var modules = window.__FSQR_APP__.api.getModuleNamespace('taskBoard');
   var items = [];
-  var categories = [];
+  var tags = [];
   var listeners = [];
   var lastCalendarDay = '';
 
@@ -19,21 +19,47 @@
   function notify() {
     listeners.forEach(function (listener) {
       try {
-        listener(items, categories);
+        listener(items, tags);
       } catch (err) {
         console.error('Task store listener error:', err);
       }
     });
   }
 
-  function extractCategoriesFromItems(itemList) {
-    var set = new Set();
+  /**
+   * Tags currently used by the items, as a fallback when the server list is
+   * unavailable. 一覧APIのタグが取れないときに、タスク側のタグから復元する。
+   */
+  function extractTagsFromItems(itemList) {
+    var known = new Map();
     itemList.forEach(function (it) {
-      if (it.category && typeof it.category === 'string' && it.category.trim()) {
-        set.add(it.category.trim());
-      }
+      (it.tags || []).forEach(function (tag) {
+        if (!tag || tag.tag_id === undefined || tag.tag_id === null) return;
+        var id = Number(tag.tag_id);
+        if (!known.has(id)) {
+          known.set(id, { tag_id: id, name: String(tag.name || '') });
+        }
+      });
     });
-    return Array.from(set).sort();
+    return Array.from(known.values()).sort(function (a, b) {
+      return a.name.localeCompare(b.name, 'ja');
+    });
+  }
+
+  /** Tag ids of one item, as numbers. / タスクに付いたタグIDの一覧。 */
+  function tagIdsOf(item) {
+    return (item.tags || []).map(function (tag) {
+      return Number(tag.tag_id);
+    });
+  }
+
+  /** Compact tag part of the change signature. / シグネチャ用のタグ表現。 */
+  function tagSignature(item) {
+    return (item.tags || [])
+      .map(function (tag) {
+        return String(tag.tag_id) + ':' + String(tag.name);
+      })
+      .join(',');
   }
 
   /**
@@ -51,40 +77,60 @@
           item.title,
           item.note,
           item.priority,
-          item.category,
+          tagSignature(item),
           item.due_date
         ].join('');
       })
       .join('');
   }
 
-  function setAll(nextItems, nextCategories) {
+  function tagListSignature(list) {
+    return (list || [])
+      .map(function (tag) {
+        return String(tag.tag_id) + ':' + String(tag.name);
+      })
+      .join(',');
+  }
+
+  function setAll(nextItems, nextTags) {
     var incoming = Array.isArray(nextItems) ? nextItems : [];
     var today = calendarDay();
+    var incomingTags = Array.isArray(nextTags) ? nextTags : null;
+    // タグだけが増減した場合も再描画したいので、シグネチャにタグ一覧も含める。
+    // The tag list is part of the signature so adding a tag still re-renders.
     if (
       items.length &&
       signature(incoming) === signature(items) &&
+      (incomingTags === null || tagListSignature(incomingTags) === tagListSignature(tags)) &&
       today === lastCalendarDay
     ) {
       return false;
     }
     items = incoming;
     lastCalendarDay = today;
-    if (Array.isArray(nextCategories) && nextCategories.length > 0) {
-      categories = nextCategories;
-    } else {
-      categories = extractCategoriesFromItems(items);
-    }
+    tags = incomingTags !== null ? incomingTags : extractTagsFromItems(items);
     notify();
     return true;
+  }
+
+  /** Replace only the room tag list (tag add / rename / delete). */
+  function setTags(nextTags) {
+    tags = Array.isArray(nextTags) ? nextTags : [];
+    notify();
   }
 
   function getItems() {
     return items;
   }
 
-  function getCategories() {
-    return categories;
+  function getTags() {
+    return tags;
+  }
+
+  function getTag(id) {
+    return tags.find(function (tag) {
+      return Number(tag.tag_id) === Number(id);
+    });
   }
 
   function getItem(id) {
@@ -142,7 +188,6 @@
     } else {
       items.push(item);
     }
-    categories = extractCategoriesFromItems(items);
     notify();
   }
 
@@ -150,7 +195,6 @@
     items = items.filter(function (item) {
       return Number(item.item_id) !== Number(id);
     });
-    categories = extractCategoriesFromItems(items);
     notify();
   }
 
@@ -159,7 +203,6 @@
     items = items.filter(function (item) {
       return !wanted.has(Number(item.item_id));
     });
-    categories = extractCategoriesFromItems(items);
     notify();
   }
 
@@ -169,7 +212,6 @@
 
   function restore(value) {
     items = Array.isArray(value) ? value : [];
-    categories = extractCategoriesFromItems(items);
     notify();
   }
 
@@ -182,10 +224,44 @@
     };
   }
 
+  /** Remove a deleted tag from every cached item. / 削除したタグを各タスクから外す。 */
+  function dropTag(tagId) {
+    var wanted = Number(tagId);
+    items.forEach(function (item) {
+      if (!item.tags) return;
+      item.tags = item.tags.filter(function (tag) {
+        return Number(tag.tag_id) !== wanted;
+      });
+    });
+    tags = tags.filter(function (tag) {
+      return Number(tag.tag_id) !== wanted;
+    });
+    notify();
+  }
+
+  /** Apply a renamed tag to every cached item. / 名前を変えたタグを各タスクへ反映する。 */
+  function renameTag(tagId, name) {
+    var wanted = Number(tagId);
+    items.forEach(function (item) {
+      (item.tags || []).forEach(function (tag) {
+        if (Number(tag.tag_id) === wanted) tag.name = name;
+      });
+    });
+    tags.forEach(function (tag) {
+      if (Number(tag.tag_id) === wanted) tag.name = name;
+    });
+    notify();
+  }
+
   modules.store = {
     setAll: setAll,
+    setTags: setTags,
     getItems: getItems,
-    getCategories: getCategories,
+    getTags: getTags,
+    getTag: getTag,
+    tagIdsOf: tagIdsOf,
+    dropTag: dropTag,
+    renameTag: renameTag,
     getItem: getItem,
     getStats: getStats,
     replace: replace,

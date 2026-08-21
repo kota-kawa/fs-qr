@@ -119,7 +119,6 @@ CREATE TABLE task_item (
     note VARCHAR(500) NULL,
     board_status VARCHAR(16) NOT NULL DEFAULT 'todo',
     priority VARCHAR(8) NOT NULL DEFAULT 'normal',
-    category VARCHAR(40) NULL,
     start_date DATE NULL,
     due_date DATE NULL,
     position INT NOT NULL DEFAULT 0,
@@ -130,5 +129,30 @@ CREATE TABLE task_item (
     INDEX idx_task_item_room_due (room_id, due_date),
     CONSTRAINT fk_task_item_room_id
         FOREIGN KEY (room_id) REFERENCES task_room(room_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- タスクの分類はカテゴリではなくタグに統一している。タグはルームごとに
+-- 自由に追加・削除でき、1つのタスクへ複数付けられる。
+-- Classification is unified on tags: they are per-room, freely added or
+-- removed, and a task can carry several of them.
+CREATE TABLE task_tag (
+    tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    room_id VARCHAR(255) NOT NULL,
+    name VARCHAR(40) NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    UNIQUE KEY uq_task_tag_room_name (room_id, name),
+    CONSTRAINT fk_task_tag_room_id
+        FOREIGN KEY (room_id) REFERENCES task_room(room_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE task_item_tag (
+    item_id BIGINT NOT NULL,
+    tag_id BIGINT NOT NULL,
+    PRIMARY KEY (item_id, tag_id),
+    INDEX idx_task_item_tag_tag (tag_id),
+    CONSTRAINT fk_task_item_tag_item
+        FOREIGN KEY (item_id) REFERENCES task_item(item_id) ON DELETE CASCADE,
+    CONSTRAINT fk_task_item_tag_tag
+        FOREIGN KEY (tag_id) REFERENCES task_tag(tag_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

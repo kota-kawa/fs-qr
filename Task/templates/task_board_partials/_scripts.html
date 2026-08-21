@@ -150,7 +150,9 @@ window.__FSQR_APP__.api.setConfig('taskBoard', Object.freeze({
     maxItems: {{ task_max_items_per_room | tojson }},
     titleLength: {{ task_max_title_length | tojson }},
     noteLength: {{ task_max_note_length | tojson }},
-    categoryLength: {{ task_max_category_length | tojson }}
+    tagLength: {{ task_max_tag_length | tojson }},
+    tagsPerRoom: {{ task_max_tags_per_room | tojson }},
+    tagsPerItem: {{ task_max_tags_per_item | tojson }}
   })
 }));
 </script>
@@ -158,6 +160,7 @@ window.__FSQR_APP__.api.setConfig('taskBoard', Object.freeze({
 <script src="{{ staticfile('js/task_board/store.js') }}"></script>
 <script src="{{ staticfile('js/task_board/select.js') }}"></script>
 <script src="{{ staticfile('js/task_board/filters.js') }}"></script>
+<script src="{{ staticfile('js/task_board/tags.js') }}"></script>
 <script src="{{ staticfile('js/task_board/render.js') }}"></script>
 <script src="{{ staticfile('js/task_board/menu.js') }}"></script>
 <script src="{{ staticfile('js/task_board/actions.js') }}"></script>

@@ -132,5 +132,5 @@
   "task.moved_to": "“{title}” was moved to {status}.",
   "task.overdue": "Overdue",
   "task.due": "Due {date}",
-  "task.filter_all": "All categories"
+  "task.tag_filter_all": "모든 태그"
 }

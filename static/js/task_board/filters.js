@@ -5,7 +5,9 @@
 
   var state = {
     query: '',
-    category: '',
+    // 選択したタグのいずれかを持つタスクを表示する（OR 条件）。
+    // Items matching ANY of the selected tags are shown (OR semantics).
+    tagIds: [],
     priority: '',
     due: '',
     sortBy: 'position'
@@ -28,18 +30,36 @@
     return true;
   }
 
+  function tagNamesOf(item) {
+    return (item.tags || []).map(function (tag) {
+      return String(tag.name || '');
+    });
+  }
+
+  function matchesTags(item) {
+    if (!state.tagIds.length) return true;
+    var ids = (item.tags || []).map(function (tag) {
+      return Number(tag.tag_id);
+    });
+    return state.tagIds.some(function (id) {
+      return ids.indexOf(id) >= 0;
+    });
+  }
+
   function apply(items) {
     var filtered = items.filter(function (item) {
       if (state.query) {
         var q = state.query.toLowerCase();
         var matchTitle = item.title && item.title.toLowerCase().indexOf(q) >= 0;
         var matchNote = item.note && item.note.toLowerCase().indexOf(q) >= 0;
-        var matchCat = item.category && item.category.toLowerCase().indexOf(q) >= 0;
-        if (!matchTitle && !matchNote && !matchCat) {
+        var matchTag = tagNamesOf(item).some(function (name) {
+          return name.toLowerCase().indexOf(q) >= 0;
+        });
+        if (!matchTitle && !matchNote && !matchTag) {
           return false;
         }
       }
-      if (state.category && item.category !== state.category) {
+      if (!matchesTags(item)) {
         return false;
       }
       if (state.priority && item.priority !== state.priority) {
@@ -71,12 +91,12 @@
   }
 
   function hasActiveFilters() {
-    return Boolean(state.query || state.category || state.priority || state.due);
+    return Boolean(state.query || state.tagIds.length || state.priority || state.due);
   }
 
   function getActiveFilterCount() {
     var count = 0;
-    if (state.category) count++;
+    if (state.tagIds.length) count++;
     if (state.priority) count++;
     if (state.due) count++;
     if (state.sortBy !== 'position') count++;
@@ -85,7 +105,7 @@
 
   function rerender() {
     if (modules.render) {
-      modules.render.render(modules.store.getItems(), modules.store.getCategories());
+      modules.render.render(modules.store.getItems(), modules.store.getTags());
     }
   }
 
@@ -115,35 +135,77 @@
     });
   }
 
-  function updateCategories(categories) {
-    var select = document.getElementById('taskCategoryFilter');
-    if (!select) return;
+  function toggleTag(tagId) {
+    var id = Number(tagId);
+    var index = state.tagIds.indexOf(id);
+    if (index >= 0) {
+      state.tagIds.splice(index, 1);
+    } else {
+      state.tagIds.push(id);
+    }
+    updateTags(modules.store.getTags());
+    updateFilterUI();
+    rerender();
+  }
 
-    var names = categories || [];
-    var signature = names.join('');
-    if (select.dataset.signature === signature) {
-      select.value = state.category;
+  /** 削除されたタグを絞り込み条件から外す。 / Drop a deleted tag from the filter. */
+  function forgetTag(tagId) {
+    var index = state.tagIds.indexOf(Number(tagId));
+    if (index < 0) return;
+    state.tagIds.splice(index, 1);
+    updateTags(modules.store.getTags());
+    updateFilterUI();
+  }
+
+  /**
+   * タグ絞り込みのチップ列を描画する。複数選択でき、選んだタグのいずれかを
+   * 持つタスクが表示される（OR 条件）。
+   * Renders the tag filter chips; selecting several keeps items carrying ANY
+   * of them.
+   */
+  function updateTags(tags) {
+    var container = document.getElementById('taskTagFilter');
+    if (!container) return;
+
+    var list = tags || [];
+    var signature = list
+      .map(function (tag) {
+        return tag.tag_id + ':' + tag.name;
+      })
+      .join('');
+    var selected = state.tagIds.join(',');
+    if (
+      container.dataset.signature === signature &&
+      container.dataset.selected === selected
+    ) {
       return;
     }
-    select.dataset.signature = signature;
-    select.textContent = '';
+    container.dataset.signature = signature;
+    container.dataset.selected = selected;
+    container.textContent = '';
 
-    var all = document.createElement('option');
-    all.value = '';
-    all.textContent = 'すべてのカテゴリ';
-    select.appendChild(all);
-
-    names.forEach(function (name) {
-      var option = document.createElement('option');
-      option.value = name;
-      option.textContent = name;
-      select.appendChild(option);
-    });
-
-    select.value = state.category;
-    if (modules.select) {
-      modules.select.sync(select);
+    if (!list.length) {
+      var empty = document.createElement('span');
+      empty.className = 'task-tag-filter__empty';
+      empty.textContent = 'タグはまだありません';
+      container.appendChild(empty);
+      return;
     }
+
+    list.forEach(function (tag) {
+      var id = Number(tag.tag_id);
+      var isOn = state.tagIds.indexOf(id) >= 0;
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'task-tag-chip task-tag-chip--filter' + (isOn ? ' is-selected' : '');
+      chip.dataset.tagFilter = String(id);
+      chip.setAttribute('aria-pressed', String(isOn));
+      chip.textContent = tag.name;
+      chip.addEventListener('click', function () {
+        toggleTag(id);
+      });
+      container.appendChild(chip);
+    });
   }
 
   function setDueFilter(value) {
@@ -161,14 +223,13 @@
 
   function clearAll() {
     state.query = '';
-    state.category = '';
+    state.tagIds = [];
     state.priority = '';
     state.due = '';
     state.sortBy = 'position';
 
     var ids = {
       taskSearchInput: '',
-      taskCategoryFilter: '',
       taskPriorityFilter: '',
       taskDueFilter: '',
       taskSortSelect: 'position'
@@ -183,6 +244,7 @@
       }
     });
 
+    updateTags(modules.store.getTags());
     updateFilterUI();
     rerender();
   }
@@ -222,7 +284,6 @@
       });
     }
 
-    bindSelect('taskCategoryFilter', 'category');
     bindSelect('taskPriorityFilter', 'priority');
     bindSelect('taskDueFilter', 'due');
     bindSelect('taskSortSelect', 'sortBy');
@@ -257,7 +318,9 @@
     init: init,
     clearAll: clearAll,
     setDueFilter: setDueFilter,
-    updateCategories: updateCategories,
+    updateTags: updateTags,
+    toggleTag: toggleTag,
+    forgetTag: forgetTag,
     updateFilterUI: updateFilterUI,
     isCustomOrder: isCustomOrder,
     hasActiveFilters: hasActiveFilters,

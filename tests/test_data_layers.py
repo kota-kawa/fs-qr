@@ -205,7 +205,6 @@ def test_task_data_room_item_and_expiration_lifecycle():
                     "note": "",
                     "board_status": "todo",
                     "priority": "normal",
-                    "category": None,
                     "due_date": None,
                     "position": 100,
                     "version": 0,
@@ -234,7 +233,7 @@ def test_task_data_room_item_and_expiration_lifecycle():
                     "note": "",
                     "board_status": "todo",
                     "priority": "normal",
-                    "category": "",
+                    "tag_ids": [],
                     "due_date": None,
                 },
             )
@@ -265,7 +264,6 @@ def test_task_data_update_rejects_partial_date_range_atomically():
                 "note": "",
                 "board_status": "todo",
                 "priority": "normal",
-                "category": None,
                 "start_date": "2026-08-20",
                 "due_date": "2026-08-25",
                 "position": 100,
@@ -328,7 +326,7 @@ def test_task_data_create_rechecks_room_limit_inside_transaction():
                     "note": "",
                     "board_status": "todo",
                     "priority": "normal",
-                    "category": "",
+                    "tag_ids": [],
                     "due_date": None,
                 },
                 max_items=200,
@@ -766,3 +764,219 @@ def test_scheduler_run_scheduler_registers_jobs_with_redis_store():
     ]
     assert all(job["replace_existing"] for job in schedulers[0].jobs)
     assert all(job["minutes"] == 5 for job in schedulers[0].jobs)
+
+
+def test_task_data_tags_are_room_scoped_and_reusable():
+    """タグはルーム単位で追加・解決でき、同名なら既存タグを返す。"""
+    import Task.task_data as td
+
+    calls = []
+    existing = {"tag_id": 5, "name": "デザイン"}
+
+    class Result:
+        lastrowid = 9
+
+        def __init__(self, row):
+            self.row = row
+
+        def mappings(self):
+            return self
+
+        def first(self):
+            return self.row
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            query_text = str(query)
+            calls.append(query_text)
+            if "SELECT tag_id, name FROM task_tag" in query_text:
+                return Result(existing if params["name"] == "デザイン" else None)
+            if "COUNT(*) AS count FROM task_tag" in query_text:
+                return Result({"count": 1})
+            return Result(None)
+
+    async def scenario():
+        with patch("Task.task_data.db_session", TaskDbSession()):
+            # 同名タグは作り直さず、既存のタグをそのまま返す
+            assert await td.create_tag("taskA", "デザイン") == existing
+            created = await td.create_tag("taskA", "調査", max_tags=50)
+            assert created == {"tag_id": 9, "name": "調査"}
+            # 名前からの解決は、無いものだけを追加して ID の一覧を返す
+            assert await td.resolve_tag_names("taskA", ["デザイン", "調査"]) == [5, 9]
+
+    run(scenario())
+    assert any("INSERT INTO task_tag" in query for query in calls)
+
+
+def test_task_data_create_tag_stops_at_room_limit():
+    """ルームのタグ上限に達したら追加しない。"""
+    import Task.task_data as td
+    import pytest
+
+    calls = []
+
+    class Result:
+        lastrowid = 9
+
+        def __init__(self, row):
+            self.row = row
+
+        def mappings(self):
+            return self
+
+        def first(self):
+            return self.row
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            query_text = str(query)
+            calls.append(query_text)
+            if "SELECT tag_id, name FROM task_tag" in query_text:
+                return Result(None)
+            if "COUNT(*) AS count FROM task_tag" in query_text:
+                return Result({"count": 50})
+            return Result(None)
+
+    async def scenario():
+        with patch("Task.task_data.db_session", TaskDbSession()):
+            await td.create_tag("taskA", "調査", max_tags=50)
+
+    with pytest.raises(td.TaskTagLimitReached):
+        run(scenario())
+    assert not any("INSERT INTO task_tag" in query for query in calls)
+
+
+def test_task_data_replace_item_tags_filters_by_room():
+    """タグの張り替えは、そのルームのタグに限定した INSERT ... SELECT で行う。"""
+    import Task.task_data as td
+
+    calls = []
+
+    class TaskDbSession:
+        async def execute(self, query, params):
+            calls.append((str(query), params))
+
+    async def scenario():
+        with patch("Task.task_data.db_session", TaskDbSession()):
+            await td._replace_item_tags("taskA", 12, [5, 9])
+
+    run(scenario())
+
+    delete_query, delete_params = calls[0]
+    assert "DELETE FROM task_item_tag" in delete_query
+    assert delete_params == {"item_id": 12}
+
+    insert_query, insert_params = calls[1]
+    assert "INSERT INTO task_item_tag" in insert_query
+    # 他ルームのタグ ID を渡されても room_id 条件で弾かれる
+    assert "WHERE room_id = :room_id" in insert_query
+    assert insert_params["room_id"] == "taskA"
+    assert insert_params["tag_0"] == 5
+    assert insert_params["tag_1"] == 9
+
+
+def test_task_data_update_item_bumps_version_for_tag_only_change():
+    """タグだけの変更でも version を進め、他画面との競合検知を効かせる。"""
+    import Task.task_data as td
+
+    calls = []
+
+    class Result:
+        def mappings(self):
+            return self
+
+        def first(self):
+            return {
+                "item_id": 12,
+                "title": "task",
+                "note": "",
+                "board_status": "todo",
+                "priority": "normal",
+                "start_date": None,
+                "due_date": None,
+                "position": 100,
+                "version": 0,
+                "created_at": None,
+                "updated_at": None,
+            }
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            calls.append(str(query))
+            return Result()
+
+    async def scenario():
+        with (
+            patch("Task.task_data.db_session", TaskDbSession()),
+            patch(
+                "Task.task_data.get_item", new=AsyncMock(return_value={"item_id": 12})
+            ),
+        ):
+            return await td.update_item("taskA", 12, {"tag_ids": [5]}, version=0)
+
+    item, updated = run(scenario())
+    assert updated is True
+    assert any("UPDATE task_item SET" in query for query in calls)
+    assert any("INSERT INTO task_item_tag" in query for query in calls)
+
+
+def test_task_data_update_item_returns_tags_on_version_conflict():
+    """競合で更新を拒否するときも、返す現在値にタグを添える。"""
+    import Task.task_data as td
+
+    class Result:
+        def mappings(self):
+            return self
+
+        def first(self):
+            return {
+                "item_id": 12,
+                "title": "task",
+                "note": "",
+                "board_status": "todo",
+                "priority": "normal",
+                "start_date": None,
+                "due_date": None,
+                "position": 100,
+                "version": 3,
+                "created_at": None,
+                "updated_at": None,
+            }
+
+    calls = []
+
+    class TaskDbSession:
+        def begin(self):
+            return FakeBegin()
+
+        async def execute(self, query, params):
+            calls.append(str(query))
+            return Result()
+
+    async def execute(query, params=None, fetch=False):
+        if fetch and "FROM task_item_tag" in str(query):
+            return [{"item_id": 12, "tag_id": 5, "name": "デザイン"}]
+        return None
+
+    async def scenario():
+        with (
+            patch("Task.task_data.db_session", TaskDbSession()),
+            patch("Task.task_data.execute_query", new=execute),
+        ):
+            return await td.update_item("taskA", 12, {"title": "新しい題名"}, version=0)
+
+    item, updated = run(scenario())
+    assert updated is False
+    assert item["version"] == 3
+    assert item["tags"] == [{"tag_id": 5, "name": "デザイン"}]
+    # 競合時は UPDATE を実行しない
+    assert not any("UPDATE task_item SET" in query for query in calls)

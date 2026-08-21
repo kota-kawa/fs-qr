@@ -445,7 +445,7 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
         "note": "メモ",
         "board_status": "todo",
         "priority": "high",
-        "category": "機能開発",
+        "tags": [{"tag_id": 3, "name": "機能開発"}],
         "due_date": "2099-01-10",
         "position": 100,
         "version": 0,
@@ -548,8 +548,10 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
             new=AsyncMock(return_value=[item_1]),
         ),
         patch(
-            "Task.task_routes_items.task_data.list_categories",
-            new=AsyncMock(return_value=["機能開発"]),
+            "Task.task_routes_items.task_data.list_tags",
+            new=AsyncMock(
+                return_value=[{"tag_id": 3, "name": "機能開発", "item_count": 1}]
+            ),
         ),
         patch(
             "Task.task_routes_items.task_data.update_item",
@@ -594,7 +596,7 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
                 "title": "タスク1",
                 "note": "メモ",
                 "priority": "high",
-                "category": "機能開発",
+                "tag_ids": [3],
                 "due_date": "2099-01-10",
                 "board_status": "todo",
             },
@@ -606,7 +608,9 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
         list_response = test_client.get(f"/api/task/{room_id}/items")
         assert list_response.status_code == 200
         assert list_response.json()["data"]["items"] == [item_1]
-        assert list_response.json()["data"]["categories"] == ["機能開発"]
+        assert list_response.json()["data"]["tags"] == [
+            {"tag_id": 3, "name": "機能開発", "item_count": 1}
+        ]
 
         update_item_response = test_client.request(
             "PATCH",

@@ -7,19 +7,40 @@ from pydantic import ValidationError
 
 from api_response import api_error_response, api_ok_response
 from models import TaskItemInput
-from settings import TASK_MAX_ITEMS_PER_ROOM
-from web import enforce_csrf
+from settings import TASK_MAX_ITEMS_PER_ROOM, TASK_MAX_TAGS_PER_ROOM
 from . import task_data
-from .task_access import has_task_room_access
+from .task_authorize import authorize_task_room
+
+# エクスポート形式のバージョン。
+# 1: category（単一のカテゴリ文字列）を持つ旧形式。読み込みのみ対応する。
+# 2: tags（タグ名の配列）を持つ現行形式。
+# Version 1 files carry a single "category" string and stay importable; version 2
+# is the current tag-based format.
+EXPORT_VERSION = 2
+SUPPORTED_IMPORT_VERSIONS = (1, 2)
+
+
+def _with_tags(raw: object) -> object:
+    """旧形式（version 1）の category をタグ1件として読み替える。
+
+    Maps the legacy single "category" of a version 1 file onto the tag list so
+    previously exported boards stay importable.
+    """
+    if not isinstance(raw, dict):
+        return raw
+    if raw.get("tags") or not raw.get("category"):
+        return raw
+    converted = dict(raw)
+    converted["tags"] = [converted["category"]]
+    return converted
 
 
 def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
     @router.get("/task/{room_id}/export", name="task.export_items")
     async def export_task_items(request: Request, room_id: str):
-        if not has_task_room_access(request, room_id):
-            return api_error_response("room access is not established", status_code=404)
-        if not await task_data.get_room_meta_direct(room_id):
-            return api_error_response("room expired or deleted", status_code=404)
+        denied = await authorize_task_room(request, room_id)
+        if denied:
+            return denied
 
         items = await task_data.list_items(room_id)
 
@@ -30,7 +51,9 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
                 "note": item["note"],
                 "board_status": item["board_status"],
                 "priority": item["priority"],
-                "category": item["category"],
+                # タグは名前で書き出す。別ルームへ取り込んでも意味が保たれる。
+                # Tags are exported by name so an import into another room keeps meaning.
+                "tags": [tag["name"] for tag in item.get("tags") or []],
                 "start_date": item["start_date"],
                 "due_date": item["due_date"],
                 "position": item["position"],
@@ -38,7 +61,7 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
             export_tasks.append(export_item)
 
         export_data = {
-            "version": 1,
+            "version": EXPORT_VERSION,
             "exported_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "tasks": export_tasks,
         }
@@ -55,11 +78,9 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
     async def import_task_items(
         request: Request, room_id: str, file: UploadFile = File(...)
     ):
-        await enforce_csrf(request)
-        if not has_task_room_access(request, room_id):
-            return api_error_response("room access is not established", status_code=404)
-        if not await task_data.get_room_meta_direct(room_id):
-            return api_error_response("room expired or deleted", status_code=404)
+        denied = await authorize_task_room(request, room_id, csrf=True)
+        if denied:
+            return denied
 
         content = await file.read()
         if len(content) > 1024 * 1024:
@@ -75,7 +96,7 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
         if not isinstance(data, dict):
             return api_error_response("タスクリストの形式が不正です。", status_code=400)
 
-        if data.get("version") != 1:
+        if data.get("version") not in SUPPORTED_IMPORT_VERSIONS:
             return api_error_response(
                 "サポートされていないバージョンです。", status_code=400
             )
@@ -93,8 +114,11 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
 
         for task_data_raw in tasks:
             try:
-                payload = TaskItemInput.model_validate(task_data_raw)
-                item_values = payload.model_dump()
+                payload = TaskItemInput.model_validate(_with_tags(task_data_raw))
+                item_values = payload.model_dump(exclude={"tags"})
+                item_values["tag_ids"] = await task_data.resolve_tag_names(
+                    room_id, payload.tags, max_tags=TASK_MAX_TAGS_PER_ROOM
+                )
                 await task_data.create_item(
                     room_id, item_values, max_items=TASK_MAX_ITEMS_PER_ROOM
                 )

@@ -13,6 +13,7 @@
   function isUserInteracting() {
     var dialog = document.getElementById('taskEditorDialog');
     if (dialog && dialog.open) return true;
+    if (modules.tags && modules.tags.isManagerOpen()) return true;
     if (modules.dnd && modules.dnd.isDragging()) return true;
     if (modules.menu && modules.menu.isOpen()) return true;
     if (modules.select && modules.select.isOpen()) return true;
@@ -30,7 +31,7 @@
       // Defer syncing while the user is mid-interaction so nothing jumps.
       // 操作中に画面が動かないよう、同期を先送りする。
       if (!isUserInteracting()) {
-        store.setAll(data.items, data.categories);
+        store.setAll(data.items, data.tags);
       }
     } catch (err) {
       if (!isSilent) {
@@ -292,6 +293,7 @@
       modules.select.init();
     }
     modules.filters.init();
+    modules.tags.init();
     modules.editor.init();
     modules.columns.init();
     modules.dnd.init();

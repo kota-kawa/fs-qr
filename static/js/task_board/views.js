@@ -54,7 +54,7 @@
     if (isCalendar && modules.calendar) {
       modules.calendar.refresh();
     } else if (!isCalendar && modules.render) {
-      modules.render.render(modules.store.getItems(), modules.store.getCategories());
+      modules.render.render(modules.store.getItems(), modules.store.getTags());
     }
 
     if (!options || options.persist !== false) {
