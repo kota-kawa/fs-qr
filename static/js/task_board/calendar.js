@@ -10,8 +10,6 @@
   // Week splitting and lane packing (bar coordinate math) live in calendar-layout.js.
   var WEEK_LENGTH = layout.WEEK_LENGTH;
   var MAX_LANES = 3; // レーン上限。超過分は「他N件」に集約する / Lane cap; overflow rolls into the "+N more" indicator
-  var WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
-
   var dateKey = layout.dateKey;
   var parseKey = layout.parseKey;
   var addDays = layout.addDays;
@@ -59,23 +57,33 @@
     return dateKey(new Date());
   }
 
+  function locale() {
+    return document.documentElement.getAttribute('lang') || 'en';
+  }
+
+  function formatDate(date, options) {
+    try {
+      return new Intl.DateTimeFormat(locale(), options).format(date);
+    } catch (error) {
+      return new Intl.DateTimeFormat('en', options).format(date);
+    }
+  }
+
   function monthLabel(year, month) {
-    return year + '年' + (month + 1) + '月';
+    return formatDate(new Date(year, month, 1), { year: 'numeric', month: 'long' });
   }
 
   function dayLabel(key) {
     var date = parseKey(key);
     if (!date) return '-';
-    return (
-      date.getMonth() + 1 + '月' + date.getDate() + '日（' + WEEKDAY_LABELS[date.getDay()] + '）'
-    );
+    return formatDate(date, { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short' });
   }
 
-  /** Short date label used inside bar titles/aria-labels, e.g. "8月18日". */
+  /** Short date label used inside bar titles/aria-labels. */
   function shortDateLabel(key) {
     var date = parseKey(key);
     if (!date) return key;
-    return date.getMonth() + 1 + '月' + date.getDate() + '日';
+    return formatDate(date, { month: 'short', day: 'numeric' });
   }
 
   function element(id) {
@@ -177,7 +185,10 @@
     cell.setAttribute('aria-selected', String(key === state.selected));
     cell.setAttribute(
       'aria-label',
-      dayLabel(key) + ' タスク' + dayItems.length + '件'
+      core.formatMessage('task.calendar_task_count', '{day}: {count} tasks', {
+        day: dayLabel(key),
+        count: dayItems.length
+      })
     );
 
     if (date.getMonth() !== state.month) cell.classList.add('is-outside');
@@ -208,7 +219,9 @@
     if (overflowCount > 0) {
       var more = document.createElement('span');
       more.className = 'task-calendar__more';
-      more.textContent = '他' + overflowCount + '件';
+      more.textContent = core.formatMessage('task.calendar_more', '+{count} more', {
+        count: overflowCount
+      });
       cell.appendChild(more);
     }
 
@@ -279,7 +292,10 @@
     check.className = 'task-card__check' + (isDone ? ' is-checked' : '');
     check.dataset.calendarToggle = String(item.item_id);
     check.setAttribute('aria-pressed', String(isDone));
-    check.setAttribute('aria-label', isDone ? '未着手に戻す' : '完了にする');
+    check.setAttribute(
+      'aria-label',
+      isDone ? core.t('task.return_todo', '未着手に戻す') : core.t('task.mark_done', '完了にする')
+    );
     if (isDone) {
       var icon = core.icon('check');
       if (icon) {
@@ -294,12 +310,12 @@
     title.className = 'task-calendar__row-title';
     title.dataset.calendarOpen = String(item.item_id);
     title.textContent = item.title;
-    title.title = 'クリックして編集';
+    title.title = core.t('task.click_edit', 'クリックして編集');
     row.appendChild(title);
 
     var status = document.createElement('span');
     status.className = 'task-calendar__row-status is-' + item.board_status;
-    status.textContent = core.STATUS_LABELS[item.board_status] || item.board_status;
+    status.textContent = core.statusLabel(item.board_status);
     row.appendChild(status);
 
     return row;
@@ -351,7 +367,7 @@
     fillList(
       element('taskCalendarDayList'),
       groups[state.selected] || [],
-      'この日のタスクはありません'
+      core.t('task.no_tasks_today', 'この日のタスクはありません')
     );
 
     var backlog = withoutDueDate(visibleItems);
@@ -360,7 +376,7 @@
     fillList(
       element('taskCalendarBacklogList'),
       backlog,
-      '期限が未設定のタスクはありません'
+      core.t('task.no_due_tasks', '期限が未設定のタスクはありません')
     );
   }
 

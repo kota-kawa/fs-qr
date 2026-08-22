@@ -297,6 +297,9 @@ msgstr ""
 msgid "0 /  文字"
 msgstr "0 / Karakterler"
 
+msgid "0 / 0 完了"
+msgstr "0 / 0 tamamlandı"
+
 msgid "0 / 文字"
 msgstr "0 karakter"
 
@@ -328,14 +331,25 @@ msgstr "12 saat"
 msgid "1h"
 msgstr "1 saat"
 
+msgid "1か月"
+msgstr "1 ay"
+
 msgid "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。"
 msgstr ""
 "Bir grup odası toplamda 500 MB'a kadar 10 dosya saklayabilir. Mevcut "
 "dosyalarla birlikte sınırı aşacak şekilde yeni dosya eklenmek istenirse "
 "yüklemeye izin verilmez."
 
+msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのGörev panosuにつき最大200件までタスクを登録できます。"
+
+msgid "1つのボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのPanoにつき最大200件までタスクを登録できます。"
+
 msgid "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字です。タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
-msgstr "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
+msgstr ""
+"1つのPanoにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.Etiketlerは1件あたり最大40文字で、Pano全体で最大50件、1つ"
+" görevに最大10件まで付けられます。"
 
 msgid "1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。"
 msgstr ""
@@ -384,13 +398,16 @@ msgid "1日"
 msgstr "1 gün"
 
 msgid "1日・1週間・1か月"
-msgstr "1 gün・1週間・1か月"
+msgstr "1 gün・1 hafta・1 ay"
 
 msgid "1日（デフォルト）"
-msgstr "1 gün（デフォルト）"
+msgstr "1 gün (varsayılan)"
 
 msgid "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。"
 msgstr "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動でSilされます。"
+
+msgid "1週間"
+msgstr "1 hafta"
 
 msgid "2. Macで画面録画する方法（標準機能）"
 msgstr "2. Mac'te Ekran Kaydetme (Yerleşik Yöntem)"
@@ -474,9 +491,6 @@ msgstr "404 - Sayfa bulunamadı | FS!QR"
 
 msgid "4K動画1分"
 msgstr "1 dakikalık 4K video"
-
-msgid "4つの使い方"
-msgstr "4つのNasıl Kullanılır"
 
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "5 GHz ve 2.4 GHz Radyo Özellikleri: Bilmeniz Gereken Önemli Farklar"
@@ -803,8 +817,8 @@ msgid ""
 "FS!QR "
 "Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Groupは、Kayıt GerekmezでチームのファイルをまとめてPaylaşできるOda型サービス.PaylaşURL・QR "
-"kodu、またはOda ID'siとŞifreですぐに参加。Saklama "
+"FS!QR Groupは、Kayıt GerekmezでチームのファイルをまとめてPaylaşできるOda型サービス.Paylaşım "
+"URL'si・QR kodu、またはOda ID'siとŞifreですぐに参加。Saklama "
 "süresiを選べる一時的なPaylaşスペースをブラウザだけで作れます。"
 
 msgid "FS!QR Groupは企業での利用も可能ですか？"
@@ -995,35 +1009,40 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "FS!QR QR Kodu ile Dosya Paylaşım Servisi"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | Ücretsizで使えるPaylaşタスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
-msgstr "FS!QR Task | Kayıt GerekmezのPaylaşタスクボード・カンバン管理サービス"
+msgstr "FS!QR Task | Kayıt GerekmezのPaylaşımlı görev panosu・カンバン管理サービス"
 
 msgid "FS!QR Task 共有タスクボード"
-msgstr "FS!QR Task Paylaşタスクボード"
+msgstr "FS!QR Task paylaşımlı görev panosu"
 
 msgid "FS!QR Task 共有タスクボードサービス"
-msgstr "FS!QR Task Paylaşタスクボードサービス"
+msgstr "FS!QR Task paylaşımlı görev panosuサービス"
 
 msgid ""
 "FS!QR "
 "Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。"
 msgstr ""
-"FS!QR "
-"TaskでチームPaylaşのタスクボードをOluştur。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URLPaylaşで即座にコラボレーション開始。"
+"FS!QR Task ile ekip görev panosu oluşturun. Basit Yapılacak, Devam ediyor"
+" ve Tamamlandı sütunlarıyla ilerlemeyi görünür kılın; URL'yi paylaşarak "
+"hemen iş birliğine başlayın."
 
 msgid "FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。"
 msgstr ""
-"FS!QR Taskで既存のPaylaşタスクボードをAra・参加。Oda "
-"ID'siとŞifreでチームのカンバンボードに参加してタスク管理を始めましょう。"
+"Oda kimliği ve parolasıyla mevcut bir FS!QR Task paylaşımlı panosunu "
+"arayın ve katılın; ardından ekip çalışmanızı kanban panosunda yönetmeye "
+"başlayın."
+
+msgid "FS!QR Taskのカンバンボードを表すイラスト"
+msgstr "FS!QR TaskのKanban panosuを表すイラスト"
+
+msgid "FS!QR Taskの下書きボード画面のスクリーンショット"
+msgstr "FS!QR Taskの下書きPano画面のスクリーンショット"
 
 msgid "FS!QR Taskの使い方"
 msgstr "FS!QR TaskのNasıl Kullanılır"
 
 msgid "FS!QR Taskの共有タスクボードサービス"
-msgstr "FS!QR TaskのPaylaşタスクボードサービス"
+msgstr "FS!QR TaskのPaylaşımlı görev panosuサービス"
 
 msgid ""
 "FS!QR "
@@ -1037,28 +1056,20 @@ msgid ""
 "FS!QR "
 "Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Taskは、Kayıt "
-"Gerekmezで使えるPaylaşタスクボード・カンバン管理サービス.URLをPaylaşするだけでリアルタイムに進捗を見える化。Saklama"
-" süresiを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
+"FS!QR Taskは、Kayıt Gerekmezで使えるPaylaşımlı görev "
+"panosu・カンバン管理サービス.URLをPaylaşするだけでリアルタイムに進捗を見える化。Saklama "
+"süresiを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当にÜcretsizで使えますか？"
 
 msgid ""
 "FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR TaskはÜcretsizのPaylaşタスクボード・カンバン管理サービス。アカウントKayıt "
-"Gerekmezで、Odaを作ってURLをPaylaşするだけでチームのタスクを未着手・進行中・完了で整理。安心のOtomatik "
-"silme付き。"
-
-msgid ""
-"FS!QR "
 "Taskは登録不要で使える共有タスクボードです。ルームを作成してID・パスワード・共有URLを渡すと、複数人で未着手・進行中・完了のタスクをリアルタイム管理できます。"
 msgstr ""
-"FS!QR TaskはKayıt Gerekmezで使えるPaylaşタスクボード.Oda "
-"OluşturしてID・Şifre・PaylaşURLを渡すと、Birden fazla "
-"kişiで未着手・進行中・完了のタスクをリアルタイム管理できます。"
+"FS!QR Task, kayıt olmadan kullanılabilen paylaşımlı bir görev panosudur. "
+"Bir oda oluşturun, kimliğini, parolasını ve URL'sini paylaşın; yapılacak,"
+" devam eden ve tamamlanan görevleri başkalarıyla gerçek zamanlı yönetin."
 
 msgid "FS!QR | 無料QRコード暗号化ファイル共有サービス"
 msgstr "FS!QR | Ücretsiz QR Kodu ile Şifreli Dosya Paylaşım Servisi"
@@ -1809,13 +1820,6 @@ msgstr ""
 " ve metin paylaşabilirsiniz. Kablo veya Bluetooth gerekmez; başlamak için"
 " bir URL açmanız yeterlidir."
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS!QR）は、アプリ・アカウント不要でKayıt Gerekmez・Ücretsizで使えるWeb "
-"TarayıcısıベースのPaylaşサービス.QR kodu・GrupOda・NotOda・タスクボードの4つのNasıl "
-"Kullanılırで、PC・スマートフォン・Sekmeレット間のDosya transferi、Metin "
-"Paylaşımı、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR; ücretsiz bir dosya paylaşım servisidir. QR kodu oluşturma, grup "
@@ -1978,6 +1982,9 @@ msgstr "ID alınamadı. Lütfen tekrar deneyin."
 msgid "IDが指定されていません。"
 msgstr "ID belirtilmedi."
 
+msgid "IDでボードに参加する"
+msgstr "IDでPanoya katılする"
+
 msgid "IDでルームに参加する"
 msgstr "IDでOdaya Katılする"
 
@@ -1988,7 +1995,7 @@ msgid "IDとパスワードによる2重の壁"
 msgstr "ID ve şifreyle iki katmanlı koruma"
 
 msgid "IDとパスワードを入力して、既存のタスクボードに参加します。"
-msgstr "IDとParola girinして、既存のタスクボードに参加します。"
+msgstr "IDとParola girinして、既存 görevPanoya katılします。"
 
 msgid "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
 msgstr ""
@@ -2744,12 +2751,14 @@ msgid "URL、共有ID、パスワードを公開チャンネルへ貼らない�
 msgstr "URL, paylaşım kimliği ve parolayı herkese açık kanala yapıştırmayın."
 
 msgid "URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。"
-msgstr "URLかQR koduを渡すと相手もボードに参加できます。Oda ID'siとŞifreでも参加できます。以降のタスク編集はボード側で行えます。"
+msgstr ""
+"URLかQR koduを渡すと相手もPanoya katılできます。Oda ID'siとŞifreでも参加できます。以降 "
+"görev編集はPano側で行えます。"
 
 msgid "URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。"
 msgstr ""
 "URLかQR koduを渡すと相手もOdaya Katılできます。Oda "
-"ID'siとŞifreでも参加できます。ファイルの追加やSilはOda側で行えます。"
+"ID'siとŞifreでも参加できます。ファイルのEkleやSilはOda側で行えます。"
 
 msgid "URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。"
 msgstr ""
@@ -2806,9 +2815,6 @@ msgstr "URL'yi kopyalayın ve manuel olarak açın"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLをPaylaşしてÜyeleri Davet Et"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLをPaylaşして使うカンバン式タスクボード.未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr ""
 "URLをPaylaşするだけで、みんなのメモがひとつにつながる。Kayıt Gerekmez・Otomatik "
@@ -2816,8 +2822,8 @@ msgstr ""
 
 msgid "URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
 msgstr ""
-"URLをPaylaşするだけでBirden fazla "
-"kişiでタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
+"URLをPaylaşするだけでBirden fazla kişiでタスクをリアルタイム管理。Yapılacak・Devam "
+"ediyor・Tamamlandıのシンプルカンバンでチームの進捗を見える化。"
 
 msgid "URLを適用しました"
 msgstr "Bağlanti uygulandı."
@@ -2829,9 +2835,6 @@ msgstr ""
 
 msgid "URL共有で即参加"
 msgstr "URLPaylaşで即参加"
-
-msgid "URL共有で即座にコラボレーション"
-msgstr "URLPaylaşで即座にコラボレーション"
 
 msgid "URL共有で参加"
 msgstr "Bağlantı Paylaşımıyla Katıl"
@@ -3166,6 +3169,39 @@ msgstr ""
 "Müşteriyi Zorlamayan Dosya Paylaşımı: Güvenli Teslim İçin Pratik Kontrol "
 "Listesi"
 
+msgid "common.close"
+msgstr "Kapat"
+
+msgid "common.copied"
+msgstr "Kopyalandı"
+
+msgid "common.copy"
+msgstr "Kopyala"
+
+msgid "common.delete"
+msgstr "Sil"
+
+msgid "common.delete_action"
+msgstr "Sil"
+
+msgid "common.hide"
+msgstr "Gizle"
+
+msgid "common.home"
+msgstr "Ana sayfa"
+
+msgid "common.search"
+msgstr "Ara"
+
+msgid "common.service_navigation"
+msgstr "Hizmet gezintisi"
+
+msgid "common.share"
+msgstr "Paylaş"
+
+msgid "common.show"
+msgstr "Göster"
+
 msgid "fsqr.delete_confirm_message"
 msgstr "Bu işlem dosyayı silecektir. Bu işlem geri alınamaz."
 
@@ -3191,6 +3227,23 @@ msgstr "Odayı ve yüklenen dosyaları yalnızca oluşturan kişi silebilir."
 
 msgid "group.delete_room_title"
 msgstr "Odayı Kapat"
+
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
@@ -3417,6 +3470,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "Open a task room"
 
+msgid "task.auto_generate"
+msgstr "Otomatik oluştur"
+
+msgid "task.auto_generated_id"
+msgstr "Oluşturulan oda kimliği"
+
+msgid "task.auto_generated_placeholder"
+msgstr "Otomatik oluşturulur"
+
 msgid "task.board.title"
 msgstr "Task board"
 
@@ -3435,11 +3497,87 @@ msgstr "Only the creator can delete this room and its tasks."
 msgid "task.delete_room_title"
 msgstr "Close this room"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "Verilerin otomatik silinmesi"
+
+msgid "task.layout.feature_collaboration"
+msgstr "URL'yi paylaşarak hemen iş birliğine başlayın"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "Sürükleyip bırakma işlemi"
+
+msgid "task.layout.feature_kanban"
+msgstr "Kanban görev yönetimi"
+
+msgid "task.layout.feature_priority"
+msgstr "Öncelikler, son tarihler ve etiketler"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR Task ücretsiz bir paylaşımlı görev panosu ve kanban hizmetidir. "
+"Hesap gerekmez: oda oluşturun, URL'yi paylaşın ve ekip görevlerini "
+"otomatik silmeyle düzenleyin."
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"paylaşımlı görev panosu, kanban, görev yönetimi, TODO yönetimi, proje "
+"yönetimi, ekip iş birliği, FS QR Task, ücretsiz görev yönetimi, gerçek "
+"zamanlı ilerleme, otomatik silme"
+
+msgid "task.layout.og_description"
+msgstr ""
+"Kayıt olmadan kullanabileceğiniz paylaşımlı görev panosu. URL'yi paylaşın"
+" ve ekip ilerlemesini kanban akışıyla görünür kılın."
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | Ücretsiz paylaşımlı görev panosu ve kanban"
+
+msgid "task.layout.organization_name"
+msgstr "FS!QR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "FS!QR Task"
+
+msgid "task.layout.schema_description"
+msgstr ""
+"Ücretsiz paylaşımlı görev panosu ve kanban hizmeti. Hesap gerekmez; "
+"ilerlemeyi gerçek zamanlı yönetmek için URL'yi paylaşın."
+
+msgid "task.layout.service_alt"
+msgstr "FS!QR Task paylaşımlı görev panosu hizmeti"
+
+msgid "task.layout.service_name"
+msgstr "FS!QR Task hizmeti"
+
+msgid "task.layout.software_description"
+msgstr "Kayıt gerektirmeyen paylaşımlı görev panosu ve kanban web uygulaması."
+
+msgid "task.manual_input"
+msgstr "Manuel gir"
+
 msgid "task.menu.description"
 msgstr "Simple room-based task board."
 
 msgid "task.menu.title"
 msgstr "Task"
+
+msgid "task.password"
+msgstr "Parola"
+
+msgid "task.password_hide"
+msgstr "Parolayı gizle"
+
+msgid "task.password_show"
+msgstr "Parolayı göster"
+
+msgid "task.room"
+msgstr "Oda"
+
+msgid "task.room_id"
+msgstr "Oda kimliği"
+
+msgid "task.room_id_mode"
+msgstr "Oda kimliği yöntemi"
 
 msgid "task.search.title"
 msgstr "Find a task room"
@@ -3568,9 +3706,6 @@ msgid "「Files by Google」アプリ、または端末にプリインストー�
 msgstr ""
 "\"Files by Google\" uygulamasını veya cihazınıza önceden yüklenmiş "
 "\"Dosyalarım\" ya da \"Dosyalar\" uygulamasını başlatın."
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「ID ve şifreyle erişimi sınırlandırılmış dosya paylaşımıリンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -3716,10 +3851,10 @@ msgstr ""
 "altındaki \"İndirilenler\" klasörünü açın."
 
 msgid "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。"
-msgstr "「ボードをOluştur」ボタンをクリックし、Saklama süresiを指定してタスクボードをOluşturします。"
+msgstr "「Pano oluştur」ボタンをクリックし、Saklama süresiを指定してGörev panosu oluşturします。"
 
 msgid "「ボードを作成」ボタンを押し、保存期間（1日・1週間・1か月）を選択してボードを発行します。"
-msgstr "「ボードをOluştur」ボタンを押し、Saklama süresi（1 gün・1週間・1か月）を選択してボードを発行します。"
+msgstr "「Pano oluştur」ボタンを押し、Saklama süresi（1 gün・1 hafta・1 ay）を選択してPanoを発行します。"
 
 msgid "「リンクです」だけでなく、何のファイルか、どこを確認してほしいか、いつまでに返信が必要かを書きます。受信者が予想していない共有なら、リンクを開く前に送信者へ別の手段で確認してもらいます。ファイル共有サービスを装ったフィッシングもあるため、ドメイン名と依頼内容が一致しているかを確認します。"
 msgstr ""
@@ -4190,8 +4325,11 @@ msgstr ""
 msgid "このグループを共有する"
 msgstr "Bu grubu paylaş"
 
+msgid "このタスクのタグ"
+msgstr "Bu görevin etiketleri"
+
 msgid "このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？"
-msgstr "このタスクボードとすべてのタスクをSilします。このİşlemlerは元に戻せません。よろしいですか？"
+msgstr "Bu görev panosu ve tüm görevleri silinsin mi? Bu işlem geri alınamaz."
 
 msgid "このノートを共有する"
 msgstr "Bu notu paylaş"
@@ -4212,7 +4350,7 @@ msgid "このファイル形式はプレビューできません。"
 msgstr "Bu dosya biçimi önizlenemez."
 
 msgid "このヘルプを開く"
-msgstr "このYardımı aç"
+msgstr "Bu yardımı aç"
 
 msgid "このヘルプを開閉"
 msgstr "Bu yardımı aç/kapat"
@@ -4227,13 +4365,13 @@ msgid "このページの下書きノートにそのまま入力します。内�
 msgstr "このページの下書きNotにそのまま入力します。内容はお使いの端末にだけKaydetされます。"
 
 msgid "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。"
-msgstr "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけKaydetされます。"
+msgstr "このページの下書きPanoにそのままEkleします。内容はお使いの端末にだけKaydetされます。"
 
 msgid "このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。"
 msgstr "このページのPaylaşボックスにドロップするだけ。発行するまで端末から送信されません。"
 
 msgid "このボードを共有する"
-msgstr "このボードをPaylaşする"
+msgstr "Bu panoyu paylaş"
 
 msgid "このルームではテキストをリアルタイムに共有できます。"
 msgstr "Bu oda içinde metinleri gerçek zamanlı olarak paylaşabilirsiniz."
@@ -4254,7 +4392,7 @@ msgid "この下書きエディタにはJavaScriptが必要です。"
 msgstr "この下書きエディタにはJavaScriptが必要."
 
 msgid "この下書きボードにはJavaScriptが必要です。"
-msgstr "この下書きボードにはJavaScriptが必要."
+msgstr "この下書きPanoにはJavaScriptが必要."
 
 msgid "この仕様により、共有URLだけ、またはパスワードだけが第三者に知られた場合には、もう一方の情報が必要になります。URLとパスワードを別経路で伝える運用は、不正アクセスの可能性を下げる対策の一つです。短いパスワードや同じパスワードの使い回しは避け、組織の認証ルールも併せて確認してください。"
 msgstr ""
@@ -4294,6 +4432,9 @@ msgstr ""
 "Bu, e-postası yapılandırılmamış veya herhangi bir sohbet hesabına bağlı "
 "olmayan başka birinin telefonu için bile işe yarar — yeter ki tam "
 "karşınızda dursunlar, dosya anında onlara geçer."
+
+msgid "この日に追加"
+msgstr "Bu güne ekle"
 
 msgid "この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。"
 msgstr ""
@@ -4419,6 +4560,9 @@ msgstr ""
 "Paylaşımı hemen durdurun; gerekirse dosyayı yeniden yükleyip yeni ID ve "
 "parola oluşturun."
 
+msgid "すべて"
+msgstr "Tümü"
+
 msgid "すべてのファイルを同じ扱いにすると、便利さは増えますがリスクも増えます。公開資料、確認用画像、見積書、契約書、個人情報を含むファイルでは、必要な注意のレベルが違います。"
 msgstr ""
 "Her dosyaya aynı şekilde davranmak kolaylığı artırsa da riski de büyütür."
@@ -4457,6 +4601,9 @@ msgstr "Tümünü İndir (Demo)"
 
 msgid "すべて削除"
 msgstr "Tümünü Sil"
+
+msgid "すべて外す"
+msgstr "Tümü外す"
 
 msgid "そこで、レビュー参加者には閲覧用の資料を共有し、修正担当者には別途編集用ファイルを渡す運用が有効です。チャットでは「全員確認用」「修正担当者用」のようにラベルを付け、ファイル名にも用途を入れます。FS!QRで一時的に配る資料と、Groupでメンバーが出し入れする作業ファイルを使い分けると、資料配布と共同作業の境界が分かりやすくなります。"
 msgstr ""
@@ -4663,11 +4810,11 @@ msgstr "Fotoğrafları gönderdiğinizde kalite neden düşer?"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "Büyük Dosyalar Neden E-postayla Gönderilemez?"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFをYükleだけで、相手に渡すためのİndir用URLやQR koduをその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr " bağlantısını açın ve paylaşmak istediğiniz dosyaları seçerek yükleyin."
+
+msgid "にタスクを追加"
+msgstr " — görev ekle"
 
 msgid "に定めるとおりです。"
 msgstr " sayfasını inceleyebilirsiniz."
@@ -4678,6 +4825,12 @@ msgstr ""
 "ancak bir dakikalık video bile sınırı zaten aşabilir. \"E-posta ile bir "
 "video gönderilemiyor\", dosyanın e-postanın izin verdiğinin çok üzerinde "
 "olduğu anlamına gelir. Bu durumlarda eki geçin ve şunun yerine kullanın"
+
+msgid "に追加するタスク名"
+msgstr " — eklenecek görev adı"
+
+msgid "のタスク"
+msgstr " görev"
 
 msgid "のページから、パーソナライズド広告に使用される Cookie を無効にできます。"
 msgstr " sayfalarından devre dışı bırakabilirsiniz."
@@ -4698,12 +4851,12 @@ msgstr ""
 "geçici dosya paylaşımı mümkündür."
 
 msgid "はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。"
-msgstr "はい、完全レスポンシブMüdahale.スマートフォンやSekmeレットのタッチİşlemlerでも快適にタスクの追加・移動・完了切り替えが行えます。"
+msgstr "はい、完全レスポンシブMüdahale.スマートフォンやSekmeレットのタッチİşlemlerでも快適にタスクのEkle・移動・Tamamlandı切り替えが行えます。"
 
 msgid "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
 msgstr ""
-"はい、Kayıt "
-"Gerekmez・完全Ücretsizでご利用いただけます。タスクボードのOluştur、参加、タスクの編集・移動など全ての機能がÜcretsiz."
+"はい、Kayıt Gerekmez・完全Ücretsizでご利用いただけます。Görev "
+"panosuのOluştur、参加、タスクの編集・移動など全ての機能がÜcretsiz."
 
 msgid "はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。"
 msgstr ""
@@ -4876,6 +5029,9 @@ msgstr ""
 "bağlantılar ve özel sıkıştırma kullanarak, taşınabilir bir monitör satın "
 "almaya rakip olacak bir deneyim sunarlar."
 
+msgid "やることを入力して追加"
+msgstr "やることを入力してEkle"
+
 msgid "よい例"
 msgstr "İyi pratik"
 
@@ -4929,9 +5085,6 @@ msgstr " dahil) bu Şartların ayrılmaz bir parçasını oluşturur."
 msgid "を押すと、即座に録画が始まります。"
 msgstr "kaydı anında başlatmak için."
 
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成してGönder方法が最適."
-
 msgid "を選択します。"
 msgstr "uygulamak için."
 
@@ -4949,7 +5102,10 @@ msgstr ""
 "ekip çalışması için idealdir."
 
 msgid "アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
-msgstr "アカウント不要で使えるÜcretsizのPaylaşタスクボード・カンバン管理サービス。URLをPaylaşするだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
+msgstr ""
+"アカウント不要で使えるÜcretsizのPaylaşımlı görev "
+"panosu・カンバン管理サービス。URLをPaylaşするだけで、チームのTODO・タスク・進捗をYapılacak・Devam "
+"ediyor・Tamamlandıで見える化。プロジェクトやイベント görev管理に最適。"
 
 msgid "アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。"
 msgstr ""
@@ -4981,7 +5137,7 @@ msgid "アカウント作成なし"
 msgstr "アカウントOluşturなし"
 
 msgid "アカウント作成不要で即開始"
-msgstr "アカウントOluştur不要で即開始"
+msgstr "アカウントOluştur不要で即Başlangıç"
 
 msgid "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。"
 msgstr ""
@@ -4995,7 +5151,7 @@ msgstr ""
 "sunar."
 
 msgid "アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。"
-msgstr "アカウント登録は不要.まずは下書きボードにタスクを書き出すところから始められます。"
+msgstr "アカウント登録は不要.まずは下書きPanoにタスクを書き出すところから始められます。"
 
 msgid "アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。"
 msgstr "アカウント登録は不要.まずはPaylaşılacak dosyaを選ぶところから始められます。"
@@ -5021,7 +5177,7 @@ msgid "アカウント登録やアプリのインストールは必要ですか�
 msgstr "アカウント登録やUygulama yüklemek gerekli mi?"
 
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
-msgstr "アカウント登録やGiriş yapは一切不要.ブラウザがあればすぐに利用開始できます。"
+msgstr "アカウント登録やGiriş yapは一切不要.ブラウザがあればすぐに利用Başlangıçできます。"
 
 msgid "アカウント登録やログインは必要ですか？"
 msgstr "アカウント登録やGiriş yapは必要ですか？"
@@ -5033,10 +5189,10 @@ msgid "アカウント登録不要で使える、ルーム型のグループフ�
 msgstr "アカウントKayıt Gerekmezで使える、Oda型のGrup Dosya PaylaşımıWebアプリケーション."
 
 msgid "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。"
-msgstr "アカウントKayıt Gerekmezで使える、Paylaş型のカンバンタスクボードWebアプリケーション."
+msgstr "アカウントKayıt Gerekmezで使える、Paylaş型のカンバンGörev panosuWebアプリケーション."
 
 msgid "アカウント登録不要のボード作成"
-msgstr "アカウントKayıt GerekmezのボードOluştur"
+msgstr "アカウントKayıt GerekmezのPanoOluştur"
 
 msgid "アカウント登録不要のルーム作成"
 msgstr "アカウントKayıt GerekmezのOdaOluştur"
@@ -5234,7 +5390,7 @@ msgid "アップロード待ちファイル"
 msgstr "Yüklenmeyi Bekleyen Dosyalar"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
-msgstr "Yükle時に1時間・6時間・12時間・24時間からSaklama süresiを選択でき、期間の終了後に自動でSilされます。"
+msgstr "Yükle時に1時間・6時間・12時間・24時間からSaklama süresiを選択でき、期間の終了sonraに自動でSilされます。"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。"
 msgstr ""
@@ -5309,6 +5465,9 @@ msgstr ""
 "アプリを入れずにKurulumsuz ve Sadece Tarayıcı Üzerinden Kolay "
 "Kullanım。ファイルをŞifrelemeし、QR koduですばやく一時Paylaşできます。"
 
+msgid "イベントから日常の整理まで、"
+msgstr "イベントからPaz常の整理まで、"
+
 msgid "イベント中に「あの資料が欲しい」と言われた際も、その場でQRコードを見せるだけで完結します。名刺交換の際についでに資料を渡したり、アンケート回答へのリンクと一緒にファイルを共有したりと、活用の幅は無限大です。"
 msgstr ""
 "Etkinlik sırasında birisi “o dokümanı alabilir miyim?” dediğinde, o anda "
@@ -5319,11 +5478,17 @@ msgstr ""
 msgid "インシデント対応を事前に決める"
 msgstr "Olay müdahalesini önceden belirleyin"
 
+msgid "インポート"
+msgstr "İçe aktar"
+
 msgid "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。"
 msgstr ""
 "Web sitesini ziyaret edin, dosyanızı sürükleyip bırakın ve yükleme "
 "başlasın. Saniyeler içinde gönderebileceğiniz bir paylaşım bağlantısı ve "
 "QR kodu alırsınız."
+
+msgid "エクスポート"
+msgstr "Dışa aktar"
 
 msgid "エコで効率的なデータクレンジングとコンプライアンス"
 msgstr "Yeşil BT, Verimli Veri Hijyeni ve Uyumluluk"
@@ -5438,6 +5603,9 @@ msgstr ""
 "çubuğunu aşağı çekin ve \"Durdur\"a dokunun. Video, Fotoğraflar veya "
 "Galeri uygulamasının kitaplığına kaydedilir."
 
+msgid "カスタム順"
+msgstr "Özel sıralama"
+
 msgid "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。"
 msgstr ""
 "Örneğin bir kafe erişim noktası gibi zayıf şifrelenmiş halka açık bir Wi-"
@@ -5466,16 +5634,43 @@ msgid "カメラ側の設定を変える："
 msgstr "Kamera tarafı ayarını değiştirin:"
 
 msgid "カラムの操作"
-msgstr "カラムのİşlemler"
+msgstr "Sütun denetimleri"
+
+msgid "カラムの開閉"
+msgstr "Sütunu genişlet/daralt"
+
+msgid "カレンダー"
+msgstr "Takvim"
 
 msgid "カレンダーで期限を確認"
-msgstr "カレンダーで期限をOnayla"
+msgstr "Son tarihleri takvimde kontrol et"
 
 msgid "カレンダー表示"
-msgstr "カレンダーGöster"
+msgstr "Takvim görünümü"
+
+msgid "カンバンボード"
+msgstr "Kanban panosu"
+
+msgid "カンバン式タスク管理（未着手・進行中・完了）"
+msgstr "カンバン式タスク管理（Yapılacak・Devam ediyor・Tamamlandı）"
+
+msgid "カンバン方式で進捗を見える化"
+msgstr "İlerlemeyi kanban akışıyla görünür kılın"
+
+msgid "カンバン方式（未着手・進行中・完了）"
+msgstr "カンバン方式（Yapılacak・Devam ediyor・Tamamlandı）"
 
 msgid "カードのボードで表示"
-msgstr "カードのボードでGöster"
+msgstr "Pano kartları olarak göster"
+
+msgid "カードをカラム内で並べ替え"
+msgstr "Sütundaki kartları yeniden sırala"
+
+msgid "カードを隣のカラムへ移動"
+msgstr "Kartı yan sütuna taşı"
+
+msgid "カード間を移動（カードにフォーカス時）"
+msgstr "Kartlar arasında hareket et (kart odaktayken)"
 
 msgid "キャプチャウィンドウの「録画ボタン（丸アイコン）」をクリックするか、ショートカットキー"
 msgstr ""
@@ -5495,7 +5690,7 @@ msgid "キーボードショートカット (?)"
 msgstr "Klavye kısayolları (?)"
 
 msgid "キーボードショートカットを表示"
-msgstr "Klavye kısayollarıをGöster"
+msgstr "Klavye kısayollarını göster"
 
 msgid "ギャラリーやGoogleフォトで写真を開き、詳細情報を表示すると地図が出る場合は位置情報あり。"
 msgstr ""
@@ -5516,7 +5711,9 @@ msgid "クイック共有にファイルを置く"
 msgstr "クイックPaylaşにファイルを置く"
 
 msgid "クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画"
-msgstr "クイックPaylaşへのファイル追加からPaylaşリンクの発行、QR koduから受け取り画面が開くまでを実際の画面でİşlemlerするデモ動画"
+msgstr ""
+"クイックPaylaşへのファイルEkleからPaylaşリンクの発行、QR "
+"koduから受け取り画面が開くまでを実際の画面でİşlemlerするデモ動画"
 
 msgid "クイック共有を開く"
 msgstr "クイックPaylaşを開く"
@@ -5553,6 +5750,9 @@ msgstr ""
 "Bir bulut depolama hizmetine veya e-posta hesabına giriş yapmaya gerek "
 "yoktur, bu nedenle ortak bilgisayarda hiçbir şifre veya oturum açma "
 "geçmişi bırakılmaz."
+
+msgid "クリア"
+msgstr "Temizle"
 
 msgid "グループ"
 msgstr "Grup"
@@ -6061,6 +6261,9 @@ msgstr ""
 "5. Adım: Fotoğrafları Bulut Depolamaya veya Bilgisayara Aktarın veya "
 "Yedekleyin"
 
+msgid "ステータス"
+msgstr "Durum"
+
 msgid "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除"
 msgstr ""
 "akıllı telefon depolama dolu, iphone depolama arttırma, android yer açma,"
@@ -6363,74 +6566,138 @@ msgstr "Seminer ve Grup Çalışmalarında Kullanım Örnekleri"
 msgid "ゼミナールやグループ学習・ワークショップでのファイル共有"
 msgstr "Seminerlerde, Grup Çalışmalarında ve Çalıştaylarda Dosya Paylaşımı"
 
+msgid "タグ"
+msgstr "Etiketler"
+
+msgid "タグで絞り込み"
+msgstr "Etikete göre filtrele"
+
 msgid "タグはこのボード全体で共有されます。1つのタスクに最大"
-msgstr "タグはこのボード全体でPaylaşされます。1つのタスクに最大"
+msgstr "Etiketler bu panonun tamamında paylaşılır. Görev başına en fazla"
+
+msgid "タグを管理"
+msgstr "Etiketleri yönet"
+
+msgid "タグを追加"
+msgstr "Etiket ekle"
+
+msgid "タスクのタイトルを入力"
+msgstr "Görev başlığını girin"
 
 msgid "タスクの表示方法"
-msgstr "タスクのGöster方法"
+msgstr "Görev görüntüleme"
+
+msgid "タスクの詳細やURLなどを自由に入力"
+msgstr "Görev ayrıntılarını, URL'yi veya notları serbestçe girin"
+
+msgid "タスクをインポート"
+msgstr "Görevleri içe aktar"
+
+msgid "タスクをエクスポート"
+msgstr "Görevleri dışa aktar"
+
+msgid "タスクを絞り込み"
+msgstr "Görevleri filtrele"
+
+msgid "タスクを編集"
+msgstr "Görevi düzenle"
+
+msgid "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+msgstr "タスクをEkleし、ドラッグ＆ドロップで「Yapılacak」「Devam ediyor」「Tamamlandı」に移動して管理します。"
+
+msgid "タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。"
+msgstr ""
+"タスクをEkleし、ドラッグ＆ドロップまたはタップで「Yapılacak」「Devam "
+"ediyor」「Tamamlandı」に移動してスムーズに連携します。"
+
+msgid "タスクを追加して進捗を管理する"
+msgstr "タスクをEkleして進捗を管理する"
+
+msgid "タスクを追加・移動して進捗管理"
+msgstr "タスクをEkle・移動して進捗管理"
 
 msgid "タスクデータはいつまで保存されますか？"
 msgstr "タスクデータはいつまでKaydetされますか？"
 
+msgid "タスクボード"
+msgstr "Görev panosu"
+
 msgid "タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task"
-msgstr "タスクボードで進捗管理｜アカウント不要・ÜcretsizでチームPaylaş - FS!QR Task"
+msgstr "Görev panosuで進捗管理｜アカウント不要・ÜcretsizでチームPaylaş - FS!QR Task"
 
 msgid "タスクボードの削除"
-msgstr "タスクボードのSil"
+msgstr "Görev panosunu sil"
 
 msgid "タスクボードを作成"
-msgstr "タスクボードをOluştur"
+msgstr "Görev panosu oluştur"
 
 msgid "タスクボードを作成してID・パスワード・共有URLを送信。登録不要でチームの進捗をリアルタイムに見える化できます。"
 msgstr ""
-"タスクボードをOluşturしてID・Şifre・PaylaşURLを送信。Kayıt "
-"Gerekmezでチームの進捗をリアルタイムに見える化できます。"
+"Bir görev panosu oluşturup kimliğini, parolasını ve URL'sini paylaşın. "
+"Ekip ilerlemesini kayıt olmadan gerçek zamanlı görünür kılın."
 
 msgid "タスクボードを作成して共有すると、複数人が同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適です。"
 msgstr ""
-"タスクボードをOluşturしてPaylaşすると、Birden fazla "
-"kişiが同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適."
+"Bir görev panosu oluşturup paylaşarak birden fazla kişinin yapılacak, "
+"devam eden ve tamamlanan görevleri aynı panoda düzenlemesini sağlayın. "
+"Etkinlik hazırlığı, toplantı TODO'ları, ekip geliştirme ve hemen başlamak"
+" istediğiniz işler için idealdir."
 
 msgid "タスクボードを作成する"
-msgstr "タスクボードをOluştur"
+msgstr "Görev panosu oluşturする"
 
 msgid "タスクボードを新規作成"
-msgstr "タスクボードを新規Oluştur"
+msgstr "Yeni görev panosu oluştur"
 
 msgid "タスクボードを検索"
-msgstr "タスクボードをAra"
+msgstr "Görev panosu ara"
 
 msgid "タスクボード作成 | FS!QR Task"
-msgstr "タスクボードOluştur | FS!QR Task"
+msgstr "Görev panosu oluştur | FS!QR Task"
 
 msgid "タスクボード作成 | FS!QR Task - 共有カンバンボード"
-msgstr "タスクボードOluştur | FS!QR Task - Paylaşカンバンボード"
+msgstr "Görev panosu oluştur | FS!QR Task - Paylaşımlı kanban panosu"
 
 msgid "タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
 msgstr ""
-"タスクボードOluştur, Paylaşタスク管理, カンバンOluştur, TODO管理, プロジェクト管理, チーム協業, FS QR "
-"Task"
+"görev panosu oluşturma, paylaşımlı görev yönetimi, kanban oluşturma, TODO"
+" yönetimi, proje yönetimi, ekip iş birliği, FS QR Task"
 
 msgid "タスクボード作成時に選択した有効期限（1日・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
-msgstr "タスクボードOluştur時に選択した有効期限（1 gün・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
+msgstr ""
+"Görev panosuOluştur時に選択した有効Son tarih（1 gün・1 hafta・1 "
+"ay）が経過すると、タスクデータは自動的に消去されます。"
 
 msgid "タスクボード検索 | FS!QR Task"
-msgstr "タスクボードAra | FS!QR Task"
+msgstr "Görev panosu ara | FS!QR Task"
 
 msgid "タスクボード検索 | FS!QR Task - 既存ボードへの参加"
-msgstr "タスクボードAra | FS!QR Task - 既存ボードへの参加"
+msgstr "Görev panosu ara | FS!QR Task - Mevcut panoya katıl"
 
 msgid "タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task"
-msgstr "タスクボードAra, タスクボード参加, PaylaşタスクAra, 既存ボード参加, カンバン参加, FS QR Task"
+msgstr ""
+"görev panosu arama, görev panosuna katılma, paylaşımlı görev arama, "
+"mevcut panoya katılma, kanbana katılma, FS QR Task"
 
 msgid "タスクボード検索ページに移動します"
-msgstr "タスクボードAraページに移動します"
+msgstr "Görev panosuAraページに移動します"
 
 msgid "タスクルームアクセス, 共有タスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
-msgstr "タスクOdaアクセス, Paylaşタスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
+msgstr ""
+"görev odasına erişim, paylaşımlı görev panosu, kanban yönetimi, göreve "
+"katılma, TODO yönetimi, iş birliği aracı, FS QR Task"
+
+msgid "タスク名"
+msgstr "Görev adı"
 
 msgid "タスク名を入力（Enterで追加 / Escで閉じる）"
-msgstr "タスク名を入力（Enterで追加 / EscでKapat）"
+msgstr "Görev adı girin (Eklemek için Enter / kapatmak için Esc)"
+
+msgid "タスク未追加"
+msgstr "タスク未Ekle"
+
+msgid "タスク管理開始まで、"
+msgstr "タスク管理Başlangıçまで、"
 
 msgid "タブ"
 msgstr "Sekme"
@@ -6445,7 +6712,7 @@ msgid "タブ表示に切り替え"
 msgstr "Sekme görünümüne geç"
 
 msgid "ダイアログ・メニューを閉じる"
-msgstr "ダイアログ・メニューをKapat"
+msgstr "İletişim kutularını ve menüleri kapat"
 
 msgid "ダウンロード"
 msgstr "İndir"
@@ -6498,6 +6765,11 @@ msgstr "Sohbette Amacı, Son Teslim Tarihini ve Beklenen Sonraki Eylemi Belirtin
 msgid "チャットに添える一文で作業の迷いを減らす"
 msgstr "Sohbetteki Tek Bir Cümle Çok İşe Yarar"
 
+msgid "チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。"
+msgstr ""
+"チャットのスレッドやピン留めは流れてしまいGenel ilerleme状況が把握しづらいですが、Kanban "
+"panosuなら一目で現在のDurumが把握できます。"
+
 msgid "チャットアプリの「写真」「画像」として送る方法は、自動圧縮がかかりやすく劣化の代表例です。LINEで通常送信した画像、SNSのタイムラインへの投稿、一部のメールサービスでの添付などが該当します。何度も転送を繰り返すと、圧縮が重ねがけされてさらに粗くなります。"
 msgstr ""
 "Bir sohbet uygulamasında görselleri \"fotoğraf\" veya \"resim\" olarak "
@@ -6538,11 +6810,17 @@ msgstr "Slack ve Teams gibi sohbet araçlarından farkı"
 msgid "チームでのアイデア出し"
 msgstr "Ekip beyin fırtınası"
 
+msgid "チームのタスクをひとつのボードへ。アカウント登録なしで始められます。"
+msgstr "チーム görevをひとつのPanoへ。アカウント登録なしで始められます。"
+
 msgid "チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。"
-msgstr "チームのタスクをひとつのボードへ。登録なしでOluşturし、URLやQR koduで簡単にPaylaşできます。"
+msgstr "チーム görevをひとつのPanoへ。登録なしでOluşturし、URLやQR koduで簡単にPaylaşできます。"
+
+msgid "チームのタスクをリアルタイムにカンバン管理"
+msgstr "Ekip görevlerini gerçek zamanlı kanban ile yönetin"
 
 msgid "チームのタスク共有に必要なことだけ"
-msgstr "チームのタスクPaylaşに必要なことだけ"
+msgstr "チーム görevPaylaşに必要なことだけ"
 
 msgid "チームのファイルをひとつのルームへ。アカウント登録なしで始められます。"
 msgstr "チームのファイルをひとつのOdaへ。アカウント登録なしで始められます。"
@@ -6552,6 +6830,9 @@ msgstr "チームのファイルをひとつのOdaへ。登録なしでOluştur�
 
 msgid "チームの一時共有に、"
 msgstr "チームの一時Paylaşに、"
+
+msgid "チームの作業を、ひとつのボードに。"
+msgstr "チームの作業を、ひとつのPanoに。"
 
 msgid "チームの運用に合わせて保存期間を柔軟に設定できます。"
 msgstr ""
@@ -6581,11 +6862,16 @@ msgstr ""
 " bir şekilde paylaşıp yönetebileceğiniz bir grup odasını kolayca "
 "kurabilirsiniz."
 
+msgid "チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト"
+msgstr "チームメンバーがタスクをKanban panosuで整理する様子を表すイラスト"
+
 msgid "チーム共有に必要なことだけ"
 msgstr "チームPaylaşに必要なことだけ"
 
 msgid "チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
-msgstr "チームPaylaşのタスクボードをOluştur。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
+msgstr ""
+"Ekip için paylaşımlı görev panosu oluşturun; basit Yapılacak, Devam "
+"ediyor ve Tamamlandı sütunlarıyla ilerlemeyi görünür kılın."
 
 msgid "チーム向けファイル共有ルーム"
 msgstr "Ekip Dosya Paylaşım Odası"
@@ -6665,7 +6951,7 @@ msgstr ""
 "değerlendirirler."
 
 msgid "データの有効期限と自動削除"
-msgstr "データの有効期限とOtomatik silme"
+msgstr "データの有効Son tarihとOtomatik silme"
 
 msgid "データの種類"
 msgstr "Veri türü"
@@ -6677,7 +6963,7 @@ msgid "トップの下書きノートに入力した内容は、お使いのブ�
 msgstr "トップの下書きNotに入力した内容は、お使いのブラウザ内にのみKaydetされます。Paylaşリンクを発行した時点で初めてNotOdaがOluşturされ、下書きがそのまま引き継がれます。"
 
 msgid "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
-msgstr "トップの下書きボードに追加したタスクは、お使いの端末に留まります。Paylaşリンクを発行した時点で初めてボードがOluşturされ、タスクがまとめて登録されます。"
+msgstr "トップの下書きPanoにEkleしたタスクは、お使いの端末に留まります。Paylaşリンクを発行した時点で初めてPanoがOluşturされ、タスクがまとめて登録されます。"
 
 msgid "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
 msgstr "トップのPaylaşボックスで選んだファイルは、お使いの端末に留まります。Paylaşリンクを発行した時点で初めてOdaがOluşturされ、選んだファイルがまとめてYükleされます。"
@@ -6771,7 +7057,7 @@ msgstr "Bir not odasında metin gerçek zamanlı olarak paylaşılabilir."
 
 msgid "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
 msgstr ""
-"NotOdaのPaylaşURLを相手にGönderことで参加してもらえます。URLやOda "
+"NotOdaのPaylaşım URL'siを相手にGönderことで参加してもらえます。URLやOda "
 "bilgileriは信頼できる相手にPaylaşしてください。"
 
 msgid "ノートルームを作成"
@@ -6993,7 +7279,7 @@ msgid "パスワードを入力（6桁の数字）"
 msgstr "Şifreyi Girin (6 haneli sayı)"
 
 msgid "パスワードを入力（半角数字6桁）"
-msgstr "Parola girin（半角数字6桁）"
+msgstr "Parolayı girin (6 rakam)"
 
 msgid "パスワードを忘れてしまいました"
 msgstr "Parolamı unuttum"
@@ -7672,6 +7958,12 @@ msgstr "Klasörleme yerine dosya adı kurallarını standartlaştırın"
 msgid "フォント（文字）が埋め込まれている："
 msgstr "Gömülü yazı tipleri:"
 
+msgid "フォーカス中のカードの完了を切り替え"
+msgstr "Odaktaki kartın tamamlanma durumunu değiştir"
+
+msgid "フォーカス中のカードを編集"
+msgstr "Odaktaki kartı düzenle"
+
 msgid "フッターナビゲーション"
 msgstr "Alt Bilgi Menüsü"
 
@@ -7916,25 +8208,40 @@ msgstr "Ana ekrandan mavi klasör simgeli \"Dosyalar\" uygulamasını başlatın
 msgid "ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。"
 msgstr "ボタンを押すとNotOdaが作られ、下書きがそのまま引き継がれます。"
 
+msgid "ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。"
+msgstr "ボタンを押すとPanoが作られ、書き出したタスクがそのまま登録されます。"
+
+msgid "ボード"
+msgstr "Pano"
+
+msgid "ボードにアクセス"
+msgstr "Panoya eriş"
+
+msgid "ボードに参加"
+msgstr "Panoya katıl"
+
 msgid "ボードの操作"
-msgstr "ボードのİşlemler"
+msgstr "Pano denetimleri"
 
 msgid "ボードを作成"
-msgstr "ボードをOluştur"
+msgstr "Pano oluştur"
 
 msgid "ボードを削除"
-msgstr "ボードをSil"
+msgstr "Panoyu sil"
 
 msgid "ボードを検索"
-msgstr "ボードをAra"
+msgstr "PanoをAra"
+
+msgid "ボードを開く"
+msgstr "Panoを開く"
 
 msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
 msgstr ""
-"ボードOluştur時に1 gün、1週間、1か月からSaklama süresiを選べます。期間を過ぎるとボードとタスクはOtomatik "
-"silmeされます。"
+"PanoOluştur時に1 gün、1 hafta、1 ayからSaklama "
+"süresiを選べます。期間を過ぎるとPanoとタスクはOtomatik silmeされます。"
 
 msgid "ボード表示とカレンダー表示を切り替え"
-msgstr "ボードGösterとカレンダーGösterを切り替え"
+msgstr "Pano ve takvim görünümleri arasında geçiş yap"
 
 msgid "マスターパスワード"
 msgstr "Ana Şifre"
@@ -7978,6 +8285,9 @@ msgstr ""
 msgid "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。"
 msgstr "Menü çubuğunda \"Dosya\" > \"Dışa Aktar…\" seçeneğine tıklayın."
 
+msgid "メモ・詳細"
+msgstr "Notlar ve ayrıntılar"
+
 msgid "メモ帳 共有"
 msgstr "Not Defteri Paylaşımı"
 
@@ -8004,8 +8314,14 @@ msgstr ""
 "Üyeler, odaya katılmak ve dosyaları yüklemek veya indirmek için QR kodunu"
 " tarayabilirler."
 
+msgid "メンバーはどのようにボードへ参加しますか？"
+msgstr "メンバーはどのようにPanoへ参加しますか？"
+
 msgid "メンバーはどのようにルームへ参加しますか？"
 msgstr "メンバーはどのようにOdaへ参加しますか？"
+
+msgid "メンバーも追加・受け取り"
+msgstr "メンバーもEkle・受け取り"
 
 msgid "メンバーを招待"
 msgstr "Üyeleri Davet Et"
@@ -8107,7 +8423,7 @@ msgid "ユーザーは "
 msgstr "Kişiselleştirilmiş reklam çerezlerini "
 
 msgid "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション"
-msgstr "リアルタイムでチームの進捗を管理できるÜcretsizPaylaşカンバンタスクボードアプリケーション"
+msgstr "リアルタイムでチームの進捗を管理できるÜcretsizPaylaşカンバンGörev panosuアプリケーション"
 
 msgid "リアルタイムでノートを共有する手順"
 msgstr "Notları Gerçek Zamanlı Paylaşma"
@@ -8442,7 +8758,7 @@ msgid "ルームIDとパスワードが通らない"
 msgstr "Oda ID'si ve şifre kabul edilmiyor"
 
 msgid "ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。"
-msgstr "Oda ID'siとŞifreによって保護されており、PaylaşURLを知っているメンバーのみがGüvenliにアクセスできます。"
+msgstr "Oda ID'siとŞifreによって保護されており、Paylaşım URL'siを知っているメンバーのみがGüvenliにアクセスできます。"
 
 msgid "ルームIDとパスワードによる参加"
 msgstr "Oda ID'siとŞifreによる参加"
@@ -8510,7 +8826,7 @@ msgid "ルームはいつでも即削除"
 msgstr "Odaはいつでも即Sil"
 
 msgid "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
-msgstr "Odaへの参加にはPaylaş情報が必要ですが、ファイルはSunucudaでŞifrelemeされない状態で保管されます。機密性の高いファイルのPaylaşは、所属組織のルールをOnaylaしたうえで慎重に判断してください。"
+msgstr "Odaへの参加にはPaylaş情報が必要ですが、ファイルはSunucudaでŞifrelemeされない状態で保管されます。機密性のYüksekいファイルのPaylaşは、所属組織のルールをOnaylaしたうえで慎重に判断してください。"
 
 msgid "ルームを作る前に決めておくこと"
 msgstr "Odayı oluşturmadan önce karar verilecekler"
@@ -8559,7 +8875,9 @@ msgstr ""
 " ücretsiz bir grup dosya paylaşım hizmeti."
 
 msgid "ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。"
-msgstr "OdaOluşturとYükleがまとめて完了し、PaylaşURL・QR kodu・ID・ŞifreがGösterされます。"
+msgstr ""
+"OdaOluşturとYükleがまとめてTamamlandıし、Paylaşım URL'si・QR "
+"kodu・ID・ŞifreがGösterされます。"
 
 msgid "ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。"
 msgstr ""
@@ -8576,7 +8894,7 @@ msgstr "Oda oluşturma başarısız oldu. Lütfen daha sonra tekrar deneyin."
 msgid "ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。"
 msgstr ""
 "OdaOluşturもGiriş "
-"yapも後回し。まずは下書きNotに書き始めて、Paylaşが必要になったらリンクを発行するだけで、リアルタイムOrtak "
+"yapもsonra回し。まずは下書きNotに書き始めて、Paylaşが必要になったらリンクを発行するだけで、リアルタイムOrtak "
 "düzenlemeに切り替わります。"
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
@@ -8885,6 +9203,9 @@ msgstr "Üst menüden \"Video (kamera simgesi)\" seçeneğine tıklayın."
 msgid "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
 msgstr "上限があります。現在のファイル数と容量の上限は、Yükle画面にGösterされる案内をごOnaylaください。"
 
+msgid "下書きのタスク"
+msgstr "下書き görev"
+
 msgid "下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画"
 msgstr "下書きの入力からPaylaşリンクの発行、NotOdaでの同期までを実際の画面でİşlemlerするデモ動画"
 
@@ -8900,11 +9221,22 @@ msgstr "下書きNotに書く"
 msgid "下書きノートを開く"
 msgstr "下書きNotを開く"
 
+msgid "下書きボード"
+msgstr "下書きPano"
+
+msgid "下書きボードにタスクを書く"
+msgstr "下書きPanoにタスクを書く"
+
 msgid "下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
-msgstr "下書きボードにタスクを登録して発行すると、PaylaşURLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
+msgstr ""
+"下書きPanoにタスクを登録して発行すると、Paylaşım URL'siを受け取った相手もそのままPanoを開けます。ÖncelikやSon "
+"tarihを見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 
 msgid "下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画"
-msgstr "下書きボードへのタスク登録からPaylaşリンクの発行、実際のボードが開くまでを実際の画面でİşlemlerするデモ動画"
+msgstr "下書きPanoへ görev登録からPaylaşリンクの発行、実際のPanoが開くまでを実際の画面でİşlemlerするデモ動画"
+
+msgid "下書きボードを開く"
+msgstr "下書きPanoを開く"
 
 msgid "不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。"
 msgstr ""
@@ -8969,6 +9301,12 @@ msgstr "Artık gerekmeyen bağlantıları silin veya devre dışı bırakın."
 msgid "不要になった共有リンクや古い版は残さない"
 msgstr "Eskimiş Bağlantıları veya Eski Sürümleri Etrafta Bırakmayın"
 
+msgid "並び替え中はドラッグでの並べ替えができません。"
+msgstr "Sıralama yapılırken görevler sürüklenerek yeniden düzenlenemez."
+
+msgid "並び順"
+msgstr "Sıralama düzeni"
+
 msgid "中国語"
 msgstr "Çince"
 
@@ -9001,6 +9339,9 @@ msgstr ""
 msgid "事前準備："
 msgstr "Tek seferlik kurulum:"
 
+msgid "五十音順"
+msgstr "Alfabetik sıra"
+
 msgid "人が集まる場のファイル共有に。"
 msgstr "人が集まる場のdosya paylaşımıに。"
 
@@ -9016,6 +9357,9 @@ msgstr ""
 msgid "人を狙う攻撃にも備える"
 msgstr "İnsanları hedef alan saldırılara da hazırlıklı olun"
 
+msgid "今すぐ、チームのタスクを整理しましょう。"
+msgstr "今すぐ、チーム görevを整理しましょう。"
+
 msgid "今すぐできる対策"
 msgstr "Hemen Deneyebileceğiniz Hızlı Çözümler"
 
@@ -9025,8 +9369,20 @@ msgstr "Şimdi dene"
 msgid "今すぐ容量を増やしたい場合は、写真アプリを開き、"
 msgstr "O alanı hemen geri kazanmak için Fotoğraflar uygulamasını açın ve:"
 
+msgid "今日"
+msgstr "Bugün"
+
+msgid "今日まで"
+msgstr "Bugün son tarih"
+
 msgid "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。"
-msgstr "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快なİşlemler感で作業が進みます。"
+msgstr "Bugünやるべきことを朝に書き出し、終わったらTamamlandıへ移動。軽快なİşlemler感で作業が進みます。"
+
+msgid "今週"
+msgstr "Bu hafta"
+
+msgid "今週（7日以内）"
+msgstr "Önümüzdeki 7 gün"
 
 msgid "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。"
 msgstr ""
@@ -9047,6 +9403,9 @@ msgstr ""
 
 msgid "仕様・詳細"
 msgstr "Özellikler ve ayrıntılar"
+
+msgid "他のタスク管理ツールとの違い"
+msgstr "他 görev管理ツールとの違い"
 
 msgid "他のノートサービスとの違い"
 msgstr "Diğer not hizmetlerinden farkı nedir?"
@@ -9084,8 +9443,14 @@ msgstr ""
 "Bizimle iletişime geçmek için aşağıdaki formu kullanın. Mesajınızı "
 "inceleyecek ve mümkün olan en kısa sürede yanıt vereceğiz."
 
+msgid "件、ボード全体で最大"
+msgstr "etiket; pano genelinde en fazla"
+
 msgid "件の記事"
 msgstr "makale"
+
+msgid "件まで登録できます。"
+msgstr "etiket kaydedilebilir."
 
 msgid "企業におけるファイル共有では、コンプライアンス要件とセキュリティ管理が重要な課題となります。FS!QRの暗号化通信、アクセス制御、自動削除機能は、組織が定めた運用ルールの一部として活用できます。ただし、適合性は社内規程や契約、扱う情報の種類によって異なるため、導入前に管理者が要件を確認してください。監査資料の一時的な共有、技術文書の限定配布など、保存期間を短くできる場面から用途を検討するとよいでしょう。"
 msgstr ""
@@ -9304,6 +9669,12 @@ msgstr ""
 msgid "位置情報サービス"
 msgstr "Konum Servisleri"
 
+msgid "低"
+msgstr "Düşük"
+
+msgid "低 (Low)"
+msgstr "Düşük (Low)"
+
 msgid "何のための共有か。"
 msgstr "Paylaşım ne amaçla yapılıyor?"
 
@@ -9332,22 +9703,24 @@ msgstr ""
 " ekip üyeleriyle paylaşın."
 
 msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "OluşturしたタスクボードのデータはいつまでKaydetされますか？"
+msgstr "OluşturしたGörev panosuのデータはいつまでKaydetされますか？"
 
 msgid "作成する"
 msgstr "Oluştur"
 
 msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr "Oluştur時にAyarlarした有効期限（1 gün・1週間・1か月）が経過すると、サーバーから完全にOtomatik silmeされます。"
+msgstr ""
+"Oluştur時にAyarlarした有効Son tarih（1 gün・1 hafta・1 ay）が経過すると、サーバーから完全にOtomatik"
+" silmeされます。"
 
 msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Oluştur時に選択した有効期限（1 gün・1週間・1か月）が経過すると、サーバーから自動的にSilされます。"
+msgstr "Oluştur時に選択した有効Son tarih（1 gün・1 hafta・1 ay）が経過すると、サーバーから自動的にSilされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Yalnızca oluşturucu odayı ve kaydedilen metni silebilir."
 
 msgid "作成者のみ削除可能。すべてのタスクが消去されます。"
-msgstr "Oluştur者のみSil可能。すべてのタスクが消去されます。"
+msgstr "Yalnızca oluşturan kişi silebilir. Tüm görevler kaldırılır."
 
 msgid "使い方"
 msgstr "Nasıl Kullanılır"
@@ -9390,6 +9763,9 @@ msgstr "Önemli Notlar"
 msgid "例: 420"
 msgstr "Örnek: 420"
 
+msgid "例: デザイン, 情報収集, 開発, 調査"
+msgstr "Örn.: tasarım, bilgi toplama, geliştirme, araştırma"
+
 msgid "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。"
 msgstr ""
 "Örneğin, saha çalışması sırasında akıllı telefonla çekilen fotoğrafları "
@@ -9425,7 +9801,7 @@ msgid "保存して閉じる"
 msgstr "Kaydet ve Kapat"
 
 msgid "保存する"
-msgstr "Kaydetする"
+msgstr "Kaydet"
 
 msgid "保存する："
 msgstr "Kaydet:"
@@ -9477,7 +9853,9 @@ msgid "保存期間と自動削除"
 msgstr "Saklama Süresi ve Otomatik Silme"
 
 msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr "Saklama süresiは1・6・12・24時間。期限を過ぎるとOdaとKayıtlı DosyalarがOtomatik silmeされます。"
+msgstr ""
+"Saklama süresiは1・6・12・24時間。Son tarihを過ぎるとOdaとKayıtlı DosyalarがOtomatik "
+"silmeされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "Saklama süresi yalnızca işin gerektirdiği kadar mı ayarlandı?"
@@ -9497,16 +9875,19 @@ msgstr ""
 "dolunca otomatik olarak silinir ve tekrar indirilemez."
 
 msgid "保存期間終了後の自動削除"
-msgstr "Saklama süresi終了後のOtomatik silme"
+msgstr "Saklama süresi終了sonraのOtomatik silme"
 
 msgid "保存期間経過後の自動削除"
-msgstr "Saklama süresi経過後のOtomatik silme"
+msgstr "Saklama süresi経過sonraのOtomatik silme"
 
 msgid "保存期限を選んで自動削除"
-msgstr "Kaydet期限を選んでOtomatik silme"
+msgstr "KaydetSon tarihを選んでOtomatik silme"
 
 msgid "保護設定：公開範囲と利用時間を短くする"
 msgstr "Koruma Ayarları: Kitleyi Daraltın ve Süreyi Kısaltın"
+
+msgid "個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
+msgstr "個人のBugün görev整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
 
 msgid "個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
@@ -9530,18 +9911,34 @@ msgstr ""
 "materyalleri veya sızdırılmasını göze alamayacağınız herhangi bir şey "
 "gibi hassas belgeleri kesinlikle yüklemeyin."
 
+msgid "優先度"
+msgstr "Öncelik"
+
+msgid "優先度・期限・タグ"
+msgstr "Öncelik・Son tarih・Etiketler"
+
+msgid "優先度・期限・タグ分類"
+msgstr "Öncelik・Son tarih・Etiketler分類"
+
+msgid "優先度順"
+msgstr "Önceliğe göre"
+
 msgid "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。"
-msgstr "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・Silでき、1つのタスクに複数付けられます。"
+msgstr ""
+"Öncelik（Yüksek・Normal・Düşük）、Son "
+"tarih、Etiketlerでタスクを柔軟に整理・Filtreleできます。Etiketlerは自由にEkle・Silでき、1つ "
+"görevに複数付けられます。"
 
 msgid "先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードのOluşturとタスク登録がまとめて完了し、URL・QR "
-"kodu・IDが手に入ります。"
+"先にPanoを作る必要はありません。やることを書き出して発行ボタンを押すと、PanoのOluşturとタスク登録がまとめてTamamlandıし、URL・QR"
+" kodu・IDが手に入ります。"
 
 msgid "先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
 "先にOdaを作る必要はありません。Paylaşılacak "
-"dosyaを選んで発行ボタンを押すと、OdaのOluşturとYükleがまとめて完了し、URL・QR kodu・IDが手に入ります。"
+"dosyaを選んで発行ボタンを押すと、OdaのOluşturとYükleがまとめてTamamlandıし、URL・QR "
+"kodu・IDが手に入ります。"
 
 msgid "先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。"
 msgstr ""
@@ -9555,8 +9952,8 @@ msgstr "Girdiğiniz Metin Kaybolmuş Gibi Göründüğünde"
 msgid "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 msgstr ""
 "入力した内容は、OdaOluştur時にAyarlarしたSaklama süresi中はOtomatik "
-"Kaydetmeされ、期間の終了後にOtomatik "
-"silmeされます。過去の版をOnayla・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+"Kaydetmeされ、期間の終了sonrasında otomatik "
+"silinirされます。過去の版をOnayla・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 
 msgid "入力内容が不正です。"
 msgstr "Geçersiz giriş veri."
@@ -9571,6 +9968,9 @@ msgstr ""
 "Saati banyoda veya duşta takmaya devam etmek ya da el yıkarken kordonun "
 "altında sabun kalıntısı birikmesine izin vermek, kimyasal bir tahriş "
 "edici görevi görerek kızarıklığı tetikleyebilir."
+
+msgid "全体の進捗"
+msgstr "Genel ilerleme"
 
 msgid "全員が同じ共有URL、同じルームIDを使っているか確認する"
 msgstr ""
@@ -9629,7 +10029,7 @@ msgstr ""
 "kalır."
 
 msgid "共同編集を開始"
-msgstr "Ortak düzenlemeを開始"
+msgstr "Ortak düzenlemeをBaşlangıç"
 
 msgid "共同編集を開始する"
 msgstr "Ortak Düzenlemeyi Başlat"
@@ -9687,7 +10087,7 @@ msgid "共有ID（6文字）"
 msgstr "Paylaşım ID'si (6 Karakter)"
 
 msgid "共有URL"
-msgstr "PaylaşURL"
+msgstr "Paylaşım URL'si"
 
 msgid "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。"
 msgstr ""
@@ -9722,7 +10122,7 @@ msgstr ""
 "kopyalanabilsin."
 
 msgid "共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。"
-msgstr "PaylaşURLが手元になくても、6文字のOda ID'siと6桁のŞifreから参加できます。"
+msgstr "Paylaşım URL'siが手元になくても、6文字のOda ID'siと6桁のŞifreから参加できます。"
 
 msgid "共有URLが無効です"
 msgstr "Paylaşılan URL geçersiz"
@@ -9731,10 +10131,10 @@ msgid "共有URLが無効です。"
 msgstr "Paylaşılan URL geçersiz."
 
 msgid "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
-msgstr "PaylaşURLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+msgstr "Paylaşım URL'siだけで使えるカンバン式Görev panosu。チームの作業を分かりやすく整理できます。"
 
 msgid "共有URLとQRコードによる参加"
-msgstr "PaylaşURLとQR koduによる参加"
+msgstr "Paylaşım URL'siとQR koduによる参加"
 
 msgid "共有URLとパスワードを同じチャットにまとめて送らない"
 msgstr "Paylaşım URL’sini ve parolayı aynı sohbette göndermeyin."
@@ -9751,14 +10151,14 @@ msgstr ""
 "kapsamını kontrol edin."
 
 msgid "共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。"
-msgstr "PaylaşURLまたはQR koduを相手に渡してください。IDとŞifreでも受け取りページへアクセスできます。"
+msgstr "Paylaşım URL'siまたはQR koduを相手に渡してください。IDとŞifreでも受け取りページへアクセスできます。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
-msgstr "PaylaşURLまたはQR koduを開くか、参加画面でOda ID'siとParola girinします。"
+msgstr "Paylaşım URL'siまたはQR koduを開くか、参加画面でOda ID'siとParola girinします。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
 msgstr ""
-"PaylaşURLまたはQR koduを開くか、参加画面でOda ID'siとParola "
+"Paylaşım URL'siまたはQR koduを開くか、参加画面でOda ID'siとParola "
 "girinします。参加情報は必要な相手だけにPaylaşしてください。"
 
 msgid "共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。"
@@ -9784,10 +10184,10 @@ msgstr ""
 "oluşturucu odayı silebilir."
 
 msgid "共有URLをコピー"
-msgstr "PaylaşURL'yi Kopyala"
+msgstr "Paylaşım URL'sini kopyala"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
-msgstr "PaylaşURLを送れば、離れた相手も同じNotに参加できます。"
+msgstr "Paylaşım URL'siを送れば、離れた相手も同じNotに参加できます。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""
@@ -9856,18 +10256,18 @@ msgid "共有を早く終えたい場合、作成者は保存期間を待たず�
 msgstr "Paylaşを早く終えたい場合、Oluştur者はSaklama süresiを待たずにOdayı silできます。"
 
 msgid "共有タスクボード"
-msgstr "Paylaşタスクボード"
+msgstr "Paylaşımlı görev panosu"
 
 msgid ""
 "共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
 "日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除"
 msgstr ""
-"Paylaşタスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, "
-"Ücretsizタスク管理, 日本語Müdahale, リアルタイム, 進捗管理, かんばんボード, Kayıt Gerekmez, "
-"URLPaylaş, チーム作業, Otomatik silme"
+"Paylaşımlı görev panosu, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR "
+"Task, Ücretsizタスク管理, Paz本語Müdahale, リアルタイム, 進捗管理, かんばんPano, Kayıt "
+"Gerekmez, URLPaylaş, チーム作業, Otomatik silme"
 
 msgid "共有タスクボード・カンバンの基本的な使い方"
-msgstr "Paylaşタスクボード・カンバンの基本的なNasıl Kullanılır"
+msgstr "Paylaşımlı görev panosu・カンバンの基本的なNasıl Kullanılır"
 
 msgid "共有ノート（最大文字）"
 msgstr "Ortak Not (Maksimum Karakter)"
@@ -9894,11 +10294,11 @@ msgstr "Paylaşボックスにファイルを置く"
 
 msgid "共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 msgstr ""
-"Paylaşボックスにファイルを追加すると、その場でOdaがOluşturされます。発行されたURL・QR "
+"PaylaşボックスにファイルをEkleすると、その場でOdaがOluşturされます。発行されたURL・QR "
 "kodu・ID・Şifreを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 
 msgid "共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画"
-msgstr "Paylaşボックスへのファイル追加からPaylaşリンクの発行、実際のOdaが開くまでを実際の画面でİşlemlerするデモ動画"
+msgstr "PaylaşボックスへのファイルEkleからPaylaşリンクの発行、実際のOdaが開くまでを実際の画面でİşlemlerするデモ動画"
 
 msgid "共有ボックスを開く"
 msgstr "Paylaşボックスを開く"
@@ -9924,7 +10324,7 @@ msgid "共有ルームを新規作成"
 msgstr "Yeni bir paylaşım odası oluşturun"
 
 msgid "共有・ルーム情報"
-msgstr "Paylaş・Oda bilgileri"
+msgstr "Paylaşım ve oda bilgileri"
 
 msgid "共有中：URLとパスワードを同じ場所に置かない"
 msgstr "Paylaşım sırasında: URL ile parolayı aynı yerde tutmayın"
@@ -10047,7 +10447,7 @@ msgstr ""
 "sözlü olarak veya ayrı bir kanaldan almanızı öneririz."
 
 msgid "共有開始まで、"
-msgstr "Paylaş開始まで、"
+msgstr "PaylaşBaşlangıçまで、"
 
 msgid "共通鍵暗号"
 msgstr "Simetrik anahtarlı şifreleme"
@@ -10199,6 +10599,9 @@ msgstr "Farklı Bir Tarayıcıda Açmayı Deneyin"
 msgid "別のブラウザで開く"
 msgstr "Farklı bir tarayıcıda açın"
 
+msgid "別のボードを新しく作る"
+msgstr "別のPanoを新しく作る"
+
 msgid "別のルームを新しく作る"
 msgstr "別のOdaを新しく作る"
 
@@ -10275,6 +10678,9 @@ msgstr "Silme tamamlandı"
 msgid "削除権限がありません。"
 msgstr "Silme yetkiniz yok."
 
+msgid "前の月へ"
+msgstr "Önceki ay"
+
 msgid "前後に余計な空白が入っていないか確認する"
 msgstr "Öncesinde veya sonrasında fazladan boşluk olup olmadığını kontrol edin"
 
@@ -10313,7 +10719,7 @@ msgstr ""
 "endişelenmeden paylaşmak istediğiniz her zaman kullanın."
 
 msgid "単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。"
-msgstr "単発のイベントやİşbirliğiで、その場ですぐにタスクボードを作って役割分担・進捗Onaylaができます。"
+msgstr "単発のイベントやİşbirliğiで、その場ですぐにGörev panosuを作って役割分担・進捗Onaylaができます。"
 
 msgid "印刷コストと手間を劇的に削減"
 msgstr "Baskı Maliyetini ve Zahmeti Önemli Ölçüde Azaltın"
@@ -10349,7 +10755,7 @@ msgid "参加者はどの見出しに追記するか"
 msgstr "Katılımcılar Hangi Başlığa Ekleme Yapacak"
 
 msgid "参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。"
-msgstr "参加者は一覧からファイルを受け取り、同じOdaへ追加でYükleできます。"
+msgstr "参加者は一覧からファイルを受け取り、同じOdaへEkleでYükleできます。"
 
 msgid "参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。"
 msgstr "参加者は同じOdaでDosya yükleし、一覧からİndirebilirsiniz。"
@@ -10758,6 +11164,9 @@ msgstr ""
 "türlerini desteklediğinden multimedya eğitim içeriklerinin dağıtımı için "
 "de uygundur."
 
+msgid "土"
+msgstr "Cmt"
+
 msgid "圧倒的な手軽さとスピード："
 msgstr "Eşsiz kolaylık ve hız:"
 
@@ -10933,6 +11342,13 @@ msgstr ""
 "iletişim yükü yaratır; bu da toplam boyut küçük olsa bile süreci "
 "yavaşlatır. Birden fazla dosyayı tek bir ZIP arşivinde birleştirmek "
 "aktarım verimliliğini en üst düzeye çıkarır."
+
+msgid ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。"
+msgstr ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR Taskは「Yapılacak・Devam "
+"ediyor・Tamamlandı」のシンプルさに特化しているため誰でも迷わず使えます。"
 
 msgid "多言語対応と国際教育での活用"
 msgstr "Çok Dilli Destek ve Uluslararası Eğitim"
@@ -11199,10 +11615,19 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "Kararlı Bir Ağ Bağlantısı Kullanın"
 
+msgid "安心の自動削除機能"
+msgstr "安心のOtomatik silme機能"
+
+msgid "完了"
+msgstr "Tamamlandı"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr ""
 "Tamamlandıktan Sonra: Paylaşımın Gerçekleştiğini ve Dosyanın Gittiğini "
 "Doğrulayın"
+
+msgid "完了率"
+msgstr "Tamamlanma oranı"
 
 msgid "宛先の名前と連絡先が、直近の依頼内容と一致しているか。"
 msgstr "Alıcının adı ve iletişim bilgisi son isteğe uyuyor mu?"
@@ -11364,13 +11789,16 @@ msgstr ""
 "IP adresi tabanlı bir konum belirleme hizmeti kullanır."
 
 msgid "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。"
-msgstr "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をOnaylaできます。"
+msgstr "当Pazのタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をOnaylaできます。"
 
 msgid "待機中"
 msgstr "Beklemede"
 
+msgid "後"
+msgstr "sonra"
+
 msgid "後に自動削除"
-msgstr "後にOtomatik silme"
+msgstr "sonrasında otomatik silinir"
 
 msgid "復号に失敗しました。"
 msgstr "Dosya şifresi çözülemedi."
@@ -11397,7 +11825,7 @@ msgid "必要ありません。アカウントを作成せず、ブラウザか�
 msgstr "必要ありません。アカウントをOluşturせず、ブラウザからファイルを選んですぐにPaylaşを始められます。"
 
 msgid "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
-msgstr "必要ありません。ブラウザからボードをOluşturし、PaylaşURLをメンバーへGönderだけで使い始められます。"
+msgstr "必要ありません。ブラウザからPano oluşturし、Paylaşım URL'siをメンバーへGönderだけで使い始められます。"
 
 msgid "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
 msgstr "必要ありません。ブラウザからOda Oluşturし、参加に必要な情報をメンバーへPaylaşすれば使い始められます。"
@@ -11455,7 +11883,10 @@ msgid "手動入力"
 msgstr "Manuel Giriş"
 
 msgid "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。"
-msgstr "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限をAyarlarして次のアクションを明確にします。"
+msgstr "打ち合わせ中に決まったタスクをその場でEkleし、担当者やSon tarihをAyarlarして次のアクションを明確にします。"
+
+msgid "打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。"
+msgstr "打ち合わせ中に決まった次のアクションを即座にPanoへEkleし、担当とSon tarihを明確にします。"
 
 msgid "投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。"
 msgstr ""
@@ -11673,11 +12104,23 @@ msgstr ""
 msgid "新しいグループルーム作成ページに移動します"
 msgstr "Yeni Grup Odası Oluşturma Sayfasına Git"
 
+msgid "新しいタグ名"
+msgstr "Yeni etiket adı"
+
+msgid "新しいタスクの入力欄へ移動"
+msgstr "Yeni görev alanına git"
+
+msgid "新しいタスクを追加 (Enter)"
+msgstr "Yeni görev ekle (Enter)"
+
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
-msgstr "新しいタスクボードをOluşturして、チームの作業を整理・Paylaşしましょう。"
+msgstr "新しいGörev panosu oluşturして、チームの作業を整理・Paylaşしましょう。"
 
 msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいタスクボードOluşturページに移動します"
+msgstr "新しいGörev panosuOluşturページに移動します"
+
+msgid "新しいタスク名"
+msgstr "Yeni görev adı"
 
 msgid "新しいタブレットに買い替えて、引き出しの奥に眠っている古いiPadはありませんか？売ってもあまり値段がつかないような旧型モデルでも、実はパソコンの「サブディスプレイ（デュアルモニター）」として活用できる非常に優秀なデバイスになります。画面を増やすことで、資料を見ながら文章を書いたり、オンライン会議中に別の作業をしたりと、テレワークや作業の効率が劇的に向上します。"
 msgstr ""
@@ -11709,7 +12152,7 @@ msgid "新着記事"
 msgstr "Son Makaleler"
 
 msgid "新規ボード作成"
-msgstr "新規ボードOluştur"
+msgstr "Yeni pano oluştur"
 
 msgid "新規ルーム作成"
 msgstr "Yeni Oda Oluştur"
@@ -11745,7 +12188,15 @@ msgstr ""
 "katılabilirsiniz."
 
 msgid "既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。"
-msgstr "既存のPaylaşタスクボードをAra・参加。Oda ID'siとŞifreでチームのカンバンボードに参加できます。"
+msgstr ""
+"Oda kimliği ve parolasıyla mevcut paylaşımlı görev panosunu arayın ve "
+"katılın."
+
+msgid "日"
+msgstr "Paz"
+
+msgid "日々のTODO・作業整理"
+msgstr "Paz々のTODO・作業整理"
 
 msgid "日々のケアでも改善しない場合は、バンドの素材自体を変えるのが最も効果的です。"
 msgstr ""
@@ -11753,7 +12204,9 @@ msgstr ""
 "malzemesini tamamen değiştirmektir."
 
 msgid "日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。"
-msgstr "日付を選ぶとその日のタスクをOnayla・追加できます。タスクをドラッグすると期限日を変更できます。"
+msgstr ""
+"O günün görevlerini görmek ve eklemek için bir tarih seçin. Son tarihi "
+"değiştirmek için görevi sürükleyin."
 
 msgid ""
 "日常の記録であれば、「1080p HD / "
@@ -11809,6 +12262,9 @@ msgstr ""
 "Eski biçimli not doğrudan erişimi devre dışı bırakıldı. Lütfen yeni "
 "paylaşılan URL'yi kullanın."
 
+msgid "明日"
+msgstr "Yarın"
+
 msgid "映画1本（2時間・高画質）"
 msgstr "Bir uzun metrajlı film (2 saat, yüksek kalite)"
 
@@ -11819,11 +12275,14 @@ msgstr ""
 " sözleşme gereği tutulacak materyalleri paylaşım bağlantısı yerine resmî "
 "bir depolama alanına taşıyın."
 
+msgid "時間後"
+msgstr "時間sonra"
+
 msgid "時間後に自動削除"
-msgstr "時間後にOtomatik silme"
+msgstr "時間sonrasında otomatik silinir"
 
 msgid "時間後に自動削除予定"
-msgstr "時間後にOtomatik silme予定"
+msgstr "時間sonrasında otomatik silinir予定"
 
 msgid "普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。"
 msgstr ""
@@ -11958,6 +12417,9 @@ msgstr "Şifrelenmiş dosya gönderilemedi. Lütfen sayfayı yenileyip tekrar de
 msgid "書きながら、そのまま共有できる"
 msgstr "書きながら、そのままPaylaşできる"
 
+msgid "書き出したタスクが、そのままボードになる"
+msgstr "書き出したタスクが、そのままPanoになる"
+
 msgid "最も確実な対策は、アップロード前にファイルを開いて宛先と内容を確認することです。オートコンプリートで似た名前の連絡先を選んだ場合、URLを送る前に相手の名前・会社名・依頼内容を照合します。複数の資料をまとめて送るときは、不要な個人情報や社内メモを除き、送付目的に必要なファイルだけを残します。"
 msgstr ""
 "En güvenilir önlem yüklemeden önce dosyayı açıp alıcıyı ve içeriği "
@@ -12029,6 +12491,9 @@ msgstr ""
 "Uygulamada güvenliği en üst düzeyde tutmak için lütfen aşağıda "
 "gösterildiği gibi \"iletişim yollarını tamamen izole edin (ayrın)\"."
 
+msgid "月"
+msgstr "Pzt"
+
 msgid "有効期限とダウンロード回数制限"
 msgstr "Son Kullanma Tarihleri ve İndirme Sınırları"
 
@@ -12038,8 +12503,17 @@ msgstr "Ücretli Uygulamaları da Dikkate Almaya Değer"
 msgid "期間限定共有で情報をコントロール"
 msgstr "Geçici Paylaşımla Verilerinizi Kontrol Edin"
 
+msgid "期限"
+msgstr "Son tarih"
+
 msgid "期限が未設定のタスク"
-msgstr "期限が未Ayarlarのタスク"
+msgstr "Son tarihi olmayan görevler"
+
+msgid "期限が近い順"
+msgstr "En yakın son tarih önce"
+
+msgid "期限なし"
+msgstr "Son tarih yok"
 
 msgid "期限を短くする代わりに、受け取り確認を確実に行います。相手がダウンロードできたか、開けたか、対象ファイルが正しいかを確認すれば、長く公開しておく必要はありません。会議中の資料確認なら会議終了まで、当日中のレビューなら当日限り、取引先への一時送付なら受領連絡まで、というように終了条件を決めておきます。"
 msgstr ""
@@ -12052,14 +12526,29 @@ msgstr ""
 "sonuna kadar veya müşterilere geçici gönderimler için alındı onayına "
 "kadar."
 
+msgid "期限切れ"
+msgstr "Gecikmiş"
+
+msgid "期限日"
+msgstr "Son tarih"
+
 msgid "期限管理：終わりを決めてから共有する"
 msgstr "Süre yönetimi: bitişi belirleyip paylaşın"
+
+msgid "木"
+msgstr "Per"
 
 msgid "未決事項"
 msgstr "Açık maddeler"
 
 msgid "未決事項を次回の議題につなげる"
 msgstr "Açık maddeleri bir sonraki toplantının gündemine taşıyın"
+
+msgid "未着手"
+msgstr "Yapılacak"
+
+msgid "未着手・進行中・完了"
+msgstr "Yapılacak・Devam ediyor・Tamamlandı"
 
 msgid "未確認の内容をどう表記するか"
 msgstr "Onaylanmamış İçerik Nasıl İşaretlenecek"
@@ -12190,6 +12679,12 @@ msgstr ""
 "sunulsa dahi, herhangi bir uyuşmazlık halinde Japonca metin geçerli "
 "olacaktır."
 
+msgid "条件をクリア"
+msgstr "Koşulları temizle"
+
+msgid "来週"
+msgstr "Gelecek hafta"
+
 msgid "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。"
 msgstr ""
 "Bir davetiye odanın amacını, nasıl girileceğini, aranacak dosya adını ve "
@@ -12231,10 +12726,10 @@ msgid "検索アイコン"
 msgstr "Arama İkonu"
 
 msgid "検索クリア"
-msgstr "Araクリア"
+msgstr "Aramayı temizle"
 
 msgid "検索ボックスへ移動"
-msgstr "Araボックスへ移動"
+msgstr "Arama kutusuna git"
 
 msgid "検討中の意見や背景を残す場所。細かく書きすぎず、後から流れが分かる程度にまとめます。"
 msgstr ""
@@ -12325,6 +12820,9 @@ msgstr ""
 "belirlemeye gerek yoktur. Transfer tamamlandıktan sonra etrafta hiçbir "
 "şey bırakmama ilkesine dayanan bir paylaşım yöntemi seçin."
 
+msgid "機密性の高いファイルにも使えますか？"
+msgstr "機密性のYüksekいファイルにも使えますか？"
+
 msgid "機密情報が含まれる場合、パスワードや別経路連絡を使っているか"
 msgstr ""
 "Dosya gizli bilgiler içeriyorsa, bir şifre veya ayrı bir kanal kullanıyor"
@@ -12339,6 +12837,9 @@ msgstr ""
 
 msgid "次のファイル共有を、"
 msgstr "次のdosya paylaşımıを、"
+
+msgid "次の月へ"
+msgstr "Sonraki ay"
 
 msgid "次回用に案内文やファイル名ルールだけ残す"
 msgstr ""
@@ -12379,6 +12880,9 @@ msgstr ""
 "Adınız veya e-posta adresiniz gibi kişisel bilgilerinizi asla vermek "
 "zorunda kalmazsınız, bu da veri sızıntısı riskini daha en başından "
 "ortadan kaldırır."
+
+msgid "水"
+msgstr "Çar"
 
 msgid "水や汗に非常に弱いため、水洗いは厳禁です。使用後は乾いた柔らかい布で優しく汗や皮脂を拭き取ります。定期的に革専用のクリーナーや保護クリームでお手入れすることで、ひび割れを防ぎ長持ちさせることができます。"
 msgstr ""
@@ -12458,6 +12962,9 @@ msgstr "準備は不要.まず書いて、Paylaşが必要になった時点で�
 msgid "準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。"
 msgstr "準備は不要.ファイルを選び、Şifrelemeして発行したPaylaş情報を相手へ渡します。"
 
+msgid "火"
+msgstr "Sal"
+
 msgid "火災、停電、天災地変などの不可抗力により本サービスの提供が困難となった場合"
 msgstr ""
 "Yangın, elektrik kesintisi veya doğal afetler gibi mücbir sebepler "
@@ -12480,14 +12987,9 @@ msgstr ""
 msgid "無料で使う"
 msgstr "Ücretsizで使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr ""
-"Ücretsizで使えるPaylaşタスクボード・カンバン管理サービス。アカウントKayıt "
-"Gerekmez、URLをPaylaşするだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr ""
-"Ücretsizで使えるPaylaşタスクボード・カンバン管理サービス。アカウントKayıt "
+"Ücretsizで使えるPaylaşımlı görev panosu・カンバン管理サービス。アカウントKayıt "
 "Gerekmez、URLPaylaşで簡単にタスクの進捗をPaylaş。"
 
 msgid "無料で使える日本語ファイル共有サービス。"
@@ -12761,26 +13263,37 @@ msgstr ""
 "çalışmak, çoğunlukla boyut sınırlarına takılır veya herkes için son "
 "derece yavaş yükleme ve indirme süreleriyle sonuçlanır."
 
+msgid "発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。"
+msgstr "発行されたURLを渡すと、メンバーもドラッグ＆ドロップでDevam ediyor・Tamamlandıへ移動できます。"
+
 msgid "発行されたURLを渡すと、同じノートをリアルタイムに編集できます。"
 msgstr "発行されたURLを渡すと、同じNotをリアルタイムに編集できます。"
 
 msgid "発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。"
-msgstr "発行されたPaylaşURLまたはQR koduをチームメンバーにGönderだけで、誰でもすぐにボードにアクセスできます。"
+msgstr "発行されたPaylaşım URL'siまたはQR koduをチームメンバーにGönderだけで、誰でもすぐにPanoya erişできます。"
 
 msgid "発行された共有URLまたはQRコードをメンバーに渡します。"
-msgstr "発行されたPaylaşURLまたはQR koduをメンバーに渡します。"
+msgstr "発行されたPaylaşım URL'siまたはQR koduをメンバーに渡します。"
 
 msgid "発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。"
-msgstr "発行するまで、この下書きが送信されることはありません。発行するとNotOdaが作られ、24時間後にOtomatik silmeされます。"
+msgstr ""
+"発行するまで、この下書きが送信されることはありません。発行するとNotOdaが作られ、24時間sonrasında otomatik "
+"silinirされます。"
 
 msgid "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。"
-msgstr "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごとOtomatik silmeされます。"
+msgstr ""
+"発行するまで、Ekleしたタスクが送信されることはありません。発行するとPanoが作られ、24時間sonraにタスクごとOtomatik "
+"silmeされます。"
 
 msgid "発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。"
-msgstr "発行するまで、選んだファイルが送信されることはありません。発行するとOdaが作られ、24時間後にファイルごとOtomatik silmeされます。"
+msgstr ""
+"発行するまで、選んだファイルが送信されることはありません。発行するとOdaが作られ、24時間sonraにファイルごとOtomatik "
+"silmeされます。"
 
 msgid "発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。"
-msgstr "発行するまでファイルは送信されません。発行時にブラウザでŞifrelemeし、選択した期間の終了後にOtomatik silmeします。"
+msgstr ""
+"発行するまでファイルは送信されません。発行時にブラウザでŞifrelemeし、選択した期間の終了sonrasında otomatik "
+"silinirします。"
 
 msgid "発言メモ"
 msgstr "Tartışma notları"
@@ -12799,9 +13312,6 @@ msgstr "登録は不要.上の下書きNotに書き始めるか、条件を指�
 msgid "登録不要"
 msgstr "Kayıt Gerekmez"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr "Kayıt Gerekmez、URLをPaylaşするだけで使えるPaylaşタスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "Kayıt Gerekmez。まずはクイックPaylaşにファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -12809,7 +13319,9 @@ msgid "登録不要。ブラウザですぐに使えます"
 msgstr "Kayıt Gerekmez。ブラウザですぐに使えます"
 
 msgid "登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。"
-msgstr "Kayıt Gerekmez。Oda OluşturしてURLをPaylaşするだけで、未着手・進行中・完了を見える化できます。"
+msgstr ""
+"Kayıt Gerekmez。Oda OluşturしてURLをPaylaşするだけで、Yapılacak・Devam "
+"ediyor・Tamamlandıを見える化できます。"
 
 msgid "登録不要だからこそ気をつけたいセキュリティのポイント"
 msgstr "Kayıt Gerektirmediği İçin Dikkat Edilmesi Gereken Güvenlik Noktaları"
@@ -12828,7 +13340,9 @@ msgstr ""
 "fazla kişi dosyaları yükleyebilir, indirebilir ve yönetebilir."
 
 msgid "登録不要でタスクボードを作成・参加。複数人で未着手・進行中・完了のタスクを整理できます。"
-msgstr "Kayıt GerekmezでタスクボードをOluştur・参加。Birden fazla kişiで未着手・進行中・完了のタスクを整理できます。"
+msgstr ""
+"Hesap olmadan görev panosu oluşturun veya mevcut panoya katılın. "
+"Yapılacak, devam eden ve tamamlanan görevleri birlikte düzenleyin."
 
 msgid "登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。"
 msgstr ""
@@ -12867,25 +13381,25 @@ msgid "登録不要の共同編集ノート | FS!QR Note"
 msgstr "Kayıt gerektirmeyen ortak düzenleme notu | FS!QR Note"
 
 msgid "登録不要の共有タスクボード"
-msgstr "Kayıt GerekmezのPaylaşタスクボード"
+msgstr "Kayıt GerekmezのPaylaşımlı görev panosu"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
-msgstr "Kayıt GerekmezのPaylaşタスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "Kayıt GerekmezのPaylaşタスクボード・カンバン管理Webアプリケーション"
+msgstr "Kayıt gerektirmeyen paylaşımlı görev panosu | FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
-msgstr "Kayıt GerekmezのPaylaşタスクボード｜FS!QR Task"
+msgstr "Kayıt GerekmezのPaylaşımlı görev panosu｜FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜チームで使えるFS!QR Task"
-msgstr "Kayıt GerekmezのPaylaşタスクボード｜チームで使えるFS!QR Task"
+msgstr "Kayıt GerekmezのPaylaşımlı görev panosu｜チームで使えるFS!QR Task"
 
 msgid "登録不要の共有ノート｜FS!QR Note"
 msgstr "Kayıt GerekmezのPaylaşNot｜FS!QR Note"
 
 msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note"
 msgstr "Kayıt GerekmezのPaylaşNot｜リアルタイムOrtak düzenlemeならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "Kayıt Gerekmez・URLPaylaşで即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr ""
@@ -13263,6 +13777,12 @@ msgstr "Kuruluş içinde paylaşım kurallarını uyumlu hale getirin"
 msgid "組織の承認が必要なデータ"
 msgstr "Kuruluş onayı gerektiren veriler"
 
+msgid "絞り込み"
+msgstr "Filtrele"
+
+msgid "絞り込み (/)"
+msgstr "Filtrele (/)"
+
 msgid "継続的な改善と教育効果の測定"
 msgstr "Sürekli İyileştirme ve Eğitim Etkisini Ölçme"
 
@@ -13270,7 +13790,7 @@ msgid "編み込み（ブレイデッド）タイプ："
 msgstr "Örgü kordonlar:"
 
 msgid "編集ダイアログを保存"
-msgstr "編集ダイアログをKaydet"
+msgstr "Düzenleme iletişim kutusunu kaydet"
 
 msgid "編集内容の自動保存"
 msgstr "編集内容のOtomatik Kaydetme"
@@ -13448,7 +13968,7 @@ msgid "表示"
 msgstr "Göster"
 
 msgid "表示するカラム"
-msgstr "Gösterするカラム"
+msgstr "Görünür sütunlar"
 
 msgid "表示モード・選択中のサービス・ズームは、この端末に"
 msgstr "Görüntü modu, seçilen hizmet ve yakınlaştırma bu cihazda kaydedilir"
@@ -13577,10 +14097,10 @@ msgid "設定"
 msgstr "Ayarlar"
 
 msgid "設定あり"
-msgstr "Ayarlarあり"
+msgstr "Ayarlı"
 
 msgid "設定した保存期間の終了後"
-msgstr "AyarlarしたSaklama süresiの終了後"
+msgstr "AyarlarしたSaklama süresiの終了sonra"
 
 msgid "設定のカスタマイズ"
 msgstr "Ayarları Özelleştir"
@@ -13631,7 +14151,7 @@ msgid "詳細な解説記事をお読みいただけます。"
 msgstr "Detaylı rehber makalelerimizi inceleyebilirsiniz."
 
 msgid "詳細設定（期限・優先度・タグ・メモ）"
-msgstr "詳細Ayarlar（期限・優先度・タグ・メモ）"
+msgstr "Gelişmiş ayarlar (son tarih, öncelik, etiketler ve notlar)"
 
 msgid "誤送信による即座の流出："
 msgstr "Yanlış yönlendirilmiş mesajlardan anında sızıntılar:"
@@ -13745,6 +14265,12 @@ msgstr ""
 "birlikte, her gün kullandığımız veri boyutları giderek artmaktadır. Büyük"
 " dosyaları sorunsuzca ve ücretsiz bir şekilde nasıl göndereceğinizi "
 "bilmek, modern dijital yaşamda vazgeçilmez bir beceri haline gelmiştir."
+
+msgid "追加"
+msgstr "Ekle"
+
+msgid "追加したタスクはいつ送信されますか？"
+msgstr "Ekleしたタスクはいつ送信されますか？"
 
 msgid "退職者や外部パートナーの権限管理不備："
 msgstr "Eski çalışanlar ve dış ortaklar için yetersiz erişim yönetimi:"
@@ -13922,6 +14448,12 @@ msgstr ""
 msgid "通報/削除フロー"
 msgstr "Bildirim ve Kaldırma Süreci"
 
+msgid "通常"
+msgstr "Normal"
+
+msgid "通常 (Normal)"
+msgstr "Normal (Normal)"
+
 msgid "通常の共有リンクは、URLを知っている人なら誰でもアクセスできてしまいます。機密性の高い業務資料を扱うなら、必ず「パスワード設定」を有効にしましょう。これにより、万が一URLが外部に漏れても、中身を見られることはありません。"
 msgstr ""
 "Standart paylaşım linklerine, URL bağlantısını bilen herkes erişebilir. "
@@ -13935,6 +14467,9 @@ msgstr ""
 "kurur; bu da onu cilt sorunlarına neden olma ihtimali en düşük seçenek "
 "yapar. Cırt cırtlı kapamalar ayrıca hassas boyut ayarına olanak tanıyarak"
 " sürtünmeyi azaltmaya yardımcı olur."
+
+msgid "進行中"
+msgstr "Devam ediyor"
 
 msgid "運営者:"
 msgstr "İşletmeci:"
@@ -14021,6 +14556,9 @@ msgstr ""
 "Belirlediğiniz saklama süresi dolduğunda dosyalarınız otomatik ve güvenli"
 " bir şekilde tamamen silinir."
 
+msgid "選択した日のタスク"
+msgstr "Seçilen günün görevleri"
+
 msgid "選択した期間の終了後に自動で削除されます。"
 msgstr "Seçilen saklama süresi sona erdiğinde otomatik olarak silinir."
 
@@ -14065,6 +14603,9 @@ msgstr ""
 msgid "重要ファイルでは、送信後に相手へ受領確認を取る"
 msgstr "Önemli dosyalarda gönderimden sonra alıcıdan teslim onayı alın."
 
+msgid "金"
+msgstr "Cum"
+
 msgid "金属製（チタンやステンレス）："
 msgstr "Metal kordonlar (titanyum veya paslanmaz çelik):"
 
@@ -14095,6 +14636,12 @@ msgstr "Uzun süredir tekrar kullanılan parolaları düzenli olarak değiştiri
 
 msgid "閉じる"
 msgstr "Kapat"
+
+msgid "開始"
+msgstr "Başlangıç"
+
+msgid "開始日"
+msgstr "Başlangıç tarihi"
 
 msgid "関連サービス"
 msgstr "İlgili servis"
@@ -14162,6 +14709,12 @@ msgstr ""
 "Müşteri bilgileri, teklifler, sözleşmeler ve diğer hassas dosyaları evden"
 " veya ofis dışından yönetirken yanlış kişilere gönderimi ve unutulan "
 "paylaşımları önlemeye yönelik operasyonel yönergeler."
+
+msgid "高"
+msgstr "Yüksek"
+
+msgid "高 (High)"
+msgstr "Yüksek (High)"
 
 msgid "高さ（px）"
 msgstr "Yükseklik (px)"

@@ -5,11 +5,12 @@ from fastapi import APIRouter, File, Request, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_ok_response
 from models import TaskItemInput
 from settings import TASK_MAX_ITEMS_PER_ROOM, TASK_MAX_TAGS_PER_ROOM
 from . import task_data
 from .task_authorize import authorize_task_room
+from .task_responses import task_api_error
 
 # エクスポート形式のバージョン。
 # 1: category（単一のカテゴリ文字列）を持つ旧形式。読み込みのみ対応する。
@@ -84,30 +85,49 @@ def register_task_io_routes(router: APIRouter) -> None:  # noqa: C901
 
         content = await file.read()
         if len(content) > 1024 * 1024:
-            return api_error_response(
-                "ファイルサイズが1MBを超えています。", status_code=400
+            return task_api_error(
+                "task.import_file_too_large",
+                "ファイルサイズが1MBを超えています。",
+                status_code=400,
             )
 
         try:
             data = json.loads(content)
         except json.JSONDecodeError:
-            return api_error_response("無効なJSONファイルです。", status_code=400)
+            return task_api_error(
+                "task.import_invalid_json", "無効なJSONファイルです。", status_code=400
+            )
 
         if not isinstance(data, dict):
-            return api_error_response("タスクリストの形式が不正です。", status_code=400)
+            return task_api_error(
+                "task.import_invalid_task_list",
+                "タスクリストの形式が不正です。",
+                status_code=400,
+            )
 
         if data.get("version") not in SUPPORTED_IMPORT_VERSIONS:
-            return api_error_response(
-                "サポートされていないバージョンです。", status_code=400
+            return task_api_error(
+                "task.import_unsupported_version",
+                "サポートされていないバージョンです。",
+                status_code=400,
             )
 
         tasks = data.get("tasks")
         if not isinstance(tasks, list):
-            return api_error_response("タスクリストの形式が不正です。", status_code=400)
+            return task_api_error(
+                "task.import_invalid_task_list",
+                "タスクリストの形式が不正です。",
+                status_code=400,
+            )
 
         current_count = await task_data.count_items(room_id)
         if current_count + len(tasks) > TASK_MAX_ITEMS_PER_ROOM:
-            return api_error_response("タスク数の上限に達します。", status_code=400)
+            return task_api_error(
+                "task.limit_reached",
+                "タスク数の上限に達します。",
+                status_code=400,
+                max=TASK_MAX_ITEMS_PER_ROOM,
+            )
 
         imported_count = 0
         skipped_count = 0

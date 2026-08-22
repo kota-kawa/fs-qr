@@ -303,6 +303,9 @@ msgstr ""
 msgid "0 /  文字"
 msgstr "0 / Znaki"
 
+msgid "0 / 0 完了"
+msgstr "Ukończono 0 / 0"
+
 msgid "0 / 文字"
 msgstr "0 / znaków"
 
@@ -334,14 +337,25 @@ msgstr "12 godz."
 msgid "1h"
 msgstr "1 godz."
 
+msgid "1か月"
+msgstr "1 miesiąc"
+
 msgid "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。"
 msgstr ""
 "Pokój grupowy może przechowywać do 10 plików o łącznym rozmiarze 500 MB. "
 "Jeśli dodanie nowych plików przekroczyłoby limit wraz z istniejącymi, "
 "przesyłanie nie jest dozwolone."
 
+msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのTablica zadańにつき最大200件までタスクを登録できます。"
+
+msgid "1つのボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのTablicaにつき最大200件までタスクを登録できます。"
+
 msgid "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字です。タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
-msgstr "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
+msgstr ""
+"1つのTablicaにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.Tagiは1件あたり最大40文字で、Tablica全体で最大50件、1つ"
+" zadańに最大10件まで付けられます。"
 
 msgid "1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。"
 msgstr ""
@@ -393,13 +407,16 @@ msgid "1日"
 msgstr "1 dzień"
 
 msgid "1日・1週間・1か月"
-msgstr "1 dzień・1週間・1か月"
+msgstr "1 dzień・1 tydzień・1 miesiąc"
 
 msgid "1日（デフォルト）"
-msgstr "1 dzień（デフォルト）"
+msgstr "1 dzień (domyślnie)"
 
 msgid "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。"
 msgstr "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動でUsuńされます。"
+
+msgid "1週間"
+msgstr "1 tydzień"
 
 msgid "2. Macで画面録画する方法（標準機能）"
 msgstr "2. Jak nagrać ekran na komputerze Mac (funkcja wbudowana)"
@@ -485,9 +502,6 @@ msgstr "404 - Nie znaleziono strony | FS!QR"
 
 msgid "4K動画1分"
 msgstr "1 minuta wideo w 4K"
-
-msgid "4つの使い方"
-msgstr "4つのJak używać"
 
 msgid "5GHzと2.4GHzの電波特性：知っておくべき決定的な違い"
 msgstr "Właściwości pasm 5 GHz i 2,4 GHz: kluczowe różnice"
@@ -821,9 +835,8 @@ msgid ""
 "FS!QR "
 "Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Groupは、Bez "
-"rejestracjiでチームのファイルをまとめてUdostępnijできるPokój型サービス.UdostępnijURL・Kod "
-"QR、またはID pokojuとHasłoですぐに参加。Okres "
+"FS!QR Groupは、Bez rejestracjiでチームのファイルをまとめてUdostępnijできるPokój型サービス.Adres "
+"URL udostępniania・Kod QR、またはID pokojuとHasłoですぐに参加。Okres "
 "przechowywaniaを選べる一時的なUdostępnijスペースをブラウザだけで作れます。"
 
 msgid "FS!QR Groupは企業での利用も可能ですか？"
@@ -1011,35 +1024,40 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "Udostępnianie plików kodem QR w FS!QR"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | Za darmoで使えるUdostępnijタスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
-msgstr "FS!QR Task | Bez rejestracjiのUdostępnijタスクボード・カンバン管理サービス"
+msgstr "FS!QR Task | Bez rejestracjiのWspółdzielona tablica zadań・カンバン管理サービス"
 
 msgid "FS!QR Task 共有タスクボード"
-msgstr "FS!QR Task Udostępnijタスクボード"
+msgstr "Współdzielona tablica zadań FS!QR Task"
 
 msgid "FS!QR Task 共有タスクボードサービス"
-msgstr "FS!QR Task Udostępnijタスクボードサービス"
+msgstr "Współdzielona tablica zadań FS!QR Taskサービス"
 
 msgid ""
 "FS!QR "
 "Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。"
 msgstr ""
-"FS!QR "
-"TaskでチームUdostępnijのタスクボードをUtwórz。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URLUdostępnijで即座にコラボレーション開始。"
+"Utwórz tablicę zadań zespołu w FS!QR Task. Pokazuj postęp w prostych "
+"kolumnach Do zrobienia, W toku i Ukończone, a następnie od razu "
+"rozpocznij współpracę, udostępniając adres URL."
 
 msgid "FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。"
 msgstr ""
-"FS!QR Taskで既存のUdostępnijタスクボードをSzukaj・参加。ID "
-"pokojuとHasłoでチームのカンバンボードに参加してタスク管理を始めましょう。"
+"Znajdź istniejącą współdzieloną tablicę FS!QR Task i dołącz do niej za "
+"pomocą identyfikatora pokoju oraz hasła, a następnie rozpocznij "
+"zarządzanie pracą zespołu na tablicy kanban."
+
+msgid "FS!QR Taskのカンバンボードを表すイラスト"
+msgstr "FS!QR TaskのTablica kanbanを表すイラスト"
+
+msgid "FS!QR Taskの下書きボード画面のスクリーンショット"
+msgstr "FS!QR Taskの下書きTablica画面のスクリーンショット"
 
 msgid "FS!QR Taskの使い方"
 msgstr "FS!QR TaskのJak używać"
 
 msgid "FS!QR Taskの共有タスクボードサービス"
-msgstr "FS!QR TaskのUdostępnijタスクボードサービス"
+msgstr "FS!QR TaskのWspółdzielona tablica zadańサービス"
 
 msgid ""
 "FS!QR "
@@ -1053,27 +1071,21 @@ msgid ""
 "FS!QR "
 "Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Taskは、Bez "
-"rejestracjiで使えるUdostępnijタスクボード・カンバン管理サービス.URLをUdostępnijするだけでリアルタイムに進捗を見える化。Okres"
-" przechowywaniaを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
+"FS!QR Taskは、Bez rejestracjiで使えるWspółdzielona tablica "
+"zadań・カンバン管理サービス.URLをUdostępnijするだけでリアルタイムに進捗を見える化。Okres "
+"przechowywaniaを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当にZa darmoで使えますか？"
 
 msgid ""
 "FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR TaskはZa darmoのUdostępnijタスクボード・カンバン管理サービス。アカウントBez "
-"rejestracjiで、Pokójを作ってURLをUdostępnijするだけでチームのタスクを未着手・進行中・完了で整理。安心のAutomatyczne"
-" usuwanie付き。"
-
-msgid ""
-"FS!QR "
 "Taskは登録不要で使える共有タスクボードです。ルームを作成してID・パスワード・共有URLを渡すと、複数人で未着手・進行中・完了のタスクをリアルタイム管理できます。"
 msgstr ""
-"FS!QR TaskはBez rejestracjiで使えるUdostępnijタスクボード.Utwórz "
-"pokójしてID・Hasło・UdostępnijURLを渡すと、Wiele osóbで未着手・進行中・完了のタスクをリアルタイム管理できます。"
+"FS!QR Task to współdzielona tablica zadań, z której można korzystać bez "
+"rejestracji. Utwórz pokój, udostępnij jego identyfikator, hasło i adres "
+"URL, a następnie wspólnie zarządzaj zadaniami do zrobienia, w toku i "
+"ukończonymi w czasie rzeczywistym."
 
 msgid "FS!QR | 無料QRコード暗号化ファイル共有サービス"
 msgstr "FS!QR | Darmowe udostępnianie zaszyfrowanych plików kodem QR"
@@ -1804,14 +1816,6 @@ msgstr ""
 " i pokoju notatek. Nie potrzebujesz kabli ani Bluetooth; wystarczy "
 "otworzyć adres URL, aby rozpocząć."
 
-msgid "FS!QR（エフエスQR）は、アプリ・アカウント不要で登録不要・無料で使えるWebブラウザベースの共有サービスです。QRコード・グループルーム・ノートルーム・タスクボードの4つの使い方で、PC・スマートフォン・タブレット間のファイル転送、テキスト共有、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-msgstr ""
-"FS!QR（FS!QR）は、アプリ・アカウント不要でBez rejestracji・Za darmoで使えるPrzeglądarka "
-"internetowaベースのUdostępnijサービス.Kod "
-"QR・GrupaPokój・NotatkaPokój・タスクボードの4つのJak "
-"używaćで、PC・スマートフォン・Kartaレット間のPrzesyłanie plików、Udostępnianie "
-"tekstu、作業管理が行えます。ケーブルやBluetoothなしで、URLを開くだけで使い始められます。"
-
 msgid "FS!QR（エフエスQR）は無料で使える日本語ファイル共有サービス。QRコード生成、グループファイル共有、リアルタイムノート共有で簡単にデータを送信・管理。個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
 "FS!QR to darmowy serwis do udostępniania plików. Umożliwia łatwe "
@@ -1974,6 +1978,9 @@ msgstr "Nie udało się pobrać ID. Spróbuj ponownie."
 msgid "IDが指定されていません。"
 msgstr "Nie określono ID."
 
+msgid "IDでボードに参加する"
+msgstr "IDでDołącz do tablicyする"
+
 msgid "IDでルームに参加する"
 msgstr "IDでDołącz do pokojuする"
 
@@ -1984,7 +1991,7 @@ msgid "IDとパスワードによる2重の壁"
 msgstr "Podwójna ochrona: ID oraz hasło"
 
 msgid "IDとパスワードを入力して、既存のタスクボードに参加します。"
-msgstr "IDとWprowadź hasłoして、既存のタスクボードに参加します。"
+msgstr "IDとWprowadź hasłoして、既存 zadańDołącz do tablicyします。"
 
 msgid "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
 msgstr "ID zawiera niedozwolone znaki. Użyj tylko liter A-Z, a-z i cyfr 0-9."
@@ -2742,12 +2749,14 @@ msgstr ""
 "kanale."
 
 msgid "URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。"
-msgstr "URLかKod QRを渡すと相手もボードに参加できます。ID pokojuとHasłoでも参加できます。以降のタスク編集はボード側で行えます。"
+msgstr ""
+"URLかKod QRを渡すと相手もDołącz do tablicyできます。ID pokojuとHasłoでも参加できます。以降 "
+"zadań編集はTablica側で行えます。"
 
 msgid "URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。"
 msgstr ""
 "URLかKod QRを渡すと相手もDołącz do pokojuできます。ID "
-"pokojuとHasłoでも参加できます。ファイルの追加やUsuńはPokój側で行えます。"
+"pokojuとHasłoでも参加できます。ファイルのDodajやUsuńはPokój側で行えます。"
 
 msgid "URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。"
 msgstr ""
@@ -2806,9 +2815,6 @@ msgstr "Skopiuj URL i otwórz go ręcznie"
 msgid "URLを共有してメンバーを招待"
 msgstr "URLをUdostępnijしてZaproś członków"
 
-msgid "URLを共有して使うカンバン式タスクボードです。未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-msgstr "URLをUdostępnijして使うカンバン式タスクボード.未着手・進行中・完了の3列、期限日、優先度、タグでチームの作業を整理できます。"
-
 msgid "URLを共有するだけで、みんなのメモがひとつにつながる。登録不要・自動保存のリアルタイム共有ノート。"
 msgstr ""
 "URLをUdostępnijするだけで、みんなのメモがひとつにつながる。Bez rejestracji・Automatyczny "
@@ -2816,8 +2822,8 @@ msgstr ""
 
 msgid "URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
 msgstr ""
-"URLをUdostępnijするだけでWiele "
-"osóbでタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
+"URLをUdostępnijするだけでWiele osóbでタスクをリアルタイム管理。Do zrobienia・W "
+"toku・Ukończoneのシンプルカンバンでチームの進捗を見える化。"
 
 msgid "URLを適用しました"
 msgstr "Zastosowano adres URL"
@@ -2829,9 +2835,6 @@ msgstr ""
 
 msgid "URL共有で即参加"
 msgstr "URLUdostępnijで即参加"
-
-msgid "URL共有で即座にコラボレーション"
-msgstr "URLUdostępnijで即座にコラボレーション"
 
 msgid "URL共有で参加"
 msgstr "Dołącz przez link"
@@ -3181,6 +3184,39 @@ msgstr ""
 "Udostępnianie plików klientom bez nieporozumień: praktyczna lista "
 "bezpiecznego przekazania"
 
+msgid "common.close"
+msgstr "Zamknij"
+
+msgid "common.copied"
+msgstr "Skopiowano"
+
+msgid "common.copy"
+msgstr "Kopiuj"
+
+msgid "common.delete"
+msgstr "Usuń"
+
+msgid "common.delete_action"
+msgstr "Usuń"
+
+msgid "common.hide"
+msgstr "Ukryj"
+
+msgid "common.home"
+msgstr "Strona główna"
+
+msgid "common.search"
+msgstr "Szukaj"
+
+msgid "common.service_navigation"
+msgstr "Nawigacja usługi"
+
+msgid "common.share"
+msgstr "Udostępnij"
+
+msgid "common.show"
+msgstr "Pokaż"
+
 msgid "fsqr.delete_confirm_message"
 msgstr "Spowoduje to usunięcie pliku. Tej operacji nie można cofnąć."
 
@@ -3206,6 +3242,23 @@ msgstr "Tylko twórca może usunąć pokój i przesłane pliki."
 
 msgid "group.delete_room_title"
 msgstr "Zamknij pokój"
+
+msgid "home.description"
+msgstr ""
+"FS!QR is a free, browser-based sharing service that requires no app, "
+"account, or registration. Use QR codes, group rooms, note rooms, and task"
+" boards to transfer files, share text, and manage work between PCs, "
+"smartphones, and tablets. No cable or Bluetooth is needed—just open a URL"
+" to get started."
+
+msgid "home.task.description"
+msgstr ""
+"A Kanban-style task board you can use by sharing a URL. Organize team "
+"work across three columns—To do, In progress, and Done—with due dates, "
+"priorities, and tags."
+
+msgid "home.uses.title"
+msgstr "Four ways to use FS!QR"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
@@ -3431,6 +3484,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "Open a task room"
 
+msgid "task.auto_generate"
+msgstr "Utwórz automatycznie"
+
+msgid "task.auto_generated_id"
+msgstr "Wygenerowany identyfikator pokoju"
+
+msgid "task.auto_generated_placeholder"
+msgstr "Zostanie utworzone automatycznie"
+
 msgid "task.board.title"
 msgstr "Task board"
 
@@ -3449,11 +3511,91 @@ msgstr "Only the creator can delete this room and its tasks."
 msgid "task.delete_room_title"
 msgstr "Close this room"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "Automatyczne usuwanie danych"
+
+msgid "task.layout.feature_collaboration"
+msgstr "Zacznij współpracę od razu, udostępniając adres URL"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "Obsługa przeciągania i upuszczania"
+
+msgid "task.layout.feature_kanban"
+msgstr "Zarządzanie zadaniami w kanbanie"
+
+msgid "task.layout.feature_priority"
+msgstr "Priorytety, terminy i tagi"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR Task to bezpłatna usługa współdzielonej tablicy zadań i kanbanu. "
+"Konto nie jest potrzebne: utwórz pokój, udostępnij adres URL i organizuj "
+"zadania zespołu z automatycznym usuwaniem."
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"współdzielona tablica zadań, kanban, zarządzanie zadaniami, zarządzanie "
+"TODO, zarządzanie projektami, współpraca zespołowa, FS QR Task, bezpłatne"
+" zarządzanie zadaniami, postęp w czasie rzeczywistym, automatyczne "
+"usuwanie"
+
+msgid "task.layout.og_description"
+msgstr ""
+"Współdzielona tablica zadań bez rejestracji. Udostępnij adres URL i "
+"pokazuj postęp zespołu za pomocą przepływu kanban."
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | Bezpłatna współdzielona tablica zadań i kanban"
+
+msgid "task.layout.organization_name"
+msgstr "FS!QR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "FS!QR Task"
+
+msgid "task.layout.schema_description"
+msgstr ""
+"Bezpłatna usługa współdzielonej tablicy zadań i kanbanu. Konto nie jest "
+"potrzebne; udostępnij adres URL, aby zarządzać postępem w czasie "
+"rzeczywistym."
+
+msgid "task.layout.service_alt"
+msgstr "Usługa współdzielonej tablicy zadań FS!QR Task"
+
+msgid "task.layout.service_name"
+msgstr "Usługa FS!QR Task"
+
+msgid "task.layout.software_description"
+msgstr ""
+"Aplikacja internetowa współdzielonej tablicy zadań i kanbanu bez "
+"rejestracji."
+
+msgid "task.manual_input"
+msgstr "Wprowadź ręcznie"
+
 msgid "task.menu.description"
 msgstr "Simple room-based task board."
 
 msgid "task.menu.title"
 msgstr "Task"
+
+msgid "task.password"
+msgstr "Hasło"
+
+msgid "task.password_hide"
+msgstr "Ukryj hasło"
+
+msgid "task.password_show"
+msgstr "Pokaż hasło"
+
+msgid "task.room"
+msgstr "Pokój"
+
+msgid "task.room_id"
+msgstr "Identyfikator pokoju"
+
+msgid "task.room_id_mode"
+msgstr "Metoda identyfikatora pokoju"
 
 msgid "task.search.title"
 msgstr "Find a task room"
@@ -3589,9 +3731,6 @@ msgid "「Files by Google」アプリ、または端末にプリインストー�
 msgstr ""
 "Uruchom aplikację „Files by Google” lub inną domyślną przeglądarkę plików"
 " w systemie (często pod nazwą „Moje pliki” lub „Pliki”)."
-
-msgid "「ID・パスワードでアクセスを制限したファイル共有リンク」"
-msgstr "「Bezpieczne udostępnianie plikówリンク」"
 
 msgid "「PDFファイルのサイズが大きすぎてメールに添付できない」「共有するのに時間がかかる」とお悩みではありませんか？本記事では、MacやWindowsの標準機能から無料のWebツールまで、安全にPDFを圧縮して容量を軽くする手順をわかりやすく解説します。"
 msgstr ""
@@ -3740,10 +3879,14 @@ msgstr ""
 "„Na moim iPhonie” lub na „iCloud Drive”."
 
 msgid "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。"
-msgstr "「ボードをUtwórz」ボタンをクリックし、Okres przechowywaniaを指定してタスクボードをUtwórzします。"
+msgstr ""
+"「Utwórz tablicę」ボタンをクリックし、Okres przechowywaniaを指定してUtwórz tablicę "
+"zadańします。"
 
 msgid "「ボードを作成」ボタンを押し、保存期間（1日・1週間・1か月）を選択してボードを発行します。"
-msgstr "「ボードをUtwórz」ボタンを押し、Okres przechowywania（1 dzień・1週間・1か月）を選択してボードを発行します。"
+msgstr ""
+"「Utwórz tablicę」ボタンを押し、Okres przechowywania（1 dzień・1 tydzień・1 "
+"miesiąc）を選択してTablicaを発行します。"
 
 msgid "「リンクです」だけでなく、何のファイルか、どこを確認してほしいか、いつまでに返信が必要かを書きます。受信者が予想していない共有なら、リンクを開く前に送信者へ別の手段で確認してもらいます。ファイル共有サービスを装ったフィッシングもあるため、ドメイン名と依頼内容が一致しているかを確認します。"
 msgstr ""
@@ -4217,8 +4360,13 @@ msgstr ""
 msgid "このグループを共有する"
 msgstr "Udostępnij tę grupę"
 
+msgid "このタスクのタグ"
+msgstr "Tagi tego zadania"
+
 msgid "このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？"
-msgstr "このタスクボードとすべてのタスクをUsuńします。このAkcjeは元に戻せません。よろしいですか？"
+msgstr ""
+"Usunąć tę tablicę zadań i wszystkie jej zadania? Tej operacji nie można "
+"cofnąć."
 
 msgid "このノートを共有する"
 msgstr "Udostępnij tę notatkę"
@@ -4239,7 +4387,7 @@ msgid "このファイル形式はプレビューできません。"
 msgstr "Nie można wyświetlić podglądu tego formatu pliku."
 
 msgid "このヘルプを開く"
-msgstr "このOtwórz pomoc"
+msgstr "Otwórz tę pomoc"
 
 msgid "このヘルプを開閉"
 msgstr "Przełącz tę pomoc"
@@ -4254,13 +4402,13 @@ msgid "このページの下書きノートにそのまま入力します。内�
 msgstr "このページの下書きNotatkaにそのまま入力します。内容はお使いの端末にだけZapiszされます。"
 
 msgid "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。"
-msgstr "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけZapiszされます。"
+msgstr "このページの下書きTablicaにそのままDodajします。内容はお使いの端末にだけZapiszされます。"
 
 msgid "このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。"
 msgstr "このページのUdostępnijボックスにドロップするだけ。発行するまで端末から送信されません。"
 
 msgid "このボードを共有する"
-msgstr "このボードをUdostępnijする"
+msgstr "Udostępnij tę tablicę"
 
 msgid "このルームではテキストをリアルタイムに共有できます。"
 msgstr "W tym pokoju możesz udostępniać i edytować tekst w czasie rzeczywistym."
@@ -4281,7 +4429,7 @@ msgid "この下書きエディタにはJavaScriptが必要です。"
 msgstr "この下書きエディタにはJavaScriptが必要."
 
 msgid "この下書きボードにはJavaScriptが必要です。"
-msgstr "この下書きボードにはJavaScriptが必要."
+msgstr "この下書きTablicaにはJavaScriptが必要."
 
 msgid "この仕様により、共有URLだけ、またはパスワードだけが第三者に知られた場合には、もう一方の情報が必要になります。URLとパスワードを別経路で伝える運用は、不正アクセスの可能性を下げる対策の一つです。短いパスワードや同じパスワードの使い回しは避け、組織の認証ルールも併せて確認してください。"
 msgstr ""
@@ -4322,6 +4470,9 @@ msgstr ""
 "skonfigurowano poczty e-mail lub nie ma podpiętego żadnego komunikatora —"
 " wystarczy, że ta osoba stoi przed Tobą, a plik natychmiast trafia w jej "
 "ręce."
+
+msgid "この日に追加"
+msgstr "Dodaj tego dnia"
 
 msgid "この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。"
 msgstr ""
@@ -4449,6 +4600,9 @@ msgstr ""
 "Natychmiast zatrzymaj udostępnianie, a w razie potrzeby prześlij plik "
 "ponownie i wydaj nowe ID oraz hasło."
 
+msgid "すべて"
+msgstr "Wszystkie"
+
 msgid "すべてのファイルを同じ扱いにすると、便利さは増えますがリスクも増えます。公開資料、確認用画像、見積書、契約書、個人情報を含むファイルでは、必要な注意のレベルが違います。"
 msgstr ""
 "Traktowanie wszystkich plików tak samo jest wygodne, ale zwiększa ryzyko."
@@ -4489,6 +4643,9 @@ msgstr "Pobierz wszystkie (wersja demo)"
 
 msgid "すべて削除"
 msgstr "Usuń wszystko"
+
+msgid "すべて外す"
+msgstr "Wszystkie外す"
 
 msgid "そこで、レビュー参加者には閲覧用の資料を共有し、修正担当者には別途編集用ファイルを渡す運用が有効です。チャットでは「全員確認用」「修正担当者用」のようにラベルを付け、ファイル名にも用途を入れます。FS!QRで一時的に配る資料と、Groupでメンバーが出し入れする作業ファイルを使い分けると、資料配布と共同作業の境界が分かりやすくなります。"
 msgstr ""
@@ -4688,11 +4845,11 @@ msgstr "Dlaczego zdjęcia tracą na jakości po wysłaniu"
 msgid "なぜ大容量ファイルはメールで送れないのか？"
 msgstr "Dlaczego nie można wysyłać dużych plików przez e-mail?"
 
-msgid "なら、ブラウザからドラッグ＆ドロップでPDFをアップロードするだけで、相手に渡すためのダウンロード用URLやQRコードをその場で発行できます。"
-msgstr "なら、ブラウザからドラッグ＆ドロップでPDFをPrześlijだけで、相手に渡すためのPobierz用URLやKod QRをその場で発行できます。"
-
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr ", a następnie wybierz i prześlij pliki, które chcesz udostępnić innym."
+
+msgid "にタスクを追加"
+msgstr " — dodaj zadanie"
 
 msgid "に定めるとおりです。"
 msgstr "."
@@ -4704,6 +4861,12 @@ msgstr ""
 "Zostajesz zablokowany podczas dołączania wideo, ponieważ skrzynka tego "
 "nie uniesie. Najszybszą opcją i jedynym remedium pozostanie rezygnacja z "
 "opcji załącznika na rzecz "
+
+msgid "に追加するタスク名"
+msgstr " — nazwa dodawanego zadania"
+
+msgid "のタスク"
+msgstr " zadań"
 
 msgid "のページから、パーソナライズド広告に使用される Cookie を無効にできます。"
 msgstr "."
@@ -4724,12 +4887,12 @@ msgstr ""
 "adresu URL udostępniania, kodu QR, identyfikatora pokoju i hasła."
 
 msgid "はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。"
-msgstr "はい、完全レスポンシブReakcja.スマートフォンやKartaレットのタッチAkcjeでも快適にタスクの追加・移動・完了切り替えが行えます。"
+msgstr "はい、完全レスポンシブReakcja.スマートフォンやKartaレットのタッチAkcjeでも快適にタスクのDodaj・移動・Ukończone切り替えが行えます。"
 
 msgid "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
 msgstr ""
-"はい、Bez rejestracji・完全Za "
-"darmoでご利用いただけます。タスクボードのUtwórz、参加、タスクの編集・移動など全ての機能がZa darmo."
+"はい、Bez rejestracji・完全Za darmoでご利用いただけます。Tablica "
+"zadańのUtwórz、参加、タスクの編集・移動など全ての機能がZa darmo."
 
 msgid "はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。"
 msgstr ""
@@ -4894,6 +5057,9 @@ msgstr ""
 "kompresji, aby zapewnić wrażenia porównywalne z zakupem dedykowanego "
 "przenośnego monitora."
 
+msgid "やることを入力して追加"
+msgstr "やることを入力してDodaj"
+
 msgid "よい例"
 msgstr "Dobra praktyka"
 
@@ -4946,9 +5112,6 @@ msgstr ") stanowią integralną część niniejszego Regulaminu."
 msgid "を押すと、即座に録画が始まります。"
 msgstr "aby natychmiast rozpocząć nagrywanie."
 
-msgid "を生成して送る方法が最適です。"
-msgstr "を生成してWyślij方法が最適."
-
 msgid "を選択します。"
 msgstr "aby zastosować."
 
@@ -4967,8 +5130,9 @@ msgstr ""
 
 msgid "アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
 msgstr ""
-"アカウント不要で使えるZa "
-"darmoのUdostępnijタスクボード・カンバン管理サービス。URLをUdostępnijするだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
+"アカウント不要で使えるZa darmoのWspółdzielona tablica "
+"zadań・カンバン管理サービス。URLをUdostępnijするだけで、チームのTODO・タスク・進捗をDo zrobienia・W "
+"toku・Ukończoneで見える化。プロジェクトやイベント zadań管理に最適。"
 
 msgid "アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。"
 msgstr ""
@@ -4998,7 +5162,7 @@ msgid "アカウント作成なし"
 msgstr "アカウントUtwórzなし"
 
 msgid "アカウント作成不要で即開始"
-msgstr "アカウントUtwórz不要で即開始"
+msgstr "アカウントUtwórz不要で即Początek"
 
 msgid "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。"
 msgstr ""
@@ -5010,7 +5174,7 @@ msgid "アカウント登録なしで利用できるサービスには、スピ�
 msgstr "Usługi działające bez konta oferują wiele zalet poza samą szybkością."
 
 msgid "アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。"
-msgstr "アカウント登録は不要.まずは下書きボードにタスクを書き出すところから始められます。"
+msgstr "アカウント登録は不要.まずは下書きTablicaにタスクを書き出すところから始められます。"
 
 msgid "アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。"
 msgstr "アカウント登録は不要.まずはPliki do udostępnieniaを選ぶところから始められます。"
@@ -5036,7 +5200,7 @@ msgid "アカウント登録やアプリのインストールは必要ですか�
 msgstr "アカウント登録やCzy muszę instalować aplikację?"
 
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
-msgstr "アカウント登録やZaloguj sięは一切不要.ブラウザがあればすぐに利用開始できます。"
+msgstr "アカウント登録やZaloguj sięは一切不要.ブラウザがあればすぐに利用Początekできます。"
 
 msgid "アカウント登録やログインは必要ですか？"
 msgstr "アカウント登録やZaloguj sięは必要ですか？"
@@ -5048,10 +5212,10 @@ msgid "アカウント登録不要で使える、ルーム型のグループフ�
 msgstr "アカウントBez rejestracjiで使える、Pokój型のGrupowe udostępnianie plikówWebアプリケーション."
 
 msgid "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。"
-msgstr "アカウントBez rejestracjiで使える、Udostępnij型のカンバンタスクボードWebアプリケーション."
+msgstr "アカウントBez rejestracjiで使える、Udostępnij型のカンバンTablica zadańWebアプリケーション."
 
 msgid "アカウント登録不要のボード作成"
-msgstr "アカウントBez rejestracjiのボードUtwórz"
+msgstr "アカウントBez rejestracjiのTablicaUtwórz"
 
 msgid "アカウント登録不要のルーム作成"
 msgstr "アカウントBez rejestracjiのPokójUtwórz"
@@ -5251,7 +5415,9 @@ msgid "アップロード待ちファイル"
 msgstr "Pliki oczekujące na przesłanie"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
-msgstr "Prześlij時に1時間・6時間・12時間・24時間からOkres przechowywaniaを選択でき、期間の終了後に自動でUsuńされます。"
+msgstr ""
+"Prześlij時に1時間・6時間・12時間・24時間からOkres "
+"przechowywaniaを選択でき、期間の終了późniejに自動でUsuńされます。"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。"
 msgstr ""
@@ -5326,6 +5492,9 @@ msgstr ""
 "アプリを入れずにBezpośrednio w przeglądarce。ファイルをSzyfrowanieし、Kod "
 "QRですばやく一時Udostępnijできます。"
 
+msgid "イベントから日常の整理まで、"
+msgstr "イベントからNd常の整理まで、"
+
 msgid "イベント中に「あの資料が欲しい」と言われた際も、その場でQRコードを見せるだけで完結します。名刺交換の際についでに資料を渡したり、アンケート回答へのリンクと一緒にファイルを共有したりと、活用の幅は無限大です。"
 msgstr ""
 "Nawet jeśli podczas wydarzenia ktoś poprosi Cię o konkretne dokumenty, "
@@ -5337,11 +5506,17 @@ msgstr ""
 msgid "インシデント対応を事前に決める"
 msgstr "Ustal wcześniej reakcję na incydenty"
 
+msgid "インポート"
+msgstr "Importuj"
+
 msgid "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。"
 msgstr ""
 "Wejdź na stronę internetową, przeciągnij i upuść plik, a przesyłanie się "
 "rozpocznie. W ciągu kilku sekund otrzymasz link do udostępniania i kod QR"
 " gotowe do wysłania."
+
+msgid "エクスポート"
+msgstr "Eksportuj"
 
 msgid "エコで効率的なデータクレンジングとコンプライアンス"
 msgstr "Green IT, wydajna higiena danych i zgodność z przepisami"
@@ -5457,6 +5632,9 @@ msgstr ""
 "dół pasek powiadomień i stuknij „Zatrzymaj”. Film zostanie zapisany w "
 "bibliotece aplikacji Zdjęcia lub Galeria."
 
+msgid "カスタム順"
+msgstr "Kolejność niestandardowa"
+
 msgid "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。"
 msgstr ""
 "Korzystając z publicznego Wi-Fi o słabym zabezpieczeniu, np. w kawiarni, "
@@ -5486,16 +5664,43 @@ msgid "カメラ側の設定を変える："
 msgstr "Zmiana ustawień w aparacie:"
 
 msgid "カラムの操作"
-msgstr "カラムのAkcje"
+msgstr "Sterowanie kolumną"
+
+msgid "カラムの開閉"
+msgstr "Rozwiń/zwiń kolumnę"
+
+msgid "カレンダー"
+msgstr "Kalendarz"
 
 msgid "カレンダーで期限を確認"
-msgstr "カレンダーで期限をPotwierdź"
+msgstr "Sprawdź terminy w kalendarzu"
 
 msgid "カレンダー表示"
-msgstr "カレンダーPokaż"
+msgstr "Widok kalendarza"
+
+msgid "カンバンボード"
+msgstr "Tablica kanban"
+
+msgid "カンバン式タスク管理（未着手・進行中・完了）"
+msgstr "カンバン式タスク管理（Do zrobienia・W toku・Ukończone）"
+
+msgid "カンバン方式で進捗を見える化"
+msgstr "Pokazuj postęp za pomocą przepływu kanban"
+
+msgid "カンバン方式（未着手・進行中・完了）"
+msgstr "カンバン方式（Do zrobienia・W toku・Ukończone）"
 
 msgid "カードのボードで表示"
-msgstr "カードのボードでPokaż"
+msgstr "Pokaż jako karty na tablicy"
+
+msgid "カードをカラム内で並べ替え"
+msgstr "Zmień kolejność kart w kolumnie"
+
+msgid "カードを隣のカラムへ移動"
+msgstr "Przenieś kartę do sąsiedniej kolumny"
+
+msgid "カード間を移動（カードにフォーカス時）"
+msgstr "Przechodź między kartami (gdy karta jest aktywna)"
 
 msgid "キャプチャウィンドウの「録画ボタン（丸アイコン）」をクリックするか、ショートカットキー"
 msgstr ""
@@ -5515,7 +5720,7 @@ msgid "キーボードショートカット (?)"
 msgstr "Skróty klawiaturowe (?)"
 
 msgid "キーボードショートカットを表示"
-msgstr "Skróty klawiaturoweをPokaż"
+msgstr "Pokaż skróty klawiaturowe"
 
 msgid "ギャラリーやGoogleフォトで写真を開き、詳細情報を表示すると地図が出る場合は位置情報あり。"
 msgstr ""
@@ -5537,7 +5742,7 @@ msgstr "クイックUdostępnijにファイルを置く"
 
 msgid "クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画"
 msgstr ""
-"クイックUdostępnijへのファイル追加からUdostępnijリンクの発行、Kod "
+"クイックUdostępnijへのファイルDodajからUdostępnijリンクの発行、Kod "
 "QRから受け取り画面が開くまでを実際の画面でAkcjeするデモ動画"
 
 msgid "クイック共有を開く"
@@ -5575,6 +5780,9 @@ msgstr ""
 "Nie musisz logować się do dysku w chmurze czy poczty elektronicznej, "
 "dzięki czemu na współużytkowanym komputerze nie pozostaną żadne hasła ani"
 " aktywne sesje."
+
+msgid "クリア"
+msgstr "Wyczyść"
 
 msgid "グループ"
 msgstr "Grupa"
@@ -6081,6 +6289,9 @@ msgstr "Krok 4: Zmiana ustawień nagrywania wideo (Działanie zapobiegawcze)"
 msgid "ステップ5：クラウドストレージやPCへ写真を退避・バックアップする"
 msgstr "Krok 5: Przeniesienie i kopia zapasowa zdjęć w chmurze lub na komputerze"
 
+msgid "ステータス"
+msgstr "Status"
+
 msgid "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除"
 msgstr ""
 "brak miejsca w telefonie, jak zwiększyć pamięć w iPhone, zwolnienie "
@@ -6376,76 +6587,143 @@ msgstr "Zastosowanie w seminariach i nauce grupowej"
 msgid "ゼミナールやグループ学習・ワークショップでのファイル共有"
 msgstr "Udostępnianie plików na seminariach, zajęciach grupowowych i warsztatach"
 
+msgid "タグ"
+msgstr "Tagi"
+
+msgid "タグで絞り込み"
+msgstr "Filtruj według tagu"
+
 msgid "タグはこのボード全体で共有されます。1つのタスクに最大"
-msgstr "タグはこのボード全体でUdostępnijされます。1つのタスクに最大"
+msgstr ""
+"Tagi są współdzielone na całej tablicy. Na jedno zadanie można dodać "
+"maksymalnie"
+
+msgid "タグを管理"
+msgstr "Zarządzaj tagami"
+
+msgid "タグを追加"
+msgstr "Dodaj tag"
+
+msgid "タスクのタイトルを入力"
+msgstr "Wpisz tytuł zadania"
 
 msgid "タスクの表示方法"
-msgstr "タスクのPokaż方法"
+msgstr "Wyświetlanie zadań"
+
+msgid "タスクの詳細やURLなどを自由に入力"
+msgstr "Wpisz dowolne szczegóły zadania, adres URL lub notatki"
+
+msgid "タスクをインポート"
+msgstr "Importuj zadania"
+
+msgid "タスクをエクスポート"
+msgstr "Eksportuj zadania"
+
+msgid "タスクを絞り込み"
+msgstr "Filtruj zadania"
+
+msgid "タスクを編集"
+msgstr "Edytuj zadanie"
+
+msgid "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+msgstr "タスクをDodajし、ドラッグ＆ドロップで「Do zrobienia」「W toku」「Ukończone」に移動して管理します。"
+
+msgid "タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。"
+msgstr ""
+"タスクをDodajし、ドラッグ＆ドロップまたはタップで「Do zrobienia」「W "
+"toku」「Ukończone」に移動してスムーズに連携します。"
+
+msgid "タスクを追加して進捗を管理する"
+msgstr "タスクをDodajして進捗を管理する"
+
+msgid "タスクを追加・移動して進捗管理"
+msgstr "タスクをDodaj・移動して進捗管理"
 
 msgid "タスクデータはいつまで保存されますか？"
 msgstr "タスクデータはいつまでZapiszされますか？"
 
+msgid "タスクボード"
+msgstr "Tablica zadań"
+
 msgid "タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task"
-msgstr "タスクボードで進捗管理｜アカウント不要・Za darmoでチームUdostępnij - FS!QR Task"
+msgstr "Tablica zadańで進捗管理｜アカウント不要・Za darmoでチームUdostępnij - FS!QR Task"
 
 msgid "タスクボードの削除"
-msgstr "タスクボードのUsuń"
+msgstr "Usuń tablicę zadań"
 
 msgid "タスクボードを作成"
-msgstr "タスクボードをUtwórz"
+msgstr "Utwórz tablicę zadań"
 
 msgid "タスクボードを作成してID・パスワード・共有URLを送信。登録不要でチームの進捗をリアルタイムに見える化できます。"
 msgstr ""
-"タスクボードをUtwórzしてID・Hasło・UdostępnijURLを送信。Bez "
-"rejestracjiでチームの進捗をリアルタイムに見える化できます。"
+"Utwórz tablicę zadań i udostępnij jej identyfikator, hasło oraz adres "
+"URL. Pokazuj postęp zespołu w czasie rzeczywistym bez rejestracji."
 
 msgid "タスクボードを作成して共有すると、複数人が同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適です。"
 msgstr ""
-"タスクボードをUtwórzしてUdostępnijすると、Wiele "
-"osóbが同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適."
+"Utwórz i udostępnij tablicę zadań, aby kilka osób mogło wspólnie "
+"porządkować zadania do zrobienia, w toku i ukończone. To dobre "
+"rozwiązanie do przygotowania wydarzenia, TODO ze spotkań, pracy "
+"zespołowej i zadań, które trzeba rozpocząć od razu."
 
 msgid "タスクボードを作成する"
-msgstr "タスクボードをUtwórz"
+msgstr "Utwórz tablicę zadańする"
 
 msgid "タスクボードを新規作成"
-msgstr "タスクボードを新規Utwórz"
+msgstr "Utwórz nową tablicę zadań"
 
 msgid "タスクボードを検索"
-msgstr "タスクボードをSzukaj"
+msgstr "Znajdź tablicę zadań"
 
 msgid "タスクボード作成 | FS!QR Task"
-msgstr "タスクボードUtwórz | FS!QR Task"
+msgstr "Utwórz tablicę zadań | FS!QR Task"
 
 msgid "タスクボード作成 | FS!QR Task - 共有カンバンボード"
-msgstr "タスクボードUtwórz | FS!QR Task - Udostępnijカンバンボード"
+msgstr "Utwórz tablicę zadań | FS!QR Task — współdzielona tablica kanban"
 
 msgid "タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
 msgstr ""
-"タスクボードUtwórz, Udostępnijタスク管理, カンバンUtwórz, TODO管理, プロジェクト管理, チーム協業, FS QR"
-" Task"
+"tworzenie tablicy zadań, współdzielone zarządzanie zadaniami, tworzenie "
+"kanbanu, zarządzanie TODO, zarządzanie projektami, współpraca zespołowa, "
+"FS QR Task"
 
 msgid "タスクボード作成時に選択した有効期限（1日・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
-msgstr "タスクボードUtwórz時に選択した有効期限（1 dzień・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
+msgstr ""
+"Tablica zadańUtwórz時に選択した有効Termin（1 dzień・1 tydzień・1 "
+"miesiąc）が経過すると、タスクデータは自動的に消去されます。"
 
 msgid "タスクボード検索 | FS!QR Task"
-msgstr "タスクボードSzukaj | FS!QR Task"
+msgstr "Znajdź tablicę zadań | FS!QR Task"
 
 msgid "タスクボード検索 | FS!QR Task - 既存ボードへの参加"
-msgstr "タスクボードSzukaj | FS!QR Task - 既存ボードへの参加"
+msgstr "Znajdź tablicę zadań | FS!QR Task — dołącz do istniejącej tablicy"
 
 msgid "タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task"
-msgstr "タスクボードSzukaj, タスクボード参加, UdostępnijタスクSzukaj, 既存ボード参加, カンバン参加, FS QR Task"
+msgstr ""
+"wyszukiwanie tablicy zadań, dołączanie do tablicy zadań, wyszukiwanie "
+"współdzielonych zadań, dołączanie do istniejącej tablicy, dołączanie do "
+"kanbanu, FS QR Task"
 
 msgid "タスクボード検索ページに移動します"
-msgstr "タスクボードSzukajページに移動します"
+msgstr "Tablica zadańSzukajページに移動します"
 
 msgid "タスクルームアクセス, 共有タスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
 msgstr ""
-"タスクPokójアクセス, Udostępnijタスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR"
-" Task"
+"dostęp do pokoju zadań, współdzielona tablica zadań, zarządzanie "
+"kanbanem, dołączanie do zadania, zarządzanie TODO, narzędzie współpracy, "
+"FS QR Task"
+
+msgid "タスク名"
+msgstr "Nazwa zadania"
 
 msgid "タスク名を入力（Enterで追加 / Escで閉じる）"
-msgstr "タスク名を入力（Enterで追加 / EscでZamknij）"
+msgstr "Wpisz nazwę zadania (Enter, aby dodać / Esc, aby zamknąć)"
+
+msgid "タスク未追加"
+msgstr "タスク未Dodaj"
+
+msgid "タスク管理開始まで、"
+msgstr "タスク管理Początekまで、"
 
 msgid "タブ"
 msgstr "Karta"
@@ -6460,7 +6738,7 @@ msgid "タブ表示に切り替え"
 msgstr "Przełącz na widok kart"
 
 msgid "ダイアログ・メニューを閉じる"
-msgstr "ダイアログ・メニューをZamknij"
+msgstr "Zamknij okna dialogowe i menu"
 
 msgid "ダウンロード"
 msgstr "Pobierz"
@@ -6515,6 +6793,11 @@ msgstr ""
 msgid "チャットに添える一文で作業の迷いを減らす"
 msgstr "Krótka notatka do linku ułatwia pracę zespołową"
 
+msgid "チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。"
+msgstr ""
+"チャットのスレッドやピン留めは流れてしまいPostęp ogółem状況が把握しづらいですが、Tablica "
+"kanbanなら一目で現在のStatusが把握できます。"
+
 msgid "チャットアプリの「写真」「画像」として送る方法は、自動圧縮がかかりやすく劣化の代表例です。LINEで通常送信した画像、SNSのタイムラインへの投稿、一部のメールサービスでの添付などが該当します。何度も転送を繰り返すと、圧縮が重ねがけされてさらに粗くなります。"
 msgstr ""
 "Wysyłanie obrazów jako „zdjęcie” w komunikatorach to najczęstsza "
@@ -6554,11 +6837,17 @@ msgstr "Różnica w porównaniu z narzędziami do czatowania, takimi jak Slack i
 msgid "チームでのアイデア出し"
 msgstr "Zespołowa burza mózgów"
 
+msgid "チームのタスクをひとつのボードへ。アカウント登録なしで始められます。"
+msgstr "チーム zadańをひとつのTablicaへ。アカウント登録なしで始められます。"
+
 msgid "チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。"
-msgstr "チームのタスクをひとつのボードへ。登録なしでUtwórzし、URLやKod QRで簡単にUdostępnijできます。"
+msgstr "チーム zadańをひとつのTablicaへ。登録なしでUtwórzし、URLやKod QRで簡単にUdostępnijできます。"
+
+msgid "チームのタスクをリアルタイムにカンバン管理"
+msgstr "Zarządzaj zadaniami zespołu w kanbanie w czasie rzeczywistym"
 
 msgid "チームのタスク共有に必要なことだけ"
-msgstr "チームのタスクUdostępnijに必要なことだけ"
+msgstr "チーム zadańUdostępnijに必要なことだけ"
 
 msgid "チームのファイルをひとつのルームへ。アカウント登録なしで始められます。"
 msgstr "チームのファイルをひとつのPokójへ。アカウント登録なしで始められます。"
@@ -6568,6 +6857,9 @@ msgstr "チームのファイルをひとつのPokójへ。登録なしでUtwór
 
 msgid "チームの一時共有に、"
 msgstr "チームの一時Udostępnijに、"
+
+msgid "チームの作業を、ひとつのボードに。"
+msgstr "チームの作業を、ひとつのTablicaに。"
 
 msgid "チームの運用に合わせて保存期間を柔軟に設定できます。"
 msgstr ""
@@ -6597,11 +6889,16 @@ msgstr ""
 "przestrzeń, w której zespół może bezpiecznie przesyłać i zarządzać "
 "danymi."
 
+msgid "チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト"
+msgstr "チームメンバーがタスクをTablica kanbanで整理する様子を表すイラスト"
+
 msgid "チーム共有に必要なことだけ"
 msgstr "チームUdostępnijに必要なことだけ"
 
 msgid "チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
-msgstr "チームUdostępnijのタスクボードをUtwórz。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
+msgstr ""
+"Utwórz współdzieloną tablicę zadań zespołu i pokazuj postęp w prostych "
+"kolumnach Do zrobienia, W toku i Ukończone."
 
 msgid "チーム向けファイル共有ルーム"
 msgstr "Pokój grupowy do współdzielenia plików"
@@ -6678,7 +6975,7 @@ msgstr ""
 "wielkości następują co potęgę, dając dokładny współczynnik 1024."
 
 msgid "データの有効期限と自動削除"
-msgstr "データの有効期限とAutomatyczne usuwanie"
+msgstr "データの有効TerminとAutomatyczne usuwanie"
 
 msgid "データの種類"
 msgstr "Rodzaj zapisanej jednostki"
@@ -6690,7 +6987,7 @@ msgid "トップの下書きノートに入力した内容は、お使いのブ�
 msgstr "トップの下書きNotatkaに入力した内容は、お使いのブラウザ内にのみZapiszされます。Udostępnijリンクを発行した時点で初めてNotatkaPokójがUtwórzされ、下書きがそのまま引き継がれます。"
 
 msgid "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
-msgstr "トップの下書きボードに追加したタスクは、お使いの端末に留まります。Udostępnijリンクを発行した時点で初めてボードがUtwórzされ、タスクがまとめて登録されます。"
+msgstr "トップの下書きTablicaにDodajしたタスクは、お使いの端末に留まります。Udostępnijリンクを発行した時点で初めてTablicaがUtwórzされ、タスクがまとめて登録されます。"
 
 msgid "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
 msgstr "トップのUdostępnijボックスで選んだファイルは、お使いの端末に留まります。Udostępnijリンクを発行した時点で初めてPokójがUtwórzされ、選んだファイルがまとめてPrześlijされます。"
@@ -6785,8 +7082,8 @@ msgstr "W pokoju notatek tekst można udostępniać w czasie rzeczywistym."
 
 msgid "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
 msgstr ""
-"NotatkaPokójのUdostępnijURLを相手にWyślijことで参加してもらえます。URLやInformacje o "
-"pokojuは信頼できる相手にUdostępnijしてください。"
+"NotatkaPokójのAdres URL udostępnianiaを相手にWyślijことで参加してもらえます。URLやInformacje"
+" o pokojuは信頼できる相手にUdostępnijしてください。"
 
 msgid "ノートルームを作成"
 msgstr "Utwórz pokój notatki"
@@ -7001,7 +7298,7 @@ msgid "パスワードを入力（6桁の数字）"
 msgstr "Wprowadź hasło (6 cyfr)"
 
 msgid "パスワードを入力（半角数字6桁）"
-msgstr "Wprowadź hasło（半角数字6桁）"
+msgstr "Wpisz hasło (6 cyfr)"
 
 msgid "パスワードを忘れてしまいました"
 msgstr "Zapomniałem hasła"
@@ -7674,6 +7971,12 @@ msgstr "Zamiast rozbudowanych folderów ujednolić nazwy plików"
 msgid "フォント（文字）が埋め込まれている："
 msgstr "Osadzone czcionki:"
 
+msgid "フォーカス中のカードの完了を切り替え"
+msgstr "Przełącz ukończenie aktywnej karty"
+
+msgid "フォーカス中のカードを編集"
+msgstr "Edytuj aktywną kartę"
+
 msgid "フッターナビゲーション"
 msgstr "Menu w stopce"
 
@@ -7918,25 +8221,40 @@ msgstr ""
 msgid "ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。"
 msgstr "ボタンを押すとNotatkaPokójが作られ、下書きがそのまま引き継がれます。"
 
+msgid "ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。"
+msgstr "ボタンを押すとTablicaが作られ、書き出したタスクがそのまま登録されます。"
+
+msgid "ボード"
+msgstr "Tablica"
+
+msgid "ボードにアクセス"
+msgstr "Otwórz tablicę"
+
+msgid "ボードに参加"
+msgstr "Dołącz do tablicy"
+
 msgid "ボードの操作"
-msgstr "ボードのAkcje"
+msgstr "Sterowanie tablicą"
 
 msgid "ボードを作成"
-msgstr "ボードをUtwórz"
+msgstr "Utwórz tablicę"
 
 msgid "ボードを削除"
-msgstr "ボードをUsuń"
+msgstr "Usuń tablicę"
 
 msgid "ボードを検索"
-msgstr "ボードをSzukaj"
+msgstr "TablicaをSzukaj"
+
+msgid "ボードを開く"
+msgstr "Tablicaを開く"
 
 msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
 msgstr ""
-"ボードUtwórz時に1 dzień、1週間、1か月からOkres "
-"przechowywaniaを選べます。期間を過ぎるとボードとタスクはAutomatyczne usuwanieされます。"
+"TablicaUtwórz時に1 dzień、1 tydzień、1 miesiącからOkres "
+"przechowywaniaを選べます。期間を過ぎるとTablicaとタスクはAutomatyczne usuwanieされます。"
 
 msgid "ボード表示とカレンダー表示を切り替え"
-msgstr "ボードPokażとカレンダーPokażを切り替え"
+msgstr "Przełącz widok tablicy i kalendarza"
 
 msgid "マスターパスワード"
 msgstr "Hasło główne"
@@ -7979,6 +8297,9 @@ msgstr ""
 msgid "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。"
 msgstr "Na pasku menu kliknij „Plik” > „Eksportuj…”."
 
+msgid "メモ・詳細"
+msgstr "Notatki i szczegóły"
+
 msgid "メモ帳 共有"
 msgstr "Udostępnianie notatek"
 
@@ -8005,8 +8326,14 @@ msgstr ""
 "Członkowie mogą dołączyć do pokoju i wymieniać pliki po prostu skanując "
 "kod QR."
 
+msgid "メンバーはどのようにボードへ参加しますか？"
+msgstr "メンバーはどのようにTablicaへ参加しますか？"
+
 msgid "メンバーはどのようにルームへ参加しますか？"
 msgstr "メンバーはどのようにPokójへ参加しますか？"
+
+msgid "メンバーも追加・受け取り"
+msgstr "メンバーもDodaj・受け取り"
 
 msgid "メンバーを招待"
 msgstr "Zaproś członków"
@@ -8106,7 +8433,7 @@ msgid "ユーザーは "
 msgstr "Możesz wyłączyć pliki cookie reklam spersonalizowanych za pomocą "
 
 msgid "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション"
-msgstr "リアルタイムでチームの進捗を管理できるZa darmoUdostępnijカンバンタスクボードアプリケーション"
+msgstr "リアルタイムでチームの進捗を管理できるZa darmoUdostępnijカンバンTablica zadańアプリケーション"
 
 msgid "リアルタイムでノートを共有する手順"
 msgstr "Procedura udostępniania notatek w czasie rzeczywistym"
@@ -8445,7 +8772,9 @@ msgid "ルームIDとパスワードが通らない"
 msgstr "Identyfikator pokoju i hasło są odrzucane"
 
 msgid "ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。"
-msgstr "ID pokojuとHasłoによって保護されており、UdostępnijURLを知っているメンバーのみがBezpiecznieにアクセスできます。"
+msgstr ""
+"ID pokojuとHasłoによって保護されており、Adres URL "
+"udostępnianiaを知っているメンバーのみがBezpiecznieにアクセスできます。"
 
 msgid "ルームIDとパスワードによる参加"
 msgstr "ID pokojuとHasłoによる参加"
@@ -8517,7 +8846,7 @@ msgstr "Pokójはいつでも即Usuń"
 msgid "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
 msgstr ""
 "Pokójへの参加にはUdostępnij情報が必要ですが、ファイルはNa "
-"serwerzeでSzyfrowanieされない状態で保管されます。機密性の高いファイルのUdostępnijは、所属組織のルールをPotwierdźしたうえで慎重に判断してください。"
+"serwerzeでSzyfrowanieされない状態で保管されます。機密性のWysokiいファイルのUdostępnijは、所属組織のルールをPotwierdźしたうえで慎重に判断してください。"
 
 msgid "ルームを作る前に決めておくこと"
 msgstr "Co ustalić przed utworzeniem pokoju"
@@ -8567,7 +8896,9 @@ msgstr ""
 "pokoju i hasło."
 
 msgid "ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。"
-msgstr "PokójUtwórzとPrześlijがまとめて完了し、UdostępnijURL・Kod QR・ID・HasłoがPokażされます。"
+msgstr ""
+"PokójUtwórzとPrześlijがまとめてUkończoneし、Adres URL udostępniania・Kod "
+"QR・ID・HasłoがPokażされます。"
 
 msgid "ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。"
 msgstr ""
@@ -8585,8 +8916,8 @@ msgstr "Nie udało się utworzyć pokoju. Spróbuj ponownie później."
 msgid "ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。"
 msgstr ""
 "PokójUtwórzもZaloguj "
-"sięも後回し。まずは下書きNotatkaに書き始めて、Udostępnijが必要になったらリンクを発行するだけで、リアルタイムWspólna "
-"edycjaに切り替わります。"
+"sięもpóźniej回し。まずは下書きNotatkaに書き始めて、Udostępnijが必要になったらリンクを発行するだけで、リアルタイムWspólna"
+" edycjaに切り替わります。"
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Nie udało się pobrać adresu docelowego po utworzeniu pokoju."
@@ -8898,6 +9229,9 @@ msgstr "Wybierz „Wideo” (ikonę kamery) z górnego menu."
 msgid "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
 msgstr "上限があります。現在のファイル数と容量の上限は、Prześlij画面にPokażされる案内をごPotwierdźください。"
 
+msgid "下書きのタスク"
+msgstr "下書き zadań"
+
 msgid "下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画"
 msgstr "下書きの入力からUdostępnijリンクの発行、NotatkaPokójでの同期までを実際の画面でAkcjeするデモ動画"
 
@@ -8913,11 +9247,22 @@ msgstr "下書きNotatkaに書く"
 msgid "下書きノートを開く"
 msgstr "下書きNotatkaを開く"
 
+msgid "下書きボード"
+msgstr "下書きTablica"
+
+msgid "下書きボードにタスクを書く"
+msgstr "下書きTablicaにタスクを書く"
+
 msgid "下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
-msgstr "下書きボードにタスクを登録して発行すると、UdostępnijURLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
+msgstr ""
+"下書きTablicaにタスクを登録して発行すると、Adres URL "
+"udostępnianiaを受け取った相手もそのままTablicaを開けます。PriorytetやTerminを見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 
 msgid "下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画"
-msgstr "下書きボードへのタスク登録からUdostępnijリンクの発行、実際のボードが開くまでを実際の画面でAkcjeするデモ動画"
+msgstr "下書きTablicaへ zadań登録からUdostępnijリンクの発行、実際のTablicaが開くまでを実際の画面でAkcjeするデモ動画"
+
+msgid "下書きボードを開く"
+msgstr "下書きTablicaを開く"
 
 msgid "不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。"
 msgstr ""
@@ -8982,6 +9327,12 @@ msgstr "Usuń lub wyłącz linki, które nie są już potrzebne."
 msgid "不要になった共有リンクや古い版は残さない"
 msgstr "Usuwanie niepotrzebnych linków oraz nieaktualnych wersji plików"
 
+msgid "並び替え中はドラッグでの並べ替えができません。"
+msgstr "Podczas sortowania nie można zmieniać kolejności zadań przez przeciąganie."
+
+msgid "並び順"
+msgstr "Kolejność sortowania"
+
 msgid "中国語"
 msgstr "Chiński"
 
@@ -9015,6 +9366,9 @@ msgstr ""
 msgid "事前準備："
 msgstr "Jednorazowe przygotowanie:"
 
+msgid "五十音順"
+msgstr "Alfabetycznie"
+
 msgid "人が集まる場のファイル共有に。"
 msgstr "人が集まる場のUdostępnianie plikówに。"
 
@@ -9030,6 +9384,9 @@ msgstr ""
 msgid "人を狙う攻撃にも備える"
 msgstr "Przygotuj się także na ataki wymierzone w ludzi"
 
+msgid "今すぐ、チームのタスクを整理しましょう。"
+msgstr "今すぐ、チーム zadańを整理しましょう。"
+
 msgid "今すぐできる対策"
 msgstr "Sposoby na szybką ulgę"
 
@@ -9039,8 +9396,20 @@ msgstr "Wypróbuj teraz"
 msgid "今すぐ容量を増やしたい場合は、写真アプリを開き、"
 msgstr "Aby odzyskać tę przestrzeń od ręki, otwórz aplikację Zdjęcia,"
 
+msgid "今日"
+msgstr "Dzisiaj"
+
+msgid "今日まで"
+msgstr "Termin na dziś"
+
 msgid "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。"
-msgstr "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快なAkcje感で作業が進みます。"
+msgstr "Dzisiajやるべきことを朝に書き出し、終わったらUkończoneへ移動。軽快なAkcje感で作業が進みます。"
+
+msgid "今週"
+msgstr "W tym tygodniu"
+
+msgid "今週（7日以内）"
+msgstr "Najbliższe 7 dni"
 
 msgid "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。"
 msgstr ""
@@ -9061,6 +9430,9 @@ msgstr ""
 
 msgid "仕様・詳細"
 msgstr "Specyfikacje i szczegóły"
+
+msgid "他のタスク管理ツールとの違い"
+msgstr "他 zadań管理ツールとの違い"
 
 msgid "他のノートサービスとの違い"
 msgstr "Czym różni się od innych usług notatek"
@@ -9097,8 +9469,14 @@ msgstr ""
 "Skontaktuj się z nami za pomocą poniższego formularza. Nasz zespół "
 "przeanalizuje Twoje zapytanie i odpowie najszybciej jak to możliwe."
 
+msgid "件、ボード全体で最大"
+msgstr "tagów, a na całej tablicy maksymalnie"
+
 msgid "件の記事"
 msgstr "artykuły"
+
+msgid "件まで登録できます。"
+msgstr "tagów."
 
 msgid "企業におけるファイル共有では、コンプライアンス要件とセキュリティ管理が重要な課題となります。FS!QRの暗号化通信、アクセス制御、自動削除機能は、組織が定めた運用ルールの一部として活用できます。ただし、適合性は社内規程や契約、扱う情報の種類によって異なるため、導入前に管理者が要件を確認してください。監査資料の一時的な共有、技術文書の限定配布など、保存期間を短くできる場面から用途を検討するとよいでしょう。"
 msgstr ""
@@ -9313,6 +9691,12 @@ msgstr ""
 msgid "位置情報サービス"
 msgstr "Usługi lokalizacyjne"
 
+msgid "低"
+msgstr "Niski"
+
+msgid "低 (Low)"
+msgstr "Niski (Low)"
+
 msgid "何のための共有か。"
 msgstr "Jaki jest cel udostępnienia?"
 
@@ -9341,24 +9725,26 @@ msgstr ""
 " pokoju i hasło utworzonego pokoju."
 
 msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "UtwórzしたタスクボードのデータはいつまでZapiszされますか？"
+msgstr "UtwórzしたTablica zadańのデータはいつまでZapiszされますか？"
 
 msgid "作成する"
 msgstr "Utwórz"
 
 msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
 msgstr ""
-"Utwórz時にUstawieniaした有効期限（1 dzień・1週間・1か月）が経過すると、サーバーから完全にAutomatyczne "
-"usuwanieされます。"
+"Utwórz時にUstawieniaした有効Termin（1 dzień・1 tydzień・1 "
+"miesiąc）が経過すると、サーバーから完全にAutomatyczne usuwanieされます。"
 
 msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Utwórz時に選択した有効期限（1 dzień・1週間・1か月）が経過すると、サーバーから自動的にUsuńされます。"
+msgstr ""
+"Utwórz時に選択した有効Termin（1 dzień・1 tydzień・1 "
+"miesiąc）が経過すると、サーバーから自動的にUsuńされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Tylko twórca może usunąć pokój i zapisany tekst."
 
 msgid "作成者のみ削除可能。すべてのタスクが消去されます。"
-msgstr "Utwórz者のみUsuń可能。すべてのタスクが消去されます。"
+msgstr "Tylko twórca może ją usunąć. Wszystkie zadania zostaną usunięte."
 
 msgid "使い方"
 msgstr "Jak używać"
@@ -9400,6 +9786,9 @@ msgstr "Wskazówki i środki ostrożności"
 msgid "例: 420"
 msgstr "Przykład: 420"
 
+msgid "例: デザイン, 情報収集, 開発, 調査"
+msgstr "Np.: projektowanie, zbieranie informacji, programowanie, badania"
+
 msgid "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。"
 msgstr ""
 "Na przykład, jeśli chcesz przesłać zdjęcia zrobione smartfonem podczas "
@@ -9435,7 +9824,7 @@ msgid "保存して閉じる"
 msgstr "Zapisz i zamknij"
 
 msgid "保存する"
-msgstr "Zapiszする"
+msgstr "Zapisz"
 
 msgid "保存する："
 msgstr "Zapisanie pliku:"
@@ -9488,8 +9877,8 @@ msgstr "Okres przechowywania i automatyczne usuwanie"
 
 msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
 msgstr ""
-"Okres przechowywaniaは1・6・12・24時間。期限を過ぎるとPokójとZapisane plikiがAutomatyczne"
-" usuwanieされます。"
+"Okres przechowywaniaは1・6・12・24時間。Terminを過ぎるとPokójとZapisane "
+"plikiがAutomatyczne usuwanieされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "Czy czas dostępności pliku ograniczono do niezbędnego minimum?"
@@ -9512,16 +9901,19 @@ msgstr ""
 " pobrać."
 
 msgid "保存期間終了後の自動削除"
-msgstr "Okres przechowywania終了後のAutomatyczne usuwanie"
+msgstr "Okres przechowywania終了późniejのAutomatyczne usuwanie"
 
 msgid "保存期間経過後の自動削除"
-msgstr "Okres przechowywania経過後のAutomatyczne usuwanie"
+msgstr "Okres przechowywania経過późniejのAutomatyczne usuwanie"
 
 msgid "保存期限を選んで自動削除"
-msgstr "Zapisz期限を選んでAutomatyczne usuwanie"
+msgstr "ZapiszTerminを選んでAutomatyczne usuwanie"
 
 msgid "保護設定：公開範囲と利用時間を短くする"
 msgstr "Ustawienia ochrony: ogranicz odbiorców i czas dostępu"
+
+msgid "個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
+msgstr "個人のDzisiaj zadań整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
 
 msgid "個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
@@ -9546,18 +9938,33 @@ msgstr ""
 "niezakończonych projektów; a więc wszystkiego, co w żadnym wypadku nie "
 "powinno trafić w niepowołane ręce."
 
+msgid "優先度"
+msgstr "Priorytet"
+
+msgid "優先度・期限・タグ"
+msgstr "Priorytet・Termin・Tagi"
+
+msgid "優先度・期限・タグ分類"
+msgstr "Priorytet・Termin・Tagi分類"
+
+msgid "優先度順"
+msgstr "Według priorytetu"
+
 msgid "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。"
-msgstr "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・Usuńでき、1つのタスクに複数付けられます。"
+msgstr ""
+"Priorytet（Wysoki・Normalny・Niski）、Termin "
+"wykonania、Tagiでタスクを柔軟に整理・Filtrujできます。Tagiは自由にDodaj・Usuńでき、1つ "
+"zadańに複数付けられます。"
 
 msgid "先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードのUtwórzとタスク登録がまとめて完了し、URL・Kod "
-"QR・IDが手に入ります。"
+"先にTablicaを作る必要はありません。やることを書き出して発行ボタンを押すと、TablicaのUtwórzとタスク登録がまとめてUkończoneし、URL・Kod"
+" QR・IDが手に入ります。"
 
 msgid "先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
 "先にPokójを作る必要はありません。Pliki do "
-"udostępnieniaを選んで発行ボタンを押すと、PokójのUtwórzとPrześlijがまとめて完了し、URL・Kod "
+"udostępnieniaを選んで発行ボタンを押すと、PokójのUtwórzとPrześlijがまとめてUkończoneし、URL・Kod "
 "QR・IDが手に入ります。"
 
 msgid "先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。"
@@ -9572,8 +9979,8 @@ msgstr "Kiedy wydaje się, że wpisany tekst zniknął"
 msgid "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 msgstr ""
 "入力した内容は、PokójUtwórz時にUstawieniaしたOkres przechowywania中はAutomatyczny "
-"zapisされ、期間の終了後にAutomatyczne "
-"usuwanieされます。過去の版をPotwierdź・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+"zapisされ、期間の終了zostanie potem automatycznie "
+"usunięteされます。過去の版をPotwierdź・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 
 msgid "入力内容が不正です。"
 msgstr "Nieprawidłowe dane wejściowe."
@@ -9586,6 +9993,9 @@ msgstr ""
 "Brak zdejmowania zegarka do kąpieli czy nagromadzenie mydlin pod paskiem "
 "w trakcie mycia rąk działa jak chemiczny drażnik i może doprowadzić do "
 "reakcji alergicznej."
+
+msgid "全体の進捗"
+msgstr "Postęp ogółem"
 
 msgid "全員が同じ共有URL、同じルームIDを使っているか確認する"
 msgstr "Sprawdź, czy wszyscy używają tego samego linku udostępniania i ID pokoju"
@@ -9642,7 +10052,7 @@ msgstr ""
 "gdzie co należy wpisać, proces edycji jest uporządkowany przez cały czas."
 
 msgid "共同編集を開始"
-msgstr "Wspólna edycjaを開始"
+msgstr "Wspólna edycjaをPoczątek"
 
 msgid "共同編集を開始する"
 msgstr "Rozpocznij edycję w zespole"
@@ -9702,7 +10112,7 @@ msgid "共有ID（6文字）"
 msgstr "ID udostępniania (6 znaków)"
 
 msgid "共有URL"
-msgstr "UdostępnijURL"
+msgstr "Adres URL udostępniania"
 
 msgid "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。"
 msgstr ""
@@ -9736,7 +10146,7 @@ msgstr ""
 "zawsze w oddzielnej linijce."
 
 msgid "共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。"
-msgstr "UdostępnijURLが手元になくても、6文字のID pokojuと6桁のHasłoから参加できます。"
+msgstr "Adres URL udostępnianiaが手元になくても、6文字のID pokojuと6桁のHasłoから参加できます。"
 
 msgid "共有URLが無効です"
 msgstr "Udostępniony adres URL jest nieprawidłowy"
@@ -9745,10 +10155,10 @@ msgid "共有URLが無効です。"
 msgstr "Udostępniony adres URL jest nieprawidłowy."
 
 msgid "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
-msgstr "UdostępnijURLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+msgstr "Adres URL udostępnianiaだけで使えるカンバン式Tablica zadań。チームの作業を分かりやすく整理できます。"
 
 msgid "共有URLとQRコードによる参加"
-msgstr "UdostępnijURLとKod QRによる参加"
+msgstr "Adres URL udostępnianiaとKod QRによる参加"
 
 msgid "共有URLとパスワードを同じチャットにまとめて送らない"
 msgstr "Nie wysyłaj adresu URL i hasła w tym samym czacie."
@@ -9767,14 +10177,14 @@ msgstr ""
 "udostępniania ekranu."
 
 msgid "共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。"
-msgstr "UdostępnijURLまたはKod QRを相手に渡してください。IDとHasłoでも受け取りページへアクセスできます。"
+msgstr "Adres URL udostępnianiaまたはKod QRを相手に渡してください。IDとHasłoでも受け取りページへアクセスできます。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
-msgstr "UdostępnijURLまたはKod QRを開くか、参加画面でID pokojuとWprowadź hasłoします。"
+msgstr "Adres URL udostępnianiaまたはKod QRを開くか、参加画面でID pokojuとWprowadź hasłoします。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
 msgstr ""
-"UdostępnijURLまたはKod QRを開くか、参加画面でID pokojuとWprowadź "
+"Adres URL udostępnianiaまたはKod QRを開くか、参加画面でID pokojuとWprowadź "
 "hasłoします。参加情報は必要な相手だけにUdostępnijしてください。"
 
 msgid "共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。"
@@ -9801,10 +10211,10 @@ msgstr ""
 "przekazaniu twórca może usunąć pokój."
 
 msgid "共有URLをコピー"
-msgstr "UdostępnijKopiuj URL"
+msgstr "Kopiuj adres URL udostępniania"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
-msgstr "UdostępnijURLを送れば、離れた相手も同じNotatkaに参加できます。"
+msgstr "Adres URL udostępnianiaを送れば、離れた相手も同じNotatkaに参加できます。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""
@@ -9873,18 +10283,18 @@ msgid "共有を早く終えたい場合、作成者は保存期間を待たず�
 msgstr "Udostępnijを早く終えたい場合、Utwórz者はOkres przechowywaniaを待たずにUsuń pokójできます。"
 
 msgid "共有タスクボード"
-msgstr "Udostępnijタスクボード"
+msgstr "Współdzielona tablica zadań"
 
 msgid ""
 "共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
 "日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除"
 msgstr ""
-"Udostępnijタスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, Za "
-"darmoタスク管理, 日本語Reakcja, リアルタイム, 進捗管理, かんばんボード, Bez rejestracji, "
-"URLUdostępnij, チーム作業, Automatyczne usuwanie"
+"Współdzielona tablica zadań, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR "
+"Task, Za darmoタスク管理, Nd本語Reakcja, リアルタイム, 進捗管理, かんばんTablica, Bez "
+"rejestracji, URLUdostępnij, チーム作業, Automatyczne usuwanie"
 
 msgid "共有タスクボード・カンバンの基本的な使い方"
-msgstr "Udostępnijタスクボード・カンバンの基本的なJak używać"
+msgstr "Współdzielona tablica zadań・カンバンの基本的なJak używać"
 
 msgid "共有ノート（最大文字）"
 msgstr "Wspólna notatka (maksymalna liczba znaków)"
@@ -9910,11 +10320,11 @@ msgstr "Udostępnijボックスにファイルを置く"
 
 msgid "共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 msgstr ""
-"Udostępnijボックスにファイルを追加すると、その場でPokójがUtwórzされます。発行されたURL・Kod "
+"UdostępnijボックスにファイルをDodajすると、その場でPokójがUtwórzされます。発行されたURL・Kod "
 "QR・ID・Hasłoを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 
 msgid "共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画"
-msgstr "Udostępnijボックスへのファイル追加からUdostępnijリンクの発行、実際のPokójが開くまでを実際の画面でAkcjeするデモ動画"
+msgstr "UdostępnijボックスへのファイルDodajからUdostępnijリンクの発行、実際のPokójが開くまでを実際の画面でAkcjeするデモ動画"
 
 msgid "共有ボックスを開く"
 msgstr "Udostępnijボックスを開く"
@@ -9940,7 +10350,7 @@ msgid "共有ルームを新規作成"
 msgstr "Utwórz nowy pokój do udostępniania"
 
 msgid "共有・ルーム情報"
-msgstr "Udostępnij・Informacje o pokoju"
+msgstr "Informacje o udostępnianiu i pokoju"
 
 msgid "共有中：URLとパスワードを同じ場所に置かない"
 msgstr "Podczas udostępniania: nie umieszczaj URL-a i hasła w tym samym miejscu"
@@ -10069,7 +10479,7 @@ msgstr ""
 "niż link."
 
 msgid "共有開始まで、"
-msgstr "Udostępnij開始まで、"
+msgstr "UdostępnijPoczątekまで、"
 
 msgid "共通鍵暗号"
 msgstr "Szyfrowanie symetryczne"
@@ -10219,6 +10629,9 @@ msgstr "Spróbuj otworzyć w innej przeglądarce"
 msgid "別のブラウザで開く"
 msgstr "Otwórz link w innej przeglądarce"
 
+msgid "別のボードを新しく作る"
+msgstr "別のTablicaを新しく作る"
+
 msgid "別のルームを新しく作る"
 msgstr "別のPokójを新しく作る"
 
@@ -10299,6 +10712,9 @@ msgstr "Usuwanie ukończone"
 msgid "削除権限がありません。"
 msgstr "Brak uprawnień do usuwania."
 
+msgid "前の月へ"
+msgstr "Poprzedni miesiąc"
+
 msgid "前後に余計な空白が入っていないか確認する"
 msgstr "Sprawdź, czy na początku lub końcu nie znalazły się przypadkowe spacje"
 
@@ -10336,7 +10752,7 @@ msgstr ""
 "rozwiązanie dedykowane na tego typu troski cyfrowe."
 
 msgid "単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。"
-msgstr "単発のイベントやWspółpracaで、その場ですぐにタスクボードを作って役割分担・進捗Potwierdźができます。"
+msgstr "単発のイベントやWspółpracaで、その場ですぐにTablica zadańを作って役割分担・進捗Potwierdźができます。"
 
 msgid "印刷コストと手間を劇的に削減"
 msgstr "Radykalne obniżenie kosztów druku i nakładu pracy"
@@ -10372,7 +10788,7 @@ msgid "参加者はどの見出しに追記するか"
 msgstr "Który z nagłówków będzie uzupełniał dany uczestnik"
 
 msgid "参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。"
-msgstr "参加者は一覧からファイルを受け取り、同じPokójへ追加でPrześlijできます。"
+msgstr "参加者は一覧からファイルを受け取り、同じPokójへDodajでPrześlijできます。"
 
 msgid "参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。"
 msgstr "参加者は同じPokójでPrześlij plikし、一覧からGotowe do pobrania。"
@@ -10769,6 +11185,9 @@ msgstr ""
 "plików (wideo, audio, grafiki, dokumenty) czyni platformę idealną do "
 "dystrybucji materiałów multimedialnych."
 
+msgid "土"
+msgstr "So"
+
 msgid "圧倒的な手軽さとスピード："
 msgstr "Niezrównana łatwość i szybkość:"
 
@@ -10938,6 +11357,13 @@ msgstr ""
 "każdy z nich, co spowalnia proces nawet wtedy, gdy całkowity ich rozmiar "
 "jest niewielki. Spakowanie wszystkiego do jednego pliku ZIP maksymalizuje"
 " wydajność przesyłu."
+
+msgid ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。"
+msgstr ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR Taskは「Do zrobienia・W "
+"toku・Ukończone」のシンプルさに特化しているため誰でも迷わず使えます。"
 
 msgid "多言語対応と国際教育での活用"
 msgstr "Wsparcie wielojęzyczności i zastosowanie w edukacji międzynarodowej"
@@ -11205,8 +11631,17 @@ msgstr ""
 msgid "安定したネットワーク回線の選択"
 msgstr "Wybierz stabilne połączenie sieciowe"
 
+msgid "安心の自動削除機能"
+msgstr "安心のAutomatyczne usuwanie機能"
+
+msgid "完了"
+msgstr "Ukończone"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "Po udostępnieniu: Potwierdzenie otrzymania i kasowanie plików"
+
+msgid "完了率"
+msgstr "Współczynnik ukończenia"
 
 msgid "宛先の名前と連絡先が、直近の依頼内容と一致しているか。"
 msgstr "Czy imię i dane kontaktowe odbiorcy odpowiadają najnowszej prośbie?"
@@ -11365,13 +11800,16 @@ msgstr ""
 "automatycznego wykrywania języka."
 
 msgid "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。"
-msgstr "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をPotwierdźできます。"
+msgstr "当Ndのタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をPotwierdźできます。"
 
 msgid "待機中"
 msgstr "Oczekiwanie"
 
+msgid "後"
+msgstr "później"
+
 msgid "後に自動削除"
-msgstr "後にAutomatyczne usuwanie"
+msgstr "zostanie potem automatycznie usunięte"
 
 msgid "復号に失敗しました。"
 msgstr "Odszyfrowywanie pliku nie powiodło się."
@@ -11398,7 +11836,9 @@ msgid "必要ありません。アカウントを作成せず、ブラウザか�
 msgstr "必要ありません。アカウントをUtwórzせず、ブラウザからファイルを選んですぐにUdostępnijを始められます。"
 
 msgid "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
-msgstr "必要ありません。ブラウザからボードをUtwórzし、UdostępnijURLをメンバーへWyślijだけで使い始められます。"
+msgstr ""
+"必要ありません。ブラウザからUtwórz tablicęし、Adres URL "
+"udostępnianiaをメンバーへWyślijだけで使い始められます。"
 
 msgid "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
 msgstr "必要ありません。ブラウザからUtwórz pokójし、参加に必要な情報をメンバーへUdostępnijすれば使い始められます。"
@@ -11459,7 +11899,10 @@ msgid "手動入力"
 msgstr "Ręczne wprowadzanie"
 
 msgid "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。"
-msgstr "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限をUstawieniaして次のアクションを明確にします。"
+msgstr "打ち合わせ中に決まったタスクをその場でDodajし、担当者やTerminをUstawieniaして次のアクションを明確にします。"
+
+msgid "打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。"
+msgstr "打ち合わせ中に決まった次のアクションを即座にTablicaへDodajし、担当とTerminを明確にします。"
 
 msgid "投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。"
 msgstr ""
@@ -11682,11 +12125,23 @@ msgstr "Załóż nową grupę, aby rozpocząć bezpieczną wymianę plików w ze
 msgid "新しいグループルーム作成ページに移動します"
 msgstr "Przejdź do strony tworzenia nowego pokoju grupowego"
 
+msgid "新しいタグ名"
+msgstr "Nazwa nowego tagu"
+
+msgid "新しいタスクの入力欄へ移動"
+msgstr "Przejdź do pola nowego zadania"
+
+msgid "新しいタスクを追加 (Enter)"
+msgstr "Dodaj nowe zadanie (Enter)"
+
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
-msgstr "新しいタスクボードをUtwórzして、チームの作業を整理・Udostępnijしましょう。"
+msgstr "新しいUtwórz tablicę zadańして、チームの作業を整理・Udostępnijしましょう。"
 
 msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいタスクボードUtwórzページに移動します"
+msgstr "新しいTablica zadańUtwórzページに移動します"
+
+msgid "新しいタスク名"
+msgstr "Nazwa nowego zadania"
 
 msgid "新しいタブレットに買い替えて、引き出しの奥に眠っている古いiPadはありませんか？売ってもあまり値段がつかないような旧型モデルでも、実はパソコンの「サブディスプレイ（デュアルモニター）」として活用できる非常に優秀なデバイスになります。画面を増やすことで、資料を見ながら文章を書いたり、オンライン会議中に別の作業をしたりと、テレワークや作業の効率が劇的に向上します。"
 msgstr ""
@@ -11718,7 +12173,7 @@ msgid "新着記事"
 msgstr "Najnowsze artykuły"
 
 msgid "新規ボード作成"
-msgstr "新規ボードUtwórz"
+msgstr "Utwórz nową tablicę"
 
 msgid "新規ルーム作成"
 msgstr "Załóż nowy pokój"
@@ -11752,7 +12207,15 @@ msgstr ""
 "hasła pokoju, aby rozpocząć edycję tekstu wspólnie z innymi."
 
 msgid "既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。"
-msgstr "既存のUdostępnijタスクボードをSzukaj・参加。ID pokojuとHasłoでチームのカンバンボードに参加できます。"
+msgstr ""
+"Znajdź istniejącą współdzieloną tablicę zadań i dołącz do niej za pomocą "
+"identyfikatora pokoju oraz hasła."
+
+msgid "日"
+msgstr "Nd"
+
+msgid "日々のTODO・作業整理"
+msgstr "Nd々のTODO・作業整理"
 
 msgid "日々のケアでも改善しない場合は、バンドの素材自体を変えるのが最も効果的です。"
 msgstr ""
@@ -11760,7 +12223,9 @@ msgstr ""
 "zmienić materiał, z którego wykonano pasek."
 
 msgid "日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。"
-msgstr "日付を選ぶとその日のタスクをPotwierdź・追加できます。タスクをドラッグすると期限日を変更できます。"
+msgstr ""
+"Wybierz datę, aby zobaczyć i dodać zadania z tego dnia. Przeciągnij "
+"zadanie, aby zmienić jego termin."
 
 msgid ""
 "日常の記録であれば、「1080p HD / "
@@ -11816,6 +12281,9 @@ msgstr ""
 "Bezpośredni dostęp do notatek w starym formacie został wyłączony. Użyj "
 "nowego udostępnionego adresu URL."
 
+msgid "明日"
+msgstr "Jutro"
+
 msgid "映画1本（2時間・高画質）"
 msgstr "Długometrażowy film wysokiej jakości"
 
@@ -11827,11 +12295,14 @@ msgstr ""
 "umownych należy umieścić w zatwierdzonym systemie przechowywania, a nie w"
 " tymczasowym udostępnieniu."
 
+msgid "時間後"
+msgstr "時間później"
+
 msgid "時間後に自動削除"
-msgstr "時間後にAutomatyczne usuwanie"
+msgstr "時間zostanie potem automatycznie usunięte"
 
 msgid "時間後に自動削除予定"
-msgstr "時間後にAutomatyczne usuwanie予定"
+msgstr "時間zostanie potem automatycznie usunięte予定"
 
 msgid "普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。"
 msgstr ""
@@ -11968,6 +12439,9 @@ msgstr ""
 msgid "書きながら、そのまま共有できる"
 msgstr "書きながら、そのままUdostępnijできる"
 
+msgid "書き出したタスクが、そのままボードになる"
+msgstr "書き出したタスクが、そのままTablicaになる"
+
 msgid "最も確実な対策は、アップロード前にファイルを開いて宛先と内容を確認することです。オートコンプリートで似た名前の連絡先を選んだ場合、URLを送る前に相手の名前・会社名・依頼内容を照合します。複数の資料をまとめて送るときは、不要な個人情報や社内メモを除き、送付目的に必要なファイルだけを残します。"
 msgstr ""
 "Najpewniejszym zabezpieczeniem jest otwarcie pliku przed przesłaniem i "
@@ -12038,6 +12512,9 @@ msgstr ""
 "Aby utrzymać wysoki poziom bezpieczeństwa, w praktyce rozdziel kanały "
 "komunikacji w następujący sposób."
 
+msgid "月"
+msgstr "Pn"
+
 msgid "有効期限とダウンロード回数制限"
 msgstr "Daty ważności i limity pobierania"
 
@@ -12047,8 +12524,17 @@ msgstr "Płatne aplikacje również są warte rozważenia"
 msgid "期間限定共有で情報をコントロール"
 msgstr "Zarządzaj informacjami poprzez udostępnianie ograniczone czasowo"
 
+msgid "期限"
+msgstr "Termin"
+
 msgid "期限が未設定のタスク"
-msgstr "期限が未Ustawieniaのタスク"
+msgstr "Zadania bez terminu"
+
+msgid "期限が近い順"
+msgstr "Najpierw najbliższy termin"
+
+msgid "期限なし"
+msgstr "Brak terminu"
 
 msgid "期限を短くする代わりに、受け取り確認を確実に行います。相手がダウンロードできたか、開けたか、対象ファイルが正しいかを確認すれば、長く公開しておく必要はありません。会議中の資料確認なら会議終了まで、当日中のレビューなら当日限り、取引先への一時送付なら受領連絡まで、というように終了条件を決めておきます。"
 msgstr ""
@@ -12057,14 +12543,29 @@ msgstr ""
 "potrzeby trzymać linku dłużej. Ustal warunek zakończenia, np. do końca "
 "spotkania, do końca dnia albo do potwierdzenia odbioru przez klienta."
 
+msgid "期限切れ"
+msgstr "Po terminie"
+
+msgid "期限日"
+msgstr "Termin wykonania"
+
 msgid "期限管理：終わりを決めてから共有する"
 msgstr "Zarządzanie terminem: ustal koniec przed udostępnieniem"
+
+msgid "木"
+msgstr "Cz"
 
 msgid "未決事項"
 msgstr "Otwarte kwestie"
 
 msgid "未決事項を次回の議題につなげる"
 msgstr "Przenieś otwarte kwestie do agendy następnego spotkania"
+
+msgid "未着手"
+msgstr "Do zrobienia"
+
+msgid "未着手・進行中・完了"
+msgstr "Do zrobienia・W toku・Ukończone"
 
 msgid "未確認の内容をどう表記するか"
 msgstr "Jak oznaczać niezweryfikowane treści"
@@ -12204,6 +12705,12 @@ msgstr ""
 "charakter wyłącznie informacyjny. W przypadku rozbieżności pomiędzy "
 "wersją japońską a tłumaczeniem, pierwszeństwo ma wersja japońska."
 
+msgid "条件をクリア"
+msgstr "Wyczyść warunki"
+
+msgid "来週"
+msgstr "W przyszłym tygodniu"
+
 msgid "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。"
 msgstr ""
 "W zaproszeniu podaj cel pokoju, sposób wejścia, nazwy plików do "
@@ -12244,10 +12751,10 @@ msgid "検索アイコン"
 msgstr "Ikona wyszukiwania"
 
 msgid "検索クリア"
-msgstr "Szukajクリア"
+msgstr "Wyczyść wyszukiwanie"
 
 msgid "検索ボックスへ移動"
-msgstr "Szukajボックスへ移動"
+msgstr "Przejdź do pola wyszukiwania"
 
 msgid "検討中の意見や背景を残す場所。細かく書きすぎず、後から流れが分かる程度にまとめます。"
 msgstr ""
@@ -12337,6 +12844,9 @@ msgstr ""
 "materiałów pobieranych w mgnieniu oka. Wybieraj rozwiązania na podstawie "
 "tego, by usuwały plik zaraz po tym, jak tylko trafi w odpowiednie ręce."
 
+msgid "機密性の高いファイルにも使えますか？"
+msgstr "機密性のWysokiいファイルにも使えますか？"
+
 msgid "機密情報が含まれる場合、パスワードや別経路連絡を使っているか"
 msgstr ""
 "Czy w przypadku poufnych danych stosujesz wymóg hasła przesyłanego "
@@ -12352,6 +12862,9 @@ msgstr ""
 
 msgid "次のファイル共有を、"
 msgstr "次のUdostępnianie plikówを、"
+
+msgid "次の月へ"
+msgstr "Następny miesiąc"
 
 msgid "次回用に案内文やファイル名ルールだけ残す"
 msgstr "Zostawić na przyszłość tylko szablon wiadomości i reguły nazw plików"
@@ -12389,6 +12902,9 @@ msgstr ""
 "Nigdy nie musisz przekazywać danych osobowych, takich jak imię i nazwisko"
 " czy adres e-mail, co eliminuje u samych podstaw całą kategorię ryzyka "
 "związanego z wyciekiem danych."
+
+msgid "水"
+msgstr "Śr"
 
 msgid "水や汗に非常に弱いため、水洗いは厳禁です。使用後は乾いた柔らかい布で優しく汗や皮脂を拭き取ります。定期的に革専用のクリーナーや保護クリームでお手入れすることで、ひび割れを防ぎ長持ちさせることができます。"
 msgstr ""
@@ -12469,6 +12985,9 @@ msgstr "準備は不要.まず書いて、Udostępnijが必要になった時点
 msgid "準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。"
 msgstr "準備は不要.ファイルを選び、Szyfrowanieして発行したUdostępnij情報を相手へ渡します。"
 
+msgid "火"
+msgstr "Wt"
+
 msgid "火災、停電、天災地変などの不可抗力により本サービスの提供が困難となった場合"
 msgstr ""
 "gdy świadczenie usług stanie się utrudnione lub niemożliwe z powodu siły "
@@ -12491,14 +13010,9 @@ msgstr ""
 msgid "無料で使う"
 msgstr "Za darmoで使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr ""
-"Za darmoで使えるUdostępnijタスクボード・カンバン管理サービス。アカウントBez "
-"rejestracji、URLをUdostępnijするだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr ""
-"Za darmoで使えるUdostępnijタスクボード・カンバン管理サービス。アカウントBez "
+"Za darmoで使えるWspółdzielona tablica zadań・カンバン管理サービス。アカウントBez "
 "rejestracji、URLUdostępnijで簡単にタスクの進捗をUdostępnij。"
 
 msgid "無料で使える日本語ファイル共有サービス。"
@@ -12772,34 +13286,39 @@ msgstr ""
 " często kończy się błędem limitu rozmiaru, lub frustrująco powolnym "
 "przesyłaniem z obu stron."
 
+msgid "発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。"
+msgstr "発行されたURLを渡すと、メンバーもドラッグ＆ドロップでW toku・Ukończoneへ移動できます。"
+
 msgid "発行されたURLを渡すと、同じノートをリアルタイムに編集できます。"
 msgstr "発行されたURLを渡すと、同じNotatkaをリアルタイムに編集できます。"
 
 msgid "発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。"
-msgstr "発行されたUdostępnijURLまたはKod QRをチームメンバーにWyślijだけで、誰でもすぐにボードにアクセスできます。"
+msgstr ""
+"発行されたAdres URL udostępnianiaまたはKod QRをチームメンバーにWyślijだけで、誰でもすぐにOtwórz "
+"tablicęできます。"
 
 msgid "発行された共有URLまたはQRコードをメンバーに渡します。"
-msgstr "発行されたUdostępnijURLまたはKod QRをメンバーに渡します。"
+msgstr "発行されたAdres URL udostępnianiaまたはKod QRをメンバーに渡します。"
 
 msgid "発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。"
 msgstr ""
-"発行するまで、この下書きが送信されることはありません。発行するとNotatkaPokójが作られ、24時間後にAutomatyczne "
-"usuwanieされます。"
+"発行するまで、この下書きが送信されることはありません。発行するとNotatkaPokójが作られ、24時間zostanie potem "
+"automatycznie usunięteされます。"
 
 msgid "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。"
 msgstr ""
-"発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごとAutomatyczne "
-"usuwanieされます。"
+"発行するまで、Dodajしたタスクが送信されることはありません。発行するとTablicaが作られ、24時間późniejにタスクごとAutomatyczne"
+" usuwanieされます。"
 
 msgid "発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。"
 msgstr ""
-"発行するまで、選んだファイルが送信されることはありません。発行するとPokójが作られ、24時間後にファイルごとAutomatyczne "
-"usuwanieされます。"
+"発行するまで、選んだファイルが送信されることはありません。発行するとPokójが作られ、24時間późniejにファイルごとAutomatyczne"
+" usuwanieされます。"
 
 msgid "発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。"
 msgstr ""
-"発行するまでファイルは送信されません。発行時にブラウザでSzyfrowanieし、選択した期間の終了後にAutomatyczne "
-"usuwanieします。"
+"発行するまでファイルは送信されません。発行時にブラウザでSzyfrowanieし、選択した期間の終了zostanie potem "
+"automatycznie usunięteします。"
 
 msgid "発言メモ"
 msgstr "Notatki z dyskusji"
@@ -12818,9 +13337,6 @@ msgstr "登録は不要.上の下書きNotatkaに書き始めるか、条件を�
 msgid "登録不要"
 msgstr "Bez rejestracji"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr "Bez rejestracji、URLをUdostępnijするだけで使えるUdostępnijタスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "Bez rejestracji。まずはクイックUdostępnijにファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -12828,7 +13344,9 @@ msgid "登録不要。ブラウザですぐに使えます"
 msgstr "Bez rejestracji。ブラウザですぐに使えます"
 
 msgid "登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。"
-msgstr "Bez rejestracji。Utwórz pokójしてURLをUdostępnijするだけで、未着手・進行中・完了を見える化できます。"
+msgstr ""
+"Bez rejestracji。Utwórz pokójしてURLをUdostępnijするだけで、Do zrobienia・W "
+"toku・Ukończoneを見える化できます。"
 
 msgid "登録不要だからこそ気をつけたいセキュリティのポイント"
 msgstr ""
@@ -12849,7 +13367,9 @@ msgstr ""
 " przesyłać, pobierać i zarządzać plikami."
 
 msgid "登録不要でタスクボードを作成・参加。複数人で未着手・進行中・完了のタスクを整理できます。"
-msgstr "Bez rejestracjiでタスクボードをUtwórz・参加。Wiele osóbで未着手・進行中・完了のタスクを整理できます。"
+msgstr ""
+"Utwórz tablicę zadań lub dołącz do niej bez konta. Wspólnie porządkuj "
+"zadania do zrobienia, w toku i ukończone."
 
 msgid "登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。"
 msgstr ""
@@ -12887,25 +13407,25 @@ msgid "登録不要の共同編集ノート | FS!QR Note"
 msgstr "Notatki dotyczące współpracy bez rejestracji | Uwaga FS!QR"
 
 msgid "登録不要の共有タスクボード"
-msgstr "Bez rejestracjiのUdostępnijタスクボード"
+msgstr "Bez rejestracjiのWspółdzielona tablica zadań"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
-msgstr "Bez rejestracjiのUdostępnijタスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "Bez rejestracjiのUdostępnijタスクボード・カンバン管理Webアプリケーション"
+msgstr "Współdzielona tablica zadań bez rejestracji | FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
-msgstr "Bez rejestracjiのUdostępnijタスクボード｜FS!QR Task"
+msgstr "Bez rejestracjiのWspółdzielona tablica zadań｜FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜チームで使えるFS!QR Task"
-msgstr "Bez rejestracjiのUdostępnijタスクボード｜チームで使えるFS!QR Task"
+msgstr "Bez rejestracjiのWspółdzielona tablica zadań｜チームで使えるFS!QR Task"
 
 msgid "登録不要の共有ノート｜FS!QR Note"
 msgstr "Bez rejestracjiのUdostępnijNotatka｜FS!QR Note"
 
 msgid "登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note"
 msgstr "Bez rejestracjiのUdostępnijNotatka｜リアルタイムWspólna edycjaならFS!QR Note"
+
+msgid "登録不要・URL共有で即時参加"
+msgstr "Bez rejestracji・URLUdostępnijで即時参加"
 
 msgid "登録不要・アプリ不要で、暗号化したファイルをQRコードや共有情報から一時共有できるWebアプリケーション"
 msgstr ""
@@ -13286,6 +13806,12 @@ msgstr "Ujednolić zasady udostępniania w organizacji"
 msgid "組織の承認が必要なデータ"
 msgstr "Dane wymagające zgody organizacji"
 
+msgid "絞り込み"
+msgstr "Filtruj"
+
+msgid "絞り込み (/)"
+msgstr "Filtruj (/)"
+
 msgid "継続的な改善と教育効果の測定"
 msgstr "Ciągłe doskonalenie i pomiar efektów nauczania"
 
@@ -13293,7 +13819,7 @@ msgid "編み込み（ブレイデッド）タイプ："
 msgstr "Paski plecione:"
 
 msgid "編集ダイアログを保存"
-msgstr "編集ダイアログをZapisz"
+msgstr "Zapisz okno edycji"
 
 msgid "編集内容の自動保存"
 msgstr "編集内容のAutomatyczny zapis"
@@ -13467,7 +13993,7 @@ msgid "表示"
 msgstr "Pokaż"
 
 msgid "表示するカラム"
-msgstr "Pokażするカラム"
+msgstr "Widoczne kolumny"
 
 msgid "表示モード・選択中のサービス・ズームは、この端末に"
 msgstr ""
@@ -13593,10 +14119,10 @@ msgid "設定"
 msgstr "Ustawienia"
 
 msgid "設定あり"
-msgstr "Ustawieniaあり"
+msgstr "Ustawiono"
 
 msgid "設定した保存期間の終了後"
-msgstr "UstawieniaしたOkres przechowywaniaの終了後"
+msgstr "UstawieniaしたOkres przechowywaniaの終了później"
 
 msgid "設定のカスタマイズ"
 msgstr "Dostosuj ustawienia"
@@ -13650,7 +14176,7 @@ msgid "詳細な解説記事をお読みいただけます。"
 msgstr "Zapoznaj się z naszymi szczegółowymi poradnikami."
 
 msgid "詳細設定（期限・優先度・タグ・メモ）"
-msgstr "詳細Ustawienia（期限・優先度・タグ・メモ）"
+msgstr "Ustawienia zaawansowane (termin, priorytet, tagi i notatki)"
 
 msgid "誤送信による即座の流出："
 msgstr "Natychmiastowy wyciek po wysłaniu do złej osoby:"
@@ -13765,6 +14291,12 @@ msgstr ""
 "rozmiary plików, z którymi mamy do czynienia na co dzień, stale rosną. "
 "Wiedza o tym, jak sprawnie i za darmo przesyłać duże pliki, to dziś "
 "kluczowa umiejętność."
+
+msgid "追加"
+msgstr "Dodaj"
+
+msgid "追加したタスクはいつ送信されますか？"
+msgstr "Dodajしたタスクはいつ送信されますか？"
 
 msgid "退職者や外部パートナーの権限管理不備："
 msgstr ""
@@ -13943,6 +14475,12 @@ msgstr ""
 msgid "通報/削除フロー"
 msgstr "Procedura zgłaszania i usuwania treści"
 
+msgid "通常"
+msgstr "Normalny"
+
+msgid "通常 (Normal)"
+msgstr "Normalny (Normal)"
+
 msgid "通常の共有リンクは、URLを知っている人なら誰でもアクセスできてしまいます。機密性の高い業務資料を扱うなら、必ず「パスワード設定」を有効にしましょう。これにより、万が一URLが外部に漏れても、中身を見られることはありません。"
 msgstr ""
 "W przypadku standardowego udostępniania plików każdy, kto pozna adres "
@@ -13956,6 +14494,9 @@ msgstr ""
 "Nylon świetnie przepuszcza powietrze i bardzo szybko schnie, przez co "
 "rzadko powoduje podrażnienia. Zapięcie na rzep pozwala też idealnie "
 "dopasować rozmiar, co pomaga zminimalizować tarcie."
+
+msgid "進行中"
+msgstr "W toku"
 
 msgid "運営者:"
 msgstr "Twórca serwisu:"
@@ -14046,6 +14587,9 @@ msgstr ""
 "Pliki zostaną automatycznie i trwale usunięte po upływie wybranego czasu "
 "przechowywania."
 
+msgid "選択した日のタスク"
+msgstr "Zadania wybranego dnia"
+
 msgid "選択した期間の終了後に自動で削除されます。"
 msgstr ""
 "Zostanie automatycznie usunięte po zakończeniu wybranego okresu "
@@ -14090,6 +14634,9 @@ msgstr ""
 msgid "重要ファイルでは、送信後に相手へ受領確認を取る"
 msgstr "Przy ważnych plikach poproś odbiorcę o potwierdzenie."
 
+msgid "金"
+msgstr "Pt"
+
 msgid "金属製（チタンやステンレス）："
 msgstr "Paski metalowe (tytan i stal nierdzewna):"
 
@@ -14118,6 +14665,12 @@ msgstr "Regularnie zmieniaj hasła używane ponownie przez długi czas."
 
 msgid "閉じる"
 msgstr "Zamknij"
+
+msgid "開始"
+msgstr "Początek"
+
+msgid "開始日"
+msgstr "Data rozpoczęcia"
 
 msgid "関連サービス"
 msgstr "Powiązana usługa"
@@ -14181,6 +14734,12 @@ msgid "顧客情報、見積書、契約書などを自宅や社外から扱う�
 msgstr ""
 "Zasady pracy z danymi klientów, wycenami i umowami poza biurem, które "
 "pomagają uniknąć omyłkowej wysyłki i pozostawionych aktywnych linków."
+
+msgid "高"
+msgstr "Wysoki"
+
+msgid "高 (High)"
+msgstr "Wysoki (High)"
 
 msgid "高さ（px）"
 msgstr "Wysokość (px)"

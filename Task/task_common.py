@@ -1,6 +1,8 @@
 from fastapi import Request
 from starlette.responses import RedirectResponse
 
+from i18n import is_language_query_only
+
 from .task_access import (
     can_delete_task_room,
     forget_task_room_access,
@@ -13,7 +15,8 @@ from .task_data import get_room_meta_direct
 
 
 def canonical_redirect(request: Request):
-    if request.url.query:
+    # 言語選択だけのクエリはページ表示に必要なため、正規 URL へ戻さない。
+    if request.url.query and not is_language_query_only(request):
         return RedirectResponse(str(request.url.replace(query="")), status_code=301)
     return None
 

@@ -18,7 +18,7 @@ from Articles.articles_registry import (
     get_guides,
     is_indexable_article,
 )
-from i18n import SUPPORTED_LANGUAGES
+from i18n import SUPPORTED_LANGUAGES, get_translator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -37,7 +37,7 @@ def test_articles_index_lists_indexable_articles(test_client: TestClient):
         assert article["title"] in body
     for article in get_indexable_blog_articles_sorted()[:ARTICLES_PER_PAGE]:
         assert f"/{article['slug']}" in body
-        assert article["title"] in body
+        assert get_translator("ja")(article["title"]) in body
     hidden_articles = [
         article
         for article in ARTICLES
@@ -50,16 +50,12 @@ def test_articles_index_lists_indexable_articles(test_client: TestClient):
         assert f"/{article['slug']}" not in body
 
 
-def test_off_topic_ai_articles_are_not_indexable():
-    """FS!QRの主題外記事は一覧・sitemap・AdSense対象から除外する。"""
-    excluded_slugs = {
-        "ai-live-translation-practical-guide",
-        "ai-ad-transparency-guide",
+def test_all_registered_articles_are_indexable():
+    """登録済みの記事はすべて一覧・sitemap・検索の公開対象にする。"""
+    assert all(is_indexable_article(article) for article in ARTICLES)
+    assert {article["slug"] for article in get_indexable_articles()} == {
+        article["slug"] for article in ARTICLES
     }
-    articles_by_slug = {article["slug"]: article for article in ARTICLES}
-    for slug in excluded_slugs:
-        assert slug in articles_by_slug
-        assert not is_indexable_article(articles_by_slug[slug])
 
 
 def test_public_articles_do_not_claim_unsupported_deletion_guarantees():
@@ -173,28 +169,13 @@ def test_articles_index_renders_visible_article_thumbnails(test_client: TestClie
         assert f"/static/{article['thumbnail']}?v=" in body
 
 
-def test_articles_second_page_is_not_created_for_the_curated_set(
+def test_articles_second_page_lists_published_articles(
     test_client: TestClient,
 ):
     response = test_client.get("/articles/page/2")
-    assert response.status_code == 404
-
-
-def test_adsense_review_keeps_only_curated_public_articles():
-    expected = {
-        "fs-qr-concept",
-        "safe-sharing",
-        "encryption",
-        "education",
-        "business",
-        "risk-mitigation",
-        "file-sharing-troubleshooting",
-        "group-room-access-troubleshooting",
-        "shared-note-sync-troubleshooting",
-        "remove-photo-location-data",
-        "send-photos-without-quality-loss",
-    }
-    assert {article["slug"] for article in get_indexable_articles()} == expected
+    assert response.status_code == 200
+    second_page_article = get_indexable_blog_articles_sorted()[ARTICLES_PER_PAGE]
+    assert f"/{second_page_article['slug']}" in response.text
 
 
 def test_articles_page_one_redirects_to_canonical_index(test_client: TestClient):

@@ -4,7 +4,6 @@
   var modules = window.__FSQR_APP__.api.getModuleNamespace('taskBoard');
   var core = modules.core;
   var store = modules.store;
-  var labels = core.STATUS_LABELS;
 
   function announce(message) {
     if (modules.render && modules.render.announce) {
@@ -14,8 +13,8 @@
 
   function conflictMessage(err) {
     return err.status === 409
-      ? '他の画面で更新されました。'
-      : (err.message || '更新に失敗しました。');
+      ? core.t('task.conflict_short', '他の画面で更新されました。')
+      : (err.message || core.t('task.update_error', '更新に失敗しました。'));
   }
 
   /** Items of one column in board order. / カラム内のタスクを表示順で取得する。 */
@@ -63,7 +62,12 @@
         (reorderData.items || []).forEach(function (updated) {
           store.replace(updated);
         });
-        announce('「' + changed.title + '」を' + (labels[status] || status) + 'へ移動しました');
+        announce(
+          core.formatMessage('task.item_moved', '「{title}」を{status}へ移動しました', {
+            title: changed.title,
+            status: core.statusLabel(status)
+          })
+        );
       } else {
         var data = await core.request(core.itemsUrl('/' + item.item_id), {
           method: 'PATCH',
@@ -74,7 +78,12 @@
           })
         });
         store.replace(data.item);
-        announce('「' + data.item.title + '」を' + (labels[status] || status) + 'へ移動しました');
+        announce(
+          core.formatMessage('task.item_moved', '「{title}」を{status}へ移動しました', {
+            title: data.item.title,
+            status: core.statusLabel(status)
+          })
+        );
       }
     } catch (err) {
       if (err.status === 409 && err.data && err.data.item) {
@@ -94,7 +103,9 @@
         store.restore(before);
       }
       core.toast(
-        err.status === 409 ? '他の画面で更新されました。' : (err.message || '移動に失敗しました。'),
+        err.status === 409
+          ? core.t('task.conflict_short', '他の画面で更新されました。')
+          : (err.message || core.t('task.move_error', '移動に失敗しました。')),
         'error'
       );
     }
@@ -163,7 +174,11 @@
   async function createItem(fields) {
     if (store.getItems().length >= core.config.limits.maxItems) {
       var limitError = new Error(
-        'タスク数の上限（' + core.config.limits.maxItems + '件）に達しました。'
+        core.formatMessage(
+          'task.limit_reached',
+          'タスク数の上限（{max}件）に達しました。',
+          { max: core.config.limits.maxItems }
+        )
       );
       limitError.isLimit = true;
       throw limitError;
@@ -185,7 +200,11 @@
       )
     });
     store.replace(data.item);
-    announce('「' + data.item.title + '」を追加しました');
+    announce(
+      core.formatMessage('task.item_added', '「{title}」を追加しました', {
+        title: data.item.title
+      })
+    );
     return data.item;
   }
 
@@ -203,7 +222,12 @@
         body: JSON.stringify({ version: item.version, board_status: status })
       });
       store.replace(data.item);
-      announce('「' + item.title + '」を' + (status === 'done' ? '完了' : '未着手') + 'にしました');
+      announce(
+        core.formatMessage('task.status_changed', '「{title}」を{status}にしました', {
+          title: item.title,
+          status: core.statusLabel(status)
+        })
+      );
     } catch (err) {
       if (err.status === 409 && err.data && err.data.item) {
         store.replace(err.data.item);
@@ -235,7 +259,14 @@
       });
       store.replace(data.item);
       announce(
-        '「' + data.item.title + '」の期限を' + (next ? next + 'に変更しました' : '解除しました')
+        next
+          ? core.formatMessage('task.due_changed', '「{title}」の期限を{date}に変更しました', {
+              title: data.item.title,
+              date: next
+            })
+          : core.formatMessage('task.due_cleared', '「{title}」の期限を解除しました', {
+              title: data.item.title
+            })
       );
     } catch (err) {
       if (err.status === 409 && err.data && err.data.item) {
@@ -278,17 +309,22 @@
       }
     }
     if (failed > 0) {
-      core.toast(failed + '件のタスクを復元できませんでした。', 'error');
+      core.toast(
+        core.formatMessage('task.restore_failed', '{count}件のタスクを復元できませんでした。', {
+          count: failed
+        }),
+        'error'
+      );
     } else {
-      core.toast('タスクを復元しました。', 'success');
+      core.toast(core.t('task.restored', 'タスクを復元しました。'), 'success');
     }
   }
 
   async function confirmDialog(message, title) {
     if (window.showConfirmModal) {
       return window.showConfirmModal(message, {
-        title: title || 'タスクを削除',
-        confirmLabel: '削除する',
+        title: title || core.t('task.delete_title', 'タスクを削除'),
+        confirmLabel: core.t('task.delete_action', '削除する'),
         isDanger: true
       });
     }
@@ -300,7 +336,11 @@
     if (!item) return false;
 
     if (!(options && options.skipConfirm)) {
-      var ok = await confirmDialog('「' + item.title + '」を削除しますか？');
+      var ok = await confirmDialog(
+        core.formatMessage('task.delete_confirm', '「{title}」を削除しますか？', {
+          title: item.title
+        })
+      );
       if (!ok) return false;
     }
 
@@ -313,14 +353,18 @@
         method: 'DELETE',
         body: JSON.stringify({ version: item.version })
       });
-      announce('「' + backup.title + '」を削除しました');
-      core.toastWithUndo('タスクを削除しました。', function () {
+      announce(
+        core.formatMessage('task.deleted_item', '「{title}」を削除しました', {
+          title: backup.title
+        })
+      );
+      core.toastWithUndo(core.t('task.deleted', 'タスクを削除しました。'), function () {
         restoreItems([backup]);
       });
       return true;
     } catch (err) {
       store.restore(before);
-      core.toast(err.message || '削除に失敗しました。', 'error');
+      core.toast(err.message || core.t('task.delete_failed', '削除に失敗しました。'), 'error');
       return false;
     }
   }
@@ -331,13 +375,17 @@
       return item.board_status === 'done';
     });
     if (doneItems.length === 0) {
-      core.toast('完了したタスクはありません。', 'info');
+      core.toast(core.t('task.no_completed', '完了したタスクはありません。'), 'info');
       return;
     }
 
     var ok = await confirmDialog(
-      '完了した ' + doneItems.length + ' 件のタスクを削除しますか？',
-      '完了タスクの一括削除'
+      core.formatMessage(
+        'task.bulk_delete_confirm',
+        '完了した{count}件のタスクを削除しますか？',
+        { count: doneItems.length }
+      ),
+      core.t('task.bulk_delete_title', '完了タスクの一括削除')
     );
     if (!ok) return;
 
@@ -363,7 +411,7 @@
 
     if (failed.length === doneItems.length) {
       store.restore(before);
-      core.toast('完了タスクを削除できませんでした。', 'error');
+      core.toast(core.t('task.bulk_delete_failed', '完了タスクを削除できませんでした。'), 'error');
       return;
     }
 
@@ -378,12 +426,26 @@
         return item.item_id === backup.item_id;
       });
     });
-    announce(deleted.length + '件の完了タスクを削除しました');
-    core.toastWithUndo(deleted.length + '件の完了タスクを削除しました。', function () {
-      restoreItems(deleted);
-    });
+    announce(
+      core.formatMessage('task.bulk_deleted', '{count}件の完了タスクを削除しました', {
+        count: deleted.length
+      })
+    );
+    core.toastWithUndo(
+      core.formatMessage('task.bulk_deleted', '{count}件の完了タスクを削除しました。', {
+        count: deleted.length
+      }),
+      function () {
+        restoreItems(deleted);
+      }
+    );
     if (failed.length > 0) {
-      core.toast(failed.length + '件のタスクを削除できませんでした。', 'error');
+      core.toast(
+        core.formatMessage('task.bulk_delete_partial', '{count}件のタスクを削除できませんでした。', {
+          count: failed.length
+        }),
+        'error'
+      );
     }
   }
 
@@ -400,7 +462,7 @@
 
     var entries = [
       {
-        label: '詳細・編集',
+        label: core.t('task.edit_details', '詳細・編集'),
         icon: 'edit',
         onSelect: function () {
           var now = store.getItem(item.item_id);
@@ -413,7 +475,9 @@
     core.STATUSES.forEach(function (status) {
       if (status === item.board_status) return;
       entries.push({
-        label: (labels[status] || status) + 'へ移動',
+        label: core.formatMessage('task.move_to', '{status}へ移動', {
+          status: core.statusLabel(status)
+        }),
         icon: status === 'todo' ? 'arrowLeft' : (status === 'done' ? 'arrowRight' : 'arrowRight'),
         onSelect: function () {
           var now = store.getItem(item.item_id);
@@ -424,7 +488,7 @@
 
     entries.push({ divider: true });
     entries.push({
-      label: '上へ移動',
+      label: core.t('task.move_up', '上へ移動'),
       icon: 'arrowUp',
       disabled: !customOrder || currentIndex <= 0,
       onSelect: function () {
@@ -433,7 +497,7 @@
       }
     });
     entries.push({
-      label: '下へ移動',
+      label: core.t('task.move_down', '下へ移動'),
       icon: 'arrowDown',
       disabled: !customOrder || currentIndex < 0 || currentIndex >= currentList.length - 1,
       onSelect: function () {
@@ -443,7 +507,7 @@
     });
     entries.push({ divider: true });
     entries.push({
-      label: '削除',
+      label: core.t('task.delete', '削除'),
       icon: 'trash',
       danger: true,
       onSelect: function () {
@@ -462,14 +526,16 @@
 
     var entries = [
       {
-        label: 'このカラムに追加',
+        label: core.t('task.column_add', 'このカラムに追加'),
         icon: 'plus',
         onSelect: function () {
           if (modules.columns) modules.columns.openInlineAdd(status);
         }
       },
       {
-        label: collapsed ? 'カラムを展開' : 'カラムを折りたたむ',
+        label: collapsed
+          ? core.t('task.column_expand', 'カラムを展開')
+          : core.t('task.column_collapse', 'カラムを折りたたむ'),
         icon: 'collapse',
         onSelect: function () {
           if (modules.columns) modules.columns.toggleCollapse(status);
@@ -480,7 +546,7 @@
     if (status === 'done') {
       entries.push({ divider: true });
       entries.push({
-        label: '完了タスクを一括削除',
+        label: core.t('task.bulk_delete_action', '完了タスクを一括削除'),
         icon: 'broom',
         danger: true,
         onSelect: clearDone

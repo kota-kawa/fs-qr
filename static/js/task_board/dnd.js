@@ -25,7 +25,13 @@
     if (!customOrder()) {
       if (!sortWarned) {
         sortWarned = true;
-        core.toast('並び替え中はドラッグできません。「カスタム順」に戻してください。', 'info');
+        core.toast(
+          core.t(
+            'task.sort_drag_disabled',
+            '並び替え中はドラッグできません。「カスタム順」に戻してください。'
+          ),
+          'info'
+        );
       }
       return true;
     }

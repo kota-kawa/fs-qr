@@ -160,8 +160,9 @@ HTML 生成後の文字列置換は行いません。新規 UI は安定キー�
 新規追加しません。ファイル配置と検証の詳細は
 [locales/README.md](locales/README.md)、実行時の言語判定は
 `i18n_support/constants.py` と `i18n_support/language.py` を参照します。
-現在は `JAPANESE_ONLY_MODE` が有効で、公開ページの表示・hreflang は日本語に固定される
-設計です。多言語表示を再開する場合は、サーバー、テンプレート、JS、SEO テストを一括で確認します。
+現在は `JAPANESE_ONLY_MODE` を無効にしており、公開ページはクエリ・Cookieで選択した言語を
+表示し、全対応言語の hreflang を出力します。言語を一時停止する場合は、このフラグと
+サーバー、テンプレート、JS、SEO テストを一括で確認します。
 
 ## データとファイル保存
 

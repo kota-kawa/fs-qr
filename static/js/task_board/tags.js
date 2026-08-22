@@ -81,7 +81,10 @@
     if (!tags.length) {
       var empty = document.createElement('p');
       empty.className = 'task-tag-picker__empty';
-      empty.textContent = 'タグはまだありません。下の入力欄から追加できます。';
+      empty.textContent = core.t(
+        'task.no_tags_manager',
+        'タグはまだありません。下の入力欄から追加できます。'
+      );
       container.appendChild(empty);
       return;
     }
@@ -102,7 +105,12 @@
         } else {
           var max = limits().tagsPerItem || 10;
           if (selectedIds.length >= max) {
-            core.toast('1つのタスクに設定できるタグは' + max + '件までです。', 'error');
+            core.toast(
+              core.formatMessage('task.tag_limit', '1つのタスクに設定できるタグは{max}件までです。', {
+                max: max
+              }),
+              'error'
+            );
             return;
           }
           selectedIds.push(id);
@@ -134,7 +142,7 @@
     if (!tags.length) {
       var empty = document.createElement('p');
       empty.className = 'task-tag-manager__empty';
-      empty.textContent = 'タグはまだありません。';
+      empty.textContent = core.t('task.no_tags', 'タグはまだありません。');
       list.appendChild(empty);
       return;
     }
@@ -155,20 +163,23 @@
     input.className = 'task-tag-manager__input';
     input.value = tag.name;
     input.maxLength = limits().tagLength || 40;
-    input.setAttribute('aria-label', tag.name + ' の名前');
+    input.setAttribute(
+      'aria-label',
+      core.formatMessage('task.tag_name_aria', '{name} の名前', { name: tag.name })
+    );
     row.appendChild(input);
 
     var count = document.createElement('span');
     count.className = 'task-tag-manager__count';
     var used = Number(tag.item_count || 0);
-    count.textContent = used + '件';
-    count.title = 'このタグが付いているタスク数';
+    count.textContent = core.formatMessage('task.tag_count', '{count}', { count: used });
+    count.title = core.t('task.tag_count_title', 'このタグが付いているタスク数');
     row.appendChild(count);
 
     var save = document.createElement('button');
     save.type = 'button';
     save.className = 'task-tag-manager__action';
-    save.textContent = '保存';
+    save.textContent = core.t('common.save', '保存');
     save.addEventListener('click', function () {
       applyRename(tag, input.value);
     });
@@ -183,7 +194,7 @@
     var remove = document.createElement('button');
     remove.type = 'button';
     remove.className = 'task-tag-manager__action is-danger';
-    remove.textContent = '削除';
+    remove.textContent = core.t('common.delete', '削除');
     remove.addEventListener('click', function () {
       confirmDelete(tag);
     });
@@ -196,7 +207,7 @@
     var name = String(rawName || '').trim();
     if (isBusy) return;
     if (!name) {
-      showManagerError('タグ名を入力してください。');
+      showManagerError(core.t('task.tag_name_required', 'タグ名を入力してください。'));
       return;
     }
     if (name === tag.name) {
@@ -208,9 +219,9 @@
       await renameTag(tag.tag_id, name);
       showManagerError('');
       renderManagerList();
-      core.toast('タグ名を変更しました。', 'success');
+      core.toast(core.t('task.tag_renamed', 'タグ名を変更しました。'), 'success');
     } catch (err) {
-      showManagerError(err.message || 'タグ名を変更できませんでした。');
+      showManagerError(err.message || core.t('task.tag_rename_error', 'タグ名を変更できませんでした。'));
     } finally {
       isBusy = false;
     }
@@ -220,12 +231,18 @@
     var used = Number(tag.item_count || 0);
     var message =
       used > 0
-        ? '「' + tag.name + '」を削除します。' + used + '件のタスクからこのタグが外れます。'
-        : '「' + tag.name + '」を削除しますか？';
+        ? core.formatMessage(
+            'task.tag_delete_confirm_used',
+            '「{name}」を削除します。{count}件のタスクからこのタグが外れます。',
+            { name: tag.name, count: used }
+          )
+        : core.formatMessage('task.tag_delete_confirm', '「{name}」を削除しますか？', {
+            name: tag.name
+          });
     var ok = window.showConfirmModal
       ? await window.showConfirmModal(message, {
-          title: 'タグを削除',
-          confirmLabel: '削除する',
+          title: core.t('task.tag_delete_title', 'タグを削除'),
+          confirmLabel: core.t('task.delete_action', '削除する'),
           isDanger: true
         })
       : window.confirm(message);
@@ -236,9 +253,9 @@
       await deleteTag(tag.tag_id);
       showManagerError('');
       renderManagerList();
-      core.toast('タグを削除しました。', 'success');
+      core.toast(core.t('task.tag_deleted', 'タグを削除しました。'), 'success');
     } catch (err) {
-      showManagerError(err.message || 'タグを削除できませんでした。');
+      showManagerError(err.message || core.t('task.tag_delete_error', 'タグを削除できませんでした。'));
     } finally {
       isBusy = false;
     }
@@ -249,7 +266,7 @@
     if (!input || isBusy) return;
     var name = input.value.trim();
     if (!name) {
-      showManagerError('タグ名を入力してください。');
+      showManagerError(core.t('task.tag_name_required', 'タグ名を入力してください。'));
       return;
     }
     isBusy = true;
@@ -262,9 +279,9 @@
       input.focus();
       showManagerError('');
       renderManagerList();
-      core.toast('タグを追加しました。', 'success');
+      core.toast(core.t('task.tag_added', 'タグを追加しました。'), 'success');
     } catch (err) {
-      showManagerError(err.message || 'タグを追加できませんでした。');
+      showManagerError(err.message || core.t('task.tag_add_error', 'タグを追加できませんでした。'));
     } finally {
       isBusy = false;
     }

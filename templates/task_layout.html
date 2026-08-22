@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="{% block meta_description %}{{ _("FS!QR Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。") }}{% endblock %}" />
-  <meta name="keywords" content="{% block meta_keywords %}{{ _("共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, 日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除") }}{% endblock %}" />
+  <meta name="description" content="{% block meta_description %}{{ _("task.layout.meta_description") }}{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}{{ _("task.layout.meta_keywords") }}{% endblock %}" />
   <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
   <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
   <meta name="author" content="FS!QR" />
@@ -32,21 +32,21 @@
   <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
   <meta property="og:locale" content="{{ og_locale }}" />
   <meta property="og:site_name" content="FS!QR Task" />
-  <meta property="og:title" content="{% block og_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}{{ _("登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。") }}{% endblock %}" />
+  <meta property="og:title" content="{% block og_title %}{{ _("task.layout.og_title") }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ _("task.layout.og_description") }}{% endblock %}" />
   <meta property="og:url" content="{{ request.canonical_url }}" />
   <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="723" />
-  <meta property="og:image:alt" content="{{ _("FS!QR Task 共有タスクボードサービス") }}" />
+  <meta property="og:image:alt" content="{{ _("task.layout.service_alt") }}" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}" />
-  <meta name="twitter:description" content="{% block twitter_description %}{{ _("登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。") }}{% endblock %}" />
+  <meta name="twitter:title" content="{% block twitter_title %}{{ _("task.layout.og_title") }}{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}{{ _("task.layout.og_description") }}{% endblock %}" />
   <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-  <meta name="twitter:image:alt" content="{{ _("FS!QR Task サービス") }}" />
+  <meta name="twitter:image:alt" content="{{ _("task.layout.service_name") }}" />
 
   <!-- SEO -->
   <link rel="canonical" href="{{ request.canonical_url }}" />
@@ -84,7 +84,7 @@
       {% endif %}
     });
   </script>
-  <title>{% block page_title %}{{ _("FS!QR Task | 無料で使える共有タスクボード・カンバン管理") }}{% endblock %}</title>
+  <title>{% block page_title %}{{ _("task.layout.og_title") }}{% endblock %}</title>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -92,9 +92,9 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FS!QR Task",
-    "alternateName": {{ _("エフエスQRタスク") | tojson }},
+    "alternateName": {{ _("task.layout.schema_alternate_name") | tojson }},
     "url": "{{ request.url_root }}task",
-    "description": {{ _("無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。") | tojson }},
+    "description": {{ _("task.layout.schema_description") | tojson }},
     "inLanguage": {{ schema_language | tojson }},
     "isPartOf": {
       "@type": "WebSite",
@@ -123,7 +123,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "FS!QR Task",
-    "description": {{ _("登録不要の共有タスクボード・カンバン管理Webアプリケーション") | tojson }},
+    "description": {{ _("task.layout.software_description") | tojson }},
     "applicationCategory": "WebApplication",
     "operatingSystem": "Web Browser",
     "offers": {
@@ -132,11 +132,11 @@
       "priceCurrency": "JPY"
     },
     "featureList": [
-      {{ _("カンバン式タスク管理") | tojson }},
-      {{ _("URL共有で即座にコラボレーション") | tojson }},
-      {{ _("優先度・期限・タグ分類") | tojson }},
-      {{ _("ドラッグ＆ドロップ操作") | tojson }},
-      {{ _("自動データ消去") | tojson }}
+      {{ _("task.layout.feature_kanban") | tojson }},
+      {{ _("task.layout.feature_collaboration") | tojson }},
+      {{ _("task.layout.feature_priority") | tojson }},
+      {{ _("task.layout.feature_drag_drop") | tojson }},
+      {{ _("task.layout.feature_auto_delete") | tojson }}
     ]
   }
   </script>
@@ -146,7 +146,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "FS!QR",
-    "alternateName": {{ _("エフエスQR") | tojson }},
+    "alternateName": {{ _("task.layout.organization_name") | tojson }},
     "url": "{{ request.url_root }}",
     "logo": "{{ staticfile('logo.png') }}",
     "foundingDate": "2024",
@@ -183,11 +183,11 @@
   <!-- ── Search-link & Navigation ─────────── -->
   <div class="text-center">
     <a href="/search_task" class="search-link">
-      <img src="{{ staticfile('task_search.png') }}" alt="{{ _("検索") }}" loading="lazy" decoding="async" />
-      <span>{{ _("検索") }}</span>
+      <img src="{{ staticfile('task_search.png') }}" alt="{{ _("common.search") }}" loading="lazy" decoding="async" />
+      <span>{{ _("common.search") }}</span>
     </a>
-    <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
-      <a class="section-tab" href="/">{{ _("ホーム") }}</a>
+    <nav class="section-tabs" aria-label="{{ _("common.service_navigation") }}">
+      <a class="section-tab" href="/">{{ _("common.home") }}</a>
       <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
       <a class="section-tab" href="/group_menu">Group</a>
       <a class="section-tab" href="/note_menu">Note</a>

@@ -21,6 +21,7 @@ from i18n import (
     META_LANGUAGE_MAP,
     OG_LOCALE_MAP,
     SCHEMA_LANGUAGE_MAP,
+    SUPPORTED_LANGUAGES,
     current_language_ctx,
     get_language_options,
     get_frontend_messages,
@@ -92,8 +93,8 @@ ASYNC_REQUEST_HEADER = "x-requested-with"
 
 
 class TemplateRequestProxy:
-    # AdSense 再審査中は日本語 canonical 面だけを検索評価対象にする。
-    SUPPORTED_HREFLANG_LANGS = ("ja",)
+    # 多言語版を公開し、各言語の canonical / hreflang を生成する。
+    SUPPORTED_HREFLANG_LANGS = ("ja",) if JAPANESE_ONLY_MODE else SUPPORTED_LANGUAGES
 
     def __init__(self, request: Request) -> None:
         self._request = request

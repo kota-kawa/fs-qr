@@ -347,6 +347,31 @@ def test_task_item_limit_validation_and_conflict(test_client: TestClient):
     assert invalid_response.status_code == 400
 
 
+def test_task_api_errors_use_the_selected_language(test_client: TestClient):
+    """Task API のエラーも画面の選択言語で返す。"""
+    with (
+        patch("Task.task_authorize.has_task_room_access", return_value=True),
+        patch(
+            "Task.task_routes_items.task_data.get_room_meta_direct",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch(
+            "Task.task_routes_items.task_data.count_items",
+            new_callable=AsyncMock,
+            return_value=200,
+        ),
+    ):
+        response = test_client.post(
+            "/api/task/abc123/items?lang=en", json={"title": "Limit"}
+        )
+
+    assert response.status_code == 400
+    assert response.json()["error"] == (
+        "The task limit for this room has been reached (200)."
+    )
+
+
 def test_task_item_create_rechecks_limit_inside_data_layer(test_client: TestClient):
     from Task import task_data
 

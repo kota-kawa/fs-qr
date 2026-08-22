@@ -41,18 +41,6 @@ from typing import Any
 TYPE_GUIDE = "guide"
 TYPE_ARTICLE = "article"
 ARTICLE_THUMBNAIL_DIR = "articles/thumbnails"
-ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS = frozenset(
-    {
-        # 実際の操作トラブルを解決する記事だけを公開対象に残す。
-        # 活用事例や一般的なデジタル豆知識は、内容がサービス紹介と重なり
-        # やすいため、本文を再構成するまで noindex のままにする。
-        "file-sharing-troubleshooting",
-        "group-room-access-troubleshooting",
-        "shared-note-sync-troubleshooting",
-        "remove-photo-location-data",
-        "send-photos-without-quality-loss",
-    }
-)
 
 # 既存の6件はサービス解説ガイド(エバーグリーン)としてデフォルト保持する。
 # 品質確認済みの記事は type="article" でこのリスト末尾に append していく。
@@ -134,6 +122,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "smartphone-receiving.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "pc-mobile-transfer",
@@ -145,6 +134,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "pc-mobile-transfer.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "browser-based-sharing",
@@ -156,6 +146,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "browser-based-sharing.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "auto-delete-benefits",
@@ -167,6 +158,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "auto-delete-benefits.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "telework-security",
@@ -178,6 +170,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "telework-security.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "event-material-distribution",
@@ -189,6 +182,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "event-material-distribution.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "remote-work-file-sharing-checklist",
@@ -200,6 +194,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "remote-work-file-sharing-checklist.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "home-office-confidential-files",
@@ -211,6 +206,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "home-office-confidential-files.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "remote-team-material-handoff",
@@ -222,6 +218,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "remote-team-material-handoff.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "school-meeting-class-examples",
@@ -233,6 +230,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "school-meeting-class-examples.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "send-large-files-free",
@@ -244,6 +242,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "send-large-files-free.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "no-registration-file-sharing",
@@ -255,6 +254,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "no-registration-file-sharing.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "meeting-minutes-shared-note",
@@ -266,6 +266,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "meeting-minutes-shared-note.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "temporary-client-file-room",
@@ -277,6 +278,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "temporary-client-file-room.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "file-sharing-troubleshooting",
@@ -288,6 +290,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "file-sharing-troubleshooting.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "send-photos-without-quality-loss",
@@ -299,6 +302,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "send-photos-without-quality-loss.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "remove-photo-location-data",
@@ -310,6 +314,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "remove-photo-location-data.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "file-size-units-kb-mb-gb",
@@ -321,6 +326,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "file-size-units-kb-mb-gb.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "smartwatch-band-rash",
@@ -332,6 +338,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "smartwatch-band-rash.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "wifi-band-steering-pros-cons",
@@ -343,6 +350,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "wifi-band-steering-pros-cons.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "old-ipad-sub-display",
@@ -354,6 +362,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "old-ipad-sub-display.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "qr-code-link-troubleshooting",
@@ -365,6 +374,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "qr-code-link-troubleshooting.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "group-room-access-troubleshooting",
@@ -376,6 +386,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "group-room-access-troubleshooting.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "shared-note-sync-troubleshooting",
@@ -387,6 +398,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "shared-note-sync-troubleshooting.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "smartphone-storage-clear",
@@ -398,6 +410,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "smartphone-storage-clear.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "pdf-compression-free",
@@ -409,6 +422,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "pdf-compression-free.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "screen-recording-free",
@@ -420,6 +434,7 @@ ARTICLES: list[dict[str, Any]] = [
         "template": "screen-recording-free.html",
         "type": TYPE_ARTICLE,
         "default": False,
+        "indexable": True,
     },
     {
         "slug": "client-file-handoff",
@@ -432,7 +447,7 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/client-file-handoff.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        "indexable": False,
+        "indexable": True,
     },
     {
         "slug": "ai-live-translation-practical-guide",
@@ -445,8 +460,7 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/ai-live-translation-practical-guide.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        # FS!QRのファイル共有という主題から外れるため、品質改善まで非公開扱いにする。
-        "indexable": False,
+        "indexable": True,
     },
     {
         "slug": "ai-ad-transparency-guide",
@@ -459,8 +473,7 @@ ARTICLES: list[dict[str, Any]] = [
         "thumbnail": "articles/thumbnails/ai-ad-transparency-guide.png",
         "type": TYPE_ARTICLE,
         "default": False,
-        # FS!QRのファイル共有という主題から外れるため、品質改善まで非公開扱いにする。
-        "indexable": False,
+        "indexable": True,
     },
 ]
 
@@ -470,8 +483,7 @@ CATEGORIES: list[str] = []
 for _article in ARTICLES:
     _article.setdefault(
         "indexable",
-        _article.get("type") == TYPE_GUIDE
-        or _article["slug"] in ADSENSE_REVIEW_INDEXABLE_ARTICLE_SLUGS,
+        _article.get("type") == TYPE_GUIDE,
     )
     _article.setdefault(
         "thumbnail",

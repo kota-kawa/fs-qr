@@ -75,12 +75,12 @@
       return;
     }
     var ok = window.showConfirmModal
-      ? await window.showConfirmModal('編集内容が保存されていません。破棄して閉じますか？', {
-          title: '変更を破棄',
-          confirmLabel: '破棄する',
+      ? await window.showConfirmModal(core.t('task.unsaved_confirm', '編集内容が保存されていません。破棄して閉じますか？'), {
+          title: core.t('task.discard_title', '変更を破棄'),
+          confirmLabel: core.t('task.discard_action', '破棄する'),
           isDanger: true
         })
-      : window.confirm('編集内容が保存されていません。破棄して閉じますか？');
+      : window.confirm(core.t('task.unsaved_confirm', '編集内容が保存されていません。破棄して閉じますか？'));
     if (ok) {
       baseline = snapshotForm();
       close();
@@ -143,7 +143,7 @@
     lastFocus = document.activeElement;
     isNewMode = false;
 
-    element('taskEditorTitle').textContent = 'タスクを編集';
+    element('taskEditorTitle').textContent = core.t('task.edit_title', 'タスクを編集');
     element('taskEditorDelete').style.display = 'inline-flex';
 
     element('taskEditorId').value = String(item.item_id);
@@ -191,7 +191,7 @@
     var dueDate = (options && options.dueDate) || todayStr;
     var startDate = dueDate >= todayStr ? todayStr : '';
 
-    element('taskEditorTitle').textContent = 'タスクを追加';
+    element('taskEditorTitle').textContent = core.t('task.add_title', 'タスクを追加');
     element('taskEditorDelete').style.display = 'none';
 
     element('taskEditorId').value = '';
@@ -243,13 +243,13 @@
 
     var payload = collectPayload();
     if (!payload.title) {
-      showError('タスク名を入力してください。');
+      showError(core.t('task.name_required', 'タスク名を入力してください。'));
       element('taskEditorTitleInput').focus();
       return;
     }
     if (payload.start_date && payload.due_date) {
       if (payload.start_date > payload.due_date) {
-        showError('開始日は期限日以前の日付を指定してください。');
+        showError(core.t('task.start_before_due', '開始日は期限日以前の日付を指定してください。'));
         return;
       }
     }
@@ -263,9 +263,9 @@
         await modules.actions.createItem(payload);
         baseline = snapshotForm();
         close();
-        core.toast('タスクを追加しました。', 'success');
+        core.toast(core.t('task.added', 'タスクを追加しました。'), 'success');
       } catch (err) {
-        showError(err.message || '追加に失敗しました。');
+        showError(err.message || core.t('task.add_error', '追加に失敗しました。'));
       } finally {
         isSaving = false;
         if (submitBtn) submitBtn.disabled = false;
@@ -288,16 +288,16 @@
       store.replace(updated.item);
       baseline = snapshotForm();
       close();
-      core.toast('タスクを更新しました。', 'success');
+      core.toast(core.t('task.updated', 'タスクを更新しました。'), 'success');
     } catch (err) {
       if (err.status === 409 && err.data && err.data.item) {
         store.replace(err.data.item);
-        core.toast('他の画面で更新されました。最新の内容を表示します。', 'error');
+        core.toast(core.t('task.conflict_detail', '他の画面で更新されました。最新の内容を表示します。'), 'error');
         baseline = snapshotForm();
         close();
       } else {
         store.restore(before);
-        showError(err.message || '更新に失敗しました。');
+        showError(err.message || core.t('task.update_error', '更新に失敗しました。'));
       }
     } finally {
       isSaving = false;
@@ -344,7 +344,11 @@
 
     var max = (core.config.limits && core.config.limits.tagsPerItem) || 10;
     if (selectedTagIds.length >= max) {
-      showError('1つのタスクに設定できるタグは' + max + '件までです。');
+      showError(
+        core.formatMessage('task.tag_limit', '1つのタスクに設定できるタグは{max}件までです。', {
+          max: max
+        })
+      );
       return;
     }
 
@@ -359,7 +363,7 @@
       showError('');
       renderTagPicker();
     } catch (err) {
-      showError(err.message || 'タグを追加できませんでした。');
+      showError(err.message || core.t('task.tag_add_error', 'タグを追加できませんでした。'));
     }
   }
 

@@ -15,7 +15,6 @@ from models import NoteTaskRoomCreateInput, RoomCreateInput
 from rate_limit import (
     SCOPE_TASK,
     check_rate_limit,
-    get_block_message,
     get_client_ip,
     register_failure,
     register_success,
@@ -45,7 +44,13 @@ from .task_common import (
     has_task_room_access,
     remember_task_room_access,
 )
-from .task_responses import room_msg
+from .task_responses import (
+    room_msg,
+    task_api_error,
+    task_message,
+    task_rate_limit_message,
+    task_validation_message,
+)
 
 logger = logging.getLogger(__name__)
 ROOM_ID_CHARS = string.ascii_letters + string.digits
@@ -107,19 +112,27 @@ def register_task_room_access_routes(router: APIRouter) -> None:
         ip = get_client_ip(request)
         allowed, _, label = await check_rate_limit(SCOPE_TASK, ip)
         if not allowed:
-            return room_msg(request, get_block_message(label), 429)
+            return room_msg(request, task_rate_limit_message(label), 429)
         link = await resolve_share_link(token, service_key=ServiceKey.TASK)
         if not link:
             _, label = await register_failure(SCOPE_TASK, ip)
             return room_msg(
                 request,
-                get_block_message(label) if label else "共有URLが無効です",
+                task_rate_limit_message(label)
+                if label
+                else task_message("task.share_invalid", "共有URLが無効です。"),
                 429 if label else 404,
             )
         room_id = link["resource_id"]
         record = await get_room_if_active(room_id)
         if not record:
-            return room_msg(request, "指定されたルームが見つかりません", 404)
+            return room_msg(
+                request,
+                task_message(
+                    "task.room_not_found", "指定されたルームが見つかりません。"
+                ),
+                404,
+            )
         await register_success(SCOPE_TASK, ip)
         remember_task_room_access(
             request, room_id, share_token=token, password=share_link_password(link)
@@ -130,16 +143,34 @@ def register_task_room_access_routes(router: APIRouter) -> None:
     @router.get("/task/r/{room_id}", name="task.task_room")
     async def task_room(request: Request, room_id: str):
         if not has_task_room_access(request, room_id):
-            return room_msg(request, "共有URLまたは検索からアクセスしてください。", 404)
+            return room_msg(
+                request,
+                task_message(
+                    "task.access_required",
+                    "共有URLまたは検索からアクセスしてください。",
+                ),
+                404,
+            )
         record = await get_room_if_active(room_id)
         if not record:
-            return room_msg(request, "指定されたルームが見つかりません", 404)
+            return room_msg(
+                request,
+                task_message(
+                    "task.room_not_found", "指定されたルームが見つかりません。"
+                ),
+                404,
+            )
         return _render_task_room(request, room_id, record)
 
     @router.get("/task/{room_id}/{password}", name="task.legacy_room")
     async def task_legacy_room(request: Request, room_id: str, password: str):
         return room_msg(
-            request, "旧形式のTask URLは停止しました。共有URLを使用してください。", 410
+            request,
+            task_message(
+                "task.legacy_url",
+                "旧形式のTask URLは停止しました。共有URLを使用してください。",
+            ),
+            410,
         )
 
 
@@ -177,9 +208,11 @@ def register_task_create_room_route(router: APIRouter) -> None:
                 else (inp.id if _valid_manual_id(inp.id) else "")
             )
         except (ValidationError, ValueError) as exc:
-            return api_error_response(
-                str(exc) or "入力内容が不正です。", status_code=400
-            )
+            if isinstance(exc, ValueError) and str(exc):
+                message = task_validation_message(str(exc))
+            else:
+                message = task_message("task.request_error", "入力内容が不正です。")
+            return api_error_response(message, status_code=400)
         if not room_id:
             for _ in range(ROOM_ID_ATTEMPTS):
                 candidate = _generate_room_id()
@@ -187,27 +220,33 @@ def register_task_create_room_route(router: APIRouter) -> None:
                     room_id = candidate
                     break
         elif await task_data.get_room_meta_direct(room_id):
-            return api_error_response(
+            return task_api_error(
+                "task.id_in_use",
                 "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
                 data={"retry_auto": inp.id_mode == "auto"},
             )
         if not room_id:
-            return api_error_response(
-                "自動生成IDの作成に失敗しました。", status_code=500
+            return task_api_error(
+                "task.auto_id_failed",
+                "自動生成IDの作成に失敗しました。",
+                status_code=500,
             )
         password = generate_room_password()
         try:
             await task_data.create_room(room_id, password, room_id, inp.retention_hours)
         except IntegrityError:
-            return api_error_response(
+            return task_api_error(
+                "task.id_in_use",
                 "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
                 data={"retry_auto": inp.id_mode == "auto"},
             )
         except Exception:
             logger.exception("Failed to create task room")
-            return api_error_response("ルーム作成に失敗しました。", status_code=500)
+            return task_api_error(
+                "task.room_create_failed", "ルーム作成に失敗しました。", status_code=500
+            )
         share_token = await _create_task_share_token(
             room_id, password, inp.retention_hours
         )
@@ -246,19 +285,23 @@ def register_task_search_process_route(router: APIRouter) -> None:
         ip = get_client_ip(request)
         allowed, _, label = await check_rate_limit(SCOPE_TASK, ip)
         if not allowed:
-            return room_msg(request, get_block_message(label), 429)
+            return room_msg(request, task_rate_limit_message(label), 429)
         try:
             id_, password = validate_room_credentials(
                 str(form.get("id") or ""), str(form.get("password") or "")
             )
         except ValueError as exc:
-            return room_msg(request, str(exc), 400)
+            return room_msg(request, task_validation_message(str(exc)), 400)
         room_id = await task_data.pick_room_id_direct(id_, password)
         if not room_id or not await get_room_if_active(room_id):
             _, label = await register_failure(SCOPE_TASK, ip)
             return room_msg(
                 request,
-                get_block_message(label) if label else "IDまたはパスワードが違います。",
+                task_rate_limit_message(label)
+                if label
+                else task_message(
+                    "task.invalid_credentials", "IDまたはパスワードが違います。"
+                ),
                 429 if label else 404,
             )
         await register_success(SCOPE_TASK, ip)
@@ -274,9 +317,13 @@ def register_task_delete_own_room_route(router: APIRouter) -> None:
     async def delete_own_room(request: Request, room_id: str):
         await enforce_csrf(request)
         if not await get_room_if_active(room_id):
-            return api_error_response("ルームが見つかりません。", status_code=404)
+            return task_api_error(
+                "task.room_not_found", "ルームが見つかりません。", status_code=404
+            )
         if not can_delete_task_room(request, room_id):
-            return api_error_response("削除権限がありません。", status_code=403)
+            return task_api_error(
+                "task.delete_permission", "削除権限がありません。", status_code=403
+            )
         await task_data.remove_room(room_id)
         forget_task_room_access(request, room_id)
         return (

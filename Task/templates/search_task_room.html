@@ -219,19 +219,19 @@
         <form method="POST" action="/search_task_process">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <div class="form-group">
-            <label class="form-label" for="search-task-room-id">{{ _("ルームID") }}</label>
+            <label class="form-label" for="search-task-room-id">{{ _("task.room_id") }}</label>
             <input type="text" id="search-task-room-id" name="id" class="form-control"
                    minlength="6" maxlength="6" placeholder="{{ _("ルームIDを入力（半角英数字6文字）") }}" required
                    pattern="[a-zA-Z0-9]{6}" title="{{ _("6文字の半角英数字で入力してください") }}">
           </div>
           <div class="form-group">
-            <label class="form-label" for="search-task-password">{{ _("パスワード") }}</label>
+            <label class="form-label" for="search-task-password">{{ _("task.password") }}</label>
             <input type="password" id="search-task-password" name="password" class="form-control"
                    minlength="6" maxlength="6" placeholder="{{ _("パスワードを入力（半角数字6桁）") }}" required
                    pattern="[0-9]{6}" title="{{ _("6桁の数字で入力してください") }}"
                    autocomplete="current-password" inputmode="numeric">
           </div>
-          <button class="btn-modern" type="submit">{{ _("検索") }}</button>
+          <button class="btn-modern" type="submit">{{ _("common.search") }}</button>
         </form>
     </div>
   </div>

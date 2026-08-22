@@ -187,7 +187,7 @@
     if (!list.length) {
       var empty = document.createElement('span');
       empty.className = 'task-tag-filter__empty';
-      empty.textContent = 'タグはまだありません';
+      empty.textContent = modules.core.t('task.no_tags', 'タグはまだありません');
       container.appendChild(empty);
       return;
     }

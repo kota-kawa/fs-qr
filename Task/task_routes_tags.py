@@ -11,11 +11,12 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_ok_response
 from models import TaskTagInput
 from settings import TASK_MAX_TAGS_PER_ROOM
 from . import task_data
 from .task_authorize import authorize_task_room
+from .task_responses import task_api_error
 
 
 def register_task_tag_routes(router: APIRouter) -> None:
@@ -34,15 +35,19 @@ def register_task_tag_routes(router: APIRouter) -> None:
         try:
             payload = TaskTagInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
-            return api_error_response("タグ名が不正です。", status_code=400)
+            return task_api_error(
+                "task.tag_add_error", "タグ名が不正です。", status_code=400
+            )
         try:
             tag = await task_data.create_tag(
                 room_id, payload.name, max_tags=TASK_MAX_TAGS_PER_ROOM
             )
         except task_data.TaskTagLimitReached:
-            return api_error_response(
-                f"タグ数の上限（{TASK_MAX_TAGS_PER_ROOM}件）に達しました。",
+            return task_api_error(
+                "task.tag_limit",
+                "タグ数の上限（{max}件）に達しました。",
                 status_code=400,
+                max=TASK_MAX_TAGS_PER_ROOM,
             )
         return api_ok_response({"tag": tag}, status_code=201)
 
@@ -54,11 +59,15 @@ def register_task_tag_routes(router: APIRouter) -> None:
         try:
             payload = TaskTagInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
-            return api_error_response("タグ名が不正です。", status_code=400)
+            return task_api_error(
+                "task.tag_rename_error", "タグ名が不正です。", status_code=400
+            )
         tag = await task_data.rename_tag(room_id, tag_id, payload.name)
         if tag is None:
-            return api_error_response(
-                "同じ名前のタグが既にあるか、タグが見つかりません。", status_code=400
+            return task_api_error(
+                "task.tag_rename_error",
+                "同じ名前のタグが既にあるか、タグが見つかりません。",
+                status_code=400,
             )
         return api_ok_response({"tag": tag})
 
@@ -68,5 +77,7 @@ def register_task_tag_routes(router: APIRouter) -> None:
         if denied:
             return denied
         if not await task_data.delete_tag(room_id, tag_id):
-            return api_error_response("タグが見つかりません。", status_code=404)
+            return task_api_error(
+                "task.tag_delete_error", "タグが見つかりません。", status_code=404
+            )
         return api_ok_response({"tag_id": tag_id})

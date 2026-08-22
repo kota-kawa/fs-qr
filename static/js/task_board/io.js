@@ -58,7 +58,10 @@
           document.body.removeChild(a);
         })
         .catch(function (error) {
-          modules.core.toast('エクスポートに失敗しました。', 'error');
+          modules.core.toast(
+            modules.core.t('task.export_error', 'エクスポートに失敗しました。'),
+            'error'
+          );
         });
     });
   }
@@ -84,7 +87,9 @@
         .then(function (response) {
           return response.json().then(function (data) {
             if (!response.ok || data.status !== 'ok') {
-              var errMsg = (data && data.error) ? data.error : 'インポートに失敗しました。';
+              var errMsg = (data && data.error)
+                ? data.error
+                : modules.core.t('task.import_error', 'インポートに失敗しました。');
               throw new Error(errMsg);
             }
             return data.data;
@@ -92,7 +97,12 @@
         })
         .then(function (result) {
           var count = result.imported_count || 0;
-          modules.core.toast(count + '件のタスクをインポートしました。', 'success');
+          modules.core.toast(
+            modules.core.formatMessage('task.imported', '{count}件のタスクをインポートしました。', {
+              count: count
+            }),
+            'success'
+          );
           // Reload task list
           return modules.core.request(modules.core.itemsUrl(), { method: 'GET' });
         })
