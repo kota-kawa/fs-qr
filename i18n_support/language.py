@@ -73,6 +73,28 @@ def language_from_country(country_code: str) -> str:
     return COUNTRY_LANGUAGE_MAP.get(country_code.upper(), DEFAULT_LANGUAGE)
 
 
+def _language_from_geoip(
+    request: Request,
+    country_code_lookup: Callable[[str], str | None],
+) -> str | None:
+    """Resolve a language from the request IP without letting GeoIP fail a page."""
+
+    client = getattr(request, "client", None)
+    client_ip = getattr(client, "host", None)
+    if not isinstance(client_ip, str) or not client_ip:
+        return None
+
+    try:
+        country_code = country_code_lookup(client_ip)
+    except Exception:
+        # GeoIP is an enhancement; a broken database must not break requests.
+        return None
+
+    if not country_code:
+        return None
+    return language_from_country(country_code)
+
+
 def resolve_language(
     request: Request,
     country_code_lookup: Callable[[str], str | None] | None = None,
@@ -98,9 +120,19 @@ def resolve_language(
     if language and language in SUPPORTED_LANGUAGES:
         return language
 
-    # AdSense 再審査中は、IP 位置情報によるサーバー側の自動翻訳表示をしない。
-    # Googlebot は主に米国から、Accept-Language なしでクロールするため、未選択時は
-    # canonical の日本語ページを安定して返す。
+    # 3. GeoIP (only when no explicit language preference exists)
+    # 明示的な選択がない場合だけ、クライアント IP の国から言語を推定する。
+    lookup = country_code_lookup
+    if lookup is None:
+        from .geoip import get_country_code
+
+        lookup = get_country_code
+    detected_language = _language_from_geoip(request, lookup)
+    if detected_language in SUPPORTED_LANGUAGES:
+        return detected_language
+
+    # 4. Keep Japanese as the safe fallback when GeoIP is unavailable.
+    # GeoIP DB が未配置・更新失敗・対象外 IP の場合も、日本語を返す。
     return DEFAULT_LANGUAGE
 
 

@@ -161,8 +161,9 @@ HTML 生成後の文字列置換は行いません。新規 UI は安定キー�
 [locales/README.md](locales/README.md)、実行時の言語判定は
 `i18n_support/constants.py` と `i18n_support/language.py` を参照します。
 現在は `JAPANESE_ONLY_MODE` を無効にしており、公開ページはクエリ・Cookieで選択した言語を
-表示し、全対応言語の hreflang を出力します。言語を一時停止する場合は、このフラグと
-サーバー、テンプレート、JS、SEO テストを一括で確認します。
+優先し、明示的な選択がない場合は GeoIP の国コードから自動判定します。GeoIP が利用できない
+場合は日本語へフォールバックし、全対応言語の hreflang を出力します。言語を一時停止する場合は、
+このフラグとサーバー、テンプレート、JS、SEO テストを一括で確認します。
 
 ## データとファイル保存
 
