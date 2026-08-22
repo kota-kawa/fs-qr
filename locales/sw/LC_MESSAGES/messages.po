@@ -298,6 +298,9 @@ msgstr ""
 msgid "0 /  文字"
 msgstr "0 / Herufi"
 
+msgid "0 / 0 完了"
+msgstr "0 / 0 imekamilika"
+
 msgid "0 / 文字"
 msgstr "0 / herufi"
 
@@ -329,14 +332,25 @@ msgstr "Saa 12"
 msgid "1h"
 msgstr "Saa 1"
 
+msgid "1か月"
+msgstr "Mwezi 1"
+
 msgid "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。"
 msgstr ""
 "Chumba cha kikundi kinaweza kuhifadhi hadi faili 10 zenye jumla ya 500 "
 "MB. Ikiwa kuongeza faili mpya kutazidi kikomo pamoja na zilizopo, "
 "upakiaji hautaruhusiwa."
 
+msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのUbao wa kaziにつき最大200件までタスクを登録できます。"
+
+msgid "1つのボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのUbaoにつき最大200件までタスクを登録できます。"
+
 msgid "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字です。タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
-msgstr "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
+msgstr ""
+"1つのUbaoにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.Leboは1件あたり最大40文字で、Ubao全体で最大50件、1つ"
+" kaziに最大10件まで付けられます。"
 
 msgid "1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。"
 msgstr ""
@@ -385,13 +399,16 @@ msgid "1日"
 msgstr "Siku 1"
 
 msgid "1日・1週間・1か月"
-msgstr "Siku 1・1週間・1か月"
+msgstr "Siku 1・Wiki 1・Mwezi 1"
 
 msgid "1日（デフォルト）"
-msgstr "Siku 1（デフォルト）"
+msgstr "Siku 1 (chaguo-msingi)"
 
 msgid "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。"
 msgstr "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動でFutaされます。"
+
+msgid "1週間"
+msgstr "Wiki 1"
 
 msgid "2. Macで画面録画する方法（標準機能）"
 msgstr "2. Jinsi ya Kurekodi Skrini kwenye Mac (Mbinu Iliyopo)"
@@ -810,8 +827,8 @@ msgid ""
 "Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。"
 msgstr ""
 "FS!QR Groupは、Hakuna Usajili "
-"UnaohitajikaでチームのファイルをまとめてShirikiできるChumba型サービス.ShirikiURL・Msimbo wa "
-"QR、またはKitambulisho cha ChumbaとNenosiriですぐに参加。Muda wa "
+"UnaohitajikaでチームのファイルをまとめてShirikiできるChumba型サービス.URL ya kushiriki・Msimbo "
+"wa QR、またはKitambulisho cha ChumbaとNenosiriですぐに参加。Muda wa "
 "kuhifadhiを選べる一時的なShirikiスペースをブラウザだけで作れます。"
 
 msgid "FS!QR Groupは企業での利用も可能ですか？"
@@ -1002,35 +1019,40 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "FS!QR Huduma ya kushiriki faili ya msimbo wa QR"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | Bureで使えるShirikiタスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
-msgstr "FS!QR Task | Hakuna Usajili UnaohitajikaのShirikiタスクボード・カンバン管理サービス"
+msgstr "FS!QR Task | Hakuna Usajili UnaohitajikaのUbao wa kazi wa pamoja・カンバン管理サービス"
 
 msgid "FS!QR Task 共有タスクボード"
-msgstr "FS!QR Task Shirikiタスクボード"
+msgstr "Ubao wa kazi wa pamoja wa FS!QR Task"
 
 msgid "FS!QR Task 共有タスクボードサービス"
-msgstr "FS!QR Task Shirikiタスクボードサービス"
+msgstr "Ubao wa kazi wa pamoja wa FS!QR Taskサービス"
 
 msgid ""
 "FS!QR "
 "Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。"
 msgstr ""
-"FS!QR "
-"TaskでチームShirikiのタスクボードをUnda。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URLShirikiで即座にコラボレーション開始。"
+"Unda ubao wa kazi wa timu kwa FS!QR Task. Onyesha maendeleo kwa safu "
+"rahisi za Kufanya, Inaendelea na Imekamilika, kisha anza kushirikiana "
+"mara moja kwa kushiriki URL."
 
 msgid "FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。"
 msgstr ""
-"FS!QR Taskで既存のShirikiタスクボードをTafuta・参加。Kitambulisho cha "
-"ChumbaとNenosiriでチームのカンバンボードに参加してタスク管理を始めましょう。"
+"Tafuta na ujiunge na ubao wa pamoja wa FS!QR Task uliopo kwa kutumia "
+"kitambulisho cha chumba na nenosiri, kisha anza kusimamia kazi ya timu "
+"kwenye ubao wa kanban."
+
+msgid "FS!QR Taskのカンバンボードを表すイラスト"
+msgstr "FS!QR TaskのUbao wa kanbanを表すイラスト"
+
+msgid "FS!QR Taskの下書きボード画面のスクリーンショット"
+msgstr "FS!QR Taskの下書きUbao画面のスクリーンショット"
 
 msgid "FS!QR Taskの使い方"
 msgstr "FS!QR TaskのJinsi ya Kutumia"
 
 msgid "FS!QR Taskの共有タスクボードサービス"
-msgstr "FS!QR TaskのShirikiタスクボードサービス"
+msgstr "FS!QR TaskのUbao wa kazi wa pamojaサービス"
 
 msgid ""
 "FS!QR "
@@ -1044,28 +1066,21 @@ msgid ""
 "FS!QR "
 "Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Taskは、Hakuna Usajili "
-"Unaohitajikaで使えるShirikiタスクボード・カンバン管理サービス.URLをShirikiするだけでリアルタイムに進捗を見える化。Muda"
-" wa kuhifadhiを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
+"FS!QR Taskは、Hakuna Usajili Unaohitajikaで使えるUbao wa kazi wa "
+"pamoja・カンバン管理サービス.URLをShirikiするだけでリアルタイムに進捗を見える化。Muda wa "
+"kuhifadhiを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当にBureで使えますか？"
 
 msgid ""
 "FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR TaskはBureのShirikiタスクボード・カンバン管理サービス。アカウントHakuna Usajili "
-"Unaohitajikaで、Chumbaを作ってURLをShirikiするだけでチームのタスクを未着手・進行中・完了で整理。安心のKufuta "
-"kiotomatiki付き。"
-
-msgid ""
-"FS!QR "
 "Taskは登録不要で使える共有タスクボードです。ルームを作成してID・パスワード・共有URLを渡すと、複数人で未着手・進行中・完了のタスクをリアルタイム管理できます。"
 msgstr ""
-"FS!QR TaskはHakuna Usajili Unaohitajikaで使えるShirikiタスクボード.Unda "
-"chumbaしてID・Nenosiri・ShirikiURLを渡すと、Watu "
-"wengiで未着手・進行中・完了のタスクをリアルタイム管理できます。"
+"FS!QR Task ni ubao wa kazi wa pamoja unaoweza kutumiwa bila usajili. Unda"
+" chumba, shiriki kitambulisho, nenosiri na URL yake, kisha simamia kazi "
+"za kufanya, zinazoendelea na zilizokamilika kwa wakati halisi pamoja na "
+"wengine."
 
 msgid "FS!QR | 無料QRコード暗号化ファイル共有サービス"
 msgstr "FS!QR | Huduma ya kushiriki faili iliyosimbwa kwa msimbo wa QR bila malipo"
@@ -1988,6 +2003,9 @@ msgstr "Imeshindwa kupata ID. Tafadhali jaribu tena."
 msgid "IDが指定されていません。"
 msgstr "ID haijabainishwa."
 
+msgid "IDでボードに参加する"
+msgstr "IDでJiunge na ubaoする"
+
 msgid "IDでルームに参加する"
 msgstr "IDでJiunge na chumbaする"
 
@@ -1998,7 +2016,7 @@ msgid "IDとパスワードによる2重の壁"
 msgstr "Ulinzi Maradufu kwa Kitambulisho na Nenosiri"
 
 msgid "IDとパスワードを入力して、既存のタスクボードに参加します。"
-msgstr "IDとingiza nenosiriして、既存のタスクボードに参加します。"
+msgstr "IDとingiza nenosiriして、既存 kaziJiunge na ubaoします。"
 
 msgid "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
 msgstr ""
@@ -2765,13 +2783,13 @@ msgstr ""
 
 msgid "URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。"
 msgstr ""
-"URLかMsimbo wa QRを渡すと相手もボードに参加できます。Kitambulisho cha "
-"ChumbaとNenosiriでも参加できます。以降のタスク編集はボード側で行えます。"
+"URLかMsimbo wa QRを渡すと相手もJiunge na ubaoできます。Kitambulisho cha "
+"ChumbaとNenosiriでも参加できます。以降 kazi編集はUbao側で行えます。"
 
 msgid "URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。"
 msgstr ""
 "URLかMsimbo wa QRを渡すと相手もJiunge na chumbaできます。Kitambulisho cha "
-"ChumbaとNenosiriでも参加できます。ファイルの追加やFutaはChumba側で行えます。"
+"ChumbaとNenosiriでも参加できます。ファイルのOngezaやFutaはChumba側で行えます。"
 
 msgid "URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。"
 msgstr ""
@@ -2834,7 +2852,9 @@ msgstr ""
 "kiotomatikiのリアルタイムShirikiKumbukumbu。"
 
 msgid "URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
-msgstr "URLをShirikiするだけでWatu wengiでタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
+msgstr ""
+"URLをShirikiするだけでWatu "
+"wengiでタスクをリアルタイム管理。Kufanya・Inaendelea・Imekamilikaのシンプルカンバンでチームの進捗を見える化。"
 
 msgid "URLを適用しました"
 msgstr "URL imetumika"
@@ -2846,9 +2866,6 @@ msgstr ""
 
 msgid "URL共有で即参加"
 msgstr "URLShirikiで即参加"
-
-msgid "URL共有で即座にコラボレーション"
-msgstr "URLShirikiで即座にコラボレーション"
 
 msgid "URL共有で参加"
 msgstr "Jiunge kwa kushiriki URL"
@@ -3186,6 +3203,39 @@ msgstr ""
 "Kushiriki Faili na Wateja Bila Kuwachanganya: Orodha ya Vitendo ya "
 "Kukabidhi kwa Usalama"
 
+msgid "common.close"
+msgstr "Funga"
+
+msgid "common.copied"
+msgstr "Imenakiliwa"
+
+msgid "common.copy"
+msgstr "Nakili"
+
+msgid "common.delete"
+msgstr "Futa"
+
+msgid "common.delete_action"
+msgstr "Futa"
+
+msgid "common.hide"
+msgstr "Ficha"
+
+msgid "common.home"
+msgstr "Mwanzo"
+
+msgid "common.search"
+msgstr "Tafuta"
+
+msgid "common.service_navigation"
+msgstr "Urambazaji wa huduma"
+
+msgid "common.share"
+msgstr "Shiriki"
+
+msgid "common.show"
+msgstr "Onyesha"
+
 msgid "fsqr.delete_confirm_message"
 msgstr "Hii itafuta faili. Hatua hii haiwezi kutenguliwa."
 
@@ -3451,6 +3501,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "Open a task room"
 
+msgid "task.auto_generate"
+msgstr "Unda kiotomatiki"
+
+msgid "task.auto_generated_id"
+msgstr "Kitambulisho cha chumba kilichoundwa"
+
+msgid "task.auto_generated_placeholder"
+msgstr "Itaundwa kiotomatiki"
+
 msgid "task.board.title"
 msgstr "Task board"
 
@@ -3469,11 +3528,87 @@ msgstr "Only the creator can delete this room and its tasks."
 msgid "task.delete_room_title"
 msgstr "Close this room"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "Ufutaji wa data kiotomatiki"
+
+msgid "task.layout.feature_collaboration"
+msgstr "Anza kushirikiana mara moja kwa kushiriki URL"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "Uendeshaji wa kuburuta na kuweka"
+
+msgid "task.layout.feature_kanban"
+msgstr "Usimamizi wa kazi kwa kanban"
+
+msgid "task.layout.feature_priority"
+msgstr "Vipaumbele, makataa na lebo"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR Task ni huduma ya bure ya ubao wa kazi wa pamoja na kanban. Akaunti"
+" haihitajiki: unda chumba, shiriki URL na panga kazi za timu kwa kufuta "
+"kiotomatiki."
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"ubao wa kazi wa pamoja, kanban, usimamizi wa kazi, usimamizi wa TODO, "
+"usimamizi wa miradi, ushirikiano wa timu, FS QR Task, usimamizi wa kazi "
+"wa bure, maendeleo kwa wakati halisi, ufutaji wa kiotomatiki"
+
+msgid "task.layout.og_description"
+msgstr ""
+"Ubao wa kazi wa pamoja unaoweza kutumiwa bila usajili. Shiriki URL na "
+"uonyeshe maendeleo ya timu kwa mtiririko wa kanban."
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | Ubao wa kazi wa pamoja na kanban wa bure"
+
+msgid "task.layout.organization_name"
+msgstr "FS!QR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "FS!QR Task"
+
+msgid "task.layout.schema_description"
+msgstr ""
+"Huduma ya bure ya ubao wa kazi wa pamoja na kanban. Akaunti haihitajiki; "
+"shiriki URL ili kusimamia maendeleo kwa wakati halisi."
+
+msgid "task.layout.service_alt"
+msgstr "Huduma ya ubao wa kazi wa pamoja ya FS!QR Task"
+
+msgid "task.layout.service_name"
+msgstr "Huduma ya FS!QR Task"
+
+msgid "task.layout.software_description"
+msgstr "Programu ya wavuti ya ubao wa kazi wa pamoja na kanban bila usajili."
+
+msgid "task.manual_input"
+msgstr "Weka mwenyewe"
+
 msgid "task.menu.description"
 msgstr "Simple room-based task board."
 
 msgid "task.menu.title"
 msgstr "Task"
+
+msgid "task.password"
+msgstr "Nenosiri"
+
+msgid "task.password_hide"
+msgstr "Ficha nenosiri"
+
+msgid "task.password_show"
+msgstr "Onyesha nenosiri"
+
+msgid "task.room"
+msgstr "Chumba"
+
+msgid "task.room_id"
+msgstr "Kitambulisho cha chumba"
+
+msgid "task.room_id_mode"
+msgstr "Njia ya kitambulisho cha chumba"
 
 msgid "task.search.title"
 msgstr "Find a task room"
@@ -3751,10 +3886,10 @@ msgstr ""
 "\"iCloud Drive\"."
 
 msgid "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。"
-msgstr "「ボードをUnda」ボタンをクリックし、Muda wa kuhifadhiを指定してタスクボードをUndaします。"
+msgstr "「Unda ubao」ボタンをクリックし、Muda wa kuhifadhiを指定してUnda ubao wa kaziします。"
 
 msgid "「ボードを作成」ボタンを押し、保存期間（1日・1週間・1か月）を選択してボードを発行します。"
-msgstr "「ボードをUnda」ボタンを押し、Muda wa kuhifadhi（Siku 1・1週間・1か月）を選択してボードを発行します。"
+msgstr "「Unda ubao」ボタンを押し、Muda wa kuhifadhi（Siku 1・Wiki 1・Mwezi 1）を選択してUbaoを発行します。"
 
 msgid "「リンクです」だけでなく、何のファイルか、どこを確認してほしいか、いつまでに返信が必要かを書きます。受信者が予想していない共有なら、リンクを開く前に送信者へ別の手段で確認してもらいます。ファイル共有サービスを装ったフィッシングもあるため、ドメイン名と依頼内容が一致しているかを確認します。"
 msgstr ""
@@ -4220,8 +4355,11 @@ msgstr ""
 msgid "このグループを共有する"
 msgstr "Shiriki kundi hili"
 
+msgid "このタスクのタグ"
+msgstr "Lebo za kazi hii"
+
 msgid "このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？"
-msgstr "このタスクボードとすべてのタスクをFutaします。このVitendoは元に戻せません。よろしいですか？"
+msgstr "Futa ubao huu wa kazi na kazi zake zote? Hatua hii haiwezi kutenduliwa."
 
 msgid "このノートを共有する"
 msgstr "Shiriki kumbuka hii"
@@ -4242,7 +4380,7 @@ msgid "このファイル形式はプレビューできません。"
 msgstr "Umbizo hili la faili haliwezi kuhakikiwa."
 
 msgid "このヘルプを開く"
-msgstr "このFungua Msaada"
+msgstr "Fungua usaidizi huu"
 
 msgid "このヘルプを開閉"
 msgstr "Badilisha msaada huu"
@@ -4257,13 +4395,13 @@ msgid "このページの下書きノートにそのまま入力します。内�
 msgstr "このページの下書きKumbukumbuにそのまま入力します。内容はお使いの端末にだけHifadhiされます。"
 
 msgid "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。"
-msgstr "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけHifadhiされます。"
+msgstr "このページの下書きUbaoにそのままOngezaします。内容はお使いの端末にだけHifadhiされます。"
 
 msgid "このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。"
 msgstr "このページのShirikiボックスにドロップするだけ。発行するまで端末から送信されません。"
 
 msgid "このボードを共有する"
-msgstr "このボードをShirikiする"
+msgstr "Shiriki ubao huu"
 
 msgid "このルームではテキストをリアルタイムに共有できます。"
 msgstr "Chumba hiki kinakuruhusu kushiriki maandishi kwa wakati halisi."
@@ -4284,7 +4422,7 @@ msgid "この下書きエディタにはJavaScriptが必要です。"
 msgstr "この下書きエディタにはJavaScriptが必要."
 
 msgid "この下書きボードにはJavaScriptが必要です。"
-msgstr "この下書きボードにはJavaScriptが必要."
+msgstr "この下書きUbaoにはJavaScriptが必要."
 
 msgid "この仕様により、共有URLだけ、またはパスワードだけが第三者に知られた場合には、もう一方の情報が必要になります。URLとパスワードを別経路で伝える運用は、不正アクセスの可能性を下げる対策の一つです。短いパスワードや同じパスワードの使い回しは避け、組織の認証ルールも併せて確認してください。"
 msgstr ""
@@ -4325,6 +4463,9 @@ msgstr ""
 "Kwa kutumia njia hii, unaweza kumpa faili papo hapo mtu aliye mbele yako,"
 " hata ikiwa simu yake haina barua pepe iliyosanidiwa au haijaunganishwa "
 "na akaunti yoyote ya programu ya gumzo."
+
+msgid "この日に追加"
+msgstr "Ongeza siku hii"
 
 msgid "この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。"
 msgstr ""
@@ -4452,6 +4593,9 @@ msgstr ""
 "Sitisha kushiriki mara moja, na ikihitajika pakia faili tena utoe ID na "
 "manenosiri mpya."
 
+msgid "すべて"
+msgstr "Zote"
+
 msgid "すべてのファイルを同じ扱いにすると、便利さは増えますがリスクも増えます。公開資料、確認用画像、見積書、契約書、個人情報を含むファイルでは、必要な注意のレベルが違います。"
 msgstr ""
 "Kushughulikia kila faili kwa njia sawa kunaongeza urahisi — lakini pia "
@@ -4490,6 +4634,9 @@ msgstr "Pakua vyote (demo)"
 
 msgid "すべて削除"
 msgstr "Futa zote"
+
+msgid "すべて外す"
+msgstr "Zote外す"
 
 msgid "そこで、レビュー参加者には閲覧用の資料を共有し、修正担当者には別途編集用ファイルを渡す運用が有効です。チャットでは「全員確認用」「修正担当者用」のようにラベルを付け、ファイル名にも用途を入れます。FS!QRで一時的に配る資料と、Groupでメンバーが出し入れする作業ファイルを使い分けると、資料配布と共同作業の境界が分かりやすくなります。"
 msgstr ""
@@ -4697,6 +4844,9 @@ msgstr "Kwa Nini Huwezi Kutuma Faili Kubwa kwa Barua Pepe?"
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr ", chagua na upakie faili unazotaka kushiriki."
 
+msgid "にタスクを追加"
+msgstr " — ongeza kazi"
+
 msgid "に定めるとおりです。"
 msgstr "."
 
@@ -4707,6 +4857,12 @@ msgstr ""
 "kuzidi kikomo. Sababu inayofanya 'ishindikane kutuma video kwa barua "
 "pepe' ni kwa sababu ukubwa wake unazidi kikomo kilichowekwa kwenye barua "
 "pepe. Katika hali hii, badala ya kuiambatanisha kwenye barua pepe,"
+
+msgid "に追加するタスク名"
+msgstr " — jina la kazi ya kuongeza"
+
+msgid "のタスク"
+msgstr " kazi"
 
 msgid "のページから、パーソナライズド広告に使用される Cookie を無効にできます。"
 msgstr "."
@@ -4726,12 +4882,12 @@ msgstr ""
 " kitambulisho cha chumba na nenosiri."
 
 msgid "はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。"
-msgstr "はい、完全レスポンシブMwitikio.スマートフォンやKichupoレットのタッチVitendoでも快適にタスクの追加・移動・完了切り替えが行えます。"
+msgstr "はい、完全レスポンシブMwitikio.スマートフォンやKichupoレットのタッチVitendoでも快適にタスクのOngeza・移動・Imekamilika切り替えが行えます。"
 
 msgid "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
 msgstr ""
-"はい、Hakuna Usajili "
-"Unaohitajika・完全Bureでご利用いただけます。タスクボードのUnda、参加、タスクの編集・移動など全ての機能がBure."
+"はい、Hakuna Usajili Unaohitajika・完全Bureでご利用いただけます。Ubao wa "
+"kaziのUnda、参加、タスクの編集・移動など全ての機能がBure."
 
 msgid "はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。"
 msgstr ""
@@ -4900,6 +5056,9 @@ msgstr ""
 "uunganishaji wa kebo na teknolojia yao binafsi kutoa uzoefu unaokaribiana"
 " na ule wa kununua skrini inayoobebeka inayojitegemea."
 
+msgid "やることを入力して追加"
+msgstr "やることを入力してOngeza"
+
 msgid "よい例"
 msgstr "Mfano mzuri"
 
@@ -4970,7 +5129,10 @@ msgstr ""
 "dakika, na kazi ya pamoja."
 
 msgid "アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
-msgstr "アカウント不要で使えるBureのShirikiタスクボード・カンバン管理サービス。URLをShirikiするだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
+msgstr ""
+"アカウント不要で使えるBureのUbao wa kazi wa "
+"pamoja・カンバン管理サービス。URLをShirikiするだけで、チームのTODO・タスク・進捗をKufanya・Inaendelea・Imekamilikaで見える化。プロジェクトやイベント"
+" kazi管理に最適。"
 
 msgid "アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。"
 msgstr ""
@@ -5000,7 +5162,7 @@ msgid "アカウント作成なし"
 msgstr "アカウントUndaなし"
 
 msgid "アカウント作成不要で即開始"
-msgstr "アカウントUnda不要で即開始"
+msgstr "アカウントUnda不要で即Mwanzo"
 
 msgid "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。"
 msgstr ""
@@ -5014,7 +5176,7 @@ msgstr ""
 "kando na kasi."
 
 msgid "アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。"
-msgstr "アカウント登録は不要.まずは下書きボードにタスクを書き出すところから始められます。"
+msgstr "アカウント登録は不要.まずは下書きUbaoにタスクを書き出すところから始められます。"
 
 msgid "アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。"
 msgstr "アカウント登録は不要.まずはFaili unayotaka kushirikiを選ぶところから始められます。"
@@ -5040,7 +5202,7 @@ msgid "アカウント登録やアプリのインストールは必要ですか�
 msgstr "アカウント登録やJe, ni lazima kusakinisha programu?"
 
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
-msgstr "アカウント登録やIngiaは一切不要.ブラウザがあればすぐに利用開始できます。"
+msgstr "アカウント登録やIngiaは一切不要.ブラウザがあればすぐに利用Mwanzoできます。"
 
 msgid "アカウント登録やログインは必要ですか？"
 msgstr "アカウント登録やIngiaは必要ですか？"
@@ -5054,10 +5216,10 @@ msgstr ""
 "kikundiWebアプリケーション."
 
 msgid "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。"
-msgstr "アカウントHakuna Usajili Unaohitajikaで使える、Shiriki型のカンバンタスクボードWebアプリケーション."
+msgstr "アカウントHakuna Usajili Unaohitajikaで使える、Shiriki型のカンバンUbao wa kaziWebアプリケーション."
 
 msgid "アカウント登録不要のボード作成"
-msgstr "アカウントHakuna Usajili UnaohitajikaのボードUnda"
+msgstr "アカウントHakuna Usajili UnaohitajikaのUbaoUnda"
 
 msgid "アカウント登録不要のルーム作成"
 msgstr "アカウントHakuna Usajili UnaohitajikaのChumbaUnda"
@@ -5257,7 +5419,7 @@ msgid "アップロード待ちファイル"
 msgstr "Faili inayongojea kupakiwa"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
-msgstr "Pakia時に1時間・6時間・12時間・24時間からMuda wa kuhifadhiを選択でき、期間の終了後に自動でFutaされます。"
+msgstr "Pakia時に1時間・6時間・12時間・24時間からMuda wa kuhifadhiを選択でき、期間の終了baadayeに自動でFutaされます。"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。"
 msgstr ""
@@ -5331,6 +5493,9 @@ msgstr ""
 "アプリを入れずにUrahisi kwa sababu ya msingi wa kivinjari。ファイルをUsimbaji "
 "ficheし、Msimbo wa QRですばやく一時Shirikiできます。"
 
+msgid "イベントから日常の整理まで、"
+msgstr "イベントからJp常の整理まで、"
+
 msgid "イベント中に「あの資料が欲しい」と言われた際も、その場でQRコードを見せるだけで完結します。名刺交換の際についでに資料を渡したり、アンケート回答へのリンクと一緒にファイルを共有したりと、活用の幅は無限大です。"
 msgstr ""
 "Hata kama mtu atasema, “Nataka nyenzo hiyo,” wakati wa tukio, "
@@ -5342,10 +5507,16 @@ msgstr ""
 msgid "インシデント対応を事前に決める"
 msgstr "Amua mapema mwitikio wa tukio"
 
+msgid "インポート"
+msgstr "Ingiza"
+
 msgid "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。"
 msgstr ""
 "Fungua tovuti, dondosha faili lako, na upakiaji utaanza. Ndani ya sekunde"
 " chache unapata kiungo na msimbo wa QR ili uweze kuutuma kwa mpokeaji."
+
+msgid "エクスポート"
+msgstr "Hamisha"
 
 msgid "エコで効率的なデータクレンジングとコンプライアンス"
 msgstr "Tehama ya Kijani, Usafi wa Data Ulio na Ufanisi, na Uzingatiaji"
@@ -5460,6 +5631,9 @@ msgstr ""
 "na uguse \"Simamisha (Stop)\". Video inahifadhiwa kwenye maktaba ya "
 "programu yako ya Picha (Photos) au Matunzio (Gallery)."
 
+msgid "カスタム順"
+msgstr "Mpangilio maalum"
+
 msgid "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。"
 msgstr ""
 "Kwenye mtandao wa Wi-Fi wa umma uliosimbwa vibaya — mtandao wa mkahawa, "
@@ -5490,16 +5664,43 @@ msgid "カメラ側の設定を変える："
 msgstr "Badilisha mipangilio upande wa kamera:"
 
 msgid "カラムの操作"
-msgstr "カラムのVitendo"
+msgstr "Vidhibiti vya safu"
+
+msgid "カラムの開閉"
+msgstr "Panua/kunja safu"
+
+msgid "カレンダー"
+msgstr "Kalenda"
 
 msgid "カレンダーで期限を確認"
-msgstr "カレンダーで期限をThibitisha"
+msgstr "Angalia makataa kwenye kalenda"
 
 msgid "カレンダー表示"
-msgstr "カレンダーOnyesha"
+msgstr "Mwonekano wa kalenda"
+
+msgid "カンバンボード"
+msgstr "Ubao wa kanban"
+
+msgid "カンバン式タスク管理（未着手・進行中・完了）"
+msgstr "カンバン式タスク管理（Kufanya・Inaendelea・Imekamilika）"
+
+msgid "カンバン方式で進捗を見える化"
+msgstr "Onyesha maendeleo kwa mtiririko wa kanban"
+
+msgid "カンバン方式（未着手・進行中・完了）"
+msgstr "カンバン方式（Kufanya・Inaendelea・Imekamilika）"
 
 msgid "カードのボードで表示"
-msgstr "カードのボードでOnyesha"
+msgstr "Onyesha kama kadi kwenye ubao"
+
+msgid "カードをカラム内で並べ替え"
+msgstr "Panga upya kadi ndani ya safu"
+
+msgid "カードを隣のカラムへ移動"
+msgstr "Hamisha kadi kwenye safu iliyo karibu"
+
+msgid "カード間を移動（カードにフォーカス時）"
+msgstr "Sogea kati ya kadi (kadi inapokuwa na umakini)"
 
 msgid "キャプチャウィンドウの「録画ボタン（丸アイコン）」をクリックするか、ショートカットキー"
 msgstr ""
@@ -5516,10 +5717,10 @@ msgid "キーボードショートカット"
 msgstr "Njia za haraka za kibodi"
 
 msgid "キーボードショートカット (?)"
-msgstr "Njia za haraka za kibodi (?)"
+msgstr "Mikato ya kibodi (?)"
 
 msgid "キーボードショートカットを表示"
-msgstr "Njia za haraka za kibodiをOnyesha"
+msgstr "Onyesha mikato ya kibodi"
 
 msgid "ギャラリーやGoogleフォトで写真を開き、詳細情報を表示すると地図が出る場合は位置情報あり。"
 msgstr ""
@@ -5541,7 +5742,7 @@ msgstr "クイックShirikiにファイルを置く"
 
 msgid "クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画"
 msgstr ""
-"クイックShirikiへのファイル追加からShirikiリンクの発行、Msimbo wa "
+"クイックShirikiへのファイルOngezaからShirikiリンクの発行、Msimbo wa "
 "QRから受け取り画面が開くまでを実際の画面でVitendoするデモ動画"
 
 msgid "クイック共有を開く"
@@ -5578,6 +5779,9 @@ msgstr ""
 "Kwa kuwa huhitaji kuingia kwenye hifadhi ya wingu au akaunti yako ya "
 "barua pepe, hakuna wasiwasi wa kuacha manenosiri au kurasa wazi za "
 "akaunti yako kwenye kompyuta hiyo."
+
+msgid "クリア"
+msgstr "Futa"
 
 msgid "グループ"
 msgstr "Kikundi"
@@ -6094,6 +6298,9 @@ msgstr ""
 "Hatua ya 5: Kuhamisha na kuhifadhi nakala za picha kwenye hifadhi ya "
 "wingu (Cloud) au Kompyuta (PC)"
 
+msgid "ステータス"
+msgstr "Hali"
+
 msgid "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除"
 msgstr ""
 "hifadhi ya simu imejaa, kuongeza hifadhi ya iPhone, kupata nafasi kwenye "
@@ -6404,74 +6611,136 @@ msgstr "Kutumia FS!QR kwa Semina na Masomo ya Kikundi"
 msgid "ゼミナールやグループ学習・ワークショップでのファイル共有"
 msgstr "Kushiriki Faili Kwenye Semina, Kujifunza kwa Vikundi, na Warsha"
 
+msgid "タグ"
+msgstr "Lebo"
+
+msgid "タグで絞り込み"
+msgstr "Chuja kwa lebo"
+
 msgid "タグはこのボード全体で共有されます。1つのタスクに最大"
-msgstr "タグはこのボード全体でShirikiされます。1つのタスクに最大"
+msgstr "Lebo zinashirikiwa kwenye ubao huu wote. Kila kazi inaweza kuwa na hadi"
+
+msgid "タグを管理"
+msgstr "Dhibiti lebo"
+
+msgid "タグを追加"
+msgstr "Ongeza lebo"
+
+msgid "タスクのタイトルを入力"
+msgstr "Weka kichwa cha kazi"
 
 msgid "タスクの表示方法"
-msgstr "タスクのOnyesha方法"
+msgstr "Onyesho la kazi"
+
+msgid "タスクの詳細やURLなどを自由に入力"
+msgstr "Weka kwa uhuru maelezo ya kazi, URL au madokezo"
+
+msgid "タスクをインポート"
+msgstr "Ingiza kazi"
+
+msgid "タスクをエクスポート"
+msgstr "Hamisha kazi"
+
+msgid "タスクを絞り込み"
+msgstr "Chuja kazi"
+
+msgid "タスクを編集"
+msgstr "Hariri kazi"
+
+msgid "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+msgstr "タスクをOngezaし、ドラッグ＆ドロップで「Kufanya」「Inaendelea」「Imekamilika」に移動して管理します。"
+
+msgid "タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。"
+msgstr "タスクをOngezaし、ドラッグ＆ドロップまたはタップで「Kufanya」「Inaendelea」「Imekamilika」に移動してスムーズに連携します。"
+
+msgid "タスクを追加して進捗を管理する"
+msgstr "タスクをOngezaして進捗を管理する"
+
+msgid "タスクを追加・移動して進捗管理"
+msgstr "タスクをOngeza・移動して進捗管理"
 
 msgid "タスクデータはいつまで保存されますか？"
 msgstr "タスクデータはいつまでHifadhiされますか？"
 
+msgid "タスクボード"
+msgstr "Ubao wa kazi"
+
 msgid "タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task"
-msgstr "タスクボードで進捗管理｜アカウント不要・BureでチームShiriki - FS!QR Task"
+msgstr "Ubao wa kaziで進捗管理｜アカウント不要・BureでチームShiriki - FS!QR Task"
 
 msgid "タスクボードの削除"
-msgstr "タスクボードのFuta"
+msgstr "Futa ubao wa kazi"
 
 msgid "タスクボードを作成"
-msgstr "タスクボードをUnda"
+msgstr "Unda ubao wa kazi"
 
 msgid "タスクボードを作成してID・パスワード・共有URLを送信。登録不要でチームの進捗をリアルタイムに見える化できます。"
 msgstr ""
-"タスクボードをUndaしてID・Nenosiri・ShirikiURLを送信。Hakuna Usajili "
-"Unaohitajikaでチームの進捗をリアルタイムに見える化できます。"
+"Unda ubao wa kazi na ushiriki kitambulisho, nenosiri na URL yake. Fanya "
+"maendeleo ya timu yaonekane kwa wakati halisi bila usajili."
 
 msgid "タスクボードを作成して共有すると、複数人が同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適です。"
 msgstr ""
-"タスクボードをUndaしてShirikiすると、Watu "
-"wengiが同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適."
+"Unda na shiriki ubao wa kazi ili watu kadhaa waweze kupanga pamoja kazi "
+"za kufanya, zinazoendelea na zilizokamilika. Ni bora kwa maandalizi ya "
+"matukio, TODO za mikutano, maendeleo ya timu na kazi unayotaka kuanza "
+"mara moja."
 
 msgid "タスクボードを作成する"
-msgstr "タスクボードをUnda"
+msgstr "Unda ubao wa kaziする"
 
 msgid "タスクボードを新規作成"
-msgstr "タスクボードを新規Unda"
+msgstr "Unda ubao mpya wa kazi"
 
 msgid "タスクボードを検索"
-msgstr "タスクボードをTafuta"
+msgstr "Tafuta ubao wa kazi"
 
 msgid "タスクボード作成 | FS!QR Task"
-msgstr "タスクボードUnda | FS!QR Task"
+msgstr "Unda ubao wa kazi | FS!QR Task"
 
 msgid "タスクボード作成 | FS!QR Task - 共有カンバンボード"
-msgstr "タスクボードUnda | FS!QR Task - Shirikiカンバンボード"
+msgstr "Unda ubao wa kazi | FS!QR Task - Ubao wa kanban wa pamoja"
 
 msgid "タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
-msgstr "タスクボードUnda, Shirikiタスク管理, カンバンUnda, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
+msgstr ""
+"kuunda ubao wa kazi, usimamizi wa kazi wa pamoja, kuunda kanban, "
+"usimamizi wa TODO, usimamizi wa miradi, ushirikiano wa timu, FS QR Task"
 
 msgid "タスクボード作成時に選択した有効期限（1日・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
-msgstr "タスクボードUnda時に選択した有効期限（Siku 1・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
+msgstr ""
+"Ubao wa kaziUnda時に選択した有効Mwisho（Siku 1・Wiki 1・Mwezi "
+"1）が経過すると、タスクデータは自動的に消去されます。"
 
 msgid "タスクボード検索 | FS!QR Task"
-msgstr "タスクボードTafuta | FS!QR Task"
+msgstr "Tafuta ubao wa kazi | FS!QR Task"
 
 msgid "タスクボード検索 | FS!QR Task - 既存ボードへの参加"
-msgstr "タスクボードTafuta | FS!QR Task - 既存ボードへの参加"
+msgstr "Tafuta ubao wa kazi | FS!QR Task - Jiunge na ubao uliopo"
 
 msgid "タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task"
-msgstr "タスクボードTafuta, タスクボード参加, ShirikiタスクTafuta, 既存ボード参加, カンバン参加, FS QR Task"
+msgstr ""
+"tafuta ubao wa kazi, jiunge na ubao wa kazi, tafuta kazi za pamoja, "
+"jiunge na ubao uliopo, jiunge na kanban, FS QR Task"
 
 msgid "タスクボード検索ページに移動します"
-msgstr "タスクボードTafutaページに移動します"
+msgstr "Ubao wa kaziTafutaページに移動します"
 
 msgid "タスクルームアクセス, 共有タスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
 msgstr ""
-"タスクChumbaアクセス, Shirikiタスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR "
-"Task"
+"ufikiaji wa chumba cha kazi, ubao wa kazi wa pamoja, usimamizi wa kanban,"
+" jiunge na kazi, usimamizi wa TODO, zana ya ushirikiano, FS QR Task"
+
+msgid "タスク名"
+msgstr "Jina la kazi"
 
 msgid "タスク名を入力（Enterで追加 / Escで閉じる）"
-msgstr "タスク名を入力（Enterで追加 / EscでFunga）"
+msgstr "Weka jina la kazi (Enter kuongeza / Esc kufunga)"
+
+msgid "タスク未追加"
+msgstr "タスク未Ongeza"
+
+msgid "タスク管理開始まで、"
+msgstr "タスク管理Mwanzoまで、"
 
 msgid "タブ"
 msgstr "Kichupo"
@@ -6486,7 +6755,7 @@ msgid "タブ表示に切り替え"
 msgstr "Badilisha kwenye Muonekano wa Kichupo"
 
 msgid "ダイアログ・メニューを閉じる"
-msgstr "ダイアログ・メニューをFunga"
+msgstr "Funga mazungumzo na menyu"
 
 msgid "ダウンロード"
 msgstr "Pakua"
@@ -6541,6 +6810,11 @@ msgstr ""
 msgid "チャットに添える一文で作業の迷いを減らす"
 msgstr "Sentensi Moja Kwenye Gumzo Hupunguza Sana Mkanganyiko wa Kazi"
 
+msgid "チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。"
+msgstr ""
+"チャットのスレッドやピン留めは流れてしまいMaendeleo ya jumla状況が把握しづらいですが、Ubao wa "
+"kanbanなら一目で現在のHaliが把握できます。"
+
 msgid "チャットアプリの「写真」「画像」として送る方法は、自動圧縮がかかりやすく劣化の代表例です。LINEで通常送信した画像、SNSのタイムラインへの投稿、一部のメールサービスでの添付などが該当します。何度も転送を繰り返すと、圧縮が重ねがけされてさらに粗くなります。"
 msgstr ""
 "Kutuma picha kama \"picha\" au \"taswira\" katika programu ya gumzo ni "
@@ -6580,11 +6854,17 @@ msgstr "Tofauti na zana za gumzo kama vile Slack na Timu"
 msgid "チームでのアイデア出し"
 msgstr "Timu ya mawazo"
 
+msgid "チームのタスクをひとつのボードへ。アカウント登録なしで始められます。"
+msgstr "チーム kaziをひとつのUbaoへ。アカウント登録なしで始められます。"
+
 msgid "チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。"
-msgstr "チームのタスクをひとつのボードへ。登録なしでUndaし、URLやMsimbo wa QRで簡単にShirikiできます。"
+msgstr "チーム kaziをひとつのUbaoへ。登録なしでUndaし、URLやMsimbo wa QRで簡単にShirikiできます。"
+
+msgid "チームのタスクをリアルタイムにカンバン管理"
+msgstr "Simamia kazi za timu kwa kanban kwa wakati halisi"
 
 msgid "チームのタスク共有に必要なことだけ"
-msgstr "チームのタスクShirikiに必要なことだけ"
+msgstr "チーム kaziShirikiに必要なことだけ"
 
 msgid "チームのファイルをひとつのルームへ。アカウント登録なしで始められます。"
 msgstr "チームのファイルをひとつのChumbaへ。アカウント登録なしで始められます。"
@@ -6594,6 +6874,9 @@ msgstr "チームのファイルをひとつのChumbaへ。登録なしでUnda�
 
 msgid "チームの一時共有に、"
 msgstr "チームの一時Shirikiに、"
+
+msgid "チームの作業を、ひとつのボードに。"
+msgstr "チームの作業を、ひとつのUbaoに。"
 
 msgid "チームの運用に合わせて保存期間を柔軟に設定できます。"
 msgstr ""
@@ -6623,11 +6906,16 @@ msgstr ""
 "urahisi ambapo watu wengi wanaweza kushiriki na kudhibiti faili kwa "
 "usalama."
 
+msgid "チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト"
+msgstr "チームメンバーがタスクをUbao wa kanbanで整理する様子を表すイラスト"
+
 msgid "チーム共有に必要なことだけ"
 msgstr "チームShirikiに必要なことだけ"
 
 msgid "チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
-msgstr "チームShirikiのタスクボードをUnda。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
+msgstr ""
+"Unda ubao wa kazi wa timu wa pamoja na uonyeshe maendeleo kwa safu rahisi"
+" za Kufanya, Inaendelea na Imekamilika."
 
 msgid "チーム向けファイル共有ルーム"
 msgstr "Chumba cha kushiriki faili kwa timu"
@@ -6709,7 +6997,7 @@ msgstr ""
 "Hivyo, zinachakata data kama 1KB = 1024B na 1MB = 1024KB."
 
 msgid "データの有効期限と自動削除"
-msgstr "データの有効期限とKufuta kiotomatiki"
+msgstr "データの有効MwishoとKufuta kiotomatiki"
 
 msgid "データの種類"
 msgstr "Aina ya Data"
@@ -6721,7 +7009,7 @@ msgid "トップの下書きノートに入力した内容は、お使いのブ�
 msgstr "トップの下書きKumbukumbuに入力した内容は、お使いのブラウザ内にのみHifadhiされます。Shirikiリンクを発行した時点で初めてKumbukumbuChumbaがUndaされ、下書きがそのまま引き継がれます。"
 
 msgid "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
-msgstr "トップの下書きボードに追加したタスクは、お使いの端末に留まります。Shirikiリンクを発行した時点で初めてボードがUndaされ、タスクがまとめて登録されます。"
+msgstr "トップの下書きUbaoにOngezaしたタスクは、お使いの端末に留まります。Shirikiリンクを発行した時点で初めてUbaoがUndaされ、タスクがまとめて登録されます。"
 
 msgid "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
 msgstr "トップのShirikiボックスで選んだファイルは、お使いの端末に留まります。Shirikiリンクを発行した時点で初めてChumbaがUndaされ、選んだファイルがまとめてPakiaされます。"
@@ -6815,7 +7103,7 @@ msgstr "Katika chumba cha noti, maandishi yanaweza kushirikiwa katika muda halis
 
 msgid "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
 msgstr ""
-"KumbukumbuChumbaのShirikiURLを相手にTumaことで参加してもらえます。URLやTaarifa za "
+"KumbukumbuChumbaのURL ya kushirikiを相手にTumaことで参加してもらえます。URLやTaarifa za "
 "chumbaは信頼できる相手にShirikiしてください。"
 
 msgid "ノートルームを作成"
@@ -7034,7 +7322,7 @@ msgid "パスワードを入力（6桁の数字）"
 msgstr "Ingiza nenosiri (nambari yenye tarakimu 6)"
 
 msgid "パスワードを入力（半角数字6桁）"
-msgstr "ingiza nenosiri（半角数字6桁）"
+msgstr "Weka nenosiri (tarakimu 6)"
 
 msgid "パスワードを忘れてしまいました"
 msgstr "Nimesahau nenosiri langu"
@@ -7713,6 +8001,12 @@ msgstr "Weka sheria za majina ya faili badala ya kuunda folda"
 msgid "フォント（文字）が埋め込まれている："
 msgstr "Fonti (herufi) kupachikwa:"
 
+msgid "フォーカス中のカードの完了を切り替え"
+msgstr "Badilisha hali ya kukamilika ya kadi iliyo na umakini"
+
+msgid "フォーカス中のカードを編集"
+msgstr "Hariri kadi iliyo na umakini"
+
 msgid "フッターナビゲーション"
 msgstr "Urambazaji wa mkia"
 
@@ -7960,25 +8254,40 @@ msgstr ""
 msgid "ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。"
 msgstr "ボタンを押すとKumbukumbuChumbaが作られ、下書きがそのまま引き継がれます。"
 
+msgid "ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。"
+msgstr "ボタンを押すとUbaoが作られ、書き出したタスクがそのまま登録されます。"
+
+msgid "ボード"
+msgstr "Ubao"
+
+msgid "ボードにアクセス"
+msgstr "Fikia ubao"
+
+msgid "ボードに参加"
+msgstr "Jiunge na ubao"
+
 msgid "ボードの操作"
-msgstr "ボードのVitendo"
+msgstr "Vidhibiti vya ubao"
 
 msgid "ボードを作成"
-msgstr "ボードをUnda"
+msgstr "Unda ubao"
 
 msgid "ボードを削除"
-msgstr "ボードをFuta"
+msgstr "Futa ubao"
 
 msgid "ボードを検索"
-msgstr "ボードをTafuta"
+msgstr "UbaoをTafuta"
+
+msgid "ボードを開く"
+msgstr "Ubaoを開く"
 
 msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
 msgstr ""
-"ボードUnda時にSiku 1、1週間、1か月からMuda wa kuhifadhiを選べます。期間を過ぎるとボードとタスクはKufuta "
-"kiotomatikiされます。"
+"UbaoUnda時にSiku 1、Wiki 1、Mwezi 1からMuda wa "
+"kuhifadhiを選べます。期間を過ぎるとUbaoとタスクはKufuta kiotomatikiされます。"
 
 msgid "ボード表示とカレンダー表示を切り替え"
-msgstr "ボードOnyeshaとカレンダーOnyeshaを切り替え"
+msgstr "Badilisha kati ya mwonekano wa ubao na kalenda"
 
 msgid "マスターパスワード"
 msgstr "Nenosiri kuu"
@@ -8022,6 +8331,9 @@ msgstr ""
 msgid "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。"
 msgstr "Bofya \"File\" > \"Export...\" kwenye mwambaa menyu (menu bar)."
 
+msgid "メモ・詳細"
+msgstr "Madokezo na maelezo"
+
 msgid "メモ帳 共有"
 msgstr "Notepad iliyoshirikiwa"
 
@@ -8048,8 +8360,14 @@ msgstr ""
 "Washiriki wanaweza kuskani msimbo wa QR ili kujiunga na chumba na kupakia"
 " au kupakua faili."
 
+msgid "メンバーはどのようにボードへ参加しますか？"
+msgstr "メンバーはどのようにUbaoへ参加しますか？"
+
 msgid "メンバーはどのようにルームへ参加しますか？"
 msgstr "メンバーはどのようにChumbaへ参加しますか？"
+
+msgid "メンバーも追加・受け取り"
+msgstr "メンバーもOngeza・受け取り"
 
 msgid "メンバーを招待"
 msgstr "alika washiriki"
@@ -8151,7 +8469,7 @@ msgid "ユーザーは "
 msgstr "Unaweza kuzima vidakuzi vya matangazo yaliyobinafsishwa kupitia "
 
 msgid "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション"
-msgstr "リアルタイムでチームの進捗を管理できるBureShirikiカンバンタスクボードアプリケーション"
+msgstr "リアルタイムでチームの進捗を管理できるBureShirikiカンバンUbao wa kaziアプリケーション"
 
 msgid "リアルタイムでノートを共有する手順"
 msgstr "Hatua za kushiriki noti kwa wakati halisi"
@@ -8501,8 +8819,8 @@ msgstr "ID ya chumba na nenosiri hazikubali"
 
 msgid "ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。"
 msgstr ""
-"Kitambulisho cha "
-"ChumbaとNenosiriによって保護されており、ShirikiURLを知っているメンバーのみがSalamaにアクセスできます。"
+"Kitambulisho cha ChumbaとNenosiriによって保護されており、URL ya "
+"kushirikiを知っているメンバーのみがSalamaにアクセスできます。"
 
 msgid "ルームIDとパスワードによる参加"
 msgstr "Kitambulisho cha ChumbaとNenosiriによる参加"
@@ -8572,7 +8890,7 @@ msgstr "Chumbaはいつでも即Futa"
 msgid "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
 msgstr ""
 "Chumbaへの参加にはShiriki情報が必要ですが、ファイルはKwenye sevaでUsimbaji "
-"ficheされない状態で保管されます。機密性の高いファイルのShirikiは、所属組織のルールをThibitishaしたうえで慎重に判断してください。"
+"ficheされない状態で保管されます。機密性のJuuいファイルのShirikiは、所属組織のルールをThibitishaしたうえで慎重に判断してください。"
 
 msgid "ルームを作る前に決めておくこと"
 msgstr "Mambo ya kuamua kabla ya kuunda chumba"
@@ -8623,7 +8941,9 @@ msgstr ""
 "kushiriki URL, msimbo wa QR, kitambulisho cha chumba na nenosiri."
 
 msgid "ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。"
-msgstr "ChumbaUndaとPakiaがまとめて完了し、ShirikiURL・Msimbo wa QR・ID・NenosiriがOnyeshaされます。"
+msgstr ""
+"ChumbaUndaとPakiaがまとめてImekamilikaし、URL ya kushiriki・Msimbo wa "
+"QR・ID・NenosiriがOnyeshaされます。"
 
 msgid "ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。"
 msgstr ""
@@ -8639,7 +8959,7 @@ msgstr "Imeshindwa kuunda chumba. Tafadhali jaribu tena baadaye."
 
 msgid "ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。"
 msgstr ""
-"ChumbaUndaもIngiaも後回し。まずは下書きKumbukumbuに書き始めて、Shirikiが必要になったらリンクを発行するだけで、リアルタイムUhariri"
+"ChumbaUndaもIngiaもbaadaye回し。まずは下書きKumbukumbuに書き始めて、Shirikiが必要になったらリンクを発行するだけで、リアルタイムUhariri"
 " wa kushirikianaに切り替わります。"
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
@@ -8957,6 +9277,9 @@ msgstr "Chagua chaguo la \"Video (ikoni ya kamera)\" kutoka kwenye menyu ya juu.
 msgid "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
 msgstr "上限があります。現在のファイル数と容量の上限は、Pakia画面にOnyeshaされる案内をごThibitishaください。"
 
+msgid "下書きのタスク"
+msgstr "下書き kazi"
+
 msgid "下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画"
 msgstr "下書きの入力からShirikiリンクの発行、KumbukumbuChumbaでの同期までを実際の画面でVitendoするデモ動画"
 
@@ -8972,11 +9295,22 @@ msgstr "下書きKumbukumbuに書く"
 msgid "下書きノートを開く"
 msgstr "下書きKumbukumbuを開く"
 
+msgid "下書きボード"
+msgstr "下書きUbao"
+
+msgid "下書きボードにタスクを書く"
+msgstr "下書きUbaoにタスクを書く"
+
 msgid "下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
-msgstr "下書きボードにタスクを登録して発行すると、ShirikiURLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
+msgstr ""
+"下書きUbaoにタスクを登録して発行すると、URL ya "
+"kushirikiを受け取った相手もそのままUbaoを開けます。KipaumbeleやMwishoを見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 
 msgid "下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画"
-msgstr "下書きボードへのタスク登録からShirikiリンクの発行、実際のボードが開くまでを実際の画面でVitendoするデモ動画"
+msgstr "下書きUbaoへ kazi登録からShirikiリンクの発行、実際のUbaoが開くまでを実際の画面でVitendoするデモ動画"
+
+msgid "下書きボードを開く"
+msgstr "下書きUbaoを開く"
 
 msgid "不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。"
 msgstr ""
@@ -9041,6 +9375,12 @@ msgstr "Futa au zima viungo visivyohitajika tena."
 msgid "不要になった共有リンクや古い版は残さない"
 msgstr "Usiache Viungo Viliyokwisha Muda Wake au Matoleo ya Zamani Zikizagaa"
 
+msgid "並び替え中はドラッグでの並べ替えができません。"
+msgstr "Kazi haziwezi kupangwa upya kwa kuburuta wakati wa kupanga."
+
+msgid "並び順"
+msgstr "Mpangilio wa kupanga"
+
 msgid "中国語"
 msgstr "Kichina"
 
@@ -9073,6 +9413,9 @@ msgstr ""
 msgid "事前準備："
 msgstr "Maandalizi ya mara moja:"
 
+msgid "五十音順"
+msgstr "Mpangilio wa alfabeti"
+
 msgid "人が集まる場のファイル共有に。"
 msgstr "人が集まる場のkushiriki failiに。"
 
@@ -9088,6 +9431,9 @@ msgstr ""
 msgid "人を狙う攻撃にも備える"
 msgstr "Jiandae pia kwa mashambulizi yanayolenga watu"
 
+msgid "今すぐ、チームのタスクを整理しましょう。"
+msgstr "今すぐ、チーム kaziを整理しましょう。"
+
 msgid "今すぐできる対策"
 msgstr "Hatua za Haraka Unazoweza Kujaribu Sasa"
 
@@ -9097,8 +9443,20 @@ msgstr "Ijaribu sasa"
 msgid "今すぐ容量を増やしたい場合は、写真アプリを開き、"
 msgstr "Ikiwa unataka kupata nafasi mara moja, fungua programu ya Picha kisha:"
 
+msgid "今日"
+msgstr "Leo"
+
+msgid "今日まで"
+msgstr "Mwisho ni leo"
+
 msgid "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。"
-msgstr "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快なVitendo感で作業が進みます。"
+msgstr "Leoやるべきことを朝に書き出し、終わったらImekamilikaへ移動。軽快なVitendo感で作業が進みます。"
+
+msgid "今週"
+msgstr "Wiki hii"
+
+msgid "今週（7日以内）"
+msgstr "Siku 7 zijazo"
 
 msgid "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。"
 msgstr ""
@@ -9119,6 +9477,9 @@ msgstr ""
 
 msgid "仕様・詳細"
 msgstr "Specifications na maelezo"
+
+msgid "他のタスク管理ツールとの違い"
+msgstr "他 kazi管理ツールとの違い"
 
 msgid "他のノートサービスとの違い"
 msgstr "Jinsi inavyotofautiana na huduma zingine za noti"
@@ -9156,8 +9517,14 @@ msgstr ""
 "Tafadhali wasiliana nasi kwa kutumia fomu iliyo hapa chini. Tutapitia "
 "ujumbe wako na kurudi kwako haraka iwezekanavyo."
 
+msgid "件、ボード全体で最大"
+msgstr "lebo; ubao mzima unaweza kuwa na hadi"
+
 msgid "件の記事"
 msgstr "makala"
+
+msgid "件まで登録できます。"
+msgstr "lebo zilizosajiliwa."
 
 msgid "企業におけるファイル共有では、コンプライアンス要件とセキュリティ管理が重要な課題となります。FS!QRの暗号化通信、アクセス制御、自動削除機能は、組織が定めた運用ルールの一部として活用できます。ただし、適合性は社内規程や契約、扱う情報の種類によって異なるため、導入前に管理者が要件を確認してください。監査資料の一時的な共有、技術文書の限定配布など、保存期間を短くできる場面から用途を検討するとよいでしょう。"
 msgstr ""
@@ -9376,6 +9743,12 @@ msgstr ""
 msgid "位置情報サービス"
 msgstr "Huduma za Eneo (Location Services)"
 
+msgid "低"
+msgstr "Chini"
+
+msgid "低 (Low)"
+msgstr "Chini (Low)"
+
 msgid "何のための共有か。"
 msgstr "Kushiriki ni kwa lengo gani?"
 
@@ -9402,24 +9775,24 @@ msgstr ""
 "kitambulisho cha chumba na nenosiri na washiriki wa timu."
 
 msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "UndaしたタスクボードのデータはいつまでHifadhiされますか？"
+msgstr "UndaしたUbao wa kaziのデータはいつまでHifadhiされますか？"
 
 msgid "作成する"
 msgstr "Unda"
 
 msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
 msgstr ""
-"Unda時にMipangilioした有効期限（Siku 1・1週間・1か月）が経過すると、サーバーから完全にKufuta "
+"Unda時にMipangilioした有効Mwisho（Siku 1・Wiki 1・Mwezi 1）が経過すると、サーバーから完全にKufuta "
 "kiotomatikiされます。"
 
 msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Unda時に選択した有効期限（Siku 1・1週間・1か月）が経過すると、サーバーから自動的にFutaされます。"
+msgstr "Unda時に選択した有効Mwisho（Siku 1・Wiki 1・Mwezi 1）が経過すると、サーバーから自動的にFutaされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Tu mwundaji tu ndiye anaweza kufuta chumba na maandishi yaliyohifadhiwa."
 
 msgid "作成者のみ削除可能。すべてのタスクが消去されます。"
-msgstr "Unda者のみFuta可能。すべてのタスクが消去されます。"
+msgstr "Muumba pekee ndiye anayeweza kuufuta. Kazi zote zitaondolewa."
 
 msgid "使い方"
 msgstr "Jinsi ya Kutumia"
@@ -9461,6 +9834,9 @@ msgstr "Vidokezo vya matumizi"
 msgid "例: 420"
 msgstr "Mfano: 420"
 
+msgid "例: デザイン, 情報収集, 開発, 調査"
+msgstr "Mfano: muundo, ukusanyaji wa taarifa, maendeleo, utafiti"
+
 msgid "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。"
 msgstr ""
 "Kwa mfano, ukitaka kuhamisha picha za uwanjani zilizopigwa kwenye simu au"
@@ -9495,7 +9871,7 @@ msgid "保存して閉じる"
 msgstr "Hifadhi na ufunge"
 
 msgid "保存する"
-msgstr "Hifadhiする"
+msgstr "Hifadhi"
 
 msgid "保存する："
 msgstr "Hifadhi:"
@@ -9548,8 +9924,8 @@ msgstr "Muda wa Kuhifadhi na Kufuta Kiotomatiki"
 
 msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
 msgstr ""
-"Muda wa kuhifadhiは1・6・12・24時間。期限を過ぎるとChumbaとFaili zilizohifadhiwaがKufuta "
-"kiotomatikiされます。"
+"Muda wa kuhifadhiは1・6・12・24時間。Mwishoを過ぎるとChumbaとFaili "
+"zilizohifadhiwaがKufuta kiotomatikiされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -9571,18 +9947,21 @@ msgstr ""
 "kipindi kuisha, zitafutwa kiotomatiki na haziwezi kupakuliwa tena."
 
 msgid "保存期間終了後の自動削除"
-msgstr "Muda wa kuhifadhi終了後のKufuta kiotomatiki"
+msgstr "Muda wa kuhifadhi終了baadayeのKufuta kiotomatiki"
 
 msgid "保存期間経過後の自動削除"
-msgstr "Muda wa kuhifadhi経過後のKufuta kiotomatiki"
+msgstr "Muda wa kuhifadhi経過baadayeのKufuta kiotomatiki"
 
 msgid "保存期限を選んで自動削除"
-msgstr "Hifadhi期限を選んでKufuta kiotomatiki"
+msgstr "HifadhiMwishoを選んでKufuta kiotomatiki"
 
 msgid "保護設定：公開範囲と利用時間を短くする"
 msgstr ""
 "Mipangilio ya Ulinzi: Finya Wigo wa Watu Wanaofikiwa na Punguza Muda wa "
 "Matumizi"
+
+msgid "個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
+msgstr "個人のLeo kazi整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
 
 msgid "個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
@@ -9606,18 +9985,32 @@ msgstr ""
 "mikataba, vifaa vya mradi ambavyo havijachapishwa, au jambo lolote ambalo"
 " hupaswi kuruhusu livuje."
 
+msgid "優先度"
+msgstr "Kipaumbele"
+
+msgid "優先度・期限・タグ"
+msgstr "Kipaumbele・Mwisho・Lebo"
+
+msgid "優先度・期限・タグ分類"
+msgstr "Kipaumbele・Mwisho・Lebo分類"
+
+msgid "優先度順"
+msgstr "Kwa kipaumbele"
+
 msgid "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。"
-msgstr "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・Futaでき、1つのタスクに複数付けられます。"
+msgstr ""
+"Kipaumbele（Juu・Kawaida・Chini）、Tarehe ya "
+"mwisho、Leboでタスクを柔軟に整理・Chujaできます。Leboは自由にOngeza・Futaでき、1つ kaziに複数付けられます。"
 
 msgid "先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードのUndaとタスク登録がまとめて完了し、URL・Msimbo wa"
-" QR・IDが手に入ります。"
+"先にUbaoを作る必要はありません。やることを書き出して発行ボタンを押すと、UbaoのUndaとタスク登録がまとめてImekamilikaし、URL・Msimbo"
+" wa QR・IDが手に入ります。"
 
 msgid "先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
 "先にChumbaを作る必要はありません。Faili unayotaka "
-"kushirikiを選んで発行ボタンを押すと、ChumbaのUndaとPakiaがまとめて完了し、URL・Msimbo wa "
+"kushirikiを選んで発行ボタンを押すと、ChumbaのUndaとPakiaがまとめてImekamilikaし、URL・Msimbo wa "
 "QR・IDが手に入ります。"
 
 msgid "先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。"
@@ -9631,8 +10024,8 @@ msgstr "Wakati maandishi uliyoingiza yanapoonekana kupotea"
 msgid "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 msgstr ""
 "入力した内容は、ChumbaUnda時にMipangilioしたMuda wa kuhifadhi中はKuhifadhi "
-"kiotomatikiされ、期間の終了後にKufuta "
-"kiotomatikiされます。過去の版をThibitisha・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+"kiotomatikiされ、期間の終了itafutwa kiotomatiki "
+"baadayeされます。過去の版をThibitisha・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 
 msgid "入力内容が不正です。"
 msgstr "Uingizaji si halali."
@@ -9647,6 +10040,9 @@ msgstr ""
 "Kutoivua saa wakati wa kuoga, au kuruhusu mabaki ya sabuni kujikusanya "
 "chini ya kamba wakati wa kunawa mikono, hufanya kazi kama kikemikali "
 "kinachowasha na inaweza kusababisha upele."
+
+msgid "全体の進捗"
+msgstr "Maendeleo ya jumla"
 
 msgid "全員が同じ共有URL、同じルームIDを使っているか確認する"
 msgstr "Hakikisha kila mtu anatumia URL ya kushiriki na ID ya chumba sawa"
@@ -9703,7 +10099,7 @@ msgstr ""
 "wakati wote."
 
 msgid "共同編集を開始"
-msgstr "Uhariri wa kushirikianaを開始"
+msgstr "Uhariri wa kushirikianaをMwanzo"
 
 msgid "共同編集を開始する"
 msgstr "Anza kuandika pamoja"
@@ -9763,7 +10159,7 @@ msgid "共有ID（6文字）"
 msgstr "ID iliyoshirikiwa (herufi 6)"
 
 msgid "共有URL"
-msgstr "ShirikiURL"
+msgstr "URL ya kushiriki"
 
 msgid "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。"
 msgstr ""
@@ -9797,7 +10193,7 @@ msgstr ""
 "iwe rahisi kunakiliwa."
 
 msgid "共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。"
-msgstr "ShirikiURLが手元になくても、6文字のKitambulisho cha Chumbaと6桁のNenosiriから参加できます。"
+msgstr "URL ya kushirikiが手元になくても、6文字のKitambulisho cha Chumbaと6桁のNenosiriから参加できます。"
 
 msgid "共有URLが無効です"
 msgstr "URL ya kushiriki si halali"
@@ -9806,10 +10202,10 @@ msgid "共有URLが無効です。"
 msgstr "URL ya kushiriki si halali."
 
 msgid "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
-msgstr "ShirikiURLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+msgstr "URL ya kushirikiだけで使えるカンバン式Ubao wa kazi。チームの作業を分かりやすく整理できます。"
 
 msgid "共有URLとQRコードによる参加"
-msgstr "ShirikiURLとMsimbo wa QRによる参加"
+msgstr "URL ya kushirikiとMsimbo wa QRによる参加"
 
 msgid "共有URLとパスワードを同じチャットにまとめて送らない"
 msgstr "Usitume URL ya kushiriki na manenosiri kwenye mazungumzo yaleyale."
@@ -9825,16 +10221,16 @@ msgstr ""
 "mkutano kagua pia mahali pa kupiga QR code, kurekodi na wigo wa skrini."
 
 msgid "共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。"
-msgstr "ShirikiURLまたはMsimbo wa QRを相手に渡してください。IDとNenosiriでも受け取りページへアクセスできます。"
+msgstr "URL ya kushirikiまたはMsimbo wa QRを相手に渡してください。IDとNenosiriでも受け取りページへアクセスできます。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
 msgstr ""
-"ShirikiURLまたはMsimbo wa QRを開くか、参加画面でKitambulisho cha Chumbaとingiza "
+"URL ya kushirikiまたはMsimbo wa QRを開くか、参加画面でKitambulisho cha Chumbaとingiza "
 "nenosiriします。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
 msgstr ""
-"ShirikiURLまたはMsimbo wa QRを開くか、参加画面でKitambulisho cha Chumbaとingiza "
+"URL ya kushirikiまたはMsimbo wa QRを開くか、参加画面でKitambulisho cha Chumbaとingiza "
 "nenosiriします。参加情報は必要な相手だけにShirikiしてください。"
 
 msgid "共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。"
@@ -9862,10 +10258,10 @@ msgstr ""
 " ya kukabidhiwa, mtayarishaji anaweza kufuta chumba."
 
 msgid "共有URLをコピー"
-msgstr "ShirikiNakili Kiungo (URL)"
+msgstr "Nakili URL ya kushiriki"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
-msgstr "ShirikiURLを送れば、離れた相手も同じKumbukumbuに参加できます。"
+msgstr "URL ya kushirikiを送れば、離れた相手も同じKumbukumbuに参加できます。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""
@@ -9937,18 +10333,18 @@ msgid "共有を早く終えたい場合、作成者は保存期間を待たず�
 msgstr "Shirikiを早く終えたい場合、Unda者はMuda wa kuhifadhiを待たずにFuta Chumbaできます。"
 
 msgid "共有タスクボード"
-msgstr "Shirikiタスクボード"
+msgstr "Ubao wa kazi wa pamoja"
 
 msgid ""
 "共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
 "日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除"
 msgstr ""
-"Shirikiタスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, "
-"Bureタスク管理, 日本語Mwitikio, リアルタイム, 進捗管理, かんばんボード, Hakuna Usajili "
+"Ubao wa kazi wa pamoja, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task,"
+" Bureタスク管理, Jp本語Mwitikio, リアルタイム, 進捗管理, かんばんUbao, Hakuna Usajili "
 "Unaohitajika, URLShiriki, チーム作業, Kufuta kiotomatiki"
 
 msgid "共有タスクボード・カンバンの基本的な使い方"
-msgstr "Shirikiタスクボード・カンバンの基本的なJinsi ya Kutumia"
+msgstr "Ubao wa kazi wa pamoja・カンバンの基本的なJinsi ya Kutumia"
 
 msgid "共有ノート（最大文字）"
 msgstr "Noti ya pamoja (idadi ya juu ya herufi)"
@@ -9974,11 +10370,11 @@ msgstr "Shirikiボックスにファイルを置く"
 
 msgid "共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 msgstr ""
-"Shirikiボックスにファイルを追加すると、その場でChumbaがUndaされます。発行されたURL・Msimbo wa "
+"ShirikiボックスにファイルをOngezaすると、その場でChumbaがUndaされます。発行されたURL・Msimbo wa "
 "QR・ID・Nenosiriを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 
 msgid "共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画"
-msgstr "Shirikiボックスへのファイル追加からShirikiリンクの発行、実際のChumbaが開くまでを実際の画面でVitendoするデモ動画"
+msgstr "ShirikiボックスへのファイルOngezaからShirikiリンクの発行、実際のChumbaが開くまでを実際の画面でVitendoするデモ動画"
 
 msgid "共有ボックスを開く"
 msgstr "Shirikiボックスを開く"
@@ -10006,7 +10402,7 @@ msgid "共有ルームを新規作成"
 msgstr "Unda chumba kipya cha kushiriki"
 
 msgid "共有・ルーム情報"
-msgstr "Shiriki・Taarifa za chumba"
+msgstr "Maelezo ya kushiriki na chumba"
 
 msgid "共有中：URLとパスワードを同じ場所に置かない"
 msgstr "Wakati wa kushiriki: usiweke URL na nenosiri mahali pamoja"
@@ -10134,7 +10530,7 @@ msgstr ""
 "kulipokea kwa mdomo au kupitia njia nyingine tofauti."
 
 msgid "共有開始まで、"
-msgstr "Shiriki開始まで、"
+msgstr "ShirikiMwanzoまで、"
 
 msgid "共通鍵暗号"
 msgstr "Usimbaji fiche wa ufunguo mmoja"
@@ -10288,6 +10684,9 @@ msgstr "Jaribu kufungua kwenye kivinjari kingine"
 msgid "別のブラウザで開く"
 msgstr "Fungua kwenye kivinjari tofauti"
 
+msgid "別のボードを新しく作る"
+msgstr "別のUbaoを新しく作る"
+
 msgid "別のルームを新しく作る"
 msgstr "別のChumbaを新しく作る"
 
@@ -10365,6 +10764,9 @@ msgstr "Kufuta kumaliziwa"
 msgid "削除権限がありません。"
 msgstr "Huna ruhusa ya kufuta."
 
+msgid "前の月へ"
+msgstr "Mwezi uliopita"
+
 msgid "前後に余計な空白が入っていないか確認する"
 msgstr "Hakikisha hakuna nafasi zilizoachwa mwanzoni au mwishoni"
 
@@ -10405,7 +10807,7 @@ msgstr ""
 "wasiwasi na ukubwa wake."
 
 msgid "単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。"
-msgstr "単発のイベントやUshirikianoで、その場ですぐにタスクボードを作って役割分担・進捗Thibitishaができます。"
+msgstr "単発のイベントやUshirikianoで、その場ですぐにUbao wa kaziを作って役割分担・進捗Thibitishaができます。"
 
 msgid "印刷コストと手間を劇的に削減"
 msgstr "Punguza Kwa Kiasi Kikubwa Gharama na Bidii ya Uchapishaji"
@@ -10443,7 +10845,7 @@ msgid "参加者はどの見出しに追記するか"
 msgstr "Mshiriki ataongeza maelezo chini ya kichwa kipi cha habari"
 
 msgid "参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。"
-msgstr "参加者は一覧からファイルを受け取り、同じChumbaへ追加でPakiaできます。"
+msgstr "参加者は一覧からファイルを受け取り、同じChumbaへOngezaでPakiaできます。"
 
 msgid "参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。"
 msgstr "参加者は同じChumbaでPakia failiし、一覧からUnaweza kupakua。"
@@ -10850,6 +11252,9 @@ msgstr ""
 " picha, na nyaraka — pia kunaifanya iwe chombo bora cha kusambaza nyenzo "
 "za kufundishia za midia mbalimbali."
 
+msgid "土"
+msgstr "Jm"
+
 msgid "圧倒的な手軽さとスピード："
 msgstr "Urahisi na kasi isiyo na kifani:"
 
@@ -11028,6 +11433,13 @@ msgstr ""
 "ucheleweshaji wa mawasiliano kwa kila faili, na kufanya mchakato uwe wa "
 "polepole hata kama ukubwa wa jumla ni mdogo. Kuziweka zote pamoja kwenye "
 "faili moja la ZIP huongeza ufanisi wa utumaji."
+
+msgid ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。"
+msgstr ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「Kufanya・Inaendelea・Imekamilika」のシンプルさに特化しているため誰でも迷わず使えます。"
 
 msgid "多言語対応と国際教育での活用"
 msgstr "Msaada wa Lugha Nyingi na Elimu ya Kimataifa"
@@ -11298,10 +11710,16 @@ msgstr "Tumia Muunganisho Imara wa Mtandao"
 msgid "安心の自動削除機能"
 msgstr "安心のKufuta kiotomatiki機能"
 
+msgid "完了"
+msgstr "Imekamilika"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr ""
 "Baada ya Kukamilisha: Thibitisha Kama Ushiriki Umefanyika na Faili "
 "Limefutwa"
+
+msgid "完了率"
+msgstr "Kiwango cha kukamilika"
 
 msgid "宛先の名前と連絡先が、直近の依頼内容と一致しているか。"
 msgstr "Je, jina na mawasiliano ya mpokeaji yanaendana na ombi la hivi karibuni?"
@@ -11458,13 +11876,16 @@ msgstr ""
 "kiotomatiki lugha ya kuonyesha."
 
 msgid "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。"
-msgstr "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をThibitishaできます。"
+msgstr "当Jpのタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をThibitishaできます。"
 
 msgid "待機中"
 msgstr "Inasubiri"
 
+msgid "後"
+msgstr "baadaye"
+
 msgid "後に自動削除"
-msgstr "後にKufuta kiotomatiki"
+msgstr "itafutwa kiotomatiki baadaye"
 
 msgid "復号に失敗しました。"
 msgstr "Usimbuaji umeshindikana."
@@ -11491,7 +11912,7 @@ msgid "必要ありません。アカウントを作成せず、ブラウザか�
 msgstr "必要ありません。アカウントをUndaせず、ブラウザからファイルを選んですぐにShirikiを始められます。"
 
 msgid "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
-msgstr "必要ありません。ブラウザからボードをUndaし、ShirikiURLをメンバーへTumaだけで使い始められます。"
+msgstr "必要ありません。ブラウザからUnda ubaoし、URL ya kushirikiをメンバーへTumaだけで使い始められます。"
 
 msgid "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
 msgstr "必要ありません。ブラウザからUnda chumbaし、参加に必要な情報をメンバーへShirikiすれば使い始められます。"
@@ -11549,7 +11970,10 @@ msgid "手動入力"
 msgstr "Kuingiza kwa Mikono"
 
 msgid "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。"
-msgstr "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限をMipangilioして次のアクションを明確にします。"
+msgstr "打ち合わせ中に決まったタスクをその場でOngezaし、担当者やMwishoをMipangilioして次のアクションを明確にします。"
+
+msgid "打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。"
+msgstr "打ち合わせ中に決まった次のアクションを即座にUbaoへOngezaし、担当とMwishoを明確にします。"
 
 msgid "投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。"
 msgstr "Unapochapisha, tafadhali zingatia sheria na usivunje haki za wengine."
@@ -11766,11 +12190,23 @@ msgstr "Unda kikundi kipya ili ushiriki faili na timu yako kwa usalama."
 msgid "新しいグループルーム作成ページに移動します"
 msgstr "Nenda kwenye ukurasa wa uundaji wa chumba kipya cha kikundi"
 
+msgid "新しいタグ名"
+msgstr "Jina la lebo mpya"
+
+msgid "新しいタスクの入力欄へ移動"
+msgstr "Nenda kwenye sehemu ya kuingiza kazi mpya"
+
+msgid "新しいタスクを追加 (Enter)"
+msgstr "Ongeza kazi mpya (Enter)"
+
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
-msgstr "新しいタスクボードをUndaして、チームの作業を整理・Shirikiしましょう。"
+msgstr "新しいUnda ubao wa kaziして、チームの作業を整理・Shirikiしましょう。"
 
 msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいタスクボードUndaページに移動します"
+msgstr "新しいUbao wa kaziUndaページに移動します"
+
+msgid "新しいタスク名"
+msgstr "Jina la kazi mpya"
 
 msgid "新しいタブレットに買い替えて、引き出しの奥に眠っている古いiPadはありませんか？売ってもあまり値段がつかないような旧型モデルでも、実はパソコンの「サブディスプレイ（デュアルモニター）」として活用できる非常に優秀なデバイスになります。画面を増やすことで、資料を見ながら文章を書いたり、オンライン会議中に別の作業をしたりと、テレワークや作業の効率が劇的に向上します。"
 msgstr ""
@@ -11803,7 +12239,7 @@ msgid "新着記事"
 msgstr "Makala Mapya"
 
 msgid "新規ボード作成"
-msgstr "新規ボードUnda"
+msgstr "Unda ubao mpya"
 
 msgid "新規ルーム作成"
 msgstr "Unda chumba kipya"
@@ -11842,8 +12278,14 @@ msgstr ""
 
 msgid "既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。"
 msgstr ""
-"既存のShirikiタスクボードをTafuta・参加。Kitambulisho cha "
-"ChumbaとNenosiriでチームのカンバンボードに参加できます。"
+"Tafuta na ujiunge na ubao wa kazi wa pamoja uliopo kwa kutumia "
+"kitambulisho cha chumba na nenosiri."
+
+msgid "日"
+msgstr "Jp"
+
+msgid "日々のTODO・作業整理"
+msgstr "Jp々のTODO・作業整理"
 
 msgid "日々のケアでも改善しない場合は、バンドの素材自体を変えるのが最も効果的です。"
 msgstr ""
@@ -11851,7 +12293,9 @@ msgstr ""
 "uhakika zaidi ni kubadilisha nyenzo ya kamba yenyewe."
 
 msgid "日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。"
-msgstr "日付を選ぶとその日のタスクをThibitisha・追加できます。タスクをドラッグすると期限日を変更できます。"
+msgstr ""
+"Chagua tarehe ili kuona na kuongeza kazi za siku hiyo. Buruta kazi ili "
+"kubadilisha tarehe yake ya mwisho."
 
 msgid ""
 "日常の記録であれば、「1080p HD / "
@@ -11908,6 +12352,9 @@ msgstr ""
 "Ufikiaji wa moja kwa moja wa noti wa muundo wa zamani umekomeshwa. "
 "Tafadhali tumia URL mpya ya kushiriki."
 
+msgid "明日"
+msgstr "Kesho"
+
 msgid "映画1本（2時間・高画質）"
 msgstr "Filamu 1 (Saa 2 yenye ubora wa juu)"
 
@@ -11918,11 +12365,14 @@ msgstr ""
 "kushiriki, nyenzo zinazohitaji kuhifadhiwa zaidi ya saa 24 au taarifa "
 "zinazotakiwa kwa ukaguzi au mkataba."
 
+msgid "時間後"
+msgstr "時間baadaye"
+
 msgid "時間後に自動削除"
-msgstr "時間後にKufuta kiotomatiki"
+msgstr "時間itafutwa kiotomatiki baadaye"
 
 msgid "時間後に自動削除予定"
-msgstr "時間後にKufuta kiotomatiki予定"
+msgstr "時間itafutwa kiotomatiki baadaye予定"
 
 msgid "普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。"
 msgstr ""
@@ -12060,6 +12510,9 @@ msgstr ""
 msgid "書きながら、そのまま共有できる"
 msgstr "書きながら、そのままShirikiできる"
 
+msgid "書き出したタスクが、そのままボードになる"
+msgstr "書き出したタスクが、そのままUbaoになる"
+
 msgid "最も確実な対策は、アップロード前にファイルを開いて宛先と内容を確認することです。オートコンプリートで似た名前の連絡先を選んだ場合、URLを送る前に相手の名前・会社名・依頼内容を照合します。複数の資料をまとめて送るときは、不要な個人情報や社内メモを除き、送付目的に必要なファイルだけを残します。"
 msgstr ""
 "Hatua ya uhakika zaidi ni kufungua faili kabla ya kupakia na kukagua "
@@ -12130,6 +12583,9 @@ msgstr ""
 "kikamilifu utendaji wa \"kutenganisha njia za mawasiliano\" katika kazi "
 "kama ifuatavyo."
 
+msgid "月"
+msgstr "Jt"
+
 msgid "有効期限とダウンロード回数制限"
 msgstr "Muda wa Kuisha na Vikomo vya Kupakua"
 
@@ -12139,8 +12595,17 @@ msgstr "Programu Zinazolipishwa Pia Zinafaa Kuzingatiwa"
 msgid "期間限定共有で情報をコントロール"
 msgstr "Dhibiti taarifa kwa kushiriki kwa muda uliowekwa"
 
+msgid "期限"
+msgstr "Mwisho"
+
 msgid "期限が未設定のタスク"
-msgstr "期限が未Mipangilioのタスク"
+msgstr "Kazi zisizo na tarehe ya mwisho"
+
+msgid "期限が近い順"
+msgstr "Mwisho wa karibu kwanza"
+
+msgid "期限なし"
+msgstr "Hakuna tarehe ya mwisho"
 
 msgid "期限を短くする代わりに、受け取り確認を確実に行います。相手がダウンロードできたか、開けたか、対象ファイルが正しいかを確認すれば、長く公開しておく必要はありません。会議中の資料確認なら会議終了まで、当日中のレビューなら当日限り、取引先への一時送付なら受領連絡まで、というように終了条件を決めておきます。"
 msgstr ""
@@ -12153,14 +12618,29 @@ msgstr ""
 "au mpaka uthibitisho wa kupokelewa kwa zile zinazotumwa kwa muda kwa "
 "wateja."
 
+msgid "期限切れ"
+msgstr "Imechelewa"
+
+msgid "期限日"
+msgstr "Tarehe ya mwisho"
+
 msgid "期限管理：終わりを決めてから共有する"
 msgstr "Usimamizi wa muda: amua mwisho kabla ya kushiriki"
+
+msgid "木"
+msgstr "Al"
 
 msgid "未決事項"
 msgstr "Masuala yasiyoamuliwa"
 
 msgid "未決事項を次回の議題につなげる"
 msgstr "Peleka masuala yasiyoamuliwa kwenye ajenda ya mkutano ujao"
+
+msgid "未着手"
+msgstr "Kufanya"
+
+msgid "未着手・進行中・完了"
+msgstr "Kufanya・Inaendelea・Imekamilika"
 
 msgid "未確認の内容をどう表記するか"
 msgstr "Jinsi ya kuashiria maudhui ambayo hayajathibitishwa"
@@ -12296,6 +12776,12 @@ msgstr ""
 "tofauti kati ya toleo la Kijapani na toleo lililotafsiriwa, toleo la "
 "Kijapani litachukua nafasi ya kwanza."
 
+msgid "条件をクリア"
+msgstr "Futa masharti"
+
+msgid "来週"
+msgstr "Wiki ijayo"
+
 msgid "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。"
 msgstr ""
 "Ujumbe wa mwaliko unapaswa kujumuisha lengo la chumba, jinsi ya kuingia, "
@@ -12336,10 +12822,10 @@ msgid "検索アイコン"
 msgstr "Aikoni ya utafutaji"
 
 msgid "検索クリア"
-msgstr "Tafutaクリア"
+msgstr "Futa utafutaji"
 
 msgid "検索ボックスへ移動"
-msgstr "Tafutaボックスへ移動"
+msgstr "Nenda kwenye kisanduku cha utafutaji"
 
 msgid "検討中の意見や背景を残す場所。細かく書きすぎず、後から流れが分かる程度にまとめます。"
 msgstr ""
@@ -12431,6 +12917,9 @@ msgstr ""
 " inayofuata msingi wa kutoacha chochote nyuma baada ya makabidhiano "
 "kukamilika."
 
+msgid "機密性の高いファイルにも使えますか？"
+msgstr "機密性のJuuいファイルにも使えますか？"
+
 msgid "機密情報が含まれる場合、パスワードや別経路連絡を使っているか"
 msgstr ""
 "Kama faili linajumuisha taarifa za siri, je, unatumia nenosiri au njia "
@@ -12445,6 +12934,9 @@ msgstr ""
 
 msgid "次のファイル共有を、"
 msgstr "次のkushiriki failiを、"
+
+msgid "次の月へ"
+msgstr "Mwezi ujao"
 
 msgid "次回用に案内文やファイル名ルールだけ残す"
 msgstr ""
@@ -12483,6 +12975,9 @@ msgstr ""
 "Hutahitaji kutoa taarifa za kibinafsi kama jina lako au barua pepe kwa "
 "mtoa huduma, jambo ambalo linaondoa kabisa hatari ya uvujaji wa taarifa "
 "hizo."
+
+msgid "水"
+msgstr "J3"
 
 msgid "水や汗に非常に弱いため、水洗いは厳禁です。使用後は乾いた柔らかい布で優しく汗や皮脂を拭き取ります。定期的に革専用のクリーナーや保護クリームでお手入れすることで、ひび割れを防ぎ長持ちさせることができます。"
 msgstr ""
@@ -12562,6 +13057,9 @@ msgstr "準備は不要.まず書いて、Shirikiが必要になった時点で�
 msgid "準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。"
 msgstr "準備は不要.ファイルを選び、Usimbaji ficheして発行したShiriki情報を相手へ渡します。"
 
+msgid "火"
+msgstr "J2"
+
 msgid "火災、停電、天災地変などの不可抗力により本サービスの提供が困難となった場合"
 msgstr ""
 "Ikiwa inakuwa ngumu kutoa huduma hii kwa sababu ya nguvu kubwa kama vile "
@@ -12584,14 +13082,9 @@ msgstr ""
 msgid "無料で使う"
 msgstr "Bureで使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr ""
-"Bureで使えるShirikiタスクボード・カンバン管理サービス。アカウントHakuna Usajili "
-"Unaohitajika、URLをShirikiするだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr ""
-"Bureで使えるShirikiタスクボード・カンバン管理サービス。アカウントHakuna Usajili "
+"Bureで使えるUbao wa kazi wa pamoja・カンバン管理サービス。アカウントHakuna Usajili "
 "Unaohitajika、URLShirikiで簡単にタスクの進捗をShiriki。"
 
 msgid "無料で使える日本語ファイル共有サービス。"
@@ -12863,34 +13356,37 @@ msgstr ""
 "husababisha kufikia kikomo cha ukubwa, au kuchukua muda mrefu sana "
 "kupakia na kupakua kwa pande zote."
 
+msgid "発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。"
+msgstr "発行されたURLを渡すと、メンバーもドラッグ＆ドロップでInaendelea・Imekamilikaへ移動できます。"
+
 msgid "発行されたURLを渡すと、同じノートをリアルタイムに編集できます。"
 msgstr "発行されたURLを渡すと、同じKumbukumbuをリアルタイムに編集できます。"
 
 msgid "発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。"
-msgstr "発行されたShirikiURLまたはMsimbo wa QRをチームメンバーにTumaだけで、誰でもすぐにボードにアクセスできます。"
+msgstr "発行されたURL ya kushirikiまたはMsimbo wa QRをチームメンバーにTumaだけで、誰でもすぐにFikia ubaoできます。"
 
 msgid "発行された共有URLまたはQRコードをメンバーに渡します。"
-msgstr "発行されたShirikiURLまたはMsimbo wa QRをメンバーに渡します。"
+msgstr "発行されたURL ya kushirikiまたはMsimbo wa QRをメンバーに渡します。"
 
 msgid "発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。"
 msgstr ""
-"発行するまで、この下書きが送信されることはありません。発行するとKumbukumbuChumbaが作られ、24時間後にKufuta "
-"kiotomatikiされます。"
+"発行するまで、この下書きが送信されることはありません。発行するとKumbukumbuChumbaが作られ、24時間itafutwa "
+"kiotomatiki baadayeされます。"
 
 msgid "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。"
 msgstr ""
-"発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごとKufuta "
+"発行するまで、Ongezaしたタスクが送信されることはありません。発行するとUbaoが作られ、24時間baadayeにタスクごとKufuta "
 "kiotomatikiされます。"
 
 msgid "発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。"
 msgstr ""
-"発行するまで、選んだファイルが送信されることはありません。発行するとChumbaが作られ、24時間後にファイルごとKufuta "
+"発行するまで、選んだファイルが送信されることはありません。発行するとChumbaが作られ、24時間baadayeにファイルごとKufuta "
 "kiotomatikiされます。"
 
 msgid "発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。"
 msgstr ""
-"発行するまでファイルは送信されません。発行時にブラウザでUsimbaji ficheし、選択した期間の終了後にKufuta "
-"kiotomatikiします。"
+"発行するまでファイルは送信されません。発行時にブラウザでUsimbaji ficheし、選択した期間の終了itafutwa kiotomatiki"
+" baadayeします。"
 
 msgid "発言メモ"
 msgstr "Maelezo ya majadiliano"
@@ -12909,11 +13405,6 @@ msgstr "登録は不要.上の下書きKumbukumbuに書き始めるか、条件�
 msgid "登録不要"
 msgstr "Hakuna Usajili Unaohitajika"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr ""
-"Hakuna Usajili "
-"Unaohitajika、URLをShirikiするだけで使えるShirikiタスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "Hakuna Usajili Unaohitajika。まずはクイックShirikiにファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -12923,7 +13414,7 @@ msgstr "Hakuna Usajili Unaohitajika。ブラウザですぐに使えます"
 msgid "登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。"
 msgstr ""
 "Hakuna Usajili Unaohitajika。Unda "
-"chumbaしてURLをShirikiするだけで、未着手・進行中・完了を見える化できます。"
+"chumbaしてURLをShirikiするだけで、Kufanya・Inaendelea・Imekamilikaを見える化できます。"
 
 msgid "登録不要だからこそ気をつけたいセキュリティのポイント"
 msgstr ""
@@ -12945,8 +13436,8 @@ msgstr ""
 
 msgid "登録不要でタスクボードを作成・参加。複数人で未着手・進行中・完了のタスクを整理できます。"
 msgstr ""
-"Hakuna Usajili UnaohitajikaでタスクボードをUnda・参加。Watu "
-"wengiで未着手・進行中・完了のタスクを整理できます。"
+"Unda au jiunge na ubao wa kazi bila akaunti. Panga kazi za kufanya, "
+"zinazoendelea na zilizokamilika pamoja na wengine."
 
 msgid "登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。"
 msgstr ""
@@ -12986,19 +13477,16 @@ msgid "登録不要の共同編集ノート | FS!QR Note"
 msgstr "Noti ya kuhariri kwa pamoja bila usajili | FS!QR Note"
 
 msgid "登録不要の共有タスクボード"
-msgstr "Hakuna Usajili UnaohitajikaのShirikiタスクボード"
+msgstr "Hakuna Usajili UnaohitajikaのUbao wa kazi wa pamoja"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
-msgstr "Hakuna Usajili UnaohitajikaのShirikiタスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "Hakuna Usajili UnaohitajikaのShirikiタスクボード・カンバン管理Webアプリケーション"
+msgstr "Ubao wa kazi wa pamoja bila usajili | FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
-msgstr "Hakuna Usajili UnaohitajikaのShirikiタスクボード｜FS!QR Task"
+msgstr "Hakuna Usajili UnaohitajikaのUbao wa kazi wa pamoja｜FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜チームで使えるFS!QR Task"
-msgstr "Hakuna Usajili UnaohitajikaのShirikiタスクボード｜チームで使えるFS!QR Task"
+msgstr "Hakuna Usajili UnaohitajikaのUbao wa kazi wa pamoja｜チームで使えるFS!QR Task"
 
 msgid "登録不要の共有ノート｜FS!QR Note"
 msgstr "Hakuna Usajili UnaohitajikaのShirikiKumbukumbu｜FS!QR Note"
@@ -13381,6 +13869,12 @@ msgstr "Sawazisha kanuni za kushiriki ndani ya shirika"
 msgid "組織の承認が必要なデータ"
 msgstr "Data inayohitaji idhini ya shirika"
 
+msgid "絞り込み"
+msgstr "Chuja"
+
+msgid "絞り込み (/)"
+msgstr "Chuja (/)"
+
 msgid "継続的な改善と教育効果の測定"
 msgstr "Uboreshaji Endelevu na Kupima Athari kwa Elimu"
 
@@ -13388,7 +13882,7 @@ msgid "編み込み（ブレイデッド）タイプ："
 msgstr "Kamba zilizosukwa:"
 
 msgid "編集ダイアログを保存"
-msgstr "編集ダイアログをHifadhi"
+msgstr "Hifadhi mazungumzo ya kuhariri"
 
 msgid "編集内容の自動保存"
 msgstr "編集内容のKuhifadhi kiotomatiki"
@@ -13563,7 +14057,7 @@ msgid "表示"
 msgstr "Onyesha"
 
 msgid "表示するカラム"
-msgstr "Onyeshaするカラム"
+msgstr "Safu zinazoonekana"
 
 msgid "表示モード・選択中のサービス・ズームは、この端末に"
 msgstr ""
@@ -13694,10 +14188,10 @@ msgid "設定"
 msgstr "Mipangilio"
 
 msgid "設定あり"
-msgstr "Mipangilioあり"
+msgstr "Imewekwa"
 
 msgid "設定した保存期間の終了後"
-msgstr "MipangilioしたMuda wa kuhifadhiの終了後"
+msgstr "MipangilioしたMuda wa kuhifadhiの終了baadaye"
 
 msgid "設定のカスタマイズ"
 msgstr "Binafsisha mipangilio"
@@ -13751,7 +14245,7 @@ msgid "詳細な解説記事をお読みいただけます。"
 msgstr "Unaweza kusoma makala ya mwongozo wa kina."
 
 msgid "詳細設定（期限・優先度・タグ・メモ）"
-msgstr "詳細Mipangilio（期限・優先度・タグ・メモ）"
+msgstr "Mipangilio ya kina (tarehe ya mwisho, kipaumbele, lebo na madokezo)"
 
 msgid "誤送信による即座の流出："
 msgstr "Uvujaji wa haraka kutokana na ujumbe uliotumwa kimakosa:"
@@ -13866,6 +14360,12 @@ msgstr ""
 "wa faili tunazotumia kila siku unaendelea kuongezeka. Kujua jinsi ya "
 "kutuma faili kubwa kwa urahisi — na bila malipo — imekuwa ujuzi muhimu "
 "katika maisha ya kisasa ya kidijitali."
+
+msgid "追加"
+msgstr "Ongeza"
+
+msgid "追加したタスクはいつ送信されますか？"
+msgstr "Ongezaしたタスクはいつ送信されますか？"
 
 msgid "退職者や外部パートナーの権限管理不備："
 msgstr "Usimamizi mbaya wa ufikiaji kwa wafanyakazi wa zamani na washirika wa nje:"
@@ -14041,6 +14541,12 @@ msgstr ""
 msgid "通報/削除フロー"
 msgstr "Mtiririko wa kuripoti/kufuta"
 
+msgid "通常"
+msgstr "Kawaida"
+
+msgid "通常 (Normal)"
+msgstr "Kawaida (Normal)"
+
 msgid "通常の共有リンクは、URLを知っている人なら誰でもアクセスできてしまいます。機密性の高い業務資料を扱うなら、必ず「パスワード設定」を有効にしましょう。これにより、万が一URLが外部に漏れても、中身を見られることはありません。"
 msgstr ""
 "Kiungo cha kawaida kilichoshirikiwa kinaweza kufikiwa na mtu yeyote "
@@ -14054,6 +14560,9 @@ msgstr ""
 "jasho, hivyo inafanya kuwa nyenzo isiyosababisha sana matatizo ya ngozi. "
 "Vifungo vya kushikamana pia huruhusu urekebishaji wa ukubwa kwa usahihi, "
 "jambo ambalo husaidia kupunguza msuguano."
+
+msgid "進行中"
+msgstr "Inaendelea"
 
 msgid "運営者:"
 msgstr "Mwendeshaji:"
@@ -14138,6 +14647,9 @@ msgstr "Pakia faili zilizochaguliwa"
 msgid "選択した保存期間の経過後、自動で安全に削除されます。"
 msgstr "Zitafutwa kiotomatiki na kwa usalama baada ya muda uliowekwa wa kuhifadhi."
 
+msgid "選択した日のタスク"
+msgstr "Kazi za siku iliyochaguliwa"
+
 msgid "選択した期間の終了後に自動で削除されます。"
 msgstr "Hufutwa kiotomatiki baada ya muda wa kuhifadhi uliochaguliwa kuisha."
 
@@ -14183,6 +14695,9 @@ msgstr ""
 msgid "重要ファイルでは、送信後に相手へ受領確認を取る"
 msgstr "Kwa faili muhimu, thibitisha kwa mpokeaji baada ya kutuma."
 
+msgid "金"
+msgstr "Ij"
+
 msgid "金属製（チタンやステンレス）："
 msgstr "Kamba za chuma (titani au chuma pua):"
 
@@ -14211,6 +14726,12 @@ msgstr "Badilisha mara kwa mara manenosiri zilizotumika tena kwa muda mrefu."
 
 msgid "閉じる"
 msgstr "Funga"
+
+msgid "開始"
+msgstr "Mwanzo"
+
+msgid "開始日"
+msgstr "Tarehe ya kuanza"
 
 msgid "関連サービス"
 msgstr "Huduma zinazohusiana"
@@ -14278,6 +14799,12 @@ msgstr ""
 "Miongozo ya utendaji ya kuzuia kutuma kimakosa na kuacha faili zikiwa "
 "wazi unaposhughulikia taarifa za wateja, makadirio ya gharama, mikataba, "
 "na faili nyingine nyeti ukiwa nyumbani au nje ya ofisi."
+
+msgid "高"
+msgstr "Juu"
+
+msgid "高 (High)"
+msgstr "Juu (High)"
 
 msgid "高さ（px）"
 msgstr "urefu (px)"

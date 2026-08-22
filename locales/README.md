@@ -16,6 +16,7 @@ locales/
         send-large-files-free.json
       pages.json
       product.json
+      task.json
       seo.json
       legacy.json
 ```
@@ -33,6 +34,7 @@ locales/
 - `articles/_shared.json`: 記事一覧、カテゴリ、CTAなど記事間で共有する文言。
 - `pages.json`: privacy / terms / about / usage など固定ページ。
 - `product.json`: FS!QR / Group / Note の画面文言。
+- `task.json`: Task のルーム作成・参加・ボード操作画面の文言。翻訳は手動で管理する。
 - `seo.json`: SEO、JSON-LD、meta description などの補完スクリプト由来。
 - `legacy.json`: 出所がまだ特定できていない既存文言。新規追加では使わない。
 
@@ -59,6 +61,15 @@ SEO補完は
 python3 scripts/generate_babel_catalogs.py
 python3 scripts/generate_babel_catalogs.py --check
 ```
+
+Task 操作画面の既存 msgid を追加・更新する場合は、22言語の手動翻訳を保持する
+次のスクリプトを先に実行する。
+
+```bash
+python3 scripts/generate_task_manual_catalogs.py
+```
+
+その後、上記の Babel カタログ生成と検証を実行する。
 
 アプリケーションは `messages.po` を Babel でプロセス内コンパイルし、Jinja の
 `jinja2.ext.i18n` へリクエストごとの gettext を接続する。言語フォールバックは

@@ -5,7 +5,6 @@
   var core = modules.core;
   var store = modules.store;
   var statuses = core.STATUSES;
-  var statusLabels = core.STATUS_LABELS;
 
   var GRIP_PATH =
     'M7 4.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zm0 5.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zm0 5.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zM15.5 4.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zm0 5.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zm0 5.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z';
@@ -65,7 +64,7 @@
     card.classList.toggle('is-done', isDone);
     card.setAttribute(
       'aria-label',
-      item.title + '（' + (statusLabels[item.board_status] || '') + '）'
+      item.title + '（' + core.statusLabel(item.board_status) + '）'
     );
 
     var check = document.createElement('button');
@@ -73,8 +72,14 @@
     check.className = 'task-card__check' + (isDone ? ' is-checked' : '');
     check.dataset.action = 'toggle';
     check.setAttribute('aria-pressed', String(isDone));
-    check.setAttribute('aria-label', isDone ? '未着手に戻す' : '完了にする');
-    check.setAttribute('title', isDone ? '未着手に戻す' : '完了にする');
+    check.setAttribute(
+      'aria-label',
+      isDone ? core.t('task.return_todo', '未着手に戻す') : core.t('task.mark_done', '完了にする')
+    );
+    check.setAttribute(
+      'title',
+      isDone ? core.t('task.return_todo', '未着手に戻す') : core.t('task.mark_done', '完了にする')
+    );
     if (isDone) {
       check.appendChild(svgIcon(CHECK_PATH, 'task-check-icon'));
     }
@@ -85,7 +90,7 @@
     title.className = 'task-card__title';
     title.dataset.action = 'edit';
     title.textContent = item.title;
-    title.setAttribute('title', 'クリックして編集');
+    title.setAttribute('title', core.t('task.click_edit', 'クリックして編集'));
     card.appendChild(title);
 
     var actions = document.createElement('div');
@@ -95,8 +100,8 @@
     handle.type = 'button';
     handle.className = 'task-card__action task-card__drag-handle';
     handle.dataset.action = 'drag';
-    handle.setAttribute('aria-label', 'ドラッグして移動');
-    handle.setAttribute('title', 'ドラッグして移動');
+    handle.setAttribute('aria-label', core.t('task.drag_move', 'ドラッグして移動'));
+    handle.setAttribute('title', core.t('task.drag_move', 'ドラッグして移動'));
     handle.appendChild(svgIcon(GRIP_PATH));
     actions.appendChild(handle);
 
@@ -104,8 +109,8 @@
     menu.type = 'button';
     menu.className = 'task-card__action';
     menu.dataset.action = 'menu';
-    menu.setAttribute('aria-label', 'タスク操作メニュー');
-    menu.setAttribute('title', 'メニュー');
+    menu.setAttribute('aria-label', core.t('task.menu_label', 'タスク操作メニュー'));
+    menu.setAttribute('title', core.t('task.menu', 'メニュー'));
     menu.setAttribute('aria-haspopup', 'menu');
     menu.setAttribute('aria-expanded', 'false');
     menu.appendChild(svgIcon(DOTS_PATH));
@@ -128,7 +133,8 @@
     if (item.priority && item.priority !== 'normal') {
       var priority = document.createElement('span');
       priority.className = 'task-card__chip is-priority-' + item.priority;
-      priority.textContent = '優先度: ' + (core.PRIORITY_LABELS[item.priority] || item.priority);
+      priority.textContent =
+        core.t('task.priority_prefix', '優先度: ') + core.priorityLabel(item.priority);
       meta.appendChild(priority);
     }
 
@@ -182,10 +188,12 @@
     var text = document.createElement('span');
     text.className = 'task-column__empty-text';
     text.textContent = filtering
-      ? '条件に一致するタスクはありません'
+      ? core.t('task.no_matching', '条件に一致するタスクはありません')
       : (status === 'done'
-          ? '完了したタスクはまだありません'
-          : (statusLabels[status] || '') + 'のタスクはありません');
+          ? core.t('task.no_completed', '完了したタスクはまだありません')
+          : core.formatMessage('task.no_status_tasks', '{status}のタスクはありません', {
+              status: core.statusLabel(status)
+            }));
 
     empty.append(icon, text);
 
@@ -194,7 +202,7 @@
       action.type = 'button';
       action.className = 'task-column__empty-action';
       action.dataset.columnAdd = status;
-      action.textContent = '＋ タスクを追加';
+      action.textContent = core.t('task.add_action', '＋ タスクを追加');
       empty.appendChild(action);
     }
 
@@ -248,7 +256,12 @@
     var fill = document.getElementById('taskProgressFill');
 
     if (percent) percent.textContent = stats.percent + '%';
-    if (count) count.textContent = stats.done + ' / ' + stats.total + ' 完了';
+    if (count) {
+      count.textContent = core.formatMessage('task.completed_count', '{done} / {total} 完了', {
+        done: stats.done,
+        total: stats.total
+      });
+    }
     // The ring uses pathLength="100", so the offset is simply the remaining %.
     // リングは pathLength="100" なので、残り割合をそのままオフセットにできる。
     if (fill) fill.style.strokeDashoffset = String(100 - stats.percent);
@@ -327,7 +340,7 @@
         count.textContent = filtering
           ? columnItems.length + ' / ' + totalItems
           : String(columnItems.length);
-        count.title = filtering ? '絞り込み後の件数 / 全体の件数' : '';
+        count.title = filtering ? core.t('task.filtered_count', '絞り込み後の件数 / 全体の件数') : '';
       }
       if (tabCount) {
         tabCount.textContent = String(columnItems.length);

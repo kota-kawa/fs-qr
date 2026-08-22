@@ -295,6 +295,9 @@ msgstr ""
 msgid "0 /  文字"
 msgstr "0 / Karakter"
 
+msgid "0 / 0 完了"
+msgstr "0 / 0 selesai"
+
 msgid "0 / 文字"
 msgstr "0 / karakter"
 
@@ -326,14 +329,25 @@ msgstr "12 jam"
 msgid "1h"
 msgstr "1 jam"
 
+msgid "1か月"
+msgstr "1 bulan"
+
 msgid "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。"
 msgstr ""
 "Sebuah ruang grup dapat menyimpan hingga 10 file dengan total 500 MB. "
 "Jika penambahan file baru melebihi batas bersama file yang ada, unggahan "
 "tidak diizinkan."
 
+msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのPapan tugasにつき最大200件までタスクを登録できます。"
+
+msgid "1つのボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのPapanにつき最大200件までタスクを登録できます。"
+
 msgid "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字です。タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
-msgstr "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
+msgstr ""
+"1つのPapanにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.Tagは1件あたり最大40文字で、Papan全体で最大50件、1つ"
+" tugasに最大10件まで付けられます。"
 
 msgid "1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。"
 msgstr ""
@@ -382,13 +396,16 @@ msgid "1日"
 msgstr "1 hari"
 
 msgid "1日・1週間・1か月"
-msgstr "1 hari・1週間・1か月"
+msgstr "1 hari・1 minggu・1 bulan"
 
 msgid "1日（デフォルト）"
-msgstr "1 hari（デフォルト）"
+msgstr "1 hari (default)"
 
 msgid "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。"
 msgstr "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動でHapusされます。"
+
+msgid "1週間"
+msgstr "1 minggu"
 
 msgid "2. Macで画面録画する方法（標準機能）"
 msgstr "2. Cara Merekam Layar di Mac (Fitur Bawaan)"
@@ -785,9 +802,8 @@ msgid ""
 "FS!QR "
 "Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Groupは、Tanpa "
-"registrasiでチームのファイルをまとめてBagikanできるRuang型サービス.BagikanURL・Kode QR、またはID "
-"ruangとKata sandiですぐに参加。Periode "
+"FS!QR Groupは、Tanpa registrasiでチームのファイルをまとめてBagikanできるRuang型サービス.URL "
+"berbagi・Kode QR、またはID ruangとKata sandiですぐに参加。Periode "
 "penyimpananを選べる一時的なBagikanスペースをブラウザだけで作れます。"
 
 msgid "FS!QR Groupは企業での利用も可能ですか？"
@@ -978,35 +994,40 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "Layanan berbagi file kode QR FS!QR"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | Gratisで使えるBagikanタスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
-msgstr "FS!QR Task | Tanpa registrasiのBagikanタスクボード・カンバン管理サービス"
+msgstr "FS!QR Task | Tanpa registrasiのPapan tugas bersama・カンバン管理サービス"
 
 msgid "FS!QR Task 共有タスクボード"
-msgstr "FS!QR Task Bagikanタスクボード"
+msgstr "Papan tugas bersama FS!QR Task"
 
 msgid "FS!QR Task 共有タスクボードサービス"
-msgstr "FS!QR Task Bagikanタスクボードサービス"
+msgstr "Papan tugas bersama FS!QR Taskサービス"
 
 msgid ""
 "FS!QR "
 "Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。"
 msgstr ""
-"FS!QR "
-"TaskでチームBagikanのタスクボードをBuat。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URLBagikanで即座にコラボレーション開始。"
+"Buat papan tugas tim dengan FS!QR Task. Tampilkan kemajuan melalui kolom "
+"sederhana Harus dikerjakan, Sedang dikerjakan, dan Selesai, lalu mulai "
+"berkolaborasi dengan segera melalui URL yang dibagikan."
 
 msgid "FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。"
 msgstr ""
-"FS!QR Taskで既存のBagikanタスクボードをCari・参加。ID ruangとKata "
-"sandiでチームのカンバンボードに参加してタスク管理を始めましょう。"
+"Cari dan bergabung ke papan bersama FS!QR Task yang sudah ada menggunakan"
+" ID ruang dan kata sandinya, lalu mulai mengelola pekerjaan tim pada "
+"papan kanban."
+
+msgid "FS!QR Taskのカンバンボードを表すイラスト"
+msgstr "FS!QR TaskのPapan kanbanを表すイラスト"
+
+msgid "FS!QR Taskの下書きボード画面のスクリーンショット"
+msgstr "FS!QR Taskの下書きPapan画面のスクリーンショット"
 
 msgid "FS!QR Taskの使い方"
 msgstr "FS!QR TaskのCara Penggunaan"
 
 msgid "FS!QR Taskの共有タスクボードサービス"
-msgstr "FS!QR TaskのBagikanタスクボードサービス"
+msgstr "FS!QR TaskのPapan tugas bersamaサービス"
 
 msgid ""
 "FS!QR "
@@ -1020,27 +1041,21 @@ msgid ""
 "FS!QR "
 "Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Taskは、Tanpa "
-"registrasiで使えるBagikanタスクボード・カンバン管理サービス.URLをBagikanするだけでリアルタイムに進捗を見える化。Periode"
-" penyimpananを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
+"FS!QR Taskは、Tanpa registrasiで使えるPapan tugas "
+"bersama・カンバン管理サービス.URLをBagikanするだけでリアルタイムに進捗を見える化。Periode "
+"penyimpananを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当にGratisで使えますか？"
 
 msgid ""
 "FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR TaskはGratisのBagikanタスクボード・カンバン管理サービス。アカウントTanpa "
-"registrasiで、Ruangを作ってURLをBagikanするだけでチームのタスクを未着手・進行中・完了で整理。安心のHapus "
-"otomatis付き。"
-
-msgid ""
-"FS!QR "
 "Taskは登録不要で使える共有タスクボードです。ルームを作成してID・パスワード・共有URLを渡すと、複数人で未着手・進行中・完了のタスクをリアルタイム管理できます。"
 msgstr ""
-"FS!QR TaskはTanpa registrasiで使えるBagikanタスクボード.Buat RuangしてID・Kata "
-"sandi・BagikanURLを渡すと、Beberapa orangで未着手・進行中・完了のタスクをリアルタイム管理できます。"
+"FS!QR Task adalah papan tugas bersama yang dapat digunakan tanpa "
+"pendaftaran. Buat ruang, bagikan ID, kata sandi, dan URL-nya, lalu kelola"
+" tugas yang harus dikerjakan, sedang dikerjakan, dan selesai secara real-"
+"time bersama orang lain."
 
 msgid "FS!QR | 無料QRコード暗号化ファイル共有サービス"
 msgstr "FS!QR | Layanan berbagi file terenkripsi kode QR gratis"
@@ -1943,6 +1958,9 @@ msgstr "Gagal mendapatkan ID. Silakan coba lagi."
 msgid "IDが指定されていません。"
 msgstr "ID tidak ditentukan."
 
+msgid "IDでボードに参加する"
+msgstr "IDでBergabung ke papanする"
+
 msgid "IDでルームに参加する"
 msgstr "IDでGabung Ruangする"
 
@@ -1953,7 +1971,7 @@ msgid "IDとパスワードによる2重の壁"
 msgstr "Perlindungan ganda dengan ID dan kata sandi"
 
 msgid "IDとパスワードを入力して、既存のタスクボードに参加します。"
-msgstr "IDとMasukkan kata sandiして、既存のタスクボードに参加します。"
+msgstr "IDとMasukkan kata sandiして、既存 tugasBergabung ke papanします。"
 
 msgid "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
 msgstr ""
@@ -2704,13 +2722,13 @@ msgstr "Jangan menempelkan URL, ID berbagi, atau kata sandi di kanal publik."
 
 msgid "URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。"
 msgstr ""
-"URLかKode QRを渡すと相手もボードに参加できます。ID ruangとKata "
-"sandiでも参加できます。以降のタスク編集はボード側で行えます。"
+"URLかKode QRを渡すと相手もBergabung ke papanできます。ID ruangとKata sandiでも参加できます。以降 "
+"tugas編集はPapan側で行えます。"
 
 msgid "URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。"
 msgstr ""
 "URLかKode QRを渡すと相手もGabung Ruangできます。ID ruangとKata "
-"sandiでも参加できます。ファイルの追加やHapusはRuang側で行えます。"
+"sandiでも参加できます。ファイルのTambahやHapusはRuang側で行えます。"
 
 msgid "URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。"
 msgstr ""
@@ -2775,8 +2793,8 @@ msgstr ""
 
 msgid "URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
 msgstr ""
-"URLをBagikanするだけでBeberapa "
-"orangでタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
+"URLをBagikanするだけでBeberapa orangでタスクをリアルタイム管理。Harus dikerjakan・Sedang "
+"dikerjakan・Selesaiのシンプルカンバンでチームの進捗を見える化。"
 
 msgid "URLを適用しました"
 msgstr "URL diterapkan"
@@ -2786,9 +2804,6 @@ msgstr "URLBagikanですぐに始められる、Catatan kolaborasi real-time。�
 
 msgid "URL共有で即参加"
 msgstr "URLBagikanで即参加"
-
-msgid "URL共有で即座にコラボレーション"
-msgstr "URLBagikanで即座にコラボレーション"
 
 msgid "URL共有で参加"
 msgstr "Berpartisipasi dengan membagikan URL"
@@ -3125,6 +3140,39 @@ msgstr ""
 "Berbagi File dengan Klien Tanpa Membingungkan: Checklist Praktis untuk "
 "Serah Terima yang Aman"
 
+msgid "common.close"
+msgstr "Tutup"
+
+msgid "common.copied"
+msgstr "Disalin"
+
+msgid "common.copy"
+msgstr "Salin"
+
+msgid "common.delete"
+msgstr "Hapus"
+
+msgid "common.delete_action"
+msgstr "Hapus"
+
+msgid "common.hide"
+msgstr "Sembunyikan"
+
+msgid "common.home"
+msgstr "Beranda"
+
+msgid "common.search"
+msgstr "Cari"
+
+msgid "common.service_navigation"
+msgstr "Navigasi layanan"
+
+msgid "common.share"
+msgstr "Bagikan"
+
+msgid "common.show"
+msgstr "Tampilkan"
+
 msgid "fsqr.delete_confirm_message"
 msgstr ""
 "Tindakan ini akan menghapus file secara permanen dan tidak dapat "
@@ -3392,6 +3440,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "Open a task room"
 
+msgid "task.auto_generate"
+msgstr "Buat otomatis"
+
+msgid "task.auto_generated_id"
+msgstr "ID ruang yang dibuat"
+
+msgid "task.auto_generated_placeholder"
+msgstr "Dibuat otomatis"
+
 msgid "task.board.title"
 msgstr "Task board"
 
@@ -3410,11 +3467,87 @@ msgstr "Only the creator can delete this room and its tasks."
 msgid "task.delete_room_title"
 msgstr "Close this room"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "Penghapusan data otomatis"
+
+msgid "task.layout.feature_collaboration"
+msgstr "Mulai berkolaborasi sekarang dengan membagikan URL"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "Operasi seret dan lepas"
+
+msgid "task.layout.feature_kanban"
+msgstr "Manajemen tugas dengan kanban"
+
+msgid "task.layout.feature_priority"
+msgstr "Prioritas, tenggat, dan tag"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR Task adalah layanan papan tugas bersama dan kanban gratis. Tanpa "
+"akun: buat ruang, bagikan URL, dan atur tugas tim dengan penghapusan "
+"otomatis."
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"papan tugas bersama, kanban, manajemen tugas, manajemen TODO, manajemen "
+"proyek, kolaborasi tim, FS QR Task, manajemen tugas gratis, kemajuan "
+"real-time, penghapusan otomatis"
+
+msgid "task.layout.og_description"
+msgstr ""
+"Papan tugas bersama yang dapat digunakan tanpa pendaftaran. Bagikan URL "
+"dan tampilkan kemajuan tim dengan alur kanban."
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | Papan tugas bersama dan kanban gratis"
+
+msgid "task.layout.organization_name"
+msgstr "FS!QR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "FS!QR Task"
+
+msgid "task.layout.schema_description"
+msgstr ""
+"Layanan papan tugas bersama dan kanban gratis. Tanpa akun; bagikan URL "
+"untuk mengelola kemajuan secara real-time."
+
+msgid "task.layout.service_alt"
+msgstr "Layanan papan tugas bersama FS!QR Task"
+
+msgid "task.layout.service_name"
+msgstr "Layanan FS!QR Task"
+
+msgid "task.layout.software_description"
+msgstr "Aplikasi web papan tugas bersama dan kanban tanpa pendaftaran."
+
+msgid "task.manual_input"
+msgstr "Masukkan manual"
+
 msgid "task.menu.description"
 msgstr "Simple room-based task board."
 
 msgid "task.menu.title"
 msgstr "Task"
+
+msgid "task.password"
+msgstr "Kata sandi"
+
+msgid "task.password_hide"
+msgstr "Sembunyikan kata sandi"
+
+msgid "task.password_show"
+msgstr "Tampilkan kata sandi"
+
+msgid "task.room"
+msgstr "Ruang"
+
+msgid "task.room_id"
+msgstr "ID ruang"
+
+msgid "task.room_id_mode"
+msgstr "Metode ID ruang"
 
 msgid "task.search.title"
 msgstr "Find a task room"
@@ -3689,10 +3822,12 @@ msgstr ""
 " atau iCloud Drive."
 
 msgid "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。"
-msgstr "「ボードをBuat」ボタンをクリックし、Periode penyimpananを指定してタスクボードをBuatします。"
+msgstr "「Buat papan」ボタンをクリックし、Periode penyimpananを指定してBuat papan tugasします。"
 
 msgid "「ボードを作成」ボタンを押し、保存期間（1日・1週間・1か月）を選択してボードを発行します。"
-msgstr "「ボードをBuat」ボタンを押し、Periode penyimpanan（1 hari・1週間・1か月）を選択してボードを発行します。"
+msgstr ""
+"「Buat papan」ボタンを押し、Periode penyimpanan（1 hari・1 minggu・1 "
+"bulan）を選択してPapanを発行します。"
 
 msgid "「リンクです」だけでなく、何のファイルか、どこを確認してほしいか、いつまでに返信が必要かを書きます。受信者が予想していない共有なら、リンクを開く前に送信者へ別の手段で確認してもらいます。ファイル共有サービスを装ったフィッシングもあるため、ドメイン名と依頼内容が一致しているかを確認します。"
 msgstr ""
@@ -4167,8 +4302,13 @@ msgstr ""
 msgid "このグループを共有する"
 msgstr "Bagikan grup ini"
 
+msgid "このタスクのタグ"
+msgstr "Tag untuk tugas ini"
+
 msgid "このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？"
-msgstr "このタスクボードとすべてのタスクをHapusします。このTindakanは元に戻せません。よろしいですか？"
+msgstr ""
+"Hapus papan tugas ini beserta semua tugasnya? Tindakan ini tidak dapat "
+"dibatalkan."
 
 msgid "このノートを共有する"
 msgstr "Bagikan catatan ini"
@@ -4189,7 +4329,7 @@ msgid "このファイル形式はプレビューできません。"
 msgstr "Format file ini tidak dapat dipratinjau."
 
 msgid "このヘルプを開く"
-msgstr "このBuka Bantuan"
+msgstr "Buka bantuan ini"
 
 msgid "このヘルプを開閉"
 msgstr "Alihkan bantuan ini"
@@ -4204,13 +4344,13 @@ msgid "このページの下書きノートにそのまま入力します。内�
 msgstr "このページの下書きCatatanにそのまま入力します。内容はお使いの端末にだけSimpanされます。"
 
 msgid "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。"
-msgstr "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけSimpanされます。"
+msgstr "このページの下書きPapanにそのままTambahします。内容はお使いの端末にだけSimpanされます。"
 
 msgid "このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。"
 msgstr "このページのBagikanボックスにドロップするだけ。発行するまで端末から送信されません。"
 
 msgid "このボードを共有する"
-msgstr "このボードをBagikanする"
+msgstr "Bagikan papan ini"
 
 msgid "このルームではテキストをリアルタイムに共有できます。"
 msgstr "Ruang ini memungkinkan Anda berbagi teks secara real time."
@@ -4231,7 +4371,7 @@ msgid "この下書きエディタにはJavaScriptが必要です。"
 msgstr "この下書きエディタにはJavaScriptが必要."
 
 msgid "この下書きボードにはJavaScriptが必要です。"
-msgstr "この下書きボードにはJavaScriptが必要."
+msgstr "この下書きPapanにはJavaScriptが必要."
 
 msgid "この仕様により、共有URLだけ、またはパスワードだけが第三者に知られた場合には、もう一方の情報が必要になります。URLとパスワードを別経路で伝える運用は、不正アクセスの可能性を下げる対策の一つです。短いパスワードや同じパスワードの使い回しは避け、組織の認証ルールも併せて確認してください。"
 msgstr ""
@@ -4272,6 +4412,9 @@ msgstr ""
 "lain meskipun orang tersebut tidak menyetel alamat email di ponsel "
 "cerdasnya atau akun alat obrolannya tidak terhubung, selama orang "
 "tersebut ada tepat di depan Anda."
+
+msgid "この日に追加"
+msgstr "Tambah pada hari ini"
 
 msgid "この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。"
 msgstr ""
@@ -4396,6 +4539,9 @@ msgstr ""
 "Segera hentikan berbagi, dan jika perlu unggah ulang file untuk "
 "menerbitkan ID dan kata sandi baru."
 
+msgid "すべて"
+msgstr "Semua"
+
 msgid "すべてのファイルを同じ扱いにすると、便利さは増えますがリスクも増えます。公開資料、確認用画像、見積書、契約書、個人情報を含むファイルでは、必要な注意のレベルが違います。"
 msgstr ""
 "Membagikan semua jenis file dengan cara pengoperasian yang sama memang "
@@ -4438,6 +4584,9 @@ msgstr "Unduh semua (demo)"
 
 msgid "すべて削除"
 msgstr "Hapus Semua"
+
+msgid "すべて外す"
+msgstr "Semua外す"
 
 msgid "そこで、レビュー参加者には閲覧用の資料を共有し、修正担当者には別途編集用ファイルを渡す運用が有効です。チャットでは「全員確認用」「修正担当者用」のようにラベルを付け、ファイル名にも用途を入れます。FS!QRで一時的に配る資料と、Groupでメンバーが出し入れする作業ファイルを使い分けると、資料配布と共同作業の境界が分かりやすくなります。"
 msgstr ""
@@ -4656,6 +4805,9 @@ msgstr "Mengapa File Berukuran Besar Tidak Bisa Dikirim Melalui Email?"
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr "Pilih file yang ingin dibagikan dan unggah."
 
+msgid "にタスクを追加"
+msgstr " — tambah tugas"
+
 msgid "に定めるとおりです。"
 msgstr "."
 
@@ -4667,6 +4819,12 @@ msgstr ""
 "bisa mengirimkan video lewat email\" adalah karena ukuran file video jauh"
 " melebihi batas maksimum lampiran email. Dalam situasi seperti ini, "
 "daripada melampirkannya di email, gunakanlah metode"
+
+msgid "に追加するタスク名"
+msgstr " — nama tugas yang akan ditambahkan"
+
+msgid "のタスク"
+msgstr " tugas"
 
 msgid "のページから、パーソナライズド広告に使用される Cookie を無効にできます。"
 msgstr "."
@@ -4687,12 +4845,12 @@ msgstr ""
 "ruangan, dan kata sandi."
 
 msgid "はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。"
-msgstr "はい、完全レスポンシブRespons.スマートフォンやTabレットのタッチTindakanでも快適にタスクの追加・移動・完了切り替えが行えます。"
+msgstr "はい、完全レスポンシブRespons.スマートフォンやTabレットのタッチTindakanでも快適にタスクのTambah・移動・Selesai切り替えが行えます。"
 
 msgid "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
 msgstr ""
-"はい、Tanpa "
-"registrasi・完全Gratisでご利用いただけます。タスクボードのBuat、参加、タスクの編集・移動など全ての機能がGratis."
+"はい、Tanpa registrasi・完全Gratisでご利用いただけます。Papan "
+"tugasのBuat、参加、タスクの編集・移動など全ての機能がGratis."
 
 msgid "はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。"
 msgstr ""
@@ -4866,6 +5024,9 @@ msgstr ""
 "Keduanya menggunakan koneksi kabel dan kompresi beralgoritma khusus, "
 "menghadirkan kenyamanan yang mendekati monitor portabel khusus."
 
+msgid "やることを入力して追加"
+msgstr "やることを入力してTambah"
+
 msgid "よい例"
 msgstr "Contoh yang baik"
 
@@ -4936,7 +5097,10 @@ msgstr ""
 "notulen, dan kerja sama tim."
 
 msgid "アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
-msgstr "アカウント不要で使えるGratisのBagikanタスクボード・カンバン管理サービス。URLをBagikanするだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
+msgstr ""
+"アカウント不要で使えるGratisのPapan tugas "
+"bersama・カンバン管理サービス。URLをBagikanするだけで、チームのTODO・タスク・進捗をHarus "
+"dikerjakan・Sedang dikerjakan・Selesaiで見える化。プロジェクトやイベント tugas管理に最適。"
 
 msgid "アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。"
 msgstr ""
@@ -4967,7 +5131,7 @@ msgid "アカウント作成なし"
 msgstr "アカウントBuatなし"
 
 msgid "アカウント作成不要で即開始"
-msgstr "アカウントBuat不要で即開始"
+msgstr "アカウントBuat不要で即Mulai"
 
 msgid "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。"
 msgstr ""
@@ -4981,7 +5145,7 @@ msgstr ""
 "keunggulan di luar sekadar kecepatan."
 
 msgid "アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。"
-msgstr "アカウント登録は不要.まずは下書きボードにタスクを書き出すところから始められます。"
+msgstr "アカウント登録は不要.まずは下書きPapanにタスクを書き出すところから始められます。"
 
 msgid "アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。"
 msgstr "アカウント登録は不要.まずはFile yang ingin dibagikanを選ぶところから始められます。"
@@ -5007,7 +5171,7 @@ msgid "アカウント登録やアプリのインストールは必要ですか�
 msgstr "アカウント登録やApakah perlu menginstal aplikasi?"
 
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
-msgstr "アカウント登録やMasukは一切不要.ブラウザがあればすぐに利用開始できます。"
+msgstr "アカウント登録やMasukは一切不要.ブラウザがあればすぐに利用Mulaiできます。"
 
 msgid "アカウント登録やログインは必要ですか？"
 msgstr "アカウント登録やMasukは必要ですか？"
@@ -5019,10 +5183,10 @@ msgid "アカウント登録不要で使える、ルーム型のグループフ�
 msgstr "アカウントTanpa registrasiで使える、Ruang型のBerbagi file grupWebアプリケーション."
 
 msgid "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。"
-msgstr "アカウントTanpa registrasiで使える、Bagikan型のカンバンタスクボードWebアプリケーション."
+msgstr "アカウントTanpa registrasiで使える、Bagikan型のカンバンPapan tugasWebアプリケーション."
 
 msgid "アカウント登録不要のボード作成"
-msgstr "アカウントTanpa registrasiのボードBuat"
+msgstr "アカウントTanpa registrasiのPapanBuat"
 
 msgid "アカウント登録不要のルーム作成"
 msgstr "アカウントTanpa registrasiのRuangBuat"
@@ -5222,7 +5386,9 @@ msgid "アップロード待ちファイル"
 msgstr "File menunggu diunggah"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
-msgstr "Unggah時に1時間・6時間・12時間・24時間からPeriode penyimpananを選択でき、期間の終了後に自動でHapusされます。"
+msgstr ""
+"Unggah時に1時間・6時間・12時間・24時間からPeriode "
+"penyimpananを選択でき、期間の終了nantiに自動でHapusされます。"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。"
 msgstr ""
@@ -5294,6 +5460,9 @@ msgstr ""
 msgid "アプリを入れずにブラウザで完結。ファイルを暗号化し、QRコードですばやく一時共有できます。"
 msgstr "アプリを入れずにSelesai di browser。ファイルをEnkripsiし、Kode QRですばやく一時Bagikanできます。"
 
+msgid "イベントから日常の整理まで、"
+msgstr "イベントからMin常の整理まで、"
+
 msgid "イベント中に「あの資料が欲しい」と言われた際も、その場でQRコードを見せるだけで完結します。名刺交換の際についでに資料を渡したり、アンケート回答へのリンクと一緒にファイルを共有したりと、活用の幅は無限大です。"
 msgstr ""
 "Saat ditanya 'Saya ingin dokumen itu' selama acara, itu selesai hanya "
@@ -5304,11 +5473,17 @@ msgstr ""
 msgid "インシデント対応を事前に決める"
 msgstr "Tentukan respons insiden sebelumnya"
 
+msgid "インポート"
+msgstr "Impor"
+
 msgid "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。"
 msgstr ""
 "Buka situs webnya, seret dan lepas file Anda, dan proses unggah langsung "
 "dimulai. Dalam hitungan detik, tautan berbagi dan kode QR sudah siap "
 "untuk dikirimkan."
+
+msgid "エクスポート"
+msgstr "Ekspor"
 
 msgid "エコで効率的なデータクレンジングとコンプライアンス"
 msgstr "Pengelolaan data yang ramah lingkungan, efisien, dan patuh regulasi"
@@ -5421,6 +5596,9 @@ msgstr ""
 "notifikasi ke bawah dan ketuk \"Hentikan\". Video disimpan di pustaka "
 "aplikasi Foto atau Galeri Anda."
 
+msgid "カスタム順"
+msgstr "Urutan khusus"
+
 msgid "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。"
 msgstr ""
 "Jika Anda menggunakan jaringan Wi-Fi gratis di kafe yang pengaturan "
@@ -5451,16 +5629,43 @@ msgid "カメラ側の設定を変える："
 msgstr "Mengubah pengaturan pada sisi kamera:"
 
 msgid "カラムの操作"
-msgstr "カラムのTindakan"
+msgstr "Kontrol kolom"
+
+msgid "カラムの開閉"
+msgstr "Buka/tutup kolom"
+
+msgid "カレンダー"
+msgstr "Kalender"
 
 msgid "カレンダーで期限を確認"
-msgstr "カレンダーで期限をKonfirmasi"
+msgstr "Periksa tenggat di kalender"
 
 msgid "カレンダー表示"
-msgstr "カレンダーTampilkan"
+msgstr "Tampilan kalender"
+
+msgid "カンバンボード"
+msgstr "Papan kanban"
+
+msgid "カンバン式タスク管理（未着手・進行中・完了）"
+msgstr "カンバン式タスク管理（Harus dikerjakan・Sedang dikerjakan・Selesai）"
+
+msgid "カンバン方式で進捗を見える化"
+msgstr "Tampilkan kemajuan dengan alur kanban"
+
+msgid "カンバン方式（未着手・進行中・完了）"
+msgstr "カンバン方式（Harus dikerjakan・Sedang dikerjakan・Selesai）"
 
 msgid "カードのボードで表示"
-msgstr "カードのボードでTampilkan"
+msgstr "Tampilkan sebagai kartu papan"
+
+msgid "カードをカラム内で並べ替え"
+msgstr "Urutkan ulang kartu dalam kolom"
+
+msgid "カードを隣のカラムへ移動"
+msgstr "Pindahkan kartu ke kolom sebelahnya"
+
+msgid "カード間を移動（カードにフォーカス時）"
+msgstr "Berpindah antar-kartu (saat kartu memiliki fokus)"
 
 msgid "キャプチャウィンドウの「録画ボタン（丸アイコン）」をクリックするか、ショートカットキー"
 msgstr ""
@@ -5480,7 +5685,7 @@ msgid "キーボードショートカット (?)"
 msgstr "Pintasan keyboard (?)"
 
 msgid "キーボードショートカットを表示"
-msgstr "Pintasan keyboardをTampilkan"
+msgstr "Tampilkan pintasan keyboard"
 
 msgid "ギャラリーやGoogleフォトで写真を開き、詳細情報を表示すると地図が出る場合は位置情報あり。"
 msgstr ""
@@ -5502,7 +5707,7 @@ msgstr "クイックBagikanにファイルを置く"
 
 msgid "クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画"
 msgstr ""
-"クイックBagikanへのファイル追加からBagikanリンクの発行、Kode "
+"クイックBagikanへのファイルTambahからBagikanリンクの発行、Kode "
 "QRから受け取り画面が開くまでを実際の画面でTindakanするデモ動画"
 
 msgid "クイック共有を開く"
@@ -5540,6 +5745,9 @@ msgstr ""
 "Karena Anda tidak perlu masuk ke akun penyimpanan cloud atau akun email, "
 "Anda tidak perlu khawatir kata sandi atau sesi login Anda akan tertinggal"
 " di PC orang lain."
+
+msgid "クリア"
+msgstr "Hapus"
 
 msgid "グループ"
 msgstr "Grup"
@@ -6042,6 +6250,9 @@ msgstr "Langkah 4: Sesuaikan Pengaturan Perekaman Video (Langkah Pencegahan)"
 msgid "ステップ5：クラウドストレージやPCへ写真を退避・バックアップする"
 msgstr "Langkah 5: Pindahkan atau Cadangkan Foto ke Cloud Storage atau PC"
 
+msgid "ステータス"
+msgstr "Status"
+
 msgid "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除"
 msgstr ""
 "penyimpanan hp penuh, tambah ruang penyimpanan iPhone, kosongkan ruang "
@@ -6343,74 +6554,140 @@ msgstr "Penggunaan FS!QR untuk seminar dan belajar kelompok"
 msgid "ゼミナールやグループ学習・ワークショップでのファイル共有"
 msgstr "Berbagi File di Seminar, Belajar Kelompok, dan Lokakarya"
 
+msgid "タグ"
+msgstr "Tag"
+
+msgid "タグで絞り込み"
+msgstr "Filter berdasarkan tag"
+
 msgid "タグはこのボード全体で共有されます。1つのタスクに最大"
-msgstr "タグはこのボード全体でBagikanされます。1つのタスクに最大"
+msgstr "Tag dibagikan di seluruh papan ini. Maksimal"
+
+msgid "タグを管理"
+msgstr "Kelola tag"
+
+msgid "タグを追加"
+msgstr "Tambah tag"
+
+msgid "タスクのタイトルを入力"
+msgstr "Masukkan judul tugas"
 
 msgid "タスクの表示方法"
-msgstr "タスクのTampilkan方法"
+msgstr "Tampilan tugas"
+
+msgid "タスクの詳細やURLなどを自由に入力"
+msgstr "Masukkan detail tugas, URL, atau catatan dengan bebas"
+
+msgid "タスクをインポート"
+msgstr "Impor tugas"
+
+msgid "タスクをエクスポート"
+msgstr "Ekspor tugas"
+
+msgid "タスクを絞り込み"
+msgstr "Filter tugas"
+
+msgid "タスクを編集"
+msgstr "Edit tugas"
+
+msgid "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+msgstr ""
+"タスクをTambahし、ドラッグ＆ドロップで「Harus dikerjakan」「Sedang "
+"dikerjakan」「Selesai」に移動して管理します。"
+
+msgid "タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。"
+msgstr ""
+"タスクをTambahし、ドラッグ＆ドロップまたはタップで「Harus dikerjakan」「Sedang "
+"dikerjakan」「Selesai」に移動してスムーズに連携します。"
+
+msgid "タスクを追加して進捗を管理する"
+msgstr "タスクをTambahして進捗を管理する"
+
+msgid "タスクを追加・移動して進捗管理"
+msgstr "タスクをTambah・移動して進捗管理"
 
 msgid "タスクデータはいつまで保存されますか？"
 msgstr "タスクデータはいつまでSimpanされますか？"
 
+msgid "タスクボード"
+msgstr "Papan tugas"
+
 msgid "タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task"
-msgstr "タスクボードで進捗管理｜アカウント不要・GratisでチームBagikan - FS!QR Task"
+msgstr "Papan tugasで進捗管理｜アカウント不要・GratisでチームBagikan - FS!QR Task"
 
 msgid "タスクボードの削除"
-msgstr "タスクボードのHapus"
+msgstr "Hapus papan tugas"
 
 msgid "タスクボードを作成"
-msgstr "タスクボードをBuat"
+msgstr "Buat papan tugas"
 
 msgid "タスクボードを作成してID・パスワード・共有URLを送信。登録不要でチームの進捗をリアルタイムに見える化できます。"
 msgstr ""
-"タスクボードをBuatしてID・Kata sandi・BagikanURLを送信。Tanpa "
-"registrasiでチームの進捗をリアルタイムに見える化できます。"
+"Buat papan tugas lalu bagikan ID, kata sandi, dan URL-nya. Tampilkan "
+"kemajuan tim secara real-time tanpa pendaftaran."
 
 msgid "タスクボードを作成して共有すると、複数人が同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適です。"
 msgstr ""
-"タスクボードをBuatしてBagikanすると、Beberapa "
-"orangが同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適."
+"Buat dan bagikan papan tugas agar beberapa orang dapat mengatur tugas "
+"yang harus dikerjakan, sedang dikerjakan, dan selesai bersama. Cocok "
+"untuk persiapan acara, TODO rapat, pengembangan tim, dan pekerjaan yang "
+"ingin segera dimulai."
 
 msgid "タスクボードを作成する"
-msgstr "タスクボードをBuat"
+msgstr "Buat papan tugasする"
 
 msgid "タスクボードを新規作成"
-msgstr "タスクボードを新規Buat"
+msgstr "Buat papan tugas baru"
 
 msgid "タスクボードを検索"
-msgstr "タスクボードをCari"
+msgstr "Cari papan tugas"
 
 msgid "タスクボード作成 | FS!QR Task"
-msgstr "タスクボードBuat | FS!QR Task"
+msgstr "Buat papan tugas | FS!QR Task"
 
 msgid "タスクボード作成 | FS!QR Task - 共有カンバンボード"
-msgstr "タスクボードBuat | FS!QR Task - Bagikanカンバンボード"
+msgstr "Buat papan tugas | FS!QR Task - Kanban bersama"
 
 msgid "タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
-msgstr "タスクボードBuat, Bagikanタスク管理, カンバンBuat, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
+msgstr ""
+"buat papan tugas, manajemen tugas bersama, pembuatan kanban, manajemen "
+"TODO, manajemen proyek, kolaborasi tim, FS QR Task"
 
 msgid "タスクボード作成時に選択した有効期限（1日・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
-msgstr "タスクボードBuat時に選択した有効期限（1 hari・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
+msgstr ""
+"Papan tugasBuat時に選択した有効Jatuh tempo（1 hari・1 minggu・1 "
+"bulan）が経過すると、タスクデータは自動的に消去されます。"
 
 msgid "タスクボード検索 | FS!QR Task"
-msgstr "タスクボードCari | FS!QR Task"
+msgstr "Cari papan tugas | FS!QR Task"
 
 msgid "タスクボード検索 | FS!QR Task - 既存ボードへの参加"
-msgstr "タスクボードCari | FS!QR Task - 既存ボードへの参加"
+msgstr "Cari papan tugas | FS!QR Task - Bergabung ke papan yang sudah ada"
 
 msgid "タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task"
-msgstr "タスクボードCari, タスクボード参加, BagikanタスクCari, 既存ボード参加, カンバン参加, FS QR Task"
+msgstr ""
+"cari papan tugas, bergabung ke papan tugas, pencarian tugas bersama, "
+"bergabung ke papan yang sudah ada, bergabung ke kanban, FS QR Task"
 
 msgid "タスクボード検索ページに移動します"
-msgstr "タスクボードCariページに移動します"
+msgstr "Papan tugasCariページに移動します"
 
 msgid "タスクルームアクセス, 共有タスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
 msgstr ""
-"タスクRuangアクセス, Bagikanタスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR "
-"Task"
+"akses ruang tugas, papan tugas bersama, manajemen kanban, bergabung ke "
+"tugas, manajemen TODO, alat kolaborasi, FS QR Task"
+
+msgid "タスク名"
+msgstr "Nama tugas"
 
 msgid "タスク名を入力（Enterで追加 / Escで閉じる）"
-msgstr "タスク名を入力（Enterで追加 / EscでTutup）"
+msgstr "Masukkan nama tugas (Enter untuk menambahkan / Esc untuk menutup)"
+
+msgid "タスク未追加"
+msgstr "タスク未Tambah"
+
+msgid "タスク管理開始まで、"
+msgstr "タスク管理Mulaiまで、"
 
 msgid "タブ"
 msgstr "Tab"
@@ -6425,7 +6702,7 @@ msgid "タブ表示に切り替え"
 msgstr "Beralih ke Tampilan Tab"
 
 msgid "ダイアログ・メニューを閉じる"
-msgstr "ダイアログ・メニューをTutup"
+msgstr "Tutup dialog dan menu"
 
 msgid "ダウンロード"
 msgstr "Unduh"
@@ -6479,6 +6756,11 @@ msgstr ""
 msgid "チャットに添える一文で作業の迷いを減らす"
 msgstr "Kurangi keraguan kerja dengan kalimat yang ditambahkan di chat"
 
+msgid "チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。"
+msgstr ""
+"チャットのスレッドやピン留めは流れてしまいKemajuan keseluruhan状況が把握しづらいですが、Papan "
+"kanbanなら一目で現在のStatusが把握できます。"
+
 msgid "チャットアプリの「写真」「画像」として送る方法は、自動圧縮がかかりやすく劣化の代表例です。LINEで通常送信した画像、SNSのタイムラインへの投稿、一部のメールサービスでの添付などが該当します。何度も転送を繰り返すと、圧縮が重ねがけされてさらに粗くなります。"
 msgstr ""
 "Mengirim foto sebagai \"foto\" atau \"gambar\" melalui aplikasi chat "
@@ -6517,11 +6799,17 @@ msgstr "Perbedaan dengan alat obrolan seperti Slack dan Teams"
 msgid "チームでのアイデア出し"
 msgstr "Curah pendapat tim"
 
+msgid "チームのタスクをひとつのボードへ。アカウント登録なしで始められます。"
+msgstr "チーム tugasをひとつのPapanへ。アカウント登録なしで始められます。"
+
 msgid "チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。"
-msgstr "チームのタスクをひとつのボードへ。登録なしでBuatし、URLやKode QRで簡単にBagikanできます。"
+msgstr "チーム tugasをひとつのPapanへ。登録なしでBuatし、URLやKode QRで簡単にBagikanできます。"
+
+msgid "チームのタスクをリアルタイムにカンバン管理"
+msgstr "Kelola tugas tim dengan kanban secara real-time"
 
 msgid "チームのタスク共有に必要なことだけ"
-msgstr "チームのタスクBagikanに必要なことだけ"
+msgstr "チーム tugasBagikanに必要なことだけ"
 
 msgid "チームのファイルをひとつのルームへ。アカウント登録なしで始められます。"
 msgstr "チームのファイルをひとつのRuangへ。アカウント登録なしで始められます。"
@@ -6531,6 +6819,9 @@ msgstr "チームのファイルをひとつのRuangへ。登録なしでBuatし
 
 msgid "チームの一時共有に、"
 msgstr "チームの一時Bagikanに、"
+
+msgid "チームの作業を、ひとつのボードに。"
+msgstr "チームの作業を、ひとつのPapanに。"
 
 msgid "チームの運用に合わせて保存期間を柔軟に設定できます。"
 msgstr ""
@@ -6559,11 +6850,16 @@ msgstr ""
 "Buat ruang berbagi file tim. Anda dapat dengan mudah membuat ruang grup "
 "di mana banyak orang dapat berbagi dan mengelola file dengan aman."
 
+msgid "チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト"
+msgstr "チームメンバーがタスクをPapan kanbanで整理する様子を表すイラスト"
+
 msgid "チーム共有に必要なことだけ"
 msgstr "チームBagikanに必要なことだけ"
 
 msgid "チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
-msgstr "チームBagikanのタスクボードをBuat。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
+msgstr ""
+"Buat papan tugas bersama untuk tim dan tampilkan kemajuan melalui kolom "
+"sederhana Harus dikerjakan, Sedang dikerjakan, dan Selesai."
 
 msgid "チーム向けファイル共有ルーム"
 msgstr "Ruang berbagi file untuk tim"
@@ -6642,7 +6938,7 @@ msgstr ""
 "1024), mendefinisikan 1 KB sebagai 1024 byte dan 1 MB sebagai 1024 KB."
 
 msgid "データの有効期限と自動削除"
-msgstr "データの有効期限とHapus otomatis"
+msgstr "データの有効Jatuh tempoとHapus otomatis"
 
 msgid "データの種類"
 msgstr "Jenis data"
@@ -6654,7 +6950,7 @@ msgid "トップの下書きノートに入力した内容は、お使いのブ�
 msgstr "トップの下書きCatatanに入力した内容は、お使いのブラウザ内にのみSimpanされます。Bagikanリンクを発行した時点で初めてCatatanRuangがBuatされ、下書きがそのまま引き継がれます。"
 
 msgid "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
-msgstr "トップの下書きボードに追加したタスクは、お使いの端末に留まります。Bagikanリンクを発行した時点で初めてボードがBuatされ、タスクがまとめて登録されます。"
+msgstr "トップの下書きPapanにTambahしたタスクは、お使いの端末に留まります。Bagikanリンクを発行した時点で初めてPapanがBuatされ、タスクがまとめて登録されます。"
 
 msgid "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
 msgstr "トップのBagikanボックスで選んだファイルは、お使いの端末に留まります。Bagikanリンクを発行した時点で初めてRuangがBuatされ、選んだファイルがまとめてUnggahされます。"
@@ -6750,7 +7046,7 @@ msgstr "Di ruang catatan, teks dapat dibagikan secara real-time."
 
 msgid "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
 msgstr ""
-"CatatanRuangのBagikanURLを相手にKirimことで参加してもらえます。URLやInformasi "
+"CatatanRuangのURL berbagiを相手にKirimことで参加してもらえます。URLやInformasi "
 "Ruangは信頼できる相手にBagikanしてください。"
 
 msgid "ノートルームを作成"
@@ -6976,7 +7272,7 @@ msgid "パスワードを入力（6桁の数字）"
 msgstr "Masukkan kata sandi (6 digit angka)"
 
 msgid "パスワードを入力（半角数字6桁）"
-msgstr "Masukkan kata sandi（半角数字6桁）"
+msgstr "Masukkan kata sandi (6 angka)"
 
 msgid "パスワードを忘れてしまいました"
 msgstr "Saya lupa kata sandi"
@@ -7654,6 +7950,12 @@ msgstr "Selaraskan aturan penamaan file sebagai ganti folder"
 msgid "フォント（文字）が埋め込まれている："
 msgstr "Data font huruf yang tertanam di dalamnya:"
 
+msgid "フォーカス中のカードの完了を切り替え"
+msgstr "Alihkan status selesai kartu yang memiliki fokus"
+
+msgid "フォーカス中のカードを編集"
+msgstr "Edit kartu yang memiliki fokus"
+
 msgid "フッターナビゲーション"
 msgstr "Navigasi footer"
 
@@ -7896,25 +8198,40 @@ msgstr "Luncurkan aplikasi \"File\" dengan ikon folder biru dari layar beranda."
 msgid "ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。"
 msgstr "ボタンを押すとCatatanRuangが作られ、下書きがそのまま引き継がれます。"
 
+msgid "ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。"
+msgstr "ボタンを押すとPapanが作られ、書き出したタスクがそのまま登録されます。"
+
+msgid "ボード"
+msgstr "Papan"
+
+msgid "ボードにアクセス"
+msgstr "Akses papan"
+
+msgid "ボードに参加"
+msgstr "Bergabung ke papan"
+
 msgid "ボードの操作"
-msgstr "ボードのTindakan"
+msgstr "Kontrol papan"
 
 msgid "ボードを作成"
-msgstr "ボードをBuat"
+msgstr "Buat papan"
 
 msgid "ボードを削除"
-msgstr "ボードをHapus"
+msgstr "Hapus papan"
 
 msgid "ボードを検索"
-msgstr "ボードをCari"
+msgstr "PapanをCari"
+
+msgid "ボードを開く"
+msgstr "Papanを開く"
 
 msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
 msgstr ""
-"ボードBuat時に1 hari、1週間、1か月からPeriode penyimpananを選べます。期間を過ぎるとボードとタスクはHapus "
-"otomatisされます。"
+"PapanBuat時に1 hari、1 minggu、1 bulanからPeriode "
+"penyimpananを選べます。期間を過ぎるとPapanとタスクはHapus otomatisされます。"
 
 msgid "ボード表示とカレンダー表示を切り替え"
-msgstr "ボードTampilkanとカレンダーTampilkanを切り替え"
+msgstr "Beralih antara tampilan papan dan kalender"
 
 msgid "マスターパスワード"
 msgstr "Kata sandi master"
@@ -7957,6 +8274,9 @@ msgstr ""
 msgid "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。"
 msgstr "Klik menu \"File\" > \"Ekspor...\" (Export...) di bilah menu utama."
 
+msgid "メモ・詳細"
+msgstr "Catatan dan detail"
+
 msgid "メモ帳 共有"
 msgstr "Buku catatan bersama"
 
@@ -7983,8 +8303,14 @@ msgstr ""
 "Anggota dapat memindai kode QR untuk bergabung ke ruang dan mengunggah "
 "atau mengunduh file."
 
+msgid "メンバーはどのようにボードへ参加しますか？"
+msgstr "メンバーはどのようにPapanへ参加しますか？"
+
 msgid "メンバーはどのようにルームへ参加しますか？"
 msgstr "メンバーはどのようにRuangへ参加しますか？"
+
+msgid "メンバーも追加・受け取り"
+msgstr "メンバーもTambah・受け取り"
 
 msgid "メンバーを招待"
 msgstr "undang anggota"
@@ -8086,7 +8412,7 @@ msgid "ユーザーは "
 msgstr "Anda dapat menonaktifkan cookie iklan yang dipersonalisasi melalui "
 
 msgid "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション"
-msgstr "リアルタイムでチームの進捗を管理できるGratisBagikanカンバンタスクボードアプリケーション"
+msgstr "リアルタイムでチームの進捗を管理できるGratisBagikanカンバンPapan tugasアプリケーション"
 
 msgid "リアルタイムでノートを共有する手順"
 msgstr "Cara Berbagi Catatan Secara Real Time"
@@ -8416,7 +8742,7 @@ msgid "ルームIDとパスワードが通らない"
 msgstr "ID ruang dan kata sandi tidak berfungsi"
 
 msgid "ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。"
-msgstr "ID ruangとKata sandiによって保護されており、BagikanURLを知っているメンバーのみがAmanにアクセスできます。"
+msgstr "ID ruangとKata sandiによって保護されており、URL berbagiを知っているメンバーのみがAmanにアクセスできます。"
 
 msgid "ルームIDとパスワードによる参加"
 msgstr "ID ruangとKata sandiによる参加"
@@ -8486,7 +8812,7 @@ msgstr "Ruangはいつでも即Hapus"
 msgid "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
 msgstr ""
 "Ruangへの参加にはBagikan情報が必要ですが、ファイルはDi "
-"serverでEnkripsiされない状態で保管されます。機密性の高いファイルのBagikanは、所属組織のルールをKonfirmasiしたうえで慎重に判断してください。"
+"serverでEnkripsiされない状態で保管されます。機密性のTinggiいファイルのBagikanは、所属組織のルールをKonfirmasiしたうえで慎重に判断してください。"
 
 msgid "ルームを作る前に決めておくこと"
 msgstr "Yang perlu diputuskan sebelum membuat ruang"
@@ -8535,7 +8861,9 @@ msgstr ""
 "berbagi, kode QR, ID ruangan, dan kata sandi."
 
 msgid "ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。"
-msgstr "RuangBuatとUnggahがまとめて完了し、BagikanURL・Kode QR・ID・Kata sandiがTampilkanされます。"
+msgstr ""
+"RuangBuatとUnggahがまとめてSelesaiし、URL berbagi・Kode QR・ID・Kata "
+"sandiがTampilkanされます。"
 
 msgid "ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。"
 msgstr ""
@@ -8552,7 +8880,7 @@ msgstr "Gagal membuat ruangan. Silakan coba lagi nanti."
 
 msgid "ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。"
 msgstr ""
-"RuangBuatもMasukも後回し。まずは下書きCatatanに書き始めて、Bagikanが必要になったらリンクを発行するだけで、リアルタイムPengeditan"
+"RuangBuatもMasukもnanti回し。まずは下書きCatatanに書き始めて、Bagikanが必要になったらリンクを発行するだけで、リアルタイムPengeditan"
 " kolaboratifに切り替わります。"
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
@@ -8861,6 +9189,9 @@ msgstr "Pilih opsi \"Video\" (ikon kamera) dari menu bagian atas."
 msgid "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
 msgstr "上限があります。現在のファイル数と容量の上限は、Unggah画面にTampilkanされる案内をごKonfirmasiください。"
 
+msgid "下書きのタスク"
+msgstr "下書き tugas"
+
 msgid "下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画"
 msgstr "下書きの入力からBagikanリンクの発行、CatatanRuangでの同期までを実際の画面でTindakanするデモ動画"
 
@@ -8876,11 +9207,22 @@ msgstr "下書きCatatanに書く"
 msgid "下書きノートを開く"
 msgstr "下書きCatatanを開く"
 
+msgid "下書きボード"
+msgstr "下書きPapan"
+
+msgid "下書きボードにタスクを書く"
+msgstr "下書きPapanにタスクを書く"
+
 msgid "下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
-msgstr "下書きボードにタスクを登録して発行すると、BagikanURLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
+msgstr ""
+"下書きPapanにタスクを登録して発行すると、URL berbagiを受け取った相手もそのままPapanを開けます。PrioritasやJatuh"
+" tempoを見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 
 msgid "下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画"
-msgstr "下書きボードへのタスク登録からBagikanリンクの発行、実際のボードが開くまでを実際の画面でTindakanするデモ動画"
+msgstr "下書きPapanへ tugas登録からBagikanリンクの発行、実際のPapanが開くまでを実際の画面でTindakanするデモ動画"
+
+msgid "下書きボードを開く"
+msgstr "下書きPapanを開く"
 
 msgid "不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。"
 msgstr ""
@@ -8944,6 +9286,12 @@ msgstr "Hapus atau nonaktifkan tautan yang tidak lagi diperlukan."
 msgid "不要になった共有リンクや古い版は残さない"
 msgstr "Jangan tinggalkan tautan berbagi yang tidak perlu atau versi lama"
 
+msgid "並び替え中はドラッグでの並べ替えができません。"
+msgstr "Tugas tidak dapat diurutkan ulang dengan menyeret saat pengurutan aktif."
+
+msgid "並び順"
+msgstr "Urutan pengurutan"
+
 msgid "中国語"
 msgstr "Bahasa Mandarin"
 
@@ -8976,6 +9324,9 @@ msgstr ""
 msgid "事前準備："
 msgstr "Persiapan awal:"
 
+msgid "五十音順"
+msgstr "Urutan alfabetis"
+
 msgid "人が集まる場のファイル共有に。"
 msgstr "人が集まる場のberbagi fileに。"
 
@@ -8990,6 +9341,9 @@ msgstr ""
 msgid "人を狙う攻撃にも備える"
 msgstr "Bersiap juga terhadap serangan yang menarget manusia"
 
+msgid "今すぐ、チームのタスクを整理しましょう。"
+msgstr "今すぐ、チーム tugasを整理しましょう。"
+
 msgid "今すぐできる対策"
 msgstr "Cara Penanganan Cepat"
 
@@ -8999,8 +9353,20 @@ msgstr "Coba sekarang"
 msgid "今すぐ容量を増やしたい場合は、写真アプリを開き、"
 msgstr "Jika Anda ingin menambah ruang penyimpanan segera, buka aplikasi foto dan:"
 
+msgid "今日"
+msgstr "Hari ini"
+
+msgid "今日まで"
+msgstr "Jatuh tempo hari ini"
+
 msgid "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。"
-msgstr "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快なTindakan感で作業が進みます。"
+msgstr "Hari iniやるべきことを朝に書き出し、終わったらSelesaiへ移動。軽快なTindakan感で作業が進みます。"
+
+msgid "今週"
+msgstr "Minggu ini"
+
+msgid "今週（7日以内）"
+msgstr "7 hari berikutnya"
 
 msgid "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。"
 msgstr ""
@@ -9022,6 +9388,9 @@ msgstr ""
 
 msgid "仕様・詳細"
 msgstr "Spesifikasi dan detail"
+
+msgid "他のタスク管理ツールとの違い"
+msgstr "他 tugas管理ツールとの違い"
 
 msgid "他のノートサービスとの違い"
 msgstr "Perbedaan dengan layanan catatan lainnya"
@@ -9059,8 +9428,14 @@ msgstr ""
 "Gunakan formulir di bawah untuk menghubungi kami. Tim kami akan membaca "
 "pesan Anda dan membalas secepat mungkin."
 
+msgid "件、ボード全体で最大"
+msgstr "tag per tugas; maksimal"
+
 msgid "件の記事"
 msgstr "artikel"
+
+msgid "件まで登録できます。"
+msgstr "tag dapat didaftarkan di seluruh papan."
 
 msgid "企業におけるファイル共有では、コンプライアンス要件とセキュリティ管理が重要な課題となります。FS!QRの暗号化通信、アクセス制御、自動削除機能は、組織が定めた運用ルールの一部として活用できます。ただし、適合性は社内規程や契約、扱う情報の種類によって異なるため、導入前に管理者が要件を確認してください。監査資料の一時的な共有、技術文書の限定配布など、保存期間を短くできる場面から用途を検討するとよいでしょう。"
 msgstr ""
@@ -9286,6 +9661,12 @@ msgstr ""
 msgid "位置情報サービス"
 msgstr "Layanan Lokasi"
 
+msgid "低"
+msgstr "Rendah"
+
+msgid "低 (Low)"
+msgstr "Rendah (Low)"
+
 msgid "何のための共有か。"
 msgstr "Untuk tujuan apa file ini dibagikan?"
 
@@ -9312,22 +9693,26 @@ msgstr ""
 "dibuat kepada anggota tim."
 
 msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "BuatしたタスクボードのデータはいつまでSimpanされますか？"
+msgstr "BuatしたPapan tugasのデータはいつまでSimpanされますか？"
 
 msgid "作成する"
 msgstr "Buat"
 
 msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr "Buat時にPengaturanした有効期限（1 hari・1週間・1か月）が経過すると、サーバーから完全にHapus otomatisされます。"
+msgstr ""
+"Buat時にPengaturanした有効Jatuh tempo（1 hari・1 minggu・1 "
+"bulan）が経過すると、サーバーから完全にHapus otomatisされます。"
 
 msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Buat時に選択した有効期限（1 hari・1週間・1か月）が経過すると、サーバーから自動的にHapusされます。"
+msgstr ""
+"Buat時に選択した有効Jatuh tempo（1 hari・1 minggu・1 "
+"bulan）が経過すると、サーバーから自動的にHapusされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Hanya pembuat yang dapat menghapus ruangan dan teks yang disimpan."
 
 msgid "作成者のみ削除可能。すべてのタスクが消去されます。"
-msgstr "Buat者のみHapus可能。すべてのタスクが消去されます。"
+msgstr "Hanya pembuat yang dapat menghapusnya. Semua tugas akan dihapus."
 
 msgid "使い方"
 msgstr "Cara Penggunaan"
@@ -9369,6 +9754,9 @@ msgstr "Catatan Penting"
 msgid "例: 420"
 msgstr "Contoh: 420"
 
+msgid "例: デザイン, 情報収集, 開発, 調査"
+msgstr "Contoh: desain, pengumpulan informasi, pengembangan, riset"
+
 msgid "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。"
 msgstr ""
 "Misalnya, jika Anda ingin mentransfer foto lapangan yang diambil dengan "
@@ -9404,7 +9792,7 @@ msgid "保存して閉じる"
 msgstr "Simpan dan tutup"
 
 msgid "保存する"
-msgstr "Simpanする"
+msgstr "Simpan"
 
 msgid "保存する："
 msgstr "Menyimpan:"
@@ -9457,8 +9845,8 @@ msgstr "Masa Penyimpanan dan Penghapusan Otomatis"
 
 msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
 msgstr ""
-"Periode penyimpananは1・6・12・24時間。期限を過ぎるとRuangとFile tersimpanがHapus "
-"otomatisされます。"
+"Periode penyimpananは1・6・12・24時間。Jatuh tempoを過ぎるとRuangとFile "
+"tersimpanがHapus otomatisされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -9482,16 +9870,19 @@ msgstr ""
 "masa simpan berakhir, file dihapus otomatis dan tidak dapat diunduh lagi."
 
 msgid "保存期間終了後の自動削除"
-msgstr "Periode penyimpanan終了後のHapus otomatis"
+msgstr "Periode penyimpanan終了nantiのHapus otomatis"
 
 msgid "保存期間経過後の自動削除"
-msgstr "Periode penyimpanan経過後のHapus otomatis"
+msgstr "Periode penyimpanan経過nantiのHapus otomatis"
 
 msgid "保存期限を選んで自動削除"
-msgstr "Simpan期限を選んでHapus otomatis"
+msgstr "SimpanJatuh tempoを選んでHapus otomatis"
 
 msgid "保護設定：公開範囲と利用時間を短くする"
 msgstr "Pengaturan perlindungan: Batasi cakupan akses dan durasi penggunaan"
+
+msgid "個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
+msgstr "個人のHari ini tugas整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
 
 msgid "個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
@@ -9517,18 +9908,33 @@ msgstr ""
 "data pribadi, rahasia perusahaan, kontrak kerja, atau rincian proyek yang"
 " belum dipublikasikan ke publik."
 
+msgid "優先度"
+msgstr "Prioritas"
+
+msgid "優先度・期限・タグ"
+msgstr "Prioritas・Jatuh tempo・Tag"
+
+msgid "優先度・期限・タグ分類"
+msgstr "Prioritas・Jatuh tempo・Tag分類"
+
+msgid "優先度順"
+msgstr "Berdasarkan prioritas"
+
 msgid "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。"
-msgstr "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・Hapusでき、1つのタスクに複数付けられます。"
+msgstr ""
+"Prioritas（Tinggi・Normal・Rendah）、Tanggal jatuh "
+"tempo、Tagでタスクを柔軟に整理・Filterできます。Tagは自由にTambah・Hapusでき、1つ tugasに複数付けられます。"
 
 msgid "先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードのBuatとタスク登録がまとめて完了し、URL・Kode "
-"QR・IDが手に入ります。"
+"先にPapanを作る必要はありません。やることを書き出して発行ボタンを押すと、PapanのBuatとタスク登録がまとめてSelesaiし、URL・Kode"
+" QR・IDが手に入ります。"
 
 msgid "先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
 "先にRuangを作る必要はありません。File yang ingin "
-"dibagikanを選んで発行ボタンを押すと、RuangのBuatとUnggahがまとめて完了し、URL・Kode QR・IDが手に入ります。"
+"dibagikanを選んで発行ボタンを押すと、RuangのBuatとUnggahがまとめてSelesaiし、URL・Kode "
+"QR・IDが手に入ります。"
 
 msgid "先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。"
 msgstr ""
@@ -9542,8 +9948,8 @@ msgstr "Saat teks yang dimasukkan tampak menghilang"
 msgid "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 msgstr ""
 "入力した内容は、RuangBuat時にPengaturanしたPeriode penyimpanan中はSimpan "
-"Otomatisされ、期間の終了後にHapus "
-"otomatisされます。過去の版をKonfirmasi・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+"Otomatisされ、期間の終了dihapus otomatis "
+"setelahnyaされます。過去の版をKonfirmasi・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 
 msgid "入力内容が不正です。"
 msgstr "Input tidak valid."
@@ -9558,6 +9964,9 @@ msgstr ""
 "Jika tidak dilepas saat mandi, atau jika sisa sabun tertinggal di sela-"
 "sela tali saat mencuci tangan, hal ini dapat menjadi iritan kimiawi yang "
 "memicu iritasi."
+
+msgid "全体の進捗"
+msgstr "Kemajuan keseluruhan"
 
 msgid "全員が同じ共有URL、同じルームIDを使っているか確認する"
 msgstr "Pastikan semua orang menggunakan URL berbagi dan ID ruang yang sama"
@@ -9617,7 +10026,7 @@ msgstr ""
 "tertib."
 
 msgid "共同編集を開始"
-msgstr "Pengeditan kolaboratifを開始"
+msgstr "Pengeditan kolaboratifをMulai"
 
 msgid "共同編集を開始する"
 msgstr "Mulai pengeditan bersama"
@@ -9679,7 +10088,7 @@ msgid "共有ID（6文字）"
 msgstr "ID berbagi (6 karakter)"
 
 msgid "共有URL"
-msgstr "BagikanURL"
+msgstr "URL berbagi"
 
 msgid "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。"
 msgstr ""
@@ -9713,7 +10122,7 @@ msgstr ""
 "mudah disalin dengan benar."
 
 msgid "共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。"
-msgstr "BagikanURLが手元になくても、6文字のID ruangと6桁のKata sandiから参加できます。"
+msgstr "URL berbagiが手元になくても、6文字のID ruangと6桁のKata sandiから参加できます。"
 
 msgid "共有URLが無効です"
 msgstr "URL berbagi tidak valid"
@@ -9722,10 +10131,10 @@ msgid "共有URLが無効です。"
 msgstr "URL berbagi tidak valid."
 
 msgid "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
-msgstr "BagikanURLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+msgstr "URL berbagiだけで使えるカンバン式Papan tugas。チームの作業を分かりやすく整理できます。"
 
 msgid "共有URLとQRコードによる参加"
-msgstr "BagikanURLとKode QRによる参加"
+msgstr "URL berbagiとKode QRによる参加"
 
 msgid "共有URLとパスワードを同じチャットにまとめて送らない"
 msgstr "Jangan kirim URL berbagi dan kata sandi dalam chat yang sama."
@@ -9743,14 +10152,14 @@ msgstr ""
 "cakupan berbagi layar."
 
 msgid "共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。"
-msgstr "BagikanURLまたはKode QRを相手に渡してください。IDとKata sandiでも受け取りページへアクセスできます。"
+msgstr "URL berbagiまたはKode QRを相手に渡してください。IDとKata sandiでも受け取りページへアクセスできます。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
-msgstr "BagikanURLまたはKode QRを開くか、参加画面でID ruangとMasukkan kata sandiします。"
+msgstr "URL berbagiまたはKode QRを開くか、参加画面でID ruangとMasukkan kata sandiします。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
 msgstr ""
-"BagikanURLまたはKode QRを開くか、参加画面でID ruangとMasukkan kata "
+"URL berbagiまたはKode QRを開くか、参加画面でID ruangとMasukkan kata "
 "sandiします。参加情報は必要な相手だけにBagikanしてください。"
 
 msgid "共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。"
@@ -9776,10 +10185,10 @@ msgstr ""
 "pembuat dapat menghapus ruangan."
 
 msgid "共有URLをコピー"
-msgstr "BagikanSalin URL"
+msgstr "Salin URL berbagi"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
-msgstr "BagikanURLを送れば、離れた相手も同じCatatanに参加できます。"
+msgstr "URL berbagiを送れば、離れた相手も同じCatatanに参加できます。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""
@@ -9853,18 +10262,18 @@ msgid "共有を早く終えたい場合、作成者は保存期間を待たず�
 msgstr "Bagikanを早く終えたい場合、Buat者はPeriode penyimpananを待たずにHapus Ruanganできます。"
 
 msgid "共有タスクボード"
-msgstr "Bagikanタスクボード"
+msgstr "Papan tugas bersama"
 
 msgid ""
 "共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
 "日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除"
 msgstr ""
-"Bagikanタスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, "
-"Gratisタスク管理, 日本語Respons, リアルタイム, 進捗管理, かんばんボード, Tanpa registrasi, "
+"Papan tugas bersama, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, "
+"Gratisタスク管理, Min本語Respons, リアルタイム, 進捗管理, かんばんPapan, Tanpa registrasi, "
 "URLBagikan, チーム作業, Hapus otomatis"
 
 msgid "共有タスクボード・カンバンの基本的な使い方"
-msgstr "Bagikanタスクボード・カンバンの基本的なCara Penggunaan"
+msgstr "Papan tugas bersama・カンバンの基本的なCara Penggunaan"
 
 msgid "共有ノート（最大文字）"
 msgstr "Catatan bersama (karakter maksimal)"
@@ -9891,11 +10300,11 @@ msgstr "Bagikanボックスにファイルを置く"
 
 msgid "共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 msgstr ""
-"Bagikanボックスにファイルを追加すると、その場でRuangがBuatされます。発行されたURL・Kode QR・ID・Kata "
+"BagikanボックスにファイルをTambahすると、その場でRuangがBuatされます。発行されたURL・Kode QR・ID・Kata "
 "sandiを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 
 msgid "共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画"
-msgstr "Bagikanボックスへのファイル追加からBagikanリンクの発行、実際のRuangが開くまでを実際の画面でTindakanするデモ動画"
+msgstr "BagikanボックスへのファイルTambahからBagikanリンクの発行、実際のRuangが開くまでを実際の画面でTindakanするデモ動画"
 
 msgid "共有ボックスを開く"
 msgstr "Bagikanボックスを開く"
@@ -9921,7 +10330,7 @@ msgid "共有ルームを新規作成"
 msgstr "Buat ruang berbagi baru"
 
 msgid "共有・ルーム情報"
-msgstr "Bagikan・Informasi Ruang"
+msgstr "Informasi berbagi dan ruang"
 
 msgid "共有中：URLとパスワードを同じ場所に置かない"
 msgstr "Saat berbagi: jangan menaruh URL dan kata sandi di tempat yang sama"
@@ -10058,7 +10467,7 @@ msgstr ""
 " aman."
 
 msgid "共有開始まで、"
-msgstr "Bagikan開始まで、"
+msgstr "BagikanMulaiまで、"
 
 msgid "共通鍵暗号"
 msgstr "Enkripsi simetris"
@@ -10209,6 +10618,9 @@ msgstr "Coba buka dengan browser lain"
 msgid "別のブラウザで開く"
 msgstr "Buka di browser lain"
 
+msgid "別のボードを新しく作る"
+msgstr "別のPapanを新しく作る"
+
 msgid "別のルームを新しく作る"
 msgstr "別のRuangを新しく作る"
 
@@ -10285,6 +10697,9 @@ msgstr "Penghapusan selesai"
 msgid "削除権限がありません。"
 msgstr "Anda tidak memiliki izin untuk menghapus."
 
+msgid "前の月へ"
+msgstr "Bulan sebelumnya"
+
 msgid "前後に余計な空白が入っていないか確認する"
 msgstr "Pastikan tidak ada spasi tambahan di depan atau di belakang"
 
@@ -10328,7 +10743,7 @@ msgstr ""
 "tentang batasan kapasitas."
 
 msgid "単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。"
-msgstr "単発のイベントやKolaborasiで、その場ですぐにタスクボードを作って役割分担・進捗Konfirmasiができます。"
+msgstr "単発のイベントやKolaborasiで、その場ですぐにPapan tugasを作って役割分担・進捗Konfirmasiができます。"
 
 msgid "印刷コストと手間を劇的に削減"
 msgstr "Kurangi biaya dan repotnya mencetak secara drastis"
@@ -10365,7 +10780,7 @@ msgid "参加者はどの見出しに追記するか"
 msgstr "Di bagian judul mana peserta akan menambahkan informasi"
 
 msgid "参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。"
-msgstr "参加者は一覧からファイルを受け取り、同じRuangへ追加でUnggahできます。"
+msgstr "参加者は一覧からファイルを受け取り、同じRuangへTambahでUnggahできます。"
 
 msgid "参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。"
 msgstr "参加者は同じRuangでUnggah fileし、一覧からAnda dapat mengunduh。"
@@ -10788,6 +11203,9 @@ msgstr ""
 "menjadikannya alat yang ideal untuk mendistribusikan materi pembelajaran "
 "multimedia."
 
+msgid "土"
+msgstr "Sab"
+
 msgid "圧倒的な手軽さとスピード："
 msgstr "Kemudahan dan kecepatan yang luar biasa:"
 
@@ -10961,6 +11379,13 @@ msgstr ""
 "komunikasi untuk setiap file, membuat prosesnya lambat meski total "
 "ukurannya kecil. Menggabungkan semuanya ke dalam satu arsip ZIP "
 "memaksimalkan efisiensi transfer."
+
+msgid ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。"
+msgstr ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR Taskは「Harus dikerjakan・Sedang "
+"dikerjakan・Selesai」のシンプルさに特化しているため誰でも迷わず使えます。"
 
 msgid "多言語対応と国際教育での活用"
 msgstr "Dukungan multibahasa dan penggunaan dalam pendidikan internasional"
@@ -11235,8 +11660,14 @@ msgstr "Gunakan koneksi jaringan yang stabil"
 msgid "安心の自動削除機能"
 msgstr "安心のHapus otomatis機能"
 
+msgid "完了"
+msgstr "Selesai"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "Setelah selesai: Pastikan file sudah diterima dan aksesnya ditutup"
+
+msgid "完了率"
+msgstr "Tingkat penyelesaian"
 
 msgid "宛先の名前と連絡先が、直近の依頼内容と一致しているか。"
 msgstr "Apakah nama dan kontak penerima sesuai dengan permintaan terbaru?"
@@ -11398,13 +11829,16 @@ msgstr ""
 "mendeteksi bahasa tampilan secara otomatis."
 
 msgid "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。"
-msgstr "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をKonfirmasiできます。"
+msgstr "当Minのタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をKonfirmasiできます。"
 
 msgid "待機中"
 msgstr "Menunggu"
 
+msgid "後"
+msgstr "nanti"
+
 msgid "後に自動削除"
-msgstr "後にHapus otomatis"
+msgstr "dihapus otomatis setelahnya"
 
 msgid "復号に失敗しました。"
 msgstr "Dekripsi gagal."
@@ -11431,7 +11865,7 @@ msgid "必要ありません。アカウントを作成せず、ブラウザか�
 msgstr "必要ありません。アカウントをBuatせず、ブラウザからファイルを選んですぐにBagikanを始められます。"
 
 msgid "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
-msgstr "必要ありません。ブラウザからボードをBuatし、BagikanURLをメンバーへKirimだけで使い始められます。"
+msgstr "必要ありません。ブラウザからBuat papanし、URL berbagiをメンバーへKirimだけで使い始められます。"
 
 msgid "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
 msgstr "必要ありません。ブラウザからBuat Ruangし、参加に必要な情報をメンバーへBagikanすれば使い始められます。"
@@ -11494,7 +11928,10 @@ msgid "手動入力"
 msgstr "Input manual"
 
 msgid "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。"
-msgstr "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限をPengaturanして次のアクションを明確にします。"
+msgstr "打ち合わせ中に決まったタスクをその場でTambahし、担当者やJatuh tempoをPengaturanして次のアクションを明確にします。"
+
+msgid "打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。"
+msgstr "打ち合わせ中に決まった次のアクションを即座にPapanへTambahし、担当とJatuh tempoを明確にします。"
 
 msgid "投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。"
 msgstr ""
@@ -11718,11 +12155,23 @@ msgstr "Buat grup baru untuk berbagi file secara aman dengan tim Anda."
 msgid "新しいグループルーム作成ページに移動します"
 msgstr "Buka halaman pembuatan ruang grup baru"
 
+msgid "新しいタグ名"
+msgstr "Nama tag baru"
+
+msgid "新しいタスクの入力欄へ移動"
+msgstr "Buka kolom input tugas baru"
+
+msgid "新しいタスクを追加 (Enter)"
+msgstr "Tambahkan tugas baru (Enter)"
+
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
-msgstr "新しいタスクボードをBuatして、チームの作業を整理・Bagikanしましょう。"
+msgstr "新しいBuat papan tugasして、チームの作業を整理・Bagikanしましょう。"
 
 msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいタスクボードBuatページに移動します"
+msgstr "新しいPapan tugasBuatページに移動します"
+
+msgid "新しいタスク名"
+msgstr "Nama tugas baru"
 
 msgid "新しいタブレットに買い替えて、引き出しの奥に眠っている古いiPadはありませんか？売ってもあまり値段がつかないような旧型モデルでも、実はパソコンの「サブディスプレイ（デュアルモニター）」として活用できる非常に優秀なデバイスになります。画面を増やすことで、資料を見ながら文章を書いたり、オンライン会議中に別の作業をしたりと、テレワークや作業の効率が劇的に向上します。"
 msgstr ""
@@ -11753,7 +12202,7 @@ msgid "新着記事"
 msgstr "Artikel terbaru"
 
 msgid "新規ボード作成"
-msgstr "新規ボードBuat"
+msgstr "Buat papan baru"
 
 msgid "新規ルーム作成"
 msgstr "Buat ruangan baru"
@@ -11791,7 +12240,15 @@ msgstr ""
 "bersama-sama menggunakan ID ruangan dan kata sandi."
 
 msgid "既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。"
-msgstr "既存のBagikanタスクボードをCari・参加。ID ruangとKata sandiでチームのカンバンボードに参加できます。"
+msgstr ""
+"Cari dan bergabung ke papan tugas bersama yang sudah ada menggunakan ID "
+"ruang dan kata sandi."
+
+msgid "日"
+msgstr "Min"
+
+msgid "日々のTODO・作業整理"
+msgstr "Min々のTODO・作業整理"
 
 msgid "日々のケアでも改善しない場合は、バンドの素材自体を変えるのが最も効果的です。"
 msgstr ""
@@ -11799,7 +12256,9 @@ msgstr ""
 "tali itu sendiri adalah cara yang paling efektif."
 
 msgid "日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。"
-msgstr "日付を選ぶとその日のタスクをKonfirmasi・追加できます。タスクをドラッグすると期限日を変更できます。"
+msgstr ""
+"Pilih tanggal untuk melihat dan menambahkan tugas pada hari tersebut. "
+"Seret tugas untuk mengubah tanggal jatuh temponya."
 
 msgid ""
 "日常の記録であれば、「1080p HD / "
@@ -11856,6 +12315,9 @@ msgstr ""
 "Akses langsung catatan format lama telah dinonaktifkan. Silakan gunakan "
 "URL berbagi baru."
 
+msgid "明日"
+msgstr "Besok"
+
 msgid "映画1本（2時間・高画質）"
 msgstr "1 file film (durasi 2 jam, kualitas tinggi)"
 
@@ -11866,11 +12328,14 @@ msgstr ""
 "24 jam, atau informasi yang wajib disimpan untuk audit maupun kontrak, ke"
 " penyimpanan resmi, bukan ke berbagi sementara."
 
+msgid "時間後"
+msgstr "時間nanti"
+
 msgid "時間後に自動削除"
-msgstr "時間後にHapus otomatis"
+msgstr "時間dihapus otomatis setelahnya"
 
 msgid "時間後に自動削除予定"
-msgstr "時間後にHapus otomatis予定"
+msgstr "時間dihapus otomatis setelahnya予定"
 
 msgid "普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。"
 msgstr ""
@@ -12009,6 +12474,9 @@ msgstr "Gagal mengirim file terenkripsi. Silakan muat ulang halaman dan coba lag
 msgid "書きながら、そのまま共有できる"
 msgstr "書きながら、そのままBagikanできる"
 
+msgid "書き出したタスクが、そのままボードになる"
+msgstr "書き出したタスクが、そのままPapanになる"
+
 msgid "最も確実な対策は、アップロード前にファイルを開いて宛先と内容を確認することです。オートコンプリートで似た名前の連絡先を選んだ場合、URLを送る前に相手の名前・会社名・依頼内容を照合します。複数の資料をまとめて送るときは、不要な個人情報や社内メモを除き、送付目的に必要なファイルだけを残します。"
 msgstr ""
 "Tindakan paling andal adalah membuka file dan memeriksa penerima serta "
@@ -12087,6 +12555,9 @@ msgstr ""
 "\"isolasi jalur komunikasi (terpisah) secara menyeluruh\" seperti yang "
 "ditunjukkan di bawah ini."
 
+msgid "月"
+msgstr "Sen"
+
 msgid "有効期限とダウンロード回数制限"
 msgstr "Masa Berlaku dan Batas Jumlah Unduhan"
 
@@ -12096,8 +12567,17 @@ msgstr "Aplikasi Berbayar Juga Layak Dipertimbangkan"
 msgid "期間限定共有で情報をコントロール"
 msgstr "Kontrol informasi dengan berbagi sementara"
 
+msgid "期限"
+msgstr "Jatuh tempo"
+
 msgid "期限が未設定のタスク"
-msgstr "期限が未Pengaturanのタスク"
+msgstr "Tugas tanpa tanggal jatuh tempo"
+
+msgid "期限が近い順"
+msgstr "Jatuh tempo terdekat terlebih dahulu"
+
+msgid "期限なし"
+msgstr "Tanpa tanggal jatuh tempo"
 
 msgid "期限を短くする代わりに、受け取り確認を確実に行います。相手がダウンロードできたか、開けたか、対象ファイルが正しいかを確認すれば、長く公開しておく必要はありません。会議中の資料確認なら会議終了まで、当日中のレビューなら当日限り、取引先への一時送付なら受領連絡まで、というように終了条件を決めておきます。"
 msgstr ""
@@ -12109,14 +12589,29 @@ msgstr ""
 "rapat, hari itu saja untuk tinjauan hari yang sama, atau hingga "
 "konfirmasi penerimaan diterima untuk pengiriman sementara ke klien."
 
+msgid "期限切れ"
+msgstr "Terlambat"
+
+msgid "期限日"
+msgstr "Tanggal jatuh tempo"
+
 msgid "期限管理：終わりを決めてから共有する"
 msgstr "Pengelolaan masa berlaku: tentukan akhir sebelum berbagi"
+
+msgid "木"
+msgstr "Kam"
 
 msgid "未決事項"
 msgstr "Hal yang belum diputuskan"
 
 msgid "未決事項を次回の議題につなげる"
 msgstr "Jadikan hal yang belum diputuskan sebagai agenda rapat berikutnya"
+
+msgid "未着手"
+msgstr "Harus dikerjakan"
+
+msgid "未着手・進行中・完了"
+msgstr "Harus dikerjakan・Sedang dikerjakan・Selesai"
 
 msgid "未確認の内容をどう表記するか"
 msgstr "Bagaimana cara menulis informasi yang belum terkonfirmasi"
@@ -12252,6 +12747,12 @@ msgstr ""
 " disediakan, versi bahasa Jepang akan berlaku jika terdapat perbedaan "
 "dengan versi terjemahan."
 
+msgid "条件をクリア"
+msgstr "Hapus kondisi"
+
+msgid "来週"
+msgstr "Minggu depan"
+
 msgid "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。"
 msgstr ""
 "Pesan panduan harus mencakup tujuan ruang berbagi, cara masuk, nama file "
@@ -12294,10 +12795,10 @@ msgid "検索アイコン"
 msgstr "Ikon pencarian"
 
 msgid "検索クリア"
-msgstr "Cariクリア"
+msgstr "Hapus pencarian"
 
 msgid "検索ボックスへ移動"
-msgstr "Cariボックスへ移動"
+msgstr "Buka kotak pencarian"
 
 msgid "検討中の意見や背景を残す場所。細かく書きすぎず、後から流れが分かる程度にまとめます。"
 msgstr ""
@@ -12388,6 +12889,9 @@ msgstr ""
 "waktu singkat tidak perlu masa penyimpanan panjang; pilih metode berbagi "
 "dengan asumsi file tidak dibiarkan tersisa setelah diterima."
 
+msgid "機密性の高いファイルにも使えますか？"
+msgstr "機密性のTinggiいファイルにも使えますか？"
+
 msgid "機密情報が含まれる場合、パスワードや別経路連絡を使っているか"
 msgstr ""
 "Apakah menggunakan kata sandi atau komunikasi jalur terpisah jika "
@@ -12403,6 +12907,9 @@ msgstr ""
 
 msgid "次のファイル共有を、"
 msgstr "次のberbagi fileを、"
+
+msgid "次の月へ"
+msgstr "Bulan berikutnya"
 
 msgid "次回用に案内文やファイル名ルールだけ残す"
 msgstr ""
@@ -12442,6 +12949,9 @@ msgstr ""
 "Anda tidak perlu menyerahkan data pribadi seperti nama atau alamat email "
 "kepada penyedia layanan. Ini meminimalkan risiko kebocoran informasi "
 "pribadi sejak akarnya."
+
+msgid "水"
+msgstr "Rab"
 
 msgid "水や汗に非常に弱いため、水洗いは厳禁です。使用後は乾いた柔らかい布で優しく汗や皮脂を拭き取ります。定期的に革専用のクリーナーや保護クリームでお手入れすることで、ひび割れを防ぎ長持ちさせることができます。"
 msgstr ""
@@ -12521,6 +13031,9 @@ msgstr "準備は不要.まず書いて、Bagikanが必要になった時点で�
 msgid "準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。"
 msgstr "準備は不要.ファイルを選び、Enkripsiして発行したBagikan情報を相手へ渡します。"
 
+msgid "火"
+msgstr "Sel"
+
 msgid "火災、停電、天災地変などの不可抗力により本サービスの提供が困難となった場合"
 msgstr ""
 "Ketika penyediaan Layanan menjadi sulit karena keadaan kahar seperti "
@@ -12543,14 +13056,9 @@ msgstr ""
 msgid "無料で使う"
 msgstr "Gratisで使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr ""
-"Gratisで使えるBagikanタスクボード・カンバン管理サービス。アカウントTanpa "
-"registrasi、URLをBagikanするだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr ""
-"Gratisで使えるBagikanタスクボード・カンバン管理サービス。アカウントTanpa "
+"Gratisで使えるPapan tugas bersama・カンバン管理サービス。アカウントTanpa "
 "registrasi、URLBagikanで簡単にタスクの進捗をBagikan。"
 
 msgid "無料で使える日本語ファイル共有サービス。"
@@ -12816,28 +13324,37 @@ msgstr ""
 "batas ukuran, atau proses unggah dan unduhnya memakan waktu yang sangat "
 "lama bagi semua pihak."
 
+msgid "発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。"
+msgstr "発行されたURLを渡すと、メンバーもドラッグ＆ドロップでSedang dikerjakan・Selesaiへ移動できます。"
+
 msgid "発行されたURLを渡すと、同じノートをリアルタイムに編集できます。"
 msgstr "発行されたURLを渡すと、同じCatatanをリアルタイムに編集できます。"
 
 msgid "発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。"
-msgstr "発行されたBagikanURLまたはKode QRをチームメンバーにKirimだけで、誰でもすぐにボードにアクセスできます。"
+msgstr "発行されたURL berbagiまたはKode QRをチームメンバーにKirimだけで、誰でもすぐにAkses papanできます。"
 
 msgid "発行された共有URLまたはQRコードをメンバーに渡します。"
-msgstr "発行されたBagikanURLまたはKode QRをメンバーに渡します。"
+msgstr "発行されたURL berbagiまたはKode QRをメンバーに渡します。"
 
 msgid "発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。"
-msgstr "発行するまで、この下書きが送信されることはありません。発行するとCatatanRuangが作られ、24時間後にHapus otomatisされます。"
+msgstr ""
+"発行するまで、この下書きが送信されることはありません。発行するとCatatanRuangが作られ、24時間dihapus otomatis "
+"setelahnyaされます。"
 
 msgid "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。"
-msgstr "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごとHapus otomatisされます。"
+msgstr ""
+"発行するまで、Tambahしたタスクが送信されることはありません。発行するとPapanが作られ、24時間nantiにタスクごとHapus "
+"otomatisされます。"
 
 msgid "発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。"
 msgstr ""
-"発行するまで、選んだファイルが送信されることはありません。発行するとRuangが作られ、24時間後にファイルごとHapus "
+"発行するまで、選んだファイルが送信されることはありません。発行するとRuangが作られ、24時間nantiにファイルごとHapus "
 "otomatisされます。"
 
 msgid "発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。"
-msgstr "発行するまでファイルは送信されません。発行時にブラウザでEnkripsiし、選択した期間の終了後にHapus otomatisします。"
+msgstr ""
+"発行するまでファイルは送信されません。発行時にブラウザでEnkripsiし、選択した期間の終了dihapus otomatis "
+"setelahnyaします。"
 
 msgid "発言メモ"
 msgstr "Catatan diskusi"
@@ -12857,9 +13374,6 @@ msgstr "登録は不要.上の下書きCatatanに書き始めるか、条件を�
 msgid "登録不要"
 msgstr "Tanpa registrasi"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr "Tanpa registrasi、URLをBagikanするだけで使えるBagikanタスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "Tanpa registrasi。まずはクイックBagikanにファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -12867,7 +13381,9 @@ msgid "登録不要。ブラウザですぐに使えます"
 msgstr "Tanpa registrasi。ブラウザですぐに使えます"
 
 msgid "登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。"
-msgstr "Tanpa registrasi。Buat RuangしてURLをBagikanするだけで、未着手・進行中・完了を見える化できます。"
+msgstr ""
+"Tanpa registrasi。Buat RuangしてURLをBagikanするだけで、Harus dikerjakan・Sedang "
+"dikerjakan・Selesaiを見える化できます。"
 
 msgid "登録不要だからこそ気をつけたいセキュリティのポイント"
 msgstr "Poin Keamanan yang Justru Perlu Diperhatikan Karena Tanpa Registrasi"
@@ -12886,7 +13402,9 @@ msgstr ""
 "orang dapat mengunggah, mengunduh, dan mengelola file."
 
 msgid "登録不要でタスクボードを作成・参加。複数人で未着手・進行中・完了のタスクを整理できます。"
-msgstr "Tanpa registrasiでタスクボードをBuat・参加。Beberapa orangで未着手・進行中・完了のタスクを整理できます。"
+msgstr ""
+"Buat atau bergabung ke papan tugas tanpa akun. Atur tugas yang harus "
+"dikerjakan, sedang dikerjakan, dan selesai bersama orang lain."
 
 msgid "登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。"
 msgstr ""
@@ -12924,19 +13442,16 @@ msgid "登録不要の共同編集ノート | FS!QR Note"
 msgstr "Catatan Kolaboratif Tanpa Registrasi | FS!QR Note"
 
 msgid "登録不要の共有タスクボード"
-msgstr "Tanpa registrasiのBagikanタスクボード"
+msgstr "Tanpa registrasiのPapan tugas bersama"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
-msgstr "Tanpa registrasiのBagikanタスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "Tanpa registrasiのBagikanタスクボード・カンバン管理Webアプリケーション"
+msgstr "Papan tugas bersama tanpa pendaftaran | FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
-msgstr "Tanpa registrasiのBagikanタスクボード｜FS!QR Task"
+msgstr "Tanpa registrasiのPapan tugas bersama｜FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜チームで使えるFS!QR Task"
-msgstr "Tanpa registrasiのBagikanタスクボード｜チームで使えるFS!QR Task"
+msgstr "Tanpa registrasiのPapan tugas bersama｜チームで使えるFS!QR Task"
 
 msgid "登録不要の共有ノート｜FS!QR Note"
 msgstr "Tanpa registrasiのBagikanCatatan｜FS!QR Note"
@@ -13334,6 +13849,12 @@ msgstr "Selaraskan aturan berbagi dalam organisasi"
 msgid "組織の承認が必要なデータ"
 msgstr "Data yang memerlukan persetujuan organisasi"
 
+msgid "絞り込み"
+msgstr "Filter"
+
+msgid "絞り込み (/)"
+msgstr "Filter (/)"
+
 msgid "継続的な改善と教育効果の測定"
 msgstr "Perbaikan berkelanjutan dan pengukuran efektivitas pendidikan"
 
@@ -13341,7 +13862,7 @@ msgid "編み込み（ブレイデッド）タイプ："
 msgstr "Tipe rajut (braided):"
 
 msgid "編集ダイアログを保存"
-msgstr "編集ダイアログをSimpan"
+msgstr "Simpan dialog edit"
 
 msgid "編集内容の自動保存"
 msgstr "編集内容のSimpan Otomatis"
@@ -13521,7 +14042,7 @@ msgid "表示"
 msgstr "Tampilkan"
 
 msgid "表示するカラム"
-msgstr "Tampilkanするカラム"
+msgstr "Kolom yang terlihat"
 
 msgid "表示モード・選択中のサービス・ズームは、この端末に"
 msgstr "Mode tampilan, layanan yang dipilih, dan zoom disimpan di perangkat ini"
@@ -13649,10 +14170,10 @@ msgid "設定"
 msgstr "Pengaturan"
 
 msgid "設定あり"
-msgstr "Pengaturanあり"
+msgstr "Diatur"
 
 msgid "設定した保存期間の終了後"
-msgstr "PengaturanしたPeriode penyimpananの終了後"
+msgstr "PengaturanしたPeriode penyimpananの終了nanti"
 
 msgid "設定のカスタマイズ"
 msgstr "Sesuaikan Pengaturan"
@@ -13703,7 +14224,7 @@ msgid "詳細な解説記事をお読みいただけます。"
 msgstr "Baca artikel panduan terperinci."
 
 msgid "詳細設定（期限・優先度・タグ・メモ）"
-msgstr "詳細Pengaturan（期限・優先度・タグ・メモ）"
+msgstr "Pengaturan lanjutan (tanggal jatuh tempo, prioritas, tag, dan catatan)"
 
 msgid "誤送信による即座の流出："
 msgstr "Kebocoran instan akibat salah kirim:"
@@ -13826,6 +14347,12 @@ msgstr ""
 "Mengetahui cara mengirim file berukuran besar secara gratis dan tanpa "
 "hambatan kini telah menjadi keahlian yang wajib dimiliki dalam kehidupan "
 "digital modern."
+
+msgid "追加"
+msgstr "Tambah"
+
+msgid "追加したタスクはいつ送信されますか？"
+msgstr "Tambahしたタスクはいつ送信されますか？"
 
 msgid "退職者や外部パートナーの権限管理不備："
 msgstr ""
@@ -14013,6 +14540,12 @@ msgstr ""
 msgid "通報/削除フロー"
 msgstr "Alur Pelaporan & Penghapusan"
 
+msgid "通常"
+msgstr "Normal"
+
+msgid "通常 (Normal)"
+msgstr "Normal (Normal)"
+
 msgid "通常の共有リンクは、URLを知っている人なら誰でもアクセスできてしまいます。機密性の高い業務資料を扱うなら、必ず「パスワード設定」を有効にしましょう。これにより、万が一URLが外部に漏れても、中身を見られることはありません。"
 msgstr ""
 "Tautan berbagi normal dapat diakses oleh siapa saja yang mengetahui URL-"
@@ -14026,6 +14559,9 @@ msgstr ""
 "menjadikannya bahan yang paling aman dari masalah kulit. Tipe velcro "
 "memungkinkan penyesuaian ukuran yang presisi sehingga dapat mengurangi "
 "gesekan."
+
+msgid "進行中"
+msgstr "Sedang dikerjakan"
 
 msgid "運営者:"
 msgstr "Operator:"
@@ -14114,6 +14650,9 @@ msgstr ""
 "File akan dihapus secara otomatis dan aman setelah jangka waktu "
 "penyimpanan yang dipilih."
 
+msgid "選択した日のタスク"
+msgstr "Tugas pada tanggal yang dipilih"
+
 msgid "選択した期間の終了後に自動で削除されます。"
 msgstr ""
 "Akan dihapus secara otomatis setelah masa penyimpanan yang dipilih "
@@ -14159,6 +14698,9 @@ msgstr ""
 msgid "重要ファイルでは、送信後に相手へ受領確認を取る"
 msgstr "Untuk file penting, minta konfirmasi penerimaan setelah dikirim."
 
+msgid "金"
+msgstr "Jum"
+
 msgid "金属製（チタンやステンレス）："
 msgstr "Bahan logam (titanium atau stainless steel):"
 
@@ -14189,6 +14731,12 @@ msgstr "Ubah secara berkala kata sandi yang sudah lama dipakai ulang."
 
 msgid "閉じる"
 msgstr "Tutup"
+
+msgid "開始"
+msgstr "Mulai"
+
+msgid "開始日"
+msgstr "Tanggal mulai"
 
 msgid "関連サービス"
 msgstr "Layanan terkait"
@@ -14255,6 +14803,12 @@ msgstr ""
 "Panduan operasional untuk mencegah pengiriman yang salah dan tautan yang "
 "terlupakan saat menangani informasi pelanggan, penawaran, dan kontrak "
 "dari rumah atau luar kantor."
+
+msgid "高"
+msgstr "Tinggi"
+
+msgid "高 (High)"
+msgstr "Tinggi (High)"
 
 msgid "高さ（px）"
 msgstr "tinggi (px)"

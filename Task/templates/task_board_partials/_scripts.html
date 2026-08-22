@@ -82,7 +82,7 @@
           button.classList.add('copied');
           button.setAttribute('aria-label', copiedLabel);
           button.setAttribute('title', copiedLabel);
-          setShareFeedback(translate('share.copied_to_clipboard', 'クリップボードにコピーしました。'), 'success');
+          setShareFeedback(translate('share.copy_success', 'コピーしました。相手にそのまま送れます。'), 'success');
           setTimeout(() => {
             button.classList.remove('copied');
             button.setAttribute('aria-label', defaultLabel);
@@ -114,7 +114,7 @@
         }
         try {
           await copyTextToClipboard(url);
-          setShareFeedback(translate('share.copied_to_clipboard', 'URLをコピーしました。貼り付けて共有できます。'), 'success');
+          setShareFeedback(translate('share.copy_success', 'コピーしました。相手にそのまま送れます。'), 'success');
         } catch (error) {
           setShareFeedback(translate('share.copy_manual_error', 'コピーに失敗しました。URLを表示して手動でコピーしてください。'), 'error');
         }

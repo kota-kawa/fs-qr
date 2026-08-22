@@ -26,6 +26,27 @@
       : (fallback || key);
   }
 
+  function formatMessage(key, fallback, params) {
+    var message = t(key, fallback);
+    Object.keys(params || {}).forEach(function (name) {
+      var value = String(params[name]);
+      message = message
+        .replace(new RegExp('\\{' + name + '\\}', 'g'), value)
+        .replace(new RegExp('%\\(' + name + '\\)s', 'g'), value);
+    });
+    return message;
+  }
+
+  function statusLabel(status) {
+    var keys = { todo: 'task.todo', doing: 'task.doing', done: 'task.done' };
+    return t(keys[status], STATUS_LABELS[status] || status);
+  }
+
+  function priorityLabel(priority) {
+    var keys = { high: 'task.priority_high', normal: 'task.priority_normal', low: 'task.priority_low' };
+    return t(keys[priority], PRIORITY_LABELS[priority] || priority);
+  }
+
   function csrf() {
     var meta = document.querySelector('meta[name="csrf-token"]');
     return meta ? meta.content : '';
@@ -58,7 +79,7 @@
     var button = document.createElement('button');
     button.type = 'button';
     button.className = 'task-toast-undo';
-    button.textContent = '元に戻す';
+    button.textContent = t('task.undo', '元に戻す');
     button.addEventListener('click', function (event) {
       event.stopPropagation();
       handle.dismiss();
@@ -96,7 +117,7 @@
       });
 
       if (!response.ok || payload.status !== 'ok') {
-        var error = new Error(payload.error || '通信に失敗しました。');
+        var error = new Error(payload.error || t('task.request_error', '通信に失敗しました。'));
         error.status = response.status;
         error.data = payload.data;
         throw error;
@@ -166,27 +187,52 @@
     var parts = String(dueDateStr).split('-');
 
     if (diffDays === null) {
-      return { text: '期限 ' + dueDateStr, isOverdue: false, isDueToday: false, diffDays: null };
+      return {
+        text: formatMessage('task.due', '期限: {date}', { date: dueDateStr }),
+        isOverdue: false,
+        isDueToday: false,
+        diffDays: null
+      };
     }
     if (diffDays < 0) {
       return {
-        text: '期限切れ (' + Math.abs(diffDays) + '日前)',
+        text: formatMessage('task.overdue', '期限切れ（{days}日前）', {
+          days: Math.abs(diffDays)
+        }),
         isOverdue: true,
         isDueToday: false,
         diffDays: diffDays
       };
     }
     if (diffDays === 0) {
-      return { text: '今日が期限', isOverdue: false, isDueToday: true, diffDays: 0 };
+      return {
+        text: t('task.due_today', '今日が期限'),
+        isOverdue: false,
+        isDueToday: true,
+        diffDays: 0
+      };
     }
     if (diffDays === 1) {
-      return { text: '明日まで', isOverdue: false, isDueToday: false, diffDays: 1 };
+      return {
+        text: t('task.due_tomorrow', '明日まで'),
+        isOverdue: false,
+        isDueToday: false,
+        diffDays: 1
+      };
     }
     if (diffDays <= 7) {
-      return { text: 'あと' + diffDays + '日', isOverdue: false, isDueToday: false, diffDays: diffDays };
+      return {
+        text: formatMessage('task.due_in_days', 'あと{days}日', { days: diffDays }),
+        isOverdue: false,
+        isDueToday: false,
+        diffDays: diffDays
+      };
     }
     return {
-      text: '期限 ' + Number(parts[1]) + '/' + Number(parts[2]),
+      text: formatMessage('task.due_month_day', '期限: {month}/{day}', {
+        month: Number(parts[1]),
+        day: Number(parts[2])
+      }),
       isOverdue: false,
       isDueToday: false,
       diffDays: diffDays
@@ -226,6 +272,9 @@
     STATUS_LABELS: STATUS_LABELS,
     PRIORITY_LABELS: PRIORITY_LABELS,
     t: t,
+    formatMessage: formatMessage,
+    statusLabel: statusLabel,
+    priorityLabel: priorityLabel,
     csrf: csrf,
     icon: icon,
     toast: toast,

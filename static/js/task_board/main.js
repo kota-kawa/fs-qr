@@ -35,7 +35,7 @@
       }
     } catch (err) {
       if (!isSilent) {
-        core.toast(err.message || 'タスクの読み込みに失敗しました。', 'error');
+        core.toast(err.message || core.t('task.load_error', 'タスクの読み込みに失敗しました。'), 'error');
       }
     } finally {
       isPolling = false;
@@ -93,7 +93,7 @@
 
     if (!title) {
       if (error) {
-        error.textContent = 'タスク名を入力してください。';
+        error.textContent = core.t('task.name_required', 'タスク名を入力してください。');
         error.hidden = false;
       }
       return;
@@ -104,7 +104,10 @@
 
     if (start_date && due_date && start_date > due_date) {
       if (error) {
-        error.textContent = '開始日は期限日以前の日付を指定してください。';
+        error.textContent = core.t(
+          'task.start_before_due',
+          '開始日は期限日以前の日付を指定してください。'
+        );
         error.hidden = false;
       }
       return;
@@ -130,10 +133,10 @@
       var resetDate = quickAddDefaultDate();
       if (startDateInput) startDateInput.value = resetDate;
       if (dueDateInput) dueDateInput.value = resetDate;
-      core.toast('タスクを追加しました。', 'success');
+      core.toast(core.t('task.added', 'タスクを追加しました。'), 'success');
     } catch (err) {
       if (error) {
-        error.textContent = err.message || '追加に失敗しました。';
+        error.textContent = err.message || core.t('task.add_error', '追加に失敗しました。');
         error.hidden = false;
       }
     } finally {

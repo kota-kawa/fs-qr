@@ -69,7 +69,7 @@
         input.focus();
       }
     } catch (err) {
-      core.toast(err.message || '追加に失敗しました。', 'error');
+      core.toast(err.message || core.t('task.add_error', '追加に失敗しました。'), 'error');
       if (err.isLimit) {
         closeInlineAdd(form);
       }

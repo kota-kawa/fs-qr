@@ -288,6 +288,9 @@ msgstr ""
 msgid "0 /  文字"
 msgstr "0 / Ký tự"
 
+msgid "0 / 0 完了"
+msgstr "0 / 0 đã hoàn thành"
+
 msgid "0 / 文字"
 msgstr "0 / ký tự"
 
@@ -319,14 +322,25 @@ msgstr "12 giờ"
 msgid "1h"
 msgstr "1 giờ"
 
+msgid "1か月"
+msgstr "1 tháng"
+
 msgid "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。"
 msgstr ""
 "Một phòng nhóm có thể lưu trữ tối đa 10 tệp với tổng dung lượng 500 MB. "
 "Nếu thêm tệp mới vượt quá giới hạn cùng với các tệp hiện có, việc tải lên"
 " sẽ không được phép."
 
+msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのBảng công việcにつき最大200件までタスクを登録できます。"
+
+msgid "1つのボードにつき最大200件までタスクを登録できます。"
+msgstr "1つのBảngにつき最大200件までタスクを登録できます。"
+
 msgid "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字です。タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
-msgstr "1つのボードにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.タグは1件あたり最大40文字で、ボード全体で最大50件、1つのタスクに最大10件まで付けられます。"
+msgstr ""
+"1つのBảngにつき最大200件までタスクを登録できます。タイトルは最大200文字、詳細メモは最大500文字.Thẻは1件あたり最大40文字で、Bảng全体で最大50件、1つ"
+" công việcに最大10件まで付けられます。"
 
 msgid "1ファイルあたり2GBまでアップロードできます。大容量の動画や高画質の画像ファイルも問題ありません。"
 msgstr ""
@@ -376,13 +390,16 @@ msgid "1日"
 msgstr "1 ngày"
 
 msgid "1日・1週間・1か月"
-msgstr "1 ngày・1週間・1か月"
+msgstr "1 ngày・1 tuần・1 tháng"
 
 msgid "1日（デフォルト）"
-msgstr "1 ngày（デフォルト）"
+msgstr "1 ngày (mặc định)"
 
 msgid "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動で削除されます。"
 msgstr "1時間・6時間・12時間・24時間から選択。期間が終了したファイルは自動でXóaされます。"
+
+msgid "1週間"
+msgstr "1 tuần"
 
 msgid "2. Macで画面録画する方法（標準機能）"
 msgstr "2. Cách quay màn hình trên Mac (Tính năng tích hợp sẵn)"
@@ -780,8 +797,8 @@ msgid ""
 "FS!QR "
 "Groupは、登録不要でチームのファイルをまとめて共有できるルーム型サービスです。共有URL・QRコード、またはルームIDとパスワードですぐに参加。保存期間を選べる一時的な共有スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Groupは、Không cần đăng kýでチームのファイルをまとめてChia sẻできるPhòng型サービス.Chia "
-"sẻURL・Mã QR、またはID phòngとMật khẩuですぐに参加。Thời hạn lưu trữを選べる一時的なChia "
+"FS!QR Groupは、Không cần đăng kýでチームのファイルをまとめてChia sẻできるPhòng型サービス.URL chia"
+" sẻ・Mã QR、またはID phòngとMật khẩuですぐに参加。Thời hạn lưu trữを選べる一時的なChia "
 "sẻスペースをブラウザだけで作れます。"
 
 msgid "FS!QR Groupは企業での利用も可能ですか？"
@@ -961,35 +978,39 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "Dịch vụ chia sẻ tệp qua mã QR FS!QR"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | Miễn phíで使えるChia sẻタスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
-msgstr "FS!QR Task | Không cần đăng kýのChia sẻタスクボード・カンバン管理サービス"
+msgstr "FS!QR Task | Không cần đăng kýのBảng công việc dùng chung・カンバン管理サービス"
 
 msgid "FS!QR Task 共有タスクボード"
-msgstr "FS!QR Task Chia sẻタスクボード"
+msgstr "Bảng công việc dùng chung FS!QR Task"
 
 msgid "FS!QR Task 共有タスクボードサービス"
-msgstr "FS!QR Task Chia sẻタスクボードサービス"
+msgstr "Bảng công việc dùng chung FS!QR Taskサービス"
 
 msgid ""
 "FS!QR "
 "Taskでチーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URL共有で即座にコラボレーション開始。"
 msgstr ""
-"FS!QR TaskでチームChia sẻのタスクボードをTạo。未着手・進行中・完了のシンプルカンバンで進捗を見える化。URLChia "
-"sẻで即座にコラボレーション開始。"
+"Tạo bảng công việc nhóm với FS!QR Task. Hiển thị tiến độ bằng các cột Để "
+"làm, Đang thực hiện và Đã xong, sau đó bắt đầu cộng tác ngay bằng cách "
+"chia sẻ URL."
 
 msgid "FS!QR Taskで既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加してタスク管理を始めましょう。"
 msgstr ""
-"FS!QR Taskで既存のChia sẻタスクボードをTìm kiếm・参加。ID phòngとMật "
-"khẩuでチームのカンバンボードに参加してタスク管理を始めましょう。"
+"Tìm và tham gia bảng dùng chung hiện có của FS!QR Task bằng ID phòng và "
+"mật khẩu, rồi bắt đầu quản lý công việc của nhóm trên bảng kanban."
+
+msgid "FS!QR Taskのカンバンボードを表すイラスト"
+msgstr "FS!QR TaskのBảng kanbanを表すイラスト"
+
+msgid "FS!QR Taskの下書きボード画面のスクリーンショット"
+msgstr "FS!QR Taskの下書きBảng画面のスクリーンショット"
 
 msgid "FS!QR Taskの使い方"
 msgstr "FS!QR TaskのHướng dẫn sử dụng"
 
 msgid "FS!QR Taskの共有タスクボードサービス"
-msgstr "FS!QR TaskのChia sẻタスクボードサービス"
+msgstr "FS!QR TaskのBảng công việc dùng chungサービス"
 
 msgid ""
 "FS!QR "
@@ -1004,25 +1025,21 @@ msgid ""
 "FS!QR "
 "Taskは、登録不要で使える共有タスクボード・カンバン管理サービスです。URLを共有するだけでリアルタイムに進捗を見える化。保存期間を選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 msgstr ""
-"FS!QR Taskは、Không cần đăng kýで使えるChia sẻタスクボード・カンバン管理サービス.URLをChia "
-"sẻするだけでリアルタイムに進捗を見える化。Thời hạn lưu trữを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
+"FS!QR Taskは、Không cần đăng kýで使えるBảng công việc dùng "
+"chung・カンバン管理サービス.URLをChia sẻするだけでリアルタイムに進捗を見える化。Thời hạn lưu "
+"trữを選べる一時的なタスク管理スペースをブラウザだけで作れます。"
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当にMiễn phíで使えますか？"
 
 msgid ""
 "FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR TaskはMiễn phíのChia sẻタスクボード・カンバン管理サービス。アカウントKhông cần đăng "
-"kýで、Phòngを作ってURLをChia sẻするだけでチームのタスクを未着手・進行中・完了で整理。安心のTự động xóa付き。"
-
-msgid ""
-"FS!QR "
 "Taskは登録不要で使える共有タスクボードです。ルームを作成してID・パスワード・共有URLを渡すと、複数人で未着手・進行中・完了のタスクをリアルタイム管理できます。"
 msgstr ""
-"FS!QR TaskはKhông cần đăng kýで使えるChia sẻタスクボード.Tạo phòngしてID・Mật khẩu・Chia"
-" sẻURLを渡すと、Nhiều ngườiで未着手・進行中・完了のタスクをリアルタイム管理できます。"
+"FS!QR Task là bảng công việc dùng chung có thể sử dụng mà không cần đăng "
+"ký. Hãy tạo một phòng, chia sẻ ID, mật khẩu và URL, rồi cùng nhiều người "
+"quản lý các việc cần làm, đang thực hiện và đã hoàn thành theo thời gian "
+"thực."
 
 msgid "FS!QR | 無料QRコード暗号化ファイル共有サービス"
 msgstr "FS!QR | Dịch vụ chia sẻ tệp mã hóa qua mã QR miễn phí"
@@ -1900,6 +1917,9 @@ msgstr "Không thể lấy ID. Vui lòng thử lại."
 msgid "IDが指定されていません。"
 msgstr "Chưa chỉ định ID."
 
+msgid "IDでボードに参加する"
+msgstr "IDでTham gia bảngする"
+
 msgid "IDでルームに参加する"
 msgstr "IDでTham gia phòngする"
 
@@ -1910,7 +1930,7 @@ msgid "IDとパスワードによる2重の壁"
 msgstr "Hai bước kiểm tra bằng ID và mật khẩu"
 
 msgid "IDとパスワードを入力して、既存のタスクボードに参加します。"
-msgstr "IDとNhập mật khẩuして、既存のタスクボードに参加します。"
+msgstr "IDとNhập mật khẩuして、既存 công việcTham gia bảngします。"
 
 msgid "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
 msgstr "ID chứa ký tự không hợp lệ. Chỉ sử dụng chữ cái tiếng Anh và chữ số."
@@ -2637,12 +2657,14 @@ msgid "URL、共有ID、パスワードを公開チャンネルへ貼らない�
 msgstr "Không dán URL, ID chia sẻ và mật khẩu vào kênh công khai."
 
 msgid "URLかQRコードを渡すと相手もボードに参加できます。ルームIDとパスワードでも参加できます。以降のタスク編集はボード側で行えます。"
-msgstr "URLかMã QRを渡すと相手もボードに参加できます。ID phòngとMật khẩuでも参加できます。以降のタスク編集はボード側で行えます。"
+msgstr ""
+"URLかMã QRを渡すと相手もTham gia bảngできます。ID phòngとMật khẩuでも参加できます。以降 công "
+"việc編集はBảng側で行えます。"
 
 msgid "URLかQRコードを渡すと相手もルームに参加できます。ルームIDとパスワードでも参加できます。ファイルの追加や削除はルーム側で行えます。"
 msgstr ""
 "URLかMã QRを渡すと相手もTham gia phòngできます。ID phòngとMật "
-"khẩuでも参加できます。ファイルの追加やXóaはPhòng側で行えます。"
+"khẩuでも参加できます。ファイルのThêmやXóaはPhòng側で行えます。"
 
 msgid "URLかQRコードを渡すと相手も同じノートを編集できます。ルームIDとパスワードでも参加できます。以降の編集はノートルーム側で同期されます。"
 msgstr ""
@@ -2705,7 +2727,9 @@ msgstr ""
 " sẻGhi chú。"
 
 msgid "URLを共有するだけで複数人でタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
-msgstr "URLをChia sẻするだけでNhiều ngườiでタスクをリアルタイム管理。未着手・進行中・完了のシンプルカンバンでチームの進捗を見える化。"
+msgstr ""
+"URLをChia sẻするだけでNhiều ngườiでタスクをリアルタイム管理。Để làm・Đang thực hiện・Đã "
+"xongのシンプルカンバンでチームの進捗を見える化。"
 
 msgid "URLを適用しました"
 msgstr "Đã áp dụng URL"
@@ -2717,9 +2741,6 @@ msgstr ""
 
 msgid "URL共有で即参加"
 msgstr "URLChia sẻで即参加"
-
-msgid "URL共有で即座にコラボレーション"
-msgstr "URLChia sẻで即座にコラボレーション"
 
 msgid "URL共有で参加"
 msgstr "Tham gia bằng liên kết chia sẻ (URL)"
@@ -3045,6 +3066,39 @@ msgstr ""
 "Chia sẻ tệp với khách hàng không gây bối rối: Danh sách thực hành để bàn "
 "giao an toàn"
 
+msgid "common.close"
+msgstr "Đóng"
+
+msgid "common.copied"
+msgstr "Đã sao chép"
+
+msgid "common.copy"
+msgstr "Sao chép"
+
+msgid "common.delete"
+msgstr "Xóa"
+
+msgid "common.delete_action"
+msgstr "Xóa"
+
+msgid "common.hide"
+msgstr "Ẩn"
+
+msgid "common.home"
+msgstr "Trang chủ"
+
+msgid "common.search"
+msgstr "Tìm kiếm"
+
+msgid "common.service_navigation"
+msgstr "Điều hướng dịch vụ"
+
+msgid "common.share"
+msgstr "Chia sẻ"
+
+msgid "common.show"
+msgstr "Hiển thị"
+
 msgid "fsqr.delete_confirm_message"
 msgstr "Thao tác này sẽ xóa tệp và không thể hoàn tác."
 
@@ -3303,6 +3357,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "Open a task room"
 
+msgid "task.auto_generate"
+msgstr "Tự động tạo"
+
+msgid "task.auto_generated_id"
+msgstr "ID phòng được tạo"
+
+msgid "task.auto_generated_placeholder"
+msgstr "Sẽ tự động tạo"
+
 msgid "task.board.title"
 msgstr "Task board"
 
@@ -3321,11 +3384,87 @@ msgstr "Only the creator can delete this room and its tasks."
 msgid "task.delete_room_title"
 msgstr "Close this room"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "Tự động xóa dữ liệu"
+
+msgid "task.layout.feature_collaboration"
+msgstr "Bắt đầu cộng tác ngay bằng cách chia sẻ URL"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "Thao tác kéo và thả"
+
+msgid "task.layout.feature_kanban"
+msgstr "Quản lý công việc bằng kanban"
+
+msgid "task.layout.feature_priority"
+msgstr "Mức độ ưu tiên, hạn và thẻ"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR Task là dịch vụ bảng công việc dùng chung và kanban miễn phí. Không"
+" cần tài khoản: tạo phòng, chia sẻ URL và sắp xếp công việc của nhóm với "
+"tính năng tự động xóa."
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"bảng công việc dùng chung, kanban, quản lý công việc, quản lý TODO, quản "
+"lý dự án, cộng tác nhóm, FS QR Task, quản lý công việc miễn phí, tiến độ "
+"theo thời gian thực, tự động xóa"
+
+msgid "task.layout.og_description"
+msgstr ""
+"Bảng công việc dùng chung có thể sử dụng mà không cần đăng ký. Chia sẻ "
+"URL để hiển thị tiến độ nhóm bằng quy trình kanban."
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | Bảng công việc dùng chung và kanban miễn phí"
+
+msgid "task.layout.organization_name"
+msgstr "FS!QR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "FS!QR Task"
+
+msgid "task.layout.schema_description"
+msgstr ""
+"Dịch vụ bảng công việc dùng chung và kanban miễn phí. Không cần tài "
+"khoản; chia sẻ URL để quản lý tiến độ theo thời gian thực."
+
+msgid "task.layout.service_alt"
+msgstr "Dịch vụ bảng công việc dùng chung FS!QR Task"
+
+msgid "task.layout.service_name"
+msgstr "Dịch vụ FS!QR Task"
+
+msgid "task.layout.software_description"
+msgstr "Ứng dụng web bảng công việc dùng chung và kanban không cần đăng ký."
+
+msgid "task.manual_input"
+msgstr "Nhập thủ công"
+
 msgid "task.menu.description"
 msgstr "Simple room-based task board."
 
 msgid "task.menu.title"
 msgstr "Task"
+
+msgid "task.password"
+msgstr "Mật khẩu"
+
+msgid "task.password_hide"
+msgstr "Ẩn mật khẩu"
+
+msgid "task.password_show"
+msgstr "Hiển thị mật khẩu"
+
+msgid "task.room"
+msgstr "Phòng"
+
+msgid "task.room_id"
+msgstr "ID phòng"
+
+msgid "task.room_id_mode"
+msgstr "Cách đặt ID phòng"
 
 msgid "task.search.title"
 msgstr "Find a task room"
@@ -3589,10 +3728,10 @@ msgstr ""
 "này\" hoặc \"iCloud Drive\"."
 
 msgid "「ボードを作成」ボタンをクリックし、保存期間を指定してタスクボードを作成します。"
-msgstr "「ボードをTạo」ボタンをクリックし、Thời hạn lưu trữを指定してタスクボードをTạoします。"
+msgstr "「Tạo bảng」ボタンをクリックし、Thời hạn lưu trữを指定してTạo bảng công việcします。"
 
 msgid "「ボードを作成」ボタンを押し、保存期間（1日・1週間・1か月）を選択してボードを発行します。"
-msgstr "「ボードをTạo」ボタンを押し、Thời hạn lưu trữ（1 ngày・1週間・1か月）を選択してボードを発行します。"
+msgstr "「Tạo bảng」ボタンを押し、Thời hạn lưu trữ（1 ngày・1 tuần・1 tháng）を選択してBảngを発行します。"
 
 msgid "「リンクです」だけでなく、何のファイルか、どこを確認してほしいか、いつまでに返信が必要かを書きます。受信者が予想していない共有なら、リンクを開く前に送信者へ別の手段で確認してもらいます。ファイル共有サービスを装ったフィッシングもあるため、ドメイン名と依頼内容が一致しているかを確認します。"
 msgstr ""
@@ -4043,8 +4182,13 @@ msgstr ""
 msgid "このグループを共有する"
 msgstr "Chia sẻ nhóm này"
 
+msgid "このタスクのタグ"
+msgstr "Thẻ của công việc này"
+
 msgid "このタスクボードとすべてのタスクを削除します。この操作は元に戻せません。よろしいですか？"
-msgstr "このタスクボードとすべてのタスクをXóaします。このThao tácは元に戻せません。よろしいですか？"
+msgstr ""
+"Xóa bảng công việc này và tất cả công việc trong đó? Không thể hoàn tác "
+"thao tác này."
 
 msgid "このノートを共有する"
 msgstr "Chia sẻ ghi chú này"
@@ -4065,7 +4209,7 @@ msgid "このファイル形式はプレビューできません。"
 msgstr "Không thể xem trước định dạng tệp này."
 
 msgid "このヘルプを開く"
-msgstr "このMở trợ giúp"
+msgstr "Mở trợ giúp này"
 
 msgid "このヘルプを開閉"
 msgstr "Bật/tắt trợ giúp này"
@@ -4080,13 +4224,13 @@ msgid "このページの下書きノートにそのまま入力します。内�
 msgstr "このページの下書きGhi chúにそのまま入力します。内容はお使いの端末にだけLưuされます。"
 
 msgid "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけ保存されます。"
-msgstr "このページの下書きボードにそのまま追加します。内容はお使いの端末にだけLưuされます。"
+msgstr "このページの下書きBảngにそのままThêmします。内容はお使いの端末にだけLưuされます。"
 
 msgid "このページの共有ボックスにドロップするだけ。発行するまで端末から送信されません。"
 msgstr "このページのChia sẻボックスにドロップするだけ。発行するまで端末から送信されません。"
 
 msgid "このボードを共有する"
-msgstr "このボードをChia sẻする"
+msgstr "Chia sẻ bảng này"
 
 msgid "このルームではテキストをリアルタイムに共有できます。"
 msgstr "Trong phòng này, bạn có thể chia sẻ văn bản đồng bộ theo thời gian thực."
@@ -4109,7 +4253,7 @@ msgid "この下書きエディタにはJavaScriptが必要です。"
 msgstr "この下書きエディタにはJavaScriptが必要."
 
 msgid "この下書きボードにはJavaScriptが必要です。"
-msgstr "この下書きボードにはJavaScriptが必要."
+msgstr "この下書きBảngにはJavaScriptが必要."
 
 msgid "この仕様により、共有URLだけ、またはパスワードだけが第三者に知られた場合には、もう一方の情報が必要になります。URLとパスワードを別経路で伝える運用は、不正アクセスの可能性を下げる対策の一つです。短いパスワードや同じパスワードの使い回しは避け、組織の認証ルールも併せて確認してください。"
 msgstr ""
@@ -4148,6 +4292,9 @@ msgstr ""
 "Bằng cách này, ngay cả với điện thoại của người khác chưa được thiết lập "
 "địa chỉ email hoặc chưa kết nối tài khoản trên công cụ chat, bạn vẫn có "
 "thể lập tức chuyển tệp tin nếu người đó đang ở ngay trước mặt bạn."
+
+msgid "この日に追加"
+msgstr "Thêm vào ngày này"
 
 msgid "この流れが役立つのは、対面の会議で画面にQRコードを表示する場合、PCからスマートフォンへ写真を移す場合、アプリをインストールできない相手へ資料を渡す場合です。反対に、長期間の共同編集、アクセス履歴を残す業務保管、細かな権限管理が必要な運用には、専用のストレージや組織向けサービスが適しています。"
 msgstr ""
@@ -4267,6 +4414,9 @@ msgstr ""
 msgid "すぐに共有を停止し、必要であればファイルを再アップロードして新しいIDとパスワードを発行します。"
 msgstr "Dừng chia sẻ ngay; nếu cần, tải lại tệp và cấp ID cùng mật khẩu mới."
 
+msgid "すべて"
+msgstr "Tất cả"
+
 msgid "すべてのファイルを同じ扱いにすると、便利さは増えますがリスクも増えます。公開資料、確認用画像、見積書、契約書、個人情報を含むファイルでは、必要な注意のレベルが違います。"
 msgstr ""
 "Nếu bạn xử lý tất cả các tệp giống nhau, sự tiện lợi sẽ tăng nhưng rủi ro"
@@ -4305,6 +4455,9 @@ msgstr "Tải xuống tất cả (Demo)"
 
 msgid "すべて削除"
 msgstr "Xóa tất cả"
+
+msgid "すべて外す"
+msgstr "Tất cả外す"
 
 msgid "そこで、レビュー参加者には閲覧用の資料を共有し、修正担当者には別途編集用ファイルを渡す運用が有効です。チャットでは「全員確認用」「修正担当者用」のようにラベルを付け、ファイル名にも用途を入れます。FS!QRで一時的に配る資料と、Groupでメンバーが出し入れする作業ファイルを使い分けると、資料配布と共同作業の境界が分かりやすくなります。"
 msgstr ""
@@ -4510,6 +4663,9 @@ msgstr "Tại sao không thể gửi tệp dung lượng lớn qua email?"
 msgid "にアクセスし、共有したいファイルを選択してアップロードします。"
 msgstr "để truy cập, sau đó chọn và tải lên các tệp muốn chia sẻ."
 
+msgid "にタスクを追加"
+msgstr " — thêm công việc"
+
 msgid "に定めるとおりです。"
 msgstr "."
 
@@ -4519,6 +4675,12 @@ msgstr ""
 "đề, nhưng video thậm chí chỉ 1 phút cũng vượt quá được thấy. Lý do "
 "\"không thể gửi video qua email\" là dung lượng vượt xa giới hạn của "
 "email. Trong những trường hợp này, thay vì đính kèm email,"
+
+msgid "に追加するタスク名"
+msgstr " — tên công việc cần thêm"
+
+msgid "のタスク"
+msgstr " công việc"
 
 msgid "のページから、パーソナライズド広告に使用される Cookie を無効にできます。"
 msgstr "."
@@ -4537,12 +4699,14 @@ msgstr ""
 "Chia sẻ tệp tạm thời có sẵn với URL chia sẻ, mã QR, ID phòng và mật khẩu."
 
 msgid "はい、完全レスポンシブ対応です。スマートフォンやタブレットのタッチ操作でも快適にタスクの追加・移動・完了切り替えが行えます。"
-msgstr "はい、完全レスポンシブỨng phó.スマートフォンやTabレットのタッチThao tácでも快適にタスクの追加・移動・完了切り替えが行えます。"
+msgstr ""
+"はい、完全レスポンシブỨng phó.スマートフォンやTabレットのタッチThao tácでも快適にタスクのThêm・移動・Đã "
+"xong切り替えが行えます。"
 
 msgid "はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。"
 msgstr ""
-"はい、Không cần đăng ký・完全Miễn "
-"phíでご利用いただけます。タスクボードのTạo、参加、タスクの編集・移動など全ての機能がMiễn phí."
+"はい、Không cần đăng ký・完全Miễn phíでご利用いただけます。Bảng công "
+"việcのTạo、参加、タスクの編集・移動など全ての機能がMiễn phí."
 
 msgid "はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。"
 msgstr ""
@@ -4710,6 +4874,9 @@ msgstr ""
 "thuật toán chuyên dụng, mang lại trải nghiệm tiện lợi tiệm cận với việc "
 "sở hữu một chiếc màn hình di động chuyên nghiệp."
 
+msgid "やることを入力して追加"
+msgstr "やることを入力してThêm"
+
 msgid "よい例"
 msgstr "Ví dụ tốt"
 
@@ -4781,8 +4948,9 @@ msgstr ""
 
 msgid "アカウント不要で使える無料の共有タスクボード・カンバン管理サービス。URLを共有するだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
 msgstr ""
-"アカウント不要で使えるMiễn phíのChia sẻタスクボード・カンバン管理サービス。URLをChia "
-"sẻするだけで、チームのTODO・タスク・進捗を未着手・進行中・完了で見える化。プロジェクトやイベントのタスク管理に最適。"
+"アカウント不要で使えるMiễn phíのBảng công việc dùng chung・カンバン管理サービス。URLをChia "
+"sẻするだけで、チームのTODO・タスク・進捗をĐể làm・Đang thực hiện・Đã xongで見える化。プロジェクトやイベント "
+"công việc管理に最適。"
 
 msgid "アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。"
 msgstr ""
@@ -4812,7 +4980,7 @@ msgid "アカウント作成なし"
 msgstr "アカウントTạoなし"
 
 msgid "アカウント作成不要で即開始"
-msgstr "アカウントTạo不要で即開始"
+msgstr "アカウントTạo不要で即Bắt đầu"
 
 msgid "アカウント登録なしで今すぐファイルを共有したい方へ。登録不要のファイル転送サービスを利用するメリットと、安全に使うためのポイントを解説します。"
 msgstr ""
@@ -4826,7 +4994,7 @@ msgstr ""
 "độ."
 
 msgid "アカウント登録は不要です。まずは下書きボードにタスクを書き出すところから始められます。"
-msgstr "アカウント登録は不要.まずは下書きボードにタスクを書き出すところから始められます。"
+msgstr "アカウント登録は不要.まずは下書きBảngにタスクを書き出すところから始められます。"
 
 msgid "アカウント登録は不要です。まずは共有したいファイルを選ぶところから始められます。"
 msgstr "アカウント登録は不要.まずはTệp muốn chia sẻを選ぶところから始められます。"
@@ -4852,7 +5020,7 @@ msgid "アカウント登録やアプリのインストールは必要ですか�
 msgstr "アカウント登録やCó cần cài đặt ứng dụng không?"
 
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
-msgstr "アカウント登録やĐăng nhậpは一切不要.ブラウザがあればすぐに利用開始できます。"
+msgstr "アカウント登録やĐăng nhậpは一切不要.ブラウザがあればすぐに利用Bắt đầuできます。"
 
 msgid "アカウント登録やログインは必要ですか？"
 msgstr "アカウント登録やĐăng nhậpは必要ですか？"
@@ -4864,10 +5032,10 @@ msgid "アカウント登録不要で使える、ルーム型のグループフ�
 msgstr "アカウントKhông cần đăng kýで使える、Phòng型のChia sẻ tệp nhómWebアプリケーション."
 
 msgid "アカウント登録不要で使える、共有型のカンバンタスクボードWebアプリケーションです。"
-msgstr "アカウントKhông cần đăng kýで使える、Chia sẻ型のカンバンタスクボードWebアプリケーション."
+msgstr "アカウントKhông cần đăng kýで使える、Chia sẻ型のカンバンBảng công việcWebアプリケーション."
 
 msgid "アカウント登録不要のボード作成"
-msgstr "アカウントKhông cần đăng kýのボードTạo"
+msgstr "アカウントKhông cần đăng kýのBảngTạo"
 
 msgid "アカウント登録不要のルーム作成"
 msgstr "アカウントKhông cần đăng kýのPhòngTạo"
@@ -5060,7 +5228,7 @@ msgid "アップロード待ちファイル"
 msgstr "Tệp đang chờ tải lên"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。"
-msgstr "Tải lên時に1時間・6時間・12時間・24時間からThời hạn lưu trữを選択でき、期間の終了後に自動でXóaされます。"
+msgstr "Tải lên時に1時間・6時間・12時間・24時間からThời hạn lưu trữを選択でき、期間の終了sau đóに自動でXóaされます。"
 
 msgid "アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間中は何度でもダウンロード可能です。期限を過ぎると自動的にサーバーから削除されます。"
 msgstr ""
@@ -5133,6 +5301,9 @@ msgstr ""
 "アプリを入れずにTiện lợi tối đa nhờ hoạt động hoàn toàn trên trình duyệt。ファイルをMã "
 "hóaし、Mã QRですばやく一時Chia sẻできます。"
 
+msgid "イベントから日常の整理まで、"
+msgstr "イベントからCN常の整理まで、"
+
 msgid "イベント中に「あの資料が欲しい」と言われた際も、その場でQRコードを見せるだけで完結します。名刺交換の際についでに資料を渡したり、アンケート回答へのリンクと一緒にファイルを共有したりと、活用の幅は無限大です。"
 msgstr ""
 "Khi được yêu cầu \"tôi muốn xin tài liệu đó\" ngay tại sự kiện, việc bàn "
@@ -5143,11 +5314,17 @@ msgstr ""
 msgid "インシデント対応を事前に決める"
 msgstr "Quy định trước cách ứng phó sự cố"
 
+msgid "インポート"
+msgstr "Nhập"
+
 msgid "ウェブサイトにアクセスし、ファイルをドラッグ＆ドロップするだけでアップロードが始まります。数秒で共有リンクやQRコードが発行され、相手に送ることができます。"
 msgstr ""
 "Truy cập trang web, kéo và thả tệp vào là quá trình tải lên bắt đầu. "
 "Trong vài giây, bạn nhận được liên kết chia sẻ hoặc mã QR để gửi cho "
 "người nhận."
+
+msgid "エクスポート"
+msgstr "Xuất"
 
 msgid "エコで効率的なデータクレンジングとコンプライアンス"
 msgstr "Làm sạch dữ liệu hiệu quả, thân thiện môi trường và tuân thủ quy định"
@@ -5255,6 +5432,9 @@ msgstr ""
 "Quay bắt đầu sau đếm ngược. Để dừng, kéo thanh thông báo xuống và nhấn "
 "\"Dừng\". Video được lưu vào thư viện của ứng dụng Ảnh hoặc Thư viện ảnh."
 
+msgid "カスタム順"
+msgstr "Thứ tự tùy chỉnh"
+
 msgid "カフェなどの暗号化設定が脆弱なフリーWi-Fiを利用している場合、パケットのキャプチャ（盗聴）によってURLを傍受される危険性があります。"
 msgstr ""
 "Khi sử dụng Wi-Fi miễn phí với cài đặt mã hóa yếu như ở quán cà phê, có "
@@ -5283,16 +5463,43 @@ msgid "カメラ側の設定を変える："
 msgstr "Thay đổi cài đặt phía camera:"
 
 msgid "カラムの操作"
-msgstr "カラムのThao tác"
+msgstr "Điều khiển cột"
+
+msgid "カラムの開閉"
+msgstr "Mở rộng/thu gọn cột"
+
+msgid "カレンダー"
+msgstr "Lịch"
 
 msgid "カレンダーで期限を確認"
-msgstr "カレンダーで期限をXác nhận"
+msgstr "Xem hạn trong lịch"
 
 msgid "カレンダー表示"
-msgstr "カレンダーHiển thị"
+msgstr "Chế độ xem lịch"
+
+msgid "カンバンボード"
+msgstr "Bảng kanban"
+
+msgid "カンバン式タスク管理（未着手・進行中・完了）"
+msgstr "カンバン式タスク管理（Để làm・Đang thực hiện・Đã xong）"
+
+msgid "カンバン方式で進捗を見える化"
+msgstr "Hiển thị tiến độ bằng quy trình kanban"
+
+msgid "カンバン方式（未着手・進行中・完了）"
+msgstr "カンバン方式（Để làm・Đang thực hiện・Đã xong）"
 
 msgid "カードのボードで表示"
-msgstr "カードのボードでHiển thị"
+msgstr "Hiển thị dưới dạng thẻ trên bảng"
+
+msgid "カードをカラム内で並べ替え"
+msgstr "Sắp xếp lại thẻ trong cột"
+
+msgid "カードを隣のカラムへ移動"
+msgstr "Chuyển thẻ sang cột bên cạnh"
+
+msgid "カード間を移動（カードにフォーカス時）"
+msgstr "Di chuyển giữa các thẻ (khi một thẻ đang được chọn)"
 
 msgid "キャプチャウィンドウの「録画ボタン（丸アイコン）」をクリックするか、ショートカットキー"
 msgstr ""
@@ -5309,10 +5516,10 @@ msgid "キーボードショートカット"
 msgstr "Phím tắt bàn phím"
 
 msgid "キーボードショートカット (?)"
-msgstr "Phím tắt bàn phím (?)"
+msgstr "Phím tắt (?)"
 
 msgid "キーボードショートカットを表示"
-msgstr "Phím tắt bàn phímをHiển thị"
+msgstr "Hiển thị phím tắt"
 
 msgid "ギャラリーやGoogleフォトで写真を開き、詳細情報を表示すると地図が出る場合は位置情報あり。"
 msgstr ""
@@ -5332,7 +5539,9 @@ msgid "クイック共有にファイルを置く"
 msgstr "クイックChia sẻにファイルを置く"
 
 msgid "クイック共有へのファイル追加から共有リンクの発行、QRコードから受け取り画面が開くまでを実際の画面で操作するデモ動画"
-msgstr "クイックChia sẻへのファイル追加からChia sẻリンクの発行、Mã QRから受け取り画面が開くまでを実際の画面でThao tácするデモ動画"
+msgstr ""
+"クイックChia sẻへのファイルThêmからChia sẻリンクの発行、Mã QRから受け取り画面が開くまでを実際の画面でThao "
+"tácするデモ動画"
 
 msgid "クイック共有を開く"
 msgstr "クイックChia sẻを開く"
@@ -5368,6 +5577,9 @@ msgid "クラウドストレージやメールアカウントにログインす�
 msgstr ""
 "Vì không cần đăng nhập vào lưu trữ đám mây hoặc tài khoản email, nên "
 "không cần lo lắng về việc mật khẩu hoặc phiên đăng nhập còn lại trên PC."
+
+msgid "クリア"
+msgstr "Xóa"
 
 msgid "グループ"
 msgstr "Nhóm"
@@ -5847,6 +6059,9 @@ msgstr "Bước 4: Điều chỉnh lại cài đặt quay video (Biện pháp ph
 msgid "ステップ5：クラウドストレージやPCへ写真を退避・バックアップする"
 msgstr "Bước 5: Di chuyển hoặc sao lưu ảnh lên dịch vụ đám mây hoặc PC"
 
+msgid "ステータス"
+msgstr "Trạng thái"
+
 msgid "スマホ 容量不足, iPhone ストレージ 増やす, Android 容量 空ける, 写真 バックアップ, キャッシュ 削除"
 msgstr ""
 "thiếu dung lượng điện thoại, tăng dung lượng iPhone, giải phóng dung "
@@ -6138,74 +6353,137 @@ msgstr "Dùng trong seminar và học nhóm"
 msgid "ゼミナールやグループ学習・ワークショップでのファイル共有"
 msgstr "Chia sẻ tệp trong các buổi hội thảo chuyên đề, học nhóm và workshop"
 
+msgid "タグ"
+msgstr "Thẻ"
+
+msgid "タグで絞り込み"
+msgstr "Lọc theo thẻ"
+
 msgid "タグはこのボード全体で共有されます。1つのタスクに最大"
-msgstr "タグはこのボード全体でChia sẻされます。1つのタスクに最大"
+msgstr "Các thẻ được dùng chung trong toàn bộ bảng này. Mỗi công việc tối đa"
+
+msgid "タグを管理"
+msgstr "Quản lý thẻ"
+
+msgid "タグを追加"
+msgstr "Thêm thẻ"
+
+msgid "タスクのタイトルを入力"
+msgstr "Nhập tiêu đề công việc"
 
 msgid "タスクの表示方法"
-msgstr "タスクのHiển thị方法"
+msgstr "Cách hiển thị công việc"
+
+msgid "タスクの詳細やURLなどを自由に入力"
+msgstr "Nhập tự do chi tiết công việc, URL hoặc ghi chú"
+
+msgid "タスクをインポート"
+msgstr "Nhập công việc"
+
+msgid "タスクをエクスポート"
+msgstr "Xuất công việc"
+
+msgid "タスクを絞り込み"
+msgstr "Lọc công việc"
+
+msgid "タスクを編集"
+msgstr "Chỉnh sửa công việc"
+
+msgid "タスクを追加し、ドラッグ＆ドロップで「未着手」「進行中」「完了」に移動して管理します。"
+msgstr "タスクをThêmし、ドラッグ＆ドロップで「Để làm」「Đang thực hiện」「Đã xong」に移動して管理します。"
+
+msgid "タスクを追加し、ドラッグ＆ドロップまたはタップで「未着手」「進行中」「完了」に移動してスムーズに連携します。"
+msgstr ""
+"タスクをThêmし、ドラッグ＆ドロップまたはタップで「Để làm」「Đang thực hiện」「Đã "
+"xong」に移動してスムーズに連携します。"
+
+msgid "タスクを追加して進捗を管理する"
+msgstr "タスクをThêmして進捗を管理する"
+
+msgid "タスクを追加・移動して進捗管理"
+msgstr "タスクをThêm・移動して進捗管理"
 
 msgid "タスクデータはいつまで保存されますか？"
 msgstr "タスクデータはいつまでLưuされますか？"
 
+msgid "タスクボード"
+msgstr "Bảng công việc"
+
 msgid "タスクボードで進捗管理｜アカウント不要・無料でチーム共有 - FS!QR Task"
-msgstr "タスクボードで進捗管理｜アカウント不要・Miễn phíでチームChia sẻ - FS!QR Task"
+msgstr "Bảng công việcで進捗管理｜アカウント不要・Miễn phíでチームChia sẻ - FS!QR Task"
 
 msgid "タスクボードの削除"
-msgstr "タスクボードのXóa"
+msgstr "Xóa bảng công việc"
 
 msgid "タスクボードを作成"
-msgstr "タスクボードをTạo"
+msgstr "Tạo bảng công việc"
 
 msgid "タスクボードを作成してID・パスワード・共有URLを送信。登録不要でチームの進捗をリアルタイムに見える化できます。"
 msgstr ""
-"タスクボードをTạoしてID・Mật khẩu・Chia sẻURLを送信。Không cần đăng "
-"kýでチームの進捗をリアルタイムに見える化できます。"
+"Tạo bảng công việc rồi chia sẻ ID, mật khẩu và URL. Theo dõi tiến độ của "
+"nhóm theo thời gian thực mà không cần đăng ký."
 
 msgid "タスクボードを作成して共有すると、複数人が同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適です。"
 msgstr ""
-"タスクボードをTạoしてChia sẻすると、Nhiều "
-"ngườiが同じボードで未着手・進行中・完了のタスクを整理できます。イベント準備、ミーティングのTODO、チーム開発など、すぐ始めたい作業管理に最適."
+"Tạo và chia sẻ bảng công việc để nhiều người cùng sắp xếp các việc cần "
+"làm, đang thực hiện và đã hoàn thành. Phù hợp để chuẩn bị sự kiện, quản "
+"lý TODO trong cuộc họp, phát triển nhóm và bắt đầu công việc ngay."
 
 msgid "タスクボードを作成する"
-msgstr "タスクボードをTạo"
+msgstr "Tạo bảng công việcする"
 
 msgid "タスクボードを新規作成"
-msgstr "タスクボードを新規Tạo"
+msgstr "Tạo bảng công việc mới"
 
 msgid "タスクボードを検索"
-msgstr "タスクボードをTìm kiếm"
+msgstr "Tìm bảng công việc"
 
 msgid "タスクボード作成 | FS!QR Task"
-msgstr "タスクボードTạo | FS!QR Task"
+msgstr "Tạo bảng công việc | FS!QR Task"
 
 msgid "タスクボード作成 | FS!QR Task - 共有カンバンボード"
-msgstr "タスクボードTạo | FS!QR Task - Chia sẻカンバンボード"
+msgstr "Tạo bảng công việc | FS!QR Task - Bảng kanban dùng chung"
 
 msgid "タスクボード作成, 共有タスク管理, カンバン作成, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
-msgstr "タスクボードTạo, Chia sẻタスク管理, カンバンTạo, TODO管理, プロジェクト管理, チーム協業, FS QR Task"
+msgstr ""
+"tạo bảng công việc, quản lý công việc dùng chung, tạo kanban, quản lý "
+"TODO, quản lý dự án, cộng tác nhóm, FS QR Task"
 
 msgid "タスクボード作成時に選択した有効期限（1日・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
-msgstr "タスクボードTạo時に選択した有効期限（1 ngày・1週間・1か月）が経過すると、タスクデータは自動的に消去されます。"
+msgstr ""
+"Bảng công việcTạo時に選択した有効Hạn（1 ngày・1 tuần・1 "
+"tháng）が経過すると、タスクデータは自動的に消去されます。"
 
 msgid "タスクボード検索 | FS!QR Task"
-msgstr "タスクボードTìm kiếm | FS!QR Task"
+msgstr "Tìm bảng công việc | FS!QR Task"
 
 msgid "タスクボード検索 | FS!QR Task - 既存ボードへの参加"
-msgstr "タスクボードTìm kiếm | FS!QR Task - 既存ボードへの参加"
+msgstr "Tìm bảng công việc | FS!QR Task - Tham gia bảng hiện có"
 
 msgid "タスクボード検索, タスクボード参加, 共有タスク検索, 既存ボード参加, カンバン参加, FS QR Task"
-msgstr "タスクボードTìm kiếm, タスクボード参加, Chia sẻタスクTìm kiếm, 既存ボード参加, カンバン参加, FS QR Task"
+msgstr ""
+"tìm bảng công việc, tham gia bảng công việc, tìm công việc dùng chung, "
+"tham gia bảng hiện có, tham gia kanban, FS QR Task"
 
 msgid "タスクボード検索ページに移動します"
-msgstr "タスクボードTìm kiếmページに移動します"
+msgstr "Bảng công việcTìm kiếmページに移動します"
 
 msgid "タスクルームアクセス, 共有タスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR Task"
 msgstr ""
-"タスクPhòngアクセス, Chia sẻタスクボード, カンバン管理, タスク参加, TODO管理, コラボレーションツール, FS QR "
-"Task"
+"truy cập phòng công việc, bảng công việc dùng chung, quản lý kanban, tham"
+" gia công việc, quản lý TODO, công cụ cộng tác, FS QR Task"
+
+msgid "タスク名"
+msgstr "Tên công việc"
 
 msgid "タスク名を入力（Enterで追加 / Escで閉じる）"
-msgstr "タスク名を入力（Enterで追加 / EscでĐóng）"
+msgstr "Nhập tên công việc (Enter để thêm / Esc để đóng)"
+
+msgid "タスク未追加"
+msgstr "タスク未Thêm"
+
+msgid "タスク管理開始まで、"
+msgstr "タスク管理Bắt đầuまで、"
 
 msgid "タブ"
 msgstr "Tab"
@@ -6220,7 +6498,7 @@ msgid "タブ表示に切り替え"
 msgstr "Chuyển sang chế độ xem tab"
 
 msgid "ダイアログ・メニューを閉じる"
-msgstr "ダイアログ・メニューをĐóng"
+msgstr "Đóng hộp thoại và menu"
 
 msgid "ダウンロード"
 msgstr "Tải xuống"
@@ -6275,6 +6553,11 @@ msgstr ""
 msgid "チャットに添える一文で作業の迷いを減らす"
 msgstr "Đính kèm ghi chú ngắn trong tin nhắn chat để thống nhất quy trình xử lý"
 
+msgid "チャットのスレッドやピン留めは流れてしまい全体の進捗状況が把握しづらいですが、カンバンボードなら一目で現在のステータスが把握できます。"
+msgstr ""
+"チャットのスレッドやピン留めは流れてしまいTiến độ tổng thể状況が把握しづらいですが、Bảng "
+"kanbanなら一目で現在のTrạng tháiが把握できます。"
+
 msgid "チャットアプリの「写真」「画像」として送る方法は、自動圧縮がかかりやすく劣化の代表例です。LINEで通常送信した画像、SNSのタイムラインへの投稿、一部のメールサービスでの添付などが該当します。何度も転送を繰り返すと、圧縮が重ねがけされてさらに粗くなります。"
 msgstr ""
 "Gửi ảnh dưới dạng \"ảnh\" hay \"hình ảnh\" trong ứng dụng chat là con "
@@ -6311,11 +6594,17 @@ msgstr "Khác biệt so với các công cụ trò chuyện (Slack, Teams)"
 msgid "チームでのアイデア出し"
 msgstr "Lên ý tưởng theo nhóm"
 
+msgid "チームのタスクをひとつのボードへ。アカウント登録なしで始められます。"
+msgstr "チーム công việcをひとつのBảngへ。アカウント登録なしで始められます。"
+
 msgid "チームのタスクをひとつのボードへ。登録なしで作成し、URLやQRコードで簡単に共有できます。"
-msgstr "チームのタスクをひとつのボードへ。登録なしでTạoし、URLやMã QRで簡単にChia sẻできます。"
+msgstr "チーム công việcをひとつのBảngへ。登録なしでTạoし、URLやMã QRで簡単にChia sẻできます。"
+
+msgid "チームのタスクをリアルタイムにカンバン管理"
+msgstr "Quản lý công việc của nhóm bằng kanban theo thời gian thực"
 
 msgid "チームのタスク共有に必要なことだけ"
-msgstr "チームのタスクChia sẻに必要なことだけ"
+msgstr "チーム công việcChia sẻに必要なことだけ"
 
 msgid "チームのファイルをひとつのルームへ。アカウント登録なしで始められます。"
 msgstr "チームのファイルをひとつのPhòngへ。アカウント登録なしで始められます。"
@@ -6325,6 +6614,9 @@ msgstr "チームのファイルをひとつのPhòngへ。登録なしでTạo�
 
 msgid "チームの一時共有に、"
 msgstr "チームの一時Chia sẻに、"
+
+msgid "チームの作業を、ひとつのボードに。"
+msgstr "チームの作業を、ひとつのBảngに。"
 
 msgid "チームの運用に合わせて保存期間を柔軟に設定できます。"
 msgstr ""
@@ -6352,11 +6644,16 @@ msgstr ""
 "Tạo phòng chia sẻ tệp nhóm. Dễ dàng khởi tạo phòng chia sẻ giúp nhiều "
 "thành viên cùng quản lý và trao đổi tệp tin an toàn."
 
+msgid "チームメンバーがタスクをカンバンボードで整理する様子を表すイラスト"
+msgstr "チームメンバーがタスクをBảng kanbanで整理する様子を表すイラスト"
+
 msgid "チーム共有に必要なことだけ"
 msgstr "チームChia sẻに必要なことだけ"
 
 msgid "チーム共有のタスクボードを作成。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
-msgstr "チームChia sẻのタスクボードをTạo。未着手・進行中・完了のシンプルカンバンで進捗を見える化できます。"
+msgstr ""
+"Tạo bảng công việc dùng chung cho nhóm và hiển thị tiến độ bằng các cột "
+"Để làm, Đang thực hiện và Đã xong."
 
 msgid "チーム向けファイル共有ルーム"
 msgstr "Phòng chia sẻ tệp tin dành cho đội ngũ/nhóm"
@@ -6432,7 +6729,7 @@ msgstr ""
 "nên định nghĩa 1KB = 1024 Byte và 1MB = 1024KB."
 
 msgid "データの有効期限と自動削除"
-msgstr "データの有効期限とTự động xóa"
+msgstr "データの有効HạnとTự động xóa"
 
 msgid "データの種類"
 msgstr "Loại dữ liệu"
@@ -6447,8 +6744,8 @@ msgstr ""
 
 msgid "トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。"
 msgstr ""
-"トップの下書きボードに追加したタスクは、お使いの端末に留まります。Chia "
-"sẻリンクを発行した時点で初めてボードがTạoされ、タスクがまとめて登録されます。"
+"トップの下書きBảngにThêmしたタスクは、お使いの端末に留まります。Chia "
+"sẻリンクを発行した時点で初めてBảngがTạoされ、タスクがまとめて登録されます。"
 
 msgid "トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。"
 msgstr ""
@@ -6544,7 +6841,7 @@ msgstr "Trong phòng ghi chú, văn bản có thể được chia sẻ trong th�
 
 msgid "ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。"
 msgstr ""
-"Ghi chúPhòngのChia sẻURLを相手にGửiことで参加してもらえます。URLやThông tin "
+"Ghi chúPhòngのURL chia sẻを相手にGửiことで参加してもらえます。URLやThông tin "
 "phòngは信頼できる相手にChia sẻしてください。"
 
 msgid "ノートルームを作成"
@@ -6757,7 +7054,7 @@ msgid "パスワードを入力（6桁の数字）"
 msgstr "Nhập mật khẩu (mã gồm 6 chữ số)"
 
 msgid "パスワードを入力（半角数字6桁）"
-msgstr "Nhập mật khẩu（半角数字6桁）"
+msgstr "Nhập mật khẩu (6 chữ số)"
 
 msgid "パスワードを忘れてしまいました"
 msgstr "Tôi quên mật khẩu"
@@ -7426,6 +7723,12 @@ msgstr "Thống nhất quy tắc đặt tên tệp thay vì sử dụng thư m�
 msgid "フォント（文字）が埋め込まれている："
 msgstr "Nhúng dữ liệu phông chữ (chữ viết):"
 
+msgid "フォーカス中のカードの完了を切り替え"
+msgstr "Bật/tắt trạng thái hoàn thành của thẻ đang được chọn"
+
+msgid "フォーカス中のカードを編集"
+msgstr "Chỉnh sửa thẻ đang được chọn"
+
 msgid "フッターナビゲーション"
 msgstr "Điều hướng chân trang"
 
@@ -7668,25 +7971,40 @@ msgstr ""
 msgid "ボタンを押すとノートルームが作られ、下書きがそのまま引き継がれます。"
 msgstr "ボタンを押すとGhi chúPhòngが作られ、下書きがそのまま引き継がれます。"
 
+msgid "ボタンを押すとボードが作られ、書き出したタスクがそのまま登録されます。"
+msgstr "ボタンを押すとBảngが作られ、書き出したタスクがそのまま登録されます。"
+
+msgid "ボード"
+msgstr "Bảng"
+
+msgid "ボードにアクセス"
+msgstr "Truy cập bảng"
+
+msgid "ボードに参加"
+msgstr "Tham gia bảng"
+
 msgid "ボードの操作"
-msgstr "ボードのThao tác"
+msgstr "Điều khiển bảng"
 
 msgid "ボードを作成"
-msgstr "ボードをTạo"
+msgstr "Tạo bảng"
 
 msgid "ボードを削除"
-msgstr "ボードをXóa"
+msgstr "Xóa bảng"
 
 msgid "ボードを検索"
-msgstr "ボードをTìm kiếm"
+msgstr "BảngをTìm kiếm"
+
+msgid "ボードを開く"
+msgstr "Bảngを開く"
 
 msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
 msgstr ""
-"ボードTạo時に1 ngày、1週間、1か月からThời hạn lưu trữを選べます。期間を過ぎるとボードとタスクはTự động "
-"xóaされます。"
+"BảngTạo時に1 ngày、1 tuần、1 thángからThời hạn lưu trữを選べます。期間を過ぎるとBảngとタスクはTự "
+"động xóaされます。"
 
 msgid "ボード表示とカレンダー表示を切り替え"
-msgstr "ボードHiển thịとカレンダーHiển thịを切り替え"
+msgstr "Chuyển đổi giữa chế độ xem bảng và lịch"
 
 msgid "マスターパスワード"
 msgstr "Mật khẩu chính (Master Password)"
@@ -7729,6 +8047,9 @@ msgstr ""
 msgid "メニューバーの「ファイル」 ＞ 「書き出す...」をクリックします。"
 msgstr "Nhấp chọn \"Tệp\" (File) > \"Xuất...\" (Export...) trên thanh menu."
 
+msgid "メモ・詳細"
+msgstr "Ghi chú và chi tiết"
+
 msgid "メモ帳 共有"
 msgstr "Chia sẻ ghi chú"
 
@@ -7753,8 +8074,14 @@ msgstr "Tải xuống toàn bộ tệp tin của thành viên"
 msgid "メンバーはQRコードを読み取ってルームに参加し、ファイルをアップロードまたはダウンロードできます。"
 msgstr "Thành viên quét mã QR để vào phòng và có thể tải lên hoặc tải xuống tệp."
 
+msgid "メンバーはどのようにボードへ参加しますか？"
+msgstr "メンバーはどのようにBảngへ参加しますか？"
+
 msgid "メンバーはどのようにルームへ参加しますか？"
 msgstr "メンバーはどのようにPhòngへ参加しますか？"
+
+msgid "メンバーも追加・受け取り"
+msgstr "メンバーもThêm・受け取り"
 
 msgid "メンバーを招待"
 msgstr "Mời thành viên"
@@ -7852,7 +8179,7 @@ msgid "ユーザーは "
 msgstr "Bạn có thể tắt cookie quảng cáo cá nhân hóa qua trang "
 
 msgid "リアルタイムでチームの進捗を管理できる無料共有カンバンタスクボードアプリケーション"
-msgstr "リアルタイムでチームの進捗を管理できるMiễn phíChia sẻカンバンタスクボードアプリケーション"
+msgstr "リアルタイムでチームの進捗を管理できるMiễn phíChia sẻカンバンBảng công việcアプリケーション"
 
 msgid "リアルタイムでノートを共有する手順"
 msgstr "Cách chia sẻ ghi chú theo thời gian thực"
@@ -8188,7 +8515,7 @@ msgid "ルームIDとパスワードが通らない"
 msgstr "ID phòng và mật khẩu không đúng"
 
 msgid "ルームIDとパスワードによって保護されており、共有URLを知っているメンバーのみが安全にアクセスできます。"
-msgstr "ID phòngとMật khẩuによって保護されており、Chia sẻURLを知っているメンバーのみがAn toànにアクセスできます。"
+msgstr "ID phòngとMật khẩuによって保護されており、URL chia sẻを知っているメンバーのみがAn toànにアクセスできます。"
 
 msgid "ルームIDとパスワードによる参加"
 msgstr "ID phòngとMật khẩuによる参加"
@@ -8257,7 +8584,7 @@ msgstr "Phòngはいつでも即Xóa"
 msgid "ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。"
 msgstr ""
 "Phòngへの参加にはChia sẻ情報が必要ですが、ファイルはTrên máy chủでMã "
-"hóaされない状態で保管されます。機密性の高いファイルのChia sẻは、所属組織のルールをXác nhậnしたうえで慎重に判断してください。"
+"hóaされない状態で保管されます。機密性のCaoいファイルのChia sẻは、所属組織のルールをXác nhậnしたうえで慎重に判断してください。"
 
 msgid "ルームを作る前に決めておくこと"
 msgstr "Những điều cần quyết định trước khi tạo phòng"
@@ -8303,7 +8630,7 @@ msgstr ""
 " phòng và mật khẩu."
 
 msgid "ルーム作成とアップロードがまとめて完了し、共有URL・QRコード・ID・パスワードが表示されます。"
-msgstr "PhòngTạoとTải lênがまとめて完了し、Chia sẻURL・Mã QR・ID・Mật khẩuがHiển thịされます。"
+msgstr "PhòngTạoとTải lênがまとめてĐã xongし、URL chia sẻ・Mã QR・ID・Mật khẩuがHiển thịされます。"
 
 msgid "ルーム作成と検索の導線は変えずに、共同編集を始めるまでの見た目をすっきり整理しました。最初に何をするページかが直感的に伝わります。"
 msgstr ""
@@ -8320,7 +8647,7 @@ msgstr "Tạo phòng thất bại. Vui lòng thử lại sau."
 
 msgid "ルーム作成もログインも後回し。まずは下書きノートに書き始めて、共有が必要になったらリンクを発行するだけで、リアルタイム共同編集に切り替わります。"
 msgstr ""
-"PhòngTạoもĐăng nhậpも後回し。まずは下書きGhi chúに書き始めて、Chia "
+"PhòngTạoもĐăng nhậpもsau đó回し。まずは下書きGhi chúに書き始めて、Chia "
 "sẻが必要になったらリンクを発行するだけで、リアルタイムCộng tác chỉnh sửaに切り替わります。"
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
@@ -8625,6 +8952,9 @@ msgstr "Chọn biểu tượng \"Video\" (hình máy quay) trên thanh menu phí
 msgid "上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。"
 msgstr "上限があります。現在のファイル数と容量の上限は、Tải lên画面にHiển thịされる案内をごXác nhậnください。"
 
+msgid "下書きのタスク"
+msgstr "下書き công việc"
+
 msgid "下書きの入力から共有リンクの発行、ノートルームでの同期までを実際の画面で操作するデモ動画"
 msgstr "下書きの入力からChia sẻリンクの発行、Ghi chúPhòngでの同期までを実際の画面でThao tácするデモ動画"
 
@@ -8642,13 +8972,22 @@ msgstr "下書きGhi chúに書く"
 msgid "下書きノートを開く"
 msgstr "下書きGhi chúを開く"
 
+msgid "下書きボード"
+msgstr "下書きBảng"
+
+msgid "下書きボードにタスクを書く"
+msgstr "下書きBảngにタスクを書く"
+
 msgid "下書きボードにタスクを登録して発行すると、共有URLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 msgstr ""
-"下書きボードにタスクを登録して発行すると、Chia "
-"sẻURLを受け取った相手もそのままボードを開けます。優先度や期限を見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
+"下書きBảngにタスクを登録して発行すると、URL chia sẻを受け取った相手もそのままBảngを開けます。Mức độ ưu "
+"tiênやHạnを見ながら、ドラッグ&amp;ドロップで進行を更新できます。"
 
 msgid "下書きボードへのタスク登録から共有リンクの発行、実際のボードが開くまでを実際の画面で操作するデモ動画"
-msgstr "下書きボードへのタスク登録からChia sẻリンクの発行、実際のボードが開くまでを実際の画面でThao tácするデモ動画"
+msgstr "下書きBảngへ công việc登録からChia sẻリンクの発行、実際のBảngが開くまでを実際の画面でThao tácするデモ動画"
+
+msgid "下書きボードを開く"
+msgstr "下書きBảngを開く"
 
 msgid "不審なアクセス、誤送信、想定外の再共有に気付けるよう、利用者へ報告先を周知します。"
 msgstr ""
@@ -8714,6 +9053,12 @@ msgstr "Xóa hoặc vô hiệu hóa liên kết không còn cần thiết."
 msgid "不要になった共有リンクや古い版は残さない"
 msgstr "Tuyệt đối không lưu giữ phiên bản cũ hoặc liên kết chia sẻ hết hạn"
 
+msgid "並び替え中はドラッグでの並べ替えができません。"
+msgstr "Không thể kéo để sắp xếp lại công việc khi đang sắp xếp."
+
+msgid "並び順"
+msgstr "Thứ tự sắp xếp"
+
 msgid "中国語"
 msgstr "Tiếng Trung"
 
@@ -8746,6 +9091,9 @@ msgstr ""
 msgid "事前準備："
 msgstr "Thiết lập ban đầu (làm một lần):"
 
+msgid "五十音順"
+msgstr "Theo thứ tự chữ cái"
+
 msgid "人が集まる場のファイル共有に。"
 msgstr "人が集まる場のchia sẻ tệpに。"
 
@@ -8760,6 +9108,9 @@ msgstr ""
 msgid "人を狙う攻撃にも備える"
 msgstr "Cũng chuẩn bị trước các cuộc tấn công nhắm vào con người"
 
+msgid "今すぐ、チームのタスクを整理しましょう。"
+msgstr "今すぐ、チーム công việcを整理しましょう。"
+
 msgid "今すぐできる対策"
 msgstr "Các biện pháp khắc phục có thể làm ngay"
 
@@ -8769,8 +9120,20 @@ msgstr "Dùng thử ngay"
 msgid "今すぐ容量を増やしたい場合は、写真アプリを開き、"
 msgstr "Nếu muốn giải phóng bộ nhớ ngay lập tức, hãy mở ứng dụng ảnh và:"
 
+msgid "今日"
+msgstr "Hôm nay"
+
+msgid "今日まで"
+msgstr "Hạn hôm nay"
+
 msgid "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快な操作感で作業が進みます。"
-msgstr "今日やるべきことを朝に書き出し、終わったら完了へ移動。軽快なThao tác感で作業が進みます。"
+msgstr "Hôm nayやるべきことを朝に書き出し、終わったらĐã xongへ移動。軽快なThao tác感で作業が進みます。"
+
+msgid "今週"
+msgstr "Tuần này"
+
+msgid "今週（7日以内）"
+msgstr "7 ngày tới"
 
 msgid "仕事やプライベートで、動画ファイルや高画質な写真、重いプレゼン資料を送ろうとして、メールで「容量オーバー」のエラーが出た経験はありませんか？一般的に、メールの添付ファイルは20MB〜25MB程度が上限とされています。それ以上のサイズのファイルを送るには、メール以外の手段、つまりファイル転送サービスやクラウドストレージを利用する必要があります。"
 msgstr ""
@@ -8791,6 +9154,9 @@ msgstr ""
 
 msgid "仕様・詳細"
 msgstr "Thông số kỹ thuật / Chi tiết"
+
+msgid "他のタスク管理ツールとの違い"
+msgstr "他 công việc管理ツールとの違い"
 
 msgid "他のノートサービスとの違い"
 msgstr "Khác biệt so với các dịch vụ ghi chú khác"
@@ -8827,8 +9193,14 @@ msgstr ""
 "Hãy liên hệ qua biểu mẫu bên dưới. Chúng tôi sẽ xem xét và phản hồi sớm "
 "nhất có thể."
 
+msgid "件、ボード全体で最大"
+msgstr "thẻ; toàn bộ bảng tối đa"
+
 msgid "件の記事"
 msgstr "bài viết"
+
+msgid "件まで登録できます。"
+msgstr "thẻ có thể được đăng ký."
 
 msgid "企業におけるファイル共有では、コンプライアンス要件とセキュリティ管理が重要な課題となります。FS!QRの暗号化通信、アクセス制御、自動削除機能は、組織が定めた運用ルールの一部として活用できます。ただし、適合性は社内規程や契約、扱う情報の種類によって異なるため、導入前に管理者が要件を確認してください。監査資料の一時的な共有、技術文書の限定配布など、保存期間を短くできる場面から用途を検討するとよいでしょう。"
 msgstr ""
@@ -9036,6 +9408,12 @@ msgstr ""
 msgid "位置情報サービス"
 msgstr "Dịch vụ định vị"
 
+msgid "低"
+msgstr "Thấp"
+
+msgid "低 (Low)"
+msgstr "Thấp (Low)"
+
 msgid "何のための共有か。"
 msgstr "Chia sẻ để làm gì?"
 
@@ -9060,22 +9438,22 @@ msgstr ""
 " thành viên trong nhóm."
 
 msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "TạoしたタスクボードのデータはいつまでLưuされますか？"
+msgstr "TạoしたBảng công việcのデータはいつまでLưuされますか？"
 
 msgid "作成する"
 msgstr "Tạo"
 
 msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr "Tạo時にCài đặtした有効期限（1 ngày・1週間・1か月）が経過すると、サーバーから完全にTự động xóaされます。"
+msgstr "Tạo時にCài đặtした有効Hạn（1 ngày・1 tuần・1 tháng）が経過すると、サーバーから完全にTự động xóaされます。"
 
 msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Tạo時に選択した有効期限（1 ngày・1週間・1か月）が経過すると、サーバーから自動的にXóaされます。"
+msgstr "Tạo時に選択した有効Hạn（1 ngày・1 tuần・1 tháng）が経過すると、サーバーから自動的にXóaされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Chỉ người tạo có thể xóa phòng và văn bản đã lưu."
 
 msgid "作成者のみ削除可能。すべてのタスクが消去されます。"
-msgstr "Tạo者のみXóa可能。すべてのタスクが消去されます。"
+msgstr "Chỉ người tạo mới có thể xóa. Tất cả công việc sẽ bị xóa."
 
 msgid "使い方"
 msgstr "Hướng dẫn sử dụng"
@@ -9118,6 +9496,9 @@ msgstr "Lưu ý khi sử dụng"
 msgid "例: 420"
 msgstr "Ví dụ: 420"
 
+msgid "例: デザイン, 情報収集, 開発, 調査"
+msgstr "Ví dụ: thiết kế, thu thập thông tin, phát triển, nghiên cứu"
+
 msgid "例えば、フィールドワークでスマートフォンを使って撮影した現場の写真や、実験データが記録されたCSVファイルを、班の代表者が持つ発表用PCへ送りたい場合、USBメモリを回したり、メッセージアプリで繋がったりする必要はありません。スマートフォンの画面に表示したQRコードを、PCのカメラで読み取るか、短いパスキーを入力するだけで、瞬時にデータの受け渡しが完了します。機材トラブルや準備の遅れによる作業の中断を防ぎ、限られた時間内での成果物作成をサポートします。"
 msgstr ""
 "Ví dụ, khi muốn gửi ảnh hiện trường chụp bằng điện thoại trong chuyến "
@@ -9151,7 +9532,7 @@ msgid "保存して閉じる"
 msgstr "Lưu và đóng"
 
 msgid "保存する"
-msgstr "Lưuする"
+msgstr "Lưu"
 
 msgid "保存する："
 msgstr "Lưu:"
@@ -9203,7 +9584,9 @@ msgid "保存期間と自動削除"
 msgstr "Thời hạn lưu trữ và tự động xóa"
 
 msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr "Thời hạn lưu trữは1・6・12・24時間。期限を過ぎるとPhòngとTệp tin lưu trữがTự động xóaされます。"
+msgstr ""
+"Thời hạn lưu trữは1・6・12・24時間。Hạnを過ぎるとPhòngとTệp tin lưu trữがTự động "
+"xóaされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -9226,18 +9609,21 @@ msgstr ""
 "xuống lại."
 
 msgid "保存期間終了後の自動削除"
-msgstr "Thời hạn lưu trữ終了後のTự động xóa"
+msgstr "Thời hạn lưu trữ終了sau đóのTự động xóa"
 
 msgid "保存期間経過後の自動削除"
-msgstr "Thời hạn lưu trữ経過後のTự động xóa"
+msgstr "Thời hạn lưu trữ経過sau đóのTự động xóa"
 
 msgid "保存期限を選んで自動削除"
-msgstr "Lưu期限を選んでTự động xóa"
+msgstr "LưuHạnを選んでTự động xóa"
 
 msgid "保護設定：公開範囲と利用時間を短くする"
 msgstr ""
 "Thiết lập bảo vệ: Thu hẹp phạm vi công khai và rút ngắn thời gian sử dụng"
 " tài liệu"
+
+msgid "個人の今日のタスク整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
+msgstr "個人のHôm nay công việc整理からチームのTODOまで、シンプルかつ直感的に可視化できます。"
 
 msgid "個人利用から企業まで安全にファイルをやりとりできるクラウドサービスです。"
 msgstr ""
@@ -9261,18 +9647,32 @@ msgstr ""
 "phép rò rỉ như thông tin cá nhân, bí mật doanh nghiệp, hợp đồng hoặc tài "
 "liệu dự án chưa công bố."
 
+msgid "優先度"
+msgstr "Mức độ ưu tiên"
+
+msgid "優先度・期限・タグ"
+msgstr "Mức độ ưu tiên・Hạn・Thẻ"
+
+msgid "優先度・期限・タグ分類"
+msgstr "Mức độ ưu tiên・Hạn・Thẻ分類"
+
+msgid "優先度順"
+msgstr "Theo mức độ ưu tiên"
+
 msgid "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・削除でき、1つのタスクに複数付けられます。"
-msgstr "優先度（高・通常・低）、期限日、タグでタスクを柔軟に整理・絞り込みできます。タグは自由に追加・Xóaでき、1つのタスクに複数付けられます。"
+msgstr ""
+"Mức độ ưu tiên（Cao・Bình thường・Thấp）、Ngày đến "
+"hạn、Thẻでタスクを柔軟に整理・Lọcできます。Thẻは自由にThêm・Xóaでき、1つ công việcに複数付けられます。"
 
 msgid "先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードの作成とタスク登録がまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にボードを作る必要はありません。やることを書き出して発行ボタンを押すと、ボードのTạoとタスク登録がまとめて完了し、URL・Mã "
+"先にBảngを作る必要はありません。やることを書き出して発行ボタンを押すと、BảngのTạoとタスク登録がまとめてĐã xongし、URL・Mã "
 "QR・IDが手に入ります。"
 
 msgid "先にルームを作る必要はありません。共有したいファイルを選んで発行ボタンを押すと、ルームの作成とアップロードがまとめて完了し、URL・QRコード・IDが手に入ります。"
 msgstr ""
-"先にPhòngを作る必要はありません。Tệp muốn chia sẻを選んで発行ボタンを押すと、PhòngのTạoとTải "
-"lênがまとめて完了し、URL・Mã QR・IDが手に入ります。"
+"先にPhòngを作る必要はありません。Tệp muốn chia sẻを選んで発行ボタンを押すと、PhòngのTạoとTải lênがまとめてĐã"
+" xongし、URL・Mã QR・IDが手に入ります。"
 
 msgid "先に別ページへ移動する必要はありません。共有したいファイルを選んで発行ボタンを押すと、ブラウザで暗号化してアップロードし、URL・QRコード・共有情報をその場で受け取れます。"
 msgstr ""
@@ -9284,8 +9684,8 @@ msgstr "Khi nội dung được nhập có vẻ bị mất"
 
 msgid "入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 msgstr ""
-"入力した内容は、PhòngTạo時にCài đặtしたThời hạn lưu trữ中はTự động lưuされ、期間の終了後にTự động"
-" xóaされます。過去の版をXác nhận・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
+"入力した内容は、PhòngTạo時にCài đặtしたThời hạn lưu trữ中はTự động lưuされ、期間の終了sẽ tự "
+"động bị xóa sau đóされます。過去の版をXác nhận・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。"
 
 msgid "入力内容が不正です。"
 msgstr "Dữ liệu nhập không hợp lệ."
@@ -9299,6 +9699,9 @@ msgid "入浴時に外さなかったり、手を洗った際に石鹸カスが�
 msgstr ""
 "Nếu không tháo đồng hồ khi tắm hoặc để cặn xà phòng đọng lại ở các khe hở"
 " khi rửa tay, chúng sẽ trở thành chất kích ứng hóa học gây ra dị ứng."
+
+msgid "全体の進捗"
+msgstr "Tiến độ tổng thể"
 
 msgid "全員が同じ共有URL、同じルームIDを使っているか確認する"
 msgstr ""
@@ -9356,7 +9759,7 @@ msgstr ""
 "viết gì ở đâu, ghi chú trong lúc họp sẽ ít bị lộn xộn hơn."
 
 msgid "共同編集を開始"
-msgstr "Cộng tác chỉnh sửaを開始"
+msgstr "Cộng tác chỉnh sửaをBắt đầu"
 
 msgid "共同編集を開始する"
 msgstr "Bắt đầu đồng chỉnh sửa"
@@ -9416,7 +9819,7 @@ msgid "共有ID（6文字）"
 msgstr "ID chia sẻ (6 ký tự)"
 
 msgid "共有URL"
-msgstr "Chia sẻURL"
+msgstr "URL chia sẻ"
 
 msgid "共有URL、ID、パスワードを第三者へ送信する場合、利用者は送信先、共有範囲、保存期間を確認し、必要がなくなった時点で削除または共有終了の対応を行うものとします。"
 msgstr ""
@@ -9449,7 +9852,7 @@ msgstr ""
 "mình trên một hàng."
 
 msgid "共有URLが手元になくても、6文字のルームIDと6桁のパスワードから参加できます。"
-msgstr "Chia sẻURLが手元になくても、6文字のID phòngと6桁のMật khẩuから参加できます。"
+msgstr "URL chia sẻが手元になくても、6文字のID phòngと6桁のMật khẩuから参加できます。"
 
 msgid "共有URLが無効です"
 msgstr "URL chia sẻ không hợp lệ"
@@ -9458,10 +9861,10 @@ msgid "共有URLが無効です。"
 msgstr "URL chia sẻ không hợp lệ."
 
 msgid "共有URLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
-msgstr "Chia sẻURLだけで使えるカンバン式タスクボード。チームの作業を分かりやすく整理できます。"
+msgstr "URL chia sẻだけで使えるカンバン式Bảng công việc。チームの作業を分かりやすく整理できます。"
 
 msgid "共有URLとQRコードによる参加"
-msgstr "Chia sẻURLとMã QRによる参加"
+msgstr "URL chia sẻとMã QRによる参加"
 
 msgid "共有URLとパスワードを同じチャットにまとめて送らない"
 msgstr "Không gửi URL chia sẻ và mật khẩu trong cùng một cuộc trò chuyện."
@@ -9478,14 +9881,14 @@ msgstr ""
 "chia sẻ màn hình."
 
 msgid "共有URLまたはQRコードを相手に渡してください。IDとパスワードでも受け取りページへアクセスできます。"
-msgstr "Chia sẻURLまたはMã QRを相手に渡してください。IDとMật khẩuでも受け取りページへアクセスできます。"
+msgstr "URL chia sẻまたはMã QRを相手に渡してください。IDとMật khẩuでも受け取りページへアクセスできます。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。"
-msgstr "Chia sẻURLまたはMã QRを開くか、参加画面でID phòngとNhập mật khẩuします。"
+msgstr "URL chia sẻまたはMã QRを開くか、参加画面でID phòngとNhập mật khẩuします。"
 
 msgid "共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。"
 msgstr ""
-"Chia sẻURLまたはMã QRを開くか、参加画面でID phòngとNhập mật khẩuします。参加情報は必要な相手だけにChia "
+"URL chia sẻまたはMã QRを開くか、参加画面でID phòngとNhập mật khẩuします。参加情報は必要な相手だけにChia "
 "sẻしてください。"
 
 msgid "共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。"
@@ -9511,10 +9914,10 @@ msgstr ""
 " có thể xóa phòng."
 
 msgid "共有URLをコピー"
-msgstr "Chia sẻSao chép URL"
+msgstr "Sao chép URL chia sẻ"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
-msgstr "Chia sẻURLを送れば、離れた相手も同じGhi chúに参加できます。"
+msgstr "URL chia sẻを送れば、離れた相手も同じGhi chúに参加できます。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""
@@ -9580,18 +9983,18 @@ msgid "共有を早く終えたい場合、作成者は保存期間を待たず�
 msgstr "Chia sẻを早く終えたい場合、Tạo者はThời hạn lưu trữを待たずにXóa phòngできます。"
 
 msgid "共有タスクボード"
-msgstr "Chia sẻタスクボード"
+msgstr "Bảng công việc dùng chung"
 
 msgid ""
 "共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
 "日本語対応, リアルタイム, 進捗管理, かんばんボード, 登録不要, URL共有, チーム作業, 自動削除"
 msgstr ""
-"Chia sẻタスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, Miễn "
-"phíタスク管理, 日本語Ứng phó, リアルタイム, 進捗管理, かんばんボード, Không cần đăng ký, URLChia "
-"sẻ, チーム作業, Tự động xóa"
+"Bảng công việc dùng chung, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR "
+"Task, Miễn phíタスク管理, CN本語Ứng phó, リアルタイム, 進捗管理, かんばんBảng, Không cần đăng "
+"ký, URLChia sẻ, チーム作業, Tự động xóa"
 
 msgid "共有タスクボード・カンバンの基本的な使い方"
-msgstr "Chia sẻタスクボード・カンバンの基本的なHướng dẫn sử dụng"
+msgstr "Bảng công việc dùng chung・カンバンの基本的なHướng dẫn sử dụng"
 
 msgid "共有ノート（最大文字）"
 msgstr "Ghi chú chia sẻ"
@@ -9617,11 +10020,11 @@ msgstr "Chia sẻボックスにファイルを置く"
 
 msgid "共有ボックスにファイルを追加すると、その場でルームが作成されます。発行されたURL・QRコード・ID・パスワードを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 msgstr ""
-"Chia sẻボックスにファイルを追加すると、その場でPhòngがTạoされます。発行されたURL・Mã QR・ID・Mật "
+"Chia sẻボックスにファイルをThêmすると、その場でPhòngがTạoされます。発行されたURL・Mã QR・ID・Mật "
 "khẩuを渡せば、メンバーはすぐに参加してファイルを受け取れます。"
 
 msgid "共有ボックスへのファイル追加から共有リンクの発行、実際のルームが開くまでを実際の画面で操作するデモ動画"
-msgstr "Chia sẻボックスへのファイル追加からChia sẻリンクの発行、実際のPhòngが開くまでを実際の画面でThao tácするデモ動画"
+msgstr "Chia sẻボックスへのファイルThêmからChia sẻリンクの発行、実際のPhòngが開くまでを実際の画面でThao tácするデモ動画"
 
 msgid "共有ボックスを開く"
 msgstr "Chia sẻボックスを開く"
@@ -9647,7 +10050,7 @@ msgid "共有ルームを新規作成"
 msgstr "Tạo phòng chia sẻ mới"
 
 msgid "共有・ルーム情報"
-msgstr "Chia sẻ・Thông tin phòng"
+msgstr "Thông tin chia sẻ và phòng"
 
 msgid "共有中：URLとパスワードを同じ場所に置かない"
 msgstr "Trong lúc chia sẻ: không đặt URL và mật khẩu cùng một chỗ"
@@ -9777,7 +10180,7 @@ msgstr ""
 "nên nhận mật khẩu bằng lời nói hoặc qua kênh riêng."
 
 msgid "共有開始まで、"
-msgstr "Chia sẻ開始まで、"
+msgstr "Chia sẻBắt đầuまで、"
 
 msgid "共通鍵暗号"
 msgstr "Mã hóa khóa đối xứng"
@@ -9926,6 +10329,9 @@ msgstr "Thử mở bằng trình duyệt khác"
 msgid "別のブラウザで開く"
 msgstr "Mở bằng trình duyệt khác"
 
+msgid "別のボードを新しく作る"
+msgstr "別のBảngを新しく作る"
+
 msgid "別のルームを新しく作る"
 msgstr "別のPhòngを新しく作る"
 
@@ -9999,6 +10405,9 @@ msgstr "Xóa hoàn thành"
 msgid "削除権限がありません。"
 msgstr "Bạn không có quyền xóa."
 
+msgid "前の月へ"
+msgstr "Tháng trước"
+
 msgid "前後に余計な空白が入っていないか確認する"
 msgstr "Kiểm tra xem có khoảng trắng không cần thiết trước hoặc sau hay không"
 
@@ -10037,7 +10446,7 @@ msgstr ""
 "nó khi bạn muốn gửi tệp suôn sẻ mà không lo lắng về dung lượng."
 
 msgid "単発のイベントや共同作業で、その場ですぐにタスクボードを作って役割分担・進捗確認ができます。"
-msgstr "単発のイベントやCộng tácで、その場ですぐにタスクボードを作って役割分担・進捗Xác nhậnができます。"
+msgstr "単発のイベントやCộng tácで、その場ですぐにBảng công việcを作って役割分担・進捗Xác nhậnができます。"
 
 msgid "印刷コストと手間を劇的に削減"
 msgstr "Giảm mạnh chi phí và công sức in ấn"
@@ -10071,7 +10480,7 @@ msgid "参加者はどの見出しに追記するか"
 msgstr "Người tham gia nên thêm nội dung vào tiêu đề nào"
 
 msgid "参加者は一覧からファイルを受け取り、同じルームへ追加でアップロードできます。"
-msgstr "参加者は一覧からファイルを受け取り、同じPhòngへ追加でTải lênできます。"
+msgstr "参加者は一覧からファイルを受け取り、同じPhòngへThêmでTải lênできます。"
 
 msgid "参加者は同じルームでファイルをアップロードし、一覧からダウンロードできます。"
 msgstr "参加者は同じPhòngでTải tệp lênし、一覧からCó thể tải xuống。"
@@ -10459,6 +10868,9 @@ msgstr ""
 " tệp (video, âm thanh, hình ảnh, tài liệu văn bản) cũng làm cho FS!QR trở"
 " thành lựa chọn lý tưởng để phân phối tài liệu đa phương tiện."
 
+msgid "土"
+msgstr "T7"
+
 msgid "圧倒的な手軽さとスピード："
 msgstr "Tiện lợi và nhanh chóng vượt trội:"
 
@@ -10628,6 +11040,13 @@ msgstr ""
 "Nếu tải lên nhiều tệp nhỏ riêng lẻ, mỗi tệp đều phát sinh chi phí truyền "
 "tải riêng nên có thể mất thời gian dù tổng dung lượng không lớn. Gộp "
 "nhiều tệp vào một tệp ZIP sẽ giúp truyền hiệu quả hơn."
+
+msgid ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR "
+"Taskは「未着手・進行中・完了」のシンプルさに特化しているため誰でも迷わず使えます。"
+msgstr ""
+"多機能なタスク管理ツールは使いこなすのが難しくなりがちですが、FS!QR Taskは「Để làm・Đang thực hiện・Đã "
+"xong」のシンプルさに特化しているため誰でも迷わず使えます。"
 
 msgid "多言語対応と国際教育での活用"
 msgstr "Hỗ trợ đa ngôn ngữ và ứng dụng trong giáo dục quốc tế"
@@ -10886,8 +11305,14 @@ msgstr "Chọn đường truyền mạng ổn định"
 msgid "安心の自動削除機能"
 msgstr "安心のTự động xóa機能"
 
+msgid "完了"
+msgstr "Đã xong"
+
 msgid "完了後：共有した事実と削除を確認する"
 msgstr "Sau khi hoàn thành: Xác nhận việc chia sẻ và xóa bỏ tài liệu"
+
+msgid "完了率"
+msgstr "Tỷ lệ hoàn thành"
 
 msgid "宛先の名前と連絡先が、直近の依頼内容と一致しているか。"
 msgstr "Tên và liên hệ của người nhận có khớp yêu cầu gần nhất không?"
@@ -11045,13 +11470,16 @@ msgstr ""
 "định ngôn ngữ hiển thị."
 
 msgid "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗を確認できます。"
-msgstr "当日のタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をXác nhậnできます。"
+msgstr "当CNのタイムスケジュールや役割分担をその場でタスク化。リアルタイムに進捗をXác nhậnできます。"
 
 msgid "待機中"
 msgstr "Đang chờ"
 
+msgid "後"
+msgstr "sau đó"
+
 msgid "後に自動削除"
-msgstr "後にTự động xóa"
+msgstr "sẽ tự động bị xóa sau đó"
 
 msgid "復号に失敗しました。"
 msgstr "Giải mã thất bại."
@@ -11078,7 +11506,7 @@ msgid "必要ありません。アカウントを作成せず、ブラウザか�
 msgstr "必要ありません。アカウントをTạoせず、ブラウザからファイルを選んですぐにChia sẻを始められます。"
 
 msgid "必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。"
-msgstr "必要ありません。ブラウザからボードをTạoし、Chia sẻURLをメンバーへGửiだけで使い始められます。"
+msgstr "必要ありません。ブラウザからTạo bảngし、URL chia sẻをメンバーへGửiだけで使い始められます。"
 
 msgid "必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。"
 msgstr "必要ありません。ブラウザからTạo phòngし、参加に必要な情報をメンバーへChia sẻすれば使い始められます。"
@@ -11139,7 +11567,10 @@ msgid "手動入力"
 msgstr "Nhập thủ công"
 
 msgid "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限を設定して次のアクションを明確にします。"
-msgstr "打ち合わせ中に決まったタスクをその場で追加し、担当者や期限をCài đặtして次のアクションを明確にします。"
+msgstr "打ち合わせ中に決まったタスクをその場でThêmし、担当者やHạnをCài đặtして次のアクションを明確にします。"
+
+msgid "打ち合わせ中に決まった次のアクションを即座にボードへ追加し、担当と期限を明確にします。"
+msgstr "打ち合わせ中に決まった次のアクションを即座にBảngへThêmし、担当とHạnを明確にします。"
 
 msgid "投稿する際は法令を遵守し、他者の権利を侵害しないようにしてください。"
 msgstr ""
@@ -11357,11 +11788,23 @@ msgstr "Khởi tạo nhóm mới để bắt đầu chia sẻ tệp tin an toàn
 msgid "新しいグループルーム作成ページに移動します"
 msgstr "Di chuyển đến trang tạo phòng nhóm mới"
 
+msgid "新しいタグ名"
+msgstr "Tên thẻ mới"
+
+msgid "新しいタスクの入力欄へ移動"
+msgstr "Chuyển tới ô nhập công việc mới"
+
+msgid "新しいタスクを追加 (Enter)"
+msgstr "Thêm công việc mới (Enter)"
+
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
-msgstr "新しいタスクボードをTạoして、チームの作業を整理・Chia sẻしましょう。"
+msgstr "新しいTạo bảng công việcして、チームの作業を整理・Chia sẻしましょう。"
 
 msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいタスクボードTạoページに移動します"
+msgstr "新しいBảng công việcTạoページに移動します"
+
+msgid "新しいタスク名"
+msgstr "Tên công việc mới"
 
 msgid "新しいタブレットに買い替えて、引き出しの奥に眠っている古いiPadはありませんか？売ってもあまり値段がつかないような旧型モデルでも、実はパソコンの「サブディスプレイ（デュアルモニター）」として活用できる非常に優秀なデバイスになります。画面を増やすことで、資料を見ながら文章を書いたり、オンライン会議中に別の作業をしたりと、テレワークや作業の効率が劇的に向上します。"
 msgstr ""
@@ -11394,7 +11837,7 @@ msgid "新着記事"
 msgstr "Bài viết mới nhất"
 
 msgid "新規ボード作成"
-msgstr "新規ボードTạo"
+msgstr "Tạo bảng mới"
 
 msgid "新規ルーム作成"
 msgstr "Tạo phòng mới"
@@ -11427,7 +11870,15 @@ msgstr ""
 " dụng ID phòng và mật khẩu để tham gia và đồng chỉnh sửa ghi chú."
 
 msgid "既存の共有タスクボードを検索・参加。ルームIDとパスワードでチームのカンバンボードに参加できます。"
-msgstr "既存のChia sẻタスクボードをTìm kiếm・参加。ID phòngとMật khẩuでチームのカンバンボードに参加できます。"
+msgstr ""
+"Tìm và tham gia bảng công việc dùng chung hiện có bằng ID phòng và mật "
+"khẩu."
+
+msgid "日"
+msgstr "CN"
+
+msgid "日々のTODO・作業整理"
+msgstr "CN々のTODO・作業整理"
 
 msgid "日々のケアでも改善しない場合は、バンドの素材自体を変えるのが最も効果的です。"
 msgstr ""
@@ -11435,7 +11886,9 @@ msgstr ""
 " đổi chất liệu dây đeo là phương pháp hiệu quả nhất."
 
 msgid "日付を選ぶとその日のタスクを確認・追加できます。タスクをドラッグすると期限日を変更できます。"
-msgstr "日付を選ぶとその日のタスクをXác nhận・追加できます。タスクをドラッグすると期限日を変更できます。"
+msgstr ""
+"Chọn một ngày để xem và thêm công việc của ngày đó. Kéo công việc để thay"
+" đổi ngày đến hạn."
 
 msgid ""
 "日常の記録であれば、「1080p HD / "
@@ -11492,6 +11945,9 @@ msgstr ""
 "Truy cập trực tiếp ghi chú định dạng cũ đã bị ngừng hoạt động. Vui lòng "
 "sử dụng URL chia sẻ mới."
 
+msgid "明日"
+msgstr "Ngày mai"
+
 msgid "映画1本（2時間・高画質）"
 msgstr "1 bộ phim (2 giờ, chất lượng cao)"
 
@@ -11502,11 +11958,14 @@ msgstr ""
 "kiểm toán hay hợp đồng, hãy dùng kho lưu trữ chính thức thay vì chia sẻ "
 "tạm thời."
 
+msgid "時間後"
+msgstr "時間sau đó"
+
 msgid "時間後に自動削除"
-msgstr "時間後にTự động xóa"
+msgstr "時間sẽ tự động bị xóa sau đó"
 
 msgid "時間後に自動削除予定"
-msgstr "時間後にTự động xóa予定"
+msgstr "時間sẽ tự động bị xóa sau đó予定"
 
 msgid "普段やり取りしている相手からの連絡でも、文面が不自然、添付ファイル名が曖昧、URLのドメインがいつもと違うといった違和感があれば、別の連絡手段で確認してください。確認する数十秒が、情報漏えいや端末感染を防ぐ分岐点になります。"
 msgstr ""
@@ -11635,6 +12094,9 @@ msgstr "Không thể gửi tệp đã mã hóa. Vui lòng tải lại trang và 
 msgid "書きながら、そのまま共有できる"
 msgstr "書きながら、そのままChia sẻできる"
 
+msgid "書き出したタスクが、そのままボードになる"
+msgstr "書き出したタスクが、そのままBảngになる"
+
 msgid "最も確実な対策は、アップロード前にファイルを開いて宛先と内容を確認することです。オートコンプリートで似た名前の連絡先を選んだ場合、URLを送る前に相手の名前・会社名・依頼内容を照合します。複数の資料をまとめて送るときは、不要な個人情報や社内メモを除き、送付目的に必要なファイルだけを残します。"
 msgstr ""
 "Biện pháp chắc chắn nhất là mở tệp trước khi tải lên để kiểm tra người "
@@ -11707,6 +12169,9 @@ msgstr ""
 " triệt để việc vận hành \"chia tách (phân tách) kênh liên lạc\" như dưới "
 "đây."
 
+msgid "月"
+msgstr "T2"
+
 msgid "有効期限とダウンロード回数制限"
 msgstr "Thời hạn hiệu lực và giới hạn số lần tải xuống"
 
@@ -11716,8 +12181,17 @@ msgstr "Các ứng dụng trả phí cũng rất đáng để cân nhắc"
 msgid "期間限定共有で情報をコントロール"
 msgstr "Kiểm soát thông tin bằng thời hạn chia sẻ tạm thời"
 
+msgid "期限"
+msgstr "Hạn"
+
 msgid "期限が未設定のタスク"
-msgstr "期限が未Cài đặtのタスク"
+msgstr "Công việc chưa đặt ngày đến hạn"
+
+msgid "期限が近い順"
+msgstr "Hạn gần nhất trước"
+
+msgid "期限なし"
+msgstr "Không có ngày đến hạn"
 
 msgid "期限を短くする代わりに、受け取り確認を確実に行います。相手がダウンロードできたか、開けたか、対象ファイルが正しいかを確認すれば、長く公開しておく必要はありません。会議中の資料確認なら会議終了まで、当日中のレビューなら当日限り、取引先への一時送付なら受領連絡まで、というように終了条件を決めておきます。"
 msgstr ""
@@ -11727,14 +12201,29 @@ msgstr ""
 "họp kết thúc với tài liệu họp, hết ngày với tài liệu duyệt trong ngày, "
 "hoặc đến khi nhận được xác nhận của đối tác với tài liệu gửi tạm."
 
+msgid "期限切れ"
+msgstr "Quá hạn"
+
+msgid "期限日"
+msgstr "Ngày đến hạn"
+
 msgid "期限管理：終わりを決めてから共有する"
 msgstr "Quản lý thời hạn: xác định điểm kết thúc rồi mới chia sẻ"
+
+msgid "木"
+msgstr "T5"
 
 msgid "未決事項"
 msgstr "Vấn đề chưa giải quyết"
 
 msgid "未決事項を次回の議題につなげる"
 msgstr "Chuyển các vấn đề chưa giải quyết vào chương trình họp lần sau"
+
+msgid "未着手"
+msgstr "Để làm"
+
+msgid "未着手・進行中・完了"
+msgstr "Để làm・Đang thực hiện・Đã xong"
 
 msgid "未確認の内容をどう表記するか"
 msgstr "Cách ký hiệu nội dung chưa được xác nhận"
@@ -11864,6 +12353,12 @@ msgstr ""
 " trong trường hợp có sự khác biệt giữa bản tiếng Nhật và bản dịch, bản "
 "tiếng Nhật sẽ được ưu tiên áp dụng."
 
+msgid "条件をクリア"
+msgstr "Xóa điều kiện"
+
+msgid "来週"
+msgstr "Tuần sau"
+
 msgid "案内文には、ルームの目的、入室方法、見るべきファイル名、利用期限を含めます。問い合わせが来たときも、この4点があれば原因を確認しやすくなります。"
 msgstr ""
 "Hướng dẫn nên bao gồm mục đích của phòng, cách vào phòng, tên tệp cần xem"
@@ -11904,10 +12399,10 @@ msgid "検索アイコン"
 msgstr "Biểu tượng tìm kiếm"
 
 msgid "検索クリア"
-msgstr "Tìm kiếmクリア"
+msgstr "Xóa tìm kiếm"
 
 msgid "検索ボックスへ移動"
-msgstr "Tìm kiếmボックスへ移動"
+msgstr "Chuyển tới ô tìm kiếm"
 
 msgid "検討中の意見や背景を残す場所。細かく書きすぎず、後から流れが分かる程度にまとめます。"
 msgstr ""
@@ -11994,6 +12489,9 @@ msgstr ""
 "đặt thời hạn lưu trữ dài. Hãy chọn cách chia sẻ dựa trên nguyên tắc không"
 " để lại dữ liệu sau khi nhận xong."
 
+msgid "機密性の高いファイルにも使えますか？"
+msgstr "機密性のCaoいファイルにも使えますか？"
+
 msgid "機密情報が含まれる場合、パスワードや別経路連絡を使っているか"
 msgstr ""
 "Trường hợp chứa thông tin mật, đã sử dụng mật khẩu hoặc kênh liên lạc "
@@ -12008,6 +12506,9 @@ msgstr ""
 
 msgid "次のファイル共有を、"
 msgstr "次のchia sẻ tệpを、"
+
+msgid "次の月へ"
+msgstr "Tháng sau"
 
 msgid "次回用に案内文やファイル名ルールだけ残す"
 msgstr "Chỉ giữ lại hướng dẫn hoặc quy tắc đặt tên tệp cho lần sau"
@@ -12042,6 +12543,9 @@ msgstr ""
 "Bạn không cần cung cấp thông tin cá nhân như họ tên hay địa chỉ email cho"
 " nhà cung cấp dịch vụ. Điều này giúp giảm rủi ro rò rỉ thông tin cá nhân "
 "ngay từ gốc rễ."
+
+msgid "水"
+msgstr "T4"
 
 msgid "水や汗に非常に弱いため、水洗いは厳禁です。使用後は乾いた柔らかい布で優しく汗や皮脂を拭き取ります。定期的に革専用のクリーナーや保護クリームでお手入れすることで、ひび割れを防ぎ長持ちさせることができます。"
 msgstr ""
@@ -12115,6 +12619,9 @@ msgstr "準備は不要.まず書いて、Chia sẻが必要になった時点�
 msgid "準備は不要です。ファイルを選び、暗号化して発行した共有情報を相手へ渡します。"
 msgstr "準備は不要.ファイルを選び、Mã hóaして発行したChia sẻ情報を相手へ渡します。"
 
+msgid "火"
+msgstr "T3"
+
 msgid "火災、停電、天災地変などの不可抗力により本サービスの提供が困難となった場合"
 msgstr ""
 "Khi việc cung cấp Dịch vụ gặp khó khăn do sự kiện bất khả kháng như hỏa "
@@ -12137,15 +12644,10 @@ msgstr ""
 msgid "無料で使う"
 msgstr "Miễn phíで使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr ""
-"Miễn phíで使えるChia sẻタスクボード・カンバン管理サービス。アカウントKhông cần đăng ký、URLをChia "
-"sẻするだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr ""
-"Miễn phíで使えるChia sẻタスクボード・カンバン管理サービス。アカウントKhông cần đăng ký、URLChia "
-"sẻで簡単にタスクの進捗をChia sẻ。"
+"Miễn phíで使えるBảng công việc dùng chung・カンバン管理サービス。アカウントKhông cần đăng "
+"ký、URLChia sẻで簡単にタスクの進捗をChia sẻ。"
 
 msgid "無料で使える日本語ファイル共有サービス。"
 msgstr "Dịch vụ chia sẻ tệp tin miễn phí."
@@ -12405,26 +12907,35 @@ msgstr ""
 "hoặc Chatwork, bạn dễ gặp giới hạn dung lượng hoặc phải chờ tải lên/tải "
 "xuống rất lâu."
 
+msgid "発行されたURLを渡すと、メンバーもドラッグ＆ドロップで進行中・完了へ移動できます。"
+msgstr "発行されたURLを渡すと、メンバーもドラッグ＆ドロップでĐang thực hiện・Đã xongへ移動できます。"
+
 msgid "発行されたURLを渡すと、同じノートをリアルタイムに編集できます。"
 msgstr "発行されたURLを渡すと、同じGhi chúをリアルタイムに編集できます。"
 
 msgid "発行された共有URLまたはQRコードをチームメンバーに送るだけで、誰でもすぐにボードにアクセスできます。"
-msgstr "発行されたChia sẻURLまたはMã QRをチームメンバーにGửiだけで、誰でもすぐにボードにアクセスできます。"
+msgstr "発行されたURL chia sẻまたはMã QRをチームメンバーにGửiだけで、誰でもすぐにTruy cập bảngできます。"
 
 msgid "発行された共有URLまたはQRコードをメンバーに渡します。"
-msgstr "発行されたChia sẻURLまたはMã QRをメンバーに渡します。"
+msgstr "発行されたURL chia sẻまたはMã QRをメンバーに渡します。"
 
 msgid "発行するまで、この下書きが送信されることはありません。発行するとノートルームが作られ、24時間後に自動削除されます。"
-msgstr "発行するまで、この下書きが送信されることはありません。発行するとGhi chúPhòngが作られ、24時間後にTự động xóaされます。"
+msgstr ""
+"発行するまで、この下書きが送信されることはありません。発行するとGhi chúPhòngが作られ、24時間sẽ tự động bị xóa "
+"sau đóされます。"
 
 msgid "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごと自動削除されます。"
-msgstr "発行するまで、追加したタスクが送信されることはありません。発行するとボードが作られ、24時間後にタスクごとTự động xóaされます。"
+msgstr ""
+"発行するまで、Thêmしたタスクが送信されることはありません。発行するとBảngが作られ、24時間sau đóにタスクごとTự động "
+"xóaされます。"
 
 msgid "発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。"
-msgstr "発行するまで、選んだファイルが送信されることはありません。発行するとPhòngが作られ、24時間後にファイルごとTự động xóaされます。"
+msgstr ""
+"発行するまで、選んだファイルが送信されることはありません。発行するとPhòngが作られ、24時間sau đóにファイルごとTự động "
+"xóaされます。"
 
 msgid "発行するまでファイルは送信されません。発行時にブラウザで暗号化し、選択した期間の終了後に自動削除します。"
-msgstr "発行するまでファイルは送信されません。発行時にブラウザでMã hóaし、選択した期間の終了後にTự động xóaします。"
+msgstr "発行するまでファイルは送信されません。発行時にブラウザでMã hóaし、選択した期間の終了sẽ tự động bị xóa sau đóします。"
 
 msgid "発言メモ"
 msgstr "Ghi chú thảo luận"
@@ -12443,9 +12954,6 @@ msgstr "登録は不要.上の下書きGhi chúに書き始めるか、条件を
 msgid "登録不要"
 msgstr "Không cần đăng ký"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr "Không cần đăng ký、URLをChia sẻするだけで使えるChia sẻタスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "Không cần đăng ký。まずはクイックChia sẻにファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -12453,7 +12961,9 @@ msgid "登録不要。ブラウザですぐに使えます"
 msgstr "Không cần đăng ký。ブラウザですぐに使えます"
 
 msgid "登録不要。ルームを作成してURLを共有するだけで、未着手・進行中・完了を見える化できます。"
-msgstr "Không cần đăng ký。Tạo phòngしてURLをChia sẻするだけで、未着手・進行中・完了を見える化できます。"
+msgstr ""
+"Không cần đăng ký。Tạo phòngしてURLをChia sẻするだけで、Để làm・Đang thực hiện・Đã "
+"xongを見える化できます。"
 
 msgid "登録不要だからこそ気をつけたいセキュリティのポイント"
 msgstr "Những điểm bảo mật cần lưu ý khi không yêu cầu đăng ký"
@@ -12472,7 +12982,9 @@ msgstr ""
 "thể tải lên, tải xuống và quản lý các tệp."
 
 msgid "登録不要でタスクボードを作成・参加。複数人で未着手・進行中・完了のタスクを整理できます。"
-msgstr "Không cần đăng kýでタスクボードをTạo・参加。Nhiều ngườiで未着手・進行中・完了のタスクを整理できます。"
+msgstr ""
+"Tạo hoặc tham gia bảng công việc mà không cần tài khoản. Cùng nhiều người"
+" sắp xếp các việc cần làm, đang thực hiện và đã hoàn thành."
 
 msgid "登録不要でノートルームを作成・参加。複数人で会議メモや議事録をリアルタイムに同時編集できます。"
 msgstr ""
@@ -12510,19 +13022,16 @@ msgid "登録不要の共同編集ノート | FS!QR Note"
 msgstr "Ghi chú cộng tác không cần đăng ký | FS!QR Note"
 
 msgid "登録不要の共有タスクボード"
-msgstr "Không cần đăng kýのChia sẻタスクボード"
+msgstr "Không cần đăng kýのBảng công việc dùng chung"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
-msgstr "Không cần đăng kýのChia sẻタスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "Không cần đăng kýのChia sẻタスクボード・カンバン管理Webアプリケーション"
+msgstr "Bảng công việc dùng chung không cần đăng ký | FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
-msgstr "Không cần đăng kýのChia sẻタスクボード｜FS!QR Task"
+msgstr "Không cần đăng kýのBảng công việc dùng chung｜FS!QR Task"
 
 msgid "登録不要の共有タスクボード｜チームで使えるFS!QR Task"
-msgstr "Không cần đăng kýのChia sẻタスクボード｜チームで使えるFS!QR Task"
+msgstr "Không cần đăng kýのBảng công việc dùng chung｜チームで使えるFS!QR Task"
 
 msgid "登録不要の共有ノート｜FS!QR Note"
 msgstr "Không cần đăng kýのChia sẻGhi chú｜FS!QR Note"
@@ -12901,6 +13410,12 @@ msgstr "Thống nhất quy tắc chia sẻ trong tổ chức"
 msgid "組織の承認が必要なデータ"
 msgstr "Dữ liệu cần tổ chức phê duyệt"
 
+msgid "絞り込み"
+msgstr "Lọc"
+
+msgid "絞り込み (/)"
+msgstr "Lọc (/)"
+
 msgid "継続的な改善と教育効果の測定"
 msgstr "Cải tiến liên tục và đo lường hiệu quả giáo dục"
 
@@ -12908,7 +13423,7 @@ msgid "編み込み（ブレイデッド）タイプ："
 msgstr "Dạng dệt (Braided):"
 
 msgid "編集ダイアログを保存"
-msgstr "編集ダイアログをLưu"
+msgstr "Lưu hộp thoại chỉnh sửa"
 
 msgid "編集内容の自動保存"
 msgstr "編集内容のTự động lưu"
@@ -13087,7 +13602,7 @@ msgid "表示"
 msgstr "Hiển thị"
 
 msgid "表示するカラム"
-msgstr "Hiển thịするカラム"
+msgstr "Các cột hiển thị"
 
 msgid "表示モード・選択中のサービス・ズームは、この端末に"
 msgstr "Chế độ hiển thị, dịch vụ được chọn và thu phóng được lưu trên thiết bị này"
@@ -13213,10 +13728,10 @@ msgid "設定"
 msgstr "Cài đặt"
 
 msgid "設定あり"
-msgstr "Cài đặtあり"
+msgstr "Đã đặt"
 
 msgid "設定した保存期間の終了後"
-msgstr "Cài đặtしたThời hạn lưu trữの終了後"
+msgstr "Cài đặtしたThời hạn lưu trữの終了sau đó"
 
 msgid "設定のカスタマイズ"
 msgstr "Tùy chỉnh cài đặt"
@@ -13268,7 +13783,7 @@ msgid "詳細な解説記事をお読みいただけます。"
 msgstr "Bạn có thể đọc các bài viết hướng dẫn chi tiết tại đây."
 
 msgid "詳細設定（期限・優先度・タグ・メモ）"
-msgstr "詳細Cài đặt（期限・優先度・タグ・メモ）"
+msgstr "Cài đặt nâng cao (ngày đến hạn, mức độ ưu tiên, thẻ và ghi chú)"
 
 msgid "誤送信による即座の流出："
 msgstr "Rò rỉ tức thì do gửi sai:"
@@ -13385,6 +13900,12 @@ msgstr ""
 "nhiều yếu tố khác, kích thước dữ liệu xử lý hàng ngày ngày càng lớn hơn. "
 "Biết cách gửi tệp dung lượng lớn miễn phí và trơn tru có thể coi là kỹ "
 "năng thiết yếu trong cuộc sống số hiện đại."
+
+msgid "追加"
+msgstr "Thêm"
+
+msgid "追加したタスクはいつ送信されますか？"
+msgstr "Thêmしたタスクはいつ送信されますか？"
 
 msgid "退職者や外部パートナーの権限管理不備："
 msgstr ""
@@ -13562,6 +14083,12 @@ msgstr ""
 msgid "通報/削除フロー"
 msgstr "Quy trình báo cáo và gỡ bỏ"
 
+msgid "通常"
+msgstr "Bình thường"
+
+msgid "通常 (Normal)"
+msgstr "Bình thường (Normal)"
+
 msgid "通常の共有リンクは、URLを知っている人なら誰でもアクセスできてしまいます。機密性の高い業務資料を扱うなら、必ず「パスワード設定」を有効にしましょう。これにより、万が一URLが外部に漏れても、中身を見られることはありません。"
 msgstr ""
 "Với liên kết chia sẻ thông thường, bất kỳ ai biết URL đều có thể truy "
@@ -13574,6 +14101,9 @@ msgstr ""
 "Chất liệu này rất thông thoáng và nhanh khô ngay cả khi đổ mồ hôi, nên "
 "đây là loại ít gây ra các vấn đề về da nhất. Thiết kế khóa dán nhám "
 "(Velcro) giúp điều chỉnh kích thước chính xác, từ đó giảm thiểu ma sát."
+
+msgid "進行中"
+msgstr "Đang thực hiện"
 
 msgid "運営者:"
 msgstr "Người vận hành:"
@@ -13660,6 +14190,9 @@ msgstr ""
 "Dữ liệu sẽ tự động được xóa hoàn toàn và bảo mật sau thời hạn lưu trữ đã "
 "thiết lập."
 
+msgid "選択した日のタスク"
+msgstr "Công việc trong ngày đã chọn"
+
 msgid "選択した期間の終了後に自動で削除されます。"
 msgstr "Tự động xóa khi thời hạn đã chọn kết thúc."
 
@@ -13704,6 +14237,9 @@ msgstr ""
 msgid "重要ファイルでは、送信後に相手へ受領確認を取る"
 msgstr "Với tệp quan trọng, hãy xác nhận người nhận đã nhận được."
 
+msgid "金"
+msgstr "T6"
+
 msgid "金属製（チタンやステンレス）："
 msgstr "Chất liệu kim loại (Titanium hoặc thép không gỉ):"
 
@@ -13732,6 +14268,12 @@ msgstr "Đổi định kỳ các mật khẩu đã dùng lại trong thời gian
 
 msgid "閉じる"
 msgstr "Đóng"
+
+msgid "開始"
+msgstr "Bắt đầu"
+
+msgid "開始日"
+msgstr "Ngày bắt đầu"
 
 msgid "関連サービス"
 msgstr "Dịch vụ liên quan"
@@ -13795,6 +14337,12 @@ msgstr ""
 "Hướng dẫn các quy tắc vận hành để phòng tránh gửi nhầm và để liên kết bị "
 "bỏ quên khi xử lý thông tin khách hàng, báo giá, hợp đồng từ nhà hoặc bên"
 " ngoài văn phòng."
+
+msgid "高"
+msgstr "Cao"
+
+msgid "高 (High)"
+msgstr "Cao (High)"
 
 msgid "高さ（px）"
 msgstr "Chiều cao (px)"

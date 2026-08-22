@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_ok_response
 from models import TaskItemInput, TaskItemUpdateInput, TaskReorderInput
 from rate_limit import (
     SCOPE_TASK_ITEM_DELETE,
@@ -20,6 +20,7 @@ from settings import (
 from web import enforce_csrf
 from . import task_data
 from .task_authorize import authorize_task_room as _authorize
+from .task_responses import task_api_error
 
 
 async def _resolve_tag_ids(room_id: str, payload: TaskItemInput) -> list[int]:
@@ -57,11 +58,18 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
         if denied:
             return denied
         if await task_data.count_items(room_id) >= TASK_MAX_ITEMS_PER_ROOM:
-            return api_error_response("タスク数の上限に達しました。", status_code=400)
+            return task_api_error(
+                "task.limit_reached",
+                "タスク数の上限に達しました。",
+                status_code=400,
+                max=TASK_MAX_ITEMS_PER_ROOM,
+            )
         try:
             payload = TaskItemInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
-            return api_error_response("入力内容が不正です。", status_code=400)
+            return task_api_error(
+                "task.request_error", "入力内容が不正です。", status_code=400
+            )
         values = payload.model_dump(exclude={"tags"})
         values["tag_ids"] = await _resolve_tag_ids(room_id, payload)
         try:
@@ -69,7 +77,12 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
                 room_id, values, max_items=TASK_MAX_ITEMS_PER_ROOM
             )
         except task_data.TaskItemLimitReached:
-            return api_error_response("タスク数の上限に達しました。", status_code=400)
+            return task_api_error(
+                "task.limit_reached",
+                "タスク数の上限に達しました。",
+                status_code=400,
+                max=TASK_MAX_ITEMS_PER_ROOM,
+            )
         return api_ok_response({"item": item}, status_code=201)
 
     @router.patch("/task/{room_id}/items/{item_id}", name="task.update_item")
@@ -80,7 +93,9 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
         try:
             payload = TaskItemUpdateInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
-            return api_error_response("入力内容が不正です。", status_code=400)
+            return task_api_error(
+                "task.request_error", "入力内容が不正です。", status_code=400
+            )
         try:
             item, updated = await task_data.update_item(
                 room_id,
@@ -89,14 +104,21 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
                 payload.version,
             )
         except task_data.InvalidTaskDateRange:
-            return api_error_response(
-                "開始日は期限日以前の日付を指定してください。", status_code=400
+            return task_api_error(
+                "task.start_before_due",
+                "開始日は期限日以前の日付を指定してください。",
+                status_code=400,
             )
         if item is None:
-            return api_error_response("タスクが見つかりません。", status_code=404)
+            return task_api_error(
+                "task.not_found", "タスクが見つかりません。", status_code=404
+            )
         if not updated:
-            return api_error_response(
-                "他の画面で更新されました。", status_code=409, data={"item": item}
+            return task_api_error(
+                "task.conflict",
+                "他の画面で更新されました。",
+                status_code=409,
+                data={"item": item},
             )
         return api_ok_response({"item": item})
 
@@ -108,7 +130,11 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
             SCOPE_TASK_ITEM_DELETE, backoff_key
         )
         if not allowed:
-            return api_error_response("削除の試行回数が多すぎます。", status_code=429)
+            return task_api_error(
+                "task.delete_rate_limited",
+                "削除の試行回数が多すぎます。",
+                status_code=429,
+            )
         denied = await _authorize(request, room_id)
         if denied:
             await register_exponential_backoff_failure(
@@ -118,7 +144,9 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
         deleted = await task_data.delete_item(room_id, item_id)
         await clear_exponential_backoff(SCOPE_TASK_ITEM_DELETE, backoff_key)
         if not deleted:
-            return api_error_response("タスクが見つかりません。", status_code=404)
+            return task_api_error(
+                "task.not_found", "タスクが見つかりません。", status_code=404
+            )
         return api_ok_response({"item_id": item_id})
 
     @router.post("/task/{room_id}/items/reorder", name="task.reorder_items")
@@ -129,10 +157,14 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
         try:
             payload = TaskReorderInput.model_validate(await request.json())
         except (ValidationError, ValueError, TypeError):
-            return api_error_response("入力内容が不正です。", status_code=400)
+            return task_api_error(
+                "task.request_error", "入力内容が不正です。", status_code=400
+            )
         items = await task_data.reorder_items(
             room_id, payload.board_status, payload.ordered_item_ids
         )
         if items is None:
-            return api_error_response("並び替え対象が不正です。", status_code=400)
+            return task_api_error(
+                "task.move_error", "並び替え対象が不正です。", status_code=400
+            )
         return api_ok_response({"items": items})

@@ -568,9 +568,6 @@ msgstr ""
 msgid "FS!QR QRコードファイル共有サービス"
 msgstr "FS!QR QRコードファイル共有サービス"
 
-msgid "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-msgstr "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
-
 msgid "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
 msgstr "FS!QR Task | 登録不要の共有タスクボード・カンバン管理サービス"
 
@@ -633,13 +630,6 @@ msgstr ""
 
 msgid "FS!QR Taskは本当に無料で使えますか？"
 msgstr "FS!QR Taskは本当に無料で使えますか？"
-
-msgid ""
-"FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
-msgstr ""
-"FS!QR "
-"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
 
 msgid ""
 "FS!QR "
@@ -1719,9 +1709,6 @@ msgstr "URL共有ですぐに始められる、リアルタイム共同編集ノ
 msgid "URL共有で即参加"
 msgstr "URL共有で即参加"
 
-msgid "URL共有で即座にコラボレーション"
-msgstr "URL共有で即座にコラボレーション"
-
 msgid "URL共有で参加"
 msgstr "URL共有で参加"
 
@@ -1987,6 +1974,39 @@ msgstr "共有メッセージにはリンク以外の3点を添える"
 msgid "client_file_handoff.title"
 msgstr "取引先へのファイル共有で迷わせない：安全な受け渡しをつくる実務チェックポイント"
 
+msgid "common.close"
+msgstr "閉じる"
+
+msgid "common.copied"
+msgstr "コピー済み"
+
+msgid "common.copy"
+msgstr "コピー"
+
+msgid "common.delete"
+msgstr "削除"
+
+msgid "common.delete_action"
+msgstr "削除する"
+
+msgid "common.hide"
+msgstr "非表示"
+
+msgid "common.home"
+msgstr "ホーム"
+
+msgid "common.search"
+msgstr "検索"
+
+msgid "common.service_navigation"
+msgstr "サービスナビゲーション"
+
+msgid "common.share"
+msgstr "共有"
+
+msgid "common.show"
+msgstr "表示"
+
 msgid "fsqr.delete_confirm_message"
 msgstr "このファイルを削除します。この操作は元に戻せません。"
 
@@ -2186,6 +2206,15 @@ msgstr "smartphone-storage-clear"
 msgid "task.access.title"
 msgstr "タスクルームを開く"
 
+msgid "task.auto_generate"
+msgstr "自動生成"
+
+msgid "task.auto_generated_id"
+msgstr "自動生成されるID"
+
+msgid "task.auto_generated_placeholder"
+msgstr "自動生成されます"
+
 msgid "task.board.title"
 msgstr "タスクボード"
 
@@ -2204,11 +2233,81 @@ msgstr "作成者だけが、このルームとタスクを削除できます。
 msgid "task.delete_room_title"
 msgstr "このルームを終了する"
 
+msgid "task.layout.feature_auto_delete"
+msgstr "自動データ消去"
+
+msgid "task.layout.feature_collaboration"
+msgstr "URL共有で即座にコラボレーション"
+
+msgid "task.layout.feature_drag_drop"
+msgstr "ドラッグ＆ドロップ操作"
+
+msgid "task.layout.feature_kanban"
+msgstr "カンバン式タスク管理"
+
+msgid "task.layout.feature_priority"
+msgstr "優先度・期限・タグ分類"
+
+msgid "task.layout.meta_description"
+msgstr ""
+"FS!QR "
+"Taskは無料の共有タスクボード・カンバン管理サービス。アカウント登録不要で、ルームを作ってURLを共有するだけでチームのタスクを未着手・進行中・完了で整理。安心の自動削除付き。"
+
+msgid "task.layout.meta_keywords"
+msgstr ""
+"共有タスクボード, カンバン, タスク管理, TODO管理, プロジェクト管理, チーム協業, FS QR Task, 無料タスク管理, "
+"リアルタイム, 進捗管理, 自動削除"
+
+msgid "task.layout.og_description"
+msgstr "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
+
+msgid "task.layout.og_title"
+msgstr "FS!QR Task | 無料で使える共有タスクボード・カンバン管理"
+
+msgid "task.layout.organization_name"
+msgstr "エフエスQR"
+
+msgid "task.layout.schema_alternate_name"
+msgstr "エフエスQRタスク"
+
+msgid "task.layout.schema_description"
+msgstr "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
+
+msgid "task.layout.service_alt"
+msgstr "FS!QR Task 共有タスクボードサービス"
+
+msgid "task.layout.service_name"
+msgstr "FS!QR Task サービス"
+
+msgid "task.layout.software_description"
+msgstr "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
+
+msgid "task.manual_input"
+msgstr "手動入力"
+
 msgid "task.menu.description"
 msgstr "ルーム単位で使えるシンプルなタスクボードです。"
 
 msgid "task.menu.title"
 msgstr "タスク管理"
+
+msgid "task.password"
+msgstr "パスワード"
+
+msgid "task.password_hide"
+msgstr "パスワードを非表示"
+
+msgid "task.password_show"
+msgstr "パスワードを表示"
+
+msgid "task.room"
+msgstr "ルーム"
+
+msgid "task.room_id"
+msgstr "ルームID"
+
+msgid "task.room_id_mode"
+msgstr "ルームID設定方式"
 
 msgid "task.search.title"
 msgstr "タスクルームを探す"
@@ -3565,9 +3664,6 @@ msgstr "カレンダー表示"
 
 msgid "カンバンボード"
 msgstr "カンバンボード"
-
-msgid "カンバン式タスク管理"
-msgstr "カンバン式タスク管理"
 
 msgid "カンバン式タスク管理（未着手・進行中・完了）"
 msgstr "カンバン式タスク管理（未着手・進行中・完了）"
@@ -5605,9 +5701,6 @@ msgstr "リンク漏えい：URLを秘密情報として扱う"
 msgid "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。"
 msgstr "ルーターの設定画面にアクセスし、「バンドステアリング」や「スマートコネクト」といった項目を無効にすれば、以前のように2つの名前が表示されるようになります。普段使うスマホやパソコンは高速な5GHz（○○-A）に繋ぎ、遠くの部屋に行った時やスマート家電を使う時だけ2.4GHz（○○-G）に繋ぐようにすることで、通信がはるかに安定するケースが多くあります。"
 
-msgid "ルーム"
-msgstr "ルーム"
-
 msgid "ルームID"
 msgstr "ルームID"
 
@@ -6935,9 +7028,6 @@ msgstr "削除しました"
 
 msgid "削除しますか？"
 msgstr "削除しますか？"
-
-msgid "削除する"
-msgstr "削除する"
 
 msgid "削除予定日"
 msgstr "削除予定日"
@@ -8476,9 +8566,6 @@ msgstr "無料QRコードファイル共有サービス｜アプリ不要でPC�
 msgid "無料で使う"
 msgstr "無料で使う"
 
-msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-msgstr "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URLを共有するだけでタスクの進捗をリアルタイム管理。"
-
 msgid "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 msgstr "無料で使える共有タスクボード・カンバン管理サービス。アカウント登録不要、URL共有で簡単にタスクの進捗を共有。"
 
@@ -8665,9 +8752,6 @@ msgstr "登録は不要です。上の下書きノートに書き始めるか、
 msgid "登録不要"
 msgstr "登録不要"
 
-msgid "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-msgstr "登録不要、URLを共有するだけで使える共有タスクボード。カンバン方式でチームの進捗を見える化。"
-
 msgid "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 msgstr "登録不要。まずはクイック共有にファイルを置き、発行ボタンを押すところから始められます。"
 
@@ -8730,9 +8814,6 @@ msgstr "登録不要の共有タスクボード"
 
 msgid "登録不要の共有タスクボード | FS!QR Task"
 msgstr "登録不要の共有タスクボード | FS!QR Task"
-
-msgid "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
-msgstr "登録不要の共有タスクボード・カンバン管理Webアプリケーション"
 
 msgid "登録不要の共有タスクボード｜FS!QR Task"
 msgstr "登録不要の共有タスクボード｜FS!QR Task"
@@ -9077,9 +9158,6 @@ msgstr "自分のスマートフォンで一度リンクを開いたか"
 
 msgid "自動データ削除："
 msgstr "自動データ削除："
-
-msgid "自動データ消去"
-msgstr "自動データ消去"
 
 msgid "自動保存"
 msgstr "自動保存"

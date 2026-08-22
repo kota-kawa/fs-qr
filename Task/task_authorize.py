@@ -8,10 +8,10 @@ from __future__ import annotations
 
 from fastapi import Request
 
-from api_response import api_error_response
 from web import enforce_csrf
 from . import task_data
 from .task_access import has_task_room_access
+from .task_responses import task_api_error
 
 
 async def authorize_task_room(request: Request, room_id: str, *, csrf: bool = False):
@@ -19,7 +19,15 @@ async def authorize_task_room(request: Request, room_id: str, *, csrf: bool = Fa
     if csrf:
         await enforce_csrf(request)
     if not has_task_room_access(request, room_id):
-        return api_error_response("room access is not established", status_code=404)
+        return task_api_error(
+            "task.room_access_denied",
+            "このルームへのアクセス権がありません。",
+            status_code=404,
+        )
     if not await task_data.get_room_meta_direct(room_id):
-        return api_error_response("room expired or deleted", status_code=404)
+        return task_api_error(
+            "task.room_expired",
+            "ルームの有効期限が切れているか、削除されています。",
+            status_code=404,
+        )
     return None
