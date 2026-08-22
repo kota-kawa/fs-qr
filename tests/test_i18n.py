@@ -117,30 +117,56 @@ def test_resolve_language_prefers_cookie_over_geoip(monkeypatch):
     assert i18n.resolve_language(request) == "ja"
 
 
-def test_resolve_language_ignores_geoip_when_cookie_missing(monkeypatch):
+def test_resolve_language_prefers_query_over_geoip(monkeypatch):
+    import i18n
+
+    monkeypatch.setattr(i18n, "_get_geoip_reader", lambda: DummyGeoIPReader("US"))
+
+    request = DummyRequest(
+        client_host="8.8.8.8",
+        query_params=DummyQueryParams([("lang", "fr")]),
+    )
+
+    assert i18n.resolve_language(request) == "fr"
+
+
+def test_resolve_language_uses_geoip_when_cookie_missing(monkeypatch):
     import i18n
 
     monkeypatch.setattr(i18n, "_get_geoip_reader", lambda: DummyGeoIPReader("US"))
 
     request = DummyRequest(client_host="8.8.8.8")
 
-    assert i18n.resolve_language(request) == "ja"
+    assert i18n.resolve_language(request) == "en"
 
 
-def test_resolve_language_ignores_flat_country_code_schema(monkeypatch):
+def test_resolve_language_supports_flat_country_code_schema(monkeypatch):
     import i18n
 
     monkeypatch.setattr(i18n, "_get_geoip_reader", lambda: DummyFlatGeoIPReader("CN"))
 
     request = DummyRequest(client_host="8.8.8.8")
 
-    assert i18n.resolve_language(request) == "ja"
+    assert i18n.resolve_language(request) == "zh-CN"
 
 
 def test_resolve_language_falls_back_to_japanese_without_geoip(monkeypatch):
     import i18n
 
     monkeypatch.setattr(i18n, "_get_geoip_reader", lambda: None)
+
+    request = DummyRequest(client_host="8.8.8.8")
+
+    assert i18n.resolve_language(request) == "ja"
+
+
+def test_resolve_language_falls_back_when_geoip_lookup_fails(monkeypatch):
+    import i18n
+
+    def raise_lookup(ip_address):
+        raise RuntimeError("invalid GeoIP database")
+
+    monkeypatch.setattr(i18n, "get_country_code", raise_lookup)
 
     request = DummyRequest(client_host="8.8.8.8")
 
