@@ -71,6 +71,10 @@ SEO 用メタタグ・OGP・Article/BreadcrumbList の構造化データは自�
 - `indexable: True` の場合のみ `/articles` 一覧ページの「新着記事」セクションのカード（新しい順・カテゴリ絞り込み・検索対象）
 - `indexable: True` の場合のみ `sitemap.xml` の記事エントリ
 
+`sitemap.xml` には、日本語の canonical URL と、対応する各言語の `?lang=<code>` URLを
+記事詳細ページごとに登録する。記事一覧が複数ページになる場合は、ページ2以降の一覧 URLも
+全対応言語分を登録する。
+
 現在登録されている記事は、本文・翻訳・サービス導線の確認済みとして、一覧・検索・
 sitemap・広告対象へ公開する。今後追加する記事は、本文の独自性、実画面の説明、運営者情報、
 最終確認日、導線を確認してから `Articles/articles_registry.py` の `indexable` を `True`
