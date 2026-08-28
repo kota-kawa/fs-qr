@@ -63,8 +63,11 @@ from Admin.db_admin import router as db_admin_router
 from Admin.admin_app import router as admin_router
 from FSQR import fsqr_data as fsqr_cleanup_data
 from FSQR.fsqr_app import router as fsqr_router
-from Articles.articles_app import router as articles_router
-from Articles.articles_registry import get_indexable_articles
+from Articles.articles_app import ARTICLES_PER_PAGE, router as articles_router
+from Articles.articles_registry import (
+    get_indexable_articles,
+    get_indexable_blog_articles_sorted,
+)
 from top_search import router as top_search_router
 from presence_api import router as presence_router
 
@@ -377,6 +380,41 @@ def _articles_lastmod() -> str:
     )
 
 
+def _sitemap_languages() -> tuple[str, ...]:
+    """Return the languages whose public URLs should be discoverable."""
+    if JAPANESE_ONLY_MODE:
+        # 配信停止中の言語は、sitemap からも除外してリダイレクト URL を登録しない。
+        return (DEFAULT_LANGUAGE,)
+    return SUPPORTED_LANGUAGES
+
+
+def _localized_sitemap_paths(path: str) -> list[str]:
+    """Expand a canonical path into one sitemap URL per published language.
+
+    The default Japanese URL has no query parameter; other languages use the
+    same ``?lang=`` convention as the HTML hreflang links.
+    """
+    return [
+        path if language == DEFAULT_LANGUAGE else f"{path}?lang={language}"
+        for language in _sitemap_languages()
+    ]
+
+
+def _paginated_article_sitemap_pages() -> list[tuple[str, str, str, tuple[str, ...]]]:
+    """Return article index pages after the canonical first page."""
+    total_articles = len(get_indexable_blog_articles_sorted())
+    total_pages = max(1, (total_articles + ARTICLES_PER_PAGE - 1) // ARTICLES_PER_PAGE)
+    return [
+        (
+            f"/articles/page/{page_number}",
+            "monthly",
+            "0.8",
+            ("Articles/templates/articles.html",),
+        )
+        for page_number in range(2, total_pages + 1)
+    ]
+
+
 _ARTICLE_MODIFIED_RE = re.compile(
     r"\{%\s*set\s+article_modified\s*=\s*[\"'](\d{4}-\d{2}-\d{2})[\"']\s*%\}"
 )
@@ -514,25 +552,30 @@ def _build_sitemap_entry(
 @app.get("/sitemap.xml", name="sitemap")
 async def sitemap():
     # lastmod はテンプレートの最終更新日から自動算出する（_template_lastmod 参照）。
-    # hreflang は各ページの HTML head で管理し、sitemap は canonical URL の列挙に絞る。
+    # HTML head の hreflang に加え、sitemap にも公開中の全言語 URL を列挙する。
     # NOTE: /all-in-one, 検索・作成・アップロード・参加画面は noindex のため除外。
     rows: list[str] = []
-    for path, changefreq, priority, templates in SITEMAP_PAGES:
+    sitemap_pages = (*SITEMAP_PAGES, *_paginated_article_sitemap_pages())
+    for path, changefreq, priority, templates in sitemap_pages:
         lastmod = _template_lastmod(*templates)
         # 記事一覧は最新記事の公開日も反映する（新規記事の追加で鮮度を更新）。
         if path == "/articles":
             lastmod = max(lastmod, _articles_lastmod())
-        rows.append(_build_sitemap_entry(path, changefreq, priority, lastmod))
+        for localized_path in _localized_sitemap_paths(path):
+            rows.append(
+                _build_sitemap_entry(localized_path, changefreq, priority, lastmod)
+            )
     # 解説記事の個別ページはテンプレートの article_modified (未指定なら公開日) を使う。
     for article in get_indexable_articles():
-        rows.append(
-            _build_sitemap_entry(
-                f"/{article['slug']}",
-                "monthly",
-                "0.6",
-                _article_lastmod(article),
+        for localized_path in _localized_sitemap_paths(f"/{article['slug']}"):
+            rows.append(
+                _build_sitemap_entry(
+                    localized_path,
+                    "monthly",
+                    "0.6",
+                    _article_lastmod(article),
+                )
             )
-        )
     entries = "\n".join(rows)
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'

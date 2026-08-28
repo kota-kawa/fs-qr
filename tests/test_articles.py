@@ -248,10 +248,29 @@ def test_article_sitemap_entries(test_client: TestClient):
     response = test_client.get("/sitemap.xml")
     assert response.status_code == 200
     for article in get_indexable_articles():
-        assert f"https://fs-qr.net/{article['slug']}" in response.text
+        for language in SUPPORTED_LANGUAGES:
+            suffix = "" if language == "ja" else f"?lang={language}"
+            assert f"https://fs-qr.net/{article['slug']}{suffix}" in response.text
     for article in ARTICLES:
         if not is_indexable_article(article):
-            assert f"https://fs-qr.net/{article['slug']}" not in response.text
+            for language in SUPPORTED_LANGUAGES:
+                suffix = "" if language == "ja" else f"?lang={language}"
+                assert (
+                    f"https://fs-qr.net/{article['slug']}{suffix}" not in response.text
+                )
+
+
+def test_article_index_sitemap_entries_include_all_languages(test_client: TestClient):
+    response = test_client.get("/sitemap.xml")
+    assert response.status_code == 200
+
+    total_articles = len(get_indexable_blog_articles_sorted())
+    total_pages = max(1, (total_articles + ARTICLES_PER_PAGE - 1) // ARTICLES_PER_PAGE)
+    for page_number in range(2, total_pages + 1):
+        for language in SUPPORTED_LANGUAGES:
+            suffix = "" if language == "ja" else f"?lang={language}"
+            url = f"https://fs-qr.net/articles/page/{page_number}{suffix}"
+            assert url in response.text
 
 
 def test_article_sitemap_uses_visible_modified_date(test_client: TestClient):

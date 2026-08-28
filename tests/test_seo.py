@@ -1,7 +1,7 @@
 """SEO-related multilingual tests.
 
 These cover:
-- sitemap.xml lists canonical URLs without sitemap-managed hreflang alternates
+- sitemap.xml lists every published language URL without sitemap-managed hreflang alternates
 - meta description / og:description / title are translated for every locale
 - geo.region and geo.placename adapt to the request locale
 - JSON-LD inLanguage matches the request locale
@@ -26,7 +26,7 @@ SITEMAP_NS = {
 DESC_RE = re.compile(r'<meta name="description" content="([^"]+)"')
 
 
-def test_sitemap_lists_canonical_urls_without_hreflang_alternates(
+def test_sitemap_lists_localized_urls_without_hreflang_alternates(
     test_client: TestClient,
 ):
     response = test_client.get("/sitemap.xml")
@@ -40,8 +40,31 @@ def test_sitemap_lists_canonical_urls_without_hreflang_alternates(
     for url in urls:
         loc = url.find("sm:loc", SITEMAP_NS)
         assert loc is not None and loc.text
-        assert "?" not in loc.text
         assert not url.findall("xhtml:link", SITEMAP_NS)
+
+
+def test_sitemap_includes_every_supported_language_for_static_pages(
+    test_client: TestClient,
+):
+    from app import SITEMAP_PAGES
+    from i18n import DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES
+
+    response = test_client.get("/sitemap.xml")
+    assert response.status_code == 200
+
+    root = ET.fromstring(response.text)
+    locs = {loc.text for loc in root.findall("sm:url/sm:loc", SITEMAP_NS)}
+    expected_locs = {
+        (
+            f"https://fs-qr.net{path}"
+            if language == DEFAULT_LANGUAGE
+            else f"https://fs-qr.net{path}?lang={language}"
+        )
+        for path, *_ in SITEMAP_PAGES
+        for language in SUPPORTED_LANGUAGES
+    }
+
+    assert expected_locs <= locs
 
 
 def test_sitemap_includes_terms_page(test_client: TestClient):
