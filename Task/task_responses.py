@@ -4,9 +4,9 @@ from typing import Any, Mapping
 
 from fastapi import Request
 
-from api_response import api_error_response
+from api_response import api_error_response, error_page_or_json
 from i18n import current_language_ctx, get_frontend_messages
-from web import render_template
+from rate_limit import get_block_message
 
 
 def task_message(key: str, fallback: str, **params: Any) -> str:
@@ -22,8 +22,23 @@ def task_message(key: str, fallback: str, **params: Any) -> str:
         return message
 
 
-def task_validation_message(message: str) -> str:
-    """Translate the small set of validation messages exposed by Task forms."""
+def task_validation_message(error: str | BaseException) -> str:
+    """Translate Task validation errors without matching Japanese source text.
+
+    ``RoomInputError.message_key`` is the stable contract from ``models.py``.
+    The string map remains as a compatibility fallback for older validators and
+    unrelated ``ValueError`` instances.
+    """
+
+    message = str(error)
+    message_key = getattr(error, "message_key", None)
+    if message_key:
+        return task_message(
+            message_key
+            if str(message_key).startswith("task.")
+            else f"task.{message_key}",
+            message,
+        )
 
     key_by_message = {
         "IDが指定されていません。": "task.id_missing",
@@ -40,22 +55,9 @@ def task_validation_message(message: str) -> str:
 
 
 def task_rate_limit_message(label: str | None) -> str:
-    """Translate the rate-limit variants without exposing Redis's Japanese label."""
+    """Keep the historical Task import while using the shared rate-limit text."""
 
-    if label == "1日":
-        return task_message(
-            "task.rate_limit_day",
-            "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。",
-        )
-    if label == "30分":
-        return task_message(
-            "task.rate_limit_30min",
-            "一定回数以上の失敗があったため、この機能へのアクセスを30分間ブロックしています。時間をおいて再度お試しください。",
-        )
-    return task_message(
-        "task.rate_limit_generic",
-        "一定回数以上の失敗があったため、この機能へのアクセスを制限しています。時間をおいて再度お試しください。",
-    )
+    return get_block_message(label)
 
 
 def task_api_error(
@@ -74,9 +76,7 @@ def task_api_error(
 
 
 def room_msg(request: Request, message: str, status_code: int = 200):
-    response = render_template(request, "error.html", message=message)
-    response.status_code = status_code
-    return response
+    return error_page_or_json(request, message, status_code=status_code)
 
 
 def task_block_response(request: Request, block_label: str):

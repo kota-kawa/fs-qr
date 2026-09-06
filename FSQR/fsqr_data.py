@@ -17,6 +17,8 @@ from cache_utils import (
     invalidate_cache_prefix,
     redis_client,
 )
+from room_repository import revoke_room_links
+from share_links import ServiceKey
 from settings import FSQR_UPLOAD_DIR, SECRET_KEY
 
 # ログ設定
@@ -95,7 +97,7 @@ async def save_file(
 
 
 # ログイン処理
-@cache_data(ttl=60)
+@cache_data(ttl=60, key_prefix="room.fsqr.login")
 async def try_login(id, password) -> Optional[str]:
     try:
         record = await _find_record_by_credentials(id, password)
@@ -110,7 +112,11 @@ async def try_login(id, password) -> Optional[str]:
 
 
 # 資格情報でデータを取得
-@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash"))
+@cache_data(
+    ttl=60,
+    key_prefix="room.fsqr.credentials",
+    strip_keys=("password", "password_lookup_hash"),
+)
 async def get_data_by_credentials(id, password):
     try:
         record = await _find_record_by_credentials(id, password)
@@ -133,12 +139,20 @@ async def get_data_direct(secure_id):
         raise
 
 
-@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash", "share_token_hash"))
+@cache_data(
+    ttl=60,
+    key_prefix="room.fsqr.meta",
+    strip_keys=("password", "password_lookup_hash", "share_token_hash"),
+)
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
-@cache_data(ttl=60, strip_keys=("password", "password_lookup_hash", "share_token_hash"))
+@cache_data(
+    ttl=60,
+    key_prefix="room.fsqr.by_share_token",
+    strip_keys=("password", "password_lookup_hash", "share_token_hash"),
+)
 async def get_data_by_share_token(share_token):
     try:
         token_hash = hash_share_token(share_token)
@@ -156,7 +170,9 @@ async def get_data_by_share_token(share_token):
 
 # 全てのデータを取得する
 @cache_data(
-    ttl=300, strip_keys=("password", "password_lookup_hash", "share_token_hash")
+    ttl=300,
+    key_prefix="room.fsqr.all",
+    strip_keys=("password", "password_lookup_hash", "share_token_hash"),
 )
 async def get_all():
     return await get_all_direct()
@@ -176,8 +192,6 @@ async def get_all_direct():
 # アップロードされたファイルとメタ情報の削除
 async def remove_data(secure_id):
     try:
-        from share_links import ServiceKey, revoke_resource_links
-
         # まずデータベースからファイル情報を取得
         data = await get_data_direct(secure_id)
         file_type = "multiple"  # デフォルト値
@@ -216,16 +230,7 @@ async def remove_data(secure_id):
                 await invalidate_cache_prefix(get_data_by_share_token)
 
         async def _revoke_links():
-            try:
-                await revoke_resource_links(
-                    service_key=ServiceKey.FSQR, resource_id=secure_id
-                )
-            except Exception:
-                logger.warning(
-                    "Failed to revoke FSQR share links: secure_id=%s",
-                    secure_id,
-                    exc_info=True,
-                )
+            await revoke_room_links(ServiceKey.FSQR, secure_id, logger=logger)
 
         await asyncio.gather(_invalidate_caches(), _revoke_links())
     except Exception as e:
@@ -236,8 +241,6 @@ async def remove_data(secure_id):
 # 全てのデータを削除
 async def all_remove():
     try:
-        from share_links import ServiceKey, revoke_resource_links
-
         rows = await get_all_direct()
         query = text("""
             DELETE FROM fsqr
@@ -246,9 +249,7 @@ async def all_remove():
         for row in rows:
             secure_id = row.get("secure_id")
             if secure_id:
-                await revoke_resource_links(
-                    service_key=ServiceKey.FSQR, resource_id=secure_id
-                )
+                await revoke_room_links(ServiceKey.FSQR, secure_id, logger=logger)
         await invalidate_cache_prefix(try_login)
         await invalidate_cache_prefix(get_data_by_credentials)
         await invalidate_cache_prefix(get_data_by_share_token)

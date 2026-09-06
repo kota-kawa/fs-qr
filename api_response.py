@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
-from starlette.responses import JSONResponse
+from fastapi import Request
+from starlette.responses import JSONResponse, Response
 
 from i18n import current_language_ctx, get_frontend_messages, get_translator
+from web import error_page, wants_json_response
 
 
 def _normalize_data(data: Mapping[str, Any] | None) -> dict[str, Any]:
@@ -49,3 +51,19 @@ def api_error_response(
     data: Mapping[str, Any] | None = None,
 ) -> JSONResponse:
     return JSONResponse(api_error_payload(error, data), status_code=status_code)
+
+
+def error_page_or_json(
+    request: Request,
+    message: str,
+    *,
+    status_code: int,
+    data: Mapping[str, Any] | None = None,
+) -> Response:
+    """fetch には JSON、ブラウザ遷移には error.html を返すエラー応答。
+
+    JSON か HTML かの判定は :func:`web.wants_json_response` に一本化している。
+    """
+    if wants_json_response(request):
+        return api_error_response(message, status_code=status_code, data=data)
+    return error_page(request, message, status_code=status_code)

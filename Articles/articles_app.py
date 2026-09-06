@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Request
 from starlette.responses import RedirectResponse
 
 from i18n import get_translator, is_language_query_only, resolve_language
-from web import render_cached_template, render_template
+from web import canonical_redirect, render_cached_template, render_template
 
 from Articles.articles_registry import (
     CATEGORIES,
@@ -17,10 +17,8 @@ ARTICLES_PER_PAGE = 9
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query and not is_language_query_only(request):
-        url = request.url.replace(query="")
-        return RedirectResponse(str(url), status_code=301)
-    return None
+    """互換用の薄いラッパー。正規 URL 化は web.py に集約する。"""
+    return canonical_redirect(request)
 
 
 def _paginate_articles(articles: list[dict], page_number: int) -> dict:

@@ -1,7 +1,5 @@
 from fastapi import Request
-from starlette.responses import RedirectResponse
-
-from i18n import is_language_query_only
+from web import canonical_redirect as shared_canonical_redirect
 
 from .task_access import (
     can_delete_task_room,
@@ -15,10 +13,8 @@ from .task_data import get_room_meta_direct
 
 
 def canonical_redirect(request: Request):
-    # 言語選択だけのクエリはページ表示に必要なため、正規 URL へ戻さない。
-    if request.url.query and not is_language_query_only(request):
-        return RedirectResponse(str(request.url.replace(query="")), status_code=301)
-    return None
+    """互換用の再エクスポート。正規 URL 化は web.py に集約する。"""
+    return shared_canonical_redirect(request)
 
 
 async def get_room_if_active(room_id: str):

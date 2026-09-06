@@ -8,6 +8,7 @@ from typing import Optional, Tuple
 
 import redis.asyncio as redis
 
+from i18n import current_language_ctx, get_frontend_messages, get_translator
 from settings import REDIS_URL
 
 logger = logging.getLogger(__name__)
@@ -172,12 +173,37 @@ async def clear_exponential_backoff(scope: str, key: str) -> None:
         logger.error(f"Redis error in clear_exponential_backoff: {e}")
 
 
+# Redis に保存するラベル（日本語）と、既存の安定翻訳キー・msgid の対応。
+# The Redis label stays backwards-compatible; the response uses the same stable
+# frontend keys as Task, with the PO msgid as a server-side fallback.
+_BLOCK_MESSAGES: dict[Optional[str], tuple[str, str]] = {
+    "1日": (
+        "task.rate_limit_day",
+        "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。",
+    ),
+    "30分": (
+        "task.rate_limit_30min",
+        "一定回数以上の失敗があったため、この機能へのアクセスを30分間ブロックしています。時間をおいて再度お試しください。",
+    ),
+}
+_GENERIC_BLOCK_MESSAGE = (
+    "task.rate_limit_generic",
+    "一定回数以上の失敗があったため、この機能へのアクセスを制限しています。時間をおいて再度お試しください。",
+)
+
+
 def get_block_message(label: Optional[str]) -> str:
-    if label == "1日":
-        return "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。"
-    if label == "30分":
-        return "一定回数以上の失敗があったため、この機能へのアクセスを30分間ブロックしています。時間をおいて再度お試しください。"
-    return "一定回数以上の失敗があったため、この機能へのアクセスを制限しています。時間をおいて再度お試しください。"
+    """ブロック期間ラベルに応じた案内文を、現在のリクエスト言語で返す。
+
+    Redis の内部ラベルは日本語のままだが、利用者へ表示する文言は
+    ``locales/<lang>/js.json`` の ``task.rate_limit_*`` から取得する。
+    """
+    key, fallback = _BLOCK_MESSAGES.get(label, _GENERIC_BLOCK_MESSAGE)
+    language = current_language_ctx.get()
+    frontend_message = get_frontend_messages(language).get(key)
+    if frontend_message:
+        return frontend_message
+    return get_translator(language)(fallback)
 
 
 def get_client_ip(request) -> str:

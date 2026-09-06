@@ -11,7 +11,7 @@ from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from starlette.concurrency import run_in_threadpool
 from starlette.responses import RedirectResponse
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_ok_response, error_page_or_json
 from file_serving import build_file_response
 from file_validation import (
     build_content_disposition_attachment,
@@ -19,7 +19,6 @@ from file_validation import (
     sanitize_download_filename,
     validate_upload_limits,
 )
-from i18n import is_language_query_only
 from models import FsqrUploadInput
 from rate_limit import (
     SCOPE_QR,
@@ -29,7 +28,11 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from room_credentials import generate_room_password, validate_room_credentials
+from room_credentials import (
+    generate_room_id,
+    generate_room_password,
+    validate_room_credentials,
+)
 from settings import (
     FSQR_UPLOAD_DIR,
     UPLOAD_MAX_FILES,
@@ -44,9 +47,16 @@ from share_links import (
     resolve_share_link,
     share_link_password,
 )
-from web import build_url, enforce_csrf, render_template, wants_json_response
-import room_access
+from web import (
+    build_url,
+    canonical_redirect as shared_canonical_redirect,
+    enforce_csrf,
+    render_template,
+    wants_json_response,
+)
 from . import fsqr_data as fs_data
+from room_session import FSQR_ACCESS
+from room_delete import delete_owned_room
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -69,10 +79,7 @@ FSQR_MAX_STORED_PAYLOAD_BYTES = (
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query and not is_language_query_only(request):
-        url = request.url.replace(query="")
-        return RedirectResponse(str(url), status_code=301)
-    return None
+    return shared_canonical_redirect(request)
 
 
 async def _get_room_by_credentials(room_id, password):
@@ -96,18 +103,11 @@ def _remember_fsqr_access(
     payload = {"id": id_val, "password": password, "share_token": share_token}
     if can_delete:
         payload["can_delete"] = "1"
-    room_access.grant_access(
-        request.session,
-        FSQR_UPLOAD_ACCESS_SESSION_KEY,
-        secure_id,
-        payload=payload,
-    )
+    FSQR_ACCESS.grant(request, secure_id, payload=payload)
 
 
 def _get_fsqr_access(request: Request, secure_id: str):
-    entry = room_access.get_access(
-        request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id
-    )
+    entry = FSQR_ACCESS.get(request, secure_id)
     if not entry:
         return None
     id_val = entry.get("id")
@@ -136,9 +136,7 @@ def _can_delete_fsqr_upload(request: Request, secure_id: str, record: dict) -> b
 
 
 def _forget_fsqr_access(request: Request, secure_id: str) -> None:
-    room_access.revoke_access(
-        request.session, FSQR_UPLOAD_ACCESS_SESSION_KEY, secure_id
-    )
+    FSQR_ACCESS.forget(request, secure_id)
 
 
 def _is_valid_share_token(share_token: str) -> bool:
@@ -204,6 +202,12 @@ async def _get_active_data(secure_id):
     if await _remove_if_expired(record):
         return None
     return data
+
+
+async def _get_active_fsqr_record(secure_id: str):
+    """削除共通フローへ渡す FSQR 用の単一レコード取得。"""
+    data = await _get_active_data(secure_id)
+    return data[0] if data else None
 
 
 def _strip_upload_suffix(filename: str, suffix: str) -> str:
@@ -303,10 +307,7 @@ async def upload(  # noqa: C901
     id_val = upload_in.name
 
     if not id_val:
-        import string
-
-        chars = string.ascii_letters + string.digits
-        id_val = "".join(secrets.choice(chars) for _ in range(6))
+        id_val = generate_room_id()
     else:
         try:
             upload_in.validate_manual_id()
@@ -556,17 +557,20 @@ async def fs_qr_share(request: Request, token: str):
 @router.post("/fs-qr/delete/{secure_id}", name="fsqr.delete_upload")
 async def delete_upload(request: Request, secure_id: str):
     await enforce_csrf(request)
-    data = await _get_active_data(secure_id)
-    if not data:
-        raise HTTPException(status_code=404)
-
-    if not _can_delete_fsqr_upload(request, secure_id, data[0]):
-        if wants_json_response(request):
-            return api_error_response("削除権限がありません。", status_code=403)
-        return msg(request, "削除権限がありません。", status_code=403)
-
-    await fs_data.remove_data(secure_id)
-    _forget_fsqr_access(request, secure_id)
+    outcome = await delete_owned_room(
+        request,
+        secure_id,
+        get_active=_get_active_fsqr_record,
+        can_delete=_can_delete_fsqr_upload,
+        remove=fs_data.remove_data,
+        forget=_forget_fsqr_access,
+    )
+    if outcome.status == "not_found":
+        return error_page_or_json(
+            request, "ファイルが見つかりません。", status_code=404
+        )
+    if outcome.status == "forbidden":
+        return error_page_or_json(request, "削除権限がありません。", status_code=403)
     if wants_json_response(request):
         return api_ok_response(
             {"redirect_url": build_url(request, "fsqr.after_remove")}
@@ -693,19 +697,8 @@ async def after_remove(request: Request):
 
 
 def msg(request: Request, message: str, status_code: int = 200):
-    response = render_template(request, "error.html", message=message)
-    response.status_code = status_code
-    return response
+    return error_page_or_json(request, message, status_code=status_code)
 
 
 def json_or_msg(request: Request, message: str, status_code: int = 400):
-    content_type = request.headers.get("content-type", "")
-    if (
-        content_type == "application/x-www-form-urlencoded"
-        and request.headers.get("x-requested-with") == "XMLHttpRequest"
-    ):
-        return api_error_response(message, status_code=status_code)
-    if "multipart/form-data" in content_type:
-        return api_error_response(message, status_code=status_code)
-
-    return msg(request, message, status_code=status_code)
+    return error_page_or_json(request, message, status_code=status_code)

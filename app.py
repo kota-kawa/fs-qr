@@ -46,7 +46,12 @@ from i18n import (
     normalize_language,
 )
 from security_headers import apply_security_headers
-from web import render_cached_template, render_template, wants_json_response
+from web import (
+    canonical_redirect,
+    render_cached_template,
+    render_template,
+    wants_json_response,
+)
 from api_response import api_error_response
 from geoip_update import geoip_update_loop, update_geoip_database_async
 
@@ -70,6 +75,7 @@ from Articles.articles_registry import (
 )
 from top_search import router as top_search_router
 from presence_api import router as presence_router
+from pwa_manifest import router as pwa_manifest_router
 
 MASTER_PW = ADMIN_KEY
 
@@ -259,17 +265,12 @@ app.include_router(fsqr_router)
 app.include_router(articles_router)
 app.include_router(top_search_router)
 app.include_router(presence_router)
+app.include_router(pwa_manifest_router)
 
 
 def _canonical_redirect(request: Request):
-    # ?lang=<supported> は hreflang 用に許可、それ以外のクエリは正規化のため301
-    query = request.url.query
-    if not query:
-        return None
-    if is_language_query_only(request):
-        return None
-    url = request.url.replace(query="")
-    return RedirectResponse(str(url), status_code=301)
+    """互換用の薄いラッパー。正規 URL 化は web.py に集約する。"""
+    return canonical_redirect(request)
 
 
 @app.get("/healthz", include_in_schema=False)

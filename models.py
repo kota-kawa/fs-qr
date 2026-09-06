@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 from datetime import date
-from typing import Literal, Optional
+from typing import ClassVar, Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 from settings import (
@@ -18,7 +18,10 @@ from settings import (
     TASK_MAX_TITLE_LENGTH,
 )
 
-_ROOM_ID_RE = re.compile(r"^[a-zA-Z0-9]{6}$")
+# ルーム ID は全サービス共通で 6 文字の半角英数字。
+# Room ids are six alphanumeric characters across every service.
+ROOM_ID_LENGTH = 6
+ROOM_ID_RE = re.compile(rf"^[a-zA-Z0-9]{{{ROOM_ID_LENGTH}}}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
 _PASSWORD_RE = re.compile(r"^[0-9]{6}$")
 _TASK_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -27,6 +30,51 @@ _RETENTION_HOUR_CHOICES = frozenset({1, 6, 12, 24})
 # Note/Task は共同編集やタスク管理など、より長期の運用でも使われるため、
 # 保存期間を1日・1週間・1か月から選べるようにする。
 _LONG_RETENTION_HOUR_CHOICES = frozenset({24, 24 * 7, 24 * 30})
+_DEFAULT_RETENTION_HOURS = 24
+
+
+class RoomInputError(ValueError):
+    """ルーム ID / パスワード入力の検証エラー。
+
+    ``message`` は従来どおり日本語の既定文言、``message_key`` は各サービスが
+    翻訳辞書 (js.json) のキーへ対応付けるための言語非依存の識別子。
+    The key lets callers translate without reverse-looking-up Japanese text.
+    """
+
+    def __init__(self, message: str, *, key: str) -> None:
+        super().__init__(message)
+        self.message_key = key
+
+
+def _coerce_retention_hours(value: object, choices: frozenset[int]) -> int:
+    """保存期間を許可された選択肢へ丸める。不正値は既定 (24 時間) に戻す。"""
+    try:
+        hours = int(value)  # type: ignore[call-overload]
+    except (TypeError, ValueError):
+        return _DEFAULT_RETENTION_HOURS
+    return hours if hours in choices else _DEFAULT_RETENTION_HOURS
+
+
+def validate_manual_room_id(value: str, *, require_value: bool = True) -> str:
+    """手動指定されたルーム ID を検証する（6 文字の半角英数字）。
+
+    Group / Note / Task / FSQR のルーム作成で共通に使う。エラー時は
+    ``RoomInputError`` を送出し、文言と翻訳キーの両方を伝える。
+    """
+    if not value:
+        if require_value:
+            raise RoomInputError("IDが指定されていません。", key="id_missing")
+        return ""
+    if not _ALNUM_RE.match(value):
+        raise RoomInputError(
+            "IDに無効な文字が含まれています。半角英数字のみ使用してください。",
+            key="id_invalid_chars",
+        )
+    if len(value) != ROOM_ID_LENGTH:
+        raise RoomInputError(
+            "IDは6文字の半角英数字で入力してください。", key="id_invalid_length"
+        )
+    return value
 
 
 def _normalize_task_date(value: object) -> str | None:
@@ -124,8 +172,10 @@ class RoomSearchInput(BaseModel):
     @classmethod
     def validate_room_id(cls, v: str) -> str:
         v = v.strip()
-        if not _ROOM_ID_RE.match(v):
-            raise ValueError("IDは6文字の半角英数字で入力してください。")
+        if not ROOM_ID_RE.match(v):
+            raise RoomInputError(
+                "IDは6文字の半角英数字で入力してください。", key="id_invalid_length"
+            )
         return v
 
     @field_validator("password")
@@ -133,11 +183,30 @@ class RoomSearchInput(BaseModel):
     def validate_password(cls, v: str) -> str:
         v = v.strip()
         if not _PASSWORD_RE.match(v):
-            raise ValueError("パスワードは6桁の数字で入力してください。")
+            raise RoomInputError(
+                "パスワードは6桁の数字で入力してください。", key="invalid_credentials"
+            )
         return v
 
 
-class RoomCreateInput(BaseModel):
+class _RetentionInput(BaseModel):
+    """保存期間 (retention_hours) を持つ入力モデルの共通基底。
+
+    許可される時間数はサブクラスの ``retention_hour_choices`` で切り替える。
+    The validator is defined once here; subclasses only swap the allowed set.
+    """
+
+    retention_hour_choices: ClassVar[frozenset[int]] = _RETENTION_HOUR_CHOICES
+
+    retention_hours: int = _DEFAULT_RETENTION_HOURS
+
+    @field_validator("retention_hours", mode="before")
+    @classmethod
+    def coerce_retention_hours(cls, v: object) -> int:
+        return _coerce_retention_hours(v, cls.retention_hour_choices)
+
+
+class RoomCreateInput(_RetentionInput):
     """ルーム作成フォームの入力バリデーション。
 
     使用箇所: Group /create_group_room
@@ -146,34 +215,15 @@ class RoomCreateInput(BaseModel):
 
     id: str = ""
     id_mode: str = "auto"
-    retention_hours: int = 24
 
     @field_validator("id")
     @classmethod
     def validate_id(cls, v: str) -> str:
         return v.strip()
 
-    @field_validator("retention_hours", mode="before")
-    @classmethod
-    def coerce_retention_hours(cls, v) -> int:
-        try:
-            v = int(v)
-        except (TypeError, ValueError):
-            return 24
-        return v if v in _RETENTION_HOUR_CHOICES else 24
-
     def validate_manual_id(self) -> str:
-        """manual モード用：6文字英数字チェック。エラー時は ValueError を送出。"""
-        v = self.id
-        if not v:
-            raise ValueError("IDが指定されていません。")
-        if not _ALNUM_RE.match(v):
-            raise ValueError(
-                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
-            )
-        if len(v) != 6:
-            raise ValueError("IDは6文字の半角英数字で入力してください。")
-        return v
+        """manual モード用：6文字英数字チェック。エラー時は RoomInputError を送出。"""
+        return validate_manual_room_id(self.id)
 
 
 class NoteTaskRoomCreateInput(RoomCreateInput):
@@ -183,19 +233,10 @@ class NoteTaskRoomCreateInput(RoomCreateInput):
     保存期間は1日・1週間・1か月から選択する（RoomCreateInputより長期に対応）。
     """
 
-    retention_hours: int = 24
-
-    @field_validator("retention_hours", mode="before")
-    @classmethod
-    def coerce_retention_hours(cls, v) -> int:
-        try:
-            v = int(v)
-        except (TypeError, ValueError):
-            return 24
-        return v if v in _LONG_RETENTION_HOUR_CHOICES else 24
+    retention_hour_choices: ClassVar[frozenset[int]] = _LONG_RETENTION_HOUR_CHOICES
 
 
-class FsqrUploadInput(BaseModel):
+class FsqrUploadInput(_RetentionInput):
     """FSQR ファイルアップロードフォームの入力バリデーション。
 
     使用箇所: FSQR /upload
@@ -203,32 +244,15 @@ class FsqrUploadInput(BaseModel):
     """
 
     name: str = ""
-    retention_hours: int = 24
 
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
         return v.strip()
 
-    @field_validator("retention_hours", mode="before")
-    @classmethod
-    def coerce_retention_hours(cls, v) -> int:
-        try:
-            v = int(v)
-        except (TypeError, ValueError):
-            return 24
-        return v if v in _RETENTION_HOUR_CHOICES else 24
-
     def validate_manual_id(self) -> str:
-        """name が指定された場合の 6文字英数字チェック。エラー時は ValueError を送出。"""
-        v = self.name
-        if not _ALNUM_RE.match(v):
-            raise ValueError(
-                "IDに無効な文字が含まれています。半角英数字のみ使用してください。"
-            )
-        if len(v) != 6:
-            raise ValueError("IDは6文字の半角英数字で入力してください。")
-        return v
+        """name が指定された場合の 6文字英数字チェック。エラー時は RoomInputError を送出。"""
+        return validate_manual_room_id(self.name, require_value=False)
 
 
 class NoteExportInput(BaseModel):
