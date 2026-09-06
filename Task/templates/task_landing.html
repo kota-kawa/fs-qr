@@ -1,6 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
+{% extends "lp_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set lp_body_class = "product-lp product-lp--task" %}
+{% set faq_items = [
+  {"question": _("アカウント登録は必要ですか？"), "answer": _("必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。")},
+  {"question": _("追加したタスクはいつ送信されますか？"), "answer": _("トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。")},
+  {"question": _("メンバーはどのようにボードへ参加しますか？"), "answer": _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。")},
+  {"question": _("タスクデータはいつまで保存されますか？"), "answer": _("ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。")},
+  {"question": _("登録できるタスク数に上限はありますか？"), "answer": _("1つのボードにつき最大200件までタスクを登録できます。")},
+  {"question": _("スマートフォンからでも操作できますか？"), "answer": _("はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。")}
+] %}
+{% block lp_head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{ _("登録不要の共有タスクボード｜チームで使えるFS!QR Task") }}</title>
@@ -65,56 +74,9 @@
     }
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": {{ _("アカウント登録は必要ですか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("必要ありません。ブラウザからボードを作成し、共有URLをメンバーへ送るだけで使い始められます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("追加したタスクはいつ送信されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("メンバーはどのようにボードへ参加しますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("タスクデータはいつまで保存されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("登録できるタスク数に上限はありますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("1つのボードにつき最大200件までタスクを登録できます。") | tojson }}
-        }
-      }
-    ]
-  }
-  </script>
-</head>
-<body class="product-lp product-lp--task">
+  {{ faq_jsonld(faq_items) }}
+{% endblock %}
+{% block lp_body %}
   <a class="lp-skip-link" href="#main-content">{{ _("本文へ移動") }}</a>
 
   <header class="lp-header">
@@ -427,24 +389,7 @@
           <p class="lp-section__eyebrow">{{ _("04&nbsp;&nbsp;よくある質問") }}</p>
           <h2 id="faq-title" class="lp-section__title">{{ _("よくある質問") }}</h2>
         </div>
-        <div class="lp-faq-list">
-          <details class="lp-faq-item">
-            <summary>{{ _("本当に無料で利用できますか？") }}</summary>
-            <p>{{ _("はい、登録不要・完全無料でご利用いただけます。タスクボードの作成、参加、タスクの編集・移動など全ての機能が無料です。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("追加したタスクはいつ送信されますか？") }}</summary>
-            <p>{{ _("トップの下書きボードに追加したタスクは、お使いの端末に留まります。共有リンクを発行した時点で初めてボードが作成され、タスクがまとめて登録されます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("スマートフォンからでも操作できますか？") }}</summary>
-            <p>{{ _("はい、レスポンシブ対応によりPC・スマートフォン・タブレットのいずれからでも快適に操作いただけます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("タスクデータはいつまで保存されますか？") }}</summary>
-            <p>{{ _("作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。") }}</p>
-          </details>
-        </div>
+        <div class="lp-faq-list">{{ faq_details(faq_items) }}</div>
       </div>
     </section>
 
@@ -466,13 +411,15 @@
       <nav class="lp-footer__nav" aria-label="{{ _("フッターナビゲーション") }}">
         <a href="/">{{ _("FS!QR ホーム") }}</a>
         <a href="/terms">{{ _("利用規約") }}</a>
-        <a href="/privacy">{{ _("プライバシーポリシー") }}</a>
+        <a href="/privacy-policy">{{ _("プライバシーポリシー") }}</a>
         <a href="/contact">{{ _("お問い合わせ") }}</a>
       </nav>
     </div>
   </footer>
 
   <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/runtime-helpers.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/instant-widget-core.js') }}" defer></script>
   <script src="{{ staticfile('js/task_landing/instant-board.js') }}" defer></script>
-</body>
-</html>
+{% endblock %}

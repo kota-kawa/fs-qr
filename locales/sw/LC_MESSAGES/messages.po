@@ -341,9 +341,6 @@ msgstr ""
 "MB. Ikiwa kuongeza faili mpya kutazidi kikomo pamoja na zilizopo, "
 "upakiaji hautaruhusiwa."
 
-msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
-msgstr "1つのUbao wa kaziにつき最大200件までタスクを登録できます。"
-
 msgid "1つのボードにつき最大200件までタスクを登録できます。"
 msgstr "1つのUbaoにつき最大200件までタスクを登録できます。"
 
@@ -528,9 +525,6 @@ msgstr "Tafadhali ingiza herufi na nambari 6."
 
 msgid "6桁の数字で入力してください"
 msgstr "Tafadhali ingiza nambari yenye tarakimu 6"
-
-msgid "6桁の数字で入力してください。"
-msgstr "Tafadhali ingiza nambari yenye tarakimu 6。"
 
 msgid "6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
 msgstr ""
@@ -5198,9 +5192,6 @@ msgstr "Je, nahitaji kufungua akaunti?"
 msgid "アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。"
 msgstr "アカウント登録もChumbaUndaも不要。ページを開いた時点で書き始められ、Shirikiが必要になってから発行すれば十分."
 
-msgid "アカウント登録やアプリのインストールは必要ですか？"
-msgstr "アカウント登録やJe, ni lazima kusakinisha programu?"
-
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
 msgstr "アカウント登録やIngiaは一切不要.ブラウザがあればすぐに利用Mwanzoできます。"
 
@@ -8286,6 +8277,9 @@ msgstr ""
 "UbaoUnda時にSiku 1、Wiki 1、Mwezi 1からMuda wa "
 "kuhifadhiを選べます。期間を過ぎるとUbaoとタスクはKufuta kiotomatikiされます。"
 
+msgid "ボード操作"
+msgstr "UbaoVitendo"
+
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Badilisha kati ya mwonekano wa ubao na kalenda"
 
@@ -9108,9 +9102,6 @@ msgstr ""
 " wakati wa kuviunganisha kwa mara ya kwanza, programu mara nyingi "
 "hushindwa kutambua kifaa, na muunganisho hufeli."
 
-msgid "一切不要です。ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-msgstr "一切不要.ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-
 msgid "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。"
 msgstr ""
 "Kwa sababu ya majaribio mengi yaliyofeli, upatikanaji wa kipengele hiki "
@@ -9774,19 +9765,8 @@ msgstr ""
 "Shiriki URL ya kushiriki ya chumba kilichoundwa, msimbo wa QR, "
 "kitambulisho cha chumba na nenosiri na washiriki wa timu."
 
-msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "UndaしたUbao wa kaziのデータはいつまでHifadhiされますか？"
-
 msgid "作成する"
 msgstr "Unda"
-
-msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr ""
-"Unda時にMipangilioした有効Mwisho（Siku 1・Wiki 1・Mwezi 1）が経過すると、サーバーから完全にKufuta "
-"kiotomatikiされます。"
-
-msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Unda時に選択した有効Mwisho（Siku 1・Wiki 1・Mwezi 1）が経過すると、サーバーから自動的にFutaされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Tu mwundaji tu ndiye anaweza kufuta chumba na maandishi yaliyohifadhiwa."
@@ -12728,9 +12708,6 @@ msgstr "Je, una uhakika unataka kufuta vyumba vyote?"
 
 msgid "本当にすべて削除しますか？"
 msgstr "Je, una uhakika unataka kufuta kila kitu?"
-
-msgid "本当に無料で利用できますか？"
-msgstr "本当にBureで利用できますか？"
 
 msgid "本日の目的"
 msgstr "Lengo la leo"

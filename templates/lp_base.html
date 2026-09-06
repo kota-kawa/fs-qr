@@ -1,0 +1,18 @@
+{#
+  Product landing-page document shell.
+  4 LP で重複していた html/head/body の外枠を共通化し、SEO 本体と本文は各 LP が
+  ブロックで保持する。これにより、共通の cookie consent・資産読込を追加する時も
+  document shell を一箇所だけ変更できる。
+#}
+<!DOCTYPE html>
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
+<head>
+  {% block lp_head %}{% endblock %}
+  <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}">
+</head>
+<body class="{{ lp_body_class }}">
+  {% block lp_body %}{% endblock %}
+  {% include 'cookie-consent.html' %}
+  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+</body>
+</html>

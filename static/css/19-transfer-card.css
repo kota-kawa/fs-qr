@@ -1,0 +1,273 @@
+/*
+ * Shared transfer-card component.
+ * FSQR / Group で重複していた進捗カードの構造・アニメーションを共通化し、
+ * サービス差分は body のテーマ変数だけで切り替える。
+ */
+.transfer-card {
+  --transfer-accent: var(--theme-fsqr-accent, #4082dd);
+  --transfer-border: rgba(64, 130, 221, 0.18);
+  --transfer-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(238, 246, 255, 0.9));
+  --transfer-orb: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.94), rgba(223, 239, 255, 0.32) 58%, rgba(64, 130, 221, 0.16));
+  --transfer-orb-shadow: 0 14px 30px -18px rgba(64, 130, 221, 0.42);
+  --transfer-ring: rgba(64, 130, 221, 0.16);
+  --transfer-ring-outer: rgba(113, 170, 238, 0.28);
+  --transfer-progress: linear-gradient(90deg, #63a4ff, #4082dd 55%, #84b8ff);
+  --transfer-progress-track: linear-gradient(90deg, rgba(64, 130, 221, 0.12), rgba(15, 23, 42, 0.08));
+  --transfer-upload: linear-gradient(135deg, #4aba95, #1d9a75);
+  --transfer-lock: linear-gradient(135deg, #2563eb, #1d4ed8);
+  --transfer-download: linear-gradient(135deg, #63a4ff, #4082dd);
+  --transfer-icon-color: var(--transfer-accent);
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--transfer-border);
+  border-radius: 22px;
+  background: var(--transfer-surface), var(--surface-elevated, #fff);
+  box-shadow: 0 20px 40px -28px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+}
+
+.group-section .transfer-card {
+  --transfer-accent: var(--theme-group-end, #1d9a75);
+  --transfer-border: rgba(74, 186, 149, 0.18);
+  --transfer-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(244, 251, 247, 0.88));
+  --transfer-orb: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(219, 243, 232, 0.25) 58%, rgba(74, 186, 149, 0.18));
+  --transfer-orb-shadow: 0 14px 30px -18px rgba(74, 186, 149, 0.5);
+  --transfer-ring: rgba(74, 186, 149, 0.16);
+  --transfer-ring-outer: rgba(136, 210, 186, 0.28);
+  --transfer-progress: linear-gradient(90deg, #4aba95, #2cb67d 55%, #8ad9ba);
+  --transfer-progress-track: linear-gradient(90deg, rgba(74, 186, 149, 0.12), rgba(15, 23, 42, 0.08));
+  --transfer-icon-color: var(--theme-group-end, #1d9a75);
+}
+
+.transfer-card--download {
+  width: min(100%, 420px);
+  margin-top: 0;
+  border-color: rgba(56, 189, 248, 0.18);
+  --transfer-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(240, 249, 255, 0.9));
+  --transfer-orb: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.94), rgba(221, 242, 255, 0.28) 56%, rgba(56, 189, 248, 0.16));
+  --transfer-orb-shadow: 0 14px 30px -18px rgba(37, 99, 235, 0.42);
+  --transfer-ring: rgba(56, 189, 248, 0.18);
+  --transfer-ring-outer: rgba(147, 197, 253, 0.32);
+  --transfer-accent: #2563eb;
+  --transfer-progress: linear-gradient(90deg, #38bdf8, #2563eb 58%, #60a5fa);
+  --transfer-progress-track: linear-gradient(90deg, rgba(37, 99, 235, 0.12), rgba(15, 23, 42, 0.08));
+  --transfer-download: linear-gradient(135deg, #38bdf8, #2563eb);
+}
+
+.transfer-card__visual {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transfer-card__orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--transfer-orb);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), var(--transfer-orb-shadow);
+}
+
+.transfer-card__orb::before,
+.transfer-card__orb::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--transfer-ring);
+  border-radius: 50%;
+}
+
+.transfer-card__orb::before {
+  animation: transfer-card-pulse 2.4s ease-in-out infinite;
+}
+
+.transfer-card__orb::after {
+  inset: -4px;
+  border-color: var(--transfer-ring-outer);
+  animation: transfer-card-spin 6s linear infinite;
+}
+
+.transfer-card__icon {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--transfer-icon-color);
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+}
+
+.transfer-card__icon--file {
+  transform: translateX(-7px);
+  animation: transfer-card-file-float 2.1s ease-in-out infinite;
+}
+
+.transfer-card__icon--phase {
+  width: 34px;
+  height: 34px;
+  right: 2px;
+  bottom: 8px;
+  border-radius: 999px;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.transfer-card__icon--lock {
+  background: var(--transfer-lock);
+  box-shadow: 0 12px 24px -16px rgba(37, 99, 235, 0.8);
+}
+
+.transfer-card__icon--upload {
+  background: var(--transfer-upload);
+  box-shadow: 0 12px 24px -16px rgba(29, 154, 117, 0.8);
+}
+
+.transfer-card__icon--download {
+  background: var(--transfer-download);
+  box-shadow: 0 12px 24px -16px rgba(37, 99, 235, 0.85);
+}
+
+.transfer-card__content {
+  min-width: 0;
+}
+
+.transfer-card__eyebrow {
+  margin-bottom: 0.3rem;
+  color: var(--transfer-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.transfer-card__title {
+  color: var(--text-dark);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.transfer-card__detail {
+  margin-top: 0.35rem;
+  color: var(--text-medium);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.transfer-card__stage {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+  color: var(--text-slate);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.transfer-card__progress {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--transfer-progress-track);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.transfer-card__progress .progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--transfer-progress);
+  box-shadow: 0 0 22px rgba(64, 130, 221, 0.35);
+  transition: width 0.2s ease;
+}
+
+.transfer-card__cancel {
+  margin-top: 1rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text-slate);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.transfer-card__cancel:focus-visible {
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+.transfer-card--upload .transfer-card__icon--upload:not(.transfer-card__icon--phase) {
+  opacity: 1;
+}
+
+.transfer-card--upload.is-encrypting .transfer-card__icon--lock,
+.transfer-card--upload.is-uploading .transfer-card__icon--upload,
+.transfer-card--download.is-receiving .transfer-card__icon--download,
+.transfer-card--download.downloading .transfer-card__icon--download {
+  opacity: 1;
+  animation: transfer-card-badge-bob 1.3s ease-in-out infinite;
+}
+
+.transfer-card--upload.is-encrypting .transfer-card__icon--file {
+  transform: translateX(-7px) translateY(-4px) scale(0.94);
+  filter: saturate(1.08);
+}
+
+.transfer-card--upload.is-uploading .transfer-card__icon--file,
+.transfer-card--download.is-receiving .transfer-card__icon--file,
+.transfer-card--download.is-decrypting .transfer-card__icon--file,
+.transfer-card--download.downloading .transfer-card__icon--file {
+  transform: translateX(-7px) translateY(-3px) scale(0.95);
+  filter: saturate(1.08);
+}
+
+.transfer-card--download.is-decrypting .transfer-card__icon--lock {
+  opacity: 1;
+  animation: transfer-card-badge-bob 1.3s ease-in-out infinite;
+}
+
+@keyframes transfer-card-pulse {
+  0%, 100% { transform: scale(0.94); opacity: 0.55; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes transfer-card-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes transfer-card-file-float {
+  0%, 100% { transform: translateX(-7px) translateY(0); }
+  50% { transform: translateX(-7px) translateY(-5px); }
+}
+
+@keyframes transfer-card-badge-bob {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(4px); }
+  70% { transform: translateY(-1px); }
+}
+
+@media (max-width: 640px) {
+  .transfer-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .transfer-card__content {
+    width: 100%;
+  }
+
+  .transfer-card--download {
+    max-width: 360px;
+  }
+}

@@ -341,9 +341,6 @@ msgstr ""
 " Mo. Si l'ajout de nouveaux fichiers dépasse la limite avec les fichiers "
 "existants, le téléversement n'est pas autorisé."
 
-msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
-msgstr "1つのTableau de tâchesにつき最大200件までタスクを登録できます。"
-
 msgid "1つのボードにつき最大200件までタスクを登録できます。"
 msgstr "1つのTableauにつき最大200件までタスクを登録できます。"
 
@@ -527,9 +524,6 @@ msgstr "Veuillez saisir 6 caractères alphanumériques."
 
 msgid "6桁の数字で入力してください"
 msgstr "Veuillez saisir un nombre à 6 chiffres"
-
-msgid "6桁の数字で入力してください。"
-msgstr "Veuillez saisir un nombre à 6 chiffres。"
 
 msgid "6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
 msgstr ""
@@ -5332,9 +5326,6 @@ msgstr "Dois-je créer un compte ?"
 msgid "アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。"
 msgstr "アカウント登録もSalonCréerも不要。ページを開いた時点で書き始められ、Partagerが必要になってから発行すれば十分."
 
-msgid "アカウント登録やアプリのインストールは必要ですか？"
-msgstr "アカウント登録やFaut-il installer une application ?"
-
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
 msgstr "アカウント登録やSe connecterは一切不要.ブラウザがあればすぐに利用Débutできます。"
 
@@ -8493,6 +8484,9 @@ msgstr ""
 "TableauCréer時に1 jour、1 semaine、1 moisからPériode de "
 "conservationを選べます。期間を過ぎるとTableauとタスクはSuppression automatiqueされます。"
 
+msgid "ボード操作"
+msgstr "TableauActions"
+
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Basculer entre les vues tableau et calendrier"
 
@@ -9324,9 +9318,6 @@ msgstr ""
 "5 GHz lors de la configuration initiale, l'application ne détectera pas "
 "l'appareil et l'association échouera."
 
-msgid "一切不要です。ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-msgstr "一切不要.ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-
 msgid "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。"
 msgstr ""
 "En raison de trop nombreux échecs, l'accès à cette fonctionnalité est "
@@ -10014,21 +10005,8 @@ msgstr ""
 "Partagez l'URL de partage, le code QR, l'ID de la salle et le mot de "
 "passe de la salle créée avec les membres de l'équipe."
 
-msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "CréerしたTableau de tâchesのデータはいつまでEnregistrerされますか？"
-
 msgid "作成する"
 msgstr "Créer"
-
-msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr ""
-"Créer時にParamètresした有効Échéance（1 jour・1 semaine・1 "
-"mois）が経過すると、サーバーから完全にSuppression automatiqueされます。"
-
-msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr ""
-"Créer時に選択した有効Échéance（1 jour・1 semaine・1 "
-"mois）が経過すると、サーバーから自動的にSupprimerされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Seul le créateur peut supprimer la salle et le texte enregistré."
@@ -13131,9 +13109,6 @@ msgstr "Voulez-vous vraiment supprimer tous les salons ?"
 
 msgid "本当にすべて削除しますか？"
 msgstr "Voulez-vous vraiment tout supprimer ?"
-
-msgid "本当に無料で利用できますか？"
-msgstr "本当にGratuitで利用できますか？"
 
 msgid "本日の目的"
 msgstr "Objectif du jour"

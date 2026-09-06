@@ -1,73 +1,27 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="{{ _("アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。") }}" />
-    <meta name="keywords" content="{{ _("グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有") }}" />
-    <meta name="geo.region" content="{{ geo_region }}" />
-    <meta name="geo.placename" content="{{ geo_placename }}" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="FS!QR">
-    <meta name="language" content="{{ meta_language }}">
-    <meta name="theme-color" content="#dbe72f">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="{{ og_locale }}" />
-    <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}" />
-    <meta property="og:description" content="{{ _("ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できる無料グループファイル共有サービス。") }}" />
-    <meta property="og:url" content="{{ request.base_url }}" />
-    <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="723">
-    <meta property="og:image:alt" content="{{ _("FS!QR Group グループファイル共有サービス") }}">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}" />
-    <meta name="twitter:description" content="{{ _("ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できます。") }}" />
-    <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="{{ _("FS!QR Group サービス") }}">
-    
-    <!-- SEO -->
-    <link rel="canonical" href="{{ request.canonical_url }}" />
-    {% for alt in request.language_alternates %}
-    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
-    {% endfor %}
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="priority" content="1.0" />
-    <meta name="importance" content="high" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    
-    {% if google_adsense_client_id %}
-    <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
-    <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
-    {% endif %}
-    <script>
-      window.FSQR_TAGS = Object.freeze({
-        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
-        adsenseClientId: {{ google_adsense_client_id | tojson }}
-        {% endif %}
-      });
-    </script>
-    <title>{{ _("グループでファイル共有｜アカウント不要・無料でチームに共有 - FS!QR Group") }}</title>
-    <link rel="icon" href="{{staticfile('favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
-      <!-- Bootstrap CSS -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
-      <!-- アイコン用 FontAwesome -->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css" integrity="sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2" crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
-      <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
-      <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
-      
+{% extends "menu_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set menu_body_class = "service-menu-page" %}
+{% set menu_faq_items = [
+  {"question": _("登録不要・無料で使えるデータは安全に保護されますか？"), "answer": _("通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。")},
+  {"question": _("外部パートナーを一時的に招待できますか？"), "answer": _("共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。")},
+  {"question": _("アップロードできるファイルサイズに制限はありますか？"), "answer": _("標準設定ではルーム内の合計1GBまで、最大30ファイルまでアップロードできます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。")},
+  {"question": _("サポートは日本語で受けられますか？"), "answer": _("お問い合わせフォームから日本語でご連絡いただけます。返信時期は内容や運用状況により異なります。")}
+] %}
+{% set menu_meta_description = _("アカウント不要で複数人とファイルを共有できる無料サービス。グループルームを作成し、共有URL・QRコード・ルームID・パスワードで参加できます。標準設定では合計1GB・30ファイルまで対応。") %}
+{% set menu_meta_keywords = _("グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有") %}
+{% set menu_theme_color = "#dbe72f" %}
+{% set menu_og_site_name = "FS!QR Group" %}
+{% set menu_og_title = _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") %}
+{% set menu_og_description = _("ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できる無料グループファイル共有サービス。") %}
+{% set menu_og_image_alt = _("FS!QR Group グループファイル共有サービス") %}
+{% set menu_twitter_title = menu_og_title %}
+{% set menu_twitter_description = _("ルーム作成で複数人でのファイル共有・管理。共有URL・QRコード・ルームID・パスワードで参加できます。") %}
+{% set menu_twitter_image_alt = _("FS!QR Group サービス") %}
+{% set menu_title = _("グループでファイル共有｜アカウント不要・無料でチームに共有 - FS!QR Group") %}
+{% set menu_apple_icon = "apple-touch-icon.png" %}
+{% set menu_bootstrap_url = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" %}
+{% set menu_bootstrap_integrity = "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" %}
+{% block menu_head %}
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -129,46 +83,7 @@
     }
     </script>
     
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": {{ _("FS!QR Groupは企業での利用も可能ですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer", 
-            "text": {{ _("はい、個人利用から企業・チームでの利用まで幅広く対応しています。共有URL・QRコード・ルームID・パスワードで一時的なファイル共有ができます。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("どのようなファイル形式に対応していますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("文書、画像、動画、音声ファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由で制限しています。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question", 
-          "name": {{ _("グループのメンバー数に制限はありますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("グループのサービス仕様上、明示的な人数上限は設けていません。小さなチームから大規模プロジェクトまで対応可能です。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("ファイルのセキュリティは大丈夫ですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。") | tojson }}
-          }
-        }
-      ]
-    }
-    </script>
+    {{ faq_jsonld(menu_faq_items) }}
     
     <script type="application/ld+json">
     {
@@ -252,8 +167,8 @@
             --service-glow-2: rgba(82, 214, 120, 0.26);
         }
     </style>
-</head>
-<body class="service-menu-page">
+{% endblock %}
+{% block menu_body %}
     <div class="service-shell">
         <header class="service-hero">
             <div>
@@ -301,24 +216,7 @@
             </section>
             <section class="content-section" aria-labelledby="group-faq">
                 <h2 id="group-faq" class="section-title">{{ _("よくある質問") }}</h2>
-                <div class="faq-list">
-                    <details class="faq-item">
-                        <summary>{{ _("登録不要・無料で使えるデータは安全に保護されますか？") }}</summary>
-                        <p>{{ _("通信はHTTPSで暗号化され、共有URLまたはルームIDとパスワードでアクセスを制御します。グループルームのファイルはサーバー上では暗号化されない状態で保管されるため、機密性の高いファイルの共有は利用者の責任で判断してください。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("外部パートナーを一時的に招待できますか？") }}</summary>
-                        <p>{{ _("共有URLやQRコード、ルームID、パスワードを伝えることで、取引先や外部講師なども保存期間内だけ参加できます。共有を終了したい場合は、作成者がルームを削除できます。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("アップロードできるファイルサイズに制限はありますか？") }}</summary>
-                        <p>{{ _("標準設定ではルーム内の合計1GBまで、最大30ファイルまでアップロードできます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("サポートは日本語で受けられますか？") }}</summary>
-                        <p>{{ _("お問い合わせフォームから日本語でご連絡いただけます。返信時期は内容や運用状況により異なります。") }}</p>
-                    </details>
-                </div>
+                <div class="faq-list">{{ faq_details(menu_faq_items, item_class="faq-item") }}</div>
             </section>
             <section class="content-section" aria-labelledby="group-howto">
                 <h2 id="group-howto" class="section-title">{{ _("FS!QR Groupの使い方") }}</h2>
@@ -409,15 +307,4 @@
         {% include '_footer.html' %}
     </div>
 
-    {% include 'cookie-consent.html' %}
-
-    <!-- Bootstrap JSと依存関係 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="{{staticfile('js/shared/app-namespace.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/ux-runtime.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/sw-register.js')}}" defer></script>
-    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
-    <script src="{{staticfile('tooltip.js')}}" defer></script>
-    <script src="{{staticfile('accessibility.js')}}" defer></script>
-</body>
-</html>
+{% endblock %}

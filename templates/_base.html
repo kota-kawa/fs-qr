@@ -1,0 +1,172 @@
+{#
+  4 サービス共通の HTML shell。
+  layout.html / group_layout.html / note_layout.html / note・task の各レイアウトは
+  このテンプレートを extends し、`{% set service_* %}` でサービス固有の値だけを渡す。
+
+  Shared HTML shell for all four services. Each service layout extends this file
+  and only supplies its own `service_*` configuration values plus JSON-LD blocks.
+
+  重要 / IMPORTANT:
+  このファイルには `_()` を書かない。ユーザーに見える文言は必ず呼び出し側の
+  レイアウトが既存の msgid のまま渡す（翻訳カタログを変更しないため）。
+#}
+<!DOCTYPE html>
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="{% block meta_description %}{{ service_meta_description }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ service_meta_keywords }}{% endblock %}" />
+    <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
+    <meta name="author" content="FS!QR" />
+    <meta name="language" content="{{ meta_language }}" />
+    <meta name="geo.region" content="{{ geo_region }}" />
+    <meta name="geo.placename" content="{{ geo_placename }}" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="theme-color" content="{{ service_theme_color }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    {% block app_config %}
+    <script>
+      window.AppConfig = Object.freeze({
+        limits: Object.freeze({
+          upload: Object.freeze({
+            maxFiles: {{ upload_max_files | tojson }},
+            maxTotalSizeBytes: {{ upload_max_total_size_bytes | tojson }},
+            maxTotalSizeMB: {{ upload_max_total_size_mb | tojson }}
+          }),
+          note: Object.freeze({
+            maxContentLength: {{ note_max_content_length | tojson }}
+          }),
+          group: Object.freeze({
+            fileListRequestTimeoutMs: {{ group_file_list_request_timeout_ms | tojson }}
+          })
+        })
+      });
+    </script>
+    {% endblock %}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
+    <meta property="og:locale" content="{{ og_locale }}" />
+    <meta property="og:site_name" content="{{ service_site_name }}" />
+    <meta property="og:title" content="{% block og_title %}{{ service_og_title }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ service_og_description }}{% endblock %}" />
+    <meta property="og:url" content="{{ request.canonical_url }}" />
+    <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
+    <meta property="og:image:type" content="{% block og_image_type %}image/jpeg{% endblock %}" />
+    <meta property="og:image:width" content="{% block og_image_width %}1200{% endblock %}" />
+    <meta property="og:image:height" content="{% block og_image_height %}723{% endblock %}" />
+    <meta property="og:image:alt" content="{% block og_image_alt %}{{ service_og_image_alt }}{% endblock %}" />
+    {% block extra_og %}{% endblock %}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{% block twitter_title %}{{ service_twitter_title }}{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}{{ service_twitter_description }}{% endblock %}" />
+    <meta name="twitter:image" content="{% block twitter_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
+    <meta name="twitter:image:alt" content="{% block twitter_image_alt %}{{ service_twitter_image_alt }}{% endblock %}" />
+
+    <!-- SEO -->
+    <link rel="canonical" href="{{ request.canonical_url }}" />
+    {% for alt in request.language_alternates %}
+    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
+    {% endfor %}
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
+    <meta name="priority" content="1.0" />
+    <meta name="importance" content="high" />
+
+    <link rel="preload" as="image" href="{{ staticfile(service_logo) }}" fetchpriority="high" />
+    <link rel="stylesheet" href="{{ staticfile('bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ staticfile('style.css') }}">
+    <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}">
+    <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}">
+    {% block extra_css %}{% endblock %}
+    <link rel="manifest" href="{{ service_manifest_url }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="{{ service_apple_title }}">
+    <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile(service_apple_touch_icon | default('apple-touch-icon.png', true)) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap" rel="stylesheet">
+    {% if google_adsense_client_id %}
+    <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
+    <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+    {% endif %}
+    <script>
+      window.FSQR_TAGS = Object.freeze({
+        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
+        adsenseClientId: {{ google_adsense_client_id | tojson }}
+        {% endif %}
+      });
+    </script>
+    <title>{% block page_title %}{{ service_page_title }}{% endblock %}</title>
+
+    <!-- Structured Data -->
+    {% block schema_website %}{% endblock %}
+    {% block schema_extra %}{% endblock %}
+    {% include '_schema_organization.html' %}
+
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="{{ service_body_class }}">
+    <header>
+      <div class="container text-center">
+        <div class="site-brand mt-3">
+          <a href="{{ service_menu_url }}" target="_self">
+            <img src="{{ staticfile(service_logo) }}" alt="{{ service_logo_alt }}"
+                 width="{{ service_logo_width }}" height="100" fetchpriority="high" decoding="async"
+                 style="height:100px;width:auto;">
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="text-center">
+      <a href="{{ service_search_url }}" class="search-link">
+        <img src="{{ staticfile(service_search_icon) }}" alt="{{ service_search_icon_alt }}" loading="lazy" decoding="async" />
+        <span>{{ service_search_label }}</span>
+      </a>
+      <nav class="section-tabs" aria-label="{{ service_nav_aria_label }}">
+        <a class="section-tab" href="/">{{ service_nav_home_label }}</a>
+        <a class="section-tab" href="/fs-qr_menu"{% if service_slug == 'fsqr' %} aria-current="page"{% endif %}>FS!QR</a>
+        <a class="section-tab" href="/group_menu"{% if service_slug == 'group' %} aria-current="page"{% endif %}>Group</a>
+        <a class="section-tab" href="/note_menu"{% if service_slug == 'note' %} aria-current="page"{% endif %}>Note</a>
+        <a class="section-tab" href="/task_menu"{% if service_slug == 'task' %} aria-current="page"{% endif %}>Task</a>
+      </nav>
+    </div>
+
+    <div id="layout" class="page">
+      <main id="main" role="main" tabindex="-1">
+        <div class="contents">
+          {% block contents %}{% endblock %}
+        </div>
+        <!-- end of .contents -->
+      </main>
+    </div>
+
+    {% include '_footer.html' %}
+
+    {% include 'cookie-consent.html' %}
+
+    {% include 'alert-modal.html' %}
+
+    <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+    <script src="{{ staticfile('js/shared/ux-runtime.js') }}" defer></script>
+    <script src="{{ staticfile('js/shared/sw-register.js') }}" defer></script>
+    <script src="{{ staticfile('js/shared/room-create.js') }}" defer></script>
+    <script src="{{ staticfile('js/shared/room-access.js') }}" defer></script>
+    <script src="{{ staticfile('js/shared/custom-select.js') }}" defer></script>
+    <script src="{{ staticfile('retention-select.js') }}" defer></script>
+    <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+    <script src="{{ staticfile('tooltip.js') }}" defer></script>
+    <script src="{{ staticfile('accessibility.js') }}" defer></script>
+    {% block body_end %}{% endblock %}
+  </body>
+</html>

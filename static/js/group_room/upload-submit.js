@@ -36,6 +36,15 @@
     var uploadProgressContainer = document.getElementById('uploadProgressContainer');
     var uploadProgressBar = document.getElementById('uploadProgressBar');
     var uploadProgressText = document.getElementById('uploadProgressText');
+    var sharedSpinner = appNamespace.api.getShared('progressSpinner');
+    var uploadProgressController = sharedSpinner
+      ? sharedSpinner.createProgressSpinner({
+        root: uploadProgressContainer,
+        animationContainer: uploadProgressContainer,
+        text: uploadProgressText,
+        bars: { primary: uploadProgressBar }
+      })
+      : null;
 
     function notify(message) {
       if (typeof window.showAlertModal === 'function') {
@@ -102,13 +111,10 @@
         existingTotalSize: existingTotalSize
       });
       if (!result.ok) {
-        if (result.reason === 'max_files') {
-          notify(translate('upload.error_room_max_files', 'A room can hold up to {max} files in total. It currently has {current}.').replace('{max}', String(limits.maxFiles)).replace('{current}', String(existingFilesCount)));
-        } else if (result.reason === 'max_total_size') {
-          notify(translate('upload.error_room_max_size', 'A room can hold up to {max} MB in total. The new total would be {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
-        } else if (result.reason === 'invalid_filename') {
-          notify(translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.'));
-        }
+        notify(validation.describeFailure(result, {
+          scope: 'group-submit',
+          existingFilesCount: existingFilesCount
+        }));
         return false;
       }
 
@@ -137,17 +143,30 @@
     }
 
     function showUploadProgressStart() {
-      core.showElement(uploadProgressContainer);
-      core.setProgressScale(uploadProgressBar, 0);
-      core.setElementText(uploadProgressText, translate('upload.uploading', 'Uploading...'));
+      if (uploadProgressController) {
+        uploadProgressController.show();
+        uploadProgressController.resetProgress();
+        uploadProgressController.setText(translate('upload.uploading', 'Uploading...'));
+        uploadProgressController.scrollIntoCenter();
+      } else {
+        core.showElement(uploadProgressContainer);
+        core.setProgressScale(uploadProgressBar, 0);
+        core.setElementText(uploadProgressText, translate('upload.uploading', 'Uploading...'));
+      }
       resetStatusMessage();
       uploadBtn.disabled = true;
       uploadBtn.textContent = translate('upload.uploading', 'Uploading...');
-      scrollProgressIntoCenter();
+      if (!uploadProgressController) {
+        scrollProgressIntoCenter();
+      }
     }
 
     function showUploadError(xhr) {
-      core.hideElement(uploadProgressContainer);
+      if (uploadProgressController) {
+        uploadProgressController.hide();
+      } else {
+        core.hideElement(uploadProgressContainer);
+      }
       uploadBtn.disabled = false;
       uploadBtn.innerHTML = uploadButtonLabel;
 
@@ -163,11 +182,20 @@
     }
 
     function handleUploadResponse(response) {
-      core.setProgressScale(uploadProgressBar, 1);
-      core.setElementText(uploadProgressText, translate('upload.complete', 'Upload complete!'));
+      if (uploadProgressController) {
+        uploadProgressController.setProgress(1);
+        uploadProgressController.setText(translate('upload.complete', 'Upload complete!'));
+      } else {
+        core.setProgressScale(uploadProgressBar, 1);
+        core.setElementText(uploadProgressText, translate('upload.complete', 'Upload complete!'));
+      }
 
       setTimeout(function () {
-        core.hideElement(uploadProgressContainer);
+        if (uploadProgressController) {
+          uploadProgressController.hide();
+        } else {
+          core.hideElement(uploadProgressContainer);
+        }
         uploadBtn.disabled = false;
         uploadBtn.innerHTML = uploadButtonLabel;
 
@@ -215,8 +243,14 @@
       xhr.upload.addEventListener('progress', function (evt) {
         if (evt.lengthComputable) {
           var percentComplete = evt.loaded / evt.total;
-          core.setProgressScale(uploadProgressBar, percentComplete);
-          core.setElementText(uploadProgressText, translate('upload.uploading_progress', 'Uploading... {percent}%').replace('{percent}', String(Math.round(percentComplete * 100))));
+          var progressText = translate('upload.uploading_progress', 'Uploading... {percent}%').replace('{percent}', String(Math.round(percentComplete * 100)));
+          if (uploadProgressController) {
+            uploadProgressController.setProgress(percentComplete);
+            uploadProgressController.setText(progressText);
+          } else {
+            core.setProgressScale(uploadProgressBar, percentComplete);
+            core.setElementText(uploadProgressText, progressText);
+          }
         }
       }, false);
 

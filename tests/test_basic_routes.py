@@ -46,6 +46,30 @@ def test_index(test_client: TestClient):
     assert 'placeholder="パスワード"' in response.text
 
 
+@pytest.mark.parametrize(
+    ("service", "start_url", "theme_color"),
+    (
+        ("fsqr", "/", "#342ae3"),
+        ("group", "/group_menu", "#dbe72f"),
+        ("note", "/note_menu", "#c2bf20"),
+        ("task", "/task_menu", "#f59e0b"),
+    ),
+)
+def test_service_manifest_is_generated_from_one_route(
+    test_client: TestClient, service: str, start_url: str, theme_color: str
+):
+    response = test_client.get(f"/manifest/{service}.webmanifest")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/manifest+json")
+    assert response.json()["start_url"] == start_url
+    assert response.json()["theme_color"] == theme_color
+
+
+def test_unknown_service_manifest_returns_not_found(test_client: TestClient):
+    assert test_client.get("/manifest/unknown.webmanifest").status_code == 404
+
+
 def test_index_uses_language_cookie(test_client: TestClient):
     response = test_client.get("/", headers={"Cookie": "fsqr_language=en"})
     assert response.status_code == 200

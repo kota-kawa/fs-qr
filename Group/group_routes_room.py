@@ -1,7 +1,5 @@
 import logging
 import os
-import secrets
-import string
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request
@@ -10,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import RoomCreateInput
 from rate_limit import (
     SCOPE_GROUP,
@@ -21,6 +19,9 @@ from rate_limit import (
     register_success,
 )
 from room_credentials import generate_room_password, validate_room_credentials
+from room_credentials import generate_room_id as _secure_generate_room_id
+from room_create import RoomIdConflict, select_room_id
+from room_delete import delete_owned_room
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -49,11 +50,11 @@ from .group_storage import UPLOAD_FOLDER
 
 logger = logging.getLogger(__name__)
 ROOM_ID_ATTEMPTS = 10
-ROOM_ID_CHARS = string.ascii_letters + string.digits
 
 
 def _generate_room_id() -> str:
-    return "".join(secrets.choice(ROOM_ID_CHARS) for _ in range(6))
+    """互換用の名前。実装は共通の安全な生成器へ委譲する。"""
+    return _secure_generate_room_id()
 
 
 def _is_valid_room_id(room_id: str) -> bool:
@@ -222,31 +223,30 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
                 return api_error_response(str(exc), status_code=400)
 
         try:
-            if inp.id_mode == "auto":
-                if id_val and await group_data.get_data(id_val):
-                    return api_error_response(
-                        "生成されたIDが重複しています。新しいIDで再試行してください。",
-                        status_code=409,
-                        data={"retry_auto": True},
-                    )
-                if not id_val:
-                    for _ in range(ROOM_ID_ATTEMPTS):
-                        candidate = _generate_room_id()
-                        if not await group_data.get_data(candidate):
-                            id_val = candidate
-                            break
-                    if not id_val:
-                        return api_error_response(
-                            "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
-                            status_code=500,
-                        )
-            else:
-                existing_room = await group_data.get_data(id_val)
-                if existing_room:
-                    return api_error_response(
-                        "このIDは既に使用されています。別のIDを使用してください。",
-                        status_code=409,
-                    )
+            selection = await select_room_id(
+                id_val,
+                inp.id_mode,
+                lambda candidate: _group_room_exists(candidate),
+                attempts=ROOM_ID_ATTEMPTS,
+                generator=_generate_room_id,
+            )
+            if selection.retry_auto:
+                return api_error_response(
+                    "生成されたIDが重複しています。新しいIDで再試行してください。",
+                    status_code=409,
+                    data={"retry_auto": True},
+                )
+            if not selection.room_id:
+                return api_error_response(
+                    "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
+                    status_code=500,
+                )
+            id_val = selection.room_id
+        except RoomIdConflict:
+            return api_error_response(
+                "このIDは既に使用されています。別のIDを使用してください。",
+                status_code=409,
+            )
         except Exception:
             logger.exception("Failed to check Group room ID")
             return api_error_response(
@@ -326,6 +326,11 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
         return RedirectResponse(redirect_url, status_code=302)
 
 
+async def _group_room_exists(room_id: str) -> bool:
+    """共通 ID 選択器へ渡す Group 用存在確認。"""
+    return bool(await group_data.get_data(room_id))
+
+
 def register_group_search_process_route(router: APIRouter):
     @router.post("/search_group_process", name="group.search_room")
     async def search_room(request: Request):
@@ -372,31 +377,31 @@ def register_group_delete_own_room_route(router: APIRouter):
     async def delete_own_room(request: Request, room_id: str):
         await enforce_csrf(request)
 
-        record = await get_room_if_active(room_id)
-        if not record:
-            if wants_json_response(request):
-                return api_error_response("ルームが見つかりません。", status_code=404)
-            return room_msg(request, "ルームが見つかりません。", status_code=404)
+        outcome = await delete_owned_room(
+            request,
+            room_id,
+            get_active=get_room_if_active,
+            can_delete=lambda req, key, record: can_delete_group_room(req, key),
+            remove=group_data.remove_data,
+            forget=forget_group_room_access,
+        )
+        if outcome.status == "not_found":
+            return error_page_or_json(
+                request, "ルームが見つかりません。", status_code=404
+            )
 
-        if not can_delete_group_room(request, room_id):
-            if wants_json_response(request):
-                return api_error_response("削除権限がありません。", status_code=403)
-            return room_msg(request, "削除権限がありません。", status_code=403)
+        if outcome.status == "forbidden":
+            return error_page_or_json(
+                request, "削除権限がありません。", status_code=403
+            )
 
-        removed = await group_data.remove_data(room_id)
-        if not removed:
-            if wants_json_response(request):
-                return api_error_response(
-                    "ルーム削除に失敗しました。時間をおいて再度お試しください。",
-                    status_code=500,
-                )
-            return room_msg(
+        if outcome.status == "failed":
+            return error_page_or_json(
                 request,
                 "ルーム削除に失敗しました。時間をおいて再度お試しください。",
                 status_code=500,
             )
 
-        forget_group_room_access(request, room_id)
         if wants_json_response(request):
             return api_ok_response({"redirect_url": "/remove-succes"})
         return RedirectResponse("/remove-succes", status_code=302)

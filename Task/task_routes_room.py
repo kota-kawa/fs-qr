@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import logging
-import secrets
-import string
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request
@@ -10,7 +8,7 @@ from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 
-from api_response import api_error_response, api_ok_response
+from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import NoteTaskRoomCreateInput, RoomCreateInput
 from rate_limit import (
     SCOPE_TASK,
@@ -19,7 +17,13 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from room_credentials import generate_room_password, validate_room_credentials
+from room_credentials import (
+    generate_room_id as _secure_generate_room_id,
+    generate_room_password,
+    validate_room_credentials,
+)
+from room_create import RoomIdConflict, select_room_id
+from room_delete import delete_owned_room
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -53,12 +57,12 @@ from .task_responses import (
 )
 
 logger = logging.getLogger(__name__)
-ROOM_ID_CHARS = string.ascii_letters + string.digits
 ROOM_ID_ATTEMPTS = 10
 
 
 def _generate_room_id() -> str:
-    return "".join(secrets.choice(ROOM_ID_CHARS) for _ in range(6))
+    """互換用の名前。実装は共通の安全な生成器へ委譲する。"""
+    return _secure_generate_room_id()
 
 
 def _valid_manual_id(room_id: str) -> bool:
@@ -202,30 +206,39 @@ def register_task_create_room_route(router: APIRouter) -> None:
             inp = NoteTaskRoomCreateInput(
                 id=raw_id, id_mode=raw_mode, retention_hours=raw_retention
             )
-            room_id = (
-                inp.validate_manual_id()
-                if inp.id_mode != "auto"
-                else (inp.id if _valid_manual_id(inp.id) else "")
-            )
         except (ValidationError, ValueError) as exc:
             if isinstance(exc, ValueError) and str(exc):
-                message = task_validation_message(str(exc))
+                message = task_validation_message(exc)
             else:
                 message = task_message("task.request_error", "入力内容が不正です。")
             return api_error_response(message, status_code=400)
-        if not room_id:
-            for _ in range(ROOM_ID_ATTEMPTS):
-                candidate = _generate_room_id()
-                if not await task_data.get_room_meta_direct(candidate):
-                    room_id = candidate
-                    break
-        elif await task_data.get_room_meta_direct(room_id):
+        try:
+            selection = await select_room_id(
+                raw_id,
+                inp.id_mode,
+                _task_room_exists,
+                attempts=ROOM_ID_ATTEMPTS,
+                generator=_generate_room_id,
+            )
+        except RoomIdConflict:
             return task_api_error(
                 "task.id_in_use",
                 "このIDは既に使用されています。別のIDを使用してください。",
                 status_code=409,
                 data={"retry_auto": inp.id_mode == "auto"},
             )
+        except ValueError as exc:
+            return task_api_error(
+                "task.request_error", task_validation_message(exc), status_code=400
+            )
+        if selection.retry_auto:
+            return task_api_error(
+                "task.id_in_use",
+                "このIDは既に使用されています。別のIDを使用してください。",
+                status_code=409,
+                data={"retry_auto": True},
+            )
+        room_id = selection.room_id
         if not room_id:
             return task_api_error(
                 "task.auto_id_failed",
@@ -277,6 +290,11 @@ def register_task_create_room_route(router: APIRouter) -> None:
         return RedirectResponse(redirect_url, 302)
 
 
+async def _task_room_exists(room_id: str) -> bool:
+    """共通 ID 選択器へ渡す Task 用存在確認。"""
+    return bool(await task_data.get_room_meta_direct(room_id))
+
+
 def register_task_search_process_route(router: APIRouter) -> None:
     @router.post("/search_task_process", name="task.search_task_room")
     async def search_task_room(request: Request):
@@ -291,7 +309,7 @@ def register_task_search_process_route(router: APIRouter) -> None:
                 str(form.get("id") or ""), str(form.get("password") or "")
             )
         except ValueError as exc:
-            return room_msg(request, task_validation_message(str(exc)), 400)
+            return room_msg(request, task_validation_message(exc), 400)
         room_id = await task_data.pick_room_id_direct(id_, password)
         if not room_id or not await get_room_if_active(room_id):
             _, label = await register_failure(SCOPE_TASK, ip)
@@ -316,16 +334,26 @@ def register_task_delete_own_room_route(router: APIRouter) -> None:
     @router.post("/task/r/{room_id}/delete", name="task.delete_own_room")
     async def delete_own_room(request: Request, room_id: str):
         await enforce_csrf(request)
-        if not await get_room_if_active(room_id):
-            return task_api_error(
-                "task.room_not_found", "ルームが見つかりません。", status_code=404
+        outcome = await delete_owned_room(
+            request,
+            room_id,
+            get_active=get_room_if_active,
+            can_delete=lambda req, key, record: can_delete_task_room(req, key),
+            remove=task_data.remove_room,
+            forget=forget_task_room_access,
+        )
+        if outcome.status == "not_found":
+            message = task_message("task.room_not_found", "ルームが見つかりません。")
+            return error_page_or_json(request, message, status_code=404)
+        if outcome.status == "forbidden":
+            message = task_message("task.delete_permission", "削除権限がありません。")
+            return error_page_or_json(request, message, status_code=403)
+        if outcome.status == "failed":
+            message = task_message(
+                "task.delete_failed",
+                "ルーム削除に失敗しました。時間をおいて再度お試しください。",
             )
-        if not can_delete_task_room(request, room_id):
-            return task_api_error(
-                "task.delete_permission", "削除権限がありません。", status_code=403
-            )
-        await task_data.remove_room(room_id)
-        forget_task_room_access(request, room_id)
+            return error_page_or_json(request, message, status_code=500)
         return (
             api_ok_response({"redirect_url": "/remove-succes"})
             if wants_json_response(request)

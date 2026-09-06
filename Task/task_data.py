@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 from typing import Any
 
 from sqlalchemy import text
@@ -10,6 +11,16 @@ from sqlalchemy import text
 from cache_utils import cache_data, invalidate_cache_prefix
 from database import db_session, execute_query
 from password_security import hash_password, verify_password
+from room_repository import (
+    TASK_ROOMS,
+    find_room_id_by_credentials,
+    get_active_room,
+    list_expired_room_ids,
+    revoke_room_links,
+)
+from share_links import ServiceKey
+
+logger = logging.getLogger(__name__)
 
 
 class InvalidTaskDateRange(ValueError):
@@ -60,40 +71,30 @@ async def create_room(
 async def get_room_meta_direct(
     room_id: str, password: str | None = None
 ) -> dict[str, Any] | None:
-    rows = await execute_query(
-        """
-        SELECT room_id, id, password, time, retention_hours, expires_at, status, deleted_at
-        FROM task_room WHERE room_id = :room_id AND status = 'active' AND expires_at > NOW()
-    """,
-        {"room_id": room_id},
-        fetch=True,
+    row = await get_active_room(
+        execute_query,
+        TASK_ROOMS,
+        room_id,
+        columns="room_id, id, password, time, retention_hours, expires_at, status, deleted_at",
     )
-    if not rows:
+    if not row:
         return None
-    row = dict(rows[0])
+    row = dict(row)
     if password is not None and not verify_password(row.get("password"), password):
         return None
     return row
 
 
-@cache_data(ttl=60, strip_keys=("password",))
+@cache_data(ttl=60, key_prefix="room.task.meta", strip_keys=("password",))
 async def get_room_meta(room_id: str, password: str | None = None):
     return await get_room_meta_direct(room_id, password)
 
 
 async def pick_room_id_direct(id_: str, password: str) -> str | None:
-    rows = await execute_query(
-        "SELECT room_id, password FROM task_room WHERE id = :id",
-        {"id": id_},
-        fetch=True,
-    )
-    for row in rows:
-        if verify_password(row.get("password"), password):
-            return row["room_id"]
-    return None
+    return await find_room_id_by_credentials(execute_query, TASK_ROOMS, id_, password)
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, key_prefix="room.task.credentials")
 async def pick_room_id(id_: str, password: str) -> str | None:
     return await pick_room_id_direct(id_, password)
 
@@ -532,20 +533,12 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
         "UPDATE task_room SET status = :status, deleted_at = NOW() WHERE room_id = :room_id",
         {"status": status, "room_id": room_id},
     )
-    try:
-        from share_links import ServiceKey, revoke_resource_links
-
-        await revoke_resource_links(service_key=ServiceKey.TASK, resource_id=room_id)
-    finally:
-        await invalidate_cache_prefix(get_room_meta)
-        await invalidate_cache_prefix(pick_room_id)
+    await revoke_room_links(ServiceKey.TASK, room_id, logger=logger)
+    await invalidate_cache_prefix(get_room_meta)
+    await invalidate_cache_prefix(pick_room_id)
 
 
 async def remove_expired_rooms() -> list[str]:
-    rows = await execute_query(
-        "SELECT room_id FROM task_room WHERE status = 'active' AND expires_at <= NOW()",
-        fetch=True,
-    )
-    room_ids = [str(row["room_id"]) for row in rows]
+    room_ids = await list_expired_room_ids(execute_query, TASK_ROOMS)
     await asyncio.gather(*(remove_room(room_id, "expired") for room_id in room_ids))
     return room_ids

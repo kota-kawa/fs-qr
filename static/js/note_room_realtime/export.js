@@ -4,6 +4,7 @@
     throw new Error("App namespace is not initialized.");
   }
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
+  const sharePanel = appNamespace.api.getShared("sharePanel");
 
   function getCsrfToken() {
     const meta = document.querySelector('meta[name="csrf-token"]');
@@ -11,8 +12,8 @@
   }
 
   function showFeedback(message, kind) {
-    if (typeof window.setShareFeedback === "function") {
-      window.setShareFeedback(message, kind);
+    if (sharePanel && typeof sharePanel.setShareFeedback === "function") {
+      sharePanel.setShareFeedback(message, kind);
       return;
     }
     if (kind === "error") {

@@ -1,14 +1,12 @@
 import logging
-import re
-import secrets
+import secrets as _secrets
 
 from fastapi import APIRouter, Request
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 from starlette.responses import RedirectResponse
 
-from api_response import api_error_response, api_ok_response
-from i18n import is_language_query_only
+from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import NoteTaskRoomCreateInput
 from rate_limit import (
     SCOPE_NOTE,
@@ -18,7 +16,14 @@ from rate_limit import (
     register_failure,
     register_success,
 )
-from room_credentials import generate_room_password, validate_room_credentials
+from room_credentials import (
+    generate_room_id as _secure_generate_room_id,
+    generate_room_password,
+    is_valid_room_id,
+    validate_room_credentials,
+)
+from room_create import RoomIdConflict, select_room_id
+from room_delete import delete_owned_room
 from settings import NOTE_MAX_CONTENT_LENGTH
 from share_links import (
     ServiceKey,
@@ -30,6 +35,7 @@ from share_links import (
     share_link_password,
 )
 from web import (
+    canonical_redirect as shared_canonical_redirect,
     enforce_csrf,
     render_template,
     wants_json_response,
@@ -48,15 +54,17 @@ from .note_collaboration import create_collaboration_token
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+# 既存テストと外部拡張が参照するモジュール属性を互換維持する。
+secrets = _secrets
 
 
 def _is_valid_room_id(value: str) -> bool:
-    return bool(re.match(r"^[a-zA-Z0-9]{6}$", value)) if value else False
+    return is_valid_room_id(value)
 
 
 def _generate_room_id() -> str:
-    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    return "".join(secrets.choice(chars) for _ in range(6))
+    """互換用の名前。実装は共通の安全な生成器へ委譲する。"""
+    return _secure_generate_room_id()
 
 
 async def _room_id_exists(room_id: str) -> bool:
@@ -80,18 +88,13 @@ def _extract_initial_content(form_data, json_data) -> str:
 
 
 def _canonical_redirect(request: Request):
-    if request.url.query and not is_language_query_only(request):
-        url = request.url.replace(query="")
-        return RedirectResponse(str(url), status_code=301)
-    return None
+    return shared_canonical_redirect(request)
 
 
 def _gone_response(
     request: Request, message: str = "このノートルームは利用できません。"
 ):
-    response = render_template(request, "error.html", message=message)
-    response.status_code = 410
-    return response
+    return error_page_or_json(request, message, status_code=410)
 
 
 async def _get_room_if_valid(room_id):
@@ -213,32 +216,29 @@ async def create_note_room(request: Request):  # noqa: C901
             return api_error_response(str(exc), status_code=400)
 
     try:
-        if id_mode == "auto":
-            if id_val and await _room_id_exists(id_val):
-                return api_error_response(
-                    "生成されたIDが重複しています。新しいIDで再試行してください。",
-                    status_code=409,
-                    data={"retry_auto": True},
-                )
-            if not id_val:
-                generated = None
-                for _ in range(10):
-                    candidate = _generate_room_id()
-                    if not await _room_id_exists(candidate):
-                        generated = candidate
-                        break
-                if not generated:
-                    return api_error_response(
-                        "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
-                        status_code=500,
-                    )
-                id_val = generated
-        else:
-            if await _room_id_exists(id_val):
-                return api_error_response(
-                    "このIDは既に使用されています。別のIDを使用してください。",
-                    status_code=409,
-                )
+        selection = await select_room_id(
+            id_val,
+            id_mode,
+            _room_id_exists,
+            generator=_generate_room_id,
+        )
+        if selection.retry_auto:
+            return api_error_response(
+                "生成されたIDが重複しています。新しいIDで再試行してください。",
+                status_code=409,
+                data={"retry_auto": True},
+            )
+        if not selection.room_id:
+            return api_error_response(
+                "自動生成IDの作成に失敗しました。時間をおいて再試行してください。",
+                status_code=500,
+            )
+        id_val = selection.room_id
+    except RoomIdConflict:
+        return api_error_response(
+            "このIDは既に使用されています。別のIDを使用してください。",
+            status_code=409,
+        )
     except Exception:
         logger.exception("Failed to check note room ID")
         return api_error_response(
@@ -335,41 +335,31 @@ async def note_share(request: Request, token: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        response = render_template(
-            request, "error.html", message=get_block_message(block_label)
+        return error_page_or_json(
+            request, get_block_message(block_label), status_code=429
         )
-        response.status_code = 429
-        return response
 
     token = (token or "").strip()
     if len(token) < 32:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
-            response = render_template(
-                request, "error.html", message=get_block_message(block_label)
+            return error_page_or_json(
+                request, get_block_message(block_label), status_code=429
             )
-            response.status_code = 429
-            return response
-        response = render_template(request, "error.html", message="共有URLが無効です。")
-        response.status_code = 404
-        return response
+        return error_page_or_json(request, "共有URLが無効です。", status_code=404)
 
     link = await resolve_share_link(token, service_key=ServiceKey.NOTE)
     if not link:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
-            response = render_template(
-                request, "error.html", message=get_block_message(block_label)
+            return error_page_or_json(
+                request, get_block_message(block_label), status_code=429
             )
-            response.status_code = 429
-            return response
-        response = render_template(
+        return error_page_or_json(
             request,
-            "error.html",
-            message="指定されたノートルームが見つからないか、期限切れです。",
+            "指定されたノートルームが見つからないか、期限切れです。",
+            status_code=404,
         )
-        response.status_code = 404
-        return response
 
     await register_success(SCOPE_NOTE, ip)
     room_id = link["resource_id"]
@@ -395,18 +385,14 @@ async def note_room(request: Request, room_id: str):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        response = render_template(
-            request, "error.html", message=get_block_message(block_label)
+        return error_page_or_json(
+            request, get_block_message(block_label), status_code=429
         )
-        response.status_code = 429
-        return response
 
     if not has_note_room_access(request, room_id):
-        response = render_template(
-            request, "error.html", message="共有URLからアクセスしてください。"
+        return error_page_or_json(
+            request, "共有URLからアクセスしてください。", status_code=404
         )
-        response.status_code = 404
-        return response
 
     meta = await _get_room_if_valid(room_id)
     if not meta:
@@ -428,27 +414,24 @@ async def note_room(request: Request, room_id: str):
 async def delete_note_room(request: Request, room_id: str):
     await enforce_csrf(request)
 
-    meta = await _get_room_if_valid(room_id)
-    if not meta:
-        if wants_json_response(request):
-            return api_error_response("ルームが見つかりません。", status_code=404)
-        response = render_template(
-            request, "error.html", message="ルームが見つかりません。"
+    outcome = await delete_owned_room(
+        request,
+        room_id,
+        get_active=_get_room_if_valid,
+        can_delete=lambda req, key, record: can_delete_note_room(req, key),
+        remove=nd.remove_room,
+        forget=forget_note_room_access,
+    )
+    if outcome.status == "not_found":
+        return error_page_or_json(request, "ルームが見つかりません。", status_code=404)
+    if outcome.status == "forbidden":
+        return error_page_or_json(request, "削除権限がありません。", status_code=403)
+    if outcome.status == "failed":
+        return error_page_or_json(
+            request,
+            "ルーム削除に失敗しました。時間をおいて再度お試しください。",
+            status_code=500,
         )
-        response.status_code = 404
-        return response
-
-    if not can_delete_note_room(request, room_id):
-        if wants_json_response(request):
-            return api_error_response("削除権限がありません。", status_code=403)
-        response = render_template(
-            request, "error.html", message="削除権限がありません。"
-        )
-        response.status_code = 403
-        return response
-
-    await nd.remove_room(room_id)
-    forget_note_room_access(request, room_id)
 
     # Hocuspocus instances subscribe to this shared close event.
     # 全 Hocuspocus instance が購読する共有クローズイベントを送る。
@@ -482,33 +465,25 @@ async def search_note_room(request: Request):
     ip = get_client_ip(request)
     allowed, _, block_label = await check_rate_limit(SCOPE_NOTE, ip)
     if not allowed:
-        response = render_template(
-            request, "error.html", message=get_block_message(block_label)
+        return error_page_or_json(
+            request, get_block_message(block_label), status_code=429
         )
-        response.status_code = 429
-        return response
 
     try:
         id_val, password = validate_room_credentials(id_val, password)
     except ValueError as exc:
-        response = render_template(request, "error.html", message=str(exc))
-        response.status_code = 400
-        return response
+        return error_page_or_json(request, str(exc), status_code=400)
 
     room_id = await nd.pick_room_id(id_val, password)
     if not room_id:
         _, block_label = await register_failure(SCOPE_NOTE, ip)
         if block_label:
-            response = render_template(
-                request, "error.html", message=get_block_message(block_label)
+            return error_page_or_json(
+                request, get_block_message(block_label), status_code=429
             )
-            response.status_code = 429
-            return response
-        response = render_template(
-            request, "error.html", message="IDまたはパスワードが違います。"
+        return error_page_or_json(
+            request, "IDまたはパスワードが違います。", status_code=404
         )
-        response.status_code = 404
-        return response
 
     meta = await _get_room_if_valid(room_id)
     if not meta:

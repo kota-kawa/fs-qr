@@ -1,19 +1,37 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="{% block meta_description %}{{ _("FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。") }}{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}{{ _("グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有") }}{% endblock %}" />
-    <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
-    <meta name="author" content="FS!QR" />
-    <meta name="language" content="{{ meta_language }}" />
-    <meta name="geo.region" content="{{ geo_region }}" />
-    <meta name="geo.placename" content="{{ geo_placename }}" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="theme-color" content="#342ae3" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+{% extends "_base.html" %}
+{#
+  FS!QR Group 用レイアウト。共通の HTML shell は _base.html にある。
+  Group service layout; the shared HTML shell lives in _base.html.
+#}
+{% set service_slug = 'group' %}
+{% set service_site_name = 'FS!QR Group' %}
+{% set service_body_class = 'group-section' %}
+{% set service_theme_color = '#dbe72f' %}
+{% set service_logo = 'group_logo.png' %}
+{% set service_logo_width = '323' %}
+{% set service_logo_alt = 'FS!QR Group' %}
+{% set service_menu_url = '/group_menu' %}
+{% set service_search_url = '/search_group' %}
+{% set service_search_icon = 'kensaku.png' %}
+{% set service_manifest_url = '/manifest/group.webmanifest' %}
+{% set service_apple_title = 'Group' %}
+{% set service_apple_touch_icon = 'apple-touch-icon.png' %}
+{% set service_search_icon_alt = _("検索アイコン") %}
+{% set service_search_label = _("検索") %}
+{% set service_nav_aria_label = _("サービスナビゲーション") %}
+{% set service_nav_home_label = _("ホーム") %}
+{% set organization_alternate_name = _("エフエスQR") %}
+{% set service_meta_description = _("FS!QR Groupは無料のグループファイル共有・チーム協業サービス。安全なルーム作成で複数人でのファイル管理・共有が可能。企業チーム、プロジェクト管理、学習グループに最適な日本語対応のクラウドストレージサービス。") %}
+{% set service_meta_keywords = _("グループファイル共有, チーム協業, ルーム管理, FS QR Group, 企業ファイル共有, プロジェクト管理ツール, チームコラボレーション, ID・パスワードでアクセスを制限したファイル共有, クラウドストレージ, 無料グループウェア, 日本語対応, ファイル管理システム, チームワーク支援, グループ作業, グループ活動, グループでの活動, グループワーク, 共有フォルダ, ファイル置き場, 複数人 ファイル共有, 社内共有") %}
+{% set service_og_title = _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") %}
+{% set service_og_description = _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。") %}
+{% set service_og_image_alt = _("FS!QR Group グループファイル共有サービス") %}
+{% set service_twitter_title = _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") %}
+{% set service_twitter_description = _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。") %}
+{% set service_twitter_image_alt = _("FS!QR Group サービス") %}
+{% set service_page_title = _("FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス") %}
+
+{% block app_config %}
     <script>
       window.AppConfig = Object.freeze({
         limits: Object.freeze({
@@ -32,71 +50,9 @@
         })
       });
     </script>
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="{{ og_locale }}" />
-    <meta property="og:site_name" content="FS!QR Group" />
-    <meta property="og:title" content="{% block og_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}{{ _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適な無料グループウェア。") }}{% endblock %}" />
-    <meta property="og:url" content="{{ request.canonical_url }}" />
-    <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="723" />
-    <meta property="og:image:alt" content="{{ _("FS!QR Group グループファイル共有サービス") }}" />
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{% block twitter_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業サービス") }}{% endblock %}" />
-    <meta name="twitter:description" content="{% block twitter_description %}{{ _("安全なルーム作成で複数人でのファイル共有・管理。企業チーム、プロジェクト管理に最適。") }}{% endblock %}" />
-    <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="{{ _("FS!QR Group サービス") }}" />
-    
-    <!-- SEO -->
-    <link rel="canonical" href="{{ request.canonical_url }}" />
-    {% for alt in request.language_alternates %}
-    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
-    {% endfor %}
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
-    <meta name="priority" content="1.0" />
-    <meta name="importance" content="high" />
-    
-    <link rel="preload" as="image" href="{{staticfile('group_logo.png')}}" fetchpriority="high" />
-    <link rel="stylesheet" href="{{staticfile('bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
-    <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
-    <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
-    <link rel="manifest" href="{{staticfile('manifest_group.json')}}">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Group">
-    <link rel="icon" href="{{staticfile('favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180"
-      href="{{staticfile('apple-touch-icon.png')}}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap"
-      rel="stylesheet">
-    {% if google_adsense_client_id %}
-    <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
-    <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
-    {% endif %}
-    <script>
-      window.FSQR_TAGS = Object.freeze({
-        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
-        adsenseClientId: {{ google_adsense_client_id | tojson }}
-        {% endif %}
-      });
-    </script>
-    <title>{% block page_title %}{{ _("FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス") }}{% endblock %}</title>
-    
-    <!-- Structured Data -->
+{% endblock %}
+
+{% block schema_website %}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -122,12 +78,14 @@
         "url": "{{ request.url_root }}",
         "logo": {
           "@type": "ImageObject",
-          "url": "{{staticfile('group_logo.png')}}"
+          "url": "{{ staticfile('group_logo.png') }}"
         }
       }
     }
     </script>
-    
+{% endblock %}
+
+{% block schema_extra %}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -149,82 +107,4 @@
       ]
     }
     </script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "FS!QR",
-      "alternateName": {{ _("エフエスQR") | tojson }},
-      "url": "{{ request.url_root }}",
-      "logo": "{{ staticfile('logo.png') }}",
-      "foundingDate": "2024",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "url": "{{ request.url_root }}contact"
-      },
-      "sameAs": [
-        "{{ request.url_root }}fs-qr_menu",
-        "{{ request.url_root }}group_menu",
-        "{{ request.url_root }}note_menu",
-        "{{ request.url_root }}task_menu"
-      ]
-    }
-    </script>
-
-     {% block extra_head %}{% endblock %}
-  </head>
-  <body class="group-section">
-    <header>
-      <div class="container text-center">
-        <div class="site-brand mt-3"><a href="/group_menu" target="_self"><img
-              style="height: 100px; width: auto;"
-              src="{{staticfile('group_logo.png')}}"
-              width="323" height="100" fetchpriority="high" decoding="async"
-              alt="FS!QR Group">
-          </a>
-        </div>
-      </div>
-    </header>
-
-    <div class="text-center">
-      <a href="/search_group" class="search-link">
-        <img src="{{staticfile('kensaku.png')}}" alt="{{ _("検索アイコン") }}" loading="lazy" decoding="async" />
-        <span>{{ _("検索") }}</span>
-      </a>
-      <nav class="section-tabs" aria-label="{{ _("サービスナビゲーション") }}">
-        <a class="section-tab" href="/">{{ _("ホーム") }}</a>
-        <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
-        <a class="section-tab" href="/group_menu" aria-current="page">Group</a>
-        <a class="section-tab" href="/note_menu">Note</a>
-        <a class="section-tab" href="/task_menu">Task</a>
-      </nav>
-    </div>
-
-    <div id="layout" class="page">
-      <main id="main" role="main" tabindex="-1">
-        <div class="contents">
-          {% block contents %}
-          <!-- ここにメインコンテンツ -->
-          {% endblock %}
-        </div>
-        <!-- end of .contents -->
-      </main>
-    </div>
-
-    {% include '_footer.html' %}
-
-    {% include 'cookie-consent.html' %}
-
-    {% include 'alert-modal.html' %}
-
-    <script src="{{staticfile('js/shared/app-namespace.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/ux-runtime.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/sw-register.js')}}" defer></script>
-    <script src="{{staticfile('retention-select.js')}}" defer></script>
-    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
-    <script src="{{staticfile('tooltip.js')}}" defer></script>
-    <script src="{{staticfile('accessibility.js')}}" defer></script>
-  </body>
-</html>
+{% endblock %}

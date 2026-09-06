@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
+{% extends "lp_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set lp_body_class = "product-lp product-lp--note" %}
+{% set faq_items = [
+  {"question": _("アカウント登録は必要ですか？"), "answer": _("いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。")},
+  {"question": _("書いた内容はいつサーバーへ送られますか？"), "answer": _("トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。")},
+  {"question": _("複数人で同時に編集できますか？"), "answer": _("はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。")},
+  {"question": _("編集内容は保存されますか？"), "answer": _("入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。")},
+  {"question": _("ノートはどのように共有しますか？"), "answer": _("ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。")}
+] %}
+{% block lp_head %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{{ _("登録不要の共有ノート｜リアルタイム共同編集ならFS!QR Note") }}</title>
@@ -67,56 +75,9 @@
     }
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": {{ _("アカウント登録は必要ですか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("書いた内容はいつサーバーへ送られますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("複数人で同時に編集できますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("編集内容は保存されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("ノートはどのように共有しますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。") | tojson }}
-        }
-      }
-    ]
-  }
-  </script>
-</head>
-<body class="product-lp product-lp--note">
+  {{ faq_jsonld(faq_items) }}
+{% endblock %}
+{% block lp_body %}
   <a class="lp-skip-link" href="#main-content">{{ _("本文へ移動") }}</a>
 
   <header class="lp-header">
@@ -421,28 +382,7 @@
           <p>{{ _("FS!QR Noteの利用前に確認したいポイントをまとめました。") }}</p>
           <a class="lp-text-link" href="/note_menu">{{ _("既存のNoteメニューを見る") }} <span aria-hidden="true">→</span></a>
         </div>
-        <div class="lp-faq-list">
-          <details class="lp-faq-item">
-            <summary>{{ _("アカウント登録は必要ですか？") }}<span aria-hidden="true"></span></summary>
-            <p>{{ _("いいえ、アカウント登録は必要ありません。ノートルームを作成するか、共有されたURLから参加できます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("書いた内容はいつサーバーへ送られますか？") }}<span aria-hidden="true"></span></summary>
-            <p>{{ _("トップの下書きノートに入力した内容は、お使いのブラウザ内にのみ保存されます。共有リンクを発行した時点で初めてノートルームが作成され、下書きがそのまま引き継がれます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("複数人で同時に編集できますか？") }}<span aria-hidden="true"></span></summary>
-            <p>{{ _("はい。同じノートルームに参加したメンバーが、ブラウザからリアルタイムに同じテキストを編集できます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("編集内容は保存されますか？") }}<span aria-hidden="true"></span></summary>
-            <p>{{ _("入力した内容は、ルーム作成時に設定した保存期間中は自動保存され、期間の終了後に自動削除されます。過去の版を確認・復元する編集履歴機能はないため、重要な内容は手元にも保管してください。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("ノートはどのように共有しますか？") }}<span aria-hidden="true"></span></summary>
-            <p>{{ _("ノートルームの共有URLを相手に送ることで参加してもらえます。URLやルーム情報は信頼できる相手に共有してください。") }}</p>
-          </details>
-        </div>
+        <div class="lp-faq-list">{{ faq_details(faq_items) }}</div>
       </div>
     </section>
 
@@ -482,6 +422,8 @@
   </footer>
 
   <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/runtime-helpers.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/instant-widget-core.js') }}" defer></script>
   <script src="{{ staticfile('js/note_landing/instant-draft.js') }}" defer></script>
-</body>
-</html>
+{% endblock %}

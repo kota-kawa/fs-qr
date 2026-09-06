@@ -4,6 +4,7 @@ import asyncio
 from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
+import pytest
 from starlette.testclient import TestClient
 
 
@@ -159,6 +160,41 @@ def test_task_share_entry_rejects_invalid_token(test_client: TestClient):
 
 def test_task_board_requires_remembered_access(test_client: TestClient):
     assert test_client.get("/task/r/abc123").status_code == 404
+
+
+@pytest.mark.parametrize(
+    ("accept", "expected_content_type"),
+    ((None, "text/html"), ("application/json", "application/json")),
+)
+def test_task_delete_room_returns_html_or_json_for_non_owner(
+    test_client: TestClient, accept: str | None, expected_content_type: str
+):
+    """Task のルーム削除は所有者以外を拒否し、Accept に応じた形式で返す。"""
+    headers = {"X-Requested-With": "fetch"} if accept else {}
+    if accept:
+        headers["Accept"] = accept
+
+    with (
+        patch(
+            "Task.task_routes_room.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value=ROOM_META,
+        ),
+        patch("Task.task_routes_room.can_delete_task_room", return_value=False),
+        patch(
+            "Task.task_routes_room.task_data.remove_room", new_callable=AsyncMock
+        ) as remove_room,
+    ):
+        response = test_client.post(
+            "/task/r/abc123/delete",
+            headers=headers,
+        )
+
+    assert response.status_code == 403
+    assert response.headers["content-type"].startswith(expected_content_type)
+    remove_room.assert_not_awaited()
+    if accept:
+        assert response.json()["status"] == "error"
 
 
 def test_task_item_api_requires_access_and_csrf(test_client: TestClient):

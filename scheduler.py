@@ -8,6 +8,7 @@ from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 import log_config  # noqa: F401  (configure logging)
+from room_cleanup import expired_room_ids, run_cleanup
 from database import reset_db_connection
 from FSQR import fsqr_data
 from Group import group_data
@@ -48,10 +49,7 @@ def exclusive_job(func):
 
 
 async def _remove_expired_fsqr_async():
-    try:
-        await fsqr_data.remove_expired_files()
-    finally:
-        await reset_db_connection()
+    return await run_cleanup(fsqr_data.remove_expired_files, reset=reset_db_connection)
 
 
 @exclusive_job
@@ -60,10 +58,7 @@ def remove_expired_fsqr():
 
 
 async def _remove_expired_group_rooms_async():
-    try:
-        await group_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
+    return await run_cleanup(group_data.remove_expired_rooms, reset=reset_db_connection)
 
 
 @exclusive_job
@@ -72,12 +67,15 @@ def remove_expired_group_rooms():
 
 
 async def _remove_expired_note_rooms_async():
-    try:
-        stats = await note_data.remove_expired_rooms()
-        for room_id in stats.get("expired_room_ids", []):
+    async def publish_expired(stats):
+        for room_id in expired_room_ids(stats):
             await publish_room_expired(room_id)
-    finally:
-        await reset_db_connection()
+
+    return await run_cleanup(
+        note_data.remove_expired_rooms,
+        after=publish_expired,
+        reset=reset_db_connection,
+    )
 
 
 @exclusive_job
@@ -86,10 +84,7 @@ def remove_expired_note_rooms():
 
 
 async def _remove_expired_task_rooms_async():
-    try:
-        await task_data.remove_expired_rooms()
-    finally:
-        await reset_db_connection()
+    return await run_cleanup(task_data.remove_expired_rooms, reset=reset_db_connection)
 
 
 @exclusive_job

@@ -1,6 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
+{% extends "lp_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set lp_body_class = "product-lp product-lp--fsqr" %}
+{% set faq_items = [
+  {"question": _("FS!QRでのファイル共有に会員登録は必要ですか？"), "answer": _("必要ありません。アカウントを作成せず、ブラウザからファイルを選んですぐに共有を始められます。")},
+  {"question": _("ファイルを受け取る側もアプリが必要ですか？"), "answer": _("必要ありません。受け取る方はQRコードを読み取るか共有ページを開き、ブラウザからファイルを受け取れます。")},
+  {"question": _("アップロードしたファイルは暗号化されますか？"), "answer": _("はい。ファイルはブラウザ上でAES-GCM方式により暗号化されてからアップロードされ、サーバー上でも暗号化された状態で保持されます。")},
+  {"question": _("共有したファイルはいつ削除されますか？"), "answer": _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。")},
+  {"question": _("QRコードを使わずに共有できますか？"), "answer": _("はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。")},
+  {"question": _("選んだファイルはいつ送信されますか？"), "answer": _("LP上で選んだファイルは、共有リンクを発行するまでブラウザ内に留まります。発行時にブラウザで暗号化してからアップロードします。")}
+] %}
+{% block lp_head %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{{ _("登録不要のファイル共有をQRコードで簡単に｜FS!QR") }}</title>
@@ -64,64 +73,9 @@
     }
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": {{ _("FS!QRでのファイル共有に会員登録は必要ですか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("必要ありません。アカウントを作成せず、ブラウザからファイルを選んですぐに共有を始められます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("ファイルを受け取る側もアプリが必要ですか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("必要ありません。受け取る方はQRコードを読み取るか共有ページを開き、ブラウザからファイルを受け取れます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("アップロードしたファイルは暗号化されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("はい。ファイルはブラウザ上でAES-GCM方式により暗号化されてからアップロードされ、サーバー上でも暗号化された状態で保持されます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("共有したファイルはいつ削除されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("QRコードを使わずに共有できますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。") | tojson }}
-        }
-      },
-      {
-        "@type": "Question",
-        "name": {{ _("選んだファイルはいつ送信されますか？") | tojson }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ _("LP上で選んだファイルは、共有リンクを発行するまでブラウザ内に留まります。発行時にブラウザで暗号化してからアップロードします。") | tojson }}
-        }
-      }
-    ]
-  }
-  </script>
-</head>
-<body class="product-lp product-lp--fsqr">
+  {{ faq_jsonld(faq_items) }}
+{% endblock %}
+{% block lp_body %}
   <a class="lp-skip-link" href="#main-content">{{ _("本文へスキップ") }}</a>
 
   <header class="lp-header">
@@ -488,32 +442,7 @@
           <p class="lp-section__description">{{ _("利用前に気になるポイントをまとめました。") }}</p>
           <a class="lp-text-link" href="/fs-qr_menu">{{ _("FS!QRの詳しい案内を見る") }} <span aria-hidden="true">→</span></a>
         </div>
-        <div class="lp-faq-list">
-          <details class="lp-faq-item" open>
-            <summary>{{ _("FS!QRでのファイル共有に会員登録は必要ですか？") }}</summary>
-            <p>{{ _("必要ありません。アカウントを作成せず、ブラウザからファイルを選んですぐに共有を始められます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("ファイルを受け取る側もアプリが必要ですか？") }}</summary>
-            <p>{{ _("必要ありません。受け取る方はQRコードを読み取るか共有ページを開き、ブラウザからファイルを受け取れます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("アップロードしたファイルは暗号化されますか？") }}</summary>
-            <p>{{ _("はい。ファイルはブラウザ上でAES-GCM方式により暗号化されてからアップロードされ、サーバー上でも暗号化された状態で保持されます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("共有したファイルはいつ削除されますか？") }}</summary>
-            <p>{{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択でき、期間の終了後に自動で削除されます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("QRコードを使わずに共有できますか？") }}</summary>
-            <p>{{ _("はい。発行された共有ページや共有情報を相手へ伝える方法でも利用できます。") }}</p>
-          </details>
-          <details class="lp-faq-item">
-            <summary>{{ _("選んだファイルはいつ送信されますか？") }}</summary>
-            <p>{{ _("LP上で選んだファイルは、共有リンクを発行するまでブラウザ内に留まります。発行時にブラウザで暗号化してからアップロードします。") }}</p>
-          </details>
-        </div>
+        <div class="lp-faq-list">{{ faq_details(faq_items, open_first=true) }}</div>
       </div>
     </section>
 
@@ -576,8 +505,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous" defer></script>
   <script src="{{ staticfile('qrcode.min.js') }}" defer></script>
   <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/runtime-helpers.js') }}" defer></script>
   <script src="{{ staticfile('js/shared/upload-validation.js') }}" defer></script>
   <script src="{{ staticfile('js/fs_qr_upload/encryption.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/instant-widget-core.js') }}" defer></script>
   <script src="{{ staticfile('js/fsqr_landing/instant-upload.js') }}" defer></script>
-</body>
-</html>
+{% endblock %}

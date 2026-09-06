@@ -12,6 +12,14 @@ from database import execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 from .group_realtime import notify_group_room_closed
 from .group_storage import iter_room_folders
+from room_repository import (
+    GROUP_ROOMS,
+    find_room_id_by_credentials,
+    get_active_room,
+    list_expired_room_ids,
+    revoke_room_links,
+)
+from share_links import ServiceKey
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -49,30 +57,18 @@ async def create_room(id, password, room_id, retention_hours=24):
 
 # ログイン処理
 async def pich_room_id_direct(id, password) -> Optional[str]:
-    query = text("""
-        SELECT room_id, password FROM room WHERE id = :id
-    """)
-    result = await execute_query(query, {"id": id}, fetch=True)
-    for row in result:
-        stored_password = row.get("password")
-        if not verify_password(stored_password, password):
-            continue
-        return row["room_id"]
-    return None
+    return await find_room_id_by_credentials(execute_query, GROUP_ROOMS, id, password)
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, key_prefix="room.group.credentials")
 async def pich_room_id(id, password):
     return await pich_room_id_direct(id, password)
 
 
 # データベースから任意のIDのデータを取り出す
 async def get_data_direct(secure_id):
-    query = text("""
-        SELECT * FROM room WHERE room_id = :secure_id
-    """)
-    result = await execute_query(query, {"secure_id": secure_id}, fetch=True)
-    return result
+    record = await get_active_room(execute_query, GROUP_ROOMS, secure_id)
+    return [record] if record else []
 
 
 async def get_data_by_room_credentials(room_id: str, password: str):
@@ -86,13 +82,13 @@ async def get_data_by_room_credentials(room_id: str, password: str):
     return record
 
 
-@cache_data(ttl=60, strip_keys=("password",))
+@cache_data(ttl=60, key_prefix="room.group.meta", strip_keys=("password",))
 async def get_data(secure_id):
     return await get_data_direct(secure_id)
 
 
 # 全てのデータを取得する
-@cache_data(ttl=300, strip_keys=("password",))
+@cache_data(ttl=300, key_prefix="room.group.all", strip_keys=("password",))
 async def get_all():
     return await get_all_direct()
 
@@ -142,18 +138,7 @@ async def remove_data(secure_id):
 
     # DB削除後の副作用を並列実行して高速化
     async def _revoke_links():
-        try:
-            from share_links import ServiceKey, revoke_resource_links
-
-            await revoke_resource_links(
-                service_key=ServiceKey.GROUP, resource_id=secure_id
-            )
-        except Exception:
-            logger.warning(
-                "Failed to revoke Group share links: room_id=%s",
-                secure_id,
-                exc_info=True,
-            )
+        await revoke_room_links(ServiceKey.GROUP, secure_id, logger=logger)
 
     async def _invalidate_caches():
         await invalidate_cache_entry(get_data, secure_id)
@@ -185,15 +170,7 @@ async def all_remove():
 
 # 1週間以上経過したルームを削除する関数
 async def remove_expired_rooms():
-    # 1週間以上前のルームを取得するクエリ（MySQLの場合）
-    query = text("""
-        SELECT room_id
-        FROM room
-        WHERE expires_at <= NOW()
-    """)
-    expired_rooms = await execute_query(query, fetch=True)
-    for room in expired_rooms:
-        room_id = room.get("room_id")
-        if room_id:
-            await remove_data(room_id)
-            # ログ出力など必要に応じて追加
+    expired_ids = await list_expired_room_ids(execute_query, GROUP_ROOMS)
+    for room_id in expired_ids:
+        await remove_data(room_id)
+    return expired_ids

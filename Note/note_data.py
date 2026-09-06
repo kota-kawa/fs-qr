@@ -9,6 +9,14 @@ from sqlalchemy import text
 from password_security import hash_password, verify_password
 from database import db_session, execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
+from room_repository import (
+    NOTE_ROOMS,
+    find_room_id_by_credentials,
+    get_active_room,
+    list_expired_room_ids,
+    revoke_room_links,
+)
+from share_links import ServiceKey
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -276,20 +284,14 @@ async def create_room(
 # ルームメタ情報取得
 # ────────────────────────────────────────────
 async def get_room_meta_direct(room_id, password=None):
-    rows = await execute_query(
-        """
-        SELECT room_id, id, password, time, retention_hours, expires_at, status, deleted_at
-        FROM note_room
-        WHERE room_id=:r
-          AND status = 'active'
-          AND expires_at > NOW()
-        """,
-        {"r": room_id},
-        fetch=True,
+    row = await get_active_room(
+        execute_query,
+        NOTE_ROOMS,
+        room_id,
+        columns="room_id, id, password, time, retention_hours, expires_at, status, deleted_at",
     )
-    if not rows:
+    if not row:
         return None
-    row = rows[0]
     if password is None:
         return row
     stored_password = row.get("password")
@@ -298,7 +300,7 @@ async def get_room_meta_direct(room_id, password=None):
     return row
 
 
-@cache_data(ttl=60, strip_keys=("password",))
+@cache_data(ttl=60, key_prefix="room.note.meta", strip_keys=("password",))
 async def get_room_meta(room_id, password=None):
     return await get_room_meta_direct(room_id, password=password)
 
@@ -322,20 +324,10 @@ async def get_room_meta_by_share_token_hash(share_token_hash: str):
 # ID とパスワードで room_id を取得
 # ────────────────────────────────────────────
 async def pick_room_id_direct(id_, password) -> Optional[str]:
-    rows = await execute_query(
-        "SELECT room_id, password FROM note_room WHERE id=:i",
-        {"i": id_},
-        fetch=True,
-    )
-    for row in rows:
-        stored_password = row.get("password")
-        if not verify_password(stored_password, password):
-            continue
-        return row["room_id"]
-    return None
+    return await find_room_id_by_credentials(execute_query, NOTE_ROOMS, id_, password)
 
 
-@cache_data(ttl=60)
+@cache_data(ttl=60, key_prefix="room.note.credentials")
 async def pick_room_id(id_, password):
     return await pick_room_id_direct(id_, password)
 
@@ -403,18 +395,7 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
 
     # DB削除後の副作用を並列実行して高速化
     async def _revoke_links():
-        try:
-            from share_links import ServiceKey, revoke_resource_links
-
-            await revoke_resource_links(
-                service_key=ServiceKey.NOTE, resource_id=room_id
-            )
-        except Exception:
-            logger.warning(
-                "Failed to revoke Note share links: room_id=%s",
-                room_id,
-                exc_info=True,
-            )
+        await revoke_room_links(ServiceKey.NOTE, room_id, logger=logger)
 
     async def _invalidate_caches():
         await invalidate_cache_entry(get_room_meta, room_id)
@@ -430,17 +411,7 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
 async def remove_expired_rooms():
     expired_room_ids = []
     try:
-        rows = await execute_query(
-            """
-            SELECT room_id
-            FROM note_room
-            WHERE status = 'active'
-              AND expires_at <= NOW()
-            """,
-            fetch=True,
-        )
-        for r in rows:
-            rid = r["room_id"]
+        for rid in await list_expired_room_ids(execute_query, NOTE_ROOMS):
             async with db_session.begin():
                 await db_session.execute(
                     text("""
@@ -453,18 +424,7 @@ async def remove_expired_rooms():
                 await db_session.execute(
                     text("DELETE FROM note_content WHERE room_id = :r"), {"r": rid}
                 )
-            try:
-                from share_links import ServiceKey, revoke_resource_links
-
-                await revoke_resource_links(
-                    service_key=ServiceKey.NOTE, resource_id=rid
-                )
-            except Exception:
-                logger.warning(
-                    "Failed to revoke Note share links: room_id=%s",
-                    rid,
-                    exc_info=True,
-                )
+            await revoke_room_links(ServiceKey.NOTE, rid, logger=logger)
             await invalidate_cache_entry(get_room_meta, rid)
             expired_room_ids.append(rid)
             logger.info(f"Expired note room removed: {rid}")

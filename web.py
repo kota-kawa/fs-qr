@@ -10,7 +10,7 @@ from urllib.parse import quote_plus, urlsplit, urlunsplit
 from fastapi import HTTPException, Request, WebSocket
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
-from starlette.responses import HTMLResponse
+from starlette.responses import HTMLResponse, RedirectResponse
 
 from cache_utils import redis_client
 from i18n import (
@@ -27,6 +27,7 @@ from i18n import (
     get_frontend_messages,
     get_plural_translator,
     get_translator,
+    is_language_query_only,
     normalize_language,
     resolve_language,
 )
@@ -299,13 +300,42 @@ def flash_message(request: Request, message: str) -> None:
     request.session["_flashes"] = messages
 
 
+# multipart はブラウザの通常のページ遷移では送られず、JS からの送信だけが使う。
+# multipart bodies only reach us from script-driven uploads, never a plain
+# navigation, so those callers always want JSON instead of an HTML page.
+JSON_REQUEST_CONTENT_TYPES = ("multipart/form-data",)
+
+
 def wants_json_response(request: Request) -> bool:
+    """呼び出し元が JSON 応答を期待しているかを 1 か所で判定する。
+
+    - ``X-Requested-With: fetch`` / ``XMLHttpRequest``
+    - multipart の本文（JS からのアップロード送信）
+    - ``Accept`` が JSON のみで HTML を含まない
+    のいずれかに該当すれば JSON、そうでなければ HTML ページを返す。
+    """
     requested_with = request.headers.get(ASYNC_REQUEST_HEADER, "").lower()
     if requested_with in {"fetch", "xmlhttprequest"}:
         return True
 
+    content_type = request.headers.get("content-type", "").lower()
+    if content_type.startswith(JSON_REQUEST_CONTENT_TYPES):
+        return True
+
     accept = request.headers.get("accept", "").lower()
     return "application/json" in accept and "text/html" not in accept
+
+
+def canonical_redirect(request: Request) -> RedirectResponse | None:
+    """クエリ付き URL を正規 URL へ 301 で戻す。
+
+    ``?lang=`` だけのクエリは hreflang 用に許可し、それ以外のクエリは
+    重複コンテンツを避けるためクエリなしの URL へリダイレクトする。
+    Returns ``None`` when the URL is already canonical.
+    """
+    if request.url.query and not is_language_query_only(request):
+        return RedirectResponse(str(request.url.replace(query="")), status_code=301)
+    return None
 
 
 def _normalize_csrf_token(value: Any) -> str:
@@ -460,6 +490,17 @@ def render_template(request: Request, template_name: str, **context: Any):
     except Exception as e:
         logger.exception(f"Error rendering template {template_name}: {e}")
         raise e
+
+
+def error_page(request: Request, message: str, status_code: int = 200) -> HTMLResponse:
+    """共通のエラーページ (error.html) を指定ステータスで返す。"""
+    # Route code may pass a stable Japanese msgid for both HTML and JSON.  Apply
+    # the same catalog used by Jinja here so HTML error pages do not leak the
+    # Japanese source text when the request language is different.
+    translated_message = get_translator(current_language_ctx.get())(message)
+    response = render_template(request, "error.html", message=translated_message)
+    response.status_code = status_code
+    return response
 
 
 RENDER_CACHE_KEY_PREFIX = "render_cache:v4"

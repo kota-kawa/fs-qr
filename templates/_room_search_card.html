@@ -1,0 +1,43 @@
+{# Shared room search card. Callers provide all translated strings. #}
+<div class="room-search-page"
+     style="--room-search-start: {{ room_search_theme_start }}; --room-search-end: {{ room_search_theme_end }};">
+  <section class="room-search-card" aria-labelledby="{{ room_search_id_prefix }}-search-title">
+    <header class="room-search-card__header">
+      <h1 id="{{ room_search_id_prefix }}-search-title" class="room-search-card__title">{{ room_search_title }}</h1>
+    </header>
+    <div class="room-search-card__body">
+      <form method="POST" action="{{ room_search_action }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="room-search-form-group">
+          <label class="room-search-label" for="{{ room_search_id_prefix }}-room-id">{{ room_search_id_label }}</label>
+          <input type="text"
+                 id="{{ room_search_id_prefix }}-room-id"
+                 name="{{ room_search_id_name }}"
+                 class="room-search-control"
+                 minlength="6"
+                 maxlength="6"
+                 placeholder="{{ room_search_id_placeholder }}"
+                 required
+                 pattern="[a-zA-Z0-9]{6}"
+                 title="{{ room_search_id_title }}">
+        </div>
+        <div class="room-search-form-group">
+          <label class="room-search-label" for="{{ room_search_id_prefix }}-password">{{ room_search_password_label }}</label>
+          <input type="password"
+                 id="{{ room_search_id_prefix }}-password"
+                 name="{{ room_search_password_name }}"
+                 class="room-search-control"
+                 minlength="6"
+                 maxlength="6"
+                 placeholder="{{ room_search_password_placeholder }}"
+                 required
+                 pattern="[0-9]{6}"
+                 title="{{ room_search_password_title }}"
+                 autocomplete="current-password"
+                 inputmode="numeric">
+        </div>
+        <button type="submit" class="room-search-submit">{{ room_search_submit_label }}</button>
+      </form>
+    </div>
+  </section>
+</div>

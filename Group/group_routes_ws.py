@@ -1,7 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-import room_access
-from .group_common import GROUP_ROOM_ACCESS_SESSION_KEY, get_room_if_active
+from .group_common import GROUP_ACCESS, get_room_if_active
 from .group_realtime import hub
 from web import validate_websocket_csrf
 
@@ -13,9 +12,7 @@ def register_group_files_ws_route(router: APIRouter):
             await websocket.close(code=1008)
             return
 
-        if not room_access.has_access(
-            websocket.session, GROUP_ROOM_ACCESS_SESSION_KEY, room_id
-        ):
+        if not GROUP_ACCESS.has_session(websocket.session, room_id):
             await websocket.close(code=1008)
             return
 

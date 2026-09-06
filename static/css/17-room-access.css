@@ -1,0 +1,321 @@
+/* Shared create/search/access cards. Service colors are passed as CSS variables. */
+.room-create-page,
+.room-search-page {
+  min-height: auto;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.room-create-card,
+.room-search-card,
+.room-access-card {
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.room-create-card__header,
+.room-search-card__header {
+  position: relative;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, var(--room-create-start, var(--room-search-start, #166534)), var(--room-create-end, var(--room-search-end, #22c55e)));
+}
+
+.room-create-card__header::after,
+.room-search-card__header::after {
+  position: absolute;
+  right: calc(50% - 15px);
+  bottom: -10px;
+  width: 0;
+  height: 0;
+  content: '';
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 10px solid var(--room-create-end, var(--room-search-end, #22c55e));
+}
+
+.room-create-card__title,
+.room-search-card__title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  font-family: 'Kaisei Opti', serif;
+}
+
+.room-create-card__body,
+.room-search-card__body,
+.room-access-card {
+  padding: 2rem;
+}
+
+.room-create-fieldset {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+}
+
+.room-create-label,
+.room-search-label,
+.room-access-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.room-create-radio-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.room-create-radio {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.room-create-form-group,
+.room-search-form-group,
+.room-access-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.room-create-control,
+.room-search-control,
+.room-access-control {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.room-create-control:focus,
+.room-search-control:focus,
+.room-access-control:focus {
+  border-color: var(--room-create-end, var(--room-search-end, var(--room-access-end, #22c55e)));
+  outline: 3px solid color-mix(in srgb, var(--room-create-end, var(--room-search-end, var(--room-access-end, #22c55e))) 28%, transparent);
+  background: white;
+}
+
+.room-create-control--readonly {
+  background: #f3f4f6;
+}
+
+.room-create-help,
+.room-access-help {
+  display: block;
+  margin-top: 0.4rem;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.room-create-preview {
+  margin-top: 0.8rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--room-create-end, #22c55e) 22%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--room-create-end, #22c55e) 9%, white);
+  color: #365314;
+}
+
+.room-create-preview strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.room-create-feedback {
+  display: none;
+  margin: 0.8rem 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(220, 38, 38, 0.22);
+  border-radius: 12px;
+  background: rgba(254, 242, 242, 0.95);
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.room-create-feedback.is-visible {
+  display: block;
+}
+
+.room-create-submit,
+.room-search-submit,
+.room-access-submit {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--room-create-start, var(--room-search-start, var(--room-access-start, #166534))), var(--room-create-end, var(--room-search-end, var(--room-access-end, #22c55e))));
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.room-create-submit[disabled],
+.room-search-submit[disabled],
+.room-access-submit[disabled] {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.room-access-page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.room-access-shell {
+  width: min(100%, 760px);
+}
+
+.room-access-intro {
+  margin-bottom: 1.5rem;
+  color: #334155;
+  text-align: center;
+}
+
+.room-access-intro__title {
+  margin: 0 0 0.75rem;
+  color: var(--room-access-end, #22c55e);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.room-access-intro__text {
+  max-width: 44rem;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.room-access-intro__points {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.room-access-intro__points li::before {
+  margin-right: 0.35rem;
+  color: var(--room-access-end, #22c55e);
+  content: '✓';
+  font-weight: 700;
+}
+
+.room-access-card {
+  max-width: 640px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.room-access-card__title {
+  margin: 0 0 1rem;
+  color: #374151;
+  font-size: 1.35rem;
+}
+
+.room-access-tabs {
+  display: flex;
+  margin-bottom: 1.25rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.room-access-tab {
+  flex: 1;
+  padding: 0.8rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.room-access-tab.is-active {
+  background: linear-gradient(135deg, var(--room-access-start, #166534), var(--room-access-end, #22c55e));
+  color: white;
+}
+
+.room-access-panel[hidden] {
+  display: none;
+}
+
+.room-access-password {
+  position: relative;
+}
+
+.room-access-password .room-access-control {
+  padding-right: 5.5rem;
+}
+
+.room-access-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  padding: 0.35rem 0.55rem;
+  border: 0;
+  border-radius: 7px;
+  background: #e2e8f0;
+  color: #334155;
+  cursor: pointer;
+}
+
+.room-access-card .room-create-page {
+  padding: 0;
+}
+
+.room-access-card .room-create-card {
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.room-access-card .room-create-card__header {
+  display: none;
+}
+
+.room-access-card .room-create-card__body {
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  .room-create-page,
+  .room-search-page,
+  .room-access-page {
+    padding: 1rem 0.25rem;
+  }
+
+  .room-create-card__body,
+  .room-search-card__body,
+  .room-access-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .room-access-intro__points {
+    display: block;
+  }
+
+  .room-access-intro__points li + li {
+    margin-top: 0.35rem;
+  }
+}

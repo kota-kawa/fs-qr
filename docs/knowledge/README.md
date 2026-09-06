@@ -7,6 +7,7 @@
 
 - [デバッグと検証の入口](debugging.md): 起動、DB、Redis、アップロード、デプロイ、テストの切り分け。
 - [リアルタイム機能の運用知識](realtime.md): Note / Group の接続モデル、認証、同期、障害時の確認点。
+- [サービス共通コンポーネント](shared-service-components.md): ルーム処理、共有 UI、LP、互換層の構成と拡張ルール。
 - 翻訳カタログの構造と検証は、重複を避けるため [locales/README.md](../../locales/README.md) を正とする。
 
 新しい知見を追加する前に、既存の `ARCHITECTURE.md`、`spec.md`、`locales/README.md`、

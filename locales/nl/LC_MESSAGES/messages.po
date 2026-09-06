@@ -338,9 +338,6 @@ msgstr ""
 "Als het toevoegen van nieuwe bestanden de limiet samen met bestaande "
 "bestanden overschrijdt, is uploaden niet toegestaan."
 
-msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
-msgstr "1つのTakenbordにつき最大200件までタスクを登録できます。"
-
 msgid "1つのボードにつき最大200件までタスクを登録できます。"
 msgstr "1つのBordにつき最大200件までタスクを登録できます。"
 
@@ -524,9 +521,6 @@ msgstr "Voer a.u.b. 6 alfanumerieke tekens in."
 
 msgid "6桁の数字で入力してください"
 msgstr "Voer een 6-cijferig getal in"
-
-msgid "6桁の数字で入力してください。"
-msgstr "Voer een 6-cijferig getal in。"
 
 msgid "6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
 msgstr ""
@@ -5194,9 +5188,6 @@ msgstr "Moet ik een account registreren?"
 msgid "アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。"
 msgstr "アカウント登録もKamerAanmakenも不要。ページを開いた時点で書き始められ、Delenが必要になってから発行すれば十分."
 
-msgid "アカウント登録やアプリのインストールは必要ですか？"
-msgstr "アカウント登録やMoet ik een app installeren?"
-
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
 msgstr "アカウント登録やInloggenは一切不要.ブラウザがあればすぐに利用Beginできます。"
 
@@ -8217,6 +8208,9 @@ msgstr ""
 "BordAanmaken時に1 dag、1 week、1 "
 "maandからBewaartermijnを選べます。期間を過ぎるとBordとタスクはAutomatische verwijderingされます。"
 
+msgid "ボード操作"
+msgstr "BordActies"
+
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Wisselen tussen bord- en kalenderweergave"
 
@@ -9009,9 +9003,6 @@ msgstr ""
 "ondersteunen alleen 2.4GHz. Als uw telefoon tijdens de installatie "
 "verbinding heeft met 5GHz, kan de app het apparaat vaak niet vinden."
 
-msgid "一切不要です。ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-msgstr "一切不要.ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-
 msgid "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。"
 msgstr ""
 "Vanwege te veel mislukte pogingen is de toegang tot deze functie voor 1 "
@@ -9652,21 +9643,8 @@ msgstr ""
 "Deel de deel-URL, QR-code, kamer-ID en wachtwoord van de gemaakte kamer "
 "met teamleden."
 
-msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "AanmakenしたTakenbordのデータはいつまでOpslaanされますか？"
-
 msgid "作成する"
 msgstr "Aanmaken"
-
-msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr ""
-"Aanmaken時にInstellingenした有効Deadline（1 dag・1 week・1 "
-"maand）が経過すると、サーバーから完全にAutomatische verwijderingされます。"
-
-msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr ""
-"Aanmaken時に選択した有効Deadline（1 dag・1 week・1 "
-"maand）が経過すると、サーバーから自動的にVerwijderenされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Alleen de maker kan de kamer en opgeslagen tekst verwijderen."
@@ -12635,9 +12613,6 @@ msgstr "Weet u zeker dat u alle kamers wilt verwijderen?"
 
 msgid "本当にすべて削除しますか？"
 msgstr "Weet u zeker dat u alles wilt verwijderen?"
-
-msgid "本当に無料で利用できますか？"
-msgstr "本当にGratisで利用できますか？"
 
 msgid "本日の目的"
 msgstr "Doel vandaag"

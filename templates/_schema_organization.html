@@ -1,0 +1,25 @@
+{# 全レイアウト共通の Organization JSON-LD。
+   alternateName の msgid だけサービスごとに異なるため呼び出し側から渡す。
+   Shared Organization JSON-LD; only alternateName differs per service. #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FS!QR",
+      "alternateName": {{ organization_alternate_name | tojson }},
+      "url": "{{ request.url_root }}",
+      "logo": "{{ staticfile('logo.png') }}",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "{{ request.url_root }}contact"
+      },
+      "sameAs": [
+        "{{ request.url_root }}fs-qr_menu",
+        "{{ request.url_root }}group_menu",
+        "{{ request.url_root }}note_menu",
+        "{{ request.url_root }}task_menu"
+      ]
+    }
+    </script>

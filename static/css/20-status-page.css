@@ -1,0 +1,45 @@
+/* Shared styles for the three terminal/status pages. */
+.status-page .modern-muted-btn {
+  background: linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%);
+  color: #374151;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.status-page .modern-muted-btn:hover {
+  background: linear-gradient(145deg, #d1d5db 0%, #9ca3af 100%);
+  color: #1f2937;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+@keyframes status-gentle-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.status-page .icon-shake {
+  display: inline-block;
+  animation: status-gentle-shake 3s ease-in-out infinite;
+}
+
+@keyframes status-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.status-page .emoji-bounce {
+  display: inline-block;
+  animation: status-bounce 2s infinite;
+}
+
+@keyframes status-gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.status-page .icon-bounce {
+  display: inline-block;
+  animation: status-gentle-bounce 2.5s ease-in-out infinite;
+}

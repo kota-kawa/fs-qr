@@ -1,0 +1,59 @@
+{#
+  Shared access page tabs for Group / Note / Task.
+  The intro copy and every visible label are supplied by the service template.
+#}
+<div class="room-access-page"
+     data-room-access
+     style="--room-access-start: {{ room_access_theme_start }}; --room-access-end: {{ room_access_theme_end }};">
+  <section class="room-access-shell" aria-labelledby="{{ room_access_id_prefix }}-access-title">
+    <header class="room-access-intro">
+      <h1 id="{{ room_access_id_prefix }}-access-title" class="room-access-intro__title">{{ room_access_title }}</h1>
+      <p class="room-access-intro__text">{{ room_access_description }}</p>
+      {% if room_access_seo_description %}
+      <p class="room-access-intro__text">{{ room_access_seo_description }}</p>
+      {% endif %}
+      {% if room_access_points %}
+      <ul class="room-access-intro__points" aria-label="{{ room_access_points_label }}">
+        {% for point in room_access_points %}<li>{{ point }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </header>
+
+    <section class="room-access-card" aria-labelledby="{{ room_access_id_prefix }}-access-card-title">
+      <h2 id="{{ room_access_id_prefix }}-access-card-title" class="room-access-card__title">{{ room_access_card_title }}</h2>
+      <div class="room-access-tabs" role="tablist" aria-label="{{ room_access_tabs_label }}">
+        <button type="button" id="join-btn" class="room-access-tab is-active" data-room-access-tab="join" role="tab" aria-selected="true" aria-controls="join-tab">{{ room_access_join_tab_label }}</button>
+        <button type="button" id="create-btn" class="room-access-tab" data-room-access-tab="create" role="tab" aria-selected="false" aria-controls="create-tab">{{ room_access_create_tab_label }}</button>
+      </div>
+
+      <div id="join-tab" class="room-access-panel" data-room-access-panel="join" role="tabpanel" aria-labelledby="join-btn">
+        <form method="POST" action="{{ room_access_search_action }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="room-access-form-group">
+            <label class="room-access-label" for="{{ room_access_id_prefix }}-join-room-id">{{ room_access_id_label }}</label>
+            <input type="text" id="{{ room_access_id_prefix }}-join-room-id" name="id" class="room-access-control" placeholder="{{ room_access_id_placeholder }}" required minlength="6" maxlength="6" pattern="[a-zA-Z0-9]{6}" title="{{ room_access_id_title }}">
+            <small class="room-access-help">{{ room_access_id_help }}</small>
+          </div>
+          <div class="room-access-form-group">
+            <label class="room-access-label" for="{{ room_access_id_prefix }}-join-password">{{ room_access_password_label }}</label>
+            <div class="room-access-password">
+              <input type="password" id="{{ room_access_id_prefix }}-join-password" name="password" class="room-access-control" placeholder="{{ room_access_password_placeholder }}" required minlength="6" maxlength="6" pattern="[0-9]{6}" title="{{ room_access_password_title }}" autocomplete="current-password" inputmode="numeric">
+              <button type="button" class="room-access-password-toggle" data-password-toggle="{{ room_access_id_prefix }}-join-password">{{ room_access_password_show_label }}</button>
+            </div>
+            <small class="room-access-help">{{ room_access_password_help }}</small>
+          </div>
+          <button type="submit" class="room-access-submit">{{ room_access_join_submit_label }}</button>
+        </form>
+      </div>
+
+      <div id="create-tab" class="room-access-panel" data-room-access-panel="create" role="tabpanel" aria-labelledby="create-btn" hidden>
+        {% set room_create_id_prefix = room_access_id_prefix ~ '-access' %}
+        {% set room_create_compact = true %}
+        {% set room_create_form_action = room_access_create_action %}
+        {% set room_create_theme_start = room_access_theme_start %}
+        {% set room_create_theme_end = room_access_theme_end %}
+        {% include "_room_create_card.html" %}
+      </div>
+    </section>
+  </section>
+</div>
