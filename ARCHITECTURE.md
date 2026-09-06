@@ -27,7 +27,7 @@ FastAPI app:app (Gunicorn + UvicornWorker, port 5000)
   │
   ├─ app.py middleware, startup/shutdown, router composition
   ├─ feature routers: FSQR / Group / Note / Task / Admin / Articles
-  ├─ shared services: session, CSRF, rate limit, i18n, file serving
+  ├─ shared services: room lifecycle, session, CSRF, rate limit, i18n, file serving
   ├─ MySQL 8 (async SQLAlchemy / Alembic)
   ├─ Redis (sessions, cache, rate limit, presence, Group / Note pub/sub)
   └─ bind-mounted files: storage / geoip / logs
@@ -58,6 +58,12 @@ Admin/                  管理画面と DB 管理画面
 Articles/               記事レジストリ、一覧・記事テンプレート
 templates/              共通レイアウト、固定ページ、共通部品
 static/                 CSS、共通 JS、機能別 JS、画像・動画・PWA 資産
+pwa_manifest.py         4 サービスの web manifest を生成する共通定義
+room_session.py         ルームアクセス session namespace の共通 facade
+room_create.py          ルーム ID 検証・衝突再試行の共通ロジック
+room_delete.py          所有者ルーム削除 outcome の共通ロジック
+room_repository.py      ルーム有効期限・資格情報検索の共通 SQL
+room_cleanup.py         scheduler の期限切れ掃除・DB reset wrapper
 locales/                言語別 ui / js / phrases カタログ
 alembic/                運用中のスキーマ変更履歴
 db_init/                新規 MySQL volume 用初期 SQL と旧来の SQL 資産
@@ -108,6 +114,12 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 
 - `room_access.py`: FSQR / Group / Note / Task が、認証済みセッション内のアクセス権を
   同じ形式で保持する。資格情報の検証自体は各機能が行う。
+- `room_session.py`, `room_create.py`, `room_delete.py`, `room_repository.py`: 4 サービス
+  のルーム access、作成 ID 選択、所有者削除、active / expired 検索を共通化する。
+  既存の session namespace、import 名、cache key は各サービスの wrapper で互換維持する。
+- `room_cleanup.py`: scheduler の期限切れ掃除結果と DB 接続 cleanup を共通化する。
+- `api_response.py`: HTML / JSON のエラー応答と翻訳を一本化する。
+- `pwa_manifest.py`: サービス別の web manifest を動的に生成する。
 - `share_links.py`: share token の生成、ハッシュ保存、サービス別 URL の組み立てを共通化する。
 - `session_auth.py`: 管理系セッションの有効期限と constant-time 比較を扱う。
 - `rate_limit.py`: Redis を使う IP 単位の失敗回数制限と、Task 等の操作 backoff。
@@ -137,13 +149,17 @@ templates/layout.html                  共通 HTML shell / meta / common assets
 
 ### 静的 JS / CSS
 
-- `static/js/shared/`: namespace、UX、アップロード制限、service worker などの共通基盤。
+- `static/js/shared/`: namespace、UX、ルーム共有、LP widget、アップロード tray、spinner、
+  custom select、service worker などの共通基盤。
 - `static/js/fs_qr_upload/`: FSQR の暗号化、選択、送信、progress。
 - `static/js/group_room/`: Group の一覧、preview、upload、download、remote update。
 - `static/js/note_room_realtime/`: bundled Yjs provider、textarea連携、clipboard、export。
 - `static/js/task_board/`: board state、CRUD、D&D、calendar、view、import-export。
-- `static/css/`: 役割別に番号付けされた共通 CSS。機能固有の大きな style は各 template
-  の partial に残ることがある。
+- `static/css/`: 役割別に番号付けされた共通 CSS。create / access、room share、transfer
+  card、status page は `17`〜`20` に集約し、サービス色は CSS custom property で渡す。
+
+共通化の拡張ルールと互換層の注意点は
+[サービス共通コンポーネント](docs/knowledge/shared-service-components.md) を参照します。
 
 FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信し、サーバーは
 暗号化済みファイルを保存する。複数ファイルは暗号化済みファイルを ZIP にまとめる。
@@ -235,7 +251,7 @@ Note / Task を掃除し、Note の期限切れを pub/sub で通知します。
 | Group file / WebSocket | `test_group.py`, `test_group_realtime.py` | 接続・切断・再接続、Redis 不在時の影響、path traversal |
 | Note共同編集 | `test_note.py`, `test_note_collaboration.py`, `test_note_realtime.py`, `hocuspocus/*.test.js` | 2クライアント収束、認証拒否、永続化、期限切れclose、Redis/MySQL |
 | Task board / import-export | `test_task.py`, `test_task_io.py` | CRUD、並べ替え、日付整合、件数上限、タグの追加 / 名前変更 / 削除 |
-| 翻訳 / テンプレート | `test_i18n.py`, `test_locale_files.py`, `test_no_japanese_leakage.py` | `python3 scripts/validate_locales.py --strict-phrases` |
+| 翻訳 / テンプレート | `test_i18n.py`, `test_locale_files.py`, `test_no_japanese_leakage.py`, `test_room_services_shared.py` | `python3 scripts/validate_locales.py --strict-phrases` |
 | DB / 設定 / デプロイ | `test_data_layers.py`, `test_runtime_config.py`, `test_deploy_bluegreen.py` | `pytest`、Ruff、mypy、Docker / nginx の実環境確認 |
 
 CI の実際のバージョンと順序は `.github/workflows/tests.yml` を正とします。

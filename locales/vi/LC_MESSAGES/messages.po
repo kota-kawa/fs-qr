@@ -331,9 +331,6 @@ msgstr ""
 "Nếu thêm tệp mới vượt quá giới hạn cùng với các tệp hiện có, việc tải lên"
 " sẽ không được phép."
 
-msgid "1つのタスクボードにつき最大200件までタスクを登録できます。"
-msgstr "1つのBảng công việcにつき最大200件までタスクを登録できます。"
-
 msgid "1つのボードにつき最大200件までタスクを登録できます。"
 msgstr "1つのBảngにつき最大200件までタスクを登録できます。"
 
@@ -513,9 +510,6 @@ msgstr "Vui lòng nhập 6 ký tự chữ và số (không dấu)."
 
 msgid "6桁の数字で入力してください"
 msgstr "Vui lòng nhập mã số gồm 6 chữ số"
-
-msgid "6桁の数字で入力してください。"
-msgstr "Vui lòng nhập mã số gồm 6 chữ số。"
 
 msgid "6桁数字、または8〜64文字の英数字・ハイフン・アンダースコアで入力してください"
 msgstr ""
@@ -5016,9 +5010,6 @@ msgstr "Có cần đăng ký tài khoản không?"
 msgid "アカウント登録もルーム作成も不要。ページを開いた時点で書き始められ、共有が必要になってから発行すれば十分です。"
 msgstr "アカウント登録もPhòngTạoも不要。ページを開いた時点で書き始められ、Chia sẻが必要になってから発行すれば十分."
 
-msgid "アカウント登録やアプリのインストールは必要ですか？"
-msgstr "アカウント登録やCó cần cài đặt ứng dụng không?"
-
 msgid "アカウント登録やログインは一切不要です。ブラウザがあればすぐに利用開始できます。"
 msgstr "アカウント登録やĐăng nhậpは一切不要.ブラウザがあればすぐに利用Bắt đầuできます。"
 
@@ -8003,6 +7994,9 @@ msgstr ""
 "BảngTạo時に1 ngày、1 tuần、1 thángからThời hạn lưu trữを選べます。期間を過ぎるとBảngとタスクはTự "
 "động xóaされます。"
 
+msgid "ボード操作"
+msgstr "BảngThao tác"
+
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Chuyển đổi giữa chế độ xem bảng và lịch"
 
@@ -8790,9 +8784,6 @@ msgstr ""
 " tần 5GHz mà tiến hành cài đặt ban đầu thì ứng dụng thường không tìm thấy"
 " thiết bị gia dụng và dẫn tới thiết lập thất bại."
 
-msgid "一切不要です。ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-msgstr "一切不要.ブラウザさえあればPC・スマホからURLを開くだけで即座に参加できます。"
-
 msgid "一定回数以上の失敗があったため、この機能へのアクセスを1日間ブロックしています。時間をおいて再度お試しください。"
 msgstr ""
 "Truy cập tính năng này đã bị khóa trong 1 ngày do có quá nhiều lần thử "
@@ -9437,17 +9428,8 @@ msgstr ""
 "Chia sẻ URL chia sẻ, mã QR, ID phòng và mật khẩu của phòng đã tạo với các"
 " thành viên trong nhóm."
 
-msgid "作成したタスクボードのデータはいつまで保存されますか？"
-msgstr "TạoしたBảng công việcのデータはいつまでLưuされますか？"
-
 msgid "作成する"
 msgstr "Tạo"
-
-msgid "作成時に設定した有効期限（1日・1週間・1か月）が経過すると、サーバーから完全に自動削除されます。"
-msgstr "Tạo時にCài đặtした有効Hạn（1 ngày・1 tuần・1 tháng）が経過すると、サーバーから完全にTự động xóaされます。"
-
-msgid "作成時に選択した有効期限（1日・1週間・1か月）が経過すると、サーバーから自動的に削除されます。"
-msgstr "Tạo時に選択した有効Hạn（1 ngày・1 tuần・1 tháng）が経過すると、サーバーから自動的にXóaされます。"
 
 msgid "作成者だけが、ルームと保存済みの本文を削除できます。"
 msgstr "Chỉ người tạo có thể xóa phòng và văn bản đã lưu."
@@ -12307,9 +12289,6 @@ msgstr "Bạn có chắc chắn muốn xóa toàn bộ các phòng không?"
 
 msgid "本当にすべて削除しますか？"
 msgstr "Bạn có chắc chắn muốn xóa toàn bộ không?"
-
-msgid "本当に無料で利用できますか？"
-msgstr "本当にMiễn phíで利用できますか？"
 
 msgid "本日の目的"
 msgstr "Mục tiêu hôm nay"
