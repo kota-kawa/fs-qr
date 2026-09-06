@@ -5,32 +5,11 @@
 
 {% block extra_head %}
   <meta name="robots" content="noindex, nofollow">
-  <style>
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-    .emoji-bounce {
-      display: inline-block;
-      animation: bounce 2s infinite;
-    }
-    .modern-muted-btn {
-      background: linear-gradient(145deg, #e5e7eb 0%, #d1d5db 100%);
-      color: #374151;
-      text-decoration: none;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-    }
-    .modern-muted-btn:hover {
-      background: linear-gradient(145deg, #d1d5db 0%, #9ca3af 100%);
-      color: #1f2937;
-      text-decoration: none;
-      transform: translateY(-2px);
-    }
-  </style>
+  <link rel="stylesheet" href="{{ staticfile('css/20-status-page.css') }}">
 {% endblock %}
 
 {% block contents %}
-<div class="modern-page-container">
+<div class="modern-page-container status-page">
   <div class="modern-content-card" style="max-width: 600px; margin: 0 auto;">
     <div class="modern-card-header" style="--modern-card-header-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); --modern-card-header-accent: #f59e0b;">
       <h1 class="h3"><i class="bi bi-search me-2"></i>404 Not Found</h1>

@@ -1,0 +1,34 @@
+{#
+  SEO helpers shared by public landing pages.
+  FAQ の構造化データと表示用 details は、呼び出し側から渡された同じ配列を
+  使って生成する。マクロ内に _() を書かないため、翻訳キーは各ページで管理する。
+#}
+{% macro faq_jsonld(items) -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for item in items %}
+    {
+      "@type": "Question",
+      "name": {{ item.question | tojson }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ item.answer | tojson }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{%- endmacro %}
+
+{% macro faq_details(items, open_first=false, item_class="lp-faq-item") -%}
+{% for item in items %}
+<details class="{{ item_class }}"{% if open_first and loop.first %} open{% endif %}>
+  <summary>{{ item.question }}</summary>
+  <p>{{ item.answer }}</p>
+</details>
+{% endfor %}
+{%- endmacro %}

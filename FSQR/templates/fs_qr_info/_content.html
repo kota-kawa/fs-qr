@@ -245,29 +245,29 @@
   </div>
 </div>
 
-<script src="/static/js/shared/async-delete-form.js"></script>
+<script src="{{staticfile('js/shared/async-delete-form.js')}}"></script>
 
 
   <div class="spinner-container fsqr-download-overlay spinner-container--hidden" id="spinnerContainer">
-    <div class="fsqr-transfer-card fsqr-transfer-card--download is-receiving" id="animationContainer">
-      <div class="fsqr-transfer-card__visual" aria-hidden="true">
-        <div class="fsqr-transfer-card__orb"></div>
-        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
+    <div class="transfer-card transfer-card--download fsqr-transfer-card fsqr-transfer-card--download is-receiving" id="animationContainer">
+      <div class="transfer-card__visual fsqr-transfer-card__visual" aria-hidden="true">
+        <div class="transfer-card__orb fsqr-transfer-card__orb"></div>
+        <div class="transfer-card__icon transfer-card__icon--file fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
           {{ icons.icon('document', size='xl') }}
         </div>
-        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--download">
+        <div class="transfer-card__icon transfer-card__icon--phase transfer-card__icon--download fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--download">
           {{ icons.icon('arrow_down', size='lg') }}
         </div>
-        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
+        <div class="transfer-card__icon transfer-card__icon--phase transfer-card__icon--lock fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
           {{ icons.icon('lock', size='lg') }}
         </div>
       </div>
-      <div class="fsqr-transfer-card__content">
-        <div class="fsqr-transfer-card__eyebrow" id="statusEyebrow">Downloading</div>
-        <div class="fsqr-transfer-card__title">
+      <div class="transfer-card__content fsqr-transfer-card__content">
+        <div class="transfer-card__eyebrow fsqr-transfer-card__eyebrow" id="statusEyebrow">Downloading</div>
+        <div class="transfer-card__title fsqr-transfer-card__title">
           <span id="statusText">{{ _("受信中...") }}</span>
         </div>
-        <div class="fsqr-transfer-card__progress progress-bar-container">
+        <div class="transfer-card__progress fsqr-transfer-card__progress progress-bar-container">
           <div class="progress-bar" id="progressBar"></div>
         </div>
       </div>

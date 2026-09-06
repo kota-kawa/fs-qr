@@ -1,75 +1,27 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="{{ _("QRコードを読み取るだけでファイルを受け取れる無料サービス。アプリ不要・アカウント不要でPCからスマホ、スマホからPCに安全にファイルを送れます。AES-256暗号化・パスワード設定・自動削除対応。") }}" />
-    <meta name="keywords" content="{{ _("QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応") }}" />
-    <meta name="geo.region" content="{{ geo_region }}" />
-    <meta name="geo.placename" content="{{ geo_placename }}" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="FS!QR">
-    <meta name="language" content="{{ meta_language }}">
-    <meta name="theme-color" content="#23c3df">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="{{ og_locale }}" />
-    <meta property="og:site_name" content="FS!QR" />
-    <meta property="og:title" content="{{ _("FS!QR | 無料QRコード暗号化ファイル共有サービス") }}" />
-    <meta property="og:description" content="{{ _("ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。") }}" />
-    <meta property="og:url" content="{{ request.canonical_url }}" />
-    <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="723">
-    <meta property="og:image:alt" content="{{ _("FS!QR QRコードファイル共有サービス") }}">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ _("FS!QR | 無料QRコード暗号化ファイル共有サービス") }}" />
-    <meta name="twitter:description" content="{{ _("ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。") }}" />
-    <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="{{ _("FS!QR サービス") }}">
-    
-    <!-- SEO -->
-    <link rel="canonical" href="{{ request.canonical_url }}" />
-    {% for alt in request.language_alternates %}
-    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
-    {% endfor %}
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="priority" content="1.0" />
-    <meta name="importance" content="high" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    
-    {% if google_adsense_client_id %}
-    <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
-    <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
-    {% endif %}
-    <script>
-      window.FSQR_TAGS = Object.freeze({
-        googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
-        adsenseClientId: {{ google_adsense_client_id | tojson }}
-        {% endif %}
-      });
-    </script>
-    <title>{{ _("QRコードでファイル共有｜アプリ不要・無料でPC/スマホに送信 - FS!QR") }}</title>
-    <link rel="icon" href="{{staticfile('favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
-      <!-- Bootstrap CSS -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
-      <!-- アイコン用 FontAwesome -->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css" integrity="sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2" crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
-      <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
-      <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
-      <!-- カスタムCSS -->
-      
+{% extends "menu_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set menu_body_class = "service-menu-page" %}
+{% set menu_faq_items = [
+  {"question": _("QRコードの有効期限は設定できますか？"), "answer": _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。")},
+  {"question": _("暗号化の方式は何を使っていますか？"), "answer": _("AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。")},
+  {"question": _("ファイルは何回でもダウンロードできますか？"), "answer": _("保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。")},
+  {"question": _("共有相手にアカウントは必要ですか？"), "answer": _("いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。")}
+] %}
+{% set menu_meta_description = _("QRコードを読み取るだけでファイルを受け取れる無料サービス。アプリ不要・アカウント不要でPCからスマホ、スマホからPCに安全にファイルを送れます。AES-256暗号化・パスワード設定・自動削除対応。") %}
+{% set menu_meta_keywords = _("QRコードファイル共有, 暗号化アップロード, FS QR, セキュアファイル送信, QRコード生成, ファイル暗号化, 安全なデータ転送, クラウドストレージ, 無料ファイル共有, 日本語対応, セキュリティ重視, ファイル管理システム, 企業向けファイル共有, QR共有, 大容量ファイル送信, ファイル転送, パスワード付き, パスワード保護, スマホ対応") %}
+{% set menu_theme_color = "#23c3df" %}
+{% set menu_og_site_name = "FS!QR" %}
+{% set menu_og_title = _("FS!QR | 無料QRコード暗号化ファイル共有サービス") %}
+{% set menu_og_description = _("ファイルを暗号化してQRコード化。パスワード付き共有リンクで安全・簡単なファイル共有を無料提供。") %}
+{% set menu_og_image_alt = _("FS!QR QRコードファイル共有サービス") %}
+{% set menu_twitter_title = menu_og_title %}
+{% set menu_twitter_description = menu_og_description %}
+{% set menu_twitter_image_alt = _("FS!QR サービス") %}
+{% set menu_title = _("QRコードでファイル共有｜アプリ不要・無料でPC/スマホに送信 - FS!QR") %}
+{% set menu_apple_icon = "apple-touch-icon.png" %}
+{% set menu_bootstrap_url = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" %}
+{% set menu_bootstrap_integrity = "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" %}
+{% block menu_head %}
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -131,62 +83,7 @@
     }
     </script>
     
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": {{ _("QRコードのファイル共有はアプリが必要ですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("不要です。ブラウザだけで利用できます。アップロード側・ダウンロード側ともにアプリのインストールは必要ありません。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("PCからスマホにファイルを送るにはどうすればいいですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("PCでファイルをアップロードするとQRコードが生成されます。そのQRコードをスマホのカメラで読み取るだけでダウンロードできます。アカウント不要・無料です。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("ファイルサイズの上限はいくつですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("1回のアップロードで合計1GBまでアップロードできます。HTML/SVGなど一部の形式は安全上の理由で制限しています。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("アップロードしたファイルはいつまで保存されますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期間終了後はサーバーから自動削除されます。発行されたパスワードでダウンロードを制限できます。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("QRコードの有効期限は設定できますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限内は何度でもダウンロード可能です。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("暗号化の方式は何を使っていますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("AES-256による暗号化を採用しています。サーバー上でも暗号化状態で保持されます。") | tojson }}
-          }
-        }
-      ]
-    }
-    </script>
+    {{ faq_jsonld(menu_faq_items) }}
     
     <script type="application/ld+json">
     {
@@ -269,8 +166,8 @@
             --service-glow-2: rgba(131, 151, 255, 0.28);
         }
     </style>
-</head>
-<body class="service-menu-page">
+{% endblock %}
+{% block menu_body %}
     <div class="service-shell">
         <header class="service-hero">
             <div>
@@ -318,24 +215,7 @@
             </section>
             <section class="content-section" aria-labelledby="fsqr-faq">
                 <h2 id="fsqr-faq" class="section-title">{{ _("よくある質問") }}</h2>
-                <div class="faq-list">
-                    <details class="faq-item">
-                        <summary>{{ _("QRコードの有効期限は設定できますか？") }}</summary>
-                        <p>{{ _("アップロード時に1時間・6時間・12時間・24時間から保存期間を選択できます。期限を過ぎるとファイルは自動削除されます。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("暗号化の方式は何を使っていますか？") }}</summary>
-                        <p>{{ _("AES-256による暗号化を採用しています。アップロードされたファイルはサーバー上でも暗号化状態で保持されます。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("ファイルは何回でもダウンロードできますか？") }}</summary>
-                        <p>{{ _("保存期間内であれば何度でもダウンロードできます。期限を過ぎたファイルは自動削除され、再ダウンロードできません。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("共有相手にアカウントは必要ですか？") }}</summary>
-                        <p>{{ _("いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。") }}</p>
-                    </details>
-                </div>
+                <div class="faq-list">{{ faq_details(menu_faq_items, item_class="faq-item") }}</div>
             </section>
             <section class="content-section" aria-labelledby="fsqr-howto">
                 <h2 id="fsqr-howto" class="section-title">{{ _("FS!QRの使い方") }}</h2>
@@ -426,15 +306,4 @@
         {% include '_footer.html' %}
     </div>
 
-    {% include 'cookie-consent.html' %}
-
-    <!-- Bootstrap JSと依存関係 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="{{staticfile('js/shared/app-namespace.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/ux-runtime.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/sw-register.js')}}" defer></script>
-    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
-    <script src="{{staticfile('tooltip.js')}}" defer></script>
-    <script src="{{staticfile('accessibility.js')}}" defer></script>
-</body>
-</html>
+{% endblock %}

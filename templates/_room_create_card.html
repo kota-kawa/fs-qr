@@ -1,0 +1,89 @@
+{#
+  Shared room creation card for Group / Note / Task.
+  翻訳は呼び出し側で解決し、この include は UI とフォームの骨格だけを持つ。
+#}
+<div class="room-create-page{% if room_create_compact %} room-create-page--compact{% endif %}"
+     style="--room-create-start: {{ room_create_theme_start }}; --room-create-end: {{ room_create_theme_end }};">
+  <section class="room-create-card" aria-labelledby="{{ room_create_id_prefix }}-create-title">
+    <header class="room-create-card__header">
+      <h1 id="{{ room_create_id_prefix }}-create-title" class="room-create-card__title">{{ room_create_title }}</h1>
+    </header>
+    <div class="room-create-card__body">
+      <form method="POST"
+            action="{{ room_create_form_action }}"
+            data-room-create
+            data-room-create-id-prefix="{{ room_create_id_prefix }}"
+            data-retention-message="{{ room_create_retention_message | e }}"
+            data-processing-label="{{ room_create_processing_label }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <fieldset class="room-create-fieldset">
+          <legend class="room-create-label">{{ room_create_id_mode_label }}</legend>
+          <div class="room-create-radio-group">
+            <label class="room-create-radio">
+              <input type="radio" name="idMode" value="auto" checked>
+              <span>{{ room_create_auto_label }}</span>
+            </label>
+            <label class="room-create-radio">
+              <input type="radio" name="idMode" value="manual">
+              <span>{{ room_create_manual_label }}</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="room-create-form-group" data-room-create-manual hidden>
+          <label class="room-create-label" for="{{ room_create_id_prefix }}-room-id">{{ room_create_id_label }}</label>
+          <input type="text"
+                 id="{{ room_create_id_prefix }}-room-id"
+                 name="id"
+                 class="room-create-control"
+                 placeholder="{{ room_create_id_placeholder }}"
+                 minlength="6"
+                 maxlength="6"
+                 pattern="[a-zA-Z0-9]{6}"
+                 title="{{ room_create_id_title }}"
+                 aria-describedby="{{ room_create_id_prefix }}-room-id-help {{ room_create_id_prefix }}-create-error">
+          <small id="{{ room_create_id_prefix }}-room-id-help" class="room-create-help">{{ room_create_id_help }}</small>
+        </div>
+
+        <div class="room-create-form-group" data-room-create-auto>
+          <label class="room-create-label" for="{{ room_create_id_prefix }}-generated-id">{{ room_create_auto_id_label }}</label>
+          <input type="text"
+                 id="{{ room_create_id_prefix }}-generated-id"
+                 class="room-create-control room-create-control--readonly"
+                 readonly
+                 data-room-create-generated-id
+                 placeholder="{{ room_create_auto_id_placeholder }}">
+          <input type="hidden" name="id" data-room-create-hidden-id>
+        </div>
+
+        <div class="room-create-form-group">
+          <label class="room-create-label" for="{{ room_create_id_prefix }}-retention">{{ room_create_retention_label }}</label>
+          <div class="retention-select-wrapper {{ room_create_retention_class }}" data-retention-select>
+            <select id="{{ room_create_id_prefix }}-retention"
+                    name="retention_hours"
+                    class="retention-select"
+                    autocomplete="off">
+              {% for option in room_create_retention_options %}
+              <option value="{{ option[0] }}"{% if option[0] == room_create_default_retention %} selected{% endif %}>{{ option[1] }}</option>
+              {% endfor %}
+            </select>
+            <span class="retention-select-arrow" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </div>
+          <small class="room-create-help">{{ room_create_retention_help }}</small>
+          <div class="room-create-preview" aria-live="polite">
+            <strong>{{ room_create_preview_title }}</strong>
+            <span data-room-create-preview>{{ room_create_preview_pending }}</span>
+          </div>
+        </div>
+
+        <div class="room-create-feedback" data-room-create-error role="alert" aria-live="assertive"></div>
+        <button type="submit" class="room-create-submit">{{ room_create_submit_label }}</button>
+      </form>
+    </div>
+  </section>
+</div>

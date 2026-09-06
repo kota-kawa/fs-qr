@@ -105,38 +105,38 @@
                     {{ _("アップロード開始") }}
                 </button>
 
-                <div id="uploadProgressContainer" class="fsqr-transfer-card fsqr-transfer-card--upload" style="display: none;">
-                    <div class="fsqr-transfer-card__visual" aria-hidden="true">
-                        <div class="fsqr-transfer-card__orb"></div>
-                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
+                <div id="uploadProgressContainer" class="transfer-card transfer-card--upload fsqr-transfer-card fsqr-transfer-card--upload" style="display: none;">
+                    <div class="transfer-card__visual fsqr-transfer-card__visual" aria-hidden="true">
+                        <div class="transfer-card__orb fsqr-transfer-card__orb"></div>
+                        <div class="transfer-card__icon transfer-card__icon--file fsqr-transfer-card__icon fsqr-transfer-card__icon--file">
                             {{ icons.icon('document', size='xl') }}
                         </div>
-                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
+                        <div class="transfer-card__icon transfer-card__icon--phase transfer-card__icon--lock fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--lock">
                             {{ icons.icon('lock', size='lg') }}
                         </div>
-                        <div class="fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--upload">
+                        <div class="transfer-card__icon transfer-card__icon--phase transfer-card__icon--upload fsqr-transfer-card__icon fsqr-transfer-card__icon--phase fsqr-transfer-card__icon--upload">
                             {{ icons.icon('arrow_up', size='lg') }}
                         </div>
                     </div>
-                    <div class="fsqr-transfer-card__content">
-                        <div class="fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">{{ _("暗号化") }}</div>
-                        <div class="fsqr-transfer-card__title">
+                    <div class="transfer-card__content fsqr-transfer-card__content">
+                        <div class="transfer-card__eyebrow fsqr-transfer-card__eyebrow" id="uploadProgressEyebrow">{{ _("暗号化") }}</div>
+                        <div class="transfer-card__title fsqr-transfer-card__title">
                             <span id="uploadProgressText">{{ _("暗号化中...") }}</span>
                         </div>
-                        <div class="fsqr-transfer-card__detail" id="uploadProgressDetail" aria-live="polite">{{ _("ファイルを準備しています。") }}</div>
-                        <div class="fsqr-transfer-card__stage">
+                        <div class="transfer-card__detail fsqr-transfer-card__detail" id="uploadProgressDetail" aria-live="polite">{{ _("ファイルを準備しています。") }}</div>
+                        <div class="transfer-card__stage fsqr-transfer-card__stage">
                             <span>{{ _("暗号化") }}</span>
-                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("暗号化の進捗") }}">
+                            <div class="transfer-card__progress fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("暗号化の進捗") }}">
                                 <div class="progress-bar" id="encryptionProgressBar"></div>
                             </div>
                         </div>
-                        <div class="fsqr-transfer-card__stage">
+                        <div class="transfer-card__stage fsqr-transfer-card__stage">
                             <span>{{ _("アップロード") }}</span>
-                            <div class="fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("アップロードの進捗") }}">
+                            <div class="transfer-card__progress fsqr-transfer-card__progress progress-bar-container" aria-label="{{ _("アップロードの進捗") }}">
                                 <div class="progress-bar" id="uploadProgressBar"></div>
                             </div>
                         </div>
-                        <button type="button" class="fsqr-transfer-card__cancel" id="cancelUploadBtn">{{ _("キャンセル") }}</button>
+                        <button type="button" class="transfer-card__cancel fsqr-transfer-card__cancel" id="cancelUploadBtn">{{ _("キャンセル") }}</button>
                     </div>
                 </div>
             </form>

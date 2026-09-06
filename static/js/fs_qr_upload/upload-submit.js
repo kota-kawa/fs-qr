@@ -70,13 +70,7 @@
 
       var result = validation.validateSelection(files, limits, { checkFileName: true });
       if (!result.ok) {
-        if (result.reason === 'max_files') {
-          showFormError(translate('upload.error_max_files', 'You can upload a maximum of {max} files.').replace('{max}', String(limits.maxFiles)));
-        } else if (result.reason === 'max_total_size') {
-          showFormError(translate('upload.error_max_size', 'The total file size limit is {max} MB. The current total is {current} MB.').replace('{max}', String(limits.maxTotalSizeMB)).replace('{current}', String(result.totalSizeMB)));
-        } else if (result.reason === 'invalid_filename') {
-          showFormError(translate('upload.invalid_filename', 'An invalid file name is included. Rename the file and try again.'));
-        }
+        showFormError(validation.describeFailure(result, { scope: 'fsqr-submit' }));
         if (startUploadBtn) {
           startUploadBtn.disabled = false;
           startUploadBtn.innerHTML = uploadButtonLabel;

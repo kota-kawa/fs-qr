@@ -1,0 +1,99 @@
+{# Shared document shell for the four service menu pages. #}
+<!DOCTYPE html>
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="{{ menu_meta_description }}">
+  <meta name="keywords" content="{{ menu_meta_keywords }}">
+  <meta name="geo.region" content="{{ geo_region }}">
+  <meta name="geo.placename" content="{{ geo_placename }}">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="FS!QR">
+  <meta name="language" content="{{ meta_language }}">
+  <meta name="theme-color" content="{{ menu_theme_color }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{{ og_locale }}">
+  <meta property="og:site_name" content="{{ menu_og_site_name }}">
+  <meta property="og:title" content="{{ menu_og_title }}">
+  <meta property="og:description" content="{{ menu_og_description }}">
+  <meta property="og:url" content="{{ request.canonical_url }}">
+  <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="723">
+  <meta property="og:image:alt" content="{{ menu_og_image_alt }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ menu_twitter_title }}">
+  <meta name="twitter:description" content="{{ menu_twitter_description }}">
+  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}">
+  <meta name="twitter:image:alt" content="{{ menu_twitter_image_alt }}">
+
+  <!-- SEO -->
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="priority" content="1.0">
+  <meta name="importance" content="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+
+  {% if google_adsense_client_id %}
+  <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
+  <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
+  {% endif %}
+  <script>
+    window.FSQR_TAGS = Object.freeze({
+      googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
+      adsenseClientId: {{ google_adsense_client_id | tojson }}
+      {% endif %}
+    });
+    window.FSQR_LOCALE = Object.freeze({ language: {{ current_language | tojson }} });
+  </script>
+  <title>{{ menu_title }}</title>
+  {% if menu_preload_image %}
+  <link rel="preload" as="image" href="{{ staticfile(menu_preload_image) }}" fetchpriority="high">
+  {% endif %}
+  {% if menu_manifest_url %}
+  <link rel="manifest" href="{{ menu_manifest_url }}">
+  {% endif %}
+  {% if menu_mobile_web_app %}
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="{{ menu_mobile_web_app_title }}">
+  {% endif %}
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile(menu_apple_icon) }}">
+  <link href="{{ menu_bootstrap_url }}"{% if menu_bootstrap_integrity %} integrity="{{ menu_bootstrap_integrity }}" crossorigin="anonymous"{% endif %} rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css" integrity="sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ staticfile('style.css') }}">
+  <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}">
+  <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}">
+  {% if menu_font_url %}
+  <link href="{{ menu_font_url }}" rel="stylesheet">
+  {% endif %}
+  {% block menu_head %}{% endblock %}
+</head>
+<body class="{{ menu_body_class }}">
+  {% block menu_body %}{% endblock %}
+  {% include 'cookie-consent.html' %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/ux-runtime.js') }}" defer></script>
+  <script src="{{ staticfile('js/shared/sw-register.js') }}" defer></script>
+  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
+  <script src="{{ staticfile('tooltip.js') }}" defer></script>
+  <script src="{{ staticfile('accessibility.js') }}" defer></script>
+</body>
+</html>

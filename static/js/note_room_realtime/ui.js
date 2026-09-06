@@ -5,10 +5,11 @@
   }
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
   const core = modules.core;
+  const sharePanel = appNamespace.api.getShared("sharePanel");
 
   function showEditorFeedback(message, kind) {
-    if (typeof window.setShareFeedback === "function") {
-      window.setShareFeedback(message, kind);
+    if (sharePanel && typeof sharePanel.setShareFeedback === "function") {
+      sharePanel.setShareFeedback(message, kind);
     }
   }
 

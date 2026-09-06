@@ -1,75 +1,27 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="{{ _("アカウント不要でリアルタイム同時編集できる無料ノートサービス。URLを共有するだけで複数人がブラウザから同時にテキストを編集・保存できます。会議メモ・議事録・共同作業に最適。") }}" />
-    <meta name="keywords" content="{{ _("リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業") }}" />
-    <meta name="geo.region" content="{{ geo_region }}" />
-    <meta name="geo.placename" content="{{ geo_placename }}" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="FS!QR">
-    <meta name="language" content="{{ meta_language }}">
-    <meta name="theme-color" content="#c2bf20">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="{{ og_locale }}" />
-    <meta property="og:site_name" content="FS!QR Note" />
-    <meta property="og:title" content="{{ _("FS!QR Note | 無料リアルタイム同時編集ノートサービス") }}" />
-    <meta property="og:description" content="{{ _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。") }}" />
-    <meta property="og:url" content="{{ request.canonical_url }}" />
-    <meta property="og:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="723">
-    <meta property="og:image:alt" content="{{ _("FS!QR Note リアルタイムノート共有サービス") }}">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ _("FS!QR Note | 無料リアルタイム同時編集ノートサービス") }}" />
-    <meta name="twitter:description" content="{{ _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。") }}" />
-    <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-    <meta name="twitter:image:alt" content="{{ _("FS!QR Note サービス") }}">
-    
-    <!-- SEO -->
-    <link rel="canonical" href="{{ request.canonical_url }}" />
-    {% for alt in request.language_alternates %}
-    <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
-    {% endfor %}
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="priority" content="1.0" />
-    <meta name="importance" content="high" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    
-  {% if google_adsense_client_id %}
-  <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
-  <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
-  {% endif %}
-  <script>
-    window.FSQR_TAGS = Object.freeze({
-      googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
-      adsenseClientId: {{ google_adsense_client_id | tojson }}
-      {% endif %}
-    });
-    </script>
-    <title>{{ _("リアルタイム同時編集ノート｜登録不要・無料で共同作業 - FS!QR Note") }}</title>
-    <link rel="icon" href="{{staticfile('favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{staticfile('apple-touch-icon.png')}}">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
-    <!-- アイコン用 FontAwesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css" integrity="sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{staticfile('style.css')}}">
-    <link rel="stylesheet" href="{{staticfile('cookie-consent.css')}}">
-    <link rel="stylesheet" href="{{staticfile('tooltip.css')}}">
-    <!-- カスタムCSS -->
-    
+{% extends "menu_base.html" %}
+{% from "macros/seo.html" import faq_jsonld, faq_details %}
+{% set menu_body_class = "service-menu-page" %}
+{% set menu_faq_items = [
+  {"question": _("ノートには何を入力できますか？"), "answer": _("現在はテキスト入力に対応しています。URLやメモ、議事録、コードスニペットなどをそのまま共有できます。画像挿入や書式設定ツールバーはありません。")},
+  {"question": _("編集履歴は保存されますか？"), "answer": _("編集内容は最新の本文として保存されます。過去の版を確認・復元する履歴機能やPDFエクスポート機能はありません。必要な内容は全文コピーなどで手元に保存してください。")},
+  {"question": _("ゲストユーザーも共同編集に参加できますか？"), "answer": _("共有URLやQRコード、ルームID、パスワードを共有すれば、アカウントを持たないゲストユーザーでもノートに参加できます。閲覧専用モードはありません。")},
+  {"question": _("モバイル端末からでも編集できますか？"), "answer": _("レスポンシブ対応なのでスマートフォンやタブレットからも快適に編集できます。編集内容は即時に同期されます。")}
+] %}
+{% set menu_meta_description = _("アカウント不要でリアルタイム同時編集できる無料ノートサービス。URLを共有するだけで複数人がブラウザから同時にテキストを編集・保存できます。会議メモ・議事録・共同作業に最適。") %}
+{% set menu_meta_keywords = _("リアルタイムノート共有, 同時編集, オンライン共同編集, ノート作成, ルーム管理, FS QR Note, コラボレーションツール, 会議メモ, プロジェクト管理, 学習支援, 無料ノートアプリ, 日本語対応, ブラウザ編集, チーム作業, グループ学習, テキスト共有, テキスト共有アプリ, オンラインメモ共有, メモ帳 共有, Webメモ, 議事録 共有, 共同作業") %}
+{% set menu_theme_color = "#c2bf20" %}
+{% set menu_og_site_name = "FS!QR Note" %}
+{% set menu_og_title = _("FS!QR Note | 無料リアルタイム同時編集ノートサービス") %}
+{% set menu_og_description = _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適な無料コラボレーションツール。") %}
+{% set menu_og_image_alt = _("FS!QR Note リアルタイムノート共有サービス") %}
+{% set menu_twitter_title = menu_og_title %}
+{% set menu_twitter_description = _("複数人でリアルタイム同時編集できるオンラインノート。会議メモ、プロジェクト管理、学習支援に最適。") %}
+{% set menu_twitter_image_alt = _("FS!QR Note サービス") %}
+{% set menu_title = _("リアルタイム同時編集ノート｜登録不要・無料で共同作業 - FS!QR Note") %}
+{% set menu_apple_icon = "apple-touch-icon.png" %}
+{% set menu_bootstrap_url = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" %}
+{% set menu_bootstrap_integrity = "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" %}
+{% block menu_head %}
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -131,46 +83,7 @@
     }
     </script>
     
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": {{ _("FS!QR Noteは本当に無料で使えますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer", 
-            "text": {{ _("はい、登録不要・無料でご利用いただけます。ノートルームの作成、参加、同時編集など全ての機能が無料です。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("何人まで同時編集できますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("同時編集に人数制限はありません。多人数でのコラボレーションが可能です。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question", 
-          "name": {{ _("データは自動保存されますか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("はい、編集内容はリアルタイムで自動保存されます。手動で保存する必要はありません。") | tojson }}
-          }
-        },
-        {
-          "@type": "Question",
-          "name": {{ _("アカウント登録は必要ですか？") | tojson }},
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": {{ _("アカウント登録は不要です。ブラウザがあればすぐに利用開始できます。") | tojson }}
-          }
-        }
-      ]
-    }
-    </script>
+    {{ faq_jsonld(menu_faq_items) }}
     
     <script type="application/ld+json">
     {
@@ -253,8 +166,8 @@
             --service-glow-2: rgba(116, 226, 154, 0.26);
         }
     </style>
-</head>
-<body class="service-menu-page">
+{% endblock %}
+{% block menu_body %}
     <div class="service-shell">
         <header class="service-hero">
             <div>
@@ -302,24 +215,7 @@
             </section>
             <section class="content-section" aria-labelledby="note-faq">
                 <h2 id="note-faq" class="section-title">{{ _("よくある質問") }}</h2>
-                <div class="faq-list">
-                    <details class="faq-item">
-                        <summary>{{ _("ノートには何を入力できますか？") }}</summary>
-                        <p>{{ _("現在はテキスト入力に対応しています。URLやメモ、議事録、コードスニペットなどをそのまま共有できます。画像挿入や書式設定ツールバーはありません。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("編集履歴は保存されますか？") }}</summary>
-                        <p>{{ _("編集内容は最新の本文として保存されます。過去の版を確認・復元する履歴機能やPDFエクスポート機能はありません。必要な内容は全文コピーなどで手元に保存してください。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("ゲストユーザーも共同編集に参加できますか？") }}</summary>
-                        <p>{{ _("共有URLやQRコード、ルームID、パスワードを共有すれば、アカウントを持たないゲストユーザーでもノートに参加できます。閲覧専用モードはありません。") }}</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>{{ _("モバイル端末からでも編集できますか？") }}</summary>
-                        <p>{{ _("レスポンシブ対応なのでスマートフォンやタブレットからも快適に編集できます。編集内容は即時に同期されます。") }}</p>
-                    </details>
-                </div>
+                <div class="faq-list">{{ faq_details(menu_faq_items, item_class="faq-item") }}</div>
             </section>
             <section class="content-section" aria-labelledby="note-howto">
                 <h2 id="note-howto" class="section-title">{{ _("FS!QR Noteの使い方") }}</h2>
@@ -410,15 +306,4 @@
         {% include '_footer.html' %}
     </div>
 
-    {% include 'cookie-consent.html' %}
-
-    <!-- Bootstrap JSと依存関係 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="{{staticfile('js/shared/app-namespace.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/ux-runtime.js')}}" defer></script>
-    <script src="{{staticfile('js/shared/sw-register.js')}}" defer></script>
-    <script src="{{staticfile('cookie-consent.js')}}" defer></script>
-    <script src="{{staticfile('tooltip.js')}}" defer></script>
-    <script src="{{staticfile('accessibility.js')}}" defer></script>
-</body>
-</html>
+{% endblock %}

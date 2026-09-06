@@ -1,4 +1,10 @@
+/**
+ * FSQR upload spinner adapter.
+ * フェーズ切替・進捗バー更新は shared/progress-spinner.js に委譲する。
+ */
 (function (window) {
+  'use strict';
+
   var appNamespace = window.__FSQR_APP__;
   if (!appNamespace || !appNamespace.api) {
     throw new Error('App namespace is not initialized.');
@@ -13,125 +19,74 @@
   }
 
   function createSpinnerController(options) {
-    var spinnerRoot = options.spinnerRoot;
-    var spinnerAnimationContainer = options.spinnerAnimationContainer;
-    var spinnerEyebrow = options.spinnerEyebrow;
-    var spinnerText = options.spinnerText;
-    var spinnerDetail = options.spinnerDetail;
-    var spinnerProgress = options.spinnerProgress;
-    var uploadProgress = options.uploadProgress;
-
-    function setPhase(phaseName) {
-      if (!spinnerAnimationContainer) {
-        return;
-      }
-      spinnerAnimationContainer.classList.remove('is-encrypting', 'is-uploading');
-      if (phaseName === 'encrypting') {
-        spinnerAnimationContainer.classList.add('is-encrypting');
-      } else if (phaseName === 'uploading') {
-        spinnerAnimationContainer.classList.add('is-uploading');
-      }
+    var shared = appNamespace.api.getShared('progressSpinner');
+    if (!shared) {
+      throw new Error('Shared progress spinner is not initialized.');
     }
+    var controller = shared.createProgressSpinner({
+      root: options.spinnerRoot,
+      displayValue: 'grid',
+      animationContainer: options.spinnerAnimationContainer,
+      eyebrow: options.spinnerEyebrow,
+      text: options.spinnerText,
+      detail: options.spinnerDetail,
+      bars: {
+        encryption: options.spinnerProgress,
+        upload: options.uploadProgress
+      },
+      phases: {
+        encrypting: {
+          className: 'is-encrypting',
+          eyebrow: translate('upload.encryption', 'Encryption')
+        },
+        uploading: {
+          className: 'is-uploading',
+          eyebrow: translate('upload.upload', 'Upload')
+        }
+      }
+    });
 
     function hideSpinner() {
-      if (spinnerRoot) {
-        spinnerRoot.style.display = 'none';
-      }
-      setPhase('');
-      if (spinnerProgress) {
-        spinnerProgress.style.transform = 'scaleX(0)';
-      }
-      if (uploadProgress) {
-        uploadProgress.style.transform = 'scaleX(0)';
-      }
-      if (spinnerEyebrow) {
-        spinnerEyebrow.textContent = translate('upload.encryption', 'Encryption');
-      }
-      if (spinnerText) {
-        spinnerText.textContent = translate('upload.encrypting', 'Encrypting...');
-      }
-      if (spinnerDetail) {
-        spinnerDetail.textContent = translate('upload.preparing', 'Preparing files.');
-      }
-    }
-
-    function scrollSpinnerIntoCenter() {
-      if (!spinnerRoot || typeof spinnerRoot.scrollIntoView !== 'function') {
-        return;
-      }
-      window.requestAnimationFrame(function () {
-        try {
-          spinnerRoot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } catch (error) {
-          spinnerRoot.scrollIntoView(true);
-        }
-      });
-    }
-
-    function showSpinner() {
-      if (spinnerRoot) {
-        spinnerRoot.style.display = 'grid';
-        scrollSpinnerIntoCenter();
-      }
-    }
-
-    function setSpinnerText(text) {
-      if (spinnerText) {
-        spinnerText.textContent = text;
-      }
-    }
-
-    function setSpinnerEyebrow(text) {
-      if (spinnerEyebrow) {
-        spinnerEyebrow.textContent = text;
-      }
-    }
-
-    function setSpinnerDetail(text) {
-      if (spinnerDetail) {
-        spinnerDetail.textContent = text;
-      }
+      controller.hide();
+      controller.setPhase('');
+      controller.resetProgress();
+      controller.setEyebrow(translate('upload.encryption', 'Encryption'));
+      controller.setText(translate('upload.encrypting', 'Encrypting...'));
+      controller.setDetail(translate('upload.preparing', 'Preparing files.'));
     }
 
     function setProgressScale(scale) {
-      if (spinnerProgress) {
-        spinnerProgress.style.transform = `scaleX(${scale})`;
-      }
+      controller.setProgress(scale, 'encryption');
     }
 
     function setUploadProgressScale(scale) {
-      if (uploadProgress) {
-        uploadProgress.style.transform = `scaleX(${scale})`;
-      }
+      controller.setProgress(scale, 'upload');
     }
 
     function startEncryptionAnimation() {
-      setPhase('encrypting');
-      setSpinnerEyebrow(translate('upload.encryption', 'Encryption'));
-      setUploadProgressScale(0);
+      controller.setPhase('encrypting');
+      controller.setProgress(0, 'upload');
     }
 
     function startUploadAnimation() {
-      setPhase('uploading');
-      setSpinnerEyebrow(translate('upload.upload', 'Upload'));
-      setProgressScale(1);
-    }
-
-    function stopIconSwitching() {
-      setPhase('');
+      controller.setPhase('uploading');
+      controller.setProgress(1, 'encryption');
     }
 
     return {
       hideSpinner: hideSpinner,
-      showSpinner: showSpinner,
-      setSpinnerText: setSpinnerText,
-      setSpinnerEyebrow: setSpinnerEyebrow,
-      setSpinnerDetail: setSpinnerDetail,
+      showSpinner: function () {
+        controller.show();
+        controller.scrollIntoCenter();
+      },
+      setSpinnerText: controller.setText,
+      setSpinnerEyebrow: controller.setEyebrow,
+      setSpinnerDetail: controller.setDetail,
       setProgressScale: setProgressScale,
       setUploadProgressScale: setUploadProgressScale,
       startEncryptionAnimation: startEncryptionAnimation,
       startUploadAnimation: startUploadAnimation,
-      stopIconSwitching: stopIconSwitching
+      stopIconSwitching: function () { controller.setPhase(''); }
     };
   }
 

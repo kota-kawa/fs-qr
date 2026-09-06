@@ -1,222 +1,109 @@
-<!DOCTYPE html>
-<html lang="{{ html_lang }}" dir="{{ html_dir }}">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="{% block meta_description %}{{ _("task.layout.meta_description") }}{% endblock %}" />
-  <meta name="keywords" content="{% block meta_keywords %}{{ _("task.layout.meta_keywords") }}{% endblock %}" />
-  <meta name="robots" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_robots %}index, follow{% endblock %}{% endif %}" />
-  <meta name="googlebot" content="{% if force_noindex %}noindex, follow{% else %}{% block meta_googlebot %}index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1{% endblock %}{% endif %}" />
-  <meta name="author" content="FS!QR" />
-  <meta name="language" content="{{ meta_language }}" />
-  <meta name="geo.region" content="{{ geo_region }}" />
-  <meta name="geo.placename" content="{{ geo_placename }}" />
-  <meta name="distribution" content="global" />
-  <meta name="rating" content="general" />
-  <meta name="theme-color" content="#f59e0b" />
-  <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <script>
-    window.AppConfig = Object.freeze({
-      limits: Object.freeze({
-        task: Object.freeze({
-          maxItemsPerRoom: {{ task_max_items_per_room | default(200) | tojson }},
-          maxTitleLength: {{ task_max_title_length | default(200) | tojson }},
-          maxNoteLength: {{ task_max_note_length | default(500) | tojson }},
-          maxCategoryLength: {{ task_max_category_length | default(40) | tojson }}
+{% extends "_base.html" %}
+{#
+  FS!QR Task 用レイアウト。共通の HTML shell は _base.html にある。
+  Task service layout; the shared HTML shell lives in _base.html.
+#}
+{% set service_slug = 'task' %}
+{% set service_site_name = 'FS!QR Task' %}
+{% set service_body_class = 'task-section' %}
+{% set service_theme_color = '#f59e0b' %}
+{% set service_logo = 'task_logo.png' %}
+{% set service_logo_width = '277' %}
+{% set service_logo_alt = 'FS!QR Task' %}
+{% set service_menu_url = '/task_menu' %}
+{% set service_search_url = '/search_task' %}
+{% set service_search_icon = 'task_search.png' %}
+{% set service_manifest_url = '/manifest/task.webmanifest' %}
+{% set service_apple_title = 'Task' %}
+{% set service_apple_touch_icon = 'apple-touch-icon5.png' %}
+{% set service_search_icon_alt = _("common.search") %}
+{% set service_search_label = _("common.search") %}
+{% set service_nav_aria_label = _("common.service_navigation") %}
+{% set service_nav_home_label = _("common.home") %}
+{% set organization_alternate_name = _("task.layout.organization_name") %}
+{% set service_meta_description = _("task.layout.meta_description") %}
+{% set service_meta_keywords = _("task.layout.meta_keywords") %}
+{% set service_og_title = _("task.layout.og_title") %}
+{% set service_og_description = _("task.layout.og_description") %}
+{% set service_og_image_alt = _("task.layout.service_alt") %}
+{% set service_twitter_title = _("task.layout.og_title") %}
+{% set service_twitter_description = _("task.layout.og_description") %}
+{% set service_twitter_image_alt = _("task.layout.service_name") %}
+{% set service_page_title = _("task.layout.og_title") %}
+
+{% block app_config %}
+    <script>
+      window.AppConfig = Object.freeze({
+        limits: Object.freeze({
+          task: Object.freeze({
+            maxItemsPerRoom: {{ task_max_items_per_room | default(200) | tojson }},
+            maxTitleLength: {{ task_max_title_length | default(200) | tojson }},
+            maxNoteLength: {{ task_max_note_length | default(500) | tojson }},
+            maxCategoryLength: {{ task_max_category_length | default(40) | tojson }}
+          })
         })
-      })
-    });
-  </script>
+      });
+    </script>
+{% endblock %}
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
-  <meta property="og:locale" content="{{ og_locale }}" />
-  <meta property="og:site_name" content="FS!QR Task" />
-  <meta property="og:title" content="{% block og_title %}{{ _("task.layout.og_title") }}{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}{{ _("task.layout.og_description") }}{% endblock %}" />
-  <meta property="og:url" content="{{ request.canonical_url }}" />
-  <meta property="og:image" content="{% block og_image %}{{ social_staticfile('fs-qr-og-compressed.jpg') }}{% endblock %}" />
-  <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="723" />
-  <meta property="og:image:alt" content="{{ _("task.layout.service_alt") }}" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{% block twitter_title %}{{ _("task.layout.og_title") }}{% endblock %}" />
-  <meta name="twitter:description" content="{% block twitter_description %}{{ _("task.layout.og_description") }}{% endblock %}" />
-  <meta name="twitter:image" content="{{ social_staticfile('fs-qr-og-compressed.jpg') }}" />
-  <meta name="twitter:image:alt" content="{{ _("task.layout.service_name") }}" />
-
-  <!-- SEO -->
-  <link rel="canonical" href="{{ request.canonical_url }}" />
-  {% for alt in request.language_alternates %}
-  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
-  {% endfor %}
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-
-  <link rel="preload" as="image" href="{{ staticfile('task_logo.png') }}" fetchpriority="high" />
-  <link rel="stylesheet" href="{{ staticfile('bootstrap.min.css') }}" />
-  <link rel="stylesheet" href="{{ staticfile('style.css') }}" />
-  <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}" />
-  <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}" />
-  <link rel="manifest" href="{{ staticfile('manifest_task.json') }}" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="apple-mobile-web-app-title" content="Task" />
-  <link rel="icon" href="{{ staticfile('favicon.ico') }}" />
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile('apple-touch-icon5.png') }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap" rel="stylesheet" />
-
-  {% if google_adsense_client_id %}
-  <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
-  <meta name="google-adsense-account" content="{{ google_adsense_account_id }}" />
-  {% endif %}
-  <script>
-    window.FSQR_TAGS = Object.freeze({
-      googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
-      adsenseClientId: {{ google_adsense_client_id | tojson }}
-      {% endif %}
-    });
-  </script>
-  <title>{% block page_title %}{{ _("task.layout.og_title") }}{% endblock %}</title>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "FS!QR Task",
-    "alternateName": {{ _("task.layout.schema_alternate_name") | tojson }},
-    "url": "{{ request.url_root }}task",
-    "description": {{ _("task.layout.schema_description") | tojson }},
-    "inLanguage": {{ schema_language | tojson }},
-    "isPartOf": {
+{% block schema_website %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "FS!QR",
-      "url": "{{ request.url_root }}"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "{{ request.url_root }}search_task?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "FS!QR",
-      "url": "{{ request.url_root }}",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "{{ staticfile('task_logo.png') }}"
+      "name": "FS!QR Task",
+      "alternateName": {{ _("task.layout.schema_alternate_name") | tojson }},
+      "url": "{{ request.url_root }}task",
+      "description": {{ _("task.layout.schema_description") | tojson }},
+      "inLanguage": {{ schema_language | tojson }},
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.url_root }}search_task?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "FS!QR",
+        "url": "{{ request.url_root }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ staticfile('task_logo.png') }}"
+        }
       }
     }
-  }
-  </script>
+    </script>
+{% endblock %}
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "FS!QR Task",
-    "description": {{ _("task.layout.software_description") | tojson }},
-    "applicationCategory": "WebApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "JPY"
-    },
-    "featureList": [
-      {{ _("task.layout.feature_kanban") | tojson }},
-      {{ _("task.layout.feature_collaboration") | tojson }},
-      {{ _("task.layout.feature_priority") | tojson }},
-      {{ _("task.layout.feature_drag_drop") | tojson }},
-      {{ _("task.layout.feature_auto_delete") | tojson }}
-    ]
-  }
-  </script>
+{% block schema_extra %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FS!QR Task",
+      "description": {{ _("task.layout.software_description") | tojson }},
+      "applicationCategory": "WebApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "featureList": [
+        {{ _("task.layout.feature_kanban") | tojson }},
+        {{ _("task.layout.feature_collaboration") | tojson }},
+        {{ _("task.layout.feature_priority") | tojson }},
+        {{ _("task.layout.feature_drag_drop") | tojson }},
+        {{ _("task.layout.feature_auto_delete") | tojson }}
+      ]
+    }
+    </script>
+{% endblock %}
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "FS!QR",
-    "alternateName": {{ _("task.layout.organization_name") | tojson }},
-    "url": "{{ request.url_root }}",
-    "logo": "{{ staticfile('logo.png') }}",
-    "foundingDate": "2024",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "url": "{{ request.url_root }}contact"
-    },
-    "sameAs": [
-      "{{ request.url_root }}fs-qr_menu",
-      "{{ request.url_root }}group_menu",
-      "{{ request.url_root }}note_menu",
-      "{{ request.url_root }}task_menu"
-    ]
-  }
-  </script>
-
-  {% block extra_head %}{% endblock %}
-</head>
-<body class="task-section">
-  <!-- ── Header ───────────────────────── -->
-  <header>
-    <div class="container text-center">
-      <div class="site-brand mt-3">
-        <a href="/task_menu" target="_self">
-          <img src="{{ staticfile('task_logo.png') }}" alt="FS!QR Task"
-               width="277" height="100" fetchpriority="high" decoding="async"
-               style="height:100px;width:auto;">
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ── Search-link & Navigation ─────────── -->
-  <div class="text-center">
-    <a href="/search_task" class="search-link">
-      <img src="{{ staticfile('task_search.png') }}" alt="{{ _("common.search") }}" loading="lazy" decoding="async" />
-      <span>{{ _("common.search") }}</span>
-    </a>
-    <nav class="section-tabs" aria-label="{{ _("common.service_navigation") }}">
-      <a class="section-tab" href="/">{{ _("common.home") }}</a>
-      <a class="section-tab" href="/fs-qr_menu">FS!QR</a>
-      <a class="section-tab" href="/group_menu">Group</a>
-      <a class="section-tab" href="/note_menu">Note</a>
-      <a class="section-tab" href="/task_menu" aria-current="page">Task</a>
-    </nav>
-  </div>
-
-  <!-- ── Main ──────────────────────────── -->
-  <div id="layout" class="page">
-    <main id="main" role="main" tabindex="-1">
-      <div class="contents">
-        {% block contents %}{% endblock %}
-      </div>
-    </main>
-  </div>
-
-  <!-- ── Footer ────────────────────────── -->
-  {% include '_footer.html' %}
-
-  {% include 'cookie-consent.html' %}
-
-  {% include 'alert-modal.html' %}
-
-  <script src="{{ staticfile('js/shared/app-namespace.js') }}" defer></script>
-  <script src="{{ staticfile('js/shared/ux-runtime.js') }}" defer></script>
-  <script src="{{ staticfile('js/shared/sw-register.js') }}" defer></script>
-  <script src="{{ staticfile('retention-select.js') }}" defer></script>
-  <script src="{{ staticfile('cookie-consent.js') }}" defer></script>
-  <script src="{{ staticfile('tooltip.js') }}" defer></script>
-  <script src="{{ staticfile('accessibility.js') }}" defer></script>
-</body>
-</html>
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ staticfile('css/16-task-board.css') }}">
+{% endblock %}

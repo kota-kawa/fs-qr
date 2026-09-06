@@ -6,6 +6,7 @@
   const modules = appNamespace.api.getModuleNamespace("noteRoomRealtime");
   const ui = modules.ui;
   const core = modules.core || {};
+  const sharePanel = appNamespace.api.getShared("sharePanel");
 
   function translate(key, fallback) {
     if (window.FSQR_I18N && typeof window.FSQR_I18N.t === "function") {
@@ -84,10 +85,10 @@
       }
 
       try {
-        if (typeof copyTextToClipboard !== "function") {
+        if (!sharePanel || typeof sharePanel.copyTextToClipboard !== "function") {
           throw new Error("Clipboard helper unavailable");
         }
-        await copyTextToClipboard(text);
+        await sharePanel.copyTextToClipboard(text);
         ui.showEditorFeedback(translate("note.copy_success", "Copied the full note."), "success");
         flashButtonSuccess(context.copyAllButton);
       } catch (error) {

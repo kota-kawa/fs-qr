@@ -1,0 +1,233 @@
+/* Shared room sharing controls for the four service room views. */
+.fsqr-section {
+  --room-share-copy-background: var(--theme-fsqr-gradient-reverse);
+  --room-share-copy-shadow: var(--theme-fsqr-copy-shadow);
+  --room-share-inline-color: var(--theme-fsqr-accent);
+  --room-share-inline-hover: rgba(35, 195, 223, 0.12);
+  --room-share-inline-copied: var(--theme-fsqr-start);
+}
+
+.group-section {
+  --room-share-copy-background: var(--theme-group-gradient);
+  --room-share-copy-shadow: var(--theme-group-shadow-soft);
+  --room-share-inline-color: var(--theme-group-start);
+  --room-share-inline-hover: var(--theme-group-inline-hover-bg);
+  --room-share-inline-copied: var(--theme-group-inline-copied);
+}
+
+.note-section {
+  --room-share-copy-background: var(--theme-note-gradient);
+  --room-share-copy-shadow: var(--theme-note-shadow-soft);
+  --room-share-inline-color: var(--theme-note-inline-hover-color);
+  --room-share-inline-hover: var(--theme-note-inline-hover-bg);
+  --room-share-inline-copied: var(--theme-note-inline-copied);
+}
+
+.task-section {
+  --room-share-copy-background: var(--theme-task-gradient);
+  --room-share-copy-shadow: var(--theme-task-shadow-soft);
+  --room-share-inline-color: var(--theme-task-inline-hover-color);
+  --room-share-inline-hover: var(--theme-task-inline-hover-bg);
+  --room-share-inline-copied: var(--theme-task-inline-copied);
+}
+
+.room-info-share-button,
+.copy-url-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.copy-url-button {
+  gap: 0.25rem;
+  min-width: var(--size-inline-action-button, 1.75rem);
+  min-height: var(--size-inline-action-button, 1.75rem);
+  padding: 0.25rem;
+  border-radius: 0.55rem;
+  background: var(--room-share-copy-background, var(--primary-gradient, #2563eb));
+  color: white;
+}
+
+.copy-url-button svg {
+  width: var(--size-inline-action-icon, 0.95rem);
+  height: var(--size-inline-action-icon, 0.95rem);
+}
+
+.copy-url-button .icon-check {
+  display: none;
+}
+
+.copy-url-button.copied .icon-copy {
+  display: none;
+}
+
+.copy-url-button.copied .icon-check {
+  display: inline;
+}
+
+.copy-url-button:hover,
+.copy-url-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -8px var(--room-share-copy-shadow, rgba(37, 99, 235, 0.5));
+}
+
+.copy-url-button:active {
+  transform: translateY(0);
+}
+
+.room-info-value-row .copy-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-inline-action-button);
+  height: var(--size-inline-action-button);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.room-info-value-row .copy-inline-btn:hover,
+.room-info-value-row .copy-inline-btn:focus-visible {
+  color: var(--room-share-inline-color);
+  background: var(--room-share-inline-hover);
+  transform: none;
+  box-shadow: none;
+}
+
+.room-info-value-row .copy-inline-btn.copied {
+  color: var(--room-share-inline-copied);
+}
+
+.room-info-value-row .copy-inline-btn svg {
+  width: var(--size-inline-action-icon);
+  height: var(--size-inline-action-icon);
+}
+
+.room-info-value-row .copy-inline-btn .icon-check {
+  display: none;
+}
+
+.room-info-value-row .copy-inline-btn.copied .icon-copy {
+  display: none;
+}
+
+.room-info-value-row .copy-inline-btn.copied .icon-check {
+  display: block;
+}
+
+.room-info-card .room-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 0.6rem;
+}
+
+.room-info-card .room-info-header-title {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.room-info-card .room-info-share-button {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  color: #fff;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+}
+
+.room-info-card .room-info-share-button .svg-icon,
+.room-info-card .room-info-share-button .svg-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.room-info-card .room-info-share-button .svg-icon svg {
+  display: block;
+}
+
+.room-info-card .room-info-share-button:hover,
+.room-info-card .room-info-share-button:focus-visible {
+  outline: none;
+}
+
+.room-info-share-button {
+  width: var(--size-action-button, 2.5rem);
+  height: var(--size-action-button, 2.5rem);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.18);
+  color: inherit;
+}
+
+.room-info-share-button:hover,
+.room-info-share-button:focus-visible {
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.28);
+  transform: translateY(-1px);
+}
+
+.room-info-share-button:active {
+  transform: translateY(0);
+}
+
+.qr-code-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 160px;
+}
+
+.qr-code-container:empty {
+  display: none;
+}
+
+.qr-code-container img,
+.qr-code-container canvas {
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.share-feedback {
+  display: none;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.share-feedback.is-visible {
+  display: block;
+}
+
+.share-feedback.is-success {
+  border-color: var(--status-success-border, rgba(16, 185, 129, 0.2));
+  background: var(--status-success-bg, #dcfce7);
+  color: var(--status-success-text, #15803d);
+}
+
+.share-feedback.is-error {
+  border-color: var(--status-error-border-soft, rgba(239, 68, 68, 0.22));
+  background: var(--status-error-bg, #fee2e2);
+  color: var(--status-error-text, #b91c1c);
+}
