@@ -129,22 +129,22 @@
                 </button>
                 
                 <!-- Upload Progress Bar -->
-                <div id="uploadProgressContainer" class="transfer-card transfer-card--upload group-transfer-card group-transfer-card--upload" style="display: none;">
-                    <div class="transfer-card__visual group-transfer-card__visual" aria-hidden="true">
-                        <div class="transfer-card__orb group-transfer-card__orb"></div>
-                        <div class="transfer-card__icon transfer-card__icon--file group-transfer-card__icon group-transfer-card__icon--file">
+                <div id="uploadProgressContainer" class="transfer-card transfer-card--upload" style="display: none;">
+                    <div class="transfer-card__visual" aria-hidden="true">
+                        <div class="transfer-card__orb"></div>
+                        <div class="transfer-card__icon transfer-card__icon--file">
                             {{ icons.icon('document', size='xl') }}
                         </div>
-                        <div class="transfer-card__icon transfer-card__icon--upload group-transfer-card__icon group-transfer-card__icon--upload">
+                        <div class="transfer-card__icon transfer-card__icon--upload">
                             {{ icons.icon('arrow_up', size='lg') }}
                         </div>
                     </div>
-                    <div class="transfer-card__content group-transfer-card__content">
-                        <div class="transfer-card__eyebrow group-transfer-card__eyebrow">{{ _("アップロード") }}</div>
-                        <div class="transfer-card__title group-transfer-card__title">
+                    <div class="transfer-card__content">
+                        <div class="transfer-card__eyebrow">{{ _("アップロード") }}</div>
+                        <div class="transfer-card__title">
                             <span id="uploadProgressText">{{ _("アップロード中...") }}</span>
                         </div>
-                        <div class="transfer-card__progress group-transfer-card__progress progress-bar-container">
+                        <div class="transfer-card__progress progress-bar-container">
                             <div class="progress-bar" id="uploadProgressBar"></div>
                         </div>
                     </div>
@@ -182,22 +182,22 @@
 
 <!-- Download Progress -->
 <div class="spinner-container group-download-overlay" id="downloadSpinnerContainer" style="display: none;">
-    <div class="transfer-card transfer-card--download group-transfer-card group-transfer-card--download is-receiving" id="downloadAnimationContainer">
-        <div class="transfer-card__visual group-transfer-card__visual" aria-hidden="true">
-            <div class="transfer-card__orb group-transfer-card__orb"></div>
-            <div class="transfer-card__icon transfer-card__icon--file group-transfer-card__icon group-transfer-card__icon--file">
+    <div class="transfer-card transfer-card--download is-receiving" id="downloadAnimationContainer">
+        <div class="transfer-card__visual" aria-hidden="true">
+            <div class="transfer-card__orb"></div>
+            <div class="transfer-card__icon transfer-card__icon--file">
                 {{ icons.icon('document', size='xl') }}
             </div>
-            <div class="transfer-card__icon transfer-card__icon--download group-transfer-card__icon group-transfer-card__icon--download">
+            <div class="transfer-card__icon transfer-card__icon--download">
                 {{ icons.icon('arrow_down', size='lg') }}
             </div>
         </div>
-        <div class="transfer-card__content group-transfer-card__content">
-            <div class="transfer-card__eyebrow group-transfer-card__eyebrow">Downloading</div>
-            <div class="transfer-card__title group-transfer-card__title">
+        <div class="transfer-card__content">
+            <div class="transfer-card__eyebrow">Downloading</div>
+            <div class="transfer-card__title">
                 <span id="downloadStatusText">{{ _("ダウンロード中...") }}</span>
             </div>
-            <div class="transfer-card__progress group-transfer-card__progress progress-bar-container">
+            <div class="transfer-card__progress progress-bar-container">
                 <div class="progress-bar" id="downloadProgressBar"></div>
             </div>
         </div>

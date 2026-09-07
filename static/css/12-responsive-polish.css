@@ -356,7 +356,7 @@ body.task-section footer.simple-footer {
     justify-content: center;
   }
 
-  .fsqr-transfer-card__stage {
+  .transfer-card__stage {
     grid-template-columns: 1fr !important;
     gap: 0.35rem !important;
     text-align: left;
