@@ -109,7 +109,15 @@
     return bytes + 'B';
   }
 
-  function copyToClipboard(text) {
+  // 呼び出し側は Promise チェーン（.then/.catch）で結果を扱うため、
+  // async 関数にして例外を必ず reject へ変換する。素の function のままだと
+  // execCommand('copy') が失敗したときの throw が .catch() 登録前に
+  // 同期的に飛び出し、「コピー失敗」表示が出せなくなる。
+  // Callers consume this via a Promise chain (.then/.catch), so this must be
+  // async to guarantee thrown errors become rejections. As a plain function,
+  // the throw on a failed execCommand('copy') would escape synchronously
+  // before .catch() is even attached, silently skipping the "copy failed" UI.
+  async function copyToClipboard(text) {
     if (window.navigator.clipboard && window.isSecureContext) {
       return window.navigator.clipboard.writeText(text);
     }
@@ -124,7 +132,6 @@
       if (!document.execCommand('copy')) {
         throw new Error('copy command failed');
       }
-      return Promise.resolve();
     } finally {
       document.body.removeChild(helper);
     }
