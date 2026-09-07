@@ -1,6 +1,20 @@
 <script src="{{ staticfile('js/shared/app-namespace.js') }}"></script>
 <script src="{{ staticfile('js/shared/runtime-helpers.js') }}"></script>
 <script src="{{ staticfile('js/shared/share-panel.js') }}"></script>
+{#
+  custom-select.js は _base.html でも defer 読み込みされるが、defer は
+  {% block contents %} 内のこの同期スクリプト群より後に実行される。
+  task_board/select.js はモジュール読み込み時に window.FSQRCustomSelect を
+  一度だけ変数へ捕まえるため、defer 版の実行を待つと必ず undefined になる。
+  同期で先読みし、task_board/select.js から参照できるようにする。
+
+  custom-select.js is also loaded via defer in _base.html, but defer scripts
+  run after this synchronous block inside {% block contents %}.
+  task_board/select.js captures window.FSQRCustomSelect into a variable once,
+  at module-load time, so waiting for the deferred copy always leaves it
+  undefined. Load it synchronously here so task_board/select.js can see it.
+#}
+<script src="{{ staticfile('js/shared/custom-select.js') }}"></script>
 <script src="{{ staticfile('qrcode.min.js') }}"></script>
 <script>
   window.__FSQR_APP__.api.getShared('sharePanel').init({ copySuccessFeedback: true });
