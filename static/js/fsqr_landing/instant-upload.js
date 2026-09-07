@@ -18,6 +18,13 @@
 
   var issuedKey = 'fsqr:fsqr-landing-issued';
   var widget = core.create(root, {
+    // 旧実装の setState() には自動リセットが無かった（Group/Note/Task は元々タイマー
+    // 付きだったため共通コアの既定値のままで問題ない）。FSQR のみ 0 を指定して、
+    // 「共有リンクを発行しました」等の状態文言が数秒で消えてしまわないようにする。
+    // The old setState() here had no auto-revert (Group/Note/Task already had a
+    // timer, so the shared core's default is fine for them). Only FSQR needs 0,
+    // so status text like "share link issued" doesn't disappear after a few seconds.
+    stateResetMs: 0,
     issuedStore: { storage: window.sessionStorage, key: issuedKey }
   });
   var elements = widget.elements;
@@ -205,7 +212,7 @@
       widget.issuedStore.remember(issued);
       setProgress(1, '完了', '共有情報を準備しています。');
       setSubmitting(false);
-      widget.showSharePanel(issued);
+      widget.showSharePanel(issued, { missingUrlText: '共有URLを取得できませんでした' });
       if (elements.dropzone) {
         elements.dropzone.hidden = true;
       }

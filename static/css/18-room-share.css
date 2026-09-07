@@ -1,6 +1,7 @@
 /* Shared room sharing controls for the four service room views. */
 .fsqr-section {
   --room-share-copy-background: var(--theme-fsqr-gradient-reverse);
+  --room-share-copy-copied-background: var(--theme-fsqr-copy-copied-gradient);
   --room-share-copy-shadow: var(--theme-fsqr-copy-shadow);
   --room-share-inline-color: var(--theme-fsqr-accent);
   --room-share-inline-hover: rgba(35, 195, 223, 0.12);
@@ -9,6 +10,7 @@
 
 .group-section {
   --room-share-copy-background: var(--theme-group-gradient);
+  --room-share-copy-copied-background: var(--theme-group-copy-copied-gradient);
   --room-share-copy-shadow: var(--theme-group-shadow-soft);
   --room-share-inline-color: var(--theme-group-start);
   --room-share-inline-hover: var(--theme-group-inline-hover-bg);
@@ -17,6 +19,7 @@
 
 .note-section {
   --room-share-copy-background: var(--theme-note-gradient);
+  --room-share-copy-copied-background: var(--theme-note-copy-copied-gradient);
   --room-share-copy-shadow: var(--theme-note-shadow-soft);
   --room-share-inline-color: var(--theme-note-inline-hover-color);
   --room-share-inline-hover: var(--theme-note-inline-hover-bg);
@@ -25,6 +28,7 @@
 
 .task-section {
   --room-share-copy-background: var(--theme-task-gradient);
+  --room-share-copy-copied-background: var(--theme-task-copy-copied-gradient);
   --room-share-copy-shadow: var(--theme-task-shadow-soft);
   --room-share-inline-color: var(--theme-task-inline-hover-color);
   --room-share-inline-hover: var(--theme-task-inline-hover-bg);
@@ -66,6 +70,10 @@
 
 .copy-url-button.copied .icon-check {
   display: inline;
+}
+
+.copy-url-button.copied {
+  background: var(--room-share-copy-copied-background, var(--room-share-copy-background));
 }
 
 .copy-url-button:hover,
@@ -214,6 +222,11 @@
   border: 1px solid transparent;
   border-radius: 10px;
   font-weight: 600;
+  /* FSQR ではこの要素が .text-center の内側に置かれるため、明示しないと
+     エラー文などの長文まで中央寄せになり読みにくくなる。
+     FSQR nests this inside .text-center, so without this, long text like
+     error messages gets centered and becomes hard to read. */
+  text-align: left;
 }
 
 .share-feedback.is-visible {

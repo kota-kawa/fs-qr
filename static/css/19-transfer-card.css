@@ -30,8 +30,16 @@
   overflow: hidden;
 }
 
+/*
+ * Group 用のカード配色。ブランド色 `--theme-group-end`(#22c55e) をそのまま使うと
+ * バッジ(--transfer-upload)や進捗バーが持つカード固有のグリーン(#4aba95/#1d9a75)と
+ * 並んだときに色が食い違うため、カード内はカード固有パレットで統一する。
+ *
+ * The card keeps its own muted green palette: reusing the brand green (#22c55e)
+ * clashed with the badge/progress gradients, which are built on #4aba95/#1d9a75.
+ */
 .group-section .transfer-card {
-  --transfer-accent: var(--theme-group-end, #1d9a75);
+  --transfer-accent: #1d9a75;
   --transfer-border: rgba(74, 186, 149, 0.18);
   --transfer-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(244, 251, 247, 0.88));
   --transfer-orb: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(219, 243, 232, 0.25) 58%, rgba(74, 186, 149, 0.18));
@@ -40,10 +48,15 @@
   --transfer-ring-outer: rgba(136, 210, 186, 0.28);
   --transfer-progress: linear-gradient(90deg, #4aba95, #2cb67d 55%, #8ad9ba);
   --transfer-progress-track: linear-gradient(90deg, rgba(74, 186, 149, 0.12), rgba(15, 23, 42, 0.08));
-  --transfer-icon-color: var(--theme-group-end, #1d9a75);
+  --transfer-icon-color: #178f6d;
 }
 
-.transfer-card--download {
+/*
+ * download 修飾子は `.group-section .transfer-card`（2 クラス）と同じ詳細度に
+ * しないとサービステーマに負け、青系のダウンロード配色が効かない。
+ * Needs two classes so the download palette wins over the per-service theme.
+ */
+.transfer-card.transfer-card--download {
   width: min(100%, 420px);
   margin-top: 0;
   border-color: rgba(56, 189, 248, 0.18);
@@ -56,6 +69,34 @@
   --transfer-progress: linear-gradient(90deg, #38bdf8, #2563eb 58%, #60a5fa);
   --transfer-progress-track: linear-gradient(90deg, rgba(37, 99, 235, 0.12), rgba(15, 23, 42, 0.08));
   --transfer-download: linear-gradient(135deg, #38bdf8, #2563eb);
+}
+
+/*
+ * 旧実装では、青系の再配色はバッジ（矢印/鍵）と進捗バーだけに適用され、
+ * ファイルアイコン・eyebrow の色はサービス側で個別に決めていた
+ * （FSQR: アップロード=シアン/ダウンロード=紺で固定、Group: アップロード=薄緑/
+ * ダウンロード=濃緑で固定、Group のみ eyebrow は青へ変わる）。
+ * `--transfer-accent` を download 修飾子で青へ差し替えたことで、
+ * これに連動する eyebrow・アイコン色まで意図せず青くなっていたため、
+ * サービスごとに個別の色へ戻す。
+ *
+ * In the old CSS, the blue re-theme only ever touched the badge (arrow/lock)
+ * and progress bar — the file icon and eyebrow colors were fixed per service
+ * (FSQR: cyan for upload / navy for download; Group: light green for upload /
+ * dark green for download, though Group's eyebrow does turn blue on download).
+ * Overriding `--transfer-accent` for the download modifier accidentally
+ * dragged the eyebrow/icon colors along with it, so restore them here.
+ */
+.fsqr-section .transfer-card--upload {
+  --transfer-icon-color: var(--theme-fsqr-upload-icon, var(--transfer-accent));
+}
+
+.fsqr-section .transfer-card.transfer-card--download {
+  --transfer-accent: var(--theme-fsqr-accent, #4082dd);
+}
+
+.group-section .transfer-card.transfer-card--download {
+  --transfer-icon-color: #1d9a75;
 }
 
 .transfer-card__visual {
@@ -108,13 +149,32 @@
   animation: transfer-card-file-float 2.1s ease-in-out infinite;
 }
 
-.transfer-card__icon--phase {
+/*
+ * バッジ系アイコン（鍵・アップロード・ダウンロード）の共通配置。
+ * `--phase` の有無に関係なく visual の右下へ円形バッジとして置く。
+ * 配置を `--phase` 側に持たせると、フェーズ制御を使わない Group のカードで
+ * ファイルアイコンと中央で重なってしまうため、修飾子側に配置を持たせる。
+ *
+ * Badge icons keep the same bottom-right circular geometry whether or not
+ * `--phase` is present; putting the geometry on `--phase` made the Group card
+ * (which has no phase classes) stack its badge on top of the file icon.
+ */
+.transfer-card__icon--lock,
+.transfer-card__icon--upload,
+.transfer-card__icon--download {
   width: 34px;
   height: 34px;
   right: 2px;
   bottom: 8px;
   border-radius: 999px;
   color: #fff;
+}
+
+/*
+ * `--phase` は「JS が該当フェーズのクラスを付けるまで隠す」役割だけを担う。
+ * `--phase` only hides the badge until JS adds the matching phase class.
+ */
+.transfer-card__icon--phase {
   opacity: 0;
   pointer-events: none;
 }
@@ -171,7 +231,17 @@
   font-weight: 700;
 }
 
-.transfer-card__progress {
+/*
+ * `progress-bar-container` を併用しているため、08-spinner.css の
+ * `.spinner-container .progress-bar-container`（position: absolute / bottom: -30px）
+ * に勝てる詳細度が必要。1 クラスだとカード外へ飛び出す。
+ *
+ * The markup also carries `progress-bar-container`, so this needs two classes to
+ * beat `.spinner-container .progress-bar-container`, which would otherwise pull
+ * the bar out of the card (absolute, bottom: -30px).
+ */
+.transfer-card .transfer-card__progress {
+  position: static;
   width: 100%;
   height: 12px;
   overflow: hidden;
@@ -180,12 +250,20 @@
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
-.transfer-card__progress .progress-bar {
+/* stage 内のバーは stage 側が余白を持つので、content 直下のバーだけ余白を付ける。
+   Only bars directly under `__content` need the gap; staged bars inherit it. */
+.transfer-card__content > .transfer-card__progress {
+  margin-top: 0.85rem;
+}
+
+.transfer-card .transfer-card__progress .progress-bar {
   height: 100%;
   border-radius: inherit;
   background: var(--transfer-progress);
   box-shadow: 0 0 22px rgba(64, 130, 221, 0.35);
-  transition: width 0.2s ease;
+  /* 進捗は JS が scaleX で更新するため transform を遷移させる。
+     Progress is driven by scaleX, so animate transform (not width). */
+  transition: transform 0.2s ease;
 }
 
 .transfer-card__cancel {
@@ -267,7 +345,7 @@
     width: 100%;
   }
 
-  .transfer-card--download {
+  .transfer-card.transfer-card--download {
     max-width: 360px;
   }
 }

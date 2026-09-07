@@ -55,5 +55,13 @@
         {% include "_room_create_card.html" %}
       </div>
     </section>
+
+    {% if room_access_extra %}
+    {# サービス固有の追加コンテンツ（例: Note のデモエディタ）。
+       .room-access-shell の内側に置くことで、カードと同じ幅・中央寄せに揃える。
+       Service-specific extra content (e.g. Note's demo editor). Kept inside
+       .room-access-shell so it lines up with the card's width and centering. #}
+    <div class="room-access-extra">{{ room_access_extra }}</div>
+    {% endif %}
   </section>
 </div>

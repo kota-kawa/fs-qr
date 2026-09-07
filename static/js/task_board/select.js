@@ -27,7 +27,10 @@
       interceptSetters: true,
       observeOptions: true,
       stopPropagation: true,
-      alwaysDispatchChange: true
+      alwaysDispatchChange: true,
+      // 画面下部の余白が足りない場合は上方向に開く（旧 checkPosition() の挙動）。
+      // Flip the menu upward when there isn't room below (old checkPosition()).
+      dropUp: true
     });
   }
 

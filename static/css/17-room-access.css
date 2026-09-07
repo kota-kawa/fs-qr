@@ -298,6 +298,114 @@
   padding: 0;
 }
 
+/*
+ * サービス固有の追加コンテンツ（Note のデモエディタ等）。
+ * .room-access-card と同じ幅・中央寄せに揃える。
+ * Extra service-specific content (e.g. Note's demo editor), aligned to the
+ * same width/centering as .room-access-card.
+ */
+.room-access-extra {
+  max-width: 640px;
+  margin: 1.5rem auto 0;
+}
+
+.room-access-demo-editor {
+  min-height: 160px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.room-access-demo-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.room-access-demo-badge {
+  flex: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(107, 114, 128, 0.92) 0%, rgba(75, 85, 99, 0.96) 100%);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 8px 16px rgba(75, 85, 99, 0.18);
+}
+
+/* Group のアクセスページ用デモ（アップロード領域＋ファイル一覧のプレビュー）。
+   Group's access-page demo (upload dropzone + file list previews). */
+.room-access-demo-upload {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 3px dashed rgba(34, 197, 94, 0.28);
+  text-align: center;
+  opacity: 0.82;
+}
+
+.room-access-demo-upload__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #6b7280;
+}
+
+.room-access-demo-upload__text {
+  margin-bottom: 1rem;
+  color: #6b7280;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.room-access-demo-upload__text small {
+  color: #9ca3af;
+}
+
+.room-access-demo-btn {
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 10px;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.room-access-demo-list {
+  margin-bottom: 2rem;
+}
+
+.room-access-demo-list__title {
+  margin: 0 0 1rem;
+  color: #374151;
+  font-size: 1.05rem;
+}
+
+.room-access-demo-list__panel {
+  min-height: 80px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.room-access-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.room-access-demo-item + .room-access-demo-item {
+  margin-top: 0.5rem;
+}
+
+.room-access-demo-item__status {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
 @media (max-width: 640px) {
   .room-create-page,
   .room-search-page,

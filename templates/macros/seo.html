@@ -24,10 +24,18 @@
 </script>
 {%- endmacro %}
 
-{% macro faq_details(items, open_first=false, item_class="lp-faq-item") -%}
+{#
+  indicator: 開閉インジケータ（＋／−）用の空 span を summary に追加するか。
+  15-product-landing.css の `.lp-faq-item summary span::before/::after` が
+  この span を土台に描画する。FSQR は summary::after の独自表示を使うため false。
+  indicator: whether to add the empty span summary uses as the +/- toggle icon
+  base (drawn via `.lp-faq-item summary span::before/::after` in
+  15-product-landing.css). FSQR opts out — it draws its own summary::after.
+#}
+{% macro faq_details(items, open_first=false, item_class="lp-faq-item", indicator=false) -%}
 {% for item in items %}
 <details class="{{ item_class }}"{% if open_first and loop.first %} open{% endif %}>
-  <summary>{{ item.question }}</summary>
+  <summary>{{ item.question }}{% if indicator %}<span aria-hidden="true"></span>{% endif %}</summary>
   <p>{{ item.answer }}</p>
 </details>
 {% endfor %}

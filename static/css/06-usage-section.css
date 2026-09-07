@@ -17,6 +17,38 @@
   position: relative;
 }
 
+/*
+ * サービス既定色。ルームページ側の個別 `_styles.html` が同じ変数を
+ * 上書きしている場合はそちらが引き続き優先される（同値のため実害なし）。
+ * これはルーム固有スタイルを持たないページ（例: Note の入口ページ）で
+ * usage-section が既定の青のまま出てしまうのを防ぐための fallback。
+ *
+ * Per-service default color. Room pages that still override the same
+ * variables in their own `_styles.html` keep taking precedence (same
+ * value, so no visible change). This fallback exists for pages without
+ * room-specific styling (e.g. Note's access page) so usage-section
+ * doesn't fall back to the generic blue.
+ */
+.fsqr-section .usage-section {
+  --usage-header-gradient: var(--theme-fsqr-gradient);
+  --usage-header-accent: var(--theme-fsqr-accent);
+}
+
+.group-section .usage-section {
+  --usage-header-gradient: var(--theme-group-gradient);
+  --usage-header-accent: var(--theme-group-accent);
+}
+
+.note-section .usage-section {
+  --usage-header-gradient: var(--theme-note-gradient);
+  --usage-header-accent: var(--theme-note-accent);
+}
+
+.task-section .usage-section {
+  --usage-header-gradient: var(--theme-task-gradient);
+  --usage-header-accent: var(--theme-task-accent);
+}
+
 .usage-section::before {
   content: '';
   position: absolute;

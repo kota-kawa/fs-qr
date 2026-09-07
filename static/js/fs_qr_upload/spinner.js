@@ -35,13 +35,21 @@
         upload: options.uploadProgress
       },
       phases: {
+        // eyebrow は関数で渡し、setPhase() が実際に呼ばれる（＝アップロード開始操作の）
+        // 時点で translate() を評価する。ここでトップレベル評価すると、
+        // window.FSQR_I18N（cookie-consent.html 側で定義）がまだ読み込まれておらず
+        // 常に英語フォールバックになってしまう。
+        // eyebrow is a function so translate() runs when setPhase() actually fires
+        // (i.e. when the user starts the upload), not at script-load time — evaluating
+        // it here would run before window.FSQR_I18N (defined in cookie-consent.html)
+        // is ready and always fall back to English.
         encrypting: {
           className: 'is-encrypting',
-          eyebrow: translate('upload.encryption', 'Encryption')
+          eyebrow: function () { return translate('upload.encryption', 'Encryption'); }
         },
         uploading: {
           className: 'is-uploading',
-          eyebrow: translate('upload.upload', 'Upload')
+          eyebrow: function () { return translate('upload.upload', 'Upload'); }
         }
       }
     });

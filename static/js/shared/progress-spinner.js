@@ -8,7 +8,7 @@
  *   displayValue,         // 'grid' | 'flex' | '' (removeProperty) used when showing
  *   hiddenClass,          // optional class toggled together with display (e.g. 'spinner-container--hidden')
  *   animationContainer,   // element receiving phase classes / フェーズ用クラスを付ける要素
- *   phases,               // { phaseName: { className, eyebrow } }
+ *   phases,               // { phaseName: { className, eyebrow } } — eyebrow: string | () => string
  *   eyebrow, text, detail,// text nodes / 見出し・本文・補足
  *   bars                  // { primary: element, secondary: element } progress bars (scaleX)
  * })
@@ -50,8 +50,12 @@
           animationContainer.classList.add(phase.className);
         }
       }
-      if (phase && typeof phase.eyebrow === 'string') {
-        helpers.setElementText(eyebrow, phase.eyebrow);
+      if (phase && phase.eyebrow != null) {
+        // eyebrow は文字列のほか、呼び出し側の i18n が実行時（setPhase 呼び出し時）まで
+        // 確定しない場合に備えて関数も受け付ける。
+        // eyebrow accepts a function too, for callers whose i18n text isn't ready
+        // until setPhase actually runs (not at phase-registration time).
+        helpers.setElementText(eyebrow, typeof phase.eyebrow === 'function' ? phase.eyebrow() : phase.eyebrow);
       }
     }
 
