@@ -1,4 +1,5 @@
 {% extends "group_layout.html" %}
+{% import "macros/icons.html" as icons %}
 {% block page_title %}{{ _("登録不要のグループファイル共有 | FS!QR Group") }}{% endblock %}
 {% block meta_description %}{{ _("FS!QR Groupは登録不要で使えるグループファイル共有ページです。ルームを作成してID・パスワード・QRコードを共有すると、複数人でファイルをアップロード、ダウンロード、管理できます。") }}{% endblock %}
 {% block meta_keywords %}{{ _("グループルームアクセス, チームファイル共有, グループファイル管理, ルーム参加, 企業ファイル共有, チーム協業, FS QR Group") }}{% endblock %}
@@ -34,5 +35,65 @@
 {% set room_create_preview_title = _("この内容で今すぐ作成した場合の削除予定") %}{% set room_create_preview_pending = _("計算中...") %}
 {% set room_create_retention_message = frontend_messages.get('retention.auto_delete_at', '{time} ごろに自動削除されます') %}
 {% set room_create_processing_label = _("処理中...") %}{% set room_create_submit_label = _("ルームを作成") %}
+{% set room_access_extra %}
+<section class="glossy-demo-panel room-access-demo-upload" aria-label="{{ _('デモ表示') }}">
+  <div class="room-access-demo-upload__icon">{{ icons.icon('cloud', size='xxl') }}</div>
+  <p class="room-access-demo-upload__text">
+    {{ _("ここにファイルをドラッグ＆ドロップ") }}<br>{{ _("またはクリックしてファイルを選択") }}<br>
+    <small>{{ _("(上記のフォームでルームを作成・参加すると利用できます)") }}</small>
+  </p>
+  <button type="button" disabled class="glossy-muted-btn room-access-demo-btn">
+    {{ icons.icon('folder', size='lg', with_text=True) }}{{ _("ファイルを選択（デモ）") }}
+  </button>
+</section>
+
+<section class="room-access-demo-list" aria-label="{{ _('デモ表示') }}">
+  <h3 class="room-access-demo-list__title">{{ icons.icon('arrow_up', size='lg', with_text=True) }}{{ _("アップロード待ちファイル") }}</h3>
+  <div class="glossy-demo-panel room-access-demo-list__panel">
+    <div class="glossy-demo-item room-access-demo-item">
+      <span>{{ icons.icon('document', with_text=True) }}example-document.pdf</span>
+      <span class="room-access-demo-item__status">{{ _("待機中") }}</span>
+    </div>
+    <div class="glossy-demo-item room-access-demo-item">
+      <span>{{ icons.icon('photo', with_text=True) }}sample-image.jpg</span>
+      <span class="room-access-demo-item__status">{{ _("待機中") }}</span>
+    </div>
+  </div>
+  <button type="button" disabled class="glossy-muted-btn room-access-demo-btn">
+    {{ icons.icon('rocket', size='lg', with_text=True) }}{{ _("アップロード（デモ）") }}
+  </button>
+</section>
+
+<section class="room-access-demo-list" aria-label="{{ _('デモ表示') }}">
+  <h3 class="room-access-demo-list__title">{{ icons.icon('arrow_down', size='lg', with_text=True) }}{{ _("グループメンバーのファイル (2)") }}</h3>
+  <div class="glossy-demo-panel room-access-demo-list__panel">
+    <div class="glossy-demo-item room-access-demo-item">
+      <span>{{ icons.icon('clipboard', with_text=True) }}meeting-notes.txt</span>
+      <span class="room-access-demo-item__status">{{ _("デモファイル") }}</span>
+    </div>
+    <div class="glossy-demo-item room-access-demo-item">
+      <span>{{ icons.icon('chart', with_text=True) }}data-report.xlsx</span>
+      <span class="room-access-demo-item__status">{{ _("デモファイル") }}</span>
+    </div>
+  </div>
+  <button type="button" disabled class="glossy-muted-btn room-access-demo-btn">
+    {{ icons.icon('archive_box', size='lg', with_text=True) }}{{ _("すべてダウンロード（デモ）") }}
+  </button>
+</section>
+{% endset %}
 {% include "_room_access_tabs.html" %}
+
+<div class="usage-section">
+  <div class="usage-section-header">
+    <h5>{{ _("使い方") }}</h5>
+  </div>
+  <div class="usage-section-content">
+    <p>
+      {{ _("グループルームではメンバー全員がファイルをアップロード／ダウンロードできます。") }}<br>
+      {{ _("上記のフォームでルームを作成または参加すると、ルームIDとパスワード、QRコードが表示されます。") }}<br>
+      {{ _("ファイルはドラッグ＆ドロップまたはクリックで追加し、「アップロード」ボタンで送信します。") }}<br>
+      {{ _("他の人のファイルは下のリストから個別にダウンロードや削除ができます。") }}
+    </p>
+  </div>
+</div>
 {% endblock %}
