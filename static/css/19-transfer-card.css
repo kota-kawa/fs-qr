@@ -71,6 +71,34 @@
   --transfer-download: linear-gradient(135deg, #38bdf8, #2563eb);
 }
 
+/*
+ * 旧実装では、青系の再配色はバッジ（矢印/鍵）と進捗バーだけに適用され、
+ * ファイルアイコン・eyebrow の色はサービス側で個別に決めていた
+ * （FSQR: アップロード=シアン/ダウンロード=紺で固定、Group: アップロード=薄緑/
+ * ダウンロード=濃緑で固定、Group のみ eyebrow は青へ変わる）。
+ * `--transfer-accent` を download 修飾子で青へ差し替えたことで、
+ * これに連動する eyebrow・アイコン色まで意図せず青くなっていたため、
+ * サービスごとに個別の色へ戻す。
+ *
+ * In the old CSS, the blue re-theme only ever touched the badge (arrow/lock)
+ * and progress bar — the file icon and eyebrow colors were fixed per service
+ * (FSQR: cyan for upload / navy for download; Group: light green for upload /
+ * dark green for download, though Group's eyebrow does turn blue on download).
+ * Overriding `--transfer-accent` for the download modifier accidentally
+ * dragged the eyebrow/icon colors along with it, so restore them here.
+ */
+.fsqr-section .transfer-card--upload {
+  --transfer-icon-color: var(--theme-fsqr-upload-icon, var(--transfer-accent));
+}
+
+.fsqr-section .transfer-card.transfer-card--download {
+  --transfer-accent: var(--theme-fsqr-accent, #4082dd);
+}
+
+.group-section .transfer-card.transfer-card--download {
+  --transfer-icon-color: #1d9a75;
+}
+
 .transfer-card__visual {
   position: relative;
   width: 88px;

@@ -214,6 +214,11 @@
   border: 1px solid transparent;
   border-radius: 10px;
   font-weight: 600;
+  /* FSQR ではこの要素が .text-center の内側に置かれるため、明示しないと
+     エラー文などの長文まで中央寄せになり読みにくくなる。
+     FSQR nests this inside .text-center, so without this, long text like
+     error messages gets centered and becomes hard to read. */
+  text-align: left;
 }
 
 .share-feedback.is-visible {
