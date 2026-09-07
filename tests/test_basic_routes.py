@@ -50,8 +50,8 @@ def test_index(test_client: TestClient):
     ("service", "start_url", "theme_color"),
     (
         ("fsqr", "/", "#342ae3"),
-        ("group", "/group_menu", "#dbe72f"),
-        ("note", "/note_menu", "#c2bf20"),
+        ("group", "/group_menu", "#342ae3"),
+        ("note", "/note_menu", "#342ae3"),
         ("task", "/task_menu", "#f59e0b"),
     ),
 )

@@ -36,14 +36,14 @@ SERVICE_MANIFESTS: dict[str, dict[str, str]] = {
         "name": "FS!QR Group",
         "short_name": "Group",
         "start_url": "/group_menu",
-        "theme_color": "#dbe72f",
+        "theme_color": "#342ae3",
         "icon": "/static/apple-touch-icon.png",
     },
     "note": {
         "name": "FS!QR Note",
         "short_name": "Note",
         "start_url": "/note_menu",
-        "theme_color": "#c2bf20",
+        "theme_color": "#342ae3",
         "icon": "/static/apple-touch-icon.png",
     },
     "task": {
