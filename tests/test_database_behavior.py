@@ -1,5 +1,6 @@
 """database.execute_query の再試行境界を検証する。"""
 
+import asyncio
 import importlib.util
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -54,36 +55,40 @@ def test_existing_fsqr_migration_adds_deletion_and_encryption_columns():
     assert '"encryption_mode"' in migration
 
 
-@pytest.mark.asyncio
-async def test_execute_query_does_not_retry_dml_after_connection_loss():
-    database = _load_database_module()
-    session = MagicMock()
-    session.execute = AsyncMock(side_effect=_connection_error())
-    session.commit = AsyncMock()
-    session.rollback = AsyncMock()
-    session.remove = AsyncMock()
-    database.db_session = session
+def test_execute_query_does_not_retry_dml_after_connection_loss():
+    async def run_test():
+        database = _load_database_module()
+        session = MagicMock()
+        session.execute = AsyncMock(side_effect=_connection_error())
+        session.commit = AsyncMock()
+        session.rollback = AsyncMock()
+        session.remove = AsyncMock()
+        database.db_session = session
 
-    with pytest.raises(OperationalError):
-        await database.execute_query("DELETE FROM task_item WHERE item_id = :id")
+        with pytest.raises(OperationalError):
+            await database.execute_query("DELETE FROM task_item WHERE item_id = :id")
 
-    session.execute.assert_awaited_once()
-    session.commit.assert_not_awaited()
-    session.rollback.assert_awaited_once()
+        session.execute.assert_awaited_once()
+        session.commit.assert_not_awaited()
+        session.rollback.assert_awaited_once()
+
+    asyncio.run(run_test())
 
 
-@pytest.mark.asyncio
-async def test_execute_query_retries_read_only_fetches():
-    database = _load_database_module()
-    result = MagicMock()
-    result.mappings.return_value.all.return_value = [{"value": 1}]
-    session = MagicMock()
-    session.execute = AsyncMock(side_effect=[_connection_error(), result])
-    session.rollback = AsyncMock()
-    database.db_session = session
+def test_execute_query_retries_read_only_fetches():
+    async def run_test():
+        database = _load_database_module()
+        result = MagicMock()
+        result.mappings.return_value.all.return_value = [{"value": 1}]
+        session = MagicMock()
+        session.execute = AsyncMock(side_effect=[_connection_error(), result])
+        session.rollback = AsyncMock()
+        database.db_session = session
 
-    assert await database.execute_query("SELECT 1", fetch=True) == [{"value": 1}]
-    assert session.execute.await_count == 2
-    # One rollback clears the failed connection before retry; the successful
-    # read is rolled back as well to end its transaction cleanly.
-    assert session.rollback.await_count == 2
+        assert await database.execute_query("SELECT 1", fetch=True) == [{"value": 1}]
+        assert session.execute.await_count == 2
+        # One rollback clears the failed connection before retry; the successful
+        # read is rolled back as well to end its transaction cleanly.
+        assert session.rollback.await_count == 2
+
+    asyncio.run(run_test())
