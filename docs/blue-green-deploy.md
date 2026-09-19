@@ -134,11 +134,15 @@ healthy待ち→nginx切替→旧色停止を行う。**新コンテナが healt
 調整用の環境変数: `HEALTH_TIMEOUT`（既定180秒）, `DRAIN_SECONDS`（既定15秒）,
 `NGINX_SITE_CONF`（配置済み fs-qr.conf のパス）, `REPO_DIR`。
 
-### GitHub Actions（実装済み）
+### GitHub Actions（本番手動デプロイ）
 
-`.github/workflows/tests.yml` の `deploy` ジョブ（main push 時）は、SSH 先で
-`git reset --hard origin/main` → `docker compose up -d db redis` →
-`REPO_DIR="$DEPLOY_PATH" bash scripts/deploy_bluegreen.sh` を実行するよう更新済み。
+`.github/workflows/tests.yml` の `deploy` ジョブは、`main` への push では起動せず、
+Actions の **Run workflow** から `main` を選択した手動実行でのみ進みます。CI 成功後は
+GitHub の `production` Environment の承認を待ち、承認後に SSH 先で、手動実行時に選択した
+commit SHA へ checkout → `docker compose up -d db redis` →
+`REPO_DIR="$DEPLOY_PATH" bash scripts/deploy_bluegreen.sh` を実行します。
+`production` Environment には Settings → Environments から required reviewer を設定します。
+これを設定しないと GitHub は承認待ちにしません。
 旧来の `docker compose up -d --build`（単一 web を作り直して 502 を出していた処理）は
 撤去した。失敗時はスクリプトが切替を行わず中断し、ジョブの `on_error` が作業ツリーを
 元コミットへ戻す（旧コンテナは生きたまま）。

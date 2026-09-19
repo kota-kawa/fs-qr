@@ -333,13 +333,19 @@ jobs:
           python -m mypy --config-file pyproject.toml
 
   deploy:
-    name: Deploy (main push)
+    name: Deploy (manual production)
     runs-on: ubuntu-latest
     needs: [lint, audit, node, test, image-scan, typecheck]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # 本番デプロイは Actions の Run workflow と protected environment の承認を必須にする。
+    # Production deployment requires an explicit human action after CI succeeds.
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://fs-qr.net
     timeout-minutes: 15
     env:
       DEPLOY_BRANCH: "main"
+      DEPLOY_COMMIT: ${{ github.sha }}
       DEPLOY_PATH: ${{ secrets.DEPLAY_PATH || secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
 
     steps:
@@ -380,13 +386,14 @@ jobs:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          DEPLOY_COMMIT: ${{ github.sha }}
           DEPLOY_PATH: ${{ secrets.DEPLAY_PATH || secrets.DEPLOY_PATH || '/var/www/fs-qr' }}
           DEPLOY_BRANCH: ${{ env.DEPLOY_BRANCH }}
         run: |
           set -euo pipefail
           port="${SERVER_PORT:-22}"
           ssh -i ~/.ssh/id_rsa -o BatchMode=yes -o StrictHostKeyChecking=accept-new -p "${port}" "${SERVER_USER}@${SERVER_HOST}" \
-            "DEPLOY_PATH='${DEPLOY_PATH}' DEPLOY_BRANCH='${DEPLOY_BRANCH}' bash -seu" <<'REMOTE_SCRIPT'
+            "DEPLOY_PATH='${DEPLOY_PATH}' DEPLOY_BRANCH='${DEPLOY_BRANCH}' DEPLOY_COMMIT='${DEPLOY_COMMIT}' bash -seu" <<'REMOTE_SCRIPT'
           set -euo pipefail
 
           cd "${DEPLOY_PATH}"
@@ -424,8 +431,19 @@ jobs:
 
           trap on_error ERR
 
+          if ! printf '%s' "${DEPLOY_COMMIT}" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "Deployment commit is not a full Git SHA: ${DEPLOY_COMMIT}" >&2
+            exit 1
+          fi
+
           git fetch origin "${DEPLOY_BRANCH}"
-          git reset --hard "origin/${DEPLOY_BRANCH}"
+          if ! git cat-file -e "${DEPLOY_COMMIT}^{commit}" 2>/dev/null; then
+            echo "Deployment commit is not available in the server checkout: ${DEPLOY_COMMIT}" >&2
+            exit 1
+          fi
+          # 承認後に main が進んでも、承認した workflow の commit だけをデプロイする。
+          # Deploy the exact approved workflow commit, not a newer main branch head.
+          git reset --hard "${DEPLOY_COMMIT}"
 
           # 常駐インフラ（無停止対象外）。起動済みなら no-op。
           # Blue-Green の web スロットは depends_on で db/redis の healthy を待つため先に起動する。
