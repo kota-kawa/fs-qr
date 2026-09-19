@@ -233,8 +233,10 @@ Redis 障害時の挙動は機能ごとに異なります。presence と Group r
   log で伏せる。
 - `.env.example` と `settings.py`: 秘密情報を含まない設定の形と既定値を確認する。
 
-Blue-Green の具体的な初回設定、sudo、health gate、nginx 切替、rollback は
-[docs/blue-green-deploy.md](docs/blue-green-deploy.md)だけを更新先とします。
+Blue-Green の具体的な初回設定、sudo、health gate、nginx 切替、rollback と本番デプロイの
+手動承認手順は [docs/blue-green-deploy.md](docs/blue-green-deploy.md)だけを更新先とします。
+本番デプロイを手動実行・承認制にする理由は
+[ADR-0007](docs/decisions/0007-manual-production-deployment.md)に記録しています。
 
 ### バックグラウンド処理
 

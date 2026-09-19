@@ -236,11 +236,17 @@ viewers.
 3. Join a group room → demonstrate shared file access.
 4. Open the note page → show real-time updates.
 
-## CI/CD & Auto Deploy
+## CI/CD & Production Deploy
 - GitHub Actions runs Ruff, pip-audit, mypy, a Trivy image scan, and the complete
   `pytest` suite on Python 3.13 and 3.14 for every push, pull request, and manual dispatch.
-- The deploy job runs only on pushes to `main` after the CI job succeeds.
-- If deployment secrets are not configured yet, the deploy phase is skipped so regular CI stays green.
+- Pushes to `main` run CI only; production is never deployed automatically by a branch push.
+- To deploy production, open **Actions → CI / CD → Run workflow**, select `main`, and start the
+  workflow. After CI succeeds, the protected `production` environment pauses the deploy until an
+  authorized reviewer selects **Review deployments → Approve and deploy**.
+- Create the `production` environment in **Settings → Environments** and configure at least one
+  required reviewer. Without a required reviewer, GitHub will not pause the deployment.
+- The workflow deploys the exact commit selected by the manual run, even if `main` advances while
+  approval is pending.
 - Deployment connects over SSH, updates the server checkout, brings up `db`/`redis`,
   and performs a zero-downtime Blue-Green switch via `scripts/deploy_bluegreen.sh`
   (build the inactive color → wait for `/healthz` → switch the nginx backend → drain
@@ -489,11 +495,16 @@ TrueTypeアウトラインの日本語 `.ttf` / `.ttc` を `NOTE_PDF_FONT_PATH` 
 3. グループページで共有体験を説明。
 4. ノートページでリアルタイム更新を確認。
 
-## CI/CD と自動デプロイ
+## CI/CD と本番デプロイ
 - GitHub Actions で全 push・PR・手動実行時に Ruff、pip-audit、mypy、Trivy による
   イメージ検査、および Python 3.13/3.14 の完全な `pytest` を実行します。
-- `main` への push 時のみ、CI 成功後に SSH 経由で本番デプロイを行います。
-- デプロイ用 secrets が未設定の間は deploy を skip するため、通常の CI は失敗しません。
+- `main` への push では CI のみを実行し、ブランチ push から本番へ自動デプロイしません。
+- 本番へデプロイする場合は **Actions → CI / CD → Run workflow** を開き、`main` を選択して
+  手動実行します。CI 成功後は `production` Environment が承認待ちになり、権限を持つレビュアーが
+  **Review deployments → Approve and deploy** を押した場合だけデプロイされます。
+- **Settings → Environments** で `production` Environment を作成し、必須レビュアーを1名以上
+  設定してください。必須レビュアー未設定の場合、GitHub は承認待ちにしません。
+- 承認待ちの間に `main` が進んでも、手動実行時に選択した commit SHA だけをデプロイします。
 - デプロイではサーバー上の checkout を更新し、`db`/`redis` を起動したうえで、`scripts/deploy_bluegreen.sh` による無停止 Blue-Green 切替（非アクティブ色をビルド → `/healthz` を待機 → nginx の backend を切替 → 旧色を drain）を実行します。切替が完了できない場合は旧色を生かしたまま、Git ツリーを直前コミットへロールバックします。
 
 ### 必要な GitHub Secrets

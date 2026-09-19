@@ -12,6 +12,7 @@
 - [ADR-0004: FSQR のブラウザ側暗号化](0004-browser-side-fsqr-encryption.md)
 - [ADR-0005: Group realtime の Redis pub/sub](0005-group-realtime-redis-pubsub.md)
 - [ADR-0006: Note共同編集をHocuspocus / Yjsへ移行](0006-note-collaboration-hocuspocus-yjs.md)
+- [ADR-0007: 本番デプロイを手動実行・承認制にする](0007-manual-production-deployment.md)
 
 ## 追加ルール
 
