@@ -9,6 +9,16 @@ from unittest.mock import AsyncMock, MagicMock, patch
 # プロジェクトルートをsys.pathに追加
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# CI には開発者用の .env がないため、アプリの起動時シークレット検証を
+# テスト用の非公開値で通す。実運用の .env を上書きしないよう setdefault を使う。
+for _name, _value in {
+    "SECRET_KEY": "test-secret-key-0123456789-0123456789",
+    "ADMIN_KEY": "test-admin-key",
+    "MANAGEMENT_PASSWORD": "test-management-password",
+    "DB_ADMIN_PASSWORD": "test-db-admin-password",
+}.items():
+    os.environ.setdefault(_name, _value)
+
 # databaseモジュールを強制的にモック化する
 # これにより、aiomysqlなどのドライバがなくてもapp.pyをインポート可能にする
 mock_database = MagicMock()
@@ -21,6 +31,18 @@ mock_database.engine = AsyncMock()
 # redisモジュールもモック化
 mock_redis = MagicMock()
 mock_redis_asyncio = MagicMock()
+mock_rate_redis_client = AsyncMock()
+mock_rate_redis_client.get = AsyncMock(return_value=None)
+mock_rate_redis_client.incr = AsyncMock(return_value=1)
+mock_rate_redis_client.ttl = AsyncMock(return_value=0)
+mock_rate_redis_client.expire = AsyncMock()
+mock_rate_redis_client.set = AsyncMock()
+mock_rate_redis_client.delete = AsyncMock()
+# Other Redis-backed subsystems should continue to exercise their existing
+# "Redis unavailable" fallback instead of receiving the rate-limit test fake.
+mock_rate_redis_client.ping = AsyncMock(side_effect=Exception("Redis unavailable"))
+mock_redis_asyncio.from_url = MagicMock(return_value=mock_rate_redis_client)
+mock_redis.asyncio = mock_redis_asyncio
 sys.modules["redis"] = mock_redis
 sys.modules["redis.asyncio"] = mock_redis_asyncio
 

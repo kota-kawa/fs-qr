@@ -246,7 +246,9 @@ def test_task_item_crud_routes(test_client: TestClient):
             return_value=(updated, True),
         ),
         patch(
-            "Task.task_routes_items.task_data.delete_item", new_callable=AsyncMock
+            "Task.task_routes_items.task_data.delete_item",
+            new_callable=AsyncMock,
+            return_value=("deleted", None),
         ) as delete_item,
         patch(
             "Task.task_routes_items.check_exponential_backoff",
@@ -265,7 +267,9 @@ def test_task_item_crud_routes(test_client: TestClient):
         update_response = test_client.request(
             "PATCH", "/api/task/abc123/items/12", json={"version": 0, "title": "更新後"}
         )
-        delete_response = test_client.delete("/api/task/abc123/items/12")
+        delete_response = test_client.delete(
+            "/api/task/abc123/items/12", json={"version": 0}
+        )
 
     assert create_response.status_code == 201
     assert create_response.json()["data"]["item"] == created
@@ -275,7 +279,7 @@ def test_task_item_crud_routes(test_client: TestClient):
     }
     assert update_response.json()["data"]["item"] == updated
     assert delete_response.status_code == 200
-    delete_item.assert_awaited_once_with("abc123", 12)
+    delete_item.assert_awaited_once_with("abc123", 12, 0)
 
 
 def test_task_item_date_validation(test_client: TestClient):
@@ -448,7 +452,7 @@ def test_task_delete_reports_missing_item(test_client: TestClient):
         patch(
             "Task.task_routes_items.task_data.delete_item",
             new_callable=AsyncMock,
-            return_value=False,
+            return_value=("not_found", None),
         ),
         patch(
             "Task.task_routes_items.check_exponential_backoff",
@@ -460,7 +464,7 @@ def test_task_delete_reports_missing_item(test_client: TestClient):
             new_callable=AsyncMock,
         ),
     ):
-        response = test_client.delete("/api/task/abc123/items/12")
+        response = test_client.delete("/api/task/abc123/items/12", json={"version": 0})
 
     assert response.status_code == 404
     assert "タスクが見つかりません" in response.json()["error"]

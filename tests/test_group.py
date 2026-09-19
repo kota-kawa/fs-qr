@@ -1,6 +1,6 @@
 import asyncio
 import re
-from unittest.mock import AsyncMock, mock_open, patch
+from unittest.mock import AsyncMock, patch
 
 from starlette.testclient import TestClient
 
@@ -41,6 +41,23 @@ def test_create_group_room_empty_id(test_client: TestClient):
     payload = response.json()
     assert payload["status"] == "error"
     assert isinstance(payload["error"], str)
+
+
+def test_create_group_room_is_rate_limited_when_request_counter_is_unavailable(
+    test_client: TestClient,
+):
+    """公開ルーム作成は共有レート制限が利用できない場合も拒否する"""
+    with patch(
+        "Group.group_routes_room.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "__rate_limit_unavailable__")),
+    ):
+        response = test_client.post(
+            "/create_group_room",
+            json={"id": "abc123", "idMode": "manual"},
+            headers={"Accept": "application/json"},
+        )
+
+    assert response.status_code == 429
 
 
 def test_create_group_room_invalid_chars(test_client: TestClient):
@@ -375,6 +392,22 @@ def test_group_upload_no_files(test_client: TestClient):
     assert isinstance(payload["error"], str)
 
 
+def test_group_upload_is_rate_limited_when_request_counter_is_unavailable(
+    test_client: TestClient,
+):
+    """公開ファイルアップロードは共有レート制限障害時も拒否する"""
+    with patch(
+        "Group.group_routes_file.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "__rate_limit_unavailable__")),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123",
+            headers={"Accept": "application/json"},
+        )
+
+    assert response.status_code == 429
+
+
 def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
     """HTML/SVG 判定されたファイルは 400 で拒否する"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
@@ -473,9 +506,9 @@ def test_download_all_invalid_auth(test_client: TestClient):
 def test_create_group_room_auto_duplicate(test_client: TestClient):
     """auto モードで渡した ID が既存ルームと重複する場合は 409 を返す"""
     with patch(
-        "Group.group_data.get_data",
+        "Group.group_data.room_id_is_reserved",
         new_callable=AsyncMock,
-        return_value=[{"room_id": "abc123"}],
+        return_value=True,
     ):
         response = test_client.post(
             "/create_group_room",
@@ -519,9 +552,14 @@ def test_group_owner_session_can_delete_room(test_client: TestClient):
     with (
         patch("Group.group_routes_room.generate_room_password", return_value="000042"),
         patch(
+            "Group.group_routes_room.group_data.room_id_is_reserved",
+            new_callable=AsyncMock,
+            return_value=False,
+        ),
+        patch(
             "Group.group_routes_room.group_data.get_data",
             new_callable=AsyncMock,
-            side_effect=[None, [active_room]],
+            return_value=[active_room],
         ),
         patch("Group.group_routes_room.group_data.create_room", new_callable=AsyncMock),
         patch("Group.group_routes_room.group_data.remove_data", remove_mock),
@@ -651,7 +689,11 @@ def test_remove_data_keeps_db_record_when_folder_delete_fails():
         result = asyncio.run(group_data.remove_data("abc123"))
 
     assert result is False
-    query_mock.assert_not_awaited()
+    assert any(
+        "UPDATE room" in str(call.args[0])
+        and "status = 'deleting'" in str(call.args[0])
+        for call in query_mock.await_args_list
+    )
 
 
 # --- ファイル操作: 認証成功後のフロー ---
@@ -953,12 +995,15 @@ def test_group_upload_notifies_realtime_when_saved_files_exist(test_client: Test
             return_value=mock_room,
         ),
         patch("Group.group_routes_file.notify_group_files_updated", notify_mock),
-        patch("Group.group_routes_file.os.makedirs"),
-        patch("Group.group_routes_file.open", mock_open(), create=True),
-        patch("Group.group_routes_file.shutil.copyfileobj"),
-        patch("Group.group_routes_file.os.path.getsize", return_value=1),
+        patch("Group.group_routes_file._save_uploaded_files") as save_mock,
         patch("Group.group_routes_file.has_group_room_access", return_value=True),
     ):
+
+        def save_side_effect(*args, **kwargs):
+            kwargs["saved_files"].append("test.txt")
+            return None
+
+        save_mock.side_effect = save_side_effect
         response = test_client.post(
             "/group_upload/abc123",
             files={"upfile": ("test.txt", b"hello", "text/plain")},

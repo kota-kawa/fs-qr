@@ -75,7 +75,53 @@ def test_fsqr_data_save_lookup_remove_and_expiration(tmp_path):
         for query, _, fetch in calls
         if fetch
     )
-    assert any("DELETE FROM fsqr" in query for query, _, _ in calls)
+    assert any(
+        "UPDATE fsqr" in query and "status = 'deleted'" in query
+        for query, _, _ in calls
+    )
+
+
+def test_fsqr_all_remove_clears_payloads_and_orphans(tmp_path):
+    """FSQR の全削除で DB にない残存ペイロードも消去する。"""
+    import FSQR.fsqr_data as fd
+
+    (tmp_path / "known.enc").write_bytes(b"payload")
+    (tmp_path / "orphan.zip").write_bytes(b"orphan")
+    nested = tmp_path / "operator-data"
+    nested.mkdir()
+    (nested / "keep.txt").write_text("keep", encoding="utf-8")
+
+    async def scenario():
+        calls = []
+
+        async def execute(query, params=None, fetch=False):
+            calls.append((str(query), params or {}, fetch))
+            if fetch:
+                return [{"secure_id": "known", "file_type": "single"}]
+            return None
+
+        execute_mock = AsyncMock(side_effect=execute)
+
+        with (
+            patch("FSQR.fsqr_data.STATIC", str(tmp_path)),
+            patch("FSQR.fsqr_data.execute_query", new=execute_mock),
+            patch("FSQR.fsqr_data.invalidate_cache_prefix", new=AsyncMock()),
+            patch("FSQR.fsqr_data.invalidate_cache_entry", new=AsyncMock()),
+            patch("share_links.revoke_resource_links", new=AsyncMock()) as revoke,
+        ):
+            await fd.all_remove()
+
+        assert any(
+            "UPDATE fsqr" in query and "status = 'deleted'" in query
+            for query, _, _ in calls
+        )
+        revoke.assert_awaited_once()
+
+    run(scenario())
+    assert not (tmp_path / "known.enc").exists()
+    assert not (tmp_path / "orphan.zip").exists()
+    assert nested.exists()
+    assert (nested / "keep.txt").exists()
 
 
 def test_group_data_room_lifecycle_and_expiration(tmp_path):
@@ -130,7 +176,10 @@ def test_group_data_room_lifecycle_and_expiration(tmp_path):
 
     run(scenario())
     assert any("INSERT INTO room" in query for query, _, _ in calls)
-    assert any("DELETE FROM room" in query for query, _, _ in calls)
+    assert any(
+        "UPDATE room" in query and "status = 'deleted'" in query
+        for query, _, _ in calls
+    )
 
 
 def test_group_data_remove_data_keeps_record_when_delete_fails(tmp_path):
@@ -244,7 +293,39 @@ def test_task_data_room_item_and_expiration_lifecycle():
     run(scenario())
     assert any("INSERT INTO task_room" in query for query, *_ in calls)
     assert any("INSERT INTO task_item" in query for query, *_ in calls)
-    assert any("UPDATE task_room SET status" in query for query, *_ in calls)
+    assert any(
+        "UPDATE task_room" in query and "SET status" in query for query, *_ in calls
+    )
+
+
+def test_task_data_remove_room_cleans_board_dependents_in_one_transaction():
+    """ルーム削除でカード、タグ、紐付けを残さない。"""
+    import Task.task_data as td
+
+    db_session = MagicMock()
+    db_session.begin.return_value = FakeBegin()
+    db_session.execute = AsyncMock()
+
+    async def scenario():
+        with (
+            patch("Task.task_data.db_session", db_session),
+            patch("Task.task_data.revoke_room_links", new=AsyncMock()),
+            patch("Task.task_data.invalidate_cache_prefix", new=AsyncMock()),
+        ):
+            await td.remove_room("taskA", status="expired")
+
+    run(scenario())
+
+    queries = [str(call.args[0]) for call in db_session.execute.await_args_list]
+    assert len(queries) == 4
+    assert "DELETE it FROM task_item_tag" in queries[0]
+    assert "DELETE FROM task_item" in queries[1]
+    assert "DELETE FROM task_tag" in queries[2]
+    assert "UPDATE task_room" in queries[3]
+    assert db_session.execute.await_args_list[-1].args[1] == {
+        "status": "expired",
+        "room_id": "taskA",
+    }
 
 
 def test_task_data_update_rejects_partial_date_range_atomically():

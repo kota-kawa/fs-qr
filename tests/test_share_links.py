@@ -3,6 +3,8 @@ import hashlib
 import hmac
 from unittest.mock import AsyncMock, patch
 
+import pytest
+
 import share_links
 from share_links import ServiceKey
 
@@ -35,9 +37,10 @@ def test_hash_token_uses_secret_key():
         )
 
 
-def test_hash_token_without_secret_uses_plain_sha256():
+def test_hash_token_without_secret_is_rejected():
     with patch("share_links.SECRET_KEY", ""):
-        assert share_links.hash_token("token") == hashlib.sha256(b"token").hexdigest()
+        with pytest.raises(RuntimeError, match="SECRET_KEY is required"):
+            share_links.hash_token("token")
 
 
 def test_share_password_round_trip_and_not_cleartext():

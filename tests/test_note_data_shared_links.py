@@ -13,20 +13,26 @@ class AsyncContext:
 
 
 def test_remove_room_revokes_shared_links_and_invalidates_cache():
-    execute_mock = AsyncMock()
+    db_session = MagicMock()
+    db_session.begin.return_value = AsyncContext()
+    db_session.execute = AsyncMock()
     revoke_mock = AsyncMock()
     invalidate_entry_mock = AsyncMock()
     invalidate_prefix_mock = AsyncMock()
 
     with (
-        patch("Note.note_data.execute_query", execute_mock),
+        patch("Note.note_data.db_session", db_session),
         patch("share_links.revoke_resource_links", revoke_mock),
         patch("Note.note_data.invalidate_cache_entry", invalidate_entry_mock),
         patch("Note.note_data.invalidate_cache_prefix", invalidate_prefix_mock),
     ):
         asyncio.run(note_data.remove_room("abc123"))
 
-    assert execute_mock.await_count == 2
+    assert db_session.execute.await_count == 2
+    assert "UPDATE note_room" in str(db_session.execute.await_args_list[0].args[0])
+    assert "DELETE FROM note_content" in str(
+        db_session.execute.await_args_list[1].args[0]
+    )
     revoke_mock.assert_awaited_once()
     assert revoke_mock.await_args.kwargs["resource_id"] == "abc123"
     invalidate_entry_mock.assert_awaited_once()
@@ -34,8 +40,12 @@ def test_remove_room_revokes_shared_links_and_invalidates_cache():
 
 
 def test_remove_room_keeps_cleanup_going_when_revoke_fails():
+    db_session = MagicMock()
+    db_session.begin.return_value = AsyncContext()
+    db_session.execute = AsyncMock()
+
     with (
-        patch("Note.note_data.execute_query", AsyncMock()),
+        patch("Note.note_data.db_session", db_session),
         patch(
             "share_links.revoke_resource_links",
             AsyncMock(side_effect=RuntimeError("revoke failed")),
@@ -84,6 +94,30 @@ def test_remove_expired_rooms_returns_error_payload_on_failure():
     assert result["expired_count"] == 0
     assert result["expired_room_ids"] == []
     assert "database unavailable" in result["error"]
+
+
+def test_remove_expired_rooms_keeps_successful_ids_when_one_room_fails():
+    db_session = MagicMock()
+    db_session.begin.return_value = AsyncContext()
+    db_session.execute = AsyncMock(
+        side_effect=[None, None, RuntimeError("room update failed")]
+    )
+
+    with (
+        patch(
+            "Note.note_data.execute_query",
+            AsyncMock(return_value=[{"room_id": "room1"}, {"room_id": "room2"}]),
+        ),
+        patch("Note.note_data.db_session", db_session),
+        patch("share_links.revoke_resource_links", AsyncMock()),
+        patch("Note.note_data.invalidate_cache_entry", AsyncMock()),
+        patch("Note.note_data.invalidate_cache_prefix", AsyncMock()),
+    ):
+        result = asyncio.run(note_data.remove_expired_rooms())
+
+    assert result["expired_count"] == 1
+    assert result["expired_room_ids"] == ["room1"]
+    assert "room2" in result["error"]
 
 
 def test_get_room_meta_by_share_token_hash_returns_row_or_none():

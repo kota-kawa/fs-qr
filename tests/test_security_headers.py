@@ -1,5 +1,8 @@
 """セキュリティヘッダーとアクセスログ伏せ字化のテスト。"""
 
+import re
+from pathlib import Path
+
 import pytest
 
 from log_config import redact_sensitive_paths
@@ -26,6 +29,11 @@ def test_index_has_security_headers(test_client):
     assert "default-src 'self'" in csp
     assert "object-src 'none'" in csp
     assert "frame-ancestors 'self'" in csp
+    script_src = csp.split("script-src", 1)[1].split(";", 1)[0]
+    assert "'unsafe-inline'" not in script_src
+    nonce_match = re.search(r"'nonce-([^']+)'", script_src)
+    assert nonce_match is not None
+    assert f'nonce="{nonce_match.group(1)}"' in response.text
 
 
 def test_404_response_has_security_headers(test_client):
@@ -98,3 +106,21 @@ def test_robots_disallows_operation_and_collaboration_pages(test_client):
 )
 def test_redact_sensitive_paths(path, expected):
     assert redact_sensitive_paths(path) == expected
+
+
+def test_nginx_access_log_does_not_record_referer():
+    """認証情報を含む参照元URLを nginx のアクセスログへ保存しない"""
+    config = Path("fs-qr.conf").read_text(encoding="utf-8")
+    assert "$http_referer" not in config
+
+
+def test_access_log_redaction_removes_query_credentials():
+    from log_config import redact_sensitive_paths
+
+    redacted = redact_sensitive_paths(
+        '"GET /ws/group/room?csrf_token=secret-value&lang=ja HTTP/1.1"'
+    )
+
+    assert "secret-value" not in redacted
+    assert "csrf_token=[redacted]" in redacted
+    assert "lang=ja" in redacted

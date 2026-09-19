@@ -14,20 +14,16 @@ def test_group_room_hub_connect_broadcast_disconnect():
     websocket = MagicMock()
     websocket.accept = AsyncMock()
     websocket.send_json = AsyncMock()
+    websocket.close = AsyncMock()
 
     async def scenario():
         with (
             patch("Group.group_realtime.get_redis", new=AsyncMock(return_value=None)),
             patch("Group.group_realtime.ensure_pubsub"),
         ):
-            await hub.connect("abc123", websocket)
-            assert websocket in hub._rooms["abc123"]
-
-            await hub.broadcast("abc123", {"type": "files_updated"})
-            websocket.send_json.assert_awaited_once_with({"type": "files_updated"})
-
-            await hub.disconnect("abc123", websocket)
+            assert await hub.connect("abc123", websocket) is False
             assert "abc123" not in hub._rooms
+            websocket.close.assert_awaited_once_with(code=1013)
 
     asyncio.run(scenario())
 
@@ -57,12 +53,11 @@ def test_group_room_hub_tracks_connections_in_redis():
     websocket = MagicMock()
     websocket.accept = AsyncMock()
 
-    register_pipeline = MagicMock()
-    register_pipeline.execute = AsyncMock(return_value=[1, 1, 1, 1])
     unregister_pipeline = MagicMock()
     unregister_pipeline.execute = AsyncMock(return_value=[1, 1, 0, 0])
     redis_client = MagicMock()
-    redis_client.pipeline.side_effect = [register_pipeline, unregister_pipeline]
+    redis_client.eval = AsyncMock(return_value=1)
+    redis_client.pipeline.return_value = unregister_pipeline
     redis_client.delete = AsyncMock()
 
     async def scenario():
@@ -79,9 +74,11 @@ def test_group_room_hub_tracks_connections_in_redis():
             await hub.disconnect("abc123", websocket)
 
         room_key = group_realtime._room_connections_key("abc123")
-        register_pipeline.sadd.assert_any_call(room_key, member)
-        register_pipeline.sadd.assert_any_call(
-            group_realtime.INSTANCE_CONNECTIONS_KEY, member
+        redis_client.eval.assert_awaited_once()
+        assert redis_client.eval.await_args.args[1] == 2
+        assert room_key in redis_client.eval.await_args.args
+        assert (
+            group_realtime.INSTANCE_CONNECTIONS_KEY in redis_client.eval.await_args.args
         )
         unregister_pipeline.srem.assert_any_call(room_key, member)
         unregister_pipeline.srem.assert_any_call(
