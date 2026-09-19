@@ -11,8 +11,12 @@ from starlette.responses import RedirectResponse
 from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import NoteTaskRoomCreateInput, RoomCreateInput
 from rate_limit import (
+    PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+    PUBLIC_WRITE_WINDOW_SECONDS,
     SCOPE_TASK,
+    SCOPE_TASK_ROOM_CREATE,
     check_rate_limit,
+    get_block_message,
     get_client_ip,
     register_failure,
     register_success,
@@ -182,6 +186,19 @@ def register_task_create_room_route(router: APIRouter) -> None:
     @router.post("/create_task_room", name="task.create_task_room")
     async def create_task_room(request: Request):
         await enforce_csrf(request)
+        ip = get_client_ip(request)
+        allowed, _, block_label = await check_rate_limit(
+            SCOPE_TASK_ROOM_CREATE,
+            ip,
+            request_limit=PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+            request_window_seconds=PUBLIC_WRITE_WINDOW_SECONDS,
+        )
+        if not allowed:
+            return task_api_error(
+                "task.rate_limit_generic",
+                get_block_message(block_label),
+                status_code=429,
+            )
         json_data: dict = {}
         form_data = None
         if "application/json" in request.headers.get("content-type", ""):

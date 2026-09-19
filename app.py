@@ -4,6 +4,7 @@ import inspect
 import logging
 import os
 import re
+import secrets
 import subprocess
 from datetime import datetime, timezone
 from functools import lru_cache
@@ -37,6 +38,7 @@ from settings import (
     REDIS_URL,
     SESSION_MAX_AGE_SECONDS,
     TRUSTED_PROXY_HOSTS,
+    validate_security_settings,
 )
 from i18n import (
     DEFAULT_LANGUAGE,
@@ -52,7 +54,7 @@ from web import (
     render_template,
     wants_json_response,
 )
-from api_response import api_error_response
+from api_response import api_error_response, error_page_or_json
 from geoip_update import geoip_update_loop, update_geoip_database_async
 
 from Group.group_app import router as group_router
@@ -122,8 +124,11 @@ app.mount(
 
 @app.middleware("http")
 async def security_headers_middleware(request: Request, call_next):
+    # Inline configuration snippets use a per-response CSP nonce.
+    # インライン設定スクリプトはレスポンスごとの CSP nonce で許可する。
+    request.state.csp_nonce = secrets.token_urlsafe(16)
     response = await call_next(request)
-    apply_security_headers(response.headers)
+    apply_security_headers(response.headers, nonce=request.state.csp_nonce)
     return response
 
 
@@ -166,6 +171,8 @@ async def db_session_middleware(request: Request, call_next):
 @app.on_event("startup")
 async def startup():
     global _geoip_update_stop_event, _geoip_update_task
+
+    validate_security_settings()
 
     if GEOIP_AUTO_UPDATE:
         try:
@@ -234,12 +241,15 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
             response.status_code = 404
             return response
         return api_error_response(generic_message, status_code=exc.status_code)
-    return api_error_response(str(exc.detail), status_code=exc.status_code)
+    return error_page_or_json(request, str(exc.detail), status_code=exc.status_code)
 
 
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
-    logger.exception("Unhandled error during %s %s", request.method, request.url.path)
+    from log_config import redact_sensitive_paths
+
+    safe_path = redact_sensitive_paths(request.url.path)
+    logger.exception("Unhandled error during %s %s", request.method, safe_path)
     if request.url.path.startswith("/api") or wants_json_response(request):
         return api_error_response(
             "サーバーでエラーが発生しました。時間をおいて再度お試しください。",

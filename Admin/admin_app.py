@@ -1,6 +1,3 @@
-import os
-import shutil
-
 from fastapi import APIRouter, Request
 from starlette.responses import RedirectResponse
 
@@ -10,6 +7,7 @@ from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
     mark_session_authenticated,
+    rotate_session_id,
     secure_compare_secret,
 )
 from rate_limit import (
@@ -25,7 +23,6 @@ from web import enforce_csrf, flash_message, render_template
 
 router = APIRouter()
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ADMIN_SESSION_KEY = "admin_authenticated"
 
 
@@ -65,6 +62,7 @@ async def admin_login(request: Request):
         flash_message(request, "マスターパスワードが違います")
         return render_template(request, "admin_login.html")
     await register_success(SCOPE_ADMIN, ip)
+    rotate_session_id(request)
     mark_session_authenticated(request.session, ADMIN_SESSION_KEY)
     return RedirectResponse("/admin/list", status_code=302)
 
@@ -98,6 +96,4 @@ async def all_remove(request: Request):
     await enforce_csrf(request)
 
     await fs_data.all_remove()
-    shutil.rmtree(os.path.join(BASE_DIR, "static", "upload"))
-    os.mkdir(os.path.join(BASE_DIR, "static", "upload"))
     return RedirectResponse("/remove-succes", status_code=302)

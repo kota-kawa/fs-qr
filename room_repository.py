@@ -52,7 +52,7 @@ class RoomTable:
         )
 
 
-GROUP_ROOMS = RoomTable("room")
+GROUP_ROOMS = RoomTable("room", status_column="status")
 NOTE_ROOMS = RoomTable("note_room", status_column="status")
 TASK_ROOMS = RoomTable("task_room", status_column="status")
 
@@ -102,8 +102,9 @@ async def find_room_id_by_credentials(
     """
 
     rows = await execute(
-        text(
-            f"SELECT room_id, password FROM {table.name} WHERE id = :id"  # noqa: S608 - table is one of the fixed RoomTable constants
+        text(  # noqa: S608 - table is one of the fixed RoomTable constants
+            f"SELECT room_id, password FROM {table.name} "  # noqa: S608
+            f"WHERE id = :id AND {table.active_predicate}"  # noqa: S608
         ),
         {"id": public_id},
         fetch=True,
@@ -113,6 +114,28 @@ async def find_room_id_by_credentials(
         if verify_password(mapping.get("password"), password):
             return mapping.get(table.id_column)
     return None
+
+
+async def room_id_exists(
+    execute: Callable[..., Awaitable[Sequence[Any]]],
+    table: RoomTable,
+    room_id: str,
+) -> bool:
+    """Return whether an ID is reserved, including a soft-deleted room.
+
+    A deleted Group room remains as a tombstone so a browser session containing
+    the old room ID can never become authorized for a later room with that ID.
+    ID allocation must therefore check all rows, not only active rooms.
+    """
+
+    rows = await execute(
+        text(  # noqa: S608 - table is one of the fixed RoomTable constants
+            f"SELECT 1 FROM {table.name} WHERE {table.id_column} = :room_id LIMIT 1"  # noqa: S608
+        ),
+        {"room_id": room_id},
+        fetch=True,
+    )
+    return bool(rows)
 
 
 async def get_active_room(
@@ -150,6 +173,7 @@ __all__ = [
     "RoomTable",
     "get_active_room",
     "find_room_id_by_credentials",
+    "room_id_exists",
     "list_expired_room_ids",
     "revoke_room_links",
 ]

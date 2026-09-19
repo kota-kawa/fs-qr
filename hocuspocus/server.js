@@ -15,6 +15,22 @@ const secret = process.env.NOTE_YJS_SECRET || process.env.SECRET_KEY;
 const redisUrl = process.env.REDIS_URL || "redis://redis:6379/0";
 const maxContentLength = Number(process.env.NOTE_MAX_CONTENT_LENGTH || 10000);
 const maxUpdateBytes = maxContentLength * 8 + 65536;
+const positiveEnvNumber = (name, fallback, minimum) => {
+  const parsed = Number(process.env[name]);
+  return Number.isFinite(parsed) && parsed >= minimum
+    ? Math.floor(parsed)
+    : fallback;
+};
+const maxConnectionsPerRoom = positiveEnvNumber(
+  "NOTE_MAX_CONNECTIONS_PER_ROOM",
+  100,
+  1,
+);
+const maxMessagesPerMinute = positiveEnvNumber(
+  "NOTE_MAX_MESSAGES_PER_MINUTE",
+  600,
+  60,
+);
 const publicSiteUrl = process.env.PUBLIC_SITE_URL || "https://fs-qr.net";
 
 if (!secret) throw new Error("NOTE_YJS_SECRET or SECRET_KEY is required");
@@ -29,6 +45,8 @@ const pool = mysql.createPool({
   charset: "utf8mb4",
 });
 const sessionRedis = new IORedis(redisUrl);
+const roomConnections = new Map();
+const messageWindows = new Map();
 sessionRedis.on("error", (error) => {
   console.warn("Note authorization Redis error", error.message);
 });
@@ -98,7 +116,7 @@ const server = new Server({
       prefix: "fsqr:note:yjs",
     }),
   ],
-  async onAuthenticate({ token, documentName, requestHeaders }) {
+  async onAuthenticate({ token, documentName, requestHeaders, socketId }) {
     const sessionId = sessionIdFromCookie(requestHeaders.get("cookie"));
     const authorized = verifyCollaborationToken(token, documentName, secret)
       && originIsAllowed(requestHeaders.get("origin"), publicSiteUrl)
@@ -107,7 +125,38 @@ const server = new Server({
     if (!authorized) {
       throw new Error("Unauthorized");
     }
+
+    const connections = roomConnections.get(documentName) || new Set();
+    if (!connections.has(socketId) && connections.size >= maxConnectionsPerRoom) {
+      throw new Error("Room connection limit reached");
+    }
+    // socketId is stable across the authentication hook and is removed in
+    // onDisconnect, so repeated token refreshes do not consume extra slots.
+    if (socketId) {
+      connections.add(socketId);
+      roomConnections.set(documentName, connections);
+    }
     return { roomId: documentName };
+  },
+  async beforeHandleMessage({ socketId }) {
+    const now = Date.now();
+    const windowStart = now - 60_000;
+    const timestamps = (messageWindows.get(socketId) || []).filter(
+      (timestamp) => timestamp > windowStart,
+    );
+    if (timestamps.length >= maxMessagesPerMinute) {
+      throw new Error("Message rate limit reached");
+    }
+    timestamps.push(now);
+    messageWindows.set(socketId, timestamps);
+  },
+  async onDisconnect({ documentName, socketId }) {
+    const connections = roomConnections.get(documentName);
+    if (connections) {
+      connections.delete(socketId);
+      if (connections.size === 0) roomConnections.delete(documentName);
+    }
+    messageWindows.delete(socketId);
   },
   async onLoadDocument({ documentName }) {
     return loadDocument(documentName);
@@ -156,6 +205,8 @@ const shutdown = async () => {
   await expirationSubscriber.quit();
   await sessionRedis.quit();
   await pool.end();
+  roomConnections.clear();
+  messageWindows.clear();
 };
 process.once("SIGTERM", shutdown);
 process.once("SIGINT", shutdown);

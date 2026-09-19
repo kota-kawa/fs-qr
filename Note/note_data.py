@@ -383,15 +383,22 @@ store_content = save_content
 
 
 async def remove_room(room_id: str, status: str = "deleted") -> None:
-    await execute_query(
-        """
-        UPDATE note_room
-        SET status = :status, deleted_at = NOW()
-        WHERE room_id = :r
-        """,
-        {"r": room_id, "status": status},
-    )
-    await execute_query("DELETE FROM note_content WHERE room_id = :r", {"r": room_id})
+    # Keep the room tombstone and its content change in one transaction.  If
+    # either statement fails, the active room and its content remain aligned.
+    # ルームの論理削除と本文削除を単一トランザクションで確定する。
+    async with db_session.begin():
+        await db_session.execute(
+            text("""
+            UPDATE note_room
+            SET status = :status, deleted_at = NOW()
+            WHERE room_id = :r
+            """),
+            {"r": room_id, "status": status},
+        )
+        await db_session.execute(
+            text("DELETE FROM note_content WHERE room_id = :r"),
+            {"r": room_id},
+        )
 
     # DB削除後の副作用を並列実行して高速化
     async def _revoke_links():
@@ -410,8 +417,15 @@ async def remove_room(room_id: str, status: str = "deleted") -> None:
 # ────────────────────────────────────────────
 async def remove_expired_rooms():
     expired_room_ids = []
+    errors = []
     try:
-        for rid in await list_expired_room_ids(execute_query, NOTE_ROOMS):
+        expired_ids = await list_expired_room_ids(execute_query, NOTE_ROOMS)
+    except Exception as e:
+        logger.error(f"Failed to remove expired note rooms: {e}")
+        return {"expired_count": 0, "expired_room_ids": [], "error": str(e)}
+
+    for rid in expired_ids:
+        try:
             async with db_session.begin():
                 await db_session.execute(
                     text("""
@@ -428,12 +442,21 @@ async def remove_expired_rooms():
             await invalidate_cache_entry(get_room_meta, rid)
             expired_room_ids.append(rid)
             logger.info(f"Expired note room removed: {rid}")
+        except Exception as e:
+            errors.append(f"{rid}: {e}")
+            logger.exception("Failed to remove expired note room: %s", rid)
+
+    try:
         await invalidate_cache_prefix(get_room_meta)
         await invalidate_cache_prefix(pick_room_id)
-        return {
-            "expired_count": len(expired_room_ids),
-            "expired_room_ids": expired_room_ids,
-        }
     except Exception as e:
-        logger.error(f"Failed to remove expired note rooms: {e}")
-        return {"expired_count": 0, "expired_room_ids": [], "error": str(e)}
+        errors.append(f"cache invalidation: {e}")
+        logger.exception("Failed to invalidate Note expiration caches")
+
+    result = {
+        "expired_count": len(expired_room_ids),
+        "expired_room_ids": expired_room_ids,
+    }
+    if errors:
+        result["error"] = "; ".join(errors)
+    return result

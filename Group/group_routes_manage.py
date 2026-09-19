@@ -5,6 +5,7 @@ from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
     mark_session_authenticated,
+    rotate_session_id,
     secure_compare_secret,
 )
 from rate_limit import (
@@ -38,6 +39,7 @@ def _register_manage_rooms_post(router: APIRouter):
 
             if secure_compare_secret(password, management_password):
                 await register_success(SCOPE_MANAGEMENT, ip)
+                rotate_session_id(request)
                 mark_session_authenticated(request.session, "management_authenticated")
             else:
                 _, block_label = await register_failure(SCOPE_MANAGEMENT, ip)

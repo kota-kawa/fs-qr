@@ -19,6 +19,11 @@
     <div class="card-body info-box-content">
       <div class="text-center info-content-inner">
         <div id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></div>
+        {% if encryption_mode == 'raw' %}
+        <div class="share-priority-card">
+          {{ _("このファイルは共有URLに含まれる復号鍵を使います。IDとパスワードだけでなく、表示された共有URLをそのまま共有してください。") }}
+        </div>
+        {% endif %}
 
         <div class="room-info-container room-info-container--stacked">
           <div class="room-info-card">
@@ -41,7 +46,7 @@
                   </span>
                 </span>
               </div>
-              {% if password %}
+              {% if password and encryption_mode != 'raw' %}
               <div class="room-info-row">
                 <span class="room-info-label">{{ _("パスワード") }}</span>
                 <span class="room-info-value">
@@ -280,10 +285,14 @@
       <h5>{{ _("使い方") }}</h5>
     </div>
     <div class="usage-section-content">
-      <p>
+        <p>
+          {% if encryption_mode == 'raw' %}
+          {{ _("共有URLを開くとブラウザ内で復号できます。URLの末尾を変更せずに共有してください。") }}<br>
+          {% else %}
         {{ _("1. 上に表示されたIDとパスワード、共有リンクを共有したい相手に伝えてください。") }}<br>
         {{ _("2. 受け取った人はトップページの検索アイコンからIDとパスワードを入力するか、共有リンクを開くだけでファイルをダウンロードできます。") }}<br>
         {{ _("3. QRコードを読み取ればURLを直接開くことも可能です。") }}<br>
+          {% endif %}
         {{ _("ファイルは一定期間後に自動で削除されるため、必要なときに早めにダウンロードしてください。") }}
       </p>
     </div>

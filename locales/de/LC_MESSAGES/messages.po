@@ -4406,6 +4406,11 @@ msgstr "Dieser Notizraum ist abgelaufen oder wurde gelöscht."
 msgid "このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
 msgstr "このNotizRaum löschenします。Speichern済みの本文もLöschenされ、このAktionenは元に戻せません。"
 
+msgid "このファイルは共有URLに含まれる復号鍵を使います。IDとパスワードだけでなく、表示された共有URLをそのまま共有してください。"
+msgstr ""
+"このファイルはFreigabe-URLに含まれる復号鍵を使います。IDとPasswortだけでなく、AnzeigenされたFreigabe-"
+"URLをそのままTeilenしてください。"
+
 msgid "このファイルを共有する"
 msgstr "Diese Datei teilen"
 
@@ -10346,6 +10351,9 @@ msgstr "Freigabe-URL kopieren"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
 msgstr "Freigabe-URLを送れば、離れた相手も同じNotizに参加できます。"
+
+msgid "共有URLを開くとブラウザ内で復号できます。URLの末尾を変更せずに共有してください。"
+msgstr "Freigabe-URLを開くとブラウザ内で復号できます。URLの末尾を変更せずにTeilenしてください。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""

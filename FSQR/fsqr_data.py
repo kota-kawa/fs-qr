@@ -28,19 +28,33 @@ STATIC = FSQR_UPLOAD_DIR
 EXPIRATION_CLEANUP_STATUS_KEY = "fsqr:expiration_cleanup:last_result"
 
 
+def _clear_storage_files() -> None:
+    """Remove FSQR regular files without traversing outside its storage root."""
+
+    if not os.path.isdir(STATIC):
+        return
+    for entry in os.scandir(STATIC):
+        # FSQR stores flat .enc/.zip payloads.  Leave unexpected directories
+        # alone rather than recursively deleting an operator-configured path.
+        if entry.is_file(follow_symlinks=False) or entry.is_symlink():
+            os.unlink(entry.path)
+
+
 def hash_share_token(share_token: str) -> str:
-    secret = (SECRET_KEY or "").encode("utf-8")
-    if secret:
-        return hmac.new(secret, share_token.encode("utf-8"), hashlib.sha256).hexdigest()
-    return hashlib.sha256(share_token.encode("utf-8")).hexdigest()
+    return hmac.new(
+        _secret_key_bytes(), share_token.encode("utf-8"), hashlib.sha256
+    ).hexdigest()
 
 
 def hash_password_lookup(id_val: str, password: str) -> str:
     payload = f"fsqr:{id_val}:{password}".encode("utf-8")
-    secret = (SECRET_KEY or "").encode("utf-8")
-    if secret:
-        return hmac.new(secret, payload, hashlib.sha256).hexdigest()
-    return hashlib.sha256(payload).hexdigest()
+    return hmac.new(_secret_key_bytes(), payload, hashlib.sha256).hexdigest()
+
+
+def _secret_key_bytes() -> bytes:
+    if not isinstance(SECRET_KEY, str) or not SECRET_KEY.strip():
+        raise RuntimeError("SECRET_KEY is required for FSQR credentials")
+    return SECRET_KEY.encode("utf-8")
 
 
 # ファイルを保存
@@ -53,8 +67,11 @@ async def save_file(
     original_filename=None,
     retention_hours=24,
     share_token=None,
+    encryption_mode="password",
 ):
     try:
+        if encryption_mode not in {"password", "raw"}:
+            raise ValueError("Unsupported FSQR encryption mode")
         hashed_password = hash_password(password)
         password_lookup_hash = hash_password_lookup(id, password)
         share_token_hash = hash_share_token(share_token) if share_token else None
@@ -62,12 +79,13 @@ async def save_file(
             INSERT INTO fsqr (
                 time, uuid, id, password, password_lookup_hash,
                 secure_id, share_token_hash, file_type, original_filename,
-                retention_days, retention_hours, expires_at
+                retention_days, retention_hours, expires_at, encryption_mode, status
             )
             VALUES (
                 NOW(), :uid, :id, :password, :password_lookup_hash,
                 :secure_id, :share_token_hash, :file_type, :original_filename,
-                1, :retention_hours, DATE_ADD(NOW(), INTERVAL :retention_hours HOUR)
+                1, :retention_hours, DATE_ADD(NOW(), INTERVAL :retention_hours HOUR),
+                :encryption_mode, 'active'
             )
         """)
         await execute_query(
@@ -82,6 +100,7 @@ async def save_file(
                 "file_type": file_type,
                 "original_filename": original_filename,
                 "retention_hours": retention_hours,
+                "encryption_mode": encryption_mode,
             },
         )
         await invalidate_cache_entry(try_login, id, password)
@@ -157,7 +176,8 @@ async def get_data_by_share_token(share_token):
     try:
         token_hash = hash_share_token(share_token)
         query = text("""
-            SELECT * FROM fsqr WHERE share_token_hash = :share_token_hash
+            SELECT * FROM fsqr
+            WHERE share_token_hash = :share_token_hash AND status = 'active'
         """)
         result = await execute_query(
             query, {"share_token_hash": token_hash}, fetch=True
@@ -181,7 +201,7 @@ async def get_all():
 async def get_all_direct():
     try:
         query = text("""
-            SELECT * FROM fsqr ORDER BY suji DESC
+            SELECT * FROM fsqr WHERE status = 'active' ORDER BY suji DESC
         """)
         return await execute_query(query, fetch=True)
     except Exception as e:
@@ -192,12 +212,24 @@ async def get_all_direct():
 # アップロードされたファイルとメタ情報の削除
 async def remove_data(secure_id):
     try:
-        # まずデータベースからファイル情報を取得
+        # まずデータベースからファイル情報を取得する。deleting を含めることで
+        # ファイル削除後にプロセスが落ちても、次回の掃除で再試行できる。
         data = await get_data_direct(secure_id)
+        if not data:
+            return False
         file_type = "multiple"  # デフォルト値
         record = data[0] if data else None
+        if record.get("status", "active") == "deleted":
+            return True
         if data:
             file_type = data[0].get("file_type", "multiple")
+
+        mark_deleting_query = text("""
+            UPDATE fsqr
+            SET status = 'deleting', deleted_at = NOW()
+            WHERE secure_id = :secure_id AND status IN ('active', 'deleting')
+        """)
+        await execute_query(mark_deleting_query, {"secure_id": secure_id})
 
         # ファイルタイプに応じて削除するファイルを決定
         if file_type == "single":
@@ -216,7 +248,9 @@ async def remove_data(secure_id):
         await asyncio.to_thread(_delete_files)
 
         query = text("""
-            DELETE FROM fsqr WHERE secure_id = :secure_id
+            UPDATE fsqr
+            SET status = 'deleted', deleted_at = NOW()
+            WHERE secure_id = :secure_id AND status = 'deleting'
         """)
         await execute_query(query, {"secure_id": secure_id})
 
@@ -233,6 +267,7 @@ async def remove_data(secure_id):
             await revoke_room_links(ServiceKey.FSQR, secure_id, logger=logger)
 
         await asyncio.gather(_invalidate_caches(), _revoke_links())
+        return True
     except Exception as e:
         logger.error(f"Failed to remove data: {e}")
         raise
@@ -241,15 +276,31 @@ async def remove_data(secure_id):
 # 全てのデータを削除
 async def all_remove():
     try:
-        rows = await get_all_direct()
         query = text("""
-            DELETE FROM fsqr
+            SELECT secure_id
+            FROM fsqr
+            WHERE status IN ('active', 'deleting')
+            ORDER BY suji DESC
         """)
-        await execute_query(query)
+        rows = await execute_query(query, fetch=True)
+        failed_ids = []
         for row in rows:
             secure_id = row.get("secure_id")
             if secure_id:
-                await revoke_room_links(ServiceKey.FSQR, secure_id, logger=logger)
+                try:
+                    if not await remove_data(secure_id):
+                        failed_ids.append(secure_id)
+                except Exception:
+                    failed_ids.append(secure_id)
+                    logger.exception("Failed to remove FSQR record: %s", secure_id)
+        if failed_ids:
+            raise RuntimeError(
+                "Failed to remove FSQR records: " + ", ".join(failed_ids)
+            )
+
+        # Clear orphan payloads only after every metadata row reached the
+        # deleted state.  This preserves recoverability when one delete fails.
+        await asyncio.to_thread(_clear_storage_files)
         await invalidate_cache_prefix(try_login)
         await invalidate_cache_prefix(get_data_by_credentials)
         await invalidate_cache_prefix(get_data_by_share_token)
@@ -271,7 +322,8 @@ async def remove_expired_files():
         query = text("""
             SELECT secure_id
             FROM fsqr
-            WHERE expires_at <= NOW()
+            WHERE (status = 'active' AND expires_at <= NOW())
+               OR status = 'deleting'
             """)
         expired_records = await execute_query(query, fetch=True)
         stats["checked"] = len(expired_records)
@@ -280,7 +332,8 @@ async def remove_expired_files():
             if not secure_id:
                 continue
             try:
-                await remove_data(secure_id)
+                if not await remove_data(secure_id):
+                    raise RuntimeError("record is not removable")
                 stats["removed"] += 1
                 logger.info(f"Expired record removed: {secure_id}")
             except Exception:
@@ -317,6 +370,7 @@ async def _find_record_by_credentials(id_val: str, password: str):
         SELECT * FROM fsqr
         WHERE id = :id
           AND password_lookup_hash = :password_lookup_hash
+          AND status = 'active'
         LIMIT 1
     """)
     rows = await execute_query(
@@ -334,6 +388,7 @@ async def _find_record_by_credentials(id_val: str, password: str):
             SELECT * FROM fsqr
             WHERE id = :id
               AND password_lookup_hash IS NULL
+              AND status = 'active'
         """),
         {"id": id_val},
         fetch=True,

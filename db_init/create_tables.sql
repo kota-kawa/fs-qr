@@ -12,6 +12,9 @@ CREATE TABLE fsqr (
     retention_days INT NOT NULL DEFAULT 1, -- 旧互換用の日数（常に1日）
     retention_hours INT NOT NULL DEFAULT 24, -- 自動削除までの時間
     expires_at DATETIME NOT NULL,         -- 自動削除対象日時
+    status VARCHAR(20) NOT NULL DEFAULT 'active', -- active / deleted / expired
+    deleted_at DATETIME NULL,
+    encryption_mode VARCHAR(20) NOT NULL DEFAULT 'password', -- password / raw
     UNIQUE KEY uq_fsqr_uuid (uuid),
     UNIQUE KEY uq_fsqr_share_token_hash (share_token_hash),
     INDEX idx_fsqr_id_password_lookup (id, password_lookup_hash),
@@ -45,11 +48,14 @@ CREATE TABLE room (
     retention_days INT NOT NULL DEFAULT 1, -- 旧互換用の日数（常に1日）
     retention_hours INT NOT NULL DEFAULT 24, -- 自動削除までの時間
     expires_at DATETIME NOT NULL,         -- 自動削除対象日時
+    status VARCHAR(20) NOT NULL DEFAULT 'active', -- active / deleting / deleted
+    deleted_at DATETIME NULL,
     UNIQUE KEY uq_room_room_id (room_id),
     INDEX idx_room_id_password (id, password),
     INDEX idx_room_room_id (room_id),
     INDEX idx_room_time (time),
-    INDEX idx_room_expires_at (expires_at)
+    INDEX idx_room_expires_at (expires_at),
+    INDEX idx_room_expires_status (status, expires_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

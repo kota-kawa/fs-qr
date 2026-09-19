@@ -522,7 +522,7 @@
         }
     </style>
 
-    <script>
+    <script nonce="{{ csp_nonce }}">
         /* iframe の onload が JS 初期化前に発火しても取りこぼさないためのキュー */
         window.__pendingLoads = [];
         window.WS = { onFrameLoad(key){ window.__pendingLoads.push(key); } };
@@ -624,7 +624,7 @@
 
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
 const Workspace = (() => {
     "use strict";
 

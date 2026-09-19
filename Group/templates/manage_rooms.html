@@ -47,7 +47,7 @@
         </tbody>
     </table>
 </div>
-<script>
+<script nonce="{{ csp_nonce }}">
 document.querySelectorAll('[data-confirm-submit]').forEach(function(form) {
     form.addEventListener('submit', async function(event) {
         if (form.dataset.confirmed === 'true') {

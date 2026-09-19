@@ -83,7 +83,7 @@
       return true;
     }
 
-    function buildUploadFormData(files, encryptedBlob, id) {
+    function buildUploadFormData(files, encryptedBlob, id, downloadPassword) {
       var formData = new FormData();
       if (files.length === 1) {
         var encryptedFile = new File([encryptedBlob], `${files[0].name}.enc`, { type: 'application/octet-stream' });
@@ -95,7 +95,11 @@
         formData.append('file_type', 'multiple');
       }
       formData.append('name', id);
-      formData.append('download_password', encryptionService.getLastEncryptionKey());
+      // The server password authenticates downloads; it is intentionally not
+      // reused as the browser-side AES-GCM key.
+      // サーバー用パスワードとブラウザ側 AES-GCM 鍵は意図的に分離する。
+      formData.append('download_password', downloadPassword);
+      formData.append('encryption_mode', 'raw');
       formData.append('original_filename', files[0].name);
       formData.append('retention_hours', retentionSelect.value);
       return formData;
@@ -162,7 +166,10 @@
 
           spinner.setSpinnerText(translate('upload.encrypting', 'Encrypting...'));
           var downloadPassword = generateDownloadPassword();
-          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, downloadPassword, 'password');
+          // Keep the six-digit password only for server-side access control.
+          // Encryption uses an independent random 32-byte key kept in the URL fragment.
+          // 6桁パスワードはサーバー認証専用とし、暗号化には独立した乱数鍵を使う。
+          var encryptedBlob = await encryptionService.encryptAndZipFilesWithProgress(files, null, 'raw');
           var shareKey = typeof encryptionService.getLastEncryptionKey === 'function'
             ? encryptionService.getLastEncryptionKey()
             : '';
@@ -175,7 +182,7 @@
           spinner.setSpinnerDetail(translate('upload.sending_files', 'Sending {n} file(s)').replace('{n}', String(fileNames.length)));
           spinner.startUploadAnimation();
 
-          var formData = buildUploadFormData(files, encryptedBlob, id);
+          var formData = buildUploadFormData(files, encryptedBlob, id, downloadPassword);
           var xhr = new XMLHttpRequest();
           activeXhr = xhr;
           xhr.open('POST', '/upload', true);
@@ -206,7 +213,7 @@
                 && result.data.redirect_url
               ) {
                 window.location.href = result.data.redirect_url
-                  + (shareKey ? `#pw=${encodeURIComponent(shareKey)}` : '');
+                  + (shareKey ? `#key=${encodeURIComponent(shareKey)}` : '');
               } else {
                 showFormError(translate('upload.error_no_redirect', 'Upload completed, but the redirect URL could not be retrieved. Please reload the page.'));
                 spinner.hideSpinner();

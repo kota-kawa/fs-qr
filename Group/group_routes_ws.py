@@ -20,7 +20,10 @@ def register_group_files_ws_route(router: APIRouter):
             await websocket.close(code=1008)
             return
 
-        await hub.connect(room_id, websocket)
+        connected = await hub.connect(room_id, websocket)
+        if not connected:
+            await websocket.close(code=1013)
+            return
 
         try:
             while True:

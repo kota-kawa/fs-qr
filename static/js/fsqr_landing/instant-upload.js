@@ -130,13 +130,14 @@
     }
     formData.append('name', '');
     formData.append('download_password', downloadPassword);
+    formData.append('encryption_mode', 'raw');
     formData.append('original_filename', files[0].name);
     formData.append('retention_hours', retentionSelect.value);
     return formData;
   }
 
   function withKey(url, key) {
-    return url && key ? url + '#pw=' + encodeURIComponent(key) : (url || '');
+    return url && key ? url + '#key=' + encodeURIComponent(key) : (url || '');
   }
 
   function uploadEncrypted(files, encryptedBlob, downloadPassword, shareKey) {
@@ -203,7 +204,10 @@
       var files = tray.getFiles().slice();
       var downloadPassword = generateDownloadPassword();
       var service = getEncryptionService();
-      var encryptedBlob = await service.encryptAndZipFilesWithProgress(files, downloadPassword, 'password');
+      // The six-digit password authenticates the download request. AES-GCM uses
+      // a separate random key that is kept in the URL fragment only.
+      // 6桁パスワードは認証専用とし、AES-GCM には URL fragment にだけ保持する乱数鍵を使う。
+      var encryptedBlob = await service.encryptAndZipFilesWithProgress(files, null, 'raw');
       var shareKey = service.getLastEncryptionKey();
       if (cancelRequested) {
         throw new Error('アップロードをキャンセルしました。');

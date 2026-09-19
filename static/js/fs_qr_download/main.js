@@ -22,6 +22,15 @@
 
     context.downloadForm.addEventListener('submit', async function (event) {
       event.preventDefault();
+      if (context.requiresFragmentKey && !context.decryptionKey) {
+        context.setStatusText(
+          context.translate(
+            'download.key_required',
+            'Open the complete share URL to download this file.'
+          )
+        );
+        return;
+      }
       context.showSpinner(
         context.formatMessage('download.downloading_progress', 'Downloading... {percent}%', { percent: 0 }),
         'receiving'

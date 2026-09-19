@@ -12,6 +12,59 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 MANAGEMENT_PASSWORD = os.getenv("MANAGEMENT_PASSWORD")
 DB_ADMIN_PASSWORD = os.getenv("DB_ADMIN_PASSWORD")
 
+
+_INSECURE_SECRET_VALUES = frozenset(
+    {
+        "secret",
+        "admin",
+        "manage",
+        "db-admin",
+        "password",
+        "change-me",
+        "change-me-secret-key",
+        "change-me-admin-key",
+        "change-me-management-password",
+        "change-me-db-admin-password",
+        "replace-me",
+    }
+)
+
+
+def _secret_is_usable(value: str | None, *, minimum_length: int) -> bool:
+    if not isinstance(value, str):
+        return False
+    normalized = value.strip().lower()
+    if len(value.strip()) < minimum_length or normalized in _INSECURE_SECRET_VALUES:
+        return False
+    return not normalized.startswith(("change-me-", "replace-me-", "your-"))
+
+
+def validate_security_settings() -> None:
+    """Fail startup before serving requests with missing placeholder secrets.
+
+    Empty credentials are already rejected by the individual login handlers,
+    but a deployment must not start with a known Fernet/session key or with an
+    administrator password copied unchanged from the sample configuration.
+    """
+
+    requirements = {
+        "SECRET_KEY": (SECRET_KEY, 32),
+        "ADMIN_KEY": (ADMIN_KEY, 8),
+        "MANAGEMENT_PASSWORD": (MANAGEMENT_PASSWORD, 8),
+        "DB_ADMIN_PASSWORD": (DB_ADMIN_PASSWORD, 8),
+    }
+    invalid = [
+        name
+        for name, (value, minimum_length) in requirements.items()
+        if not _secret_is_usable(value, minimum_length=minimum_length)
+    ]
+    if invalid:
+        raise RuntimeError(
+            "Required security secrets are missing or use a placeholder: "
+            + ", ".join(invalid)
+        )
+
+
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 

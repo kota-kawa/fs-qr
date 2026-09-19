@@ -27,7 +27,7 @@
     <meta name="theme-color" content="{{ service_theme_color }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     {% block app_config %}
-    <script>
+    <script nonce="{{ csp_nonce }}">
       window.AppConfig = Object.freeze({
         limits: Object.freeze({
           upload: Object.freeze({
@@ -99,7 +99,7 @@
     <!-- AdSense サイト所有権の確認 / AdSense site ownership verification -->
     <meta name="google-adsense-account" content="{{ google_adsense_account_id }}">
     {% endif %}
-    <script>
+    <script nonce="{{ csp_nonce }}">
       window.FSQR_TAGS = Object.freeze({
         googleAnalyticsId: {{ google_analytics_id | tojson }}{% if google_adsense_client_id %},
         adsenseClientId: {{ google_adsense_client_id | tojson }}

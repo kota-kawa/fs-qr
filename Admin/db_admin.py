@@ -21,6 +21,7 @@ from session_auth import (
     clear_session_authenticated,
     is_session_authenticated,
     mark_session_authenticated,
+    rotate_session_id,
     secure_compare_secret,
 )
 from rate_limit import (
@@ -236,6 +237,7 @@ async def dashboard(request: Request):
             flash_message(request, "パスワードが違います")
             return render_template(request, "db_admin.html", authenticated=False)
         await register_success(SCOPE_DB_ADMIN, ip)
+        rotate_session_id(request)
         mark_session_authenticated(request.session, DB_ADMIN_SESSION_KEY)
         return RedirectResponse(
             build_url(request, "db_admin.dashboard"), status_code=302

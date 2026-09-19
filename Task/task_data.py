@@ -490,12 +490,49 @@ async def update_item(
     return await get_item(room_id, item_id), True
 
 
-async def delete_item(room_id: str, item_id: int) -> bool:
-    result = await execute_query(
-        "DELETE FROM task_item WHERE room_id = :room_id AND item_id = :item_id",
-        {"room_id": room_id, "item_id": item_id},
-    )
-    return bool(result)
+async def delete_item(
+    room_id: str, item_id: int, version: int
+) -> tuple[str, dict[str, Any] | None]:
+    """Delete an item only when the caller still owns its current version.
+
+    The row lock and the version predicate make a stale browser unable to delete
+    a newer edit.  ``conflict`` returns the current item so the client can
+    resynchronize instead of silently losing somebody else's change.
+    """
+
+    current_item: dict[str, Any] | None = None
+    status = "not_found"
+    async with db_session.begin():
+        result = await db_session.execute(
+            text(f"""
+            SELECT {_ITEM_COLUMNS}
+            FROM task_item
+            WHERE room_id = :room_id AND item_id = :item_id
+            FOR UPDATE
+        """),  # noqa: S608
+            {"room_id": room_id, "item_id": item_id},
+        )
+        row = result.mappings().first()
+        if row is None:
+            return status, None
+
+        current = _serialize_item(row)
+        if int(current["version"]) != version:
+            current_item = current
+            status = "conflict"
+        else:
+            await db_session.execute(
+                text("""
+                DELETE FROM task_item
+                WHERE room_id = :room_id AND item_id = :item_id AND version = :version
+            """),
+                {"room_id": room_id, "item_id": item_id, "version": version},
+            )
+            status = "deleted"
+
+    if status == "conflict" and current_item is not None:
+        current_item = (await _attach_tags(room_id, [current_item]))[0]
+    return status, current_item
 
 
 async def reorder_items(
@@ -529,10 +566,34 @@ async def reorder_items(
 
 
 async def remove_room(room_id: str, status: str = "deleted") -> None:
-    await execute_query(
-        "UPDATE task_room SET status = :status, deleted_at = NOW() WHERE room_id = :room_id",
-        {"status": status, "room_id": room_id},
-    )
+    # Keep the room tombstone while removing every dependent board record in
+    # one transaction.  外部キーの CASCADE だけに依存せず、既存環境でも
+    # task_item/tag と多対多の紐付けを孤児として残さない。
+    async with db_session.begin():
+        await db_session.execute(
+            text("""
+            DELETE it FROM task_item_tag it
+            INNER JOIN task_item i ON i.item_id = it.item_id
+            WHERE i.room_id = :room_id
+            """),
+            {"room_id": room_id},
+        )
+        await db_session.execute(
+            text("DELETE FROM task_item WHERE room_id = :room_id"),
+            {"room_id": room_id},
+        )
+        await db_session.execute(
+            text("DELETE FROM task_tag WHERE room_id = :room_id"),
+            {"room_id": room_id},
+        )
+        await db_session.execute(
+            text("""
+            UPDATE task_room
+            SET status = :status, deleted_at = NOW()
+            WHERE room_id = :room_id
+            """),
+            {"status": status, "room_id": room_id},
+        )
     await revoke_room_links(ServiceKey.TASK, room_id, logger=logger)
     await invalidate_cache_prefix(get_room_meta)
     await invalidate_cache_prefix(pick_room_id)

@@ -1,3 +1,4 @@
+import asyncio
 import mimetypes
 import os
 import shutil
@@ -29,10 +30,15 @@ from settings import (
     UPLOAD_MAX_TOTAL_SIZE_MB,
 )
 from rate_limit import (
+    SCOPE_GROUP_UPLOAD,
     SCOPE_GROUP_FILE_DELETE,
+    PUBLIC_UPLOAD_REQUEST_LIMIT,
+    PUBLIC_WRITE_WINDOW_SECONDS,
     check_exponential_backoff,
+    check_rate_limit,
     clear_exponential_backoff,
     get_client_ip,
+    get_block_message,
     register_exponential_backoff_failure,
 )
 from .group_common import (
@@ -41,12 +47,14 @@ from .group_common import (
 )
 from .group_storage import (
     UPLOAD_FOLDER,
+    async_room_upload_lock,
     collect_room_files,
     existing_room_folders,
     is_safe_path,
     resolve_room_file,
     room_files_usage,
     room_folder,
+    room_upload_lock,
     unique_room_filename,
 )
 from .group_realtime import notify_group_files_updated
@@ -148,35 +156,81 @@ def _save_uploaded_files(
     saved_files: list[str],
     error_files: list[str],
     rejected_files: list[str],
-) -> None:
-    """Iterate over *upfile* and persist each valid file to *save_path*."""
-    for file in upfile:
-        if file.filename == "":
-            continue
+    lock_held: bool = False,
+) -> str | None:
+    """Validate limits and persist files while holding the room lock."""
 
-        content_error = validate_upload_file_content(file)
-        if content_error:
-            rejected_files.append(file.filename)
-            continue
-
-        safe_filename = unique_room_filename(
-            room_id,
-            sanitize_group_upload_filename(file.filename),
-            primary_root=UPLOAD_FOLDER,
+    def _save_locked():
+        existing_files_count, existing_total_size = room_files_usage(
+            room_id, primary_root=UPLOAD_FOLDER
         )
+        limits_error = validate_upload_limits(
+            upfile,
+            max_files=UPLOAD_MAX_FILES,
+            max_total_size_bytes=UPLOAD_MAX_TOTAL_SIZE_BYTES,
+            max_total_size_mb=UPLOAD_MAX_TOTAL_SIZE_MB,
+            existing_files_count=existing_files_count,
+            existing_total_size_bytes=existing_total_size,
+            too_many_files_message=(
+                f"ルーム内のファイルは合計{UPLOAD_MAX_FILES}個までです。"
+            ),
+            too_large_total_size_message=(
+                f"ルーム内のファイルは合計{UPLOAD_MAX_TOTAL_SIZE_MB}MBまでです。"
+            ),
+        )
+        if limits_error:
+            return limits_error
 
-        file_path = os.path.join(save_path, safe_filename)
+        for file in upfile:
+            original_name = file.filename or ""
+            if not original_name:
+                continue
 
-        try:
-            with open(file_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
-            if os.path.getsize(file_path) == 0:
-                error_files.append(file.filename)
-                os.remove(file_path)
-            else:
-                saved_files.append(safe_filename)
-        except Exception:
-            error_files.append(file.filename)
+            content_error = validate_upload_file_content(file)
+            if content_error:
+                rejected_files.append(original_name)
+                continue
+
+            safe_filename = unique_room_filename(
+                room_id,
+                sanitize_group_upload_filename(original_name),
+                primary_root=UPLOAD_FOLDER,
+            )
+            file_path = os.path.join(save_path, safe_filename)
+            temporary_path = None
+
+            try:
+                with tempfile.NamedTemporaryFile(
+                    mode="wb",
+                    dir=save_path,
+                    prefix=".fsqr-",
+                    suffix=".tmp",
+                    delete=False,
+                ) as buffer:
+                    temporary_path = buffer.name
+                    shutil.copyfileobj(file.file, buffer)
+                    buffer.flush()
+                    os.fsync(buffer.fileno())
+                if os.path.getsize(temporary_path) == 0:
+                    error_files.append(original_name)
+                else:
+                    # Same-directory replace is atomic and cannot expose a
+                    # partially written payload to download/list endpoints.
+                    os.replace(temporary_path, file_path)
+                    saved_files.append(safe_filename)
+                    temporary_path = None
+            except Exception:
+                error_files.append(original_name)
+            finally:
+                if temporary_path:
+                    _remove_temp_file(temporary_path)
+
+        return None
+
+    if lock_held:
+        return _save_locked()
+    with room_upload_lock(room_id, primary_root=UPLOAD_FOLDER):
+        return _save_locked()
 
 
 def register_group_upload_route(router: APIRouter):
@@ -187,17 +241,21 @@ def register_group_upload_route(router: APIRouter):
         upfile: Optional[list[UploadFile]] = File(None),
     ):
         await enforce_csrf(request)
+        ip = get_client_ip(request)
+        allowed, _, block_label = await check_rate_limit(
+            SCOPE_GROUP_UPLOAD,
+            ip,
+            request_limit=PUBLIC_UPLOAD_REQUEST_LIMIT,
+            request_window_seconds=PUBLIC_WRITE_WINDOW_SECONDS,
+        )
+        if not allowed:
+            return api_error_response(get_block_message(block_label), status_code=429)
+
         if not has_group_room_access(request, room_id):
             return api_error_response(
                 "ルームセッションが確認できません。共有URLから入り直してください。",
                 status_code=403,
             )
-        if not await get_room_if_active(room_id):
-            return api_error_response(
-                "ルームが見つかりません。",
-                status_code=404,
-            )
-
         if not upfile:
             return api_error_response(
                 "ファイルがアップロードされていません。", status_code=400
@@ -230,23 +288,35 @@ def register_group_upload_route(router: APIRouter):
         error_files = []
         rejected_files = []
         saved_files = []
-        save_path = _ensure_upload_dir(room_id)
-        if save_path is None:
-            return api_error_response(
-                "サーバーエラーによりファイルを保存できませんでした。", status_code=500
+        # Room deletion uses the same inter-process lock. Re-checking the room
+        # status after acquiring it prevents a request that raced with deletion
+        # from recreating files in a tombstoned room.
+        async with async_room_upload_lock(room_id, primary_root=UPLOAD_FOLDER):
+            if not await get_room_if_active(room_id):
+                return api_error_response("ルームが見つかりません。", status_code=404)
+
+            save_path = _ensure_upload_dir(room_id)
+            if save_path is None:
+                return api_error_response(
+                    "サーバーエラーによりファイルを保存できませんでした。",
+                    status_code=500,
+                )
+
+            # 内容検証＋ブロッキングなディスク書き込みをまとめてスレッドプールへ逃がし、
+            # 大きな（または多数の）ファイルでもイベントループを止めない。
+            locked_limits_error = await run_in_threadpool(
+                _save_uploaded_files,
+                upfile,
+                room_id=room_id,
+                save_path=save_path,
+                saved_files=saved_files,
+                error_files=error_files,
+                rejected_files=rejected_files,
+                lock_held=True,
             )
 
-        # 内容検証＋ブロッキングなディスク書き込みをまとめてスレッドプールへ逃がし、
-        # 大きな（または多数の）ファイルでもイベントループを止めない。
-        await run_in_threadpool(
-            _save_uploaded_files,
-            upfile,
-            room_id=room_id,
-            save_path=save_path,
-            saved_files=saved_files,
-            error_files=error_files,
-            rejected_files=rejected_files,
-        )
+        if locked_limits_error:
+            return api_error_response(locked_limits_error, status_code=400)
 
         if rejected_files:
             if saved_files:
@@ -511,21 +581,27 @@ def register_group_delete_file_route(router: APIRouter):
             )
         await clear_exponential_backoff(SCOPE_GROUP_FILE_DELETE, backoff_key)
 
-        source_folder, file_path = resolve_room_file(
-            room_id, decoded_filename, primary_root=UPLOAD_FOLDER
-        )
+        async with async_room_upload_lock(room_id, primary_root=UPLOAD_FOLDER):
+            if not await get_room_if_active(room_id):
+                return api_error_response("ルームが見つかりません。", status_code=404)
 
-        if not source_folder or not file_path:
-            return api_error_response("ファイルが見つかりません。", status_code=404)
-
-        if not is_safe_path(source_folder, file_path):
-            return api_error_response("不正なパスが検出されました。", status_code=400)
-
-        try:
-            os.remove(file_path)
-            await notify_group_files_updated(room_id)
-            return api_ok_response(
-                {"message": "ファイルが削除されました。"}, status_code=200
+            source_folder, file_path = resolve_room_file(
+                room_id, decoded_filename, primary_root=UPLOAD_FOLDER
             )
-        except Exception as e:
-            return api_error_response(f"エラー: {str(e)}", status_code=500)
+
+            if not source_folder or not file_path:
+                return api_error_response("ファイルが見つかりません。", status_code=404)
+
+            if not is_safe_path(source_folder, file_path):
+                return api_error_response(
+                    "不正なパスが検出されました。", status_code=400
+                )
+
+            try:
+                await asyncio.to_thread(os.remove, file_path)
+                await notify_group_files_updated(room_id)
+                return api_ok_response(
+                    {"message": "ファイルが削除されました。"}, status_code=200
+                )
+            except Exception as e:
+                return api_error_response(f"エラー: {str(e)}", status_code=500)
