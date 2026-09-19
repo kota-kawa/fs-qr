@@ -1,13 +1,17 @@
 import time
+from collections.abc import Callable
 from secrets import compare_digest
 from typing import MutableMapping, Any
 
 from settings import AUTH_SESSION_TIMEOUT_SECONDS
 
+_regenerate_session_id: Callable[[Any], Any] | None = None
 try:
-    from starsessions import regenerate_session_id as _regenerate_session_id
+    from starsessions import regenerate_session_id as _regenerate_session_id_impl
 except ImportError:  # pragma: no cover - dependency is required in production
-    _regenerate_session_id = None
+    pass
+else:
+    _regenerate_session_id = _regenerate_session_id_impl
 
 
 def _session_auth_timestamp_key(auth_key: str) -> str:
