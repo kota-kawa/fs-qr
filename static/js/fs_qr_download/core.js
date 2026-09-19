@@ -28,6 +28,7 @@
     var config = appNamespace.api.getConfig('fsQrDownload');
     var secureId = typeof config.secureId === 'string' ? config.secureId : '';
     var serverPassword = config.password == null ? '' : String(config.password);
+    var requiresFragmentKey = config.encryptionMode === 'raw';
 
     var shareParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
     var fragmentKey = shareParams.get('key') || '';
@@ -64,13 +65,19 @@
       setProgress(0);
     }
 
+    var decryptionKey = fragmentKey || (requiresFragmentKey
+      ? ''
+      : (fragmentPassword || serverPassword || secureId.split('-')[0]));
+    var decryptionKeyMode = fragmentKey
+      ? 'raw-base64url'
+      : ((fragmentPassword || serverPassword) && !requiresFragmentKey ? 'password' : 'legacy-id');
+
     return {
       downloadForm: document.getElementById('downloadForm'),
       secureId: secureId,
-      decryptionKey: fragmentKey || fragmentPassword || serverPassword || secureId.split('-')[0],
-      decryptionKeyMode: fragmentKey
-        ? 'raw-base64url'
-        : ((fragmentPassword || serverPassword) ? 'password' : 'legacy-id'),
+      decryptionKey: decryptionKey,
+      decryptionKeyMode: decryptionKeyMode,
+      requiresFragmentKey: requiresFragmentKey,
       translate: helpers.translate,
       formatMessage: helpers.formatMessage,
       setStatusText: function (text) {

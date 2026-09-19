@@ -53,10 +53,8 @@ def generate_token() -> str:
 
 
 def hash_token(token: str) -> str:
-    secret = (SECRET_KEY or "").encode("utf-8")
-    if secret:
-        return hmac.new(secret, token.encode("utf-8"), hashlib.sha256).hexdigest()
-    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+    secret = _secret_key_bytes()
+    return hmac.new(secret, token.encode("utf-8"), hashlib.sha256).hexdigest()
 
 
 _fernet: Fernet | None = None
@@ -66,9 +64,15 @@ def _get_fernet() -> Fernet:
     """Return a process-wide Fernet derived from SECRET_KEY."""
     global _fernet
     if _fernet is None:
-        digest = hashlib.sha256((SECRET_KEY or "").encode("utf-8")).digest()
+        digest = hashlib.sha256(_secret_key_bytes()).digest()
         _fernet = Fernet(base64.urlsafe_b64encode(digest))
     return _fernet
+
+
+def _secret_key_bytes() -> bytes:
+    if not isinstance(SECRET_KEY, str) or not SECRET_KEY.strip():
+        raise RuntimeError("SECRET_KEY is required for share links")
+    return SECRET_KEY.encode("utf-8")
 
 
 def encrypt_share_password(password: str) -> str:

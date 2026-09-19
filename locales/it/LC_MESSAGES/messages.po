@@ -4438,6 +4438,11 @@ msgstr "Questa stanza per le note è scaduta o è stata eliminata."
 msgid "このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
 msgstr "このNotaElimina stanzaします。Salva済みの本文もEliminaされ、このAzioniは元に戻せません。"
 
+msgid "このファイルは共有URLに含まれる復号鍵を使います。IDとパスワードだけでなく、表示された共有URLをそのまま共有してください。"
+msgstr ""
+"このファイルはURL di condivisioneに含まれる復号鍵を使います。IDとPasswordだけでなく、MostraされたURL di "
+"condivisioneをそのままCondividiしてください。"
+
 msgid "このファイルを共有する"
 msgstr "Condividi questo file"
 
@@ -10411,6 +10416,9 @@ msgstr "Copia URL di condivisione"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
 msgstr "URL di condivisioneを送れば、離れた相手も同じNotaに参加できます。"
+
+msgid "共有URLを開くとブラウザ内で復号できます。URLの末尾を変更せずに共有してください。"
+msgstr "URL di condivisioneを開くとブラウザ内で復号できます。URLの末尾を変更せずにCondividiしてください。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""

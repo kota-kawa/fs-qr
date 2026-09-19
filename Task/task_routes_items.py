@@ -4,7 +4,12 @@ from fastapi import APIRouter, Request
 from pydantic import ValidationError
 
 from api_response import api_ok_response
-from models import TaskItemInput, TaskItemUpdateInput, TaskReorderInput
+from models import (
+    TaskItemDeleteInput,
+    TaskItemInput,
+    TaskItemUpdateInput,
+    TaskReorderInput,
+)
 from rate_limit import (
     SCOPE_TASK_ITEM_DELETE,
     check_exponential_backoff,
@@ -141,9 +146,32 @@ def register_task_item_routes(router: APIRouter) -> None:  # noqa: C901
                 SCOPE_TASK_ITEM_DELETE, backoff_key
             )
             return denied
-        deleted = await task_data.delete_item(room_id, item_id)
+        try:
+            payload = TaskItemDeleteInput.model_validate(await request.json())
+        except (ValidationError, ValueError, TypeError):
+            return task_api_error(
+                "task.request_error",
+                "削除対象のバージョンが指定されていません。",
+                status_code=400,
+            )
+
+        result = await task_data.delete_item(room_id, item_id, payload.version)
+        # Keep test doubles and third-party callers that still return a boolean
+        # compatible while production uses the explicit status tuple below.
+        if isinstance(result, tuple):
+            delete_status, current_item = result
+        else:  # pragma: no cover - compatibility for legacy integrations
+            delete_status = "deleted" if result else "not_found"
+            current_item = None
         await clear_exponential_backoff(SCOPE_TASK_ITEM_DELETE, backoff_key)
-        if not deleted:
+        if delete_status == "conflict":
+            return task_api_error(
+                "task.conflict",
+                "他の画面で更新されました。",
+                status_code=409,
+                data={"item": current_item},
+            )
+        if delete_status != "deleted":
             return task_api_error(
                 "task.not_found", "タスクが見つかりません。", status_code=404
             )

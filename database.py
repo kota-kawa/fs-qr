@@ -75,8 +75,17 @@ async def reset_db_connection():
 
 
 async def execute_query(query, params=None, fetch=False, retries=2):
+    """Execute a statement with safe retry semantics.
+
+    SELECT-like calls can be retried after a broken connection because they do
+    not change persistent state.  A DML statement must not be retried after an
+    unknown-commit failure: the server may already have committed it before the
+    client lost the connection, so issuing it again can duplicate or otherwise
+    repeat the mutation.
+    """
     stmt = query if hasattr(query, "bindparams") else text(query)
-    for attempt in range(retries + 1):
+    max_attempts = retries + 1 if fetch else 1
+    for attempt in range(max_attempts):
         try:
             result = await db_session.execute(stmt, params or {})
             if fetch:
@@ -89,7 +98,7 @@ async def execute_query(query, params=None, fetch=False, retries=2):
             await db_session.commit()
             return result.rowcount  # type: ignore[attr-defined]
         except Exception as e:
-            if is_retryable_db_error(e) and attempt < retries:
+            if fetch and is_retryable_db_error(e) and attempt < retries:
                 logger.warning(
                     "Database connection lost, retrying (%s/%s)", attempt + 1, retries
                 )

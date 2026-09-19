@@ -1,8 +1,17 @@
 import time
+from collections.abc import Callable
 from secrets import compare_digest
 from typing import MutableMapping, Any
 
 from settings import AUTH_SESSION_TIMEOUT_SECONDS
+
+_regenerate_session_id: Callable[[Any], Any] | None = None
+try:
+    from starsessions import regenerate_session_id as _regenerate_session_id_impl
+except ImportError:  # pragma: no cover - dependency is required in production
+    pass
+else:
+    _regenerate_session_id = _regenerate_session_id_impl
 
 
 def _session_auth_timestamp_key(auth_key: str) -> str:
@@ -14,6 +23,13 @@ def mark_session_authenticated(
 ) -> None:
     session[auth_key] = True
     session[_session_auth_timestamp_key(auth_key)] = int(time.time())
+
+
+def rotate_session_id(connection: Any) -> None:
+    """Rotate the server-side session identifier after privilege elevation."""
+
+    if _regenerate_session_id is not None:
+        _regenerate_session_id(connection)
 
 
 def clear_session_authenticated(
@@ -43,4 +59,8 @@ def secure_compare_secret(provided: object, expected: object) -> bool:
     """Compare configured login secrets without content-dependent timing."""
     provided_text = provided if isinstance(provided, str) else ""
     expected_text = expected if isinstance(expected, str) else ""
+    # An unset secret must never authenticate an empty form value.  This also
+    # protects deployments where an environment variable was omitted.
+    if not provided_text or not expected_text:
+        return False
     return compare_digest(provided_text, expected_text)

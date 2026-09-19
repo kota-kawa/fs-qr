@@ -345,6 +345,12 @@ class TaskItemUpdateInput(BaseModel):
         return self
 
 
+class TaskItemDeleteInput(BaseModel):
+    """楽観ロック付きタスク削除入力。"""
+
+    version: int = Field(ge=0)
+
+
 class TaskReorderInput(BaseModel):
     board_status: Literal["todo", "doing", "done"]
     ordered_item_ids: list[int] = Field(min_length=0, max_length=200)

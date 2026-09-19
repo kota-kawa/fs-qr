@@ -5,15 +5,19 @@ from __future__ import annotations
 import os
 import time
 from collections.abc import Iterable, Sequence
+from typing import Any
 from urllib.parse import quote
 
 from fastapi import UploadFile
 from werkzeug.utils import secure_filename
 
+magic: Any = None
 try:
-    import magic
+    import magic as _magic
 except ImportError:  # pragma: no cover - production dependency guard
-    magic = None  # type: ignore[assignment]
+    pass
+else:
+    magic = _magic
 
 _DANGEROUS_FILENAME_PATTERNS = ("..", "/", "\\", "\x00", "\r", "\n")
 _DISALLOWED_UPLOAD_EXTENSIONS = {".html", ".htm", ".xhtml", ".svg", ".svgz"}

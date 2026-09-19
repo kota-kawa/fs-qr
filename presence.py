@@ -12,8 +12,10 @@
 """
 
 import logging
+import os
 import re
 import time
+import inspect
 
 from cache_utils import redis_client
 
@@ -25,6 +27,13 @@ logger = logging.getLogger(__name__)
 PRESENCE_WINDOW_SECONDS = 10
 # Redis キー自体の TTL。全員が離脱すればキーを残さず自動消滅させる。
 PRESENCE_KEY_TTL_SECONDS = 60
+# A public endpoint must not allow an attacker to create an unbounded sorted
+# set by inventing viewer IDs.  The limit is deliberately generous for a
+# shared room and can be tuned without a code deploy.
+try:
+    MAX_VIEWERS_PER_KEY = max(1, int(os.getenv("PRESENCE_MAX_VIEWERS_PER_KEY", "1000")))
+except (TypeError, ValueError):
+    MAX_VIEWERS_PER_KEY = 1000
 
 # 不特定多数のページから呼ばれる公開 API のため、scope は許可リストで限定する。
 ALLOWED_SCOPES = frozenset(
@@ -42,6 +51,10 @@ _VIEWER_ID_RE = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 
 # Redis 不在時のプロセス内フォールバック: {(scope, key): {viewer_id: last_seen}}
 _local_store: dict[tuple[str, str], dict[str, float]] = {}
+
+
+class PresenceCapacityError(RuntimeError):
+    """Raised when a presence key has reached its viewer limit."""
 
 
 def is_valid_scope(scope: str) -> bool:
@@ -71,8 +84,10 @@ def _local_prune(viewers: dict[str, float], now: float) -> None:
 
 def _local_touch(scope: str, key: str, viewer_id: str, now: float) -> int:
     viewers = _local_store.setdefault((scope, key), {})
-    viewers[viewer_id] = now
     _local_prune(viewers, now)
+    if viewer_id not in viewers and len(viewers) >= MAX_VIEWERS_PER_KEY:
+        raise PresenceCapacityError
+    viewers[viewer_id] = now
     if not viewers:
         _local_store.pop((scope, key), None)
         return 0
@@ -107,18 +122,43 @@ def _local_leave(scope: str, key: str, viewer_id: str, now: float) -> int:
 
 async def _redis_touch(scope: str, key: str, viewer_id: str, now: float) -> int:
     rk = _redis_key(scope, key)
-    pipe = redis_client.pipeline(transaction=True)
-    pipe.zadd(rk, {viewer_id: now})
-    pipe.zremrangebyscore(rk, "-inf", now - PRESENCE_WINDOW_SECONDS)
-    pipe.zcard(rk)
-    pipe.expire(rk, PRESENCE_KEY_TTL_SECONDS)
-    results = await pipe.execute()
-    return int(results[2])
+    # Prune, check capacity, and add in one Redis script so simultaneous new
+    # viewers cannot race past the per-page bound.
+    script = """
+    redis.call('ZREMRANGEBYSCORE', KEYS[1], '-inf', ARGV[2])
+    local existing = redis.call('ZSCORE', KEYS[1], ARGV[1])
+    if not existing and redis.call('ZCARD', KEYS[1]) >= tonumber(ARGV[4]) then
+        return -1
+    end
+    redis.call('ZADD', KEYS[1], ARGV[3], ARGV[1])
+    redis.call('EXPIRE', KEYS[1], tonumber(ARGV[5]))
+    return redis.call('ZCARD', KEYS[1])
+    """
+    count = await redis_client.eval(
+        script,
+        1,
+        rk,
+        viewer_id,
+        now - PRESENCE_WINDOW_SECONDS,
+        now,
+        MAX_VIEWERS_PER_KEY,
+        PRESENCE_KEY_TTL_SECONDS,
+    )
+    if not isinstance(count, (int, str, bytes)):
+        raise TypeError("Redis presence count was not scalar")
+    if isinstance(count, bytes):
+        count = count.decode("ascii")
+    if int(count) < 0:
+        raise PresenceCapacityError
+    return int(count)
 
 
 async def _redis_count(scope: str, key: str, now: float) -> int:
     rk = _redis_key(scope, key)
     pipe = redis_client.pipeline(transaction=True)
+    if inspect.isawaitable(pipe):
+        pipe.close()
+        raise TypeError("Redis pipeline was awaitable")
     pipe.zremrangebyscore(rk, "-inf", now - PRESENCE_WINDOW_SECONDS)
     pipe.zcard(rk)
     results = await pipe.execute()
@@ -128,6 +168,9 @@ async def _redis_count(scope: str, key: str, now: float) -> int:
 async def _redis_leave(scope: str, key: str, viewer_id: str, now: float) -> int:
     rk = _redis_key(scope, key)
     pipe = redis_client.pipeline(transaction=True)
+    if inspect.isawaitable(pipe):
+        pipe.close()
+        raise TypeError("Redis pipeline was awaitable")
     pipe.zrem(rk, viewer_id)
     pipe.zremrangebyscore(rk, "-inf", now - PRESENCE_WINDOW_SECONDS)
     pipe.zcard(rk)
@@ -143,6 +186,8 @@ async def heartbeat(scope: str, key: str, viewer_id: str) -> int:
     now = time.time()
     try:
         return await _redis_touch(scope, key, viewer_id, now)
+    except PresenceCapacityError:
+        raise
     except Exception as exc:  # Redis 不在/障害時はメモリにフォールバック
         logger.debug("presence heartbeat fell back to local store: %s", exc)
         return _local_touch(scope, key, viewer_id, now)

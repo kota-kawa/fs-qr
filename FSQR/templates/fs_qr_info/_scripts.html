@@ -15,10 +15,11 @@
 
   <!-- Browser-side decryption. See docs/decisions/0004-browser-side-fsqr-encryption.md -->
   <!-- ブラウザ側の復号処理。判断の背景は docs/decisions/0004 を参照。 -->
-  <script>
+  <script nonce="{{ csp_nonce }}">
     window.__FSQR_APP__.api.setConfig('fsQrDownload', Object.freeze({
       secureId: {{ secure_id | tojson }},
-      password: {{ password | tojson }}
+      password: {{ password | tojson }},
+      encryptionMode: {{ encryption_mode | default('password') | tojson }}
     }));
   </script>
   <script src="{{staticfile('js/fs_qr_download/core.js')}}"></script>

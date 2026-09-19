@@ -32,7 +32,7 @@
 {% set service_page_title = _("FS!QR Group | 無料グループファイル共有・チーム協業クラウドサービス") %}
 
 {% block app_config %}
-    <script>
+    <script nonce="{{ csp_nonce }}">
       window.AppConfig = Object.freeze({
         limits: Object.freeze({
           upload: Object.freeze({

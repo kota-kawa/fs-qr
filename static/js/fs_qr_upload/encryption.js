@@ -61,6 +61,10 @@
     }
 
     async function encryptAndZipFilesWithProgress(files, key, mode) {
+      // Upload callers pass (null, 'raw') so the generated 32-byte key is
+      // independent from the six-digit server download password.
+      // アップロードでは (null, 'raw') を渡し、生成した32バイト鍵を
+      // サーバー用6桁ダウンロードパスワードから分離する。
       lastEncryptionKey = key || generateEncryptionKey();
       var keyMode = mode || (key ? 'password' : 'raw');
       var cryptoKey = await importEncryptionKey(lastEncryptionKey, keyMode);

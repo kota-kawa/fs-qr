@@ -12,6 +12,9 @@ from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import RoomCreateInput
 from rate_limit import (
     SCOPE_GROUP,
+    SCOPE_GROUP_ROOM_CREATE,
+    PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+    PUBLIC_WRITE_WINDOW_SECONDS,
     check_rate_limit,
     get_block_message,
     get_client_ip,
@@ -182,6 +185,16 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
     @router.post("/create_group_room", name="group.create_group_room")
     async def create_group_room(request: Request):  # noqa: C901
         await enforce_csrf(request)
+        ip = get_client_ip(request)
+        allowed, _, block_label = await check_rate_limit(
+            SCOPE_GROUP_ROOM_CREATE,
+            ip,
+            request_limit=PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+            request_window_seconds=PUBLIC_WRITE_WINDOW_SECONDS,
+        )
+        if not allowed:
+            return api_error_response(get_block_message(block_label), status_code=429)
+
         json_data = {}
         form_data = {}
         content_type = request.headers.get("content-type", "")
@@ -328,7 +341,7 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
 
 async def _group_room_exists(room_id: str) -> bool:
     """共通 ID 選択器へ渡す Group 用存在確認。"""
-    return bool(await group_data.get_data(room_id))
+    return await group_data.room_id_is_reserved(room_id)
 
 
 def register_group_search_process_route(router: APIRouter):

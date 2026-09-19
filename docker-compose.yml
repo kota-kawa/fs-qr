@@ -13,10 +13,21 @@ x-web-common: &web-common
     - SQL_HOST=${SQL_HOST:-db}
     - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
     - SECRET_KEY=${SECRET_KEY}
+    - ADMIN_KEY=${ADMIN_KEY}
+    - MANAGEMENT_PASSWORD=${MANAGEMENT_PASSWORD}
+    - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}
     - PUBLIC_SITE_URL=${PUBLIC_SITE_URL:-https://fs-qr.net}
+    - TRUSTED_PROXY_HOSTS=${TRUSTED_PROXY_HOSTS:-127.0.0.1,::1}
+    - X_ACCEL_REDIRECT_ENABLED=${X_ACCEL_REDIRECT_ENABLED:-false}
+    - FSQR_X_ACCEL_LOCATION=${FSQR_X_ACCEL_LOCATION:-/_protected/fsqr}
+    - GROUP_X_ACCEL_LOCATION=${GROUP_X_ACCEL_LOCATION:-/_protected/group}
+    - FSQR_UPLOAD_DIR=${FSQR_UPLOAD_DIR:-/app/storage/fsqr_uploads}
     - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
     - UPLOAD_MAX_FILES=${UPLOAD_MAX_FILES:-30}
     - UPLOAD_MAX_TOTAL_SIZE_MB=${UPLOAD_MAX_TOTAL_SIZE_MB:-1024}
+    - PRESENCE_MAX_VIEWERS_PER_KEY=${PRESENCE_MAX_VIEWERS_PER_KEY:-1000}
+    - GROUP_MAX_WS_CONNECTIONS_PER_ROOM=${GROUP_MAX_WS_CONNECTIONS_PER_ROOM:-100}
+    - GROUP_MAX_WS_CONNECTIONS_PER_INSTANCE=${GROUP_MAX_WS_CONNECTIONS_PER_INSTANCE:-1000}
   volumes:
     - ./logs:/app/logs      # アクセス/エラーログ
     - ./geoip:/app/geoip    # GeoIP DB（言語判定・自動更新）
@@ -47,7 +58,10 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
       - PUBLIC_SITE_URL=${PUBLIC_SITE_URL:-https://fs-qr.net}
+      - TRUSTED_PROXY_HOSTS=${TRUSTED_PROXY_HOSTS:-127.0.0.1,::1}
       - NOTE_MAX_CONTENT_LENGTH=${NOTE_MAX_CONTENT_LENGTH:-10000}
+      - NOTE_MAX_CONNECTIONS_PER_ROOM=${NOTE_MAX_CONNECTIONS_PER_ROOM:-100}
+      - NOTE_MAX_MESSAGES_PER_MINUTE=${NOTE_MAX_MESSAGES_PER_MINUTE:-600}
     ports:
       - "127.0.0.1:1234:1234"
     depends_on:
@@ -88,6 +102,7 @@ services:
       - SQL_DB=${SQL_DB}
       - SQL_HOST=${SQL_HOST:-db}
       - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - SECRET_KEY=${SECRET_KEY}
       - GROUP_UPLOAD_DIR=${GROUP_UPLOAD_DIR:-/app/storage/group_uploads}
     volumes:
       - .:/app
@@ -125,7 +140,7 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=fsqr
+      - MYSQL_DATABASE=${SQL_DB:-fsqr}
       - MYSQL_USER=${SQL_USER}
       - MYSQL_PASSWORD=${SQL_PW}
     volumes:

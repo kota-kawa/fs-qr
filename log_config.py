@@ -29,12 +29,18 @@ _SENSITIVE_PATH_PATTERNS = (
         "/fs-qr/[redacted]/[redacted]",
     ),
 )
+_SENSITIVE_QUERY_PATTERN = re.compile(
+    r"([?&](?:csrf_token|password|pw|share_token|token|key)=[^&#\s\"]*)",
+    re.IGNORECASE,
+)
 
 
 def redact_sensitive_paths(text: str) -> str:
     for pattern, replacement in _SENSITIVE_PATH_PATTERNS:
         text = pattern.sub(replacement, text)
-    return text
+    return _SENSITIVE_QUERY_PATTERN.sub(
+        lambda match: match.group(1).split("=", 1)[0] + "=[redacted]", text
+    )
 
 
 class SensitivePathRedactionFilter(logging.Filter):

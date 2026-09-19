@@ -5,11 +5,11 @@
 <!-- Copy / share / QR behaviour is shared with FSQR, Group and Task. -->
 <!-- コピー・共有・QR の挙動は FSQR / Group / Task と共通のモジュールに集約している。 -->
 <script src="{{staticfile('js/shared/share-panel.js')}}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
   window.__FSQR_APP__.api.getShared('sharePanel').init();
 </script>
 
-<script>
+<script nonce="{{ csp_nonce }}">
 	  window.__FSQR_APP__.api.setConfig('noteRoomRealtime', Object.freeze({
 	    room: {{ room_id | string | tojson }},
     collaborationToken: {{ yjs_token | string | tojson }},

@@ -30,7 +30,11 @@ def run(coro):
 @pytest.mark.parametrize(
     ("table", "active_fragment", "expired_fragment"),
     (
-        (GROUP_ROOMS, "expires_at > NOW()", "expires_at <= NOW()"),
+        (
+            GROUP_ROOMS,
+            "status = 'active' AND expires_at > NOW()",
+            "status = 'active' AND expires_at <= NOW()",
+        ),
         (
             NOTE_ROOMS,
             "status = 'active' AND expires_at > NOW()",

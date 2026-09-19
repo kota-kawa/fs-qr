@@ -4337,6 +4337,11 @@ msgstr "Bu not odasının süresi dolmuş veya silinmiş."
 msgid "このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
 msgstr "このNotOdayı silします。Kaydet済みの本文もSilされ、このİşlemlerは元に戻せません。"
 
+msgid "このファイルは共有URLに含まれる復号鍵を使います。IDとパスワードだけでなく、表示された共有URLをそのまま共有してください。"
+msgstr ""
+"このファイルはPaylaşım URL'siに含まれる復号鍵を使います。IDとŞifreだけでなく、GösterされたPaylaşım "
+"URL'siをそのままPaylaşしてください。"
+
 msgid "このファイルを共有する"
 msgstr "Bu dosyayı paylaş"
 
@@ -10168,6 +10173,9 @@ msgstr "Paylaşım URL'sini kopyala"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
 msgstr "Paylaşım URL'siを送れば、離れた相手も同じNotに参加できます。"
+
+msgid "共有URLを開くとブラウザ内で復号できます。URLの末尾を変更せずに共有してください。"
+msgstr "Paylaşım URL'siを開くとブラウザ内で復号できます。URLの末尾を変更せずにPaylaşしてください。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""

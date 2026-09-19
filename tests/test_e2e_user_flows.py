@@ -534,7 +534,7 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
         ) as update_item_mock,
         patch(
             "Task.task_routes_items.task_data.delete_item",
-            new=AsyncMock(),
+            new=AsyncMock(return_value=("deleted", None)),
         ) as delete_item_mock,
         patch(
             "Task.task_routes_items.check_exponential_backoff",
@@ -600,9 +600,11 @@ def test_e2e_task_board_create_join_items_and_delete(test_client):
         assert update_item_response.json()["data"]["item"] == item_1_updated
         update_item_mock.assert_awaited_once()
 
-        delete_item_response = test_client.delete(f"/api/task/{room_id}/items/101")
+        delete_item_response = test_client.delete(
+            f"/api/task/{room_id}/items/101", json={"version": 1}
+        )
         assert delete_item_response.status_code == 200
-        delete_item_mock.assert_awaited_once_with(room_id, 101)
+        delete_item_mock.assert_awaited_once_with(room_id, 101, 1)
 
         search_client = _fresh_client(test_client)
         search_response = search_client.post(

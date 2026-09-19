@@ -22,6 +22,9 @@ from file_validation import (
 from models import FsqrUploadInput
 from rate_limit import (
     SCOPE_QR,
+    SCOPE_QR_UPLOAD,
+    PUBLIC_UPLOAD_REQUEST_LIMIT,
+    PUBLIC_WRITE_WINDOW_SECONDS,
     check_rate_limit,
     get_block_message,
     get_client_ip,
@@ -199,6 +202,8 @@ async def _get_active_data(secure_id):
     if not data:
         return None
     record = data[0]
+    if record.get("status", "active") != "active":
+        return None
     if await _remove_if_expired(record):
         return None
     return data
@@ -295,12 +300,26 @@ async def upload(  # noqa: C901
     file_type: str = Form("multiple"),
     original_filename: str = Form(""),
     retention_hours: str = Form(""),
+    encryption_mode: str = Form("password"),
     upfile: Optional[List[UploadFile]] = File(None),
 ):
     await enforce_csrf(request)
+    ip = get_client_ip(request)
+    allowed, _, block_label = await check_rate_limit(
+        SCOPE_QR_UPLOAD,
+        ip,
+        request_limit=PUBLIC_UPLOAD_REQUEST_LIMIT,
+        request_window_seconds=PUBLIC_WRITE_WINDOW_SECONDS,
+    )
+    if not allowed:
+        return json_or_msg(request, get_block_message(block_label), status_code=429)
+
     uid = str(uuid.uuid4())[:10]
     file_type = file_type or "multiple"
     original_filename = original_filename or ""
+    encryption_mode = (encryption_mode or "password").strip().lower()
+    if encryption_mode not in {"password", "raw"}:
+        return json_or_msg(request, "暗号化形式が不正です。")
 
     upload_in = FsqrUploadInput(name=name, retention_hours=retention_hours)
     retention_hours_int = upload_in.retention_hours
@@ -375,6 +394,7 @@ async def upload(  # noqa: C901
             file_type=file_type,
             original_filename=original_filename,
             retention_hours=retention_hours_int,
+            encryption_mode=encryption_mode,
         )
         metadata_saved = True
         share_token = await _create_fsqr_share_token(
@@ -461,6 +481,7 @@ async def upload_complete(request: Request, secure_id: str):
         secure_id=secure_id,
         file_type=row.get("file_type", "multiple"),
         original_filename=row.get("original_filename", ""),
+        encryption_mode=row.get("encryption_mode", "password"),
         mode="upload",
         url=share_url,
         retention_hours=retention_hours,
@@ -495,6 +516,7 @@ async def download(request: Request, secure_id: str):
             secure_id=secure_id,
             file_type=row.get("file_type", "multiple"),
             original_filename=row.get("original_filename", ""),
+            encryption_mode=row.get("encryption_mode", "password"),
             url=build_url(request, "fsqr.download_go", secure_id=secure_id),
             retention_hours=retention_hours,
             deletion_date=deletion_date,
@@ -545,6 +567,7 @@ async def fs_qr_share(request: Request, token: str):
         secure_id=record["secure_id"],
         file_type=record.get("file_type", "multiple"),
         original_filename=record.get("original_filename", ""),
+        encryption_mode=record.get("encryption_mode", "password"),
         url=build_url(request, "fsqr.share_download", token=token),
         retention_hours=retention_hours,
         deletion_date=deletion_date,
@@ -682,6 +705,14 @@ async def kekka(request: Request):
         if block_label:
             return msg(request, get_block_message(block_label), 429)
         return msg(request, "IDまたはパスワードが違います。", 404)
+
+    if record.get("encryption_mode", "password") == "raw":
+        await register_success(SCOPE_QR, ip)
+        return msg(
+            request,
+            "このファイルは復号鍵を含む共有URLからアクセスしてください。IDとパスワードだけでは復号できません。",
+            409,
+        )
 
     await register_success(SCOPE_QR, ip)
     _remember_fsqr_access(request, secure_id, id_val, password)

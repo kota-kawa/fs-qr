@@ -4206,6 +4206,11 @@ msgstr "This note room has expired or been deleted."
 msgid "このノートルームを削除します。保存済みの本文も削除され、この操作は元に戻せません。"
 msgstr "このNoteDelete roomします。Save済みの本文もDeleteされ、このActionsは元に戻せません。"
 
+msgid "このファイルは共有URLに含まれる復号鍵を使います。IDとパスワードだけでなく、表示された共有URLをそのまま共有してください。"
+msgstr ""
+"このファイルはShare URLに含まれる復号鍵を使います。IDとPasswordだけでなく、ShowされたShare "
+"URLをそのままShareしてください。"
+
 msgid "このファイルを共有する"
 msgstr "Share this file"
 
@@ -9824,6 +9829,9 @@ msgstr "Copy share URL"
 
 msgid "共有URLを送れば、離れた相手も同じノートに参加できます。"
 msgstr "Share URLを送れば、離れた相手も同じNoteに参加できます。"
+
+msgid "共有URLを開くとブラウザ内で復号できます。URLの末尾を変更せずに共有してください。"
+msgstr "Share URLを開くとブラウザ内で復号できます。URLの末尾を変更せずにShareしてください。"
 
 msgid "共有が終わったらIDとパスワードを知っている人が不用意に再配布しないよう周知し、必要に応じてファイルを削除する運用を心掛けましょう。"
 msgstr ""

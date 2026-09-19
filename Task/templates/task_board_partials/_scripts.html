@@ -16,10 +16,10 @@
 #}
 <script src="{{ staticfile('js/shared/custom-select.js') }}"></script>
 <script src="{{ staticfile('qrcode.min.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
   window.__FSQR_APP__.api.getShared('sharePanel').init({ copySuccessFeedback: true });
 </script>
-<script>
+<script nonce="{{ csp_nonce }}">
 window.__FSQR_APP__.api.setConfig('taskBoard', Object.freeze({
   roomId: {{ room_id | string | tojson }},
   debug: {{ frontend_debug | tojson }},

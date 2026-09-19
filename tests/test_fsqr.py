@@ -70,6 +70,37 @@ def test_fsqr_upload_generated_password_matches_server_policy():
     assert "PASSWORD_DIGITS[bytes[i] % PASSWORD_DIGITS.length]" in script
 
 
+def test_fsqr_upload_separates_download_password_from_encryption_key():
+    """認証用6桁パスワードをAES-GCM鍵へ流用しない"""
+    script = Path("static/js/fs_qr_upload/upload-submit.js").read_text(encoding="utf-8")
+    instant_script = Path("static/js/fsqr_landing/instant-upload.js").read_text(
+        encoding="utf-8"
+    )
+
+    assert "encryptAndZipFilesWithProgress(files, null, 'raw')" in script
+    assert "formData.append('download_password', downloadPassword)" in script
+    assert "#key=${encodeURIComponent(shareKey)}" in script
+    assert "encryptAndZipFilesWithProgress(files, null, 'raw')" in instant_script
+    assert "url + '#key=' + encodeURIComponent(key)" in instant_script
+    assert (
+        "encryptAndZipFilesWithProgress(files, downloadPassword, 'password')"
+        not in script
+    )
+    assert (
+        "encryptAndZipFilesWithProgress(files, downloadPassword, 'password')"
+        not in instant_script
+    )
+
+    download_script = Path("static/js/fs_qr_download/core.js").read_text(
+        encoding="utf-8"
+    )
+    share_script = Path("static/js/fs_qr_info/share.js").read_text(encoding="utf-8")
+    assert "shareParams.get('key')" in download_script
+    assert "shareParams.get('pw')" in download_script
+    assert "var decryptionKey = fragmentKey ||" in download_script
+    assert "window.location.hash.startsWith('#pw=')" in share_script
+
+
 def test_fsqr_download_script_uses_webcrypto_aes_gcm_name():
     script = Path("static/js/fs_qr_download/decrypt.js").read_text(encoding="utf-8")
     assert "AES-256-GCM" not in script
@@ -95,6 +126,23 @@ def test_upload_no_file(test_client: TestClient):
     """ファイルなしでアップロードすると 400 を返す"""
     response = test_client.post("/upload", data={"name": "", "file_type": "multiple"})
     assert response.status_code == 400
+
+
+def test_upload_is_rate_limited_when_request_counter_is_unavailable(
+    test_client: TestClient,
+):
+    """公開アップロードは共有レート制限が利用できない場合も拒否する"""
+    with patch(
+        "FSQR.fsqr_app.check_rate_limit",
+        new=AsyncMock(return_value=(False, None, "__rate_limit_unavailable__")),
+    ):
+        response = test_client.post(
+            "/upload",
+            data={"name": "", "file_type": "multiple"},
+            headers={"Accept": "application/json"},
+        )
+
+    assert response.status_code == 429
 
 
 def test_upload_invalid_id_chars(test_client: TestClient):
@@ -227,6 +275,7 @@ def test_upload_single_encrypted_file_returns_redirect_url(
         file_type="single",
         original_filename="report.pdf",
         retention_hours=24,
+        encryption_mode="password",
     )
 
 
@@ -712,6 +761,30 @@ def test_try_login_success_redirects(test_client: TestClient):
         )
     assert response.status_code == 302
     assert response.headers["location"] == "/download/abc123-uid-file"
+
+
+def test_try_login_raw_encryption_requires_share_url(test_client: TestClient):
+    from datetime import datetime
+
+    with patch(
+        "FSQR.fsqr_data.get_data_by_credentials",
+        new_callable=AsyncMock,
+        return_value=[
+            {
+                "id": "abc123",
+                "secure_id": "abc123-uid-file",
+                "encryption_mode": "raw",
+                "retention_hours": 24,
+                "time": datetime(2099, 1, 1),
+            }
+        ],
+    ):
+        response = test_client.post(
+            "/try_login", data={"name": "abc123", "pw": "654321"}
+        )
+
+    assert response.status_code == 409
+    assert "共有URL" in response.text
 
 
 # --- upload_complete: データが存在する場合 → 200 ---

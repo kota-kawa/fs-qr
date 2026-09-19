@@ -28,6 +28,26 @@ SCOPE_GROUP_FILE_DELETE = "group_file_delete"
 SCOPE_ADMIN = "admin"
 SCOPE_DB_ADMIN = "db_admin"
 SCOPE_MANAGEMENT = "management"
+SCOPE_QR_UPLOAD = "qr_upload"
+SCOPE_GROUP_ROOM_CREATE = "group_room_create"
+SCOPE_GROUP_UPLOAD = "group_upload"
+SCOPE_NOTE_ROOM_CREATE = "note_room_create"
+SCOPE_TASK_ROOM_CREATE = "task_room_create"
+SCOPE_PRESENCE = "presence"
+
+# Public write endpoints use a separate fixed-window counter.  These values
+# are deliberately conservative defaults and are independent of failed-login
+# escalation counters.
+PUBLIC_WRITE_WINDOW_SECONDS = 60 * 60
+PUBLIC_UPLOAD_REQUEST_LIMIT = 30
+PUBLIC_ROOM_CREATE_REQUEST_LIMIT = 20
+PUBLIC_PRESENCE_REQUEST_LIMIT = 120
+PUBLIC_PRESENCE_WINDOW_SECONDS = 60
+
+# Internal labels map to the generic translated rate-limit message.  They are
+# never exposed as raw Redis errors or as implementation details.
+RATE_LIMIT_UNAVAILABLE_LABEL = "__rate_limit_unavailable__"
+RATE_LIMIT_EXCEEDED_LABEL = "__rate_limit_exceeded__"
 
 _redis_client: Optional[redis.Redis] = None
 
@@ -48,9 +68,17 @@ def get_redis_client() -> redis.Redis:
 
 
 async def check_rate_limit(
-    scope: str, ip: str
+    scope: str,
+    ip: str,
+    *,
+    request_limit: Optional[int] = None,
+    request_window_seconds: int = PUBLIC_WRITE_WINDOW_SECONDS,
 ) -> Tuple[bool, Optional[datetime], Optional[str]]:
-    """Check whether the given IP is currently blocked for the scope."""
+    """Check a block and optionally a fixed-window request limit.
+
+    ``request_limit`` is used by public write endpoints.  The normal
+    authentication scopes omit it and keep their existing failure semantics.
+    """
     r = get_redis_client()
     block_key = f"rate_limit:{scope}:{ip}:block"
 
@@ -60,13 +88,42 @@ async def check_rate_limit(
             ttl = await r.ttl(block_key)
             # ttl: -2 (missing), -1 (no expiry), >=0 (seconds)
             if ttl > 0:
-                block_until = datetime.utcnow() + timedelta(seconds=ttl)
+                block_until: Optional[datetime] = datetime.utcnow() + timedelta(
+                    seconds=ttl
+                )
                 return False, block_until, block_label
     except Exception as e:
         logger.error(f"Redis error in check_rate_limit: {e}")
-        # Fail open if Redis is down? Or blocked?
-        # Let's assume fail open to avoid service disruption, but log error.
+        # Fail closed: Redis is the shared source of truth across workers.
+        return False, None, RATE_LIMIT_UNAVAILABLE_LABEL
+
+    if request_limit is None:
         return True, None, None
+
+    if request_limit < 1 or request_window_seconds < 1:
+        logger.error(
+            "Invalid request rate-limit configuration: limit=%s window=%s",
+            request_limit,
+            request_window_seconds,
+        )
+        return False, None, RATE_LIMIT_UNAVAILABLE_LABEL
+
+    request_key = f"rate_limit:{scope}:{ip}:window"
+    try:
+        request_count = await r.incr(request_key)
+        if request_count == 1:
+            await r.expire(request_key, request_window_seconds)
+        if request_count > request_limit:
+            ttl = await r.ttl(request_key)
+            block_until = (
+                datetime.utcnow() + timedelta(seconds=ttl) if ttl > 0 else None
+            )
+            return False, block_until, RATE_LIMIT_EXCEEDED_LABEL
+    except Exception as e:
+        logger.error(f"Redis error in request rate limit: {e}")
+        # Do not allow a Redis outage to turn public writes into an unlimited
+        # resource-consumption path.
+        return False, None, RATE_LIMIT_UNAVAILABLE_LABEL
 
     return True, None, None
 
@@ -100,7 +157,9 @@ async def register_failure(
 
     except Exception as e:
         logger.error(f"Redis error in register_failure: {e}")
-        return None, None
+        # Callers must not treat an unrecorded failed authentication as a
+        # successful, unprotected attempt.
+        return None, RATE_LIMIT_UNAVAILABLE_LABEL
 
     return None, None
 
@@ -131,7 +190,7 @@ async def check_exponential_backoff(
                 return False, datetime.utcnow() + timedelta(seconds=ttl), block_label
     except Exception as e:
         logger.error(f"Redis error in check_exponential_backoff: {e}")
-        return True, None, None
+        return False, None, RATE_LIMIT_UNAVAILABLE_LABEL
 
     return True, None, None
 
@@ -159,7 +218,7 @@ async def register_exponential_backoff_failure(
         return datetime.utcnow() + timedelta(seconds=delay_seconds), label
     except Exception as e:
         logger.error(f"Redis error in register_exponential_backoff_failure: {e}")
-        return None, None
+        return None, RATE_LIMIT_UNAVAILABLE_LABEL
 
 
 async def clear_exponential_backoff(scope: str, key: str) -> None:

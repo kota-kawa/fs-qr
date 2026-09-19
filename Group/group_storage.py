@@ -1,4 +1,9 @@
+import asyncio
+import hashlib
 import os
+from contextlib import asynccontextmanager, contextmanager
+
+import fcntl
 
 from werkzeug.utils import secure_filename
 
@@ -8,6 +13,62 @@ from settings import BASE_DIR, GROUP_UPLOAD_DIR
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 UPLOAD_FOLDER = GROUP_UPLOAD_DIR
 LEGACY_UPLOAD_FOLDER = os.path.join(STATIC_DIR, "group_uploads")
+UPLOAD_LOCK_FILENAME = ".fsqr-upload.lock"
+
+
+def _room_lock_path(room_id, *, primary_root=None):
+    """Return a stable lock path outside the room payload directory.
+
+    The lock must survive ``rmtree(room_folder)``.  Hashing the public room ID
+    keeps the filename safe even if a caller passes an unexpected value.
+    """
+
+    root = os.path.abspath(primary_root or UPLOAD_FOLDER)
+    digest = hashlib.sha256(str(room_id).encode("utf-8")).hexdigest()
+    return root, os.path.join(root, f".fsqr-upload-{digest}.lock")
+
+
+def _open_room_lock(room_id, *, primary_root=None):
+    root, lock_path = _room_lock_path(room_id, primary_root=primary_root)
+    os.makedirs(root, exist_ok=True)
+    lock_file = open(lock_path, "a+")
+    try:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+    except Exception:
+        lock_file.close()
+        raise
+    return lock_file
+
+
+def _close_room_lock(lock_file):
+    try:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+    finally:
+        lock_file.close()
+
+
+@contextmanager
+def room_upload_lock(room_id, *, primary_root=None):
+    """Synchronize file writes/deletes for one room across workers."""
+
+    lock_file = _open_room_lock(room_id, primary_root=primary_root)
+    try:
+        yield
+    finally:
+        _close_room_lock(lock_file)
+
+
+@asynccontextmanager
+async def async_room_upload_lock(room_id, *, primary_root=None):
+    """Async counterpart that does not block the event loop while waiting."""
+
+    lock_file = await asyncio.to_thread(
+        _open_room_lock, room_id, primary_root=primary_root
+    )
+    try:
+        yield
+    finally:
+        await asyncio.to_thread(_close_room_lock, lock_file)
 
 
 def is_safe_path(base_path, target_path):
@@ -57,6 +118,8 @@ def collect_room_files(room_id, *, primary_root=None, include_legacy=True):
         if not os.path.isdir(folder):
             continue
         for file_name in os.listdir(folder):
+            if file_name == UPLOAD_LOCK_FILENAME or file_name.startswith(".fsqr-"):
+                continue
             file_path = os.path.join(folder, file_name)
             if os.path.isfile(file_path) and file_name not in files:
                 files[file_name] = file_path
@@ -83,6 +146,10 @@ def resolve_room_file(room_id, filename, *, primary_root=None, include_legacy=Tr
     ):
         file_path = os.path.join(folder, filename)
         if not is_safe_path(folder, file_path):
+            continue
+        if os.path.basename(file_path) == UPLOAD_LOCK_FILENAME or os.path.basename(
+            file_path
+        ).startswith(".fsqr-"):
             continue
         if os.path.isfile(file_path):
             return folder, file_path

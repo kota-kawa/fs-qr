@@ -10,6 +10,9 @@ from api_response import api_error_response, api_ok_response, error_page_or_json
 from models import NoteTaskRoomCreateInput
 from rate_limit import (
     SCOPE_NOTE,
+    SCOPE_NOTE_ROOM_CREATE,
+    PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+    PUBLIC_WRITE_WINDOW_SECONDS,
     check_rate_limit,
     get_block_message,
     get_client_ip,
@@ -165,6 +168,15 @@ async def create_note_room_page(request: Request):
 @router.post("/create_note_room", name="note.create_note_room")
 async def create_note_room(request: Request):  # noqa: C901
     await enforce_csrf(request)
+    ip = get_client_ip(request)
+    allowed, _, block_label = await check_rate_limit(
+        SCOPE_NOTE_ROOM_CREATE,
+        ip,
+        request_limit=PUBLIC_ROOM_CREATE_REQUEST_LIMIT,
+        request_window_seconds=PUBLIC_WRITE_WINDOW_SECONDS,
+    )
+    if not allowed:
+        return api_error_response(get_block_message(block_label), status_code=429)
     json_data = {}
     form_data = {}
     content_type = request.headers.get("content-type", "")

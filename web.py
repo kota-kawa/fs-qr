@@ -471,6 +471,7 @@ def render_template(request: Request, template_name: str, **context: Any):
         "google_adsense_client_id": adsense_client_id,
         "google_adsense_account_id": adsense_client_id,
         "force_noindex": _is_operation_page(request.url.path),
+        "csp_nonce": getattr(getattr(request, "state", None), "csp_nonce", ""),
     }
     payload.update(context)
     try:
@@ -503,8 +504,9 @@ def error_page(request: Request, message: str, status_code: int = 200) -> HTMLRe
     return response
 
 
-RENDER_CACHE_KEY_PREFIX = "render_cache:v4"
+RENDER_CACHE_KEY_PREFIX = "render_cache:v5"
 RENDER_CACHE_CSRF_PLACEHOLDER = "__FSQR_CSRF_TOKEN_PLACEHOLDER__"
+RENDER_CACHE_CSP_NONCE_PLACEHOLDER = "__FSQR_CSP_NONCE_PLACEHOLDER__"
 
 
 def _render_cache_key(template_name: str, language: str, request: Request) -> str:
@@ -547,6 +549,7 @@ async def render_cached_template(
     language = resolve_language(request)
     cache_key = _render_cache_key(template_name, language, request)
     csrf_value = get_or_create_csrf_token(request)
+    csp_nonce = getattr(getattr(request, "state", None), "csp_nonce", "")
 
     cached_body: str | None = None
     try:
@@ -561,6 +564,7 @@ async def render_cached_template(
 
     if cached_body is not None:
         body = cached_body.replace(RENDER_CACHE_CSRF_PLACEHOLDER, csrf_value)
+        body = body.replace(RENDER_CACHE_CSP_NONCE_PLACEHOLDER, csp_nonce)
         return HTMLResponse(
             body,
             headers={
@@ -575,6 +579,10 @@ async def render_cached_template(
 
     if csrf_value and RENDER_CACHE_CSRF_PLACEHOLDER not in body:
         cacheable_body = body.replace(csrf_value, RENDER_CACHE_CSRF_PLACEHOLDER)
+        if csp_nonce:
+            cacheable_body = cacheable_body.replace(
+                csp_nonce, RENDER_CACHE_CSP_NONCE_PLACEHOLDER
+            )
         try:
             await redis_client.setex(cache_key, ttl, cacheable_body)
         except Exception as exc:

@@ -94,6 +94,30 @@ def test_secure_compare_secret():
     assert secure_compare_secret("wrong", "secret") is False
     assert secure_compare_secret(None, "secret") is False
     assert secure_compare_secret("secret", None) is False
+    assert secure_compare_secret("", "") is False
+    assert secure_compare_secret("", "secret") is False
+
+
+def test_security_settings_reject_placeholders(monkeypatch):
+    import settings
+
+    monkeypatch.setattr(settings, "SECRET_KEY", "change-me-secret-key")
+    monkeypatch.setattr(settings, "ADMIN_KEY", "valid-admin-key")
+    monkeypatch.setattr(settings, "MANAGEMENT_PASSWORD", "valid-management")
+    monkeypatch.setattr(settings, "DB_ADMIN_PASSWORD", "valid-db-password")
+
+    with pytest.raises(RuntimeError, match="SECRET_KEY"):
+        settings.validate_security_settings()
+
+
+def test_rotate_session_id_delegates_to_starsessions():
+    from session_auth import rotate_session_id
+
+    connection = object()
+    with patch("session_auth._regenerate_session_id") as regenerate:
+        rotate_session_id(connection)
+
+    regenerate.assert_called_once_with(connection)
 
 
 def test_retention_hours_allows_only_supported_short_periods():
@@ -598,17 +622,105 @@ def test_check_rate_limit_blocked():
     assert until is not None
 
 
-def test_check_rate_limit_redis_error_fails_open():
-    """Redis エラー時はフェイルオープン → True"""
+def test_check_rate_limit_redis_error_fails_closed():
+    """Redis エラー時はフェイルクローズしてアクセスを許可しない"""
     from rate_limit import check_rate_limit
 
     mock_r = AsyncMock()
     mock_r.get = AsyncMock(side_effect=Exception("Redis down"))
 
     with patch("rate_limit.get_redis_client", return_value=mock_r):
-        allowed, _, _ = asyncio.run(check_rate_limit("qr", "10.0.0.1"))
+        allowed, _, label = asyncio.run(check_rate_limit("qr", "10.0.0.1"))
 
-    assert allowed is True
+    assert allowed is False
+    assert label == "__rate_limit_unavailable__"
+
+
+def test_check_rate_limit_request_window_blocks_after_limit():
+    """公開書き込みの固定ウィンドウが上限超過を拒否する"""
+    from rate_limit import check_rate_limit
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=4)
+    mock_r.ttl = AsyncMock(return_value=120)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(
+            check_rate_limit(
+                "qr_upload",
+                "10.0.0.1",
+                request_limit=3,
+                request_window_seconds=3600,
+            )
+        )
+
+    assert allowed is False
+    assert until is not None
+    assert label == "__rate_limit_exceeded__"
+
+
+def test_check_rate_limit_request_window_sets_expiry_on_first_request():
+    """固定ウィンドウの初回カウンターには TTL を設定する"""
+    from rate_limit import check_rate_limit
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(return_value=None)
+    mock_r.incr = AsyncMock(return_value=1)
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(
+            check_rate_limit(
+                "qr_upload",
+                "10.0.0.1",
+                request_limit=3,
+                request_window_seconds=3600,
+            )
+        )
+
+    assert (allowed, until, label) == (True, None, None)
+    mock_r.expire.assert_awaited_once_with("rate_limit:qr_upload:10.0.0.1:window", 3600)
+
+
+def test_check_rate_limit_enforces_limit_with_stateful_counter():
+    """実カウンター相当の Redis fake で上限超過を確認する。"""
+    from rate_limit import check_rate_limit
+
+    class CounterRedis:
+        def __init__(self):
+            self.counts = {}
+
+        async def get(self, key):
+            return None
+
+        async def incr(self, key):
+            self.counts[key] = self.counts.get(key, 0) + 1
+            return self.counts[key]
+
+        async def expire(self, key, seconds):
+            return True
+
+        async def ttl(self, key):
+            return 120
+
+    redis_client = CounterRedis()
+    with patch("rate_limit.get_redis_client", return_value=redis_client):
+        results = [
+            asyncio.run(
+                check_rate_limit(
+                    "qr_upload",
+                    "10.0.0.1",
+                    request_limit=2,
+                    request_window_seconds=3600,
+                )
+            )
+            for _ in range(3)
+        ]
+
+    assert results[0][0] is True
+    assert results[1][0] is True
+    assert results[2][0] is False
+    assert results[2][2] == "__rate_limit_exceeded__"
 
 
 def test_register_failure_below_threshold_no_block():
@@ -705,8 +817,8 @@ def test_register_failure_already_blocked_returns_existing():
     assert until is not None
 
 
-def test_register_failure_redis_error_returns_none():
-    """Redis エラー時は (None, None) を返す"""
+def test_register_failure_redis_error_fails_closed():
+    """Redis エラー時は利用者へ制限応答を返す"""
     from rate_limit import register_failure
 
     mock_r = AsyncMock()
@@ -716,7 +828,7 @@ def test_register_failure_redis_error_returns_none():
         until, label = asyncio.run(register_failure("qr", "10.0.0.1"))
 
     assert until is None
-    assert label is None
+    assert label == "__rate_limit_unavailable__"
 
 
 def test_register_success_deletes_keys():
@@ -761,6 +873,23 @@ def test_check_exponential_backoff_blocked():
     assert label == "4秒"
 
 
+def test_check_exponential_backoff_redis_error_fails_closed():
+    """指数バックオフの Redis 障害時も操作を許可しない"""
+    from rate_limit import check_exponential_backoff
+
+    mock_r = AsyncMock()
+    mock_r.get = AsyncMock(side_effect=Exception("Redis down"))
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        allowed, until, label = asyncio.run(
+            check_exponential_backoff("group_file_delete", "10.0.0.1:abc123")
+        )
+
+    assert allowed is False
+    assert until is None
+    assert label == "__rate_limit_unavailable__"
+
+
 def test_register_exponential_backoff_failure_doubles_delay():
     """失敗回数に応じて指数バックオフを設定する"""
     from rate_limit import register_exponential_backoff_failure
@@ -782,6 +911,22 @@ def test_register_exponential_backoff_failure_doubles_delay():
     assert until is not None
     assert label == "8秒"
     mock_r.set.assert_awaited_once()
+
+
+def test_register_exponential_backoff_redis_error_fails_closed():
+    """指数バックオフの記録失敗も制限ラベルを返す"""
+    from rate_limit import register_exponential_backoff_failure
+
+    mock_r = AsyncMock()
+    mock_r.incr = AsyncMock(side_effect=Exception("Redis down"))
+
+    with patch("rate_limit.get_redis_client", return_value=mock_r):
+        until, label = asyncio.run(
+            register_exponential_backoff_failure("group_file_delete", "10.0.0.1:abc123")
+        )
+
+    assert until is None
+    assert label == "__rate_limit_unavailable__"
 
 
 def test_clear_exponential_backoff_deletes_keys():
