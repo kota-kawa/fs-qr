@@ -13,6 +13,9 @@
   [docs/blue-green-deploy.md](docs/blue-green-deploy.md)、翻訳カタログの規約は
   [locales/README.md](locales/README.md)、EU 対応の前提は
   [docs/eu-readiness.md](docs/eu-readiness.md) を参照する。
+- コードの書き方、コマンド、テスト方針は
+  [開発規約](docs/knowledge/development_conventions.md)、外部との境界と migration の手順は
+  [API 契約とマイグレーション](docs/knowledge/contracts-and-migrations.md) に分けている。
 
 ## システム概要
 
@@ -255,6 +258,7 @@ Note / Task を掃除し、Note の期限切れを pub/sub で通知します。
 | Task board / import-export | `test_task.py`, `test_task_io.py` | CRUD、並べ替え、日付整合、件数上限、タグの追加 / 名前変更 / 削除 |
 | 翻訳 / テンプレート | `test_i18n.py`, `test_locale_files.py`, `test_no_japanese_leakage.py`, `test_room_services_shared.py` | `python3 scripts/validate_locales.py --strict-phrases` |
 | DB / 設定 / デプロイ | `test_data_layers.py`, `test_runtime_config.py`, `test_deploy_bluegreen.py` | `pytest`、Ruff、mypy、Docker / nginx の実環境確認 |
+| 文書 / `.env.example` | `test_repo_checks.py` | `python3 scripts/check_doc_paths.py`、`python3 scripts/check_env_documentation.py` |
 
 CI の実際のバージョンと順序は `.github/workflows/tests.yml` を正とします。
 
@@ -263,11 +267,13 @@ CI の実際のバージョンと順序は `.github/workflows/tests.yml` を正�
 | 目的 | 入口 | 一緒に確認する資料 |
 | --- | --- | --- |
 | 新しい画面・ルート | 対象 feature の `*_app.py` と template | `web.py`、該当 `static/js`、feature テスト |
-| DB カラム・テーブル変更 | `alembic/versions/` | `db_init/create_tables.sql`、`migration_runner.py`、expand/contract の ADR |
+| DB カラム・テーブル変更 | `alembic/versions/` | `db_init/create_tables.sql`、`migration_runner.py`、[契約と migration の知識](docs/knowledge/contracts-and-migrations.md) |
 | アップロード・ダウンロード | `file_validation.py`、`file_serving.py`、feature data 層 | `fs-qr.conf`、`settings.py`、セキュリティ知識 |
 | WebSocket / 同期 | `Group/group_routes_ws.py` または `hocuspocus/server.js` | realtime 知識、対応テスト、Redis設定、nginx `/yjs` |
 | 翻訳・SEO | `locales/`、`i18n_support/`、template | `locales/README.md`、locale 検証スクリプト |
 | 本番切替・障害復旧 | `scripts/deploy_bluegreen.sh` | `docs/blue-green-deploy.md`、デバッグ知識 |
+| 共通テンプレート・共通 JS / CSS | `templates/`、`static/js/shared/`、`static/css/17-room-access.css` 〜 `static/css/20-status-page.css` | [共通部品の知識](docs/knowledge/shared-service-components.md)、[実描画確認](docs/knowledge/frontend_visual_verification.md)、[回帰の型](docs/knowledge/recurring_regressions.md) |
+| 環境変数・設定 | `settings.py`、`.env.example` | `docker-compose.yml`、`scripts/check_env_documentation.py` |
 
 設計概要に一時的な作業経過や環境固有の値を書かないでください。繰り返し使える
 失敗パターンは `docs/knowledge/`、採用した設計とトレードオフは `docs/decisions/` に

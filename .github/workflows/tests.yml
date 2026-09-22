@@ -56,6 +56,12 @@ jobs:
       - name: Ruff format check
         run: python -m ruff format --check .
 
+      - name: Check documentation path references
+        run: python scripts/check_doc_paths.py
+
+      - name: Check environment variable documentation
+        run: python scripts/check_env_documentation.py
+
   audit:
     name: pip-audit (dependency vulnerabilities)
     runs-on: ubuntu-latest

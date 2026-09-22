@@ -17,8 +17,7 @@ locales/
       pages.json
       product.json
       task.json
-      seo.json
-      legacy.json
+      quality_fill.json
 ```
 
 ## セクション
@@ -35,8 +34,7 @@ locales/
 - `pages.json`: privacy / terms / about / usage など固定ページ。
 - `product.json`: FS!QR / Group / Note の画面文言。
 - `task.json`: Task のルーム作成・参加・ボード操作画面の文言。翻訳は手動で管理する。
-- `seo.json`: SEO、JSON-LD、meta description などの補完スクリプト由来。
-- `legacy.json`: 出所がまだ特定できていない既存文言。新規追加では使わない。
+- `quality_fill.json`: 多言語監査で補完した既存文言の互換シャード。新規追加では使わない。
 
 ## 追加ルール
 
