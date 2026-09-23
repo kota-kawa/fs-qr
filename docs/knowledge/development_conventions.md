@@ -92,6 +92,8 @@ DB スキーマは 3 か所を同じ変更で更新します。
   で渡します。
 - 静的 JS は `static/js/<機能>/` に機能単位、共通基盤は `static/js/shared/` に置きます。
 - Alembic は `YYYYMMDD_NNNN_<内容>.py`、ADR は `docs/decisions/` 配下に 4 桁連番 + kebab-case（既存 ADR と同じ形）。
+- 概念の呼び名は [用語集](domain_model.md#用語集) に従います。既存の列名などを改名しない理由も
+  同じ節にあります。
 
 ## 責務分割
 
@@ -101,6 +103,25 @@ DB スキーマは 3 か所を同じ変更で更新します。
 - 4 サービスで共通の処理（ルーム作成 ID、削除、セッション namespace、期限検索、共有リンク）は
   `room_*.py` と `share_links.py` にあり、既存 import 名・session namespace・cache key は
   wrapper で互換維持します（[shared-service-components.md](shared-service-components.md)）。
+- 依存は route（`*_app.py`、`*_routes_*.py`）→ 認可（`room_session.py`、各サービスの
+  `*_access.py`・`*_authorize.py`・`Group/group_common.py`）→ data 層（`*_data.py`、
+  `room_repository.py`）→ `database.py`・Redis・ファイル保存の向きにし、新しく逆向きの import を
+  作りません（data 層が import する `share_links.py` が `web` と `fastapi.Request` に依存して
+  いるのは既存の例外です）。data 層は HTTP レスポンスではなく値を返し、応答は route が組み立て
+  ます。route に SQL を書きません（既存の例外は DB 管理画面の `Admin/db_admin.py` と
+  `Note/note_app.py` の ID 存在確認）。FSQR / Group / Note / Task のパッケージどうしは import
+  しません。
+- 業務ルール（入力値、有効判定、認可、状態遷移、上限値）の置き場所は
+  [domain_model.md](domain_model.md) の「業務ルールの置き場所」に従います。
+- 機能から外部サービスと基盤を使うときは既存の境界モジュールを通します。MySQL は
+  `database.py`、Redis は `cache_utils.py`・`rate_limit.py`・`presence.py`・
+  `Group/group_realtime.py`・`Note/note_realtime.py`、GeoIP は `geoip_update.py`（取得）と
+  `i18n_support/geoip.py`（参照）、Hocuspocus のトークンは `Note/note_collaboration.py`、nginx の
+  保護配信は `file_serving.py` です（`app.py` のセッションストアと `scheduler.py` のロックは
+  プロセスの組み立てとして直接接続します）。新しい外部サービスを足すときは専用モジュールを
+  1 つ作り、SDK・HTTP 呼び出し・応答の変換をそこに閉じ込め、設定は `settings.py` から渡します。
+- CQRS、Event Sourcing、Entity / Value Object / Repository のクラス階層は採用しません。理由と
+  見直す条件は [ADR-0008](../decisions/0008-lightweight-domain-design.md) にあります。
 - 1 つのファイルや関数が肥大化しないよう責務ごとに分割し、既存の巨大なファイルに手を入れる
   場合も変更範囲内で読みやすさを戻します。Ruff の `C90`（複雑度 15）を超えたら分割します。
 - ログ設定の変更は `log_config.py` に集約し、モジュール間でハンドラーの一貫性を保ちます。

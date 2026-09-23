@@ -16,6 +16,8 @@
 - コードの書き方、コマンド、テスト方針は
   [開発規約](docs/knowledge/development_conventions.md)、外部との境界と migration の手順は
   [API 契約とマイグレーション](docs/knowledge/contracts-and-migrations.md) に分けている。
+- 用語、ルームの状態遷移、業務ルールの置き場所は
+  [ドメインモデルと要件の整理](docs/knowledge/domain_model.md) を参照する。
 
 ## システム概要
 
