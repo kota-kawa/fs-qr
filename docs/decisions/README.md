@@ -13,6 +13,7 @@
 - [ADR-0005: Group realtime の Redis pub/sub](0005-group-realtime-redis-pubsub.md)
 - [ADR-0006: Note共同編集をHocuspocus / Yjsへ移行](0006-note-collaboration-hocuspocus-yjs.md)
 - [ADR-0007: 本番デプロイを手動実行・承認制にする](0007-manual-production-deployment.md)
+- [ADR-0008: ドメイン設計を軽量に保ち、CQRS と Event Sourcing を採用しない](0008-lightweight-domain-design.md)
 
 ## 追加ルール
 
