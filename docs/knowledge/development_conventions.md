@@ -144,8 +144,9 @@ DB スキーマは 3 か所を同じ変更で更新します。
 ## サブエージェントの指定
 
 - レビュー用サブエージェント: 読み取り専用で動く汎用エージェントを使います。Claude Code では Agent
-  ツールの `general-purpose` にモデル `sonnet5`、effort `high` を指定し、Codex ではモデル
-  `gpt-6-luna`、reasoning effort `max` を指定します。いずれも「ファイルを編集しない」と明示します。
+  ツールの `general-purpose` にモデル alias `sonnet`（その時点の最新 Sonnet モデル）、effort `high` を
+  指定し、Codex では利用可能なモデル一覧からその時点の最新 GPT Luna モデルを選び、reasoning effort
+  `max` を指定します。いずれも「ファイルを編集しない」と明示します。
   他の環境では同等の設定ができる読み取り専用エージェントを使います。
   渡すものは「スコープ」「差分（`git diff main...HEAD` など）」「チェックリスト
   （要件を満たす／スコープ外の変更が無い／不要なコードが無い／テストが通る／禁止事項に触れない）」
