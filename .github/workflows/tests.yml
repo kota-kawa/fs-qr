@@ -270,31 +270,25 @@ jobs:
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${HOME}/.cache/trivy:/root/.cache/" \
-            -v "${GITHUB_WORKSPACE}/.trivyignore.yaml:/scan-config/.trivyignore.yaml:ro" \
             "${TRIVY_IMAGE}" image \
             --scanners vuln \
             --format table \
             --exit-code 1 \
-            --ignorefile /scan-config/.trivyignore.yaml \
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH \
-            --show-suppressed \
             --skip-version-check \
             fs-qr-ci:${{ github.sha }}
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${HOME}/.cache/trivy:/root/.cache/" \
-            -v "${GITHUB_WORKSPACE}/.trivyignore.yaml:/scan-config/.trivyignore.yaml:ro" \
             "${TRIVY_IMAGE}" image \
             --scanners vuln \
             --format table \
             --exit-code 1 \
-            --ignorefile /scan-config/.trivyignore.yaml \
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH \
-            --show-suppressed \
             --skip-version-check \
             fs-qr-hocuspocus-ci:${{ github.sha }}
 

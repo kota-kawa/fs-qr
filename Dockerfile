@@ -36,16 +36,19 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade system packaging tools shipped in the base image because Trivy scans
-# their metadata even though the app itself runs from /opt/venv.
+# their metadata even though the app itself runs from /opt/venv. pip is removed
+# afterwards: the runtime never installs packages, and pip's vendored
+# bom.cdx.json lists outdated msgpack / setuptools that Trivy reports.
 RUN /usr/local/bin/python -m pip install \
         --no-cache-dir \
         --root-user-action=ignore \
         --upgrade \
-        pip \
         setuptools \
-        wheel
+        wheel \
+    && /usr/local/bin/python -m pip uninstall --yes --root-user-action=ignore pip
 
 COPY --from=builder /opt/venv /opt/venv
+RUN /opt/venv/bin/python -m pip uninstall --yes --root-user-action=ignore pip
 
 # Run as a non-root user. uid/gid 1000 must match the host user that owns the
 # bind-mounted directories in docker-compose (./logs, ./geoip, source tree).
