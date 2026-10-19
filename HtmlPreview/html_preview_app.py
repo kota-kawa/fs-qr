@@ -27,6 +27,32 @@ CDN_ASSETS = {
     "fonts": (
         "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/webfonts/"
     ),
+    "webfonts": [
+        {
+            "name": "Noto Sans JP",
+            "url": (
+                "https://cdn.jsdelivr.net/gh/google/fonts@"
+                "66a36c8c94b1a5d992ee4e7f392fccfe4945767c/"
+                "ofl/notosansjp/NotoSansJP[wght].ttf"
+            ),
+            "integrity": (
+                "sha384-5HQCFe8OxNPojt1uWgu7u/aNR2I8FBn/"
+                "xG9CMTBVFvnRN4nNa+hMkx2sPcE/gNzI"
+            ),
+        },
+        {
+            "name": "JetBrains Mono",
+            "url": (
+                "https://cdn.jsdelivr.net/gh/google/fonts@"
+                "66a36c8c94b1a5d992ee4e7f392fccfe4945767c/"
+                "ofl/jetbrainsmono/JetBrainsMono[wght].ttf"
+            ),
+            "integrity": (
+                "sha384-U1HV2HxEECMos0gfWJu1pa+v0oDb7wEX"
+                "mCTRdU0uizFuaCyRFgunAZ0c6Nowh6lU"
+            ),
+        },
+    ],
     "mermaid": {
         "name": "Mermaid 12.2.0",
         "url": "https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.min.js",
@@ -42,14 +68,17 @@ async def html_preview(request: Request):
     response = render_template(request, "html-preview.html", cdn_assets=CDN_ASSETS)
     nonce = request.state.csp_nonce
     styles = " ".join(asset["url"] for asset in CDN_ASSETS["styles"])
-    # Allow fixed CDN resources, without accepting pasted scripts or uploads.
+    webfonts = " ".join(asset["url"] for asset in CDN_ASSETS["webfonts"])
+    # Only the tool fetches fixed assets; pasted code runs in an opaque sandbox.
     response.headers["Content-Security-Policy"] = (
         f"default-src 'none'; script-src 'self' 'nonce-{nonce}' "
         f"{CDN_ASSETS['mermaid']['url']}; "
         "style-src 'self' 'unsafe-inline'; "
-        f"font-src {CDN_ASSETS['fonts']}; img-src 'self' data:; "
-        "frame-src 'self'; base-uri 'none'; form-action 'none'; "
-        f"frame-ancestors 'self'; connect-src {styles}; object-src 'none'"
+        f"font-src data: {CDN_ASSETS['fonts']}; img-src 'self' data:; "
+        "frame-src 'none'; base-uri 'none'; form-action 'none'; "
+        f"frame-ancestors 'self'; connect-src {styles} "
+        f"{CDN_ASSETS['mermaid']['url']} {CDN_ASSETS['fonts']} {webfonts}; "
+        "object-src 'none'"
     )
     response.headers["Cache-Control"] = "no-store"
     return response

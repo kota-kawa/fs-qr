@@ -3317,6 +3317,9 @@ msgstr "HTML einfügen, um hier eine Vorschau zu sehen."
 msgid "html.error"
 msgstr "Vorschau nicht verfügbar. HTML prüfen und erneut versuchen."
 
+msgid "html.execute_scripts"
+msgstr "JavaScript ausführen"
+
 msgid "html.home"
 msgstr "Startseite"
 
@@ -3331,10 +3334,9 @@ msgstr "JavaScript aktivieren, um dieses Werkzeug zu nutzen."
 
 msgid "html.notice"
 msgstr ""
-"Zeigt HTML, eingebettetes CSS, zugelassene CDN-Stile und Mermaid. "
-"Beliebiges JavaScript, externe Bilder, Links und Formularversand sind "
-"deaktiviert. Die Eingabe bleibt in diesem Tab und wird beim Neuladen "
-"gelöscht."
+"Zeigt HTML, CSS und Mermaid. JavaScript ist standardmäßig aus. "
+"Inhaltslinks innerhalb der Seite funktionieren. Eingaben bleiben im Tab "
+"und werden beim Neuladen gelöscht."
 
 msgid "html.notice_title"
 msgstr "Über die Vorschau"
@@ -3353,6 +3355,12 @@ msgstr "Vorschau aktualisiert."
 
 msgid "html.render"
 msgstr "Vorschau anzeigen"
+
+msgid "html.script_hint"
+msgstr ""
+"Nur für vertrauenswürdiges HTML aktivieren. Zugriff auf übergeordnete "
+"Seite, Speicher, externe Ressourcen und Formularversand ist "
+"eingeschränkt."
 
 msgid "html.services"
 msgstr "Dienste"

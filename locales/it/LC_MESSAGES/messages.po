@@ -3349,6 +3349,9 @@ msgstr "Incolla HTML per vedere un’anteprima qui."
 msgid "html.error"
 msgstr "Impossibile visualizzare. Controlla l’HTML e riprova."
 
+msgid "html.execute_scripts"
+msgstr "Esegui JavaScript"
+
 msgid "html.home"
 msgstr "Home"
 
@@ -3363,10 +3366,9 @@ msgstr "Abilita JavaScript per usare questo strumento."
 
 msgid "html.notice"
 msgstr ""
-"Mostra HTML, CSS incorporato, stili CDN autorizzati e Mermaid. JavaScript"
-" arbitrario, immagini esterne, collegamenti e invio di moduli sono "
-"disattivati. Il contenuto resta in questa scheda e si cancella al "
-"ricaricamento."
+"Mostra HTML, CSS e Mermaid. JavaScript è disattivato per impostazione "
+"predefinita. I collegamenti interni funzionano. I dati restano nella "
+"scheda e vengono cancellati al ricaricamento."
 
 msgid "html.notice_title"
 msgstr "Informazioni sull’anteprima"
@@ -3385,6 +3387,11 @@ msgstr "Anteprima aggiornata."
 
 msgid "html.render"
 msgstr "Mostra anteprima"
+
+msgid "html.script_hint"
+msgstr ""
+"Attiva solo per HTML affidabile. Accesso limitato alla pagina principale,"
+" all’archiviazione, alle risorse esterne e all’invio di moduli."
 
 msgid "html.services"
 msgstr "Servizi"

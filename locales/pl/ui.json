@@ -118,10 +118,12 @@
   "html.ready": "Podgląd zaktualizowany.",
   "html.error": "Nie można wyświetlić podglądu. Sprawdź HTML i spróbuj ponownie.",
   "html.notice_title": "O podglądzie",
-  "html.notice": "Wyświetla HTML, osadzony CSS, dozwolone style CDN i Mermaid. Dowolny JavaScript, zewnętrzne obrazy, linki i wysyłanie formularzy są wyłączone. Dane pozostają w tej karcie i znikają po odświeżeniu.",
+  "html.notice": "Wyświetla HTML, CSS i Mermaid. JavaScript jest domyślnie wyłączony. Działają odnośniki wewnętrzne. Dane pozostają w karcie i znikają po odświeżeniu.",
   "html.noscript": "Włącz JavaScript, aby użyć tego narzędzia.",
   "html.loading": "Tworzenie podglądu…",
   "html.cdn_error": "Nie udało się wczytać CDN lub wyświetlić Mermaid. Sprawdź połączenie i składnię diagramu.",
   "html.cdn_title": "Obsługiwane CDN i Mermaid",
-  "html.cdn_hint": "CSS jest obsługiwany pod stałymi adresami URL poniżej. Mermaid renderuje się automatycznie w elementach pre lub div z class=\"mermaid\". CDN wymaga połączenia z internetem."
+  "html.cdn_hint": "CSS jest obsługiwany pod stałymi adresami URL poniżej. Mermaid renderuje się automatycznie w elementach pre lub div z class=\"mermaid\". CDN wymaga połączenia z internetem.",
+  "html.execute_scripts": "Uruchom JavaScript",
+  "html.script_hint": "Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, zasobów zewnętrznych i wysyłania formularzy jest ograniczony."
 }

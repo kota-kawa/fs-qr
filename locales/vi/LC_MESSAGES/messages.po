@@ -3156,6 +3156,9 @@ msgstr "Dán HTML để xem trước tại đây."
 msgid "html.error"
 msgstr "Không thể hiển thị. Hãy kiểm tra HTML và thử lại."
 
+msgid "html.execute_scripts"
+msgstr "Chạy JavaScript"
+
 msgid "html.home"
 msgstr "Trang chủ"
 
@@ -3170,9 +3173,9 @@ msgstr "Bật JavaScript để sử dụng công cụ này."
 
 msgid "html.notice"
 msgstr ""
-"Hiển thị HTML, CSS nhúng, kiểu CDN được phép và Mermaid. JavaScript tùy "
-"ý, ảnh bên ngoài, liên kết và gửi biểu mẫu đều bị tắt. Nội dung chỉ ở "
-"trong thẻ này và bị xóa khi tải lại."
+"Hiển thị HTML, CSS và Mermaid. JavaScript mặc định tắt. Các liên kết mục "
+"lục trong trang hoạt động. Nội dung chỉ nằm trong thẻ này và bị xóa khi "
+"tải lại."
 
 msgid "html.notice_title"
 msgstr "Về bản xem trước"
@@ -3191,6 +3194,11 @@ msgstr "Đã cập nhật bản xem trước."
 
 msgid "html.render"
 msgstr "Hiển thị bản xem trước"
+
+msgid "html.script_hint"
+msgstr ""
+"Chỉ bật cho HTML đáng tin cậy. Hạn chế truy cập trang cha, bộ nhớ, tài "
+"nguyên bên ngoài và gửi biểu mẫu."
 
 msgid "html.services"
 msgstr "Dịch vụ"

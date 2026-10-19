@@ -3077,6 +3077,9 @@ msgstr "ألصق HTML لرؤية المعاينة هنا."
 msgid "html.error"
 msgstr "تعذر العرض. تحقق من HTML وحاول مجدداً."
 
+msgid "html.execute_scripts"
+msgstr "تشغيل JavaScript"
+
 msgid "html.home"
 msgstr "الرئيسية"
 
@@ -3091,9 +3094,8 @@ msgstr "فعّل JavaScript لاستخدام هذه الأداة."
 
 msgid "html.notice"
 msgstr ""
-"يعرض HTML وCSS المضمن وأنماط CDN المسموح بها وMermaid. يتم تعطيل "
-"JavaScript العشوائي والصور الخارجية والروابط وإرسال النماذج. يبقى الإدخال"
-" في علامة التبويب هذه ويُمسح عند إعادة التحميل."
+"يعرض HTML وCSS وMermaid. JavaScript معطّل افتراضياً. تعمل روابط المحتويات"
+" داخل الصفحة. يبقى الإدخال في علامة التبويب ويُمسح عند إعادة التحميل."
 
 msgid "html.notice_title"
 msgstr "حول المعاينة"
@@ -3112,6 +3114,11 @@ msgstr "تم تحديث المعاينة."
 
 msgid "html.render"
 msgstr "عرض المعاينة"
+
+msgid "html.script_hint"
+msgstr ""
+"فعّل فقط لملفات HTML الموثوقة. يقيّد الوصول إلى الصفحة الأم والتخزين "
+"والموارد الخارجية وإرسال النماذج."
 
 msgid "html.services"
 msgstr "الخدمات"

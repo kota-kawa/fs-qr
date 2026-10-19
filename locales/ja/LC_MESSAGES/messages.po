@@ -2034,6 +2034,9 @@ msgstr "HTMLを貼り付けると、ここにプレビューを表示できま�
 msgid "html.error"
 msgstr "表示できませんでした。HTMLを確認して再度お試しください。"
 
+msgid "html.execute_scripts"
+msgstr "JavaScriptを実行する"
+
 msgid "html.home"
 msgstr "ホーム"
 
@@ -2047,7 +2050,7 @@ msgid "html.noscript"
 msgstr "このツールを使うにはJavaScriptを有効にしてください。"
 
 msgid "html.notice"
-msgstr "HTMLと埋め込みCSS、対応CDNのCSS、Mermaidを表示します。任意のJavaScript、外部画像、リンク移動、フォーム送信は無効です。入力はこのタブ内だけで扱い、再読み込みすると消えます。"
+msgstr "HTML・CSS・Mermaidを表示します。JavaScriptは初期状態では無効です。ページ内の目次から移動できます。入力はタブ内だけで扱い、再読み込みで消えます。"
 
 msgid "html.notice_title"
 msgstr "プレビューについて"
@@ -2066,6 +2069,9 @@ msgstr "プレビューを更新しました。"
 
 msgid "html.render"
 msgstr "プレビューを表示"
+
+msgid "html.script_hint"
+msgstr "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。"
 
 msgid "html.services"
 msgstr "サービス一覧"

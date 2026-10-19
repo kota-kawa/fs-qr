@@ -42,6 +42,8 @@
         <div class="panel-header"><h2 id="source-label"><label for="html-source">{{ _('html.source') }}</label></h2></div>
         <textarea id="html-source" dir="ltr" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="source-hint" placeholder="{{ _('html.placeholder') }}"></textarea>
         <p class="panel-hint" id="source-hint">{{ _('html.source_hint') }}</p>
+        <label class="script-option"><input type="checkbox" id="execute-scripts" aria-describedby="script-hint"> {{ _('html.execute_scripts') }}</label>
+        <p class="panel-hint" id="script-hint">{{ _('html.script_hint') }}</p>
         <div class="actions"><button type="button" class="primary" id="render-preview">{{ _('html.render') }}</button></div>
       </section>
       <section class="panel preview-panel" id="preview-panel" aria-labelledby="preview-label">
@@ -58,6 +60,7 @@
       <summary>{{ _('html.cdn_title') }}</summary>
       <p>{{ _('html.cdn_hint') }}</p>
       <ul>{% for asset in cdn_assets.styles %}<li>{{ asset.name }}<code>&lt;link rel="stylesheet" href="{{ asset.url }}"&gt;</code></li>{% endfor %}</ul>
+      <ul>{% for font in cdn_assets.webfonts %}<li>{{ font.name }}<code>&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ font.name | replace(' ', '+') }}:wght@400;700&amp;display=swap"&gt;</code></li>{% endfor %}</ul>
       <p>{{ cdn_assets.mermaid.name }}</p>
       <pre dir="ltr">&lt;pre class="mermaid"&gt;
 graph TD

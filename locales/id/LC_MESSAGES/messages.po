@@ -3236,6 +3236,9 @@ msgstr "Tempel HTML untuk melihat pratinjau di sini."
 msgid "html.error"
 msgstr "Tidak dapat ditampilkan. Periksa HTML dan coba lagi."
 
+msgid "html.execute_scripts"
+msgstr "Jalankan JavaScript"
+
 msgid "html.home"
 msgstr "Beranda"
 
@@ -3250,9 +3253,9 @@ msgstr "Aktifkan JavaScript untuk menggunakan alat ini."
 
 msgid "html.notice"
 msgstr ""
-"Menampilkan HTML, CSS tertanam, gaya CDN yang diizinkan, dan Mermaid. "
-"JavaScript sembarang, gambar eksternal, tautan, dan pengiriman formulir "
-"dinonaktifkan. Masukan tetap di tab ini dan dihapus saat dimuat ulang."
+"Menampilkan HTML, CSS, dan Mermaid. JavaScript nonaktif secara bawaan. "
+"Tautan daftar isi berfungsi. Masukan tetap di tab ini dan dihapus saat "
+"dimuat ulang."
 
 msgid "html.notice_title"
 msgstr "Tentang pratinjau"
@@ -3271,6 +3274,11 @@ msgstr "Pratinjau diperbarui."
 
 msgid "html.render"
 msgstr "Tampilkan pratinjau"
+
+msgid "html.script_hint"
+msgstr ""
+"Aktifkan hanya untuk HTML tepercaya. Akses ke halaman induk, penyimpanan,"
+" sumber eksternal, dan pengiriman formulir dibatasi."
 
 msgid "html.services"
 msgstr "Layanan"

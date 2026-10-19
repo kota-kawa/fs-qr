@@ -118,10 +118,12 @@
   "html.ready": "Preview updated.",
   "html.error": "Could not display the preview. Check the HTML and try again.",
   "html.notice_title": "About this preview",
-  "html.notice": "Displays HTML, embedded CSS, approved CDN styles, and Mermaid. Arbitrary JavaScript, external images, link navigation, and form submission are disabled. Input stays in this tab and is cleared on reload.",
+  "html.notice": "Displays HTML, CSS, and Mermaid. JavaScript is off by default. In-page contents links work. Input stays in this tab and is cleared on reload.",
   "html.noscript": "Enable JavaScript to use this tool.",
   "html.loading": "Rendering preview…",
   "html.cdn_error": "A CDN could not load or Mermaid could not render. Check your connection and diagram syntax.",
   "html.cdn_title": "Supported CDNs and Mermaid",
-  "html.cdn_hint": "CSS is supported at the fixed URLs below. Mermaid renders automatically in pre or div elements with class=\"mermaid\". CDN features require an internet connection."
+  "html.cdn_hint": "CSS is supported at the fixed URLs below. Mermaid renders automatically in pre or div elements with class=\"mermaid\". CDN features require an internet connection.",
+  "html.execute_scripts": "Run JavaScript",
+  "html.script_hint": "Enable only for trusted HTML. Runs with restricted access to the parent page, storage, external resources, and form submission."
 }

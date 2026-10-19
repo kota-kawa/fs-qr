@@ -3279,6 +3279,9 @@ msgstr "Wklej HTML, aby zobaczyć podgląd."
 msgid "html.error"
 msgstr "Nie można wyświetlić podglądu. Sprawdź HTML i spróbuj ponownie."
 
+msgid "html.execute_scripts"
+msgstr "Uruchom JavaScript"
+
 msgid "html.home"
 msgstr "Strona główna"
 
@@ -3293,9 +3296,9 @@ msgstr "Włącz JavaScript, aby użyć tego narzędzia."
 
 msgid "html.notice"
 msgstr ""
-"Wyświetla HTML, osadzony CSS, dozwolone style CDN i Mermaid. Dowolny "
-"JavaScript, zewnętrzne obrazy, linki i wysyłanie formularzy są wyłączone."
-" Dane pozostają w tej karcie i znikają po odświeżeniu."
+"Wyświetla HTML, CSS i Mermaid. JavaScript jest domyślnie wyłączony. "
+"Działają odnośniki wewnętrzne. Dane pozostają w karcie i znikają po "
+"odświeżeniu."
 
 msgid "html.notice_title"
 msgstr "O podglądzie"
@@ -3314,6 +3317,11 @@ msgstr "Podgląd zaktualizowany."
 
 msgid "html.render"
 msgstr "Pokaż podgląd"
+
+msgid "html.script_hint"
+msgstr ""
+"Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, "
+"zasobów zewnętrznych i wysyłania formularzy jest ograniczony."
 
 msgid "html.services"
 msgstr "Usługi"

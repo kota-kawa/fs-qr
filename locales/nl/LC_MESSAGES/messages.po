@@ -3289,6 +3289,9 @@ msgstr "Plak HTML om hier een voorbeeld te zien."
 msgid "html.error"
 msgstr "Kan het voorbeeld niet tonen. Controleer de HTML en probeer opnieuw."
 
+msgid "html.execute_scripts"
+msgstr "JavaScript uitvoeren"
+
 msgid "html.home"
 msgstr "Startpagina"
 
@@ -3303,9 +3306,9 @@ msgstr "Schakel JavaScript in om dit hulpmiddel te gebruiken."
 
 msgid "html.notice"
 msgstr ""
-"Toont HTML, ingesloten CSS, goedgekeurde CDN-stijlen en Mermaid. "
-"Willekeurig JavaScript, externe afbeeldingen, links en formulieren zijn "
-"uitgeschakeld. Invoer blijft in dit tabblad en verdwijnt bij herladen."
+"Toont HTML, CSS en Mermaid. JavaScript staat standaard uit. Interne "
+"inhoudslinks werken. Invoer blijft in dit tabblad en verdwijnt bij "
+"herladen."
 
 msgid "html.notice_title"
 msgstr "Over dit voorbeeld"
@@ -3324,6 +3327,11 @@ msgstr "Voorbeeld bijgewerkt."
 
 msgid "html.render"
 msgstr "Voorbeeld tonen"
+
+msgid "html.script_hint"
+msgstr ""
+"Alleen inschakelen voor vertrouwde HTML. Toegang tot de bovenliggende "
+"pagina, opslag, externe bronnen en formulierverzending is beperkt."
 
 msgid "html.services"
 msgstr "Diensten"

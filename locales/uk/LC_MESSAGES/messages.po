@@ -3124,6 +3124,9 @@ msgstr "Вставте HTML, щоб побачити перегляд."
 msgid "html.error"
 msgstr "Не вдалося відобразити. Перевірте HTML і спробуйте ще раз."
 
+msgid "html.execute_scripts"
+msgstr "Виконувати JavaScript"
+
 msgid "html.home"
 msgstr "Головна"
 
@@ -3138,9 +3141,9 @@ msgstr "Увімкніть JavaScript, щоб користуватися інс�
 
 msgid "html.notice"
 msgstr ""
-"Відображає HTML, вбудований CSS, дозволені стилі CDN і Mermaid. Довільний"
-" JavaScript, зовнішні зображення, посилання й надсилання форм вимкнено. "
-"Дані залишаються в цій вкладці та зникають після оновлення."
+"Показує HTML, CSS і Mermaid. JavaScript типово вимкнено. Внутрішні "
+"посилання працюють. Ввід залишається у вкладці й видаляється після "
+"оновлення."
 
 msgid "html.notice_title"
 msgstr "Про перегляд"
@@ -3159,6 +3162,11 @@ msgstr "Перегляд оновлено."
 
 msgid "html.render"
 msgstr "Показати перегляд"
+
+msgid "html.script_hint"
+msgstr ""
+"Вмикайте лише для довіреного HTML. Доступ до батьківської сторінки, "
+"сховища, зовнішніх ресурсів і надсилання форм обмежено."
 
 msgid "html.services"
 msgstr "Сервіси"

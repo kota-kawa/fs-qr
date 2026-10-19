@@ -118,10 +118,12 @@
   "html.ready": "Aperçu actualisé.",
   "html.error": "Impossible d’afficher l’aperçu. Vérifiez le HTML et réessayez.",
   "html.notice_title": "À propos de l’aperçu",
-  "html.notice": "Affiche HTML, CSS intégré, styles CDN autorisés et Mermaid. JavaScript arbitraire, images externes, liens et envoi de formulaires sont désactivés. La saisie reste dans cet onglet et disparaît à l’actualisation.",
+  "html.notice": "Affiche HTML, CSS et Mermaid. JavaScript est désactivé par défaut. Les liens internes fonctionnent. La saisie reste dans cet onglet et disparaît à l’actualisation.",
   "html.noscript": "Activez JavaScript pour utiliser cet outil.",
   "html.loading": "Création de l’aperçu…",
   "html.cdn_error": "Échec du chargement CDN ou du rendu Mermaid. Vérifiez la connexion et la syntaxe du diagramme.",
   "html.cdn_title": "CDN pris en charge et Mermaid",
-  "html.cdn_hint": "Le CSS est accepté aux URL fixes ci-dessous. Mermaid est rendu automatiquement dans les éléments pre ou div avec class=\"mermaid\". Les CDN nécessitent une connexion Internet."
+  "html.cdn_hint": "Le CSS est accepté aux URL fixes ci-dessous. Mermaid est rendu automatiquement dans les éléments pre ou div avec class=\"mermaid\". Les CDN nécessitent une connexion Internet.",
+  "html.execute_scripts": "Exécuter JavaScript",
+  "html.script_hint": "Activez uniquement pour du HTML fiable. Accès restreint à la page parente, au stockage, aux ressources externes et à l’envoi de formulaires."
 }

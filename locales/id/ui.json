@@ -118,10 +118,12 @@
   "html.ready": "Pratinjau diperbarui.",
   "html.error": "Tidak dapat ditampilkan. Periksa HTML dan coba lagi.",
   "html.notice_title": "Tentang pratinjau",
-  "html.notice": "Menampilkan HTML, CSS tertanam, gaya CDN yang diizinkan, dan Mermaid. JavaScript sembarang, gambar eksternal, tautan, dan pengiriman formulir dinonaktifkan. Masukan tetap di tab ini dan dihapus saat dimuat ulang.",
+  "html.notice": "Menampilkan HTML, CSS, dan Mermaid. JavaScript nonaktif secara bawaan. Tautan daftar isi berfungsi. Masukan tetap di tab ini dan dihapus saat dimuat ulang.",
   "html.noscript": "Aktifkan JavaScript untuk menggunakan alat ini.",
   "html.loading": "Membuat pratinjau…",
   "html.cdn_error": "Gagal memuat CDN atau menggambar Mermaid. Periksa koneksi dan sintaks diagram.",
   "html.cdn_title": "CDN yang didukung dan Mermaid",
-  "html.cdn_hint": "CSS didukung di URL tetap berikut. Mermaid otomatis digambar dalam elemen pre atau div dengan class=\"mermaid\". Fitur CDN memerlukan internet."
+  "html.cdn_hint": "CSS didukung di URL tetap berikut. Mermaid otomatis digambar dalam elemen pre atau div dengan class=\"mermaid\". Fitur CDN memerlukan internet.",
+  "html.execute_scripts": "Jalankan JavaScript",
+  "html.script_hint": "Aktifkan hanya untuk HTML tepercaya. Akses ke halaman induk, penyimpanan, sumber eksternal, dan pengiriman formulir dibatasi."
 }

@@ -3363,6 +3363,9 @@ msgstr "Collez du HTML pour afficher un aperçu ici."
 msgid "html.error"
 msgstr "Impossible d’afficher l’aperçu. Vérifiez le HTML et réessayez."
 
+msgid "html.execute_scripts"
+msgstr "Exécuter JavaScript"
+
 msgid "html.home"
 msgstr "Accueil"
 
@@ -3377,10 +3380,9 @@ msgstr "Activez JavaScript pour utiliser cet outil."
 
 msgid "html.notice"
 msgstr ""
-"Affiche HTML, CSS intégré, styles CDN autorisés et Mermaid. JavaScript "
-"arbitraire, images externes, liens et envoi de formulaires sont "
-"désactivés. La saisie reste dans cet onglet et disparaît à "
-"l’actualisation."
+"Affiche HTML, CSS et Mermaid. JavaScript est désactivé par défaut. Les "
+"liens internes fonctionnent. La saisie reste dans cet onglet et disparaît"
+" à l’actualisation."
 
 msgid "html.notice_title"
 msgstr "À propos de l’aperçu"
@@ -3399,6 +3401,12 @@ msgstr "Aperçu actualisé."
 
 msgid "html.render"
 msgstr "Afficher l’aperçu"
+
+msgid "html.script_hint"
+msgstr ""
+"Activez uniquement pour du HTML fiable. Accès restreint à la page "
+"parente, au stockage, aux ressources externes et à l’envoi de "
+"formulaires."
 
 msgid "html.services"
 msgstr "Services"

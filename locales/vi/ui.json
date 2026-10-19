@@ -118,10 +118,12 @@
   "html.ready": "Đã cập nhật bản xem trước.",
   "html.error": "Không thể hiển thị. Hãy kiểm tra HTML và thử lại.",
   "html.notice_title": "Về bản xem trước",
-  "html.notice": "Hiển thị HTML, CSS nhúng, kiểu CDN được phép và Mermaid. JavaScript tùy ý, ảnh bên ngoài, liên kết và gửi biểu mẫu đều bị tắt. Nội dung chỉ ở trong thẻ này và bị xóa khi tải lại.",
+  "html.notice": "Hiển thị HTML, CSS và Mermaid. JavaScript mặc định tắt. Các liên kết mục lục trong trang hoạt động. Nội dung chỉ nằm trong thẻ này và bị xóa khi tải lại.",
   "html.noscript": "Bật JavaScript để sử dụng công cụ này.",
   "html.loading": "Đang tạo bản xem trước…",
   "html.cdn_error": "Không thể tải CDN hoặc vẽ Mermaid. Hãy kiểm tra kết nối và cú pháp sơ đồ.",
   "html.cdn_title": "CDN được hỗ trợ và Mermaid",
-  "html.cdn_hint": "Hỗ trợ CSS tại các URL cố định dưới đây. Mermaid tự vẽ trong phần tử pre hoặc div có class=\"mermaid\". Tính năng CDN cần kết nối internet."
+  "html.cdn_hint": "Hỗ trợ CSS tại các URL cố định dưới đây. Mermaid tự vẽ trong phần tử pre hoặc div có class=\"mermaid\". Tính năng CDN cần kết nối internet.",
+  "html.execute_scripts": "Chạy JavaScript",
+  "html.script_hint": "Chỉ bật cho HTML đáng tin cậy. Hạn chế truy cập trang cha, bộ nhớ, tài nguyên bên ngoài và gửi biểu mẫu."
 }

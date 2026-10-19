@@ -3264,6 +3264,9 @@ msgstr "Önizleme için buraya HTML yapıştırın."
 msgid "html.error"
 msgstr "Görüntülenemedi. HTML içeriğini kontrol edip yeniden deneyin."
 
+msgid "html.execute_scripts"
+msgstr "JavaScript çalıştır"
+
 msgid "html.home"
 msgstr "Ana sayfa"
 
@@ -3278,9 +3281,9 @@ msgstr "Bu aracı kullanmak için JavaScript’i etkinleştirin."
 
 msgid "html.notice"
 msgstr ""
-"HTML, gömülü CSS, izin verilen CDN stilleri ve Mermaid görüntülenir. "
-"Rastgele JavaScript, harici resimler, bağlantılar ve form gönderimi devre"
-" dışıdır. Girdi bu sekmede kalır ve yeniden yüklemede silinir."
+"HTML, CSS ve Mermaid gösterir. JavaScript varsayılan olarak kapalıdır. "
+"Sayfa içi bağlantılar çalışır. Girdi bu sekmede kalır ve yeniden "
+"yüklemede silinir."
 
 msgid "html.notice_title"
 msgstr "Önizleme hakkında"
@@ -3299,6 +3302,11 @@ msgstr "Önizleme güncellendi."
 
 msgid "html.render"
 msgstr "Önizlemeyi göster"
+
+msgid "html.script_hint"
+msgstr ""
+"Yalnızca güvenilir HTML için etkinleştirin. Üst sayfaya, depolamaya, dış "
+"kaynaklara erişim ve form gönderimi kısıtlanır."
 
 msgid "html.services"
 msgstr "Hizmetler"

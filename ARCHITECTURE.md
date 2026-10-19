@@ -182,9 +182,9 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 初回の画面読み込み後は、CDN を使わない HTML をオフラインでも再表示できます。
 
 ブラウザは inert な template で入力を解析し、許可した HTML 要素・表示属性だけを再構築します。
-入力 script、イベント属性、許可以外の外部 URL、埋め込みフレーム、meta refresh を出力せず、
+初期状態では入力 script、イベント属性、許可以外の外部 URL、埋め込みフレーム、meta refresh を出力せず、
 フォーム操作を無効化します。iframe の sandbox は `allow-scripts` だけを許可し、親画面・cookie・
-ストレージへのアクセスは許可しません。CSP nonce が一致するサービス自身の描画処理だけを実行し、
+ストレージへのアクセスは許可しません。初期状態では CSP nonce が一致するサービス自身の描画処理だけを実行し、
 Mermaid は `strict` 設定で描画します。子文書からの API 接続・フォーム送信は禁止します。
 
 CDN は `HtmlPreview/html_preview_app.py` の `CDN_ASSETS` を正とし、Bootstrap 5.3.8 と
@@ -194,8 +194,14 @@ Font Awesome 7.3.0 の固定 URL の CSS を、入力の link が一致したと
 Font Awesome のフォントも同バージョンの配信パスだけを CSP で許可します。
 Mermaid 12.2.0 は `pre.mermaid` / `div.mermaid` があるときだけ固定 URL・SRI で取得します。
 配布ファイルの改変、取得失敗、図の構文エラーは親画面の status に通知します。通知は iframe の
-送信元 window と描画世代を照合します。任意 CDN、入力された JavaScript の実行、外部画像取得は
-許可しません。埋め込み CSS と data URL の PNG / JPEG / GIF / WebP / AVIF にも対応します。
+送信元 window と描画世代を照合します。任意 CDN、外部画像取得は許可しません。
+信頼できる HTML の inline JavaScript は明示的な切り替えで実行できます。その場合は親画面で
+対応 CDN を取得・検証してコード・CSS・フォントを埋め込み、実行 iframe では外部リソース取得を
+禁止します。親画面の frame-src は none とし、srcdoc のみを表示して iframe の URL 移動も拒否します。
+同一オリジン権限とストレージは許可せず、実行設定は再読み込みで消えます。
+Google Fonts CSS2 の Noto Sans JP / JetBrains Mono 指定は固定コミット・SRI 付きフォントの
+data URL に置き換えます。ページ内の目次は URL を変更せずスクロールで移動します。
+埋め込み CSS と data URL の PNG / JPEG / GIF / WebP / AVIF にも対応します。
 描画後の内容の高さを通知し、プレビュー枠を最大 3000px まで広げます。横長の Mermaid は文字を
 縮めず図のコンテナ内で横スクロールできるようにし、ページ全体の横はみ出しを防ぎます。
 プレビュー用の基礎スタイルは狭い画面でも読める余白・折り返しを補いますが、入力された CSS の

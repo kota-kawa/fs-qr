@@ -3298,6 +3298,9 @@ msgstr "Bandika HTML ili kuona hakiki hapa."
 msgid "html.error"
 msgstr "Imeshindwa kuonyesha. Kagua HTML na ujaribu tena."
 
+msgid "html.execute_scripts"
+msgstr "Endesha JavaScript"
+
 msgid "html.home"
 msgstr "Mwanzo"
 
@@ -3312,9 +3315,9 @@ msgstr "Washa JavaScript ili kutumia zana hii."
 
 msgid "html.notice"
 msgstr ""
-"Huonyesha HTML, CSS iliyopachikwa, mitindo ya CDN iliyoidhinishwa na "
-"Mermaid. JavaScript holela, picha za nje, viungo na utumaji wa fomu "
-"vimezimwa. Ingizo hubaki kwenye kichupo hiki na hufutwa unapopakia upya."
+"Huonyesha HTML, CSS na Mermaid. JavaScript imezimwa mwanzoni. Viungo vya "
+"yaliyomo ndani ya ukurasa hufanya kazi. Ingizo hubaki kwenye kichupo hiki"
+" na hufutwa unapopakia upya."
 
 msgid "html.notice_title"
 msgstr "Kuhusu hakiki"
@@ -3333,6 +3336,11 @@ msgstr "Hakiki imesasishwa."
 
 msgid "html.render"
 msgstr "Onyesha hakiki"
+
+msgid "html.script_hint"
+msgstr ""
+"Washa kwa HTML inayoaminika tu. Ufikiaji wa ukurasa mzazi, hifadhi, "
+"rasilimali za nje na utumaji fomu umezuiwa."
 
 msgid "html.services"
 msgstr "Huduma"

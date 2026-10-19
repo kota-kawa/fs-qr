@@ -3358,6 +3358,9 @@ msgstr "Pega HTML para ver una vista previa aquí."
 msgid "html.error"
 msgstr "No se pudo mostrar. Revisa el HTML e inténtalo de nuevo."
 
+msgid "html.execute_scripts"
+msgstr "Ejecutar JavaScript"
+
 msgid "html.home"
 msgstr "Inicio"
 
@@ -3372,10 +3375,9 @@ msgstr "Activa JavaScript para usar esta herramienta."
 
 msgid "html.notice"
 msgstr ""
-"Muestra HTML, CSS integrado, estilos CDN permitidos y Mermaid. JavaScript"
-" arbitrario, imágenes externas, enlaces y envío de formularios están "
-"desactivados. La entrada permanece en esta pestaña y se borra al "
-"recargar."
+"Muestra HTML, CSS y Mermaid. JavaScript está desactivado por defecto. Los"
+" enlaces internos funcionan. La entrada permanece en esta pestaña y se "
+"borra al recargar."
 
 msgid "html.notice_title"
 msgstr "Acerca de la vista previa"
@@ -3394,6 +3396,12 @@ msgstr "Vista previa actualizada."
 
 msgid "html.render"
 msgstr "Mostrar vista previa"
+
+msgid "html.script_hint"
+msgstr ""
+"Actívalo solo para HTML de confianza. Se restringen el acceso a la página"
+" principal, el almacenamiento, los recursos externos y el envío de "
+"formularios."
 
 msgid "html.services"
 msgstr "Servicios"

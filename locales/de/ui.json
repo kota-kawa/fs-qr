@@ -118,10 +118,12 @@
   "html.ready": "Vorschau aktualisiert.",
   "html.error": "Vorschau nicht verfügbar. HTML prüfen und erneut versuchen.",
   "html.notice_title": "Über die Vorschau",
-  "html.notice": "Zeigt HTML, eingebettetes CSS, zugelassene CDN-Stile und Mermaid. Beliebiges JavaScript, externe Bilder, Links und Formularversand sind deaktiviert. Die Eingabe bleibt in diesem Tab und wird beim Neuladen gelöscht.",
+  "html.notice": "Zeigt HTML, CSS und Mermaid. JavaScript ist standardmäßig aus. Inhaltslinks innerhalb der Seite funktionieren. Eingaben bleiben im Tab und werden beim Neuladen gelöscht.",
   "html.noscript": "JavaScript aktivieren, um dieses Werkzeug zu nutzen.",
   "html.loading": "Vorschau wird erstellt…",
   "html.cdn_error": "CDN konnte nicht geladen oder Mermaid nicht dargestellt werden. Verbindung und Diagrammsyntax prüfen.",
   "html.cdn_title": "Unterstützte CDNs und Mermaid",
-  "html.cdn_hint": "CSS wird unter den folgenden festen URLs unterstützt. Mermaid wird in pre- oder div-Elementen mit class=\"mermaid\" automatisch dargestellt. CDN-Funktionen benötigen Internet."
+  "html.cdn_hint": "CSS wird unter den folgenden festen URLs unterstützt. Mermaid wird in pre- oder div-Elementen mit class=\"mermaid\" automatisch dargestellt. CDN-Funktionen benötigen Internet.",
+  "html.execute_scripts": "JavaScript ausführen",
+  "html.script_hint": "Nur für vertrauenswürdiges HTML aktivieren. Zugriff auf übergeordnete Seite, Speicher, externe Ressourcen und Formularversand ist eingeschränkt."
 }

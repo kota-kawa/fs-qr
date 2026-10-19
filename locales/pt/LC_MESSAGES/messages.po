@@ -3317,6 +3317,9 @@ msgstr "Cole HTML para ver uma prévia aqui."
 msgid "html.error"
 msgstr "Não foi possível exibir. Verifique o HTML e tente novamente."
 
+msgid "html.execute_scripts"
+msgstr "Executar JavaScript"
+
 msgid "html.home"
 msgstr "Início"
 
@@ -3331,9 +3334,8 @@ msgstr "Ative JavaScript para usar esta ferramenta."
 
 msgid "html.notice"
 msgstr ""
-"Exibe HTML, CSS incorporado, estilos CDN permitidos e Mermaid. JavaScript"
-" arbitrário, imagens externas, links e envio de formulários estão "
-"desativados. A entrada fica nesta aba e é apagada ao recarregar."
+"Mostra HTML, CSS e Mermaid. JavaScript vem desativado. Links internos "
+"funcionam. A entrada fica nesta aba e é apagada ao recarregar."
 
 msgid "html.notice_title"
 msgstr "Sobre a prévia"
@@ -3352,6 +3354,12 @@ msgstr "Prévia atualizada."
 
 msgid "html.render"
 msgstr "Mostrar prévia"
+
+msgid "html.script_hint"
+msgstr ""
+"Ative apenas para HTML confiável. O acesso à página principal, ao "
+"armazenamento, aos recursos externos e ao envio de formulários é "
+"restrito."
 
 msgid "html.services"
 msgstr "Serviços"

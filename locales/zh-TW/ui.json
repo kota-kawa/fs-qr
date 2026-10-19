@@ -118,10 +118,12 @@
   "html.ready": "預覽已更新。",
   "html.error": "無法顯示預覽。請檢查HTML後重試。",
   "html.notice_title": "關於預覽",
-  "html.notice": "顯示HTML、內嵌CSS、允許的CDN樣式及Mermaid。停用任意JavaScript、外部圖片、連結跳轉及表單提交。輸入內容僅保留於此分頁，重新整理後即清除。",
+  "html.notice": "顯示HTML、CSS與Mermaid。JavaScript預設關閉。支援頁內目錄跳轉。輸入僅在目前分頁中保留，重新整理後清除。",
   "html.noscript": "請啟用JavaScript以使用此工具。",
   "html.loading": "正在產生預覽…",
   "html.cdn_error": "CDN載入或Mermaid繪圖失敗。請檢查網路連線和圖表語法。",
   "html.cdn_title": "支援的CDN與Mermaid用法",
-  "html.cdn_hint": "支援以下固定URL的CSS。為pre或div元素加入class=\"mermaid\"即可自動繪圖。CDN功能需要網路連線。"
+  "html.cdn_hint": "支援以下固定URL的CSS。為pre或div元素加入class=\"mermaid\"即可自動繪圖。CDN功能需要網路連線。",
+  "html.execute_scripts": "執行JavaScript",
+  "html.script_hint": "僅對可信HTML啟用。執行環境限制存取父頁面、儲存空間、外部資源及提交表單。"
 }

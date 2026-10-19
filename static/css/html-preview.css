@@ -40,6 +40,8 @@ textarea { display: block; width: calc(100% - 32px); min-height: 380px; height: 
 textarea::placeholder { color: #64748b; }
 .panel-hint { color: var(--text-muted); margin: 12px 20px; font-size: 13px; overflow-wrap: anywhere; }
 .actions { padding: 0 20px 20px; margin-top: auto; }
+.script-option { display: flex; align-items: center; gap: 8px; margin: 8px 20px 0; font-size: 14px; }
+.script-option input { flex: none; width: 18px; height: 18px; accent-color: var(--primary-color); }
 button { border: 1px solid var(--border-light); border-radius: 12px; padding: 11px 18px; min-height: 46px; background: var(--bg-white); color: var(--text-main); }
 button.primary { background: var(--primary-color); color: white; border-color: var(--primary-color); font-weight: 700; }
 button.primary:hover { background: #115e59; }

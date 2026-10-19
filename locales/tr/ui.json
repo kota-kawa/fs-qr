@@ -118,10 +118,12 @@
   "html.ready": "Önizleme güncellendi.",
   "html.error": "Görüntülenemedi. HTML içeriğini kontrol edip yeniden deneyin.",
   "html.notice_title": "Önizleme hakkında",
-  "html.notice": "HTML, gömülü CSS, izin verilen CDN stilleri ve Mermaid görüntülenir. Rastgele JavaScript, harici resimler, bağlantılar ve form gönderimi devre dışıdır. Girdi bu sekmede kalır ve yeniden yüklemede silinir.",
+  "html.notice": "HTML, CSS ve Mermaid gösterir. JavaScript varsayılan olarak kapalıdır. Sayfa içi bağlantılar çalışır. Girdi bu sekmede kalır ve yeniden yüklemede silinir.",
   "html.noscript": "Bu aracı kullanmak için JavaScript’i etkinleştirin.",
   "html.loading": "Önizleme oluşturuluyor…",
   "html.cdn_error": "CDN yüklenemedi veya Mermaid çizilemedi. Bağlantıyı ve diyagram sözdizimini kontrol edin.",
   "html.cdn_title": "Desteklenen CDN’ler ve Mermaid",
-  "html.cdn_hint": "Aşağıdaki sabit URL’lerdeki CSS desteklenir. Mermaid, class=\"mermaid\" içeren pre veya div öğelerinde otomatik çizilir. CDN özellikleri internet gerektirir."
+  "html.cdn_hint": "Aşağıdaki sabit URL’lerdeki CSS desteklenir. Mermaid, class=\"mermaid\" içeren pre veya div öğelerinde otomatik çizilir. CDN özellikleri internet gerektirir.",
+  "html.execute_scripts": "JavaScript çalıştır",
+  "html.script_hint": "Yalnızca güvenilir HTML için etkinleştirin. Üst sayfaya, depolamaya, dış kaynaklara erişim ve form gönderimi kısıtlanır."
 }

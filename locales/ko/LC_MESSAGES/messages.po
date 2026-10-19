@@ -2672,6 +2672,9 @@ msgstr "HTML을 붙여 넣으면 여기에 미리보기가 표시됩니다."
 msgid "html.error"
 msgstr "표시할 수 없습니다. HTML을 확인하고 다시 시도하세요."
 
+msgid "html.execute_scripts"
+msgstr "JavaScript 실행"
+
 msgid "html.home"
 msgstr "홈"
 
@@ -2686,8 +2689,8 @@ msgstr "이 도구를 사용하려면 JavaScript를 활성화하세요."
 
 msgid "html.notice"
 msgstr ""
-"HTML, 내장 CSS, 허용된 CDN 스타일, Mermaid를 표시합니다. 임의 JavaScript, 외부 이미지, 링크 이동, "
-"양식 제출은 비활성화됩니다. 입력은 이 탭에만 유지되며 새로고침하면 지워집니다."
+"HTML, CSS, Mermaid를 표시합니다. JavaScript는 기본적으로 꺼져 있습니다. 페이지 내 목차 링크를 사용할 수 "
+"있습니다. 입력은 현재 탭에만 유지되며 새로고침하면 사라집니다."
 
 msgid "html.notice_title"
 msgstr "미리보기 안내"
@@ -2706,6 +2709,9 @@ msgstr "미리보기가 업데이트되었습니다."
 
 msgid "html.render"
 msgstr "미리보기 표시"
+
+msgid "html.script_hint"
+msgstr "신뢰할 수 있는 HTML에만 사용하세요. 상위 페이지, 저장소, 외부 리소스 접근 및 양식 전송이 제한됩니다."
 
 msgid "html.services"
 msgstr "서비스 목록"

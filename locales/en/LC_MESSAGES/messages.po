@@ -3179,6 +3179,9 @@ msgstr "Paste HTML to see a preview here."
 msgid "html.error"
 msgstr "Could not display the preview. Check the HTML and try again."
 
+msgid "html.execute_scripts"
+msgstr "Run JavaScript"
+
 msgid "html.home"
 msgstr "Home"
 
@@ -3193,9 +3196,8 @@ msgstr "Enable JavaScript to use this tool."
 
 msgid "html.notice"
 msgstr ""
-"Displays HTML, embedded CSS, approved CDN styles, and Mermaid. Arbitrary "
-"JavaScript, external images, link navigation, and form submission are "
-"disabled. Input stays in this tab and is cleared on reload."
+"Displays HTML, CSS, and Mermaid. JavaScript is off by default. In-page "
+"contents links work. Input stays in this tab and is cleared on reload."
 
 msgid "html.notice_title"
 msgstr "About this preview"
@@ -3214,6 +3216,11 @@ msgstr "Preview updated."
 
 msgid "html.render"
 msgstr "Show preview"
+
+msgid "html.script_hint"
+msgstr ""
+"Enable only for trusted HTML. Runs with restricted access to the parent "
+"page, storage, external resources, and form submission."
 
 msgid "html.services"
 msgstr "Services"

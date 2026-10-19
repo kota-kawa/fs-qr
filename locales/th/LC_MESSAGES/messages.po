@@ -3116,6 +3116,9 @@ msgstr "วาง HTML เพื่อดูตัวอย่างที่น
 msgid "html.error"
 msgstr "ไม่สามารถแสดงได้ โปรดตรวจสอบ HTML แล้วลองอีกครั้ง"
 
+msgid "html.execute_scripts"
+msgstr "เรียกใช้ JavaScript"
+
 msgid "html.home"
 msgstr "หน้าแรก"
 
@@ -3130,9 +3133,8 @@ msgstr "เปิดใช้งาน JavaScript เพื่อใช้เค
 
 msgid "html.notice"
 msgstr ""
-"แสดง HTML, CSS ที่ฝังไว้ สไตล์ CDN ที่อนุญาต และ Mermaid ปิดใช้งาน "
-"JavaScript อิสระ รูปภาพภายนอก การเปิดลิงก์ และการส่งแบบฟอร์ม "
-"ข้อมูลอยู่ในแท็บนี้และจะถูกล้างเมื่อโหลดใหม่"
+"แสดง HTML, CSS และ Mermaid โดยปิด JavaScript ไว้เริ่มต้น "
+"ลิงก์สารบัญภายในหน้าใช้งานได้ ข้อมูลอยู่ในแท็บนี้และถูกล้างเมื่อโหลดใหม่"
 
 msgid "html.notice_title"
 msgstr "เกี่ยวกับตัวอย่าง"
@@ -3151,6 +3153,11 @@ msgstr "อัปเดตตัวอย่างแล้ว"
 
 msgid "html.render"
 msgstr "แสดงตัวอย่าง"
+
+msgid "html.script_hint"
+msgstr ""
+"เปิดใช้เฉพาะ HTML ที่เชื่อถือได้ จำกัดการเข้าถึงหน้าหลัก ที่เก็บข้อมูล "
+"ทรัพยากรภายนอก และการส่งแบบฟอร์ม"
 
 msgid "html.services"
 msgstr "บริการ"

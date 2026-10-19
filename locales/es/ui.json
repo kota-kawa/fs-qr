@@ -118,10 +118,12 @@
   "html.ready": "Vista previa actualizada.",
   "html.error": "No se pudo mostrar. Revisa el HTML e inténtalo de nuevo.",
   "html.notice_title": "Acerca de la vista previa",
-  "html.notice": "Muestra HTML, CSS integrado, estilos CDN permitidos y Mermaid. JavaScript arbitrario, imágenes externas, enlaces y envío de formularios están desactivados. La entrada permanece en esta pestaña y se borra al recargar.",
+  "html.notice": "Muestra HTML, CSS y Mermaid. JavaScript está desactivado por defecto. Los enlaces internos funcionan. La entrada permanece en esta pestaña y se borra al recargar.",
   "html.noscript": "Activa JavaScript para usar esta herramienta.",
   "html.loading": "Generando vista previa…",
   "html.cdn_error": "No se pudo cargar el CDN o dibujar Mermaid. Revisa la conexión y la sintaxis del diagrama.",
   "html.cdn_title": "CDN compatibles y Mermaid",
-  "html.cdn_hint": "Se admite CSS de las URL fijas siguientes. Mermaid se dibuja automáticamente en elementos pre o div con class=\"mermaid\". Los CDN requieren conexión a Internet."
+  "html.cdn_hint": "Se admite CSS de las URL fijas siguientes. Mermaid se dibuja automáticamente en elementos pre o div con class=\"mermaid\". Los CDN requieren conexión a Internet.",
+  "html.execute_scripts": "Ejecutar JavaScript",
+  "html.script_hint": "Actívalo solo para HTML de confianza. Se restringen el acceso a la página principal, el almacenamiento, los recursos externos y el envío de formularios."
 }

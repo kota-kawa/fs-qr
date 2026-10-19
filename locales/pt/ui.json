@@ -118,10 +118,12 @@
   "html.ready": "Prévia atualizada.",
   "html.error": "Não foi possível exibir. Verifique o HTML e tente novamente.",
   "html.notice_title": "Sobre a prévia",
-  "html.notice": "Exibe HTML, CSS incorporado, estilos CDN permitidos e Mermaid. JavaScript arbitrário, imagens externas, links e envio de formulários estão desativados. A entrada fica nesta aba e é apagada ao recarregar.",
+  "html.notice": "Mostra HTML, CSS e Mermaid. JavaScript vem desativado. Links internos funcionam. A entrada fica nesta aba e é apagada ao recarregar.",
   "html.noscript": "Ative JavaScript para usar esta ferramenta.",
   "html.loading": "Gerando prévia…",
   "html.cdn_error": "Falha ao carregar CDN ou renderizar Mermaid. Verifique a conexão e a sintaxe do diagrama.",
   "html.cdn_title": "CDNs compatíveis e Mermaid",
-  "html.cdn_hint": "O CSS é aceito nas URLs fixas abaixo. Mermaid é renderizado automaticamente em elementos pre ou div com class=\"mermaid\". Os CDNs exigem conexão com a Internet."
+  "html.cdn_hint": "O CSS é aceito nas URLs fixas abaixo. Mermaid é renderizado automaticamente em elementos pre ou div com class=\"mermaid\". Os CDNs exigem conexão com a Internet.",
+  "html.execute_scripts": "Executar JavaScript",
+  "html.script_hint": "Ative apenas para HTML confiável. O acesso à página principal, ao armazenamento, aos recursos externos e ao envio de formulários é restrito."
 }

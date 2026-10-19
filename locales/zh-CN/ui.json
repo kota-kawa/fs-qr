@@ -118,10 +118,12 @@
   "html.ready": "预览已更新。",
   "html.error": "无法显示预览。请检查HTML后重试。",
   "html.notice_title": "关于预览",
-  "html.notice": "显示HTML、内嵌CSS、允许的CDN样式及Mermaid。禁用任意JavaScript、外部图片、链接跳转及表单提交。输入内容仅保留在此标签页中，刷新后即清除。",
+  "html.notice": "显示HTML、CSS和Mermaid。JavaScript默认关闭。支持页内目录跳转。输入仅在当前标签页中保留，刷新后清除。",
   "html.noscript": "请启用JavaScript以使用此工具。",
   "html.loading": "正在生成预览…",
   "html.cdn_error": "CDN加载或Mermaid绘图失败。请检查网络连接和图表语法。",
   "html.cdn_title": "支持的CDN与Mermaid用法",
-  "html.cdn_hint": "支持以下固定URL的CSS。为pre或div元素添加class=\"mermaid\"即可自动绘图。CDN功能需要网络连接。"
+  "html.cdn_hint": "支持以下固定URL的CSS。为pre或div元素添加class=\"mermaid\"即可自动绘图。CDN功能需要网络连接。",
+  "html.execute_scripts": "运行JavaScript",
+  "html.script_hint": "仅对可信HTML启用。运行环境限制访问父页面、存储、外部资源及提交表单。"
 }

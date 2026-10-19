@@ -10,6 +10,8 @@
   const previewButton = document.getElementById("show-preview");
   const nonce = document.currentScript.nonce;
   const cdn = window.HTML_PREVIEW_CDN;
+  const executeScripts = document.getElementById("execute-scripts");
+  const assetCache = new Map();
   let renderVersion = 0;
 
   // Parse in an inert template: pasted images must not be fetched while parsing.
@@ -31,15 +33,26 @@
   const controls = new Set(["button", "input", "select", "textarea", "option", "optgroup"]);
   const rasterData = /^data:image\/(?:png|jpeg|gif|webp|avif);base64,[a-z0-9+/=\s]+$/i;
 
-  // Only this service-owned renderer and the pinned Mermaid bundle execute
-  // inside the opaque sandbox. No pasted script or event handler survives.
-  async function renderFrame(styles, mermaidAsset, version) {
+  // In opt-in mode, CDN bytes are already verified and embedded by the parent.
+  // The renderer runs inside the opaque sandbox in both modes.
+  async function renderFrame(styles, mermaidAsset, version, scriptsEnabled, preloadFailed) {
     const rendererNonce = document.currentScript.nonce;
+    // Scroll within this document without navigating srcdoc to the host URL.
+    function followAnchor(event) {
+      if (event.type === "keydown" && event.key !== "Enter") return;
+      const link = event.target.closest("a[data-preview-target]");
+      if (!link) return;
+      event.preventDefault();
+      const target = document.getElementById(link.dataset.previewTarget);
+      if (target) target.scrollIntoView({ block: "start" });
+    }
+    document.addEventListener("click", followAnchor);
+    document.addEventListener("keydown", followAnchor);
     const report = (state) => parent.postMessage({
       type: "html-preview", state, version,
       height: document.documentElement.scrollHeight
     }, "*");
-    let failed = false;
+    let failed = preloadFailed;
     const stylesReady = await Promise.allSettled(styles.map(async asset => {
       const response = await fetch(asset.url, {
         integrity: asset.integrity, mode: "cors", credentials: "omit", referrerPolicy: "no-referrer"
@@ -52,11 +65,11 @@
         (_match, _quote, url) => "url(" + JSON.stringify(new URL(url, asset.url).href) + ")");
       document.head.appendChild(style);
     }));
-    failed = stylesReady.some(result => result.status === "rejected");
+    failed ||= stylesReady.some(result => result.status === "rejected");
     const diagrams = document.querySelectorAll("pre.mermaid, div.mermaid");
     if (diagrams.length) {
       try {
-        await new Promise((resolve, reject) => {
+        if (!scriptsEnabled) await new Promise((resolve, reject) => {
           const script = document.createElement("script");
           script.src = mermaidAsset.url;
           script.integrity = mermaidAsset.integrity;
@@ -68,7 +81,7 @@
           document.head.appendChild(script);
         });
         const mermaid = window.mermaid;
-        mermaid.initialize({
+        if (!scriptsEnabled) mermaid.initialize({
           startOnLoad: false,
           securityLevel: "strict",
           maxTextSize: 50000,
@@ -79,7 +92,9 @@
           secure: ["secure", "securityLevel", "startOnLoad", "maxTextSize", "maxEdges",
             "suppressErrorRendering", "dompurifyConfig", "themeCSS", "fontFamily", "flowchart"]
         });
-        await mermaid.run({ nodes: diagrams });
+        if (scriptsEnabled) await window.previewMermaidReady;
+        const pending = [...diagrams].filter(node => node.dataset.processed !== "true");
+        if (pending.length) await mermaid.run({ nodes: pending });
         // Keep diagram labels readable on phones; wide diagrams scroll inside
         // their own container instead of shrinking the text to fit the screen.
         for (const diagram of diagrams) {
@@ -96,13 +111,78 @@
     }
     await document.fonts.ready;
     report(failed ? "cdn-error" : "ready");
+    if (scriptsEnabled) new ResizeObserver(() => report(failed ? "cdn-error" : "ready"))
+      .observe(document.body);
   }
 
-  function buildPreview(html) {
+  function inlineScript(code) {
+    return "<script nonce='" + nonce + "'>" + code.replace(/<\/script/gi, "<\\/script") + "</script>";
+  }
+
+  // Only the parent fetches approved assets. Executable previews receive bytes,
+  // never network permissions or access to the parent's asset loader.
+  function loadAsset(asset) {
+    if (!assetCache.has(asset.url)) {
+      const request = fetch(asset.url, {
+        integrity: asset.integrity, mode: "cors", credentials: "omit", referrerPolicy: "no-referrer"
+      }).then(response => {
+        if (!response.ok) throw new Error("Asset unavailable");
+        return response.blob();
+      });
+      assetCache.set(asset.url, request);
+      request.catch(() => assetCache.delete(asset.url));
+    }
+    return assetCache.get(asset.url);
+  }
+
+  function asDataURL(blob) {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function prepareStyles(styles) {
+    return Promise.all(styles.map(async asset => {
+      let css = await (await loadAsset(asset)).text();
+      const references = [...css.matchAll(/url\(\s*(["']?)(.*?)\1\s*\)/gi)];
+      for (const match of references) {
+        const url = new URL(match[2], asset.url).href;
+        if (!url.startsWith(cdn.fonts) || !/\.(?:woff2?|ttf)$/.test(url)) continue;
+        const data = await asDataURL(await loadAsset({ url }));
+        css = css.replaceAll(match[0], "url(" + JSON.stringify(data) + ")");
+      }
+      return "<style>" + css.replace(/<\/style/gi, "<\\/style") + "</style>";
+    }));
+  }
+
+  // Keep automatic rendering and the page's own Mermaid calls in one queue.
+  function prepareMermaid() {
+    const mermaid = window.mermaid;
+    const initialize = mermaid.initialize.bind(mermaid);
+    mermaid.initialize = config => initialize({
+      ...config, startOnLoad: false, securityLevel: "strict", maxTextSize: 50000,
+      maxEdges: 500, suppressErrorRendering: true,
+      secure: ["secure", "securityLevel", "startOnLoad", "maxTextSize", "maxEdges",
+        "suppressErrorRendering", "dompurifyConfig", "themeCSS"]
+    });
+    mermaid.initialize({ startOnLoad: false });
+    const run = mermaid.run.bind(mermaid);
+    let queue = Promise.resolve();
+    mermaid.run = options => {
+      queue = queue.catch(() => {}).then(() => run(options));
+      window.previewMermaidReady = queue;
+      return queue;
+    };
+  }
+
+  async function buildPreview(html, scriptsEnabled, version) {
     const input = document.createElement("template");
     input.innerHTML = html;
     const output = document.createElement("template");
     const styles = new Map();
+    const fonts = new Map();
     // Iterative traversal also handles deeply nested pasted markup.
     const pending = [[input.content, output.content]];
     while (pending.length) {
@@ -119,37 +199,89 @@
         if (node.localName === "link" && node.relList.contains("stylesheet")) {
           const asset = cdn.styles.find(entry => entry.url === node.getAttribute("href"));
           if (asset) styles.set(asset.url, asset);
+          try {
+            const url = new URL(node.getAttribute("href"));
+            if (url.origin === "https://fonts.googleapis.com" && url.pathname === "/css2") {
+              for (const family of url.searchParams.getAll("family")) {
+                const font = cdn.webfonts.find(entry => entry.name === family.split(":")[0]);
+                if (font) fonts.set(font.name, font);
+              }
+            }
+          } catch (_) { /* Only absolute supported font links are recognized. */ }
+          continue;
+        }
+        if (scriptsEnabled && node.localName === "script" && !node.hasAttribute("src") &&
+            (!node.type || /^(?:text|application)\/javascript$/i.test(node.type))) {
+          const script = document.createElement("script");
+          script.textContent = node.textContent.replace(/<\/script/gi, "<\\/script");
+          to.appendChild(script);
+          // Adoption into the inert template clears a nonce set beforehand.
+          script.setAttribute("nonce", nonce);
           continue;
         }
         if (!allowedTags.has(node.localName)) continue;
         const clean = document.createElement(node.localName);
         for (const attribute of node.attributes) {
-          if (allowedAttributes.has(attribute.name)) {
+          if (allowedAttributes.has(attribute.name) || (scriptsEnabled &&
+              (/^(?:data-|aria-)/.test(attribute.name) ||
+                ["for", "role", "tabindex", "name"].includes(attribute.name)))) {
             clean.setAttribute(attribute.name, attribute.value);
           }
         }
         if (node.localName === "img" && rasterData.test(node.getAttribute("src") || "")) {
           clean.setAttribute("src", node.getAttribute("src"));
         }
-        if (controls.has(node.localName)) clean.setAttribute("disabled", "");
+        if (node.localName === "a" && node.getAttribute("href")?.startsWith("#")) {
+          try {
+            clean.dataset.previewTarget = decodeURIComponent(node.getAttribute("href").slice(1));
+            clean.setAttribute("role", "link");
+            clean.setAttribute("tabindex", "0");
+            if (scriptsEnabled) clean.setAttribute("href", node.getAttribute("href"));
+          } catch (_) {
+            // Malformed fragments remain inert, like external links.
+          }
+        }
+        if (!scriptsEnabled && controls.has(node.localName)) clean.setAttribute("disabled", "");
         to.appendChild(clean);
         pending.push([node, clean]);
       }
     }
     const styleSources = cdn.styles.map(asset => asset.url).join(" ");
-    const policy = "default-src 'none'; script-src 'nonce-" + nonce + "'; " +
-      "style-src 'unsafe-inline'; font-src " + cdn.fonts + "; " +
-      "img-src data:; connect-src " + styleSources + "; base-uri 'none'; form-action 'none'";
+    const policy = scriptsEnabled
+      ? "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; " +
+        "font-src data:; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'"
+      : "default-src 'none'; script-src 'nonce-" + nonce + "'; " +
+        "style-src 'unsafe-inline'; font-src data: " + cdn.fonts + "; " +
+        "img-src data:; connect-src " + styleSources + "; base-uri 'none'; form-action 'none'";
+    let preloadFailed = false;
+    const unavailable = () => { preloadFailed = true; return ""; };
+    let prepared = (await Promise.all([...fonts.values()].map(async asset => {
+      const data = await asDataURL(await loadAsset(asset));
+      return "<style>@font-face{font-family:" + JSON.stringify(asset.name) +
+        ";font-style:normal;font-weight:100 900;font-display:swap;src:url(" +
+        JSON.stringify(data) + ") format('truetype')}</style>";
+    }).map(request => request.catch(unavailable)))).join("");
+    if (scriptsEnabled) {
+      prepared += await prepareStyles([...styles.values()]).then(styles => styles.join(""), unavailable);
+      if (output.content.querySelector("pre.mermaid, div.mermaid")) {
+        try {
+          prepared += inlineScript(await (await loadAsset(cdn.mermaid)).text());
+          prepared += inlineScript("(" + prepareMermaid.toString() + ")();");
+        } catch (_) {
+          unavailable();
+        }
+      }
+    }
     const renderer = "(" + renderFrame.toString() + ")(" +
-      JSON.stringify([...styles.values()]) + "," + JSON.stringify(cdn.mermaid) + "," + renderVersion + ");";
+      JSON.stringify(scriptsEnabled ? [] : [...styles.values()]) + "," + JSON.stringify(cdn.mermaid) + "," + version + "," + scriptsEnabled + "," + preloadFailed + ");";
     return "<!doctype html><html><head><meta charset='utf-8'>" +
       "<meta http-equiv='Content-Security-Policy' content=\"" + policy + "\">" +
       "<meta name='referrer' content='no-referrer'>" +
       "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
       "<style>body{margin:20px;font-family:system-ui,sans-serif;line-height:1.6;" +
       "overflow-wrap:anywhere}img{max-width:100%;height:auto}pre{overflow:auto}" +
-      "table{max-width:100%}.mermaid{max-width:100%;overflow:auto}</style></head><body>" +
-      output.innerHTML + "<script nonce='" + nonce + "'>" + renderer + "</script></body></html>";
+      "table{max-width:100%}.mermaid{max-width:100%;overflow:auto}</style>" + prepared + "</head><body>" +
+      output.innerHTML + inlineScript(renderer) + "</body></html>";
   }
 
   function showView(view, moveFocus) {
@@ -172,9 +304,9 @@
     if (event.data.state === "ready") status.textContent = status.dataset.ready;
     if (event.data.state === "cdn-error") status.textContent = status.dataset.cdnError;
   });
-  document.getElementById("render-preview").addEventListener("click", function () {
+  document.getElementById("render-preview").addEventListener("click", async function () {
+    const version = ++renderVersion;
     try {
-      renderVersion += 1;
       frame.style.height = "";
       if (!source.value.trim()) {
         frame.removeAttribute("srcdoc");
@@ -182,13 +314,17 @@
         empty.hidden = false;
         status.textContent = "";
       } else {
-        frame.srcdoc = buildPreview(source.value);
+        status.textContent = status.dataset.loading;
+        showView("preview", true);
+        const html = await buildPreview(source.value, executeScripts.checked, version);
+        if (version !== renderVersion) return;
+        frame.srcdoc = html;
         frame.hidden = false;
         empty.hidden = true;
-        status.textContent = status.dataset.loading;
       }
       showView("preview", true);
     } catch (_) {
+      if (version !== renderVersion) return;
       status.textContent = status.dataset.error;
       showView("preview", true);
     }

@@ -118,10 +118,12 @@
   "html.ready": "プレビューを更新しました。",
   "html.error": "表示できませんでした。HTMLを確認して再度お試しください。",
   "html.notice_title": "プレビューについて",
-  "html.notice": "HTMLと埋め込みCSS、対応CDNのCSS、Mermaidを表示します。任意のJavaScript、外部画像、リンク移動、フォーム送信は無効です。入力はこのタブ内だけで扱い、再読み込みすると消えます。",
+  "html.notice": "HTML・CSS・Mermaidを表示します。JavaScriptは初期状態では無効です。ページ内の目次から移動できます。入力はタブ内だけで扱い、再読み込みで消えます。",
   "html.noscript": "このツールを使うにはJavaScriptを有効にしてください。",
   "html.loading": "プレビューを描画しています…",
   "html.cdn_error": "CDNの読み込み、またはMermaidの描画に失敗しました。接続や図の構文を確認してください。",
   "html.cdn_title": "対応CDNとMermaidの使い方",
-  "html.cdn_hint": "以下の固定URLのCSSに対応します。Mermaidはpreまたはdivにclass=\"mermaid\"を付けると自動で描画します。CDNを使う場合はインターネット接続が必要です。"
+  "html.cdn_hint": "以下の固定URLのCSSに対応します。Mermaidはpreまたはdivにclass=\"mermaid\"を付けると自動で描画します。CDNを使う場合はインターネット接続が必要です。",
+  "html.execute_scripts": "JavaScriptを実行する",
+  "html.script_hint": "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。"
 }

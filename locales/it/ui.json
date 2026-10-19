@@ -118,10 +118,12 @@
   "html.ready": "Anteprima aggiornata.",
   "html.error": "Impossibile visualizzare. Controlla l’HTML e riprova.",
   "html.notice_title": "Informazioni sull’anteprima",
-  "html.notice": "Mostra HTML, CSS incorporato, stili CDN autorizzati e Mermaid. JavaScript arbitrario, immagini esterne, collegamenti e invio di moduli sono disattivati. Il contenuto resta in questa scheda e si cancella al ricaricamento.",
+  "html.notice": "Mostra HTML, CSS e Mermaid. JavaScript è disattivato per impostazione predefinita. I collegamenti interni funzionano. I dati restano nella scheda e vengono cancellati al ricaricamento.",
   "html.noscript": "Abilita JavaScript per usare questo strumento.",
   "html.loading": "Creazione anteprima…",
   "html.cdn_error": "Caricamento CDN o rendering Mermaid non riuscito. Controlla la connessione e la sintassi del diagramma.",
   "html.cdn_title": "CDN supportati e Mermaid",
-  "html.cdn_hint": "È supportato CSS agli URL fissi seguenti. Mermaid viene visualizzato automaticamente negli elementi pre o div con class=\"mermaid\". I CDN richiedono una connessione Internet."
+  "html.cdn_hint": "È supportato CSS agli URL fissi seguenti. Mermaid viene visualizzato automaticamente negli elementi pre o div con class=\"mermaid\". I CDN richiedono una connessione Internet.",
+  "html.execute_scripts": "Esegui JavaScript",
+  "html.script_hint": "Attiva solo per HTML affidabile. Accesso limitato alla pagina principale, all’archiviazione, alle risorse esterne e all’invio di moduli."
 }

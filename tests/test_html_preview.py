@@ -35,6 +35,7 @@ def test_html_preview_blocks_network_and_ignores_pasted_query(test_client):
     assert "connect-src https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/" in policy
     assert "style-src 'self' 'unsafe-inline';" in policy
     assert "form-action 'none'" in policy
+    assert "frame-src 'none'" in policy
     assert "object-src 'none'" in policy
     assert "private-content" not in response.text
     assert "https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.min.js" in policy
