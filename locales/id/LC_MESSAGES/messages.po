@@ -3214,6 +3214,79 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Gagal memuat CDN atau menggambar Mermaid. Periksa koneksi dan sintaks "
+"diagram."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS didukung di URL tetap berikut. Mermaid otomatis digambar dalam elemen"
+" pre atau div dengan class=\"mermaid\". Fitur CDN memerlukan internet."
+
+msgid "html.cdn_title"
+msgstr "CDN yang didukung dan Mermaid"
+
+msgid "html.description"
+msgstr "Tempel HTML untuk melihat halaman web di browser ponsel atau komputer."
+
+msgid "html.empty"
+msgstr "Tempel HTML untuk melihat pratinjau di sini."
+
+msgid "html.error"
+msgstr "Tidak dapat ditampilkan. Periksa HTML dan coba lagi."
+
+msgid "html.home"
+msgstr "Beranda"
+
+msgid "html.loading"
+msgstr "Membuat pratinjau…"
+
+msgid "html.local"
+msgstr "Hanya di browser"
+
+msgid "html.noscript"
+msgstr "Aktifkan JavaScript untuk menggunakan alat ini."
+
+msgid "html.notice"
+msgstr ""
+"Menampilkan HTML, CSS tertanam, gaya CDN yang diizinkan, dan Mermaid. "
+"JavaScript sembarang, gambar eksternal, tautan, dan pengiriman formulir "
+"dinonaktifkan. Masukan tetap di tab ini dan dihapus saat dimuat ulang."
+
+msgid "html.notice_title"
+msgstr "Tentang pratinjau"
+
+msgid "html.placeholder"
+msgstr "Tempel HTML di sini"
+
+msgid "html.preview"
+msgstr "Pratinjau"
+
+msgid "html.privacy"
+msgstr "HTML Anda tidak dikirim atau disimpan."
+
+msgid "html.ready"
+msgstr "Pratinjau diperbarui."
+
+msgid "html.render"
+msgstr "Tampilkan pratinjau"
+
+msgid "html.services"
+msgstr "Layanan"
+
+msgid "html.source"
+msgstr "Masukan HTML"
+
+msgid "html.source_hint"
+msgstr "Tempel dokumen HTML atau potongannya, lalu buka pratinjau."
+
+msgid "html.title"
+msgstr "Pratinjau HTML"
+
+msgid "html.view"
+msgstr "Ganti tampilan"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Gunakan layanan seperti iCloud (Apple), Google Photos, atau OneDrive "

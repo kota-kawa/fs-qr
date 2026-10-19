@@ -9,6 +9,7 @@ FS-QR is a FastAPI-powered web app that makes file sharing, QR-based downloads, 
 - **Group-based collaboration** — create a room with a shared passphrase and share files safely.
 - **Real-time notes** — collaborate in a shared note area for ideas and coordination.
 - **Shared task boards** — organize a room's work in todo, doing, and done columns without an account.
+- **HTML preview** — paste HTML at `/html-preview` and view it as a web page on desktop or mobile. Input stays in browser memory and is not sent to or saved by the service. Supports embedded CSS and raster images, pinned Bootstrap / Font Awesome CSS, and Mermaid diagrams with integrity checks. Arbitrary scripts, unapproved resources, links, and form submission are disabled. CDN features need internet; reloading clears the input.
 - **Redis-backed WebSocket coordination** — connection state is tracked in Redis for multi-instance stability.
 - **Production-like local setup** — Docker Compose mirrors the deployment topology.
 
@@ -280,6 +281,7 @@ FS-QRは、**ファイル共有・QRコード配布・リアルタイムノー�
 ## 🌟 特長
 - **QRコードで即共有**：アップロード後にQRを生成し、スマホから簡単ダウンロード。
 - **グループ共有**：合言葉で部屋を作り、メンバー間で安全にファイル共有。
+- **HTMLプレビュー**：`/html-preview` にHTMLを貼り付けて、PC・スマホでWebページとして確認できます。入力はブラウザ内のメモリだけで扱い、自サービスへ送信・保存しません。埋め込みCSS・ラスター画像に加え、固定バージョン・整合性検証付きのBootstrap / Font Awesome CSSとMermaidに対応します。任意スクリプト、未許可のリソース、リンク移動、フォーム送信は無効です。CDN機能にはネット接続が必要で、再読み込みで入力は消えます。
 - **共同ノート**：リアルタイムで編集できるノート機能。
 - **Redis連携のWebSocket管理**：接続状態をRedisで管理し、複数インスタンスでも安定動作。
 - **運用を意識した構成**：Docker Composeで構成を統一。

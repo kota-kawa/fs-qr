@@ -1,0 +1,295 @@
+"""Optional browser regressions; install Playwright + Chromium locally to run."""
+
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from mimetypes import guess_type
+from pathlib import Path
+from threading import Thread
+from urllib.parse import urlsplit
+
+import httpx
+import pytest
+
+from HtmlPreview.html_preview_app import CDN_ASSETS
+
+playwright = pytest.importorskip("playwright.sync_api")
+ROOT = Path(__file__).resolve().parents[1]
+ASSETS = {
+    f"/static/{name}": ROOT / "static" / name
+    for name in (
+        "css/html-preview.css",
+        "js/html_preview/preview.js",
+        "favicon.ico",
+    )
+}
+
+
+@pytest.fixture(scope="module")
+def preview_url(test_client):
+    response = test_client.get("/html-preview?lang=en")
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            path = urlsplit(self.path).path
+            if path == "/html-preview":
+                body = response.content
+                content_type = "text/html; charset=utf-8"
+            elif path in ASSETS:
+                asset = ASSETS[path]
+                body = asset.read_bytes()
+                content_type = guess_type(asset)[0] or "application/octet-stream"
+            else:
+                self.send_error(404)
+                return
+            self.send_response(200)
+            self.send_header("Content-Type", content_type)
+            self.send_header(
+                "Content-Security-Policy", response.headers["content-security-policy"]
+            )
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *_args):
+            pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield f"http://127.0.0.1:{server.server_port}/html-preview"
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
+
+
+@pytest.fixture
+def browser_page(preview_url):
+    with playwright.sync_playwright() as runtime:
+        browser = runtime.chromium.launch()
+        page = browser.new_page(viewport={"width": 1280, "height": 800})
+        page.goto(preview_url, wait_until="networkidle")
+        yield page
+        browser.close()
+
+
+def render(page, html):
+    if not page.locator("#html-source").is_visible():
+        page.locator("#show-source").click()
+    page.locator("#html-source").fill(html)
+    page.locator("#render-preview").click()
+    return page.frame_locator("#html-preview")
+
+
+def test_browser_fixture_only_serves_tool_assets(browser_page):
+    page = browser_page
+    for path in ("/AGENTS.md", "/static/style.css", "/static/../README.md"):
+        response = page.request.get(page.url.replace("/html-preview", path))
+        assert response.status == 404
+
+
+def test_preview_renders_styles_and_replaces_content(browser_page):
+    page = browser_page
+    frame = render(
+        page,
+        "<!doctype html><html><head><style>h1{color:rgb(12,34,56)}</style>"
+        "</head><body><h1>Example</h1><p>Hello</p>"
+        "<table><tr><td>Cell</td></tr></table></body></html>",
+    )
+    playwright.expect(frame.locator("h1")).to_have_text("Example")
+    playwright.expect(frame.locator("h1")).to_have_css("color", "rgb(12, 34, 56)")
+    playwright.expect(frame.locator("td")).to_have_text("Cell")
+    frame = render(page, "<p>New content</p>")
+    playwright.expect(frame.locator("p")).to_have_text("New content")
+    playwright.expect(frame.locator("h1")).to_have_count(0)
+    render(page, " ")
+    playwright.expect(page.locator("#html-preview")).to_be_hidden()
+    playwright.expect(page.locator("#preview-empty")).to_be_visible()
+
+
+def test_preview_does_not_execute_or_send_pasted_content(browser_page):
+    page = browser_page
+    requests = []
+
+    def capture_network_request(route):
+        requests.append(route.request.url)
+        route.abort()
+
+    # A request event also fires for CSP-blocked attempts. Routing observes
+    # requests that could actually leave the browser after CSP enforcement.
+    page.context.route("**/*", capture_network_request)
+    frame = render(
+        page,
+        '<meta http-equiv="refresh" content="0;url=/leak-refresh">'
+        '<base href="https://example.invalid/">'
+        '<script>parent.document.body.dataset.compromised="yes";'
+        'fetch("/leak-script")</script>'
+        '<link rel="stylesheet" href="/leak-link">'
+        '<style>@import url("/leak-css"); p{background:url(/leak-bg)}</style>'
+        f'<style>@import url("{CDN_ASSETS["styles"][0]["url"]}");</style>'
+        '<img src="/leak-img" srcset="/leak-srcset 2x" onerror="alert(1)">'
+        '<iframe src="/leak-frame"></iframe>'
+        '<svg><image href="/leak-svg"/></svg>'
+        '<object data="/leak-object"></object>'
+        '<a href="/leak-navigation" ping="/leak-ping" target="_top">Link</a>'
+        '<input type="image" src="/leak-input">'
+        '<form action="/leak-form"><input name="secret" value="private">'
+        '<button type="submit">Submit</button></form>'
+        '<p style="background-image:url(https://example.invalid/leak)">Safe</p>',
+    )
+    playwright.expect(frame.locator("p")).to_have_text("Safe")
+    frame.locator("a").click()
+    playwright.expect(frame.locator("form button")).to_be_disabled()
+    playwright.expect(frame.locator("input[name]")).to_have_count(0)
+    page.wait_for_timeout(250)
+    assert requests == []
+    assert page.evaluate("document.body.dataset.compromised") is None
+    assert page.evaluate("localStorage.length") == 0
+    assert page.evaluate("sessionStorage.length") == 0
+    assert page.url.endswith("/html-preview")
+    frame_url = page.frames[1].url
+    assert frame_url == "about:srcdoc"
+
+
+def test_preview_works_offline_and_reload_clears_input(browser_page):
+    page = browser_page
+    page.context.set_offline(True)
+    frame = render(page, "<h2>Offline</h2>")
+    playwright.expect(frame.locator("h2")).to_have_text("Offline")
+    page.context.set_offline(False)
+    page.reload(wait_until="networkidle")
+    playwright.expect(page.locator("#html-source")).to_have_value("")
+    playwright.expect(page.locator("#preview-empty")).to_be_visible()
+
+
+def test_preview_loads_only_approved_styles_with_integrity(browser_page):
+    page = browser_page
+    asset = CDN_ASSETS["styles"][0]
+    requests = []
+
+    def stylesheet(route):
+        requests.append(route.request.url)
+        route.fulfill(
+            body=(ROOT / "static" / "bootstrap.min.css").read_bytes(),
+            content_type="text/css",
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    page.context.route(asset["url"], stylesheet)
+    frame = render(
+        page,
+        f'<link rel="stylesheet" href="{asset["url"]}">'
+        '<link rel="stylesheet" href="https://example.invalid/untrusted.css">'
+        '<div class="d-flex"><p class="text-primary">Bootstrap</p></div>'
+        f'<script src="{CDN_ASSETS["mermaid"]["url"]}"></script>',
+    )
+    playwright.expect(frame.locator("div")).to_have_css("display", "flex")
+    playwright.expect(page.locator("#preview-status")).to_have_text("Preview updated.")
+    assert requests == [asset["url"]]
+    playwright.expect(frame.locator("link")).to_have_count(0)
+
+
+def test_preview_reports_modified_or_unavailable_cdn(browser_page):
+    page = browser_page
+    asset = CDN_ASSETS["styles"][0]
+    page.context.route(
+        asset["url"],
+        lambda route: route.fulfill(
+            body="body{color:red}",
+            content_type="text/css",
+            headers={"Access-Control-Allow-Origin": "*"},
+        ),
+    )
+    render(page, f'<link rel="stylesheet" href="{asset["url"]}"><p>Safe</p>')
+    playwright.expect(page.locator("#preview-status")).to_have_text(
+        "A CDN could not load or Mermaid could not render. "
+        "Check your connection and diagram syntax."
+    )
+
+
+def test_preview_expands_to_fit_tall_content(browser_page):
+    page = browser_page
+    page.set_viewport_size({"width": 390, "height": 844})
+    render(page, '<div style="height:1200px">Tall preview</div>')
+    playwright.expect(page.locator("#preview-status")).to_have_text("Preview updated.")
+    assert page.locator("#html-preview").bounding_box()["height"] >= 1200
+
+
+@pytest.fixture(scope="module")
+def mermaid_bundle():
+    # Optional browser tests require internet for the pinned upstream bundle.
+    response = httpx.get(CDN_ASSETS["mermaid"]["url"], timeout=45)
+    response.raise_for_status()
+    return response.content
+
+
+def test_preview_renders_real_mermaid_and_reports_bad_syntax(
+    browser_page, mermaid_bundle
+):
+    page = browser_page
+    page.context.route(
+        CDN_ASSETS["mermaid"]["url"],
+        lambda route: route.fulfill(
+            body=mermaid_bundle,
+            content_type="text/javascript",
+            headers={"Access-Control-Allow-Origin": "*"},
+        ),
+    )
+    errors = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    frame = render(
+        page,
+        '<pre class="mermaid">graph TD\n A[Start] --> B[Finish]</pre>'
+        '<script>parent.document.body.dataset.compromised="yes"</script>',
+    )
+    playwright.expect(frame.locator(".mermaid svg")).to_be_visible(timeout=15000)
+    playwright.expect(frame.locator(".mermaid svg")).to_contain_text("Start")
+    playwright.expect(page.locator("#preview-status")).to_have_text("Preview updated.")
+    assert page.evaluate("document.body.dataset.compromised") is None
+    assert errors == []
+    page.set_viewport_size({"width": 390, "height": 844})
+    frame = render(
+        page,
+        '<pre class="mermaid">graph LR\n A[First long label] --> '
+        "B[Second long label] --> C[Third long label]</pre>",
+    )
+    playwright.expect(frame.locator(".mermaid svg")).to_be_visible(timeout=15000)
+    dimensions = frame.locator(".mermaid").evaluate(
+        "e => ({visible:e.clientWidth, content:e.scrollWidth, "
+        "page:e.ownerDocument.documentElement.scrollWidth, "
+        "viewport:e.ownerDocument.documentElement.clientWidth})"
+    )
+    assert dimensions["content"] > dimensions["visible"]
+    assert dimensions["page"] <= dimensions["viewport"]
+    page.locator("#show-source").click()
+    render(page, '<pre class="mermaid">invalid diagram syntax</pre>')
+    playwright.expect(page.locator("#preview-status")).to_have_text(
+        "A CDN could not load or Mermaid could not render. "
+        "Check your connection and diagram syntax."
+    )
+
+
+@pytest.mark.parametrize("width,height", [(1280, 800), (390, 844), (320, 640)])
+def test_preview_responsive_switching(browser_page, width, height):
+    page = browser_page
+    page.set_viewport_size({"width": width, "height": height})
+    errors = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    frame = render(page, "<h1>Preview</h1><p>Readable on mobile and desktop.</p>")
+    playwright.expect(frame.locator("h1")).to_have_text("Preview")
+    if width < 768:
+        playwright.expect(page.locator("#source-panel")).to_be_hidden()
+        playwright.expect(page.locator("#show-preview")).to_be_focused()
+        page.locator("#show-source").click()
+        playwright.expect(page.locator("#html-source")).to_be_focused()
+        playwright.expect(page.locator("#preview-panel")).to_be_hidden()
+        page.locator("#show-preview").click()
+    else:
+        playwright.expect(page.locator("#source-panel")).to_be_visible()
+    assert (
+        page.evaluate(
+            "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+        )
+        == 0
+    )
+    assert errors == []

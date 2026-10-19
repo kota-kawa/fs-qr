@@ -31,7 +31,7 @@ nginx (fs-qr.conf)
 FastAPI app:app (Gunicorn + UvicornWorker, port 5000)
   │
   ├─ app.py middleware, startup/shutdown, router composition
-  ├─ feature routers: FSQR / Group / Note / Task / Admin / Articles
+  ├─ feature routers: FSQR / Group / Note / Task / HtmlPreview / Admin / Articles
   ├─ shared services: room lifecycle, session, CSRF, rate limit, i18n, file serving
   ├─ MySQL 8 (async SQLAlchemy / Alembic)
   ├─ Redis (sessions, cache, rate limit, presence, Group / Note pub/sub)
@@ -59,6 +59,7 @@ FSQR/                   QR ファイル共有のルーター、データ層、�
 Group/                  複数ファイルのルーム、ファイル操作、管理、WebSocket
 Note/                   リアルタイムノート、同期・競合解決、export、WebSocket
 Task/                   タスクボード、CRUD / 並べ替え / import-export
+HtmlPreview/            ブラウザ内で完結する HTML プレビューの画面配信
 Admin/                  管理画面と DB 管理画面
 Articles/               記事レジストリ、一覧・記事テンプレート
 templates/              共通レイアウト、固定ページ、共通部品
@@ -108,6 +109,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 | Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py` |
 | Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_collaboration.py`, `note_export.py` | `Note/templates/`, `static/js/note_room_realtime/`, `hocuspocus/` | `tests/test_note.py`, `tests/test_note_collaboration.py`, `tests/test_note_realtime.py`, `hocuspocus/*.test.js` |
 | Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_authorize.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
+| HTML | `HtmlPreview/html_preview_app.py` | 保存・入力 API なし | `HtmlPreview/templates/`, `static/js/html_preview/`, `static/css/html-preview.css` | `tests/test_html_preview.py`, `tests/test_html_preview_browser.py` |
 | Admin | `Admin/admin_app.py`, `Admin/db_admin.py` | `session_auth.py`, `rate_limit.py` | `Admin/templates/` | `tests/test_admin.py` |
 | Articles | `Articles/articles_app.py` | `Articles/articles_registry.py`, `article_locale_shards.py` | `Articles/templates/` | `tests/test_articles.py`, `tests/test_product_landing_pages.py` |
 
@@ -139,7 +141,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 ### テンプレート
 
 `web.py` の `Jinja2Templates` は、ルート `templates/` を共通層として、機能別の
-`FSQR/templates/`、`Group/templates/`、`Note/templates/`、`Task/templates/`、
+`FSQR/templates/`、`Group/templates/`、`Note/templates/`、`Task/templates/`、`HtmlPreview/templates/`、
 `Admin/templates/`、`Articles/templates/` をロードします。共通レイアウト、footer、
 modal、presence indicator を変更する場合はルート `templates/` を先に確認します。
 
@@ -171,6 +173,34 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 ダウンロード時の復号もブラウザで行うため、送信処理を変更する場合は
 `static/js/fs_qr_upload/encryption.js`、`FSQR/templates/fs_qr_info/_scripts.html`、
 `FSQR/fsqr_app.py`、`tests/test_fsqr.py` を一緒に確認します。
+
+### HTML プレビューの境界
+
+第5のサービス `/html-preview` は画面とローカルの静的アセットだけを配信します。
+入力 HTML は textarea と sandbox 付き iframe の `srcdoc` にのみ保持し、API、DB、Redis、
+ブラウザストレージ、URL へ保存しません。広告・解析・共通ルームスクリプトも読み込みません。
+初回の画面読み込み後は、CDN を使わない HTML をオフラインでも再表示できます。
+
+ブラウザは inert な template で入力を解析し、許可した HTML 要素・表示属性だけを再構築します。
+入力 script、イベント属性、許可以外の外部 URL、埋め込みフレーム、meta refresh を出力せず、
+フォーム操作を無効化します。iframe の sandbox は `allow-scripts` だけを許可し、親画面・cookie・
+ストレージへのアクセスは許可しません。CSP nonce が一致するサービス自身の描画処理だけを実行し、
+Mermaid は `strict` 設定で描画します。子文書からの API 接続・フォーム送信は禁止します。
+
+CDN は `HtmlPreview/html_preview_app.py` の `CDN_ASSETS` を正とし、Bootstrap 5.3.8 と
+Font Awesome 7.3.0 の固定 URL の CSS を、入力の link が一致したときだけ取得します。
+ブラウザの fetch integrity で検証後に CSS を埋め込みます。外部 style-src を許可しないため、
+入力の `@import` から整合性検証を回避することはできません。
+Font Awesome のフォントも同バージョンの配信パスだけを CSP で許可します。
+Mermaid 12.2.0 は `pre.mermaid` / `div.mermaid` があるときだけ固定 URL・SRI で取得します。
+配布ファイルの改変、取得失敗、図の構文エラーは親画面の status に通知します。通知は iframe の
+送信元 window と描画世代を照合します。任意 CDN、入力された JavaScript の実行、外部画像取得は
+許可しません。埋め込み CSS と data URL の PNG / JPEG / GIF / WebP / AVIF にも対応します。
+描画後の内容の高さを通知し、プレビュー枠を最大 3000px まで広げます。横長の Mermaid は文字を
+縮めず図のコンテナ内で横スクロールできるようにし、ページ全体の横はみ出しを防ぎます。
+プレビュー用の基礎スタイルは狭い画面でも読める余白・折り返しを補いますが、入力された CSS の
+固定幅指定などはそのまま表示します。本文は再読み込みで消えます。詳細な判断は
+[ADR-0009](docs/decisions/0009-browser-only-html-preview.md) にあります。
 
 ### 翻訳
 

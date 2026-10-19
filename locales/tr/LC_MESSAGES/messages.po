@@ -3239,6 +3239,82 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"CDN yüklenemedi veya Mermaid çizilemedi. Bağlantıyı ve diyagram "
+"sözdizimini kontrol edin."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Aşağıdaki sabit URL’lerdeki CSS desteklenir. Mermaid, class=\"mermaid\" "
+"içeren pre veya div öğelerinde otomatik çizilir. CDN özellikleri internet"
+" gerektirir."
+
+msgid "html.cdn_title"
+msgstr "Desteklenen CDN’ler ve Mermaid"
+
+msgid "html.description"
+msgstr ""
+"HTML yapıştırıp telefon veya bilgisayar tarayıcınızda web sayfası olarak "
+"görüntüleyin."
+
+msgid "html.empty"
+msgstr "Önizleme için buraya HTML yapıştırın."
+
+msgid "html.error"
+msgstr "Görüntülenemedi. HTML içeriğini kontrol edip yeniden deneyin."
+
+msgid "html.home"
+msgstr "Ana sayfa"
+
+msgid "html.loading"
+msgstr "Önizleme oluşturuluyor…"
+
+msgid "html.local"
+msgstr "Yalnızca tarayıcıda"
+
+msgid "html.noscript"
+msgstr "Bu aracı kullanmak için JavaScript’i etkinleştirin."
+
+msgid "html.notice"
+msgstr ""
+"HTML, gömülü CSS, izin verilen CDN stilleri ve Mermaid görüntülenir. "
+"Rastgele JavaScript, harici resimler, bağlantılar ve form gönderimi devre"
+" dışıdır. Girdi bu sekmede kalır ve yeniden yüklemede silinir."
+
+msgid "html.notice_title"
+msgstr "Önizleme hakkında"
+
+msgid "html.placeholder"
+msgstr "HTML içeriğini buraya yapıştırın"
+
+msgid "html.preview"
+msgstr "Önizleme"
+
+msgid "html.privacy"
+msgstr "HTML içeriğiniz gönderilmez veya kaydedilmez."
+
+msgid "html.ready"
+msgstr "Önizleme güncellendi."
+
+msgid "html.render"
+msgstr "Önizlemeyi göster"
+
+msgid "html.services"
+msgstr "Hizmetler"
+
+msgid "html.source"
+msgstr "HTML girişi"
+
+msgid "html.source_hint"
+msgstr "Bir HTML belgesi veya parçası yapıştırıp önizlemeyi açın."
+
+msgid "html.title"
+msgstr "HTML önizleme"
+
+msgid "html.view"
+msgstr "Görünümü değiştir"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "iCloud, Google Fotoğraflar veya OneDrive gibi servisler fotoğraflarınızı "

@@ -3273,6 +3273,82 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"CDN haikupakiwa au Mermaid haikuonyeshwa. Kagua muunganisho na sintaksia "
+"ya mchoro."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS inatumika kwenye URL maalumu zilizo hapa chini. Mermaid huonyeshwa "
+"kiotomatiki ndani ya pre au div yenye class=\"mermaid\". CDN inahitaji "
+"intaneti."
+
+msgid "html.cdn_title"
+msgstr "CDN zinazotumika na Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Bandika HTML ili kuona ukurasa wa wavuti kwenye kivinjari cha simu au "
+"kompyuta."
+
+msgid "html.empty"
+msgstr "Bandika HTML ili kuona hakiki hapa."
+
+msgid "html.error"
+msgstr "Imeshindwa kuonyesha. Kagua HTML na ujaribu tena."
+
+msgid "html.home"
+msgstr "Mwanzo"
+
+msgid "html.loading"
+msgstr "Inaunda hakiki…"
+
+msgid "html.local"
+msgstr "Ndani ya kivinjari tu"
+
+msgid "html.noscript"
+msgstr "Washa JavaScript ili kutumia zana hii."
+
+msgid "html.notice"
+msgstr ""
+"Huonyesha HTML, CSS iliyopachikwa, mitindo ya CDN iliyoidhinishwa na "
+"Mermaid. JavaScript holela, picha za nje, viungo na utumaji wa fomu "
+"vimezimwa. Ingizo hubaki kwenye kichupo hiki na hufutwa unapopakia upya."
+
+msgid "html.notice_title"
+msgstr "Kuhusu hakiki"
+
+msgid "html.placeholder"
+msgstr "Bandika HTML hapa"
+
+msgid "html.preview"
+msgstr "Hakiki"
+
+msgid "html.privacy"
+msgstr "HTML yako haitumwi wala kuhifadhiwa."
+
+msgid "html.ready"
+msgstr "Hakiki imesasishwa."
+
+msgid "html.render"
+msgstr "Onyesha hakiki"
+
+msgid "html.services"
+msgstr "Huduma"
+
+msgid "html.source"
+msgstr "Ingiza HTML"
+
+msgid "html.source_hint"
+msgstr "Bandika hati ya HTML au sehemu yake kisha ufungue hakiki."
+
+msgid "html.title"
+msgstr "Hakiki ya HTML"
+
+msgid "html.view"
+msgstr "Badili mwonekano"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Tumia huduma kama iCloud (Apple), Google Picha (Photos), au OneDrive ili "

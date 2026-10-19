@@ -2652,6 +2652,76 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr "CDN 로드 또는 Mermaid 렌더링에 실패했습니다. 연결과 다이어그램 구문을 확인하세요."
+
+msgid "html.cdn_hint"
+msgstr ""
+"아래 고정 URL의 CSS를 지원합니다. pre 또는 div에 class=\"mermaid\"를 추가하면 자동으로 렌더링됩니다. "
+"CDN 기능에는 인터넷 연결이 필요합니다."
+
+msgid "html.cdn_title"
+msgstr "지원 CDN 및 Mermaid 사용법"
+
+msgid "html.description"
+msgstr "HTML을 붙여 넣어 휴대폰이나 PC 브라우저에서 웹페이지로 확인하세요."
+
+msgid "html.empty"
+msgstr "HTML을 붙여 넣으면 여기에 미리보기가 표시됩니다."
+
+msgid "html.error"
+msgstr "표시할 수 없습니다. HTML을 확인하고 다시 시도하세요."
+
+msgid "html.home"
+msgstr "홈"
+
+msgid "html.loading"
+msgstr "미리보기 생성 중…"
+
+msgid "html.local"
+msgstr "브라우저 내 처리"
+
+msgid "html.noscript"
+msgstr "이 도구를 사용하려면 JavaScript를 활성화하세요."
+
+msgid "html.notice"
+msgstr ""
+"HTML, 내장 CSS, 허용된 CDN 스타일, Mermaid를 표시합니다. 임의 JavaScript, 외부 이미지, 링크 이동, "
+"양식 제출은 비활성화됩니다. 입력은 이 탭에만 유지되며 새로고침하면 지워집니다."
+
+msgid "html.notice_title"
+msgstr "미리보기 안내"
+
+msgid "html.placeholder"
+msgstr "여기에 HTML을 붙여 넣으세요"
+
+msgid "html.preview"
+msgstr "미리보기"
+
+msgid "html.privacy"
+msgstr "입력한 HTML은 전송되거나 저장되지 않습니다."
+
+msgid "html.ready"
+msgstr "미리보기가 업데이트되었습니다."
+
+msgid "html.render"
+msgstr "미리보기 표시"
+
+msgid "html.services"
+msgstr "서비스 목록"
+
+msgid "html.source"
+msgstr "HTML 입력"
+
+msgid "html.source_hint"
+msgstr "전체 HTML 문서 또는 일부를 붙여 넣고 미리보기를 누르세요."
+
+msgid "html.title"
+msgstr "HTML 미리보기"
+
+msgid "html.view"
+msgstr "보기 전환"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "iCloud(Apple)나 Google 포토, OneDrive 등을 활용해 사진을 클라우드에 자동 백업합니다. 백업이 완료된 후 "

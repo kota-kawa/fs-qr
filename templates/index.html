@@ -129,7 +129,8 @@
       "{{ request.url_root }}fs-qr_menu",
       "{{ request.url_root }}group_menu",
       "{{ request.url_root }}note_menu",
-      "{{ request.url_root }}task_menu"
+      "{{ request.url_root }}task_menu",
+      "{{ request.url_root }}html-preview"
     ]
   }
   </script>
@@ -345,6 +346,7 @@
     .menu-item.fs-qr   i { font-size: 3rem; color: #4082dd; margin-bottom: 15px; }
     .menu-item.note    i { font-size: 3rem; color: #64ba4a; margin-bottom: 15px; }
     .menu-item.task    i { font-size: 3rem; color: #d97706; margin-bottom: 15px; }
+    .menu-item.html-preview i { font-size: 3rem; color: #0f766e; margin-bottom: 15px; }
     .menu-item h2 {
       font-size: 1.5rem;
       margin: 0;
@@ -384,7 +386,8 @@
       .menu-item.group i,
       .menu-item.fs-qr i,
       .menu-item.note i,
-      .menu-item.task i {
+      .menu-item.task i,
+      .menu-item.html-preview i {
         font-size: 2.5rem;
         margin-bottom: 12px;
       }
@@ -406,7 +409,8 @@
       .menu-item.group i,
       .menu-item.fs-qr i,
       .menu-item.note i,
-      .menu-item.task i {
+      .menu-item.task i,
+      .menu-item.html-preview i {
         font-size: 2.3rem;
         margin-bottom: 10px;
       }
@@ -470,6 +474,7 @@
     .top-seo-feature-icon.group-color  { color: #4aba95; }
     .top-seo-feature-icon.note-color   { color: #64ba4a; }
     .top-seo-feature-icon.task-color   { color: #d97706; }
+    .top-seo-feature-icon.html-color   { color: #0f766e; }
 
     /* ユースケース */
     .top-seo-usecase-list {
@@ -657,6 +662,12 @@
             <h2>{{ _("task.menu.title") }}</h2>
           </a>
         </li>
+        <li>
+          <a href="/html-preview" class="menu-item html-preview mb-3">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <h2>{{ _("html.title") }}</h2>
+          </a>
+        </li>
       </ul>
     </main>
   </div>
@@ -693,6 +704,11 @@
             <div class="top-seo-feature-icon task-color"><i class="fas fa-tasks" aria-hidden="true"></i></div>
             <h3>{{ _("task.menu.title") }}</h3>
             <p>{{ _("home.task.description") }}</p>
+          </div>
+          <div class="top-seo-feature-card">
+            <div class="top-seo-feature-icon html-color"><i class="fas fa-code" aria-hidden="true"></i></div>
+            <h3>{{ _("html.title") }}</h3>
+            <p>{{ _("html.description") }}</p>
           </div>
         </div>
       </div>

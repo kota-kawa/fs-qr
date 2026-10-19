@@ -3177,6 +3177,77 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr "CDN लोड या Mermaid रेंडर नहीं हुआ। कनेक्शन और आरेख का सिंटैक्स जाँचें।"
+
+msgid "html.cdn_hint"
+msgstr ""
+"नीचे दिए गए निश्चित URL पर CSS समर्थित है। class=\"mermaid\" वाले pre या "
+"div में Mermaid अपने आप बनता है। CDN सुविधाओं के लिए इंटरनेट चाहिए।"
+
+msgid "html.cdn_title"
+msgstr "समर्थित CDN और Mermaid"
+
+msgid "html.description"
+msgstr "HTML पेस्ट करके मोबाइल या कंप्यूटर के ब्राउज़र में वेब पेज देखें।"
+
+msgid "html.empty"
+msgstr "पूर्वावलोकन देखने के लिए HTML पेस्ट करें।"
+
+msgid "html.error"
+msgstr "दिखाया नहीं जा सका। HTML जाँचें और फिर प्रयास करें।"
+
+msgid "html.home"
+msgstr "होम"
+
+msgid "html.loading"
+msgstr "पूर्वावलोकन बन रहा है…"
+
+msgid "html.local"
+msgstr "केवल ब्राउज़र में"
+
+msgid "html.noscript"
+msgstr "इस टूल का उपयोग करने के लिए JavaScript चालू करें।"
+
+msgid "html.notice"
+msgstr ""
+"HTML, एम्बेडेड CSS, स्वीकृत CDN शैलियाँ और Mermaid दिखाता है। मनमाना "
+"JavaScript, बाहरी चित्र, लिंक खोलना और फ़ॉर्म भेजना बंद हैं। इनपुट इसी "
+"टैब में रहता है और रीलोड करने पर मिट जाता है।"
+
+msgid "html.notice_title"
+msgstr "पूर्वावलोकन के बारे में"
+
+msgid "html.placeholder"
+msgstr "यहाँ HTML पेस्ट करें"
+
+msgid "html.preview"
+msgstr "पूर्वावलोकन"
+
+msgid "html.privacy"
+msgstr "आपका HTML भेजा या सहेजा नहीं जाता।"
+
+msgid "html.ready"
+msgstr "पूर्वावलोकन अपडेट हुआ।"
+
+msgid "html.render"
+msgstr "पूर्वावलोकन दिखाएँ"
+
+msgid "html.services"
+msgstr "सेवाएँ"
+
+msgid "html.source"
+msgstr "HTML इनपुट"
+
+msgid "html.source_hint"
+msgstr "पूरा HTML दस्तावेज़ या उसका अंश पेस्ट करें और पूर्वावलोकन खोलें।"
+
+msgid "html.title"
+msgstr "HTML पूर्वावलोकन"
+
+msgid "html.view"
+msgstr "दृश्य बदलें"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "फ़ोटो का अपने आप बैकअप लेने के लिए iCloud (Apple), Google Photos या "

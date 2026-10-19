@@ -3148,6 +3148,82 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Не удалось загрузить CDN или построить Mermaid. Проверьте соединение и "
+"синтаксис диаграммы."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Поддерживается CSS по указанным ниже фиксированным URL. Mermaid "
+"автоматически отображается в элементах pre или div с class=\"mermaid\". "
+"Для CDN нужен интернет."
+
+msgid "html.cdn_title"
+msgstr "Поддерживаемые CDN и Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Вставьте HTML и просмотрите веб-страницу в браузере на телефоне или "
+"компьютере."
+
+msgid "html.empty"
+msgstr "Вставьте HTML, чтобы увидеть предпросмотр."
+
+msgid "html.error"
+msgstr "Не удалось отобразить. Проверьте HTML и повторите попытку."
+
+msgid "html.home"
+msgstr "Главная"
+
+msgid "html.loading"
+msgstr "Создание предпросмотра…"
+
+msgid "html.local"
+msgstr "Только в браузере"
+
+msgid "html.noscript"
+msgstr "Включите JavaScript для работы с инструментом."
+
+msgid "html.notice"
+msgstr ""
+"Отображает HTML, встроенный CSS, разрешённые стили CDN и Mermaid. "
+"Произвольный JavaScript, внешние изображения, ссылки и отправка форм "
+"отключены. Данные остаются в этой вкладке и удаляются при обновлении."
+
+msgid "html.notice_title"
+msgstr "О предпросмотре"
+
+msgid "html.placeholder"
+msgstr "Вставьте HTML сюда"
+
+msgid "html.preview"
+msgstr "Предпросмотр"
+
+msgid "html.privacy"
+msgstr "Ваш HTML не отправляется и не сохраняется."
+
+msgid "html.ready"
+msgstr "Предпросмотр обновлён."
+
+msgid "html.render"
+msgstr "Показать предпросмотр"
+
+msgid "html.services"
+msgstr "Сервисы"
+
+msgid "html.source"
+msgstr "Ввод HTML"
+
+msgid "html.source_hint"
+msgstr "Вставьте HTML-документ или фрагмент и откройте предпросмотр."
+
+msgid "html.title"
+msgstr "Предпросмотр HTML"
+
+msgid "html.view"
+msgstr "Переключить вид"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Используйте такие сервисы, как iCloud (Apple), Google Фото или OneDrive, "

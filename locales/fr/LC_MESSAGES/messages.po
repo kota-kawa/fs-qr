@@ -3338,6 +3338,83 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Échec du chargement CDN ou du rendu Mermaid. Vérifiez la connexion et la "
+"syntaxe du diagramme."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Le CSS est accepté aux URL fixes ci-dessous. Mermaid est rendu "
+"automatiquement dans les éléments pre ou div avec class=\"mermaid\". Les "
+"CDN nécessitent une connexion Internet."
+
+msgid "html.cdn_title"
+msgstr "CDN pris en charge et Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Collez du HTML pour afficher une page web dans votre navigateur, sur "
+"mobile ou ordinateur."
+
+msgid "html.empty"
+msgstr "Collez du HTML pour afficher un aperçu ici."
+
+msgid "html.error"
+msgstr "Impossible d’afficher l’aperçu. Vérifiez le HTML et réessayez."
+
+msgid "html.home"
+msgstr "Accueil"
+
+msgid "html.loading"
+msgstr "Création de l’aperçu…"
+
+msgid "html.local"
+msgstr "Dans le navigateur"
+
+msgid "html.noscript"
+msgstr "Activez JavaScript pour utiliser cet outil."
+
+msgid "html.notice"
+msgstr ""
+"Affiche HTML, CSS intégré, styles CDN autorisés et Mermaid. JavaScript "
+"arbitraire, images externes, liens et envoi de formulaires sont "
+"désactivés. La saisie reste dans cet onglet et disparaît à "
+"l’actualisation."
+
+msgid "html.notice_title"
+msgstr "À propos de l’aperçu"
+
+msgid "html.placeholder"
+msgstr "Collez votre HTML ici"
+
+msgid "html.preview"
+msgstr "Aperçu"
+
+msgid "html.privacy"
+msgstr "Votre HTML n’est ni envoyé ni enregistré."
+
+msgid "html.ready"
+msgstr "Aperçu actualisé."
+
+msgid "html.render"
+msgstr "Afficher l’aperçu"
+
+msgid "html.services"
+msgstr "Services"
+
+msgid "html.source"
+msgstr "Saisie HTML"
+
+msgid "html.source_hint"
+msgstr "Collez un document HTML ou un extrait, puis affichez l’aperçu."
+
+msgid "html.title"
+msgstr "Aperçu HTML"
+
+msgid "html.view"
+msgstr "Changer de vue"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Utilisez iCloud (Apple), Google Photos ou OneDrive para sauvegarder "

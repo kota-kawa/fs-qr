@@ -66,6 +66,7 @@ from Note.note_realtime import shutdown as note_realtime_shutdown
 from Note.note_realtime import startup as note_realtime_startup
 from Task.task_app import router as task_router
 from Task.task_api import router as task_api_router
+from HtmlPreview.html_preview_app import router as html_preview_router
 from Admin.db_admin import router as db_admin_router
 from Admin.admin_app import router as admin_router
 from FSQR import fsqr_data as fsqr_cleanup_data
@@ -269,6 +270,7 @@ app.include_router(note_router)
 app.include_router(note_api_router)
 app.include_router(task_router)
 app.include_router(task_api_router)
+app.include_router(html_preview_router)
 app.include_router(db_admin_router)
 app.include_router(admin_router)
 app.include_router(fsqr_router)
@@ -519,6 +521,7 @@ SITEMAP_PAGES = (
     ("/group_menu", "weekly", "0.9", ("Group/templates/group.html",)),
     ("/note_menu", "weekly", "0.9", ("Note/templates/note_menu.html",)),
     ("/task_menu", "weekly", "0.9", ("Task/templates/task_menu.html",)),
+    ("/html-preview", "monthly", "0.8", ("HtmlPreview/templates/html-preview.html",)),
     (
         "/file-sharing",
         "weekly",

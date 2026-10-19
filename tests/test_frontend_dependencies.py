@@ -43,6 +43,7 @@ def _frontend_sources() -> list[Path]:
         PROJECT_ROOT / "Group" / "templates",
         PROJECT_ROOT / "Note" / "templates",
         PROJECT_ROOT / "Task" / "templates",
+        PROJECT_ROOT / "HtmlPreview" / "templates",
     )
     return [path for root in template_roots for path in root.rglob("*.html")] + [
         PROJECT_ROOT / "static" / "bootstrap.min.css"

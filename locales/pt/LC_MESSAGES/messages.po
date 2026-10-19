@@ -3292,6 +3292,82 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Falha ao carregar CDN ou renderizar Mermaid. Verifique a conexão e a "
+"sintaxe do diagrama."
+
+msgid "html.cdn_hint"
+msgstr ""
+"O CSS é aceito nas URLs fixas abaixo. Mermaid é renderizado "
+"automaticamente em elementos pre ou div com class=\"mermaid\". Os CDNs "
+"exigem conexão com a Internet."
+
+msgid "html.cdn_title"
+msgstr "CDNs compatíveis e Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Cole HTML para visualizar uma página web no navegador, no celular ou "
+"computador."
+
+msgid "html.empty"
+msgstr "Cole HTML para ver uma prévia aqui."
+
+msgid "html.error"
+msgstr "Não foi possível exibir. Verifique o HTML e tente novamente."
+
+msgid "html.home"
+msgstr "Início"
+
+msgid "html.loading"
+msgstr "Gerando prévia…"
+
+msgid "html.local"
+msgstr "Somente no navegador"
+
+msgid "html.noscript"
+msgstr "Ative JavaScript para usar esta ferramenta."
+
+msgid "html.notice"
+msgstr ""
+"Exibe HTML, CSS incorporado, estilos CDN permitidos e Mermaid. JavaScript"
+" arbitrário, imagens externas, links e envio de formulários estão "
+"desativados. A entrada fica nesta aba e é apagada ao recarregar."
+
+msgid "html.notice_title"
+msgstr "Sobre a prévia"
+
+msgid "html.placeholder"
+msgstr "Cole seu HTML aqui"
+
+msgid "html.preview"
+msgstr "Prévia"
+
+msgid "html.privacy"
+msgstr "Seu HTML não é enviado nem salvo."
+
+msgid "html.ready"
+msgstr "Prévia atualizada."
+
+msgid "html.render"
+msgstr "Mostrar prévia"
+
+msgid "html.services"
+msgstr "Serviços"
+
+msgid "html.source"
+msgstr "Entrada HTML"
+
+msgid "html.source_hint"
+msgstr "Cole um documento HTML ou um trecho e abra a prévia."
+
+msgid "html.title"
+msgstr "Prévia de HTML"
+
+msgid "html.view"
+msgstr "Alternar visualização"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Use o iCloud (Apple), Google Fotos ou OneDrive para fazer o backup "

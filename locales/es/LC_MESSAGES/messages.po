@@ -3333,6 +3333,83 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"No se pudo cargar el CDN o dibujar Mermaid. Revisa la conexión y la "
+"sintaxis del diagrama."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Se admite CSS de las URL fijas siguientes. Mermaid se dibuja "
+"automáticamente en elementos pre o div con class=\"mermaid\". Los CDN "
+"requieren conexión a Internet."
+
+msgid "html.cdn_title"
+msgstr "CDN compatibles y Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Pega HTML para verlo como una página web en tu navegador, en móvil u "
+"ordenador."
+
+msgid "html.empty"
+msgstr "Pega HTML para ver una vista previa aquí."
+
+msgid "html.error"
+msgstr "No se pudo mostrar. Revisa el HTML e inténtalo de nuevo."
+
+msgid "html.home"
+msgstr "Inicio"
+
+msgid "html.loading"
+msgstr "Generando vista previa…"
+
+msgid "html.local"
+msgstr "Solo en el navegador"
+
+msgid "html.noscript"
+msgstr "Activa JavaScript para usar esta herramienta."
+
+msgid "html.notice"
+msgstr ""
+"Muestra HTML, CSS integrado, estilos CDN permitidos y Mermaid. JavaScript"
+" arbitrario, imágenes externas, enlaces y envío de formularios están "
+"desactivados. La entrada permanece en esta pestaña y se borra al "
+"recargar."
+
+msgid "html.notice_title"
+msgstr "Acerca de la vista previa"
+
+msgid "html.placeholder"
+msgstr "Pega tu HTML aquí"
+
+msgid "html.preview"
+msgstr "Vista previa"
+
+msgid "html.privacy"
+msgstr "Tu HTML no se envía ni se guarda."
+
+msgid "html.ready"
+msgstr "Vista previa actualizada."
+
+msgid "html.render"
+msgstr "Mostrar vista previa"
+
+msgid "html.services"
+msgstr "Servicios"
+
+msgid "html.source"
+msgstr "Entrada HTML"
+
+msgid "html.source_hint"
+msgstr "Pega un documento HTML o un fragmento y muestra la vista previa."
+
+msgid "html.title"
+msgstr "Vista previa HTML"
+
+msgid "html.view"
+msgstr "Cambiar vista"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Puedes usar iCloud (Apple), Google Fotos u OneDrive para realizar copias "

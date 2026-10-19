@@ -46,6 +46,7 @@ TEMPLATE_ROOTS = tuple(
         "Group/templates",
         "Note/templates",
         "Task/templates",
+        "HtmlPreview/templates",
         "Admin/templates",
         "Articles/templates",
     )

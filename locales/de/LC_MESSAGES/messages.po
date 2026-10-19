@@ -3292,6 +3292,83 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"CDN konnte nicht geladen oder Mermaid nicht dargestellt werden. "
+"Verbindung und Diagrammsyntax prüfen."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS wird unter den folgenden festen URLs unterstützt. Mermaid wird in "
+"pre- oder div-Elementen mit class=\"mermaid\" automatisch dargestellt. "
+"CDN-Funktionen benötigen Internet."
+
+msgid "html.cdn_title"
+msgstr "Unterstützte CDNs und Mermaid"
+
+msgid "html.description"
+msgstr ""
+"HTML einfügen und als Webseite ansehen, direkt im Browser auf dem "
+"Smartphone oder PC."
+
+msgid "html.empty"
+msgstr "HTML einfügen, um hier eine Vorschau zu sehen."
+
+msgid "html.error"
+msgstr "Vorschau nicht verfügbar. HTML prüfen und erneut versuchen."
+
+msgid "html.home"
+msgstr "Startseite"
+
+msgid "html.loading"
+msgstr "Vorschau wird erstellt…"
+
+msgid "html.local"
+msgstr "Nur im Browser"
+
+msgid "html.noscript"
+msgstr "JavaScript aktivieren, um dieses Werkzeug zu nutzen."
+
+msgid "html.notice"
+msgstr ""
+"Zeigt HTML, eingebettetes CSS, zugelassene CDN-Stile und Mermaid. "
+"Beliebiges JavaScript, externe Bilder, Links und Formularversand sind "
+"deaktiviert. Die Eingabe bleibt in diesem Tab und wird beim Neuladen "
+"gelöscht."
+
+msgid "html.notice_title"
+msgstr "Über die Vorschau"
+
+msgid "html.placeholder"
+msgstr "HTML hier einfügen"
+
+msgid "html.preview"
+msgstr "Vorschau"
+
+msgid "html.privacy"
+msgstr "Ihr HTML wird weder gesendet noch gespeichert."
+
+msgid "html.ready"
+msgstr "Vorschau aktualisiert."
+
+msgid "html.render"
+msgstr "Vorschau anzeigen"
+
+msgid "html.services"
+msgstr "Dienste"
+
+msgid "html.source"
+msgstr "HTML-Eingabe"
+
+msgid "html.source_hint"
+msgstr "Ein HTML-Dokument oder einen Ausschnitt einfügen und die Vorschau öffnen."
+
+msgid "html.title"
+msgstr "HTML-Vorschau"
+
+msgid "html.view"
+msgstr "Ansicht wechseln"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Sichern Sie Ihre Fotos automatisch in der Cloud mit iCloud (Apple), "

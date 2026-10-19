@@ -3136,6 +3136,77 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr "Không thể tải CDN hoặc vẽ Mermaid. Hãy kiểm tra kết nối và cú pháp sơ đồ."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Hỗ trợ CSS tại các URL cố định dưới đây. Mermaid tự vẽ trong phần tử pre "
+"hoặc div có class=\"mermaid\". Tính năng CDN cần kết nối internet."
+
+msgid "html.cdn_title"
+msgstr "CDN được hỗ trợ và Mermaid"
+
+msgid "html.description"
+msgstr "Dán HTML để xem trang web trong trình duyệt trên điện thoại hoặc máy tính."
+
+msgid "html.empty"
+msgstr "Dán HTML để xem trước tại đây."
+
+msgid "html.error"
+msgstr "Không thể hiển thị. Hãy kiểm tra HTML và thử lại."
+
+msgid "html.home"
+msgstr "Trang chủ"
+
+msgid "html.loading"
+msgstr "Đang tạo bản xem trước…"
+
+msgid "html.local"
+msgstr "Chỉ trong trình duyệt"
+
+msgid "html.noscript"
+msgstr "Bật JavaScript để sử dụng công cụ này."
+
+msgid "html.notice"
+msgstr ""
+"Hiển thị HTML, CSS nhúng, kiểu CDN được phép và Mermaid. JavaScript tùy "
+"ý, ảnh bên ngoài, liên kết và gửi biểu mẫu đều bị tắt. Nội dung chỉ ở "
+"trong thẻ này và bị xóa khi tải lại."
+
+msgid "html.notice_title"
+msgstr "Về bản xem trước"
+
+msgid "html.placeholder"
+msgstr "Dán HTML tại đây"
+
+msgid "html.preview"
+msgstr "Xem trước"
+
+msgid "html.privacy"
+msgstr "HTML của bạn không được gửi hay lưu lại."
+
+msgid "html.ready"
+msgstr "Đã cập nhật bản xem trước."
+
+msgid "html.render"
+msgstr "Hiển thị bản xem trước"
+
+msgid "html.services"
+msgstr "Dịch vụ"
+
+msgid "html.source"
+msgstr "Nhập HTML"
+
+msgid "html.source_hint"
+msgstr "Dán tài liệu HTML hoặc một đoạn mã rồi mở bản xem trước."
+
+msgid "html.title"
+msgstr "Xem trước HTML"
+
+msgid "html.view"
+msgstr "Đổi chế độ xem"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Sử dụng iCloud (Apple), Google Photos, hoặc OneDrive để tự động sao lưu "
