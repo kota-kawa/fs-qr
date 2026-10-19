@@ -125,5 +125,16 @@
   "html.cdn_title": "CDN ที่รองรับและการใช้ Mermaid",
   "html.cdn_hint": "รองรับ CSS จาก URL คงที่ด้านล่าง Mermaid จะวาดอัตโนมัติใน pre หรือ div ที่มี class=\"mermaid\" การใช้ CDN ต้องเชื่อมต่ออินเทอร์เน็ต",
   "html.execute_scripts": "เรียกใช้ JavaScript",
-  "html.script_hint": "เปิดใช้เฉพาะ HTML ที่เชื่อถือได้ จำกัดการเข้าถึงหน้าหลัก ที่เก็บข้อมูล ทรัพยากรภายนอก และการส่งแบบฟอร์ม"
+  "html.script_hint": "เปิดใช้เฉพาะ HTML ที่เชื่อถือได้ จำกัดการเข้าถึงหน้าหลัก ที่เก็บข้อมูล ทรัพยากรภายนอก และการส่งแบบฟอร์ม",
+  "html.sample": "แทรกตัวอย่าง",
+  "html.clear": "ล้าง",
+  "html.fullscreen": "เต็มหน้าจอ",
+  "html.exit_fullscreen": "ออกจากโหมดเต็มหน้าจอ",
+  "html.width": "ความกว้างตัวอย่าง",
+  "html.width_desktop": "คอมพิวเตอร์",
+  "html.width_tablet": "แท็บเล็ต",
+  "html.width_mobile": "โทรศัพท์",
+  "html.auto_hint": "บนหน้าจอกว้าง ตัวอย่างจะอัปเดตอัตโนมัติเมื่อหยุดพิมพ์ หากเรียกใช้ JavaScript ให้อัปเดตด้วยปุ่ม",
+  "html.sample_title": "หน้าตัวอย่าง",
+  "html.sample_text": "แก้ไข HTML นี้แล้วตัวอย่างจะแสดงการเปลี่ยนแปลง"
 }

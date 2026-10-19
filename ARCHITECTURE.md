@@ -179,6 +179,8 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 第5のサービス `/html-preview` は画面とローカルの静的アセットだけを配信します。
 入力 HTML は textarea と sandbox 付き iframe の `srcdoc` にのみ保持し、API、DB、Redis、
 ブラウザストレージ、URL へ保存しません。広告・解析・共通ルームスクリプトも読み込みません。
+見た目は共通のサービスナビ（`static/css/00-breakpoints.css` の `.section-tabs`）と 4 サービスの
+背景・カード・フッターの配色に揃え、読み込む共通アセットはこの CSS だけです。
 初回の画面読み込み後は、CDN を使わない HTML をオフラインでも再表示できます。
 
 ブラウザは inert な template で入力を解析し、許可した HTML 要素・表示属性だけを再構築します。
@@ -202,6 +204,9 @@ Mermaid 12.2.0 は `pre.mermaid` / `div.mermaid` があるときだけ固定 URL
 Google Fonts CSS2 の Noto Sans JP / JetBrains Mono 指定は固定コミット・SRI 付きフォントの
 data URL に置き換えます。ページ内の目次は URL を変更せずスクロールで移動します。
 埋め込み CSS と data URL の PNG / JPEG / GIF / WebP / AVIF にも対応します。
+PC 幅では入力が止まると自動で再描画しますが、JavaScript 実行が有効なときは自動再描画せず、
+ボタン操作でだけ実行します。表示幅（PC / 768px / 390px）の切替と全画面表示は親画面の表示だけを変え、
+Fullscreen API が無い環境では固定表示で代替します。
 描画後の内容の高さを通知し、プレビュー枠を最大 3000px まで広げます。横長の Mermaid は文字を
 縮めず図のコンテナ内で横スクロールできるようにし、ページ全体の横はみ出しを防ぎます。
 プレビュー用の基礎スタイルは狭い画面でも読める余白・折り返しを補いますが、入力された CSS の

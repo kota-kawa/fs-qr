@@ -125,5 +125,16 @@
   "html.cdn_title": "Desteklenen CDN’ler ve Mermaid",
   "html.cdn_hint": "Aşağıdaki sabit URL’lerdeki CSS desteklenir. Mermaid, class=\"mermaid\" içeren pre veya div öğelerinde otomatik çizilir. CDN özellikleri internet gerektirir.",
   "html.execute_scripts": "JavaScript çalıştır",
-  "html.script_hint": "Yalnızca güvenilir HTML için etkinleştirin. Üst sayfaya, depolamaya, dış kaynaklara erişim ve form gönderimi kısıtlanır."
+  "html.script_hint": "Yalnızca güvenilir HTML için etkinleştirin. Üst sayfaya, depolamaya, dış kaynaklara erişim ve form gönderimi kısıtlanır.",
+  "html.sample": "Örnek ekle",
+  "html.clear": "Temizle",
+  "html.fullscreen": "Tam ekran",
+  "html.exit_fullscreen": "Tam ekrandan çık",
+  "html.width": "Önizleme genişliği",
+  "html.width_desktop": "Masaüstü",
+  "html.width_tablet": "Tablet",
+  "html.width_mobile": "Telefon",
+  "html.auto_hint": "Geniş ekranlarda yazmayı bıraktığınızda önizleme otomatik güncellenir. JavaScript çalıştırırken düğmeyle güncelleyin.",
+  "html.sample_title": "Örnek sayfa",
+  "html.sample_text": "Bu HTML'i düzenleyin, önizleme değişiklikleri gösterecek."
 }

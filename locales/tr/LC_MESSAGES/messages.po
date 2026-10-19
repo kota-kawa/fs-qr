@@ -3239,6 +3239,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Geniş ekranlarda yazmayı bıraktığınızda önizleme otomatik güncellenir. "
+"JavaScript çalıştırırken düğmeyle güncelleyin."
+
 msgid "html.cdn_error"
 msgstr ""
 "CDN yüklenemedi veya Mermaid çizilemedi. Bağlantıyı ve diyagram "
@@ -3253,6 +3258,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "Desteklenen CDN’ler ve Mermaid"
 
+msgid "html.clear"
+msgstr "Temizle"
+
 msgid "html.description"
 msgstr ""
 "HTML yapıştırıp telefon veya bilgisayar tarayıcınızda web sayfası olarak "
@@ -3266,6 +3274,12 @@ msgstr "Görüntülenemedi. HTML içeriğini kontrol edip yeniden deneyin."
 
 msgid "html.execute_scripts"
 msgstr "JavaScript çalıştır"
+
+msgid "html.exit_fullscreen"
+msgstr "Tam ekrandan çık"
+
+msgid "html.fullscreen"
+msgstr "Tam ekran"
 
 msgid "html.home"
 msgstr "Ana sayfa"
@@ -3303,6 +3317,15 @@ msgstr "Önizleme güncellendi."
 msgid "html.render"
 msgstr "Önizlemeyi göster"
 
+msgid "html.sample"
+msgstr "Örnek ekle"
+
+msgid "html.sample_text"
+msgstr "Bu HTML'i düzenleyin, önizleme değişiklikleri gösterecek."
+
+msgid "html.sample_title"
+msgstr "Örnek sayfa"
+
 msgid "html.script_hint"
 msgstr ""
 "Yalnızca güvenilir HTML için etkinleştirin. Üst sayfaya, depolamaya, dış "
@@ -3322,6 +3345,18 @@ msgstr "HTML önizleme"
 
 msgid "html.view"
 msgstr "Görünümü değiştir"
+
+msgid "html.width"
+msgstr "Önizleme genişliği"
+
+msgid "html.width_desktop"
+msgstr "Masaüstü"
+
+msgid "html.width_mobile"
+msgstr "Telefon"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

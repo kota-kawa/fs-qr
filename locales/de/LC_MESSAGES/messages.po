@@ -3292,6 +3292,12 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Auf breiten Bildschirmen wird die Vorschau automatisch aktualisiert, "
+"sobald Sie aufhören zu tippen. Bei JavaScript-Ausführung über die "
+"Schaltfläche aktualisieren."
+
 msgid "html.cdn_error"
 msgstr ""
 "CDN konnte nicht geladen oder Mermaid nicht dargestellt werden. "
@@ -3306,6 +3312,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "Unterstützte CDNs und Mermaid"
 
+msgid "html.clear"
+msgstr "Leeren"
+
 msgid "html.description"
 msgstr ""
 "HTML einfügen und als Webseite ansehen, direkt im Browser auf dem "
@@ -3319,6 +3328,12 @@ msgstr "Vorschau nicht verfügbar. HTML prüfen und erneut versuchen."
 
 msgid "html.execute_scripts"
 msgstr "JavaScript ausführen"
+
+msgid "html.exit_fullscreen"
+msgstr "Vollbild beenden"
+
+msgid "html.fullscreen"
+msgstr "Vollbild"
 
 msgid "html.home"
 msgstr "Startseite"
@@ -3356,6 +3371,15 @@ msgstr "Vorschau aktualisiert."
 msgid "html.render"
 msgstr "Vorschau anzeigen"
 
+msgid "html.sample"
+msgstr "Beispiel einfügen"
+
+msgid "html.sample_text"
+msgstr "Bearbeiten Sie dieses HTML, und die Vorschau übernimmt die Änderungen."
+
+msgid "html.sample_title"
+msgstr "Beispielseite"
+
 msgid "html.script_hint"
 msgstr ""
 "Nur für vertrauenswürdiges HTML aktivieren. Zugriff auf übergeordnete "
@@ -3376,6 +3400,18 @@ msgstr "HTML-Vorschau"
 
 msgid "html.view"
 msgstr "Ansicht wechseln"
+
+msgid "html.width"
+msgstr "Vorschaubreite"
+
+msgid "html.width_desktop"
+msgstr "Desktop"
+
+msgid "html.width_mobile"
+msgstr "Smartphone"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

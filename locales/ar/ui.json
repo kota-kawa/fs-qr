@@ -125,5 +125,16 @@
   "html.cdn_title": "شبكات CDN المدعومة وMermaid",
   "html.cdn_hint": "يدعم CSS من عناوين URL الثابتة أدناه. يُرسم Mermaid تلقائياً داخل عناصر pre أو div ذات class=\"mermaid\". تتطلب ميزات CDN اتصالاً بالإنترنت.",
   "html.execute_scripts": "تشغيل JavaScript",
-  "html.script_hint": "فعّل فقط لملفات HTML الموثوقة. يقيّد الوصول إلى الصفحة الأم والتخزين والموارد الخارجية وإرسال النماذج."
+  "html.script_hint": "فعّل فقط لملفات HTML الموثوقة. يقيّد الوصول إلى الصفحة الأم والتخزين والموارد الخارجية وإرسال النماذج.",
+  "html.sample": "إدراج مثال",
+  "html.clear": "مسح",
+  "html.fullscreen": "ملء الشاشة",
+  "html.exit_fullscreen": "الخروج من ملء الشاشة",
+  "html.width": "عرض المعاينة",
+  "html.width_desktop": "حاسوب",
+  "html.width_tablet": "جهاز لوحي",
+  "html.width_mobile": "هاتف",
+  "html.auto_hint": "على الشاشات العريضة تتحدث المعاينة تلقائيًا عند التوقف عن الكتابة. عند تشغيل JavaScript حدّثها بالزر.",
+  "html.sample_title": "صفحة مثال",
+  "html.sample_text": "عدّل HTML هذا وستعرض المعاينة تغييراتك."
 }

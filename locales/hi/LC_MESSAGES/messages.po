@@ -3177,6 +3177,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"चौड़ी स्क्रीन पर टाइप करना रोकते ही प्रीव्यू अपने आप अपडेट हो जाता है। "
+"JavaScript चलाते समय बटन से अपडेट करें।"
+
 msgid "html.cdn_error"
 msgstr "CDN लोड या Mermaid रेंडर नहीं हुआ। कनेक्शन और आरेख का सिंटैक्स जाँचें।"
 
@@ -3187,6 +3192,9 @@ msgstr ""
 
 msgid "html.cdn_title"
 msgstr "समर्थित CDN और Mermaid"
+
+msgid "html.clear"
+msgstr "साफ़ करें"
 
 msgid "html.description"
 msgstr "HTML पेस्ट करके मोबाइल या कंप्यूटर के ब्राउज़र में वेब पेज देखें।"
@@ -3199,6 +3207,12 @@ msgstr "दिखाया नहीं जा सका। HTML जाँचे
 
 msgid "html.execute_scripts"
 msgstr "JavaScript चलाएँ"
+
+msgid "html.exit_fullscreen"
+msgstr "पूर्ण स्क्रीन से बाहर निकलें"
+
+msgid "html.fullscreen"
+msgstr "पूर्ण स्क्रीन"
 
 msgid "html.home"
 msgstr "होम"
@@ -3236,6 +3250,15 @@ msgstr "पूर्वावलोकन अपडेट हुआ।"
 msgid "html.render"
 msgstr "पूर्वावलोकन दिखाएँ"
 
+msgid "html.sample"
+msgstr "नमूना डालें"
+
+msgid "html.sample_text"
+msgstr "इस HTML को बदलें, प्रीव्यू में बदलाव दिखेंगे।"
+
+msgid "html.sample_title"
+msgstr "नमूना पेज"
+
 msgid "html.script_hint"
 msgstr ""
 "केवल विश्वसनीय HTML के लिए चालू करें। मूल पेज, स्टोरेज, बाहरी संसाधनों और"
@@ -3255,6 +3278,18 @@ msgstr "HTML पूर्वावलोकन"
 
 msgid "html.view"
 msgstr "दृश्य बदलें"
+
+msgid "html.width"
+msgstr "प्रीव्यू चौड़ाई"
+
+msgid "html.width_desktop"
+msgstr "डेस्कटॉप"
+
+msgid "html.width_mobile"
+msgstr "फ़ोन"
+
+msgid "html.width_tablet"
+msgstr "टैबलेट"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

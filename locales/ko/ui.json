@@ -125,5 +125,16 @@
   "html.cdn_title": "지원 CDN 및 Mermaid 사용법",
   "html.cdn_hint": "아래 고정 URL의 CSS를 지원합니다. pre 또는 div에 class=\"mermaid\"를 추가하면 자동으로 렌더링됩니다. CDN 기능에는 인터넷 연결이 필요합니다.",
   "html.execute_scripts": "JavaScript 실행",
-  "html.script_hint": "신뢰할 수 있는 HTML에만 사용하세요. 상위 페이지, 저장소, 외부 리소스 접근 및 양식 전송이 제한됩니다."
+  "html.script_hint": "신뢰할 수 있는 HTML에만 사용하세요. 상위 페이지, 저장소, 외부 리소스 접근 및 양식 전송이 제한됩니다.",
+  "html.sample": "샘플 삽입",
+  "html.clear": "지우기",
+  "html.fullscreen": "전체 화면",
+  "html.exit_fullscreen": "전체 화면 종료",
+  "html.width": "표시 너비",
+  "html.width_desktop": "PC",
+  "html.width_tablet": "태블릿",
+  "html.width_mobile": "스마트폰",
+  "html.auto_hint": "넓은 화면에서는 입력을 멈추면 미리보기가 자동으로 업데이트됩니다. JavaScript를 실행할 때는 버튼으로 업데이트하세요.",
+  "html.sample_title": "샘플 페이지",
+  "html.sample_text": "이 HTML을 수정하면 미리보기에 반영됩니다."
 }

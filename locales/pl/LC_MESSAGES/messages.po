@@ -3254,6 +3254,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Na szerokich ekranach podgląd odświeża się automatycznie po przerwaniu "
+"pisania. Przy uruchamianiu JavaScriptu odśwież przyciskiem."
+
 msgid "html.cdn_error"
 msgstr ""
 "Nie udało się wczytać CDN lub wyświetlić Mermaid. Sprawdź połączenie i "
@@ -3268,6 +3273,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "Obsługiwane CDN i Mermaid"
 
+msgid "html.clear"
+msgstr "Wyczyść"
+
 msgid "html.description"
 msgstr ""
 "Wklej HTML, aby wyświetlić stronę w przeglądarce na telefonie lub "
@@ -3281,6 +3289,12 @@ msgstr "Nie można wyświetlić podglądu. Sprawdź HTML i spróbuj ponownie."
 
 msgid "html.execute_scripts"
 msgstr "Uruchom JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Zamknij pełny ekran"
+
+msgid "html.fullscreen"
+msgstr "Pełny ekran"
 
 msgid "html.home"
 msgstr "Strona główna"
@@ -3318,6 +3332,15 @@ msgstr "Podgląd zaktualizowany."
 msgid "html.render"
 msgstr "Pokaż podgląd"
 
+msgid "html.sample"
+msgstr "Wstaw przykład"
+
+msgid "html.sample_text"
+msgstr "Edytuj ten HTML, a podgląd pokaże zmiany."
+
+msgid "html.sample_title"
+msgstr "Strona przykładowa"
+
 msgid "html.script_hint"
 msgstr ""
 "Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, "
@@ -3337,6 +3360,18 @@ msgstr "Podgląd HTML"
 
 msgid "html.view"
 msgstr "Zmień widok"
+
+msgid "html.width"
+msgstr "Szerokość podglądu"
+
+msgid "html.width_desktop"
+msgstr "Komputer"
+
+msgid "html.width_mobile"
+msgstr "Telefon"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

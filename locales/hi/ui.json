@@ -125,5 +125,16 @@
   "html.cdn_title": "समर्थित CDN और Mermaid",
   "html.cdn_hint": "नीचे दिए गए निश्चित URL पर CSS समर्थित है। class=\"mermaid\" वाले pre या div में Mermaid अपने आप बनता है। CDN सुविधाओं के लिए इंटरनेट चाहिए।",
   "html.execute_scripts": "JavaScript चलाएँ",
-  "html.script_hint": "केवल विश्वसनीय HTML के लिए चालू करें। मूल पेज, स्टोरेज, बाहरी संसाधनों और फ़ॉर्म भेजने की पहुँच सीमित है।"
+  "html.script_hint": "केवल विश्वसनीय HTML के लिए चालू करें। मूल पेज, स्टोरेज, बाहरी संसाधनों और फ़ॉर्म भेजने की पहुँच सीमित है।",
+  "html.sample": "नमूना डालें",
+  "html.clear": "साफ़ करें",
+  "html.fullscreen": "पूर्ण स्क्रीन",
+  "html.exit_fullscreen": "पूर्ण स्क्रीन से बाहर निकलें",
+  "html.width": "प्रीव्यू चौड़ाई",
+  "html.width_desktop": "डेस्कटॉप",
+  "html.width_tablet": "टैबलेट",
+  "html.width_mobile": "फ़ोन",
+  "html.auto_hint": "चौड़ी स्क्रीन पर टाइप करना रोकते ही प्रीव्यू अपने आप अपडेट हो जाता है। JavaScript चलाते समय बटन से अपडेट करें।",
+  "html.sample_title": "नमूना पेज",
+  "html.sample_text": "इस HTML को बदलें, प्रीव्यू में बदलाव दिखेंगे।"
 }

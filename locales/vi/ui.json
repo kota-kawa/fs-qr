@@ -125,5 +125,16 @@
   "html.cdn_title": "CDN được hỗ trợ và Mermaid",
   "html.cdn_hint": "Hỗ trợ CSS tại các URL cố định dưới đây. Mermaid tự vẽ trong phần tử pre hoặc div có class=\"mermaid\". Tính năng CDN cần kết nối internet.",
   "html.execute_scripts": "Chạy JavaScript",
-  "html.script_hint": "Chỉ bật cho HTML đáng tin cậy. Hạn chế truy cập trang cha, bộ nhớ, tài nguyên bên ngoài và gửi biểu mẫu."
+  "html.script_hint": "Chỉ bật cho HTML đáng tin cậy. Hạn chế truy cập trang cha, bộ nhớ, tài nguyên bên ngoài và gửi biểu mẫu.",
+  "html.sample": "Chèn mẫu",
+  "html.clear": "Xóa",
+  "html.fullscreen": "Toàn màn hình",
+  "html.exit_fullscreen": "Thoát toàn màn hình",
+  "html.width": "Độ rộng xem trước",
+  "html.width_desktop": "Máy tính",
+  "html.width_tablet": "Máy tính bảng",
+  "html.width_mobile": "Điện thoại",
+  "html.auto_hint": "Trên màn hình rộng, bản xem trước tự cập nhật khi bạn ngừng gõ. Khi chạy JavaScript, hãy cập nhật bằng nút.",
+  "html.sample_title": "Trang mẫu",
+  "html.sample_text": "Sửa HTML này và bản xem trước sẽ hiển thị thay đổi."
 }

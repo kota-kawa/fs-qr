@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = {
     f"/static/{name}": ROOT / "static" / name
     for name in (
+        "css/00-breakpoints.css",
         "css/html-preview.css",
         "js/html_preview/preview.js",
         "favicon.ico",
@@ -320,6 +321,64 @@ def test_preview_responsive_switching(browser_page, width, height):
         == 0
     )
     assert errors == []
+
+
+def test_sample_and_clear_controls(browser_page):
+    page = browser_page
+    playwright.expect(page.locator("#clear-source")).to_be_disabled()
+    page.locator("#insert-sample").click()
+    frame = page.frame_locator("#html-preview")
+    playwright.expect(frame.locator("h1")).to_have_text("Sample page")
+    playwright.expect(page.locator("#insert-sample")).to_be_disabled()
+    page.locator("#clear-source").click()
+    playwright.expect(page.locator("#html-source")).to_have_value("")
+    playwright.expect(page.locator("#html-source")).to_be_focused()
+    playwright.expect(page.locator("#html-preview")).to_be_hidden()
+    playwright.expect(page.locator("#preview-empty")).to_be_visible()
+    playwright.expect(page.locator("#insert-sample")).to_be_enabled()
+
+
+def test_preview_follows_typing_only_on_wide_screens_without_scripts(browser_page):
+    page = browser_page
+    page.locator("#html-source").fill("<h1>Typed</h1>")
+    playwright.expect(page.frame_locator("#html-preview").locator("h1")).to_have_text(
+        "Typed"
+    )
+    playwright.expect(page.locator("#html-source")).to_be_focused()
+    page.locator("#execute-scripts").check()
+    page.locator("#html-source").fill("<h1>Script mode</h1>")
+    page.wait_for_timeout(1200)
+    assert "Script mode" not in page.locator("#html-preview").get_attribute("srcdoc")
+    page.locator("#execute-scripts").uncheck()
+    page.set_viewport_size({"width": 390, "height": 844})
+    page.locator("#html-source").fill("<h1>Phone</h1>")
+    page.wait_for_timeout(1200)
+    assert "Phone" not in page.locator("#html-preview").get_attribute("srcdoc")
+    playwright.expect(page.locator("#source-panel")).to_be_visible()
+
+
+def test_preview_width_switch_and_fullscreen(browser_page):
+    page = browser_page
+    frame = render(page, "<h1>Width</h1>")
+    playwright.expect(frame.locator("h1")).to_have_text("Width")
+    page.locator('[data-preview-width="mobile"]').click()
+    playwright.expect(page.locator('[data-preview-width="mobile"]')).to_have_attribute(
+        "aria-pressed", "true"
+    )
+    assert frame.locator("body").evaluate("() => innerWidth") == 390
+    page.locator('[data-preview-width="tablet"]').click()
+    assert frame.locator("body").evaluate("() => innerWidth") == 768
+    button = page.locator("#toggle-fullscreen")
+    button.click()
+    playwright.expect(button).to_have_text("Exit full screen")
+    box = page.locator("#preview-panel").bounding_box()
+    assert (box["x"], box["y"], box["width"], box["height"]) == (0, 0, 1280, 800)
+    button.click()
+    playwright.expect(button).to_have_text("Full screen")
+    playwright.expect(page.locator("#preview-panel")).not_to_have_class(
+        "panel preview-panel is-fullscreen"
+    )
+    assert page.evaluate("document.fullscreenElement") is None
 
 
 def test_opt_in_scripts_run_without_parent_storage_or_network_access(browser_page):

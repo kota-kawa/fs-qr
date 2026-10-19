@@ -125,5 +125,16 @@
   "html.cdn_title": "CDN yang didukung dan Mermaid",
   "html.cdn_hint": "CSS didukung di URL tetap berikut. Mermaid otomatis digambar dalam elemen pre atau div dengan class=\"mermaid\". Fitur CDN memerlukan internet.",
   "html.execute_scripts": "Jalankan JavaScript",
-  "html.script_hint": "Aktifkan hanya untuk HTML tepercaya. Akses ke halaman induk, penyimpanan, sumber eksternal, dan pengiriman formulir dibatasi."
+  "html.script_hint": "Aktifkan hanya untuk HTML tepercaya. Akses ke halaman induk, penyimpanan, sumber eksternal, dan pengiriman formulir dibatasi.",
+  "html.sample": "Sisipkan contoh",
+  "html.clear": "Hapus",
+  "html.fullscreen": "Layar penuh",
+  "html.exit_fullscreen": "Keluar dari layar penuh",
+  "html.width": "Lebar pratinjau",
+  "html.width_desktop": "Desktop",
+  "html.width_tablet": "Tablet",
+  "html.width_mobile": "Ponsel",
+  "html.auto_hint": "Di layar lebar, pratinjau diperbarui otomatis saat Anda berhenti mengetik. Saat menjalankan JavaScript, perbarui dengan tombol.",
+  "html.sample_title": "Halaman contoh",
+  "html.sample_text": "Ubah HTML ini dan pratinjau akan menampilkan perubahannya."
 }

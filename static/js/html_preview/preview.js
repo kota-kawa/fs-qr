@@ -11,8 +11,16 @@
   const nonce = document.currentScript.nonce;
   const cdn = window.HTML_PREVIEW_CDN;
   const executeScripts = document.getElementById("execute-scripts");
+  const previewPanel = document.getElementById("preview-panel");
+  const stage = previewPanel.querySelector(".preview-stage");
+  const fullscreenButton = document.getElementById("toggle-fullscreen");
+  const sampleButton = document.getElementById("insert-sample");
+  const clearButton = document.getElementById("clear-source");
+  const widthButtons = document.querySelectorAll("[data-preview-width]");
+  const desktop = window.matchMedia("(min-width: 768px)");
   const assetCache = new Map();
   let renderVersion = 0;
+  let autoRenderTimer = 0;
 
   // Parse in an inert template: pasted images must not be fetched while parsing.
   // Rebuild only HTML elements and display attributes; never adopt untrusted nodes.
@@ -113,6 +121,13 @@
     report(failed ? "cdn-error" : "ready");
     if (scriptsEnabled) new ResizeObserver(() => report(failed ? "cdn-error" : "ready"))
       .observe(document.body);
+    // Static previews reflow when the parent switches the preview width.
+    let lastWidth = innerWidth;
+    if (!scriptsEnabled) addEventListener("resize", () => {
+      if (innerWidth === lastWidth) return;
+      lastWidth = innerWidth;
+      report(failed ? "cdn-error" : "ready");
+    });
   }
 
   function inlineScript(code) {
@@ -304,29 +319,102 @@
     if (event.data.state === "ready") status.textContent = status.dataset.ready;
     if (event.data.state === "cdn-error") status.textContent = status.dataset.cdnError;
   });
-  document.getElementById("render-preview").addEventListener("click", async function () {
+  // Typing on wide screens refreshes the preview without moving focus or views.
+  // Opt-in scripts only rerun when the user presses the button.
+  async function renderPreview(showResult) {
     const version = ++renderVersion;
     try {
-      frame.style.height = "";
+      if (showResult) frame.style.height = "";
       if (!source.value.trim()) {
         frame.removeAttribute("srcdoc");
         frame.hidden = true;
         empty.hidden = false;
         status.textContent = "";
       } else {
-        status.textContent = status.dataset.loading;
-        showView("preview", true);
+        if (showResult) {
+          status.textContent = status.dataset.loading;
+          showView("preview", true);
+        }
         const html = await buildPreview(source.value, executeScripts.checked, version);
         if (version !== renderVersion) return;
         frame.srcdoc = html;
         frame.hidden = false;
         empty.hidden = true;
       }
-      showView("preview", true);
+      if (showResult) showView("preview", true);
     } catch (_) {
       if (version !== renderVersion) return;
       status.textContent = status.dataset.error;
-      showView("preview", true);
+      if (showResult) showView("preview", true);
+    }
+  }
+
+  function updateSourceActions() {
+    const hasSource = source.value.length > 0;
+    sampleButton.disabled = hasSource;
+    clearButton.disabled = !hasSource;
+  }
+
+  function setFullscreen(active) {
+    previewPanel.classList.toggle("is-fullscreen", active);
+    document.documentElement.classList.toggle("preview-fullscreen", active);
+    fullscreenButton.querySelector("span").textContent =
+      active ? fullscreenButton.dataset.exit : fullscreenButton.dataset.enter;
+  }
+
+  document.getElementById("render-preview").addEventListener("click", function () {
+    clearTimeout(autoRenderTimer);
+    renderPreview(true);
+  });
+  source.addEventListener("input", function () {
+    updateSourceActions();
+    clearTimeout(autoRenderTimer);
+    if (desktop.matches && !executeScripts.checked) {
+      autoRenderTimer = setTimeout(function () {
+        if (!executeScripts.checked) renderPreview(false);
+      }, 700);
+    }
+  });
+  sampleButton.addEventListener("click", function () {
+    source.value = document.getElementById("html-sample").textContent;
+    updateSourceActions();
+    renderPreview(true);
+  });
+  clearButton.addEventListener("click", function () {
+    clearTimeout(autoRenderTimer);
+    source.value = "";
+    updateSourceActions();
+    renderPreview(false);
+    source.focus();
+  });
+  for (const button of widthButtons) {
+    button.addEventListener("click", function () {
+      stage.dataset.width = button.dataset.previewWidth;
+      for (const other of widthButtons) {
+        other.setAttribute("aria-pressed", String(other === button));
+      }
+    });
+  }
+  // Without the Fullscreen API (iPhone), the panel stays a fixed overlay.
+  function closeFullscreen() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else setFullscreen(false);
+  }
+  fullscreenButton.addEventListener("click", function () {
+    if (previewPanel.classList.contains("is-fullscreen")) {
+      closeFullscreen();
+    } else {
+      setFullscreen(true);
+      previewPanel.requestFullscreen?.().catch(function () {});
+    }
+  });
+  document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement) setFullscreen(false);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && previewPanel.classList.contains("is-fullscreen")) {
+      closeFullscreen();
+      fullscreenButton.focus();
     }
   });
 })();

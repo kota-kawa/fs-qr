@@ -3094,6 +3094,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"บนหน้าจอกว้าง ตัวอย่างจะอัปเดตอัตโนมัติเมื่อหยุดพิมพ์ หากเรียกใช้ "
+"JavaScript ให้อัปเดตด้วยปุ่ม"
+
 msgid "html.cdn_error"
 msgstr ""
 "โหลด CDN หรือวาด Mermaid ไม่สำเร็จ "
@@ -3107,6 +3112,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "CDN ที่รองรับและการใช้ Mermaid"
 
+msgid "html.clear"
+msgstr "ล้าง"
+
 msgid "html.description"
 msgstr "วาง HTML เพื่อดูหน้าเว็บในเบราว์เซอร์บนมือถือหรือคอมพิวเตอร์"
 
@@ -3118,6 +3126,12 @@ msgstr "ไม่สามารถแสดงได้ โปรดตรว�
 
 msgid "html.execute_scripts"
 msgstr "เรียกใช้ JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "ออกจากโหมดเต็มหน้าจอ"
+
+msgid "html.fullscreen"
+msgstr "เต็มหน้าจอ"
 
 msgid "html.home"
 msgstr "หน้าแรก"
@@ -3154,6 +3168,15 @@ msgstr "อัปเดตตัวอย่างแล้ว"
 msgid "html.render"
 msgstr "แสดงตัวอย่าง"
 
+msgid "html.sample"
+msgstr "แทรกตัวอย่าง"
+
+msgid "html.sample_text"
+msgstr "แก้ไข HTML นี้แล้วตัวอย่างจะแสดงการเปลี่ยนแปลง"
+
+msgid "html.sample_title"
+msgstr "หน้าตัวอย่าง"
+
 msgid "html.script_hint"
 msgstr ""
 "เปิดใช้เฉพาะ HTML ที่เชื่อถือได้ จำกัดการเข้าถึงหน้าหลัก ที่เก็บข้อมูล "
@@ -3173,6 +3196,18 @@ msgstr "ดูตัวอย่าง HTML"
 
 msgid "html.view"
 msgstr "สลับมุมมอง"
+
+msgid "html.width"
+msgstr "ความกว้างตัวอย่าง"
+
+msgid "html.width_desktop"
+msgstr "คอมพิวเตอร์"
+
+msgid "html.width_mobile"
+msgstr "โทรศัพท์"
+
+msgid "html.width_tablet"
+msgstr "แท็บเล็ต"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

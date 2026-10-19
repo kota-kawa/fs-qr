@@ -125,5 +125,16 @@
   "html.cdn_title": "支持的CDN与Mermaid用法",
   "html.cdn_hint": "支持以下固定URL的CSS。为pre或div元素添加class=\"mermaid\"即可自动绘图。CDN功能需要网络连接。",
   "html.execute_scripts": "运行JavaScript",
-  "html.script_hint": "仅对可信HTML启用。运行环境限制访问父页面、存储、外部资源及提交表单。"
+  "html.script_hint": "仅对可信HTML启用。运行环境限制访问父页面、存储、外部资源及提交表单。",
+  "html.sample": "插入示例",
+  "html.clear": "清空",
+  "html.fullscreen": "全屏显示",
+  "html.exit_fullscreen": "退出全屏",
+  "html.width": "显示宽度",
+  "html.width_desktop": "电脑",
+  "html.width_tablet": "平板",
+  "html.width_mobile": "手机",
+  "html.auto_hint": "在宽屏上停止输入后会自动更新预览。运行 JavaScript 时请使用按钮更新。",
+  "html.sample_title": "示例页面",
+  "html.sample_text": "修改这段 HTML，预览会随之更新。"
 }

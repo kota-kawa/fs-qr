@@ -3136,6 +3136,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Trên màn hình rộng, bản xem trước tự cập nhật khi bạn ngừng gõ. Khi chạy "
+"JavaScript, hãy cập nhật bằng nút."
+
 msgid "html.cdn_error"
 msgstr "Không thể tải CDN hoặc vẽ Mermaid. Hãy kiểm tra kết nối và cú pháp sơ đồ."
 
@@ -3146,6 +3151,9 @@ msgstr ""
 
 msgid "html.cdn_title"
 msgstr "CDN được hỗ trợ và Mermaid"
+
+msgid "html.clear"
+msgstr "Xóa"
 
 msgid "html.description"
 msgstr "Dán HTML để xem trang web trong trình duyệt trên điện thoại hoặc máy tính."
@@ -3158,6 +3166,12 @@ msgstr "Không thể hiển thị. Hãy kiểm tra HTML và thử lại."
 
 msgid "html.execute_scripts"
 msgstr "Chạy JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Thoát toàn màn hình"
+
+msgid "html.fullscreen"
+msgstr "Toàn màn hình"
 
 msgid "html.home"
 msgstr "Trang chủ"
@@ -3195,6 +3209,15 @@ msgstr "Đã cập nhật bản xem trước."
 msgid "html.render"
 msgstr "Hiển thị bản xem trước"
 
+msgid "html.sample"
+msgstr "Chèn mẫu"
+
+msgid "html.sample_text"
+msgstr "Sửa HTML này và bản xem trước sẽ hiển thị thay đổi."
+
+msgid "html.sample_title"
+msgstr "Trang mẫu"
+
 msgid "html.script_hint"
 msgstr ""
 "Chỉ bật cho HTML đáng tin cậy. Hạn chế truy cập trang cha, bộ nhớ, tài "
@@ -3214,6 +3237,18 @@ msgstr "Xem trước HTML"
 
 msgid "html.view"
 msgstr "Đổi chế độ xem"
+
+msgid "html.width"
+msgstr "Độ rộng xem trước"
+
+msgid "html.width_desktop"
+msgstr "Máy tính"
+
+msgid "html.width_mobile"
+msgstr "Điện thoại"
+
+msgid "html.width_tablet"
+msgstr "Máy tính bảng"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
