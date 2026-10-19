@@ -1,5 +1,6 @@
 """Optional browser regressions; install Playwright + Chromium locally to run."""
 
+import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from mimetypes import guess_type
 from pathlib import Path
@@ -376,9 +377,34 @@ def test_preview_width_switch_and_fullscreen(browser_page):
     button.click()
     playwright.expect(button).to_have_text("Full screen")
     playwright.expect(page.locator("#preview-panel")).not_to_have_class(
-        "panel preview-panel is-fullscreen"
+        re.compile("is-fullscreen")
     )
     assert page.evaluate("document.fullscreenElement") is None
+    page.set_viewport_size({"width": 390, "height": 844})
+    assert frame.locator("body").evaluate("() => innerWidth") <= 390
+
+
+def test_fullscreen_fallback_covers_page_and_closes_with_escape(browser_page):
+    page = browser_page
+    page.evaluate("delete Element.prototype.requestFullscreen")
+    render(page, "<h1>Fallback</h1>")
+    page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+    page.locator("#toggle-fullscreen").click()
+    playwright.expect(page.locator("#preview-panel")).to_have_class(
+        re.compile("is-fullscreen")
+    )
+    assert page.evaluate("document.fullscreenElement") is None
+    covered = page.evaluate(
+        "() => [[640, 790], [640, 400]].every(([x, y]) => "
+        "document.getElementById('preview-panel')"
+        ".contains(document.elementFromPoint(x, y)))"
+    )
+    assert covered
+    page.keyboard.press("Escape")
+    playwright.expect(page.locator("#preview-panel")).not_to_have_class(
+        re.compile("is-fullscreen")
+    )
+    playwright.expect(page.locator("#toggle-fullscreen")).to_be_focused()
 
 
 def test_opt_in_scripts_run_without_parent_storage_or_network_access(browser_page):
