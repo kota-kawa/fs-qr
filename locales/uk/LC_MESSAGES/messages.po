@@ -3099,6 +3099,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"На широких екранах попередній перегляд оновлюється автоматично, коли ви "
+"припиняєте друкувати. Під час запуску JavaScript оновлюйте кнопкою."
+
 msgid "html.cdn_error"
 msgstr ""
 "Не вдалося завантажити CDN або відобразити Mermaid. Перевірте з’єднання "
@@ -3113,6 +3118,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "Підтримувані CDN та Mermaid"
 
+msgid "html.clear"
+msgstr "Очистити"
+
 msgid "html.description"
 msgstr ""
 "Вставте HTML і перегляньте вебсторінку в браузері на телефоні чи "
@@ -3126,6 +3134,12 @@ msgstr "Не вдалося відобразити. Перевірте HTML і �
 
 msgid "html.execute_scripts"
 msgstr "Виконувати JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Вийти з повноекранного режиму"
+
+msgid "html.fullscreen"
+msgstr "На весь екран"
 
 msgid "html.home"
 msgstr "Головна"
@@ -3163,6 +3177,15 @@ msgstr "Перегляд оновлено."
 msgid "html.render"
 msgstr "Показати перегляд"
 
+msgid "html.sample"
+msgstr "Вставити приклад"
+
+msgid "html.sample_text"
+msgstr "Змініть цей HTML, і попередній перегляд покаже зміни."
+
+msgid "html.sample_title"
+msgstr "Приклад сторінки"
+
 msgid "html.script_hint"
 msgstr ""
 "Вмикайте лише для довіреного HTML. Доступ до батьківської сторінки, "
@@ -3182,6 +3205,18 @@ msgstr "Перегляд HTML"
 
 msgid "html.view"
 msgstr "Змінити вигляд"
+
+msgid "html.width"
+msgstr "Ширина перегляду"
+
+msgid "html.width_desktop"
+msgstr "ПК"
+
+msgid "html.width_mobile"
+msgstr "Смартфон"
+
+msgid "html.width_tablet"
+msgstr "Планшет"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

@@ -3292,6 +3292,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Em telas largas, a prévia é atualizada automaticamente quando você para "
+"de digitar. Ao executar JavaScript, atualize pelo botão."
+
 msgid "html.cdn_error"
 msgstr ""
 "Falha ao carregar CDN ou renderizar Mermaid. Verifique a conexão e a "
@@ -3306,6 +3311,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "CDNs compatíveis e Mermaid"
 
+msgid "html.clear"
+msgstr "Limpar"
+
 msgid "html.description"
 msgstr ""
 "Cole HTML para visualizar uma página web no navegador, no celular ou "
@@ -3319,6 +3327,12 @@ msgstr "Não foi possível exibir. Verifique o HTML e tente novamente."
 
 msgid "html.execute_scripts"
 msgstr "Executar JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Sair da tela cheia"
+
+msgid "html.fullscreen"
+msgstr "Tela cheia"
 
 msgid "html.home"
 msgstr "Início"
@@ -3355,6 +3369,15 @@ msgstr "Prévia atualizada."
 msgid "html.render"
 msgstr "Mostrar prévia"
 
+msgid "html.sample"
+msgstr "Inserir exemplo"
+
+msgid "html.sample_text"
+msgstr "Edite este HTML e a prévia refletirá as alterações."
+
+msgid "html.sample_title"
+msgstr "Página de exemplo"
+
 msgid "html.script_hint"
 msgstr ""
 "Ative apenas para HTML confiável. O acesso à página principal, ao "
@@ -3375,6 +3398,18 @@ msgstr "Prévia de HTML"
 
 msgid "html.view"
 msgstr "Alternar visualização"
+
+msgid "html.width"
+msgstr "Largura da prévia"
+
+msgid "html.width_desktop"
+msgstr "Computador"
+
+msgid "html.width_mobile"
+msgstr "Celular"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

@@ -3264,6 +3264,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Op brede schermen wordt het voorbeeld automatisch bijgewerkt zodra je "
+"stopt met typen. Gebruik bij JavaScript de knop om bij te werken."
+
 msgid "html.cdn_error"
 msgstr ""
 "CDN laden of Mermaid weergeven mislukt. Controleer de verbinding en de "
@@ -3278,6 +3283,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "Ondersteunde CDN’s en Mermaid"
 
+msgid "html.clear"
+msgstr "Wissen"
+
 msgid "html.description"
 msgstr ""
 "Plak HTML om het als webpagina te bekijken in je browser, op mobiel of "
@@ -3291,6 +3299,12 @@ msgstr "Kan het voorbeeld niet tonen. Controleer de HTML en probeer opnieuw."
 
 msgid "html.execute_scripts"
 msgstr "JavaScript uitvoeren"
+
+msgid "html.exit_fullscreen"
+msgstr "Volledig scherm sluiten"
+
+msgid "html.fullscreen"
+msgstr "Volledig scherm"
 
 msgid "html.home"
 msgstr "Startpagina"
@@ -3328,6 +3342,15 @@ msgstr "Voorbeeld bijgewerkt."
 msgid "html.render"
 msgstr "Voorbeeld tonen"
 
+msgid "html.sample"
+msgstr "Voorbeeld invoegen"
+
+msgid "html.sample_text"
+msgstr "Bewerk deze HTML en het voorbeeld toont je wijzigingen."
+
+msgid "html.sample_title"
+msgstr "Voorbeeldpagina"
+
 msgid "html.script_hint"
 msgstr ""
 "Alleen inschakelen voor vertrouwde HTML. Toegang tot de bovenliggende "
@@ -3347,6 +3370,18 @@ msgstr "HTML-voorbeeld"
 
 msgid "html.view"
 msgstr "Weergave wisselen"
+
+msgid "html.width"
+msgstr "Voorbeeldbreedte"
+
+msgid "html.width_desktop"
+msgstr "Desktop"
+
+msgid "html.width_mobile"
+msgstr "Telefoon"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

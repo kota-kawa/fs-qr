@@ -125,5 +125,16 @@
   "html.cdn_title": "Supported CDNs and Mermaid",
   "html.cdn_hint": "CSS is supported at the fixed URLs below. Mermaid renders automatically in pre or div elements with class=\"mermaid\". CDN features require an internet connection.",
   "html.execute_scripts": "Run JavaScript",
-  "html.script_hint": "Enable only for trusted HTML. Runs with restricted access to the parent page, storage, external resources, and form submission."
+  "html.script_hint": "Enable only for trusted HTML. Runs with restricted access to the parent page, storage, external resources, and form submission.",
+  "html.sample": "Insert sample",
+  "html.clear": "Clear",
+  "html.fullscreen": "Full screen",
+  "html.exit_fullscreen": "Exit full screen",
+  "html.width": "Preview width",
+  "html.width_desktop": "Desktop",
+  "html.width_tablet": "Tablet",
+  "html.width_mobile": "Phone",
+  "html.auto_hint": "On wide screens, the preview updates automatically when you stop typing. When running JavaScript, update with the button.",
+  "html.sample_title": "Sample page",
+  "html.sample_text": "Edit this HTML and the preview will reflect your changes."
 }

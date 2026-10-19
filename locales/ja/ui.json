@@ -125,5 +125,16 @@
   "html.cdn_title": "対応CDNとMermaidの使い方",
   "html.cdn_hint": "以下の固定URLのCSSに対応します。Mermaidはpreまたはdivにclass=\"mermaid\"を付けると自動で描画します。CDNを使う場合はインターネット接続が必要です。",
   "html.execute_scripts": "JavaScriptを実行する",
-  "html.script_hint": "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。"
+  "html.script_hint": "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。",
+  "html.sample": "サンプルを挿入",
+  "html.clear": "クリア",
+  "html.fullscreen": "全画面表示",
+  "html.exit_fullscreen": "全画面を終了",
+  "html.width": "表示幅",
+  "html.width_desktop": "PC",
+  "html.width_tablet": "タブレット",
+  "html.width_mobile": "スマホ",
+  "html.auto_hint": "PC幅では入力が止まると自動でプレビューを更新します。JavaScriptを実行する場合はボタンで更新してください。",
+  "html.sample_title": "サンプルページ",
+  "html.sample_text": "このHTMLを書き換えると、プレビューに反映されます。"
 }

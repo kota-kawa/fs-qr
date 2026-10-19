@@ -2652,6 +2652,9 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr "넓은 화면에서는 입력을 멈추면 미리보기가 자동으로 업데이트됩니다. JavaScript를 실행할 때는 버튼으로 업데이트하세요."
+
 msgid "html.cdn_error"
 msgstr "CDN 로드 또는 Mermaid 렌더링에 실패했습니다. 연결과 다이어그램 구문을 확인하세요."
 
@@ -2662,6 +2665,9 @@ msgstr ""
 
 msgid "html.cdn_title"
 msgstr "지원 CDN 및 Mermaid 사용법"
+
+msgid "html.clear"
+msgstr "지우기"
 
 msgid "html.description"
 msgstr "HTML을 붙여 넣어 휴대폰이나 PC 브라우저에서 웹페이지로 확인하세요."
@@ -2674,6 +2680,12 @@ msgstr "표시할 수 없습니다. HTML을 확인하고 다시 시도하세요.
 
 msgid "html.execute_scripts"
 msgstr "JavaScript 실행"
+
+msgid "html.exit_fullscreen"
+msgstr "전체 화면 종료"
+
+msgid "html.fullscreen"
+msgstr "전체 화면"
 
 msgid "html.home"
 msgstr "홈"
@@ -2710,6 +2722,15 @@ msgstr "미리보기가 업데이트되었습니다."
 msgid "html.render"
 msgstr "미리보기 표시"
 
+msgid "html.sample"
+msgstr "샘플 삽입"
+
+msgid "html.sample_text"
+msgstr "이 HTML을 수정하면 미리보기에 반영됩니다."
+
+msgid "html.sample_title"
+msgstr "샘플 페이지"
+
 msgid "html.script_hint"
 msgstr "신뢰할 수 있는 HTML에만 사용하세요. 상위 페이지, 저장소, 외부 리소스 접근 및 양식 전송이 제한됩니다."
 
@@ -2727,6 +2748,18 @@ msgstr "HTML 미리보기"
 
 msgid "html.view"
 msgstr "보기 전환"
+
+msgid "html.width"
+msgstr "표시 너비"
+
+msgid "html.width_desktop"
+msgstr "PC"
+
+msgid "html.width_mobile"
+msgstr "스마트폰"
+
+msgid "html.width_tablet"
+msgstr "태블릿"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

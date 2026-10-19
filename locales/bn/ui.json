@@ -125,5 +125,16 @@
   "html.cdn_title": "সমর্থিত CDN ও Mermaid",
   "html.cdn_hint": "নিচের নির্দিষ্ট URL থেকে CSS সমর্থিত। class=\"mermaid\" থাকা pre বা div-এ Mermaid নিজে থেকে আঁকা হয়। CDN ব্যবহারে ইন্টারনেট প্রয়োজন।",
   "html.execute_scripts": "JavaScript চালান",
-  "html.script_hint": "শুধু বিশ্বস্ত HTML-এর জন্য চালু করুন। মূল পৃষ্ঠা, স্টোরেজ, বাইরের রিসোর্স ও ফর্ম জমা দেওয়ার সুযোগ সীমিত।"
+  "html.script_hint": "শুধু বিশ্বস্ত HTML-এর জন্য চালু করুন। মূল পৃষ্ঠা, স্টোরেজ, বাইরের রিসোর্স ও ফর্ম জমা দেওয়ার সুযোগ সীমিত।",
+  "html.sample": "নমুনা যোগ করুন",
+  "html.clear": "মুছুন",
+  "html.fullscreen": "পূর্ণ স্ক্রিন",
+  "html.exit_fullscreen": "পূর্ণ স্ক্রিন থেকে বের হন",
+  "html.width": "প্রিভিউয়ের প্রস্থ",
+  "html.width_desktop": "ডেস্কটপ",
+  "html.width_tablet": "ট্যাবলেট",
+  "html.width_mobile": "ফোন",
+  "html.auto_hint": "চওড়া স্ক্রিনে টাইপ থামালে প্রিভিউ স্বয়ংক্রিয়ভাবে হালনাগাদ হয়। JavaScript চালানোর সময় বোতাম দিয়ে হালনাগাদ করুন।",
+  "html.sample_title": "নমুনা পেজ",
+  "html.sample_text": "এই HTML বদলালে প্রিভিউতে পরিবর্তন দেখা যাবে।"
 }

@@ -125,5 +125,16 @@
   "html.cdn_title": "CDN zinazotumika na Mermaid",
   "html.cdn_hint": "CSS inatumika kwenye URL maalumu zilizo hapa chini. Mermaid huonyeshwa kiotomatiki ndani ya pre au div yenye class=\"mermaid\". CDN inahitaji intaneti.",
   "html.execute_scripts": "Endesha JavaScript",
-  "html.script_hint": "Washa kwa HTML inayoaminika tu. Ufikiaji wa ukurasa mzazi, hifadhi, rasilimali za nje na utumaji fomu umezuiwa."
+  "html.script_hint": "Washa kwa HTML inayoaminika tu. Ufikiaji wa ukurasa mzazi, hifadhi, rasilimali za nje na utumaji fomu umezuiwa.",
+  "html.sample": "Weka mfano",
+  "html.clear": "Futa",
+  "html.fullscreen": "Skrini nzima",
+  "html.exit_fullscreen": "Toka kwenye skrini nzima",
+  "html.width": "Upana wa onyesho",
+  "html.width_desktop": "Kompyuta",
+  "html.width_tablet": "Kompyuta kibao",
+  "html.width_mobile": "Simu",
+  "html.auto_hint": "Kwenye skrini pana, onyesho husasishwa kiotomatiki unapoacha kuandika. Unapoendesha JavaScript, sasisha kwa kitufe.",
+  "html.sample_title": "Ukurasa wa mfano",
+  "html.sample_text": "Hariri HTML hii na onyesho litaonyesha mabadiliko yako."
 }

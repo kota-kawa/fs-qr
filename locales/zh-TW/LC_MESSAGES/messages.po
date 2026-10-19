@@ -2391,6 +2391,9 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr "在寬螢幕上停止輸入後會自動更新預覽。執行 JavaScript 時請使用按鈕更新。"
+
 msgid "html.cdn_error"
 msgstr "CDN載入或Mermaid繪圖失敗。請檢查網路連線和圖表語法。"
 
@@ -2399,6 +2402,9 @@ msgstr "支援以下固定URL的CSS。為pre或div元素加入class=\"mermaid\"�
 
 msgid "html.cdn_title"
 msgstr "支援的CDN與Mermaid用法"
+
+msgid "html.clear"
+msgstr "清除"
 
 msgid "html.description"
 msgstr "貼上HTML，即可在手機或電腦瀏覽器中預覽網頁。"
@@ -2411,6 +2417,12 @@ msgstr "無法顯示預覽。請檢查HTML後重試。"
 
 msgid "html.execute_scripts"
 msgstr "執行JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "結束全螢幕"
+
+msgid "html.fullscreen"
+msgstr "全螢幕顯示"
 
 msgid "html.home"
 msgstr "首頁"
@@ -2445,6 +2457,15 @@ msgstr "預覽已更新。"
 msgid "html.render"
 msgstr "顯示預覽"
 
+msgid "html.sample"
+msgstr "插入範例"
+
+msgid "html.sample_text"
+msgstr "修改這段 HTML，預覽會隨之更新。"
+
+msgid "html.sample_title"
+msgstr "範例頁面"
+
 msgid "html.script_hint"
 msgstr "僅對可信HTML啟用。執行環境限制存取父頁面、儲存空間、外部資源及提交表單。"
 
@@ -2462,6 +2483,18 @@ msgstr "HTML預覽"
 
 msgid "html.view"
 msgstr "切換檢視"
+
+msgid "html.width"
+msgstr "顯示寬度"
+
+msgid "html.width_desktop"
+msgstr "電腦"
+
+msgid "html.width_mobile"
+msgstr "手機"
+
+msgid "html.width_tablet"
+msgstr "平板"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr "利用iCloud（Apple）、Google相簿、OneDrive等服務將相片自動備份到雲端。備份完成後，刪除手機上的原始相片（或將其轉換為最佳化後的較小尺寸），即可顯著減少手機本身的佔用空間。"

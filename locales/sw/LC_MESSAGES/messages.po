@@ -3273,6 +3273,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Kwenye skrini pana, onyesho husasishwa kiotomatiki unapoacha kuandika. "
+"Unapoendesha JavaScript, sasisha kwa kitufe."
+
 msgid "html.cdn_error"
 msgstr ""
 "CDN haikupakiwa au Mermaid haikuonyeshwa. Kagua muunganisho na sintaksia "
@@ -3287,6 +3292,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "CDN zinazotumika na Mermaid"
 
+msgid "html.clear"
+msgstr "Futa"
+
 msgid "html.description"
 msgstr ""
 "Bandika HTML ili kuona ukurasa wa wavuti kwenye kivinjari cha simu au "
@@ -3300,6 +3308,12 @@ msgstr "Imeshindwa kuonyesha. Kagua HTML na ujaribu tena."
 
 msgid "html.execute_scripts"
 msgstr "Endesha JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Toka kwenye skrini nzima"
+
+msgid "html.fullscreen"
+msgstr "Skrini nzima"
 
 msgid "html.home"
 msgstr "Mwanzo"
@@ -3337,6 +3351,15 @@ msgstr "Hakiki imesasishwa."
 msgid "html.render"
 msgstr "Onyesha hakiki"
 
+msgid "html.sample"
+msgstr "Weka mfano"
+
+msgid "html.sample_text"
+msgstr "Hariri HTML hii na onyesho litaonyesha mabadiliko yako."
+
+msgid "html.sample_title"
+msgstr "Ukurasa wa mfano"
+
 msgid "html.script_hint"
 msgstr ""
 "Washa kwa HTML inayoaminika tu. Ufikiaji wa ukurasa mzazi, hifadhi, "
@@ -3356,6 +3379,18 @@ msgstr "Hakiki ya HTML"
 
 msgid "html.view"
 msgstr "Badili mwonekano"
+
+msgid "html.width"
+msgstr "Upana wa onyesho"
+
+msgid "html.width_desktop"
+msgstr "Kompyuta"
+
+msgid "html.width_mobile"
+msgstr "Simu"
+
+msgid "html.width_tablet"
+msgstr "Kompyuta kibao"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

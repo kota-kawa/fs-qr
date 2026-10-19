@@ -3214,6 +3214,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Di layar lebar, pratinjau diperbarui otomatis saat Anda berhenti "
+"mengetik. Saat menjalankan JavaScript, perbarui dengan tombol."
+
 msgid "html.cdn_error"
 msgstr ""
 "Gagal memuat CDN atau menggambar Mermaid. Periksa koneksi dan sintaks "
@@ -3227,6 +3232,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "CDN yang didukung dan Mermaid"
 
+msgid "html.clear"
+msgstr "Hapus"
+
 msgid "html.description"
 msgstr "Tempel HTML untuk melihat halaman web di browser ponsel atau komputer."
 
@@ -3238,6 +3246,12 @@ msgstr "Tidak dapat ditampilkan. Periksa HTML dan coba lagi."
 
 msgid "html.execute_scripts"
 msgstr "Jalankan JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Keluar dari layar penuh"
+
+msgid "html.fullscreen"
+msgstr "Layar penuh"
 
 msgid "html.home"
 msgstr "Beranda"
@@ -3275,6 +3289,15 @@ msgstr "Pratinjau diperbarui."
 msgid "html.render"
 msgstr "Tampilkan pratinjau"
 
+msgid "html.sample"
+msgstr "Sisipkan contoh"
+
+msgid "html.sample_text"
+msgstr "Ubah HTML ini dan pratinjau akan menampilkan perubahannya."
+
+msgid "html.sample_title"
+msgstr "Halaman contoh"
+
 msgid "html.script_hint"
 msgstr ""
 "Aktifkan hanya untuk HTML tepercaya. Akses ke halaman induk, penyimpanan,"
@@ -3294,6 +3317,18 @@ msgstr "Pratinjau HTML"
 
 msgid "html.view"
 msgstr "Ganti tampilan"
+
+msgid "html.width"
+msgstr "Lebar pratinjau"
+
+msgid "html.width_desktop"
+msgstr "Desktop"
+
+msgid "html.width_mobile"
+msgstr "Ponsel"
+
+msgid "html.width_tablet"
+msgstr "Tablet"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

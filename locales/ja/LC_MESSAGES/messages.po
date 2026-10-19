@@ -2016,6 +2016,9 @@ msgstr "URLを共有して使うカンバン式タスクボードです。未着
 msgid "home.uses.title"
 msgstr "4つの使い方"
 
+msgid "html.auto_hint"
+msgstr "PC幅では入力が止まると自動でプレビューを更新します。JavaScriptを実行する場合はボタンで更新してください。"
+
 msgid "html.cdn_error"
 msgstr "CDNの読み込み、またはMermaidの描画に失敗しました。接続や図の構文を確認してください。"
 
@@ -2024,6 +2027,9 @@ msgstr "以下の固定URLのCSSに対応します。Mermaidはpreまたはdiv�
 
 msgid "html.cdn_title"
 msgstr "対応CDNとMermaidの使い方"
+
+msgid "html.clear"
+msgstr "クリア"
 
 msgid "html.description"
 msgstr "HTMLを貼り付けて、Webページとして表示。スマホでもPCでも、ブラウザだけで確認できます。"
@@ -2036,6 +2042,12 @@ msgstr "表示できませんでした。HTMLを確認して再度お試しく�
 
 msgid "html.execute_scripts"
 msgstr "JavaScriptを実行する"
+
+msgid "html.exit_fullscreen"
+msgstr "全画面を終了"
+
+msgid "html.fullscreen"
+msgstr "全画面表示"
 
 msgid "html.home"
 msgstr "ホーム"
@@ -2070,6 +2082,15 @@ msgstr "プレビューを更新しました。"
 msgid "html.render"
 msgstr "プレビューを表示"
 
+msgid "html.sample"
+msgstr "サンプルを挿入"
+
+msgid "html.sample_text"
+msgstr "このHTMLを書き換えると、プレビューに反映されます。"
+
+msgid "html.sample_title"
+msgstr "サンプルページ"
+
 msgid "html.script_hint"
 msgstr "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。"
 
@@ -2087,6 +2108,18 @@ msgstr "HTMLプレビュー"
 
 msgid "html.view"
 msgstr "表示の切り替え"
+
+msgid "html.width"
+msgstr "表示幅"
+
+msgid "html.width_desktop"
+msgstr "PC"
+
+msgid "html.width_mobile"
+msgstr "スマホ"
+
+msgid "html.width_tablet"
+msgstr "タブレット"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の使用容量を大きく減らせます。"

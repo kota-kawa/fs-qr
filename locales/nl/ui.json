@@ -125,5 +125,16 @@
   "html.cdn_title": "Ondersteunde CDN’s en Mermaid",
   "html.cdn_hint": "CSS wordt ondersteund op de vaste URL’s hieronder. Mermaid wordt automatisch weergegeven in pre- of div-elementen met class=\"mermaid\". CDN-functies vereisen internet.",
   "html.execute_scripts": "JavaScript uitvoeren",
-  "html.script_hint": "Alleen inschakelen voor vertrouwde HTML. Toegang tot de bovenliggende pagina, opslag, externe bronnen en formulierverzending is beperkt."
+  "html.script_hint": "Alleen inschakelen voor vertrouwde HTML. Toegang tot de bovenliggende pagina, opslag, externe bronnen en formulierverzending is beperkt.",
+  "html.sample": "Voorbeeld invoegen",
+  "html.clear": "Wissen",
+  "html.fullscreen": "Volledig scherm",
+  "html.exit_fullscreen": "Volledig scherm sluiten",
+  "html.width": "Voorbeeldbreedte",
+  "html.width_desktop": "Desktop",
+  "html.width_tablet": "Tablet",
+  "html.width_mobile": "Telefoon",
+  "html.auto_hint": "Op brede schermen wordt het voorbeeld automatisch bijgewerkt zodra je stopt met typen. Gebruik bij JavaScript de knop om bij te werken.",
+  "html.sample_title": "Voorbeeldpagina",
+  "html.sample_text": "Bewerk deze HTML en het voorbeeld toont je wijzigingen."
 }

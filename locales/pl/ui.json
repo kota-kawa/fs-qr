@@ -125,5 +125,16 @@
   "html.cdn_title": "Obsługiwane CDN i Mermaid",
   "html.cdn_hint": "CSS jest obsługiwany pod stałymi adresami URL poniżej. Mermaid renderuje się automatycznie w elementach pre lub div z class=\"mermaid\". CDN wymaga połączenia z internetem.",
   "html.execute_scripts": "Uruchom JavaScript",
-  "html.script_hint": "Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, zasobów zewnętrznych i wysyłania formularzy jest ograniczony."
+  "html.script_hint": "Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, zasobów zewnętrznych i wysyłania formularzy jest ograniczony.",
+  "html.sample": "Wstaw przykład",
+  "html.clear": "Wyczyść",
+  "html.fullscreen": "Pełny ekran",
+  "html.exit_fullscreen": "Zamknij pełny ekran",
+  "html.width": "Szerokość podglądu",
+  "html.width_desktop": "Komputer",
+  "html.width_tablet": "Tablet",
+  "html.width_mobile": "Telefon",
+  "html.auto_hint": "Na szerokich ekranach podgląd odświeża się automatycznie po przerwaniu pisania. Przy uruchamianiu JavaScriptu odśwież przyciskiem.",
+  "html.sample_title": "Strona przykładowa",
+  "html.sample_text": "Edytuj ten HTML, a podgląd pokaże zmiany."
 }

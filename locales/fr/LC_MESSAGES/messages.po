@@ -3338,6 +3338,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"Sur grand écran, l'aperçu se met à jour automatiquement dès que vous "
+"arrêtez de saisir. Avec JavaScript, mettez à jour avec le bouton."
+
 msgid "html.cdn_error"
 msgstr ""
 "Échec du chargement CDN ou du rendu Mermaid. Vérifiez la connexion et la "
@@ -3352,6 +3357,9 @@ msgstr ""
 msgid "html.cdn_title"
 msgstr "CDN pris en charge et Mermaid"
 
+msgid "html.clear"
+msgstr "Effacer"
+
 msgid "html.description"
 msgstr ""
 "Collez du HTML pour afficher une page web dans votre navigateur, sur "
@@ -3365,6 +3373,12 @@ msgstr "Impossible d’afficher l’aperçu. Vérifiez le HTML et réessayez."
 
 msgid "html.execute_scripts"
 msgstr "Exécuter JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "Quitter le plein écran"
+
+msgid "html.fullscreen"
+msgstr "Plein écran"
 
 msgid "html.home"
 msgstr "Accueil"
@@ -3402,6 +3416,15 @@ msgstr "Aperçu actualisé."
 msgid "html.render"
 msgstr "Afficher l’aperçu"
 
+msgid "html.sample"
+msgstr "Insérer un exemple"
+
+msgid "html.sample_text"
+msgstr "Modifiez ce HTML et l'aperçu reflétera vos changements."
+
+msgid "html.sample_title"
+msgstr "Page d'exemple"
+
 msgid "html.script_hint"
 msgstr ""
 "Activez uniquement pour du HTML fiable. Accès restreint à la page "
@@ -3422,6 +3445,18 @@ msgstr "Aperçu HTML"
 
 msgid "html.view"
 msgstr "Changer de vue"
+
+msgid "html.width"
+msgstr "Largeur d'aperçu"
+
+msgid "html.width_desktop"
+msgstr "Ordinateur"
+
+msgid "html.width_mobile"
+msgstr "Mobile"
+
+msgid "html.width_tablet"
+msgstr "Tablette"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""

@@ -3057,6 +3057,11 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.auto_hint"
+msgstr ""
+"على الشاشات العريضة تتحدث المعاينة تلقائيًا عند التوقف عن الكتابة. عند "
+"تشغيل JavaScript حدّثها بالزر."
+
 msgid "html.cdn_error"
 msgstr "تعذر تحميل CDN أو رسم Mermaid. تحقق من الاتصال وصياغة المخطط."
 
@@ -3067,6 +3072,9 @@ msgstr ""
 
 msgid "html.cdn_title"
 msgstr "شبكات CDN المدعومة وMermaid"
+
+msgid "html.clear"
+msgstr "مسح"
 
 msgid "html.description"
 msgstr "ألصق HTML لمعاينة صفحة ويب في متصفح الهاتف أو الكمبيوتر."
@@ -3079,6 +3087,12 @@ msgstr "تعذر العرض. تحقق من HTML وحاول مجدداً."
 
 msgid "html.execute_scripts"
 msgstr "تشغيل JavaScript"
+
+msgid "html.exit_fullscreen"
+msgstr "الخروج من ملء الشاشة"
+
+msgid "html.fullscreen"
+msgstr "ملء الشاشة"
 
 msgid "html.home"
 msgstr "الرئيسية"
@@ -3115,6 +3129,15 @@ msgstr "تم تحديث المعاينة."
 msgid "html.render"
 msgstr "عرض المعاينة"
 
+msgid "html.sample"
+msgstr "إدراج مثال"
+
+msgid "html.sample_text"
+msgstr "عدّل HTML هذا وستعرض المعاينة تغييراتك."
+
+msgid "html.sample_title"
+msgstr "صفحة مثال"
+
 msgid "html.script_hint"
 msgstr ""
 "فعّل فقط لملفات HTML الموثوقة. يقيّد الوصول إلى الصفحة الأم والتخزين "
@@ -3134,6 +3157,18 @@ msgstr "معاينة HTML"
 
 msgid "html.view"
 msgstr "تبديل العرض"
+
+msgid "html.width"
+msgstr "عرض المعاينة"
+
+msgid "html.width_desktop"
+msgstr "حاسوب"
+
+msgid "html.width_mobile"
+msgstr "هاتف"
+
+msgid "html.width_tablet"
+msgstr "جهاز لوحي"
 
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
