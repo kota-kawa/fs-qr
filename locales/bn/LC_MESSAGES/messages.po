@@ -3162,6 +3162,86 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"CDN লোড বা Mermaid আঁকা যায়নি। সংযোগ ও ডায়াগ্রামের সিনট্যাক্স পরীক্ষা "
+"করুন।"
+
+msgid "html.cdn_hint"
+msgstr ""
+"নিচের নির্দিষ্ট URL থেকে CSS সমর্থিত। class=\"mermaid\" থাকা pre বা div-এ"
+" Mermaid নিজে থেকে আঁকা হয়। CDN ব্যবহারে ইন্টারনেট প্রয়োজন।"
+
+msgid "html.cdn_title"
+msgstr "সমর্থিত CDN ও Mermaid"
+
+msgid "html.description"
+msgstr "HTML পেস্ট করে মোবাইল বা কম্পিউটারের ব্রাউজারে ওয়েব পেজ দেখুন।"
+
+msgid "html.empty"
+msgstr "এখানে প্রিভিউ দেখতে HTML পেস্ট করুন।"
+
+msgid "html.error"
+msgstr "দেখানো যায়নি। HTML পরীক্ষা করে আবার চেষ্টা করুন।"
+
+msgid "html.execute_scripts"
+msgstr "JavaScript চালান"
+
+msgid "html.home"
+msgstr "হোম"
+
+msgid "html.loading"
+msgstr "প্রিভিউ তৈরি হচ্ছে…"
+
+msgid "html.local"
+msgstr "শুধু ব্রাউজারে"
+
+msgid "html.noscript"
+msgstr "এই টুল ব্যবহার করতে JavaScript চালু করুন।"
+
+msgid "html.notice"
+msgstr ""
+"HTML, CSS ও Mermaid দেখায়। JavaScript শুরুতে বন্ধ থাকে। পৃষ্ঠার ভেতরের "
+"সূচির লিংক কাজ করে। ইনপুট এই ট্যাবেই থাকে এবং রিলোডে মুছে যায়।"
+
+msgid "html.notice_title"
+msgstr "প্রিভিউ সম্পর্কে"
+
+msgid "html.placeholder"
+msgstr "এখানে HTML পেস্ট করুন"
+
+msgid "html.preview"
+msgstr "প্রিভিউ"
+
+msgid "html.privacy"
+msgstr "আপনার HTML পাঠানো বা সংরক্ষণ করা হয় না।"
+
+msgid "html.ready"
+msgstr "প্রিভিউ আপডেট হয়েছে।"
+
+msgid "html.render"
+msgstr "প্রিভিউ দেখান"
+
+msgid "html.script_hint"
+msgstr ""
+"শুধু বিশ্বস্ত HTML-এর জন্য চালু করুন। মূল পৃষ্ঠা, স্টোরেজ, বাইরের রিসোর্স"
+" ও ফর্ম জমা দেওয়ার সুযোগ সীমিত।"
+
+msgid "html.services"
+msgstr "সেবাসমূহ"
+
+msgid "html.source"
+msgstr "HTML ইনপুট"
+
+msgid "html.source_hint"
+msgstr "পুরো HTML নথি বা অংশ পেস্ট করে প্রিভিউ খুলুন।"
+
+msgid "html.title"
+msgstr "HTML প্রিভিউ"
+
+msgid "html.view"
+msgstr "দৃশ্য বদলান"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "iCloud, Google Photos বা OneDrive-এর মতো সার্ভিসগুলো ব্যবহার করে আপনার "

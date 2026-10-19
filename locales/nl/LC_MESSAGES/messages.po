@@ -3264,6 +3264,90 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"CDN laden of Mermaid weergeven mislukt. Controleer de verbinding en de "
+"diagramsyntaxis."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS wordt ondersteund op de vaste URL’s hieronder. Mermaid wordt "
+"automatisch weergegeven in pre- of div-elementen met class=\"mermaid\". "
+"CDN-functies vereisen internet."
+
+msgid "html.cdn_title"
+msgstr "Ondersteunde CDN’s en Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Plak HTML om het als webpagina te bekijken in je browser, op mobiel of "
+"computer."
+
+msgid "html.empty"
+msgstr "Plak HTML om hier een voorbeeld te zien."
+
+msgid "html.error"
+msgstr "Kan het voorbeeld niet tonen. Controleer de HTML en probeer opnieuw."
+
+msgid "html.execute_scripts"
+msgstr "JavaScript uitvoeren"
+
+msgid "html.home"
+msgstr "Startpagina"
+
+msgid "html.loading"
+msgstr "Voorbeeld wordt gemaakt…"
+
+msgid "html.local"
+msgstr "Alleen in de browser"
+
+msgid "html.noscript"
+msgstr "Schakel JavaScript in om dit hulpmiddel te gebruiken."
+
+msgid "html.notice"
+msgstr ""
+"Toont HTML, CSS en Mermaid. JavaScript staat standaard uit. Interne "
+"inhoudslinks werken. Invoer blijft in dit tabblad en verdwijnt bij "
+"herladen."
+
+msgid "html.notice_title"
+msgstr "Over dit voorbeeld"
+
+msgid "html.placeholder"
+msgstr "Plak hier je HTML"
+
+msgid "html.preview"
+msgstr "Voorbeeld"
+
+msgid "html.privacy"
+msgstr "Je HTML wordt niet verzonden of opgeslagen."
+
+msgid "html.ready"
+msgstr "Voorbeeld bijgewerkt."
+
+msgid "html.render"
+msgstr "Voorbeeld tonen"
+
+msgid "html.script_hint"
+msgstr ""
+"Alleen inschakelen voor vertrouwde HTML. Toegang tot de bovenliggende "
+"pagina, opslag, externe bronnen en formulierverzending is beperkt."
+
+msgid "html.services"
+msgstr "Diensten"
+
+msgid "html.source"
+msgstr "HTML-invoer"
+
+msgid "html.source_hint"
+msgstr "Plak een HTML-document of fragment en open het voorbeeld."
+
+msgid "html.title"
+msgstr "HTML-voorbeeld"
+
+msgid "html.view"
+msgstr "Weergave wisselen"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Gebruik clouddiensten zoals iCloud (Apple), Google Foto's of OneDrive om "

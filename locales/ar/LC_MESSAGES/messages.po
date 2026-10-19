@@ -3057,6 +3057,84 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr "تعذر تحميل CDN أو رسم Mermaid. تحقق من الاتصال وصياغة المخطط."
+
+msgid "html.cdn_hint"
+msgstr ""
+"يدعم CSS من عناوين URL الثابتة أدناه. يُرسم Mermaid تلقائياً داخل عناصر "
+"pre أو div ذات class=\"mermaid\". تتطلب ميزات CDN اتصالاً بالإنترنت."
+
+msgid "html.cdn_title"
+msgstr "شبكات CDN المدعومة وMermaid"
+
+msgid "html.description"
+msgstr "ألصق HTML لمعاينة صفحة ويب في متصفح الهاتف أو الكمبيوتر."
+
+msgid "html.empty"
+msgstr "ألصق HTML لرؤية المعاينة هنا."
+
+msgid "html.error"
+msgstr "تعذر العرض. تحقق من HTML وحاول مجدداً."
+
+msgid "html.execute_scripts"
+msgstr "تشغيل JavaScript"
+
+msgid "html.home"
+msgstr "الرئيسية"
+
+msgid "html.loading"
+msgstr "جارٍ إنشاء المعاينة…"
+
+msgid "html.local"
+msgstr "داخل المتصفح فقط"
+
+msgid "html.noscript"
+msgstr "فعّل JavaScript لاستخدام هذه الأداة."
+
+msgid "html.notice"
+msgstr ""
+"يعرض HTML وCSS وMermaid. JavaScript معطّل افتراضياً. تعمل روابط المحتويات"
+" داخل الصفحة. يبقى الإدخال في علامة التبويب ويُمسح عند إعادة التحميل."
+
+msgid "html.notice_title"
+msgstr "حول المعاينة"
+
+msgid "html.placeholder"
+msgstr "ألصق HTML هنا"
+
+msgid "html.preview"
+msgstr "المعاينة"
+
+msgid "html.privacy"
+msgstr "لا يتم إرسال HTML أو حفظه."
+
+msgid "html.ready"
+msgstr "تم تحديث المعاينة."
+
+msgid "html.render"
+msgstr "عرض المعاينة"
+
+msgid "html.script_hint"
+msgstr ""
+"فعّل فقط لملفات HTML الموثوقة. يقيّد الوصول إلى الصفحة الأم والتخزين "
+"والموارد الخارجية وإرسال النماذج."
+
+msgid "html.services"
+msgstr "الخدمات"
+
+msgid "html.source"
+msgstr "إدخال HTML"
+
+msgid "html.source_hint"
+msgstr "ألصق مستند HTML كاملاً أو جزءاً منه ثم افتح المعاينة."
+
+msgid "html.title"
+msgstr "معاينة HTML"
+
+msgid "html.view"
+msgstr "تبديل العرض"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "استخدم خدمات مثل iCloud (Apple) أو Google Photos أو OneDrive لنسخ الصور "

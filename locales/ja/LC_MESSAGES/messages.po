@@ -2016,6 +2016,78 @@ msgstr "URLを共有して使うカンバン式タスクボードです。未着
 msgid "home.uses.title"
 msgstr "4つの使い方"
 
+msgid "html.cdn_error"
+msgstr "CDNの読み込み、またはMermaidの描画に失敗しました。接続や図の構文を確認してください。"
+
+msgid "html.cdn_hint"
+msgstr "以下の固定URLのCSSに対応します。Mermaidはpreまたはdivにclass=\"mermaid\"を付けると自動で描画します。CDNを使う場合はインターネット接続が必要です。"
+
+msgid "html.cdn_title"
+msgstr "対応CDNとMermaidの使い方"
+
+msgid "html.description"
+msgstr "HTMLを貼り付けて、Webページとして表示。スマホでもPCでも、ブラウザだけで確認できます。"
+
+msgid "html.empty"
+msgstr "HTMLを貼り付けると、ここにプレビューを表示できます。"
+
+msgid "html.error"
+msgstr "表示できませんでした。HTMLを確認して再度お試しください。"
+
+msgid "html.execute_scripts"
+msgstr "JavaScriptを実行する"
+
+msgid "html.home"
+msgstr "ホーム"
+
+msgid "html.loading"
+msgstr "プレビューを描画しています…"
+
+msgid "html.local"
+msgstr "ブラウザ内のみ"
+
+msgid "html.noscript"
+msgstr "このツールを使うにはJavaScriptを有効にしてください。"
+
+msgid "html.notice"
+msgstr "HTML・CSS・Mermaidを表示します。JavaScriptは初期状態では無効です。ページ内の目次から移動できます。入力はタブ内だけで扱い、再読み込みで消えます。"
+
+msgid "html.notice_title"
+msgstr "プレビューについて"
+
+msgid "html.placeholder"
+msgstr "ここにHTMLを貼り付けてください"
+
+msgid "html.preview"
+msgstr "プレビュー"
+
+msgid "html.privacy"
+msgstr "入力したHTMLは送信・保存されません。"
+
+msgid "html.ready"
+msgstr "プレビューを更新しました。"
+
+msgid "html.render"
+msgstr "プレビューを表示"
+
+msgid "html.script_hint"
+msgstr "信頼できるHTMLの場合だけ有効にしてください。親画面へのアクセス・ストレージ・外部リソース取得・フォーム送信を制限した環境で動かします。"
+
+msgid "html.services"
+msgstr "サービス一覧"
+
+msgid "html.source"
+msgstr "HTML入力"
+
+msgid "html.source_hint"
+msgstr "HTML全体やHTMLの一部分を貼り付けて、表示ボタンを押してください。"
+
+msgid "html.title"
+msgstr "HTMLプレビュー"
+
+msgid "html.view"
+msgstr "表示の切り替え"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の使用容量を大きく減らせます。"
 

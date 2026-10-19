@@ -56,6 +56,7 @@ TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, "Group", "templates"),
     os.path.join(BASE_DIR, "Note", "templates"),
     os.path.join(BASE_DIR, "Task", "templates"),
+    os.path.join(BASE_DIR, "HtmlPreview", "templates"),
     os.path.join(BASE_DIR, "Admin", "templates"),
     os.path.join(BASE_DIR, "Articles", "templates"),
 ]

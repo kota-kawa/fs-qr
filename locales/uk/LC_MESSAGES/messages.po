@@ -3099,6 +3099,90 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Не вдалося завантажити CDN або відобразити Mermaid. Перевірте з’єднання "
+"та синтаксис діаграми."
+
+msgid "html.cdn_hint"
+msgstr ""
+"Підтримується CSS за наведеними сталими URL. Mermaid автоматично "
+"відображається в елементах pre або div з class=\"mermaid\". Для CDN "
+"потрібен інтернет."
+
+msgid "html.cdn_title"
+msgstr "Підтримувані CDN та Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Вставте HTML і перегляньте вебсторінку в браузері на телефоні чи "
+"комп’ютері."
+
+msgid "html.empty"
+msgstr "Вставте HTML, щоб побачити перегляд."
+
+msgid "html.error"
+msgstr "Не вдалося відобразити. Перевірте HTML і спробуйте ще раз."
+
+msgid "html.execute_scripts"
+msgstr "Виконувати JavaScript"
+
+msgid "html.home"
+msgstr "Головна"
+
+msgid "html.loading"
+msgstr "Створення перегляду…"
+
+msgid "html.local"
+msgstr "Лише в браузері"
+
+msgid "html.noscript"
+msgstr "Увімкніть JavaScript, щоб користуватися інструментом."
+
+msgid "html.notice"
+msgstr ""
+"Показує HTML, CSS і Mermaid. JavaScript типово вимкнено. Внутрішні "
+"посилання працюють. Ввід залишається у вкладці й видаляється після "
+"оновлення."
+
+msgid "html.notice_title"
+msgstr "Про перегляд"
+
+msgid "html.placeholder"
+msgstr "Вставте HTML сюди"
+
+msgid "html.preview"
+msgstr "Перегляд"
+
+msgid "html.privacy"
+msgstr "Ваш HTML не надсилається й не зберігається."
+
+msgid "html.ready"
+msgstr "Перегляд оновлено."
+
+msgid "html.render"
+msgstr "Показати перегляд"
+
+msgid "html.script_hint"
+msgstr ""
+"Вмикайте лише для довіреного HTML. Доступ до батьківської сторінки, "
+"сховища, зовнішніх ресурсів і надсилання форм обмежено."
+
+msgid "html.services"
+msgstr "Сервіси"
+
+msgid "html.source"
+msgstr "Введення HTML"
+
+msgid "html.source_hint"
+msgstr "Вставте HTML-документ або фрагмент і відкрийте перегляд."
+
+msgid "html.title"
+msgstr "Перегляд HTML"
+
+msgid "html.view"
+msgstr "Змінити вигляд"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Використовуйте такі сервіси як iCloud (Apple), Google Фото або OneDrive "

@@ -3254,6 +3254,90 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Nie udało się wczytać CDN lub wyświetlić Mermaid. Sprawdź połączenie i "
+"składnię diagramu."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS jest obsługiwany pod stałymi adresami URL poniżej. Mermaid renderuje "
+"się automatycznie w elementach pre lub div z class=\"mermaid\". CDN "
+"wymaga połączenia z internetem."
+
+msgid "html.cdn_title"
+msgstr "Obsługiwane CDN i Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Wklej HTML, aby wyświetlić stronę w przeglądarce na telefonie lub "
+"komputerze."
+
+msgid "html.empty"
+msgstr "Wklej HTML, aby zobaczyć podgląd."
+
+msgid "html.error"
+msgstr "Nie można wyświetlić podglądu. Sprawdź HTML i spróbuj ponownie."
+
+msgid "html.execute_scripts"
+msgstr "Uruchom JavaScript"
+
+msgid "html.home"
+msgstr "Strona główna"
+
+msgid "html.loading"
+msgstr "Tworzenie podglądu…"
+
+msgid "html.local"
+msgstr "Tylko w przeglądarce"
+
+msgid "html.noscript"
+msgstr "Włącz JavaScript, aby użyć tego narzędzia."
+
+msgid "html.notice"
+msgstr ""
+"Wyświetla HTML, CSS i Mermaid. JavaScript jest domyślnie wyłączony. "
+"Działają odnośniki wewnętrzne. Dane pozostają w karcie i znikają po "
+"odświeżeniu."
+
+msgid "html.notice_title"
+msgstr "O podglądzie"
+
+msgid "html.placeholder"
+msgstr "Wklej tutaj HTML"
+
+msgid "html.preview"
+msgstr "Podgląd"
+
+msgid "html.privacy"
+msgstr "Twój HTML nie jest wysyłany ani zapisywany."
+
+msgid "html.ready"
+msgstr "Podgląd zaktualizowany."
+
+msgid "html.render"
+msgstr "Pokaż podgląd"
+
+msgid "html.script_hint"
+msgstr ""
+"Włączaj tylko dla zaufanego HTML. Dostęp do strony nadrzędnej, pamięci, "
+"zasobów zewnętrznych i wysyłania formularzy jest ograniczony."
+
+msgid "html.services"
+msgstr "Usługi"
+
+msgid "html.source"
+msgstr "Kod HTML"
+
+msgid "html.source_hint"
+msgstr "Wklej dokument HTML lub fragment i otwórz podgląd."
+
+msgid "html.title"
+msgstr "Podgląd HTML"
+
+msgid "html.view"
+msgstr "Zmień widok"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Serwisy takie jak iCloud, Zdjęcia Google czy OneDrive potrafią "

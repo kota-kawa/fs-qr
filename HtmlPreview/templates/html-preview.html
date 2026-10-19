@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="{{ _('html.description') }}">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="referrer" content="no-referrer">
+  <link rel="canonical" href="{{ request.canonical_url }}">
+  {% for alt in request.language_alternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+  {% endfor %}
+  <title>{{ _('html.title') }} | FS!QR HTML</title>
+  <link rel="icon" href="{{ staticfile('favicon.ico') }}">
+  <link rel="stylesheet" href="{{ staticfile('css/html-preview.css') }}">
+  <script nonce="{{ csp_nonce }}">window.HTML_PREVIEW_CDN = {{ cdn_assets | tojson }};</script>
+  <script nonce="{{ csp_nonce }}" src="{{ staticfile('js/html_preview/preview.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">FS!QR <span>HTML</span></a>
+    <nav aria-label="{{ _('html.services') }}">
+      <a href="/">{{ _('html.home') }}</a>
+      <a href="/fs-qr_menu">FS!QR</a><a href="/group_menu">Group</a>
+      <a href="/note_menu">Note</a><a href="/task_menu">Task</a>
+      <a href="/html-preview" aria-current="page">HTML</a>
+    </nav>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">FS!QR HTML</p>
+      <h1 id="page-title">{{ _('html.title') }}</h1>
+      <p class="description">{{ _('html.description') }}</p>
+      <p class="privacy"><span aria-hidden="true">&#9679;</span> {{ _('html.privacy') }}</p>
+    </section>
+    <div class="workspace" data-view="source">
+      <div class="mobile-switch" role="group" aria-label="{{ _('html.view') }}">
+        <button type="button" id="show-source" aria-pressed="true" aria-controls="source-panel">{{ _('html.source') }}</button>
+        <button type="button" id="show-preview" aria-pressed="false" aria-controls="preview-panel">{{ _('html.preview') }}</button>
+      </div>
+      <section class="panel source-panel" id="source-panel" aria-labelledby="source-label">
+        <div class="panel-header"><h2 id="source-label"><label for="html-source">{{ _('html.source') }}</label></h2></div>
+        <textarea id="html-source" dir="ltr" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="source-hint" placeholder="{{ _('html.placeholder') }}"></textarea>
+        <p class="panel-hint" id="source-hint">{{ _('html.source_hint') }}</p>
+        <label class="script-option"><input type="checkbox" id="execute-scripts" aria-describedby="script-hint"> {{ _('html.execute_scripts') }}</label>
+        <p class="panel-hint" id="script-hint">{{ _('html.script_hint') }}</p>
+        <div class="actions"><button type="button" class="primary" id="render-preview">{{ _('html.render') }}</button></div>
+      </section>
+      <section class="panel preview-panel" id="preview-panel" aria-labelledby="preview-label">
+        <div class="panel-header"><h2 id="preview-label">{{ _('html.preview') }}</h2><span class="local-badge">{{ _('html.local') }}</span></div>
+        <div class="preview-stage">
+          <p class="empty-state" id="preview-empty">{{ _('html.empty') }}</p>
+          <iframe id="html-preview" title="{{ _('html.preview') }}" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
+        </div>
+        <p class="panel-hint" id="preview-status" role="status" aria-live="polite" data-ready="{{ _('html.ready') }}" data-loading="{{ _('html.loading') }}" data-error="{{ _('html.error') }}" data-cdn-error="{{ _('html.cdn_error') }}"></p>
+      </section>
+    </div>
+    <aside class="notice"><h2>{{ _('html.notice_title') }}</h2><p>{{ _('html.notice') }}</p></aside>
+    <details class="cdn-help">
+      <summary>{{ _('html.cdn_title') }}</summary>
+      <p>{{ _('html.cdn_hint') }}</p>
+      <ul>{% for asset in cdn_assets.styles %}<li>{{ asset.name }}<code>&lt;link rel="stylesheet" href="{{ asset.url }}"&gt;</code></li>{% endfor %}</ul>
+      <ul>{% for font in cdn_assets.webfonts %}<li>{{ font.name }}<code>&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ font.name | replace(' ', '+') }}:wght@400;700&amp;display=swap"&gt;</code></li>{% endfor %}</ul>
+      <p>{{ cdn_assets.mermaid.name }}</p>
+      <pre dir="ltr">&lt;pre class="mermaid"&gt;
+graph TD
+  A[HTML] --&gt; B[Preview]
+&lt;/pre&gt;</pre>
+    </details>
+    <noscript><p role="alert">{{ _('html.noscript') }}</p></noscript>
+  </main>
+  <footer><a href="/">{{ _('html.home') }}</a><span>FS!QR HTML</span></footer>
+</body>
+</html>

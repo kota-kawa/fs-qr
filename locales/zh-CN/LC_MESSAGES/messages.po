@@ -2358,6 +2358,78 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr "CDN加载或Mermaid绘图失败。请检查网络连接和图表语法。"
+
+msgid "html.cdn_hint"
+msgstr "支持以下固定URL的CSS。为pre或div元素添加class=\"mermaid\"即可自动绘图。CDN功能需要网络连接。"
+
+msgid "html.cdn_title"
+msgstr "支持的CDN与Mermaid用法"
+
+msgid "html.description"
+msgstr "粘贴HTML，即可在手机或电脑浏览器中预览网页。"
+
+msgid "html.empty"
+msgstr "粘贴HTML后，可在此查看预览。"
+
+msgid "html.error"
+msgstr "无法显示预览。请检查HTML后重试。"
+
+msgid "html.execute_scripts"
+msgstr "运行JavaScript"
+
+msgid "html.home"
+msgstr "首页"
+
+msgid "html.loading"
+msgstr "正在生成预览…"
+
+msgid "html.local"
+msgstr "仅在浏览器内"
+
+msgid "html.noscript"
+msgstr "请启用JavaScript以使用此工具。"
+
+msgid "html.notice"
+msgstr "显示HTML、CSS和Mermaid。JavaScript默认关闭。支持页内目录跳转。输入仅在当前标签页中保留，刷新后清除。"
+
+msgid "html.notice_title"
+msgstr "关于预览"
+
+msgid "html.placeholder"
+msgstr "请在此粘贴HTML"
+
+msgid "html.preview"
+msgstr "预览"
+
+msgid "html.privacy"
+msgstr "输入的HTML不会发送或保存。"
+
+msgid "html.ready"
+msgstr "预览已更新。"
+
+msgid "html.render"
+msgstr "显示预览"
+
+msgid "html.script_hint"
+msgstr "仅对可信HTML启用。运行环境限制访问父页面、存储、外部资源及提交表单。"
+
+msgid "html.services"
+msgstr "服务列表"
+
+msgid "html.source"
+msgstr "HTML输入"
+
+msgid "html.source_hint"
+msgstr "粘贴完整HTML文档或片段，然后点击预览。"
+
+msgid "html.title"
+msgstr "HTML预览"
+
+msgid "html.view"
+msgstr "切换视图"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr "利用iCloud（Apple）、Google相册、OneDrive等服务将照片自动备份到云端。备份完成后，删除手机上的原始照片（或将其转换为优化后的较小尺寸），即可显著减少手机本身的占用空间。"
 

@@ -3154,6 +3154,89 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"A CDN could not load or Mermaid could not render. Check your connection "
+"and diagram syntax."
+
+msgid "html.cdn_hint"
+msgstr ""
+"CSS is supported at the fixed URLs below. Mermaid renders automatically "
+"in pre or div elements with class=\"mermaid\". CDN features require an "
+"internet connection."
+
+msgid "html.cdn_title"
+msgstr "Supported CDNs and Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Paste HTML to preview it as a web page, right in your browser on mobile "
+"or desktop."
+
+msgid "html.empty"
+msgstr "Paste HTML to see a preview here."
+
+msgid "html.error"
+msgstr "Could not display the preview. Check the HTML and try again."
+
+msgid "html.execute_scripts"
+msgstr "Run JavaScript"
+
+msgid "html.home"
+msgstr "Home"
+
+msgid "html.loading"
+msgstr "Rendering preview…"
+
+msgid "html.local"
+msgstr "Browser only"
+
+msgid "html.noscript"
+msgstr "Enable JavaScript to use this tool."
+
+msgid "html.notice"
+msgstr ""
+"Displays HTML, CSS, and Mermaid. JavaScript is off by default. In-page "
+"contents links work. Input stays in this tab and is cleared on reload."
+
+msgid "html.notice_title"
+msgstr "About this preview"
+
+msgid "html.placeholder"
+msgstr "Paste your HTML here"
+
+msgid "html.preview"
+msgstr "Preview"
+
+msgid "html.privacy"
+msgstr "Your HTML is never sent or saved."
+
+msgid "html.ready"
+msgstr "Preview updated."
+
+msgid "html.render"
+msgstr "Show preview"
+
+msgid "html.script_hint"
+msgstr ""
+"Enable only for trusted HTML. Runs with restricted access to the parent "
+"page, storage, external resources, and form submission."
+
+msgid "html.services"
+msgstr "Services"
+
+msgid "html.source"
+msgstr "HTML input"
+
+msgid "html.source_hint"
+msgstr "Paste a complete HTML document or a fragment, then select Preview."
+
+msgid "html.title"
+msgstr "HTML preview"
+
+msgid "html.view"
+msgstr "Switch view"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Services like iCloud, Google Photos, or OneDrive can automatically back "

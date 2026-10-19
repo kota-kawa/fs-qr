@@ -3094,6 +3094,86 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"โหลด CDN หรือวาด Mermaid ไม่สำเร็จ "
+"โปรดตรวจสอบการเชื่อมต่อและไวยากรณ์ของแผนภาพ"
+
+msgid "html.cdn_hint"
+msgstr ""
+"รองรับ CSS จาก URL คงที่ด้านล่าง Mermaid จะวาดอัตโนมัติใน pre หรือ div "
+"ที่มี class=\"mermaid\" การใช้ CDN ต้องเชื่อมต่ออินเทอร์เน็ต"
+
+msgid "html.cdn_title"
+msgstr "CDN ที่รองรับและการใช้ Mermaid"
+
+msgid "html.description"
+msgstr "วาง HTML เพื่อดูหน้าเว็บในเบราว์เซอร์บนมือถือหรือคอมพิวเตอร์"
+
+msgid "html.empty"
+msgstr "วาง HTML เพื่อดูตัวอย่างที่นี่"
+
+msgid "html.error"
+msgstr "ไม่สามารถแสดงได้ โปรดตรวจสอบ HTML แล้วลองอีกครั้ง"
+
+msgid "html.execute_scripts"
+msgstr "เรียกใช้ JavaScript"
+
+msgid "html.home"
+msgstr "หน้าแรก"
+
+msgid "html.loading"
+msgstr "กำลังสร้างตัวอย่าง…"
+
+msgid "html.local"
+msgstr "เฉพาะในเบราว์เซอร์"
+
+msgid "html.noscript"
+msgstr "เปิดใช้งาน JavaScript เพื่อใช้เครื่องมือนี้"
+
+msgid "html.notice"
+msgstr ""
+"แสดง HTML, CSS และ Mermaid โดยปิด JavaScript ไว้เริ่มต้น "
+"ลิงก์สารบัญภายในหน้าใช้งานได้ ข้อมูลอยู่ในแท็บนี้และถูกล้างเมื่อโหลดใหม่"
+
+msgid "html.notice_title"
+msgstr "เกี่ยวกับตัวอย่าง"
+
+msgid "html.placeholder"
+msgstr "วาง HTML ที่นี่"
+
+msgid "html.preview"
+msgstr "ตัวอย่าง"
+
+msgid "html.privacy"
+msgstr "HTML ของคุณจะไม่ถูกส่งหรือบันทึก"
+
+msgid "html.ready"
+msgstr "อัปเดตตัวอย่างแล้ว"
+
+msgid "html.render"
+msgstr "แสดงตัวอย่าง"
+
+msgid "html.script_hint"
+msgstr ""
+"เปิดใช้เฉพาะ HTML ที่เชื่อถือได้ จำกัดการเข้าถึงหน้าหลัก ที่เก็บข้อมูล "
+"ทรัพยากรภายนอก และการส่งแบบฟอร์ม"
+
+msgid "html.services"
+msgstr "บริการ"
+
+msgid "html.source"
+msgstr "ป้อน HTML"
+
+msgid "html.source_hint"
+msgstr "วางเอกสาร HTML หรือบางส่วน แล้วเปิดดูตัวอย่าง"
+
+msgid "html.title"
+msgstr "ดูตัวอย่าง HTML"
+
+msgid "html.view"
+msgstr "สลับมุมมอง"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "ใช้บริการ เช่น iCloud (Apple), Google Photos หรือ OneDrive "

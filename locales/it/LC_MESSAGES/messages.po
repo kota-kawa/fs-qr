@@ -3324,6 +3324,90 @@ msgstr ""
 msgid "home.uses.title"
 msgstr "Four ways to use FS!QR"
 
+msgid "html.cdn_error"
+msgstr ""
+"Caricamento CDN o rendering Mermaid non riuscito. Controlla la "
+"connessione e la sintassi del diagramma."
+
+msgid "html.cdn_hint"
+msgstr ""
+"È supportato CSS agli URL fissi seguenti. Mermaid viene visualizzato "
+"automaticamente negli elementi pre o div con class=\"mermaid\". I CDN "
+"richiedono una connessione Internet."
+
+msgid "html.cdn_title"
+msgstr "CDN supportati e Mermaid"
+
+msgid "html.description"
+msgstr ""
+"Incolla HTML per visualizzarlo come pagina web nel browser, su telefono o"
+" computer."
+
+msgid "html.empty"
+msgstr "Incolla HTML per vedere un’anteprima qui."
+
+msgid "html.error"
+msgstr "Impossibile visualizzare. Controlla l’HTML e riprova."
+
+msgid "html.execute_scripts"
+msgstr "Esegui JavaScript"
+
+msgid "html.home"
+msgstr "Home"
+
+msgid "html.loading"
+msgstr "Creazione anteprima…"
+
+msgid "html.local"
+msgstr "Solo nel browser"
+
+msgid "html.noscript"
+msgstr "Abilita JavaScript per usare questo strumento."
+
+msgid "html.notice"
+msgstr ""
+"Mostra HTML, CSS e Mermaid. JavaScript è disattivato per impostazione "
+"predefinita. I collegamenti interni funzionano. I dati restano nella "
+"scheda e vengono cancellati al ricaricamento."
+
+msgid "html.notice_title"
+msgstr "Informazioni sull’anteprima"
+
+msgid "html.placeholder"
+msgstr "Incolla qui il tuo HTML"
+
+msgid "html.preview"
+msgstr "Anteprima"
+
+msgid "html.privacy"
+msgstr "Il tuo HTML non viene inviato né salvato."
+
+msgid "html.ready"
+msgstr "Anteprima aggiornata."
+
+msgid "html.render"
+msgstr "Mostra anteprima"
+
+msgid "html.script_hint"
+msgstr ""
+"Attiva solo per HTML affidabile. Accesso limitato alla pagina principale,"
+" all’archiviazione, alle risorse esterne e all’invio di moduli."
+
+msgid "html.services"
+msgstr "Servizi"
+
+msgid "html.source"
+msgstr "Codice HTML"
+
+msgid "html.source_hint"
+msgstr "Incolla un documento HTML o un frammento e apri l’anteprima."
+
+msgid "html.title"
+msgstr "Anteprima HTML"
+
+msgid "html.view"
+msgstr "Cambia vista"
+
 msgid "iCloud（Apple）やGoogleフォト、OneDriveなどを利用し、写真をクラウドに自動バックアップします。バックアップ完了後、端末内のオリジナル写真データを削除（または最適化された小さいサイズに変更）することで、スマホ本体の容量を劇的に削減できます。"
 msgstr ""
 "Usa iCloud (Apple), Google Foto o OneDrive per eseguire il backup "
