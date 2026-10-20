@@ -936,7 +936,6 @@
   "自動保存で内容を同期": "Synchroniseer inhoud met automatisch opslaan",
   "ノートルームではテキストをリアルタイムに共有できます。": "In een notitieruimte kan tekst in realtime worden gedeeld.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Een groepsruimte kan tot 10 bestanden opslaan met een totaal van 500 MB. Als het toevoegen van nieuwe bestanden de limiet samen met bestaande bestanden overschrijdt, is uploaden niet toegestaan.",
-  "HTML/SVG ファイルはアップロードできません。": "HTML/SVG-bestanden kunnen niet worden geüpload.",
   "パスワードが違います。": "Wachtwoord is onjuist.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Kamersessie kon niet worden geverifieerd. Ga opnieuw naar binnen via de gedeelde URL.",
   "ルームが見つかりません。": "Kamer niet gevonden.",
@@ -1061,7 +1060,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Voor e-mail moet het adres van iedereen bekend zijn en er gelden vaak strikte limieten voor de bestandsgrootte. Bij een groepsruimte kunnen deelnemers deelnemen met een gedeelde URL of kamer-ID en wachtwoord, en blijven de bestanden op één plek verzameld.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Voor services zoals Google Drive is mogelijk een Google-account vereist. FS!QR Group vereist geen account en deelnemers kunnen deelnemen met een deel-URL of kamer-ID en wachtwoord.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "USB-drives kunnen verloren gaan, worden geïnfecteerd met malware en zijn lastig te distribueren naar meerdere mensen. FS!QR Group werkt in de browser en na de bewaartermijn wordt de hele ruimte automatisch verwijderd.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "De belangrijkste bestandsformaten worden ondersteund, waaronder PDF, Word, Excel, PowerPoint, afbeeldingen (JPEG/PNG), video (MP4), ZIP en tekstbestanden. Sommige formaten, zoals HTML/SVG, kunnen om veiligheidsredenen niet worden geüpload.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Met de standaardinstellingen kan één groepsruimte in totaal maximaal 1 GB en 30 bestanden opslaan. Het uploaden wordt geblokkeerd als de nieuwe bestanden plus bestaande bestanden de limiet overschrijden.",
   "共有情報の管理と削除": "Gedeelde toegangsinformatie beheren en verwijderen",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Wanneer een kamer wordt aangemaakt, worden de kamer-ID, het wachtwoord, de deel-URL en de QR-code weergegeven. De maker kan de ruimte indien nodig verwijderen. Na verwijdering zijn opgeslagen bestanden niet langer beschikbaar.",
@@ -1093,5 +1091,8 @@
   "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Deel de gegenereerde QR-code of deel de link en het 6-cijferige wachtwoord per e-mail of chat. Selecteer de bewaartermijn bij het uploaden.",
   "相手が受け取る": "De ontvanger downloadt het bestand",
   "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "De ontvanger scant de QR-code of opent de deellink, voert indien nodig het wachtwoord in en downloadt binnen de bewaartermijn.",
-  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Inhoud waarvan wordt beweerd dat deze inbreuk maakt op het auteursrecht, wordt onmiddellijk verwijderd op basis van DMCA-equivalente procedures."
+  "著作権侵害の申し立てを受けたコンテンツは、権利者からの申告内容を確認し、必要に応じて削除またはアクセス制限を行います。": "Inhoud waarvan wordt beweerd dat deze inbreuk maakt op het auteursrecht, wordt onmiddellijk verwijderd op basis van DMCA-equivalente procedures.",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "SVG- en XHTML-bestanden en HTML-bestanden zonder de extensie .html of .htm kunnen niet worden geüpload.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "Dit HTML-bestand is te groot voor een voorbeeld.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "De belangrijkste bestandsformaten worden ondersteund, waaronder PDF, Word, Excel, PowerPoint, afbeeldingen (JPEG/PNG), video (MP4), ZIP, tekst en HTML. HTML-bestanden kun je in de ruimte als voorbeeld bekijken, en hun JavaScript draait alleen geïsoleerd wanneer je ervoor kiest het uit te voeren. Sommige formaten, zoals SVG, kunnen om veiligheidsredenen niet worden geüpload."
 }

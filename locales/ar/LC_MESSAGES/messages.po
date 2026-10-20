@@ -1821,8 +1821,8 @@ msgstr "جرّب المجموعة"
 msgid "HEIC形式に注意："
 msgstr "انتبه بعناية لهذا."
 
-msgid "HTML/SVG ファイルはアップロードできません。"
-msgstr "لا يمكن رفع ملفات HTML/SVG."
+msgid "HTML ファイルが大きすぎるためプレビューできません。"
+msgstr "ملف HTML هذا كبير جدًا بحيث لا يمكن معاينته."
 
 msgid "HTTPSによる通信保護"
 msgstr "حماية الاتصالات عبر HTTPS"
@@ -2181,11 +2181,12 @@ msgstr ""
 "يتم دعم صيغ الملفات الرئيسية، بما في ذلك PDF وWord وExcel وPowerPoint "
 "والصور (JPEG وPNG) ومقاطع الفيديو (MP4) وZIP والملفات النصية."
 
-msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
 msgstr ""
 "يدعم الصيغ الرئيسية مثل PDF وWord وExcel وPowerPoint والصور (JPEG وPNG) "
-"والفيديو (MP4) وZIP والملفات النصية. لا يمكن رفع بعض الصيغ مثل HTML/SVG "
-"لأسباب أمنية."
+"والفيديو (MP4) وZIP والملفات النصية وملفات HTML. يمكن معاينة ملفات HTML "
+"داخل الغرفة، ولا يعمل JavaScript فيها إلا بشكل معزول وعندما تختار تشغيله."
+" لا يمكن رفع بعض الصيغ مثل SVG لأسباب أمنية."
 
 msgid "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr ""
@@ -2516,6 +2517,11 @@ msgstr "رمز QR والمجموعة والملاحظات في شاشة واحد
 
 msgid "Room情報"
 msgstr "معلومات الغرفة"
+
+msgid "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
+msgstr ""
+"لا يمكن رفع ملفات SVG وXHTML، ولا ملفات HTML التي لا تنتهي بالامتداد "
+"‎.html أو ‎.htm."
 
 msgid "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"
 msgstr ""

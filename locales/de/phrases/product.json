@@ -860,7 +860,6 @@
   "自動保存で内容を同期": "Inhalte durch automatisches Speichern synchronisieren",
   "ノートルームではテキストをリアルタイムに共有できます。": "In einem Notizraum kann Text in Echtzeit geteilt werden.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Ein Gruppenraum kann bis zu 10 Dateien mit insgesamt 500 MB speichern. Wenn das Hinzufügen neuer Dateien das Limit mit den vorhandenen überschreiten würde, ist das Hochladen nicht zulässig.",
-  "HTML/SVG ファイルはアップロードできません。": "HTML/SVG-Dateien können nicht hochgeladen werden.",
   "パスワードが違います。": "Das Passwort ist falsch.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Die Raumsitzung konnte nicht überprüft werden. Bitte betreten Sie den Raum über den geteilten Link erneut.",
   "ルームが見つかりません。": "Raum nicht gefunden.",
@@ -985,7 +984,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Bei E-Mail müssen alle Adressen bekannt sein und es gelten strenge Dateigrößenbeschränkungen. Bei einem Gruppenraum können Teilnehmer mit einer Freigabe-URL oder Raum-ID und Passwort beitreten, und alle Dateien sind an einem Ort gebündelt.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Dienste wie Google Drive erfordern möglicherweise ein Google-Konto. FS!QR Group benötigt kein Konto, und Teilnehmer können mit einer Freigabe-URL oder Raum-ID und Passwort beitreten.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "USB-Sticks können verloren gehen oder mit Malware infiziert werden und sind unpraktisch für die Verteilung an mehrere Personen. FS!QR Group funktioniert im Browser, und der gesamte Raum wird nach Ablauf der Aufbewahrungsfrist automatisch gelöscht.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "Gängige Dateiformate werden unterstützt, darunter PDF, Word, Excel, PowerPoint, Bilder (JPEG/PNG), Video (MP4), ZIP und Textdateien. Einige Formate wie HTML/SVG können aus Sicherheitsgründen nicht hochgeladen werden.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Mit den Standardeinstellungen kann ein Gruppenraum insgesamt bis zu 1 GB und 30 Dateien speichern. Das Hochladen ist nicht möglich, wenn neue Dateien zusammen mit bereits gespeicherten das Limit überschreiten würden.",
   "共有情報の管理と削除": "Verwaltung und Löschung der Freigabeinformationen",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Bei der Raumerstellung werden Raum-ID, Passwort, Freigabe-URL und QR-Code angezeigt. Der Ersteller kann den Raum bei Bedarf löschen. Nach der Löschung sind gespeicherte Dateien nicht mehr verfügbar.",
@@ -1038,5 +1036,8 @@
   "ビジネス会議での活用例": "Beispiele für die Nutzung in Geschäftstreffen",
   "ゼミやグループ学習での活用例": "Beispiele für die Nutzung in Seminaren oder Lerngruppen",
   "安全で効率的な運用のポイント": "Punkte für einen sicheren und effizienten Betrieb",
-  "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Durch die Integration von FS!QR in den alltäglichen Unterricht oder in Besprechungen kann die Zeit für die Vorbereitung und Verteilung von Materialien erheblich reduziert werden. Da weder eine Kontoerstellung noch die Installation einer speziellen App erforderlich ist, kann jeder es sofort nutzen. Erleben Sie diese Dateifreigabe der nächsten Generation."
+  "FS!QRを日常の授業や会議に取り入れることで、資料の準備や配布にかかる時間を大幅に短縮できます。アカウント作成や特別なアプリのインストールも不要なため、誰でもすぐに使いこなすことができる、次世代のファイル共有をぜひ体験してください。": "Durch die Integration von FS!QR in den alltäglichen Unterricht oder in Besprechungen kann die Zeit für die Vorbereitung und Verteilung von Materialien erheblich reduziert werden. Da weder eine Kontoerstellung noch die Installation einer speziellen App erforderlich ist, kann jeder es sofort nutzen. Erleben Sie diese Dateifreigabe der nächsten Generation.",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "SVG- und XHTML-Dateien sowie HTML-Dateien ohne die Endung .html oder .htm können nicht hochgeladen werden.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "Diese HTML-Datei ist für eine Vorschau zu groß.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "Gängige Dateiformate werden unterstützt, darunter PDF, Word, Excel, PowerPoint, Bilder (JPEG/PNG), Videos (MP4), ZIP, Text- und HTML-Dateien. HTML-Dateien lassen sich im Raum als Vorschau anzeigen; ihr JavaScript läuft nur isoliert und nur, wenn Sie es ausführen. Einige Formate wie SVG können aus Sicherheitsgründen nicht hochgeladen werden."
 }

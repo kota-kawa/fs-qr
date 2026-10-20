@@ -1413,8 +1413,8 @@ msgstr "体验 Group"
 msgid "HEIC形式に注意："
 msgstr "注意 HEIC 格式："
 
-msgid "HTML/SVG ファイルはアップロードできません。"
-msgstr "无法上传 HTML/SVG 文件。"
+msgid "HTML ファイルが大きすぎるためプレビューできません。"
+msgstr "此 HTML 文件过大，无法预览。"
 
 msgid "HTTPSによる通信保護"
 msgstr "HTTPS通信保护"
@@ -1685,10 +1685,11 @@ msgstr "导致PDF文件过大的主要原因"
 msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr "支持 PDF、Word、Excel、PowerPoint、图片 (JPEG、PNG)、视频 (MP4)、ZIP、文本文件等主流文件格式。"
 
-msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
 msgstr ""
-"支持主要文件格式，包括 PDF、Word、Excel、PowerPoint、图像 (JPEG/PNG)、视频 (MP4)、ZIP "
-"和文本文件。出于安全原因，某些格式（例如 HTML/SVG）无法上传。"
+"支持 PDF、Word、Excel、PowerPoint、图片（JPEG/PNG）、视频（MP4）、ZIP、文本和 HTML "
+"文件等主要文件格式。HTML 文件可在房间内预览，其中的 JavaScript 仅在你选择运行时才会隔离运行。出于安全原因，SVG "
+"等部分格式无法上传。"
 
 msgid "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr ""
@@ -1950,6 +1951,9 @@ msgstr "在一个屏幕上使用二维码、群组和笔记"
 
 msgid "Room情報"
 msgstr "房间信息"
+
+msgid "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
+msgstr "无法上传 SVG、XHTML 文件，以及扩展名不是 .html / .htm 的 HTML 文件。"
 
 msgid "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"
 msgstr "默认情况下，Safari 浏览器将下载的文件保存到内置“文件”应用程序中的“下载”文件夹中。"

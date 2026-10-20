@@ -882,7 +882,6 @@
   "自動保存で内容を同期": "Đồng bộ nội dung bằng tính năng tự động lưu",
   "ノートルームではテキストをリアルタイムに共有できます。": "Trong phòng ghi chú, văn bản có thể được chia sẻ trong thời gian thực.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Một phòng nhóm có thể lưu trữ tối đa 10 tệp với tổng dung lượng 500 MB. Nếu thêm tệp mới vượt quá giới hạn cùng với các tệp hiện có, việc tải lên sẽ không được phép.",
-  "HTML/SVG ファイルはアップロードできません。": "Không thể tải lên tệp HTML/SVG.",
   "パスワードが違います。": "Mật khẩu không đúng.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Không thể xác nhận phiên phòng. Vui lòng truy cập lại bằng URL chia sẻ.",
   "ルームが見つかりません。": "Không tìm thấy phòng.",
@@ -1007,7 +1006,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Email yêu cầu biết địa chỉ của mọi người và thường có giới hạn kích thước tệp nghiêm ngặt. Với phòng nhóm, người tham gia có thể tham gia bằng URL chia sẻ hoặc ID và mật khẩu của phòng, đồng thời các tệp vẫn được thu thập ở một nơi.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Các dịch vụ như Google Drive có thể yêu cầu tài khoản Google. FS!QR Group không yêu cầu tài khoản; người tham gia có thể vào bằng URL chia sẻ hoặc ID phòng và mật khẩu.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "USB có rủi ro thất lạc hoặc nhiễm phần mềm độc hại, và cũng bất tiện khi phát cho nhiều người. FS!QR Group cho phép chia sẻ chỉ bằng trình duyệt, và cả phòng sẽ tự động bị xóa sau thời hạn lưu trữ.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "Các định dạng tệp chính được hỗ trợ, bao gồm PDF, Word, Excel, PowerPoint, hình ảnh (JPEG/PNG), video (MP4), ZIP và tệp văn bản. Không thể tải lên một số định dạng, chẳng hạn như HTML/SVG vì lý do bảo mật.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Với cài đặt tiêu chuẩn, một phòng nhóm có thể lưu trữ tổng cộng tối đa 1 GB và 30 tệp. Tải lên bị chặn nếu các tệp mới cộng với các tệp hiện có vượt quá giới hạn.",
   "共有情報の管理と削除": "Quản lý và xóa thông tin truy cập chung",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Khi một phòng được tạo, ID phòng, mật khẩu, URL chia sẻ và mã QR sẽ được hiển thị. Người tạo có thể xóa phòng khi cần thiết. Sau khi xóa, các tập tin đã lưu sẽ không còn nữa.",
@@ -1038,5 +1036,8 @@
   "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "Không. Người nhận chỉ cần liên kết chia sẻ hoặc mã QR cùng mật khẩu 6 chữ số đã được cấp. Không cần đăng ký tài khoản.",
   "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Chia sẻ mã QR đã tạo hoặc liên kết chia sẻ và mật khẩu gồm 6 chữ số qua email hoặc trò chuyện. Chọn thời gian lưu giữ khi tải lên.",
   "相手が受け取る": "Người nhận tải tập tin xuống",
-  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "Người nhận quét mã QR hoặc mở liên kết chia sẻ, nhập mật khẩu nếu cần và tải xuống trong thời hạn lưu trữ."
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "Người nhận quét mã QR hoặc mở liên kết chia sẻ, nhập mật khẩu nếu cần và tải xuống trong thời hạn lưu trữ.",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "Không thể tải lên tệp SVG, XHTML và tệp HTML không có phần mở rộng .html hoặc .htm.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "Tệp HTML này quá lớn để xem trước.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "Hỗ trợ các định dạng tệp chính, gồm PDF, Word, Excel, PowerPoint, hình ảnh (JPEG/PNG), video (MP4), ZIP, văn bản và HTML. Tệp HTML có thể xem trước ngay trong phòng, và JavaScript của tệp chỉ chạy cách ly khi bạn chọn chạy. Một số định dạng như SVG không thể tải lên vì lý do bảo mật."
 }

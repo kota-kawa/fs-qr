@@ -115,6 +115,8 @@ ALLOW_START_WITHOUT_DB = _env_flag("ALLOW_START_WITHOUT_DB", default=False)
 UPLOAD_MAX_FILES = _env_int("UPLOAD_MAX_FILES", default=30, minimum=1)
 UPLOAD_MAX_TOTAL_SIZE_MB = _env_int("UPLOAD_MAX_TOTAL_SIZE_MB", default=1024, minimum=1)
 UPLOAD_MAX_TOTAL_SIZE_BYTES = UPLOAD_MAX_TOTAL_SIZE_MB * 1024 * 1024
+# Larger Group HTML files stay download-only; the browser parses previews in memory.
+GROUP_HTML_PREVIEW_MAX_BYTES = 2 * 1024 * 1024
 FSQR_UPLOAD_DIR = os.getenv(
     "FSQR_UPLOAD_DIR",
     os.path.join(BASE_DIR, "storage", "fsqr_uploads"),

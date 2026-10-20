@@ -6,7 +6,7 @@ FS-QR is a FastAPI-powered web app that makes file sharing, QR-based downloads, 
 
 ## 🌟 Highlights
 - **Instant sharing via QR codes** — upload a file and scan to download from any device.
-- **Group-based collaboration** — create a room with a shared passphrase and share files safely.
+- **Group-based collaboration** — create a room with a shared passphrase and share files safely. Uploaded `.html` files can be previewed in the room in an isolated frame; their JavaScript runs only when a viewer chooses to run it, and the file is never served as a page on the site.
 - **Instant rooms and editable expiry** — Group, Note, and Task rooms open immediately
   with an automatically generated ID and a default lifetime of 24 hours. Only the
   creator can change the expiry, up to 30 days from the original creation time.
@@ -285,7 +285,7 @@ FS-QRは、**ファイル共有・QRコード配布・リアルタイムノー�
 
 ## 🌟 特長
 - **QRコードで即共有**：アップロード後にQRを生成し、スマホから簡単ダウンロード。
-- **グループ共有**：合言葉で部屋を作り、メンバー間で安全にファイル共有。
+- **グループ共有**：合言葉で部屋を作り、メンバー間で安全にファイル共有。アップロードした `.html` はルーム内の隔離された枠でプレビューでき、JavaScript は閲覧者が実行を選んだときだけ動きます。HTML をサイト上のページとして配信することはありません。
 - **すぐに作成・期限変更**：Group・Note・TaskはIDを自動発行し、標準24時間で即時作成・入室します。
   作成者だけが有効期限を作成から最大30日まで変更でき、共有済みURLも変更後の期限まで使えます。
   期限切れ後の復活はできません。IDや初期の保存期間を指定する場合は「設定して作成」を使えます。

@@ -70,6 +70,7 @@
       body: previewBody,
       closeButton: previewCloseButton,
       downloadLink: previewDownloadLink,
+      htmlPreviewCdn: config.htmlPreviewCdn,
       logger: logger
     });
 

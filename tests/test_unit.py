@@ -1165,7 +1165,10 @@ def test_validate_upload_file_content_blocks_svg_mime():
     from io import BytesIO
     from types import SimpleNamespace
 
-    from file_validation import validate_upload_file_content
+    from file_validation import (
+        UNSUPPORTED_UPLOAD_TYPE_MESSAGE,
+        validate_upload_file_content,
+    )
 
     upload = SimpleNamespace(filename="image.png", file=BytesIO(b"<svg></svg>"))
     detector = SimpleNamespace(from_buffer=lambda _: "image/svg+xml")
@@ -1173,4 +1176,34 @@ def test_validate_upload_file_content_blocks_svg_mime():
     with patch("file_validation._MIME_DETECTOR", detector):
         result = validate_upload_file_content(upload)
 
-    assert result == "HTML/SVG ファイルはアップロードできません。"
+    assert result == UNSUPPORTED_UPLOAD_TYPE_MESSAGE
+
+
+@pytest.mark.parametrize(
+    ("filename", "detected", "allowed"),
+    [
+        ("page.html", "text/html", True),
+        ("PAGE.HTM", "text/html", True),
+        ("notes.txt", "text/html", False),
+        ("page.xhtml", "application/xhtml+xml", False),
+        ("icon.svg", "text/plain", False),
+    ],
+)
+def test_validate_upload_file_content_allows_only_named_html(
+    filename, detected, allowed
+):
+    from io import BytesIO
+    from types import SimpleNamespace
+
+    from file_validation import (
+        UNSUPPORTED_UPLOAD_TYPE_MESSAGE,
+        validate_upload_file_content,
+    )
+
+    upload = SimpleNamespace(filename=filename, file=BytesIO(b"<p>x</p>"))
+    detector = SimpleNamespace(from_buffer=lambda _: detected)
+
+    with patch("file_validation._MIME_DETECTOR", detector):
+        result = validate_upload_file_content(upload)
+
+    assert result == (None if allowed else UNSUPPORTED_UPLOAD_TYPE_MESSAGE)

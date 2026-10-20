@@ -20,12 +20,17 @@ else:
     magic = _magic
 
 _DANGEROUS_FILENAME_PATTERNS = ("..", "/", "\\", "\x00", "\r", "\n")
-_DISALLOWED_UPLOAD_EXTENSIONS = {".html", ".htm", ".xhtml", ".svg", ".svgz"}
+_DISALLOWED_UPLOAD_EXTENSIONS = {".xhtml", ".svg", ".svgz"}
 _DISALLOWED_UPLOAD_MIME_TYPES = {
     "application/xhtml+xml",
     "image/svg+xml",
-    "text/html",
 }
+# HTML is stored for download and sandboxed preview only, never served as a page.
+_HTML_UPLOAD_EXTENSIONS = {".html", ".htm"}
+UNSUPPORTED_UPLOAD_TYPE_MESSAGE = (
+    "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルは"
+    "アップロードできません。"
+)
 _MIME_DETECTOR = magic.Magic(mime=True) if magic is not None else None
 
 
@@ -163,10 +168,12 @@ def validate_upload_file_content(upload_file: UploadFile) -> str | None:
     filename = upload_file.filename or ""
     _, ext = os.path.splitext(filename.lower())
     if ext in _DISALLOWED_UPLOAD_EXTENSIONS:
-        return "HTML/SVG ファイルはアップロードできません。"
+        return UNSUPPORTED_UPLOAD_TYPE_MESSAGE
 
     detected_mime = detect_upload_mime_type(upload_file)
-    if detected_mime in _DISALLOWED_UPLOAD_MIME_TYPES:
-        return "HTML/SVG ファイルはアップロードできません。"
+    if detected_mime in _DISALLOWED_UPLOAD_MIME_TYPES or (
+        detected_mime == "text/html" and ext not in _HTML_UPLOAD_EXTENSIONS
+    ):
+        return UNSUPPORTED_UPLOAD_TYPE_MESSAGE
 
     return None

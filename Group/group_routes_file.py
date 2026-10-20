@@ -11,12 +11,13 @@ from typing import Optional
 from fastapi import APIRouter, File, Request, UploadFile
 from starlette.background import BackgroundTask
 from starlette.concurrency import run_in_threadpool
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, Response
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response
 from file_serving import build_file_response
 from file_validation import (
+    UNSUPPORTED_UPLOAD_TYPE_MESSAGE,
     build_content_disposition_attachment,
     build_content_disposition_inline,
     sanitize_group_upload_filename,
@@ -25,6 +26,7 @@ from file_validation import (
     validate_upload_limits,
 )
 from settings import (
+    GROUP_HTML_PREVIEW_MAX_BYTES,
     UPLOAD_MAX_FILES,
     UPLOAD_MAX_TOTAL_SIZE_BYTES,
     UPLOAD_MAX_TOTAL_SIZE_MB,
@@ -84,6 +86,8 @@ _PREVIEW_EXTENSIONS = {
     ".bmp": ("image/bmp", "image"),
     ".csv": ("text/csv", "text"),
     ".gif": ("image/gif", "image"),
+    ".htm": ("text/plain; charset=utf-8", "html"),
+    ".html": ("text/plain; charset=utf-8", "html"),
     ".jpeg": ("image/jpeg", "image"),
     ".jpg": ("image/jpeg", "image"),
     ".json": ("application/json", "text"),
@@ -322,7 +326,7 @@ def register_group_upload_route(router: APIRouter):
             if saved_files:
                 await _notify_files_updated(room_id)
             return api_error_response(
-                "HTML/SVG ファイルはアップロードできません。",
+                UNSUPPORTED_UPLOAD_TYPE_MESSAGE,
                 status_code=400,
                 data={"files": rejected_files},
             )
@@ -486,6 +490,25 @@ def register_group_download_file_route(router: APIRouter):
             return api_error_response(f"エラー: {str(e)}", status_code=500)
 
 
+async def _build_html_preview_response(file_path: str):
+    # Uploaded HTML is only ever handed to the in-page sandbox renderer as text.
+    if os.path.getsize(file_path) > GROUP_HTML_PREVIEW_MAX_BYTES:
+        return api_error_response(
+            "HTML ファイルが大きすぎるためプレビューできません。",
+            status_code=413,
+        )
+    with open(file_path, "rb") as source:
+        content = await run_in_threadpool(source.read)
+    return Response(
+        content,
+        media_type="text/plain; charset=utf-8",
+        headers={
+            "Content-Security-Policy": "sandbox; default-src 'none'",
+            "X-Content-Type-Options": "nosniff",
+        },
+    )
+
+
 def register_group_preview_file_route(router: APIRouter):
     @router.get("/preview/{room_id}/{filename:path}", name="group.preview_file")
     async def preview_file(request: Request, room_id: str, filename: str):
@@ -524,6 +547,8 @@ def register_group_preview_file_route(router: APIRouter):
             return api_error_response("不正なパスが検出されました。", status_code=400)
 
         try:
+            if preview_metadata["preview_type"] == "html":
+                return await _build_html_preview_response(file_path)
             headers = {
                 "Content-Disposition": build_content_disposition_inline(
                     decoded_filename

@@ -107,7 +107,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 | 機能 | 入口 | データ・共通ロジック | UI / realtime | 主な検証先 |
 | --- | --- | --- | --- | --- |
 | FSQR | `FSQR/fsqr_app.py` | `FSQR/fsqr_data.py`, `file_validation.py`, `file_serving.py` | `FSQR/templates/`, `static/js/fs_qr_upload/`, `static/js/fsqr_landing/` | `tests/test_fsqr.py`, `tests/test_file_serving.py` |
-| Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py` |
+| Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py`, `tests/test_group_html_preview_browser.py` |
 | Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_collaboration.py`, `note_export.py` | `Note/templates/`, `static/js/note_room_realtime/`, `hocuspocus/` | `tests/test_note.py`, `tests/test_note_collaboration.py`, `tests/test_note_realtime.py`, `hocuspocus/*.test.js` |
 | Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_authorize.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
 | HTML | `HtmlPreview/html_preview_app.py` | 保存・入力 API なし、`html_preview_assets.py` | `HtmlPreview/templates/`, `static/js/html_preview/`, `static/css/html-preview.css` | `tests/test_html_preview.py`, `tests/test_html_preview_browser.py` |
@@ -216,6 +216,14 @@ Fullscreen API が無い環境では固定表示で代替します。
 プレビュー用の基礎スタイルは狭い画面でも読める余白・折り返しを補いますが、入力された CSS の
 固定幅指定などはそのまま表示します。本文は再読み込みで消えます。詳細な判断は
 [ADR-0009](docs/decisions/0009-browser-only-html-preview.md) にあります。
+
+要素・属性の再構築と srcdoc の組み立ては `static/js/html_preview/renderer.js` に置き、
+`/html-preview` の `static/js/html_preview/preview.js` と Group のプレビュー
+（`static/js/group_room/preview.js`）が共有します。Group は `.html` / `.htm` の保存を許可しますが、
+`/preview/{room_id}/{filename}` は HTML を text/plain と `Content-Security-Policy: sandbox` 付きで
+アプリから直接返し、ブラウザはそれをモーダル内の sandbox iframe でだけ描画します。初期状態では script を
+除去し、JavaScript は開くたびの明示操作でだけ実行します。2 MB を超える HTML は 413 でダウンロードのみに
+します。判断は [ADR-0010](docs/decisions/0010-group-sandboxed-html-preview.md) にあります。
 
 ### 翻訳
 

@@ -1847,8 +1847,8 @@ msgstr "ทดลองใช้ Group"
 msgid "HEIC形式に注意："
 msgstr "ระวัง HEIC Format :"
 
-msgid "HTML/SVG ファイルはアップロードできません。"
-msgstr "ไม่สามารถอัปโหลดไฟล์ HTML/SVG ได้"
+msgid "HTML ファイルが大きすぎるためプレビューできません。"
+msgstr "ไฟล์ HTML นี้ใหญ่เกินกว่าจะแสดงตัวอย่างได้"
 
 msgid "HTTPSによる通信保護"
 msgstr "การป้องกันการสื่อสาร HTTPS"
@@ -2215,11 +2215,13 @@ msgstr ""
 "รองรับรูปแบบไฟล์ยอดนิยม เช่น PDF, Word, Excel, PowerPoint, รูปภาพ (JPEG, "
 "PNG), วิดีโอ (MP4), ZIP และไฟล์ข้อความ"
 
-msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
 msgstr ""
-"รองรับรูปแบบไฟล์หลักๆ รวมถึง PDF, Word, Excel, PowerPoint, รูปภาพ "
-"(JPEG/PNG), วิดีโอ (MP4), ZIP และไฟล์ข้อความ รูปแบบบางรูปแบบ เช่น "
-"HTML/SVG ไม่สามารถอัปโหลดได้ด้วยเหตุผลด้านความปลอดภัย"
+"รองรับรูปแบบไฟล์หลัก ได้แก่ PDF, Word, Excel, PowerPoint, รูปภาพ "
+"(JPEG/PNG), วิดีโอ (MP4), ZIP, ไฟล์ข้อความ และไฟล์ HTML "
+"สามารถแสดงตัวอย่างไฟล์ HTML ภายในห้องได้ และ JavaScript "
+"ของไฟล์จะทำงานแบบแยกส่วนเฉพาะเมื่อคุณเลือกเรียกใช้เท่านั้น บางรูปแบบ เช่น"
+" SVG ไม่สามารถอัปโหลดได้ด้วยเหตุผลด้านความปลอดภัย"
 
 msgid "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr ""
@@ -2542,6 +2544,11 @@ msgstr "QR กลุ่ม และบันทึกในหนึ่งห�
 
 msgid "Room情報"
 msgstr "ข้อมูลห้อง"
+
+msgid "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
+msgstr ""
+"ไม่สามารถอัปโหลดไฟล์ SVG และ XHTML รวมถึงไฟล์ HTML ที่ไม่มีนามสกุล .html "
+"หรือ .htm ได้"
 
 msgid "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"
 msgstr ""

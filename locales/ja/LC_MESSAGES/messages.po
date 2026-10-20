@@ -1099,8 +1099,8 @@ msgstr "Groupメニュー"
 msgid "HEIC形式に注意："
 msgstr "HEIC形式に注意："
 
-msgid "HTML/SVG ファイルはアップロードできません。"
-msgstr "HTML/SVGファイルはアップロードできません。"
+msgid "HTML ファイルが大きすぎるためプレビューできません。"
+msgstr "HTML ファイルが大きすぎるためプレビューできません。"
 
 msgid "HTTPSによる通信保護"
 msgstr "HTTPSによる通信保護"
@@ -1357,8 +1357,8 @@ msgstr "PDFや画像が画面に表示されるだけで保存できない"
 msgid "PDFファイルが重くなる主な原因"
 msgstr "PDFファイルが重くなる主な原因"
 
-msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
-msgstr "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgstr "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
 
 msgid "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
@@ -1574,6 +1574,9 @@ msgstr "QR共有・グループ・ノートを1画面で"
 
 msgid "Room情報"
 msgstr "Room情報"
+
+msgid "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
+msgstr "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
 
 msgid "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"
 msgstr "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"

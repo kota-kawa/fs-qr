@@ -9,6 +9,7 @@ from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response, error_page_or_json
+from html_preview_assets import CDN_ASSETS
 from models import GroupRoomCreateInput, RoomCreateInput
 from rate_limit import (
     SCOPE_GROUP,
@@ -119,6 +120,7 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         websocket_csrf_token=get_or_create_csrf_token(request),
         presence_scope="group",
         presence_key=room_id,
+        html_preview_cdn=CDN_ASSETS,
     )
 
 
