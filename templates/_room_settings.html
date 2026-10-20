@@ -1,4 +1,6 @@
 {% if can_delete and room_retention_options %}
+{# Same service colors as the retention select on the create pages. #}
+{% set retention_classes = {'group': 'retention-select-wrapper--emerald', 'note': 'retention-select-wrapper--citrus', 'task': 'retention-select-wrapper--amber'} %}
 {% set retention_labels = {1: _('1時間'), 6: _('6時間'), 12: _('12時間'), 24: _('1日'), 168: _('1週間'), 720: _('room.retention.720')} %}
 <details class="room-settings">
   <summary>{{ _('room.settings.title') }}</summary>
@@ -8,11 +10,18 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <p class="room-access-help">{{ _('room.settings.help') }}</p>
     <label class="room-access-label" for="room-retention">{{ _('room.settings.retention') }}</label>
-    <select id="room-retention" name="retention_hours" class="room-access-control">
-      {% for option in room_retention_options %}
-      <option value="{{ option.hours }}" data-deletion-date="{{ option.deletion_date }}"{% if option.hours == retention_hours %} selected{% endif %}>{{ retention_labels[option.hours] }}</option>
-      {% endfor %}
-    </select>
+    <div class="retention-select-wrapper {{ retention_classes[room_settings_service] }}" data-retention-select>
+      <select id="room-retention" name="retention_hours" class="retention-select" autocomplete="off">
+        {% for option in room_retention_options %}
+        <option value="{{ option.hours }}" data-deletion-date="{{ option.deletion_date }}"{% if option.hours == retention_hours %} selected{% endif %}>{{ retention_labels[option.hours] }}</option>
+        {% endfor %}
+      </select>
+      <span class="retention-select-arrow" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </div>
     <p class="room-settings-preview">{{ _('削除予定日') }}: <strong data-room-settings-preview></strong></p>
     <button type="submit" class="modern-btn">{{ _('room.settings.save') }}</button>
     <p data-room-settings-error role="alert" aria-live="assertive" hidden></p>

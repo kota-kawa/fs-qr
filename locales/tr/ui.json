@@ -148,5 +148,6 @@
   "room.settings.invalid": "Mevcut saklama sürelerinden birini seçin.",
   "room.settings.failed": "Sona erme süresi güncellenemedi. Lütfen daha sonra tekrar deneyin.",
   "room.settings.expired": "Odanın süresi dolmuş veya oda silinmiş ya da seçilen sona erme zamanı geçmiş.",
-  "room.retention.720": "30 gün"
+  "room.retention.720": "30 gün",
+  "room.retention.range": "1 saatten 30 güne"
 }

@@ -2539,6 +2539,9 @@ msgstr "创建24小时后自动删除。创建房间后可以修改有效期。"
 msgid "room.retention.720"
 msgstr "30天"
 
+msgid "room.retention.range"
+msgstr "1小时至30天"
+
 msgid "room.settings.expired"
 msgstr "房间已过期或已删除，或所选的到期时间已过去。"
 

@@ -209,10 +209,47 @@
 }
 
 .service-menu-page .menu-create-button {
+  width: auto;
   border: 0;
   cursor: pointer;
   font: inherit;
   font-weight: 700;
+}
+
+/* Quick-create form inside a menu card: keeps the card's pill buttons at the bottom. */
+.service-menu-page .menu-card .room-quick-create {
+  width: 100%;
+  margin-top: auto;
+}
+
+.service-menu-page .menu-card .room-access-help {
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.service-menu-page .menu-card .room-quick-create__actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 0;
+}
+
+.service-menu-page .menu-card a.room-quick-create__advanced,
+.service-menu-page .menu-card a.room-quick-create__advanced:hover {
+  min-width: 0;
+  margin-top: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--service-link, var(--service-accent, #1f3fcf));
+  font-size: 0.92rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transform: none;
 }
 
 .service-menu-page .menu-card a:hover,

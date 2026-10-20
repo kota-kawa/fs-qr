@@ -3372,6 +3372,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 дней"
 
+msgid "room.retention.range"
+msgstr "От 1 часа до 30 дней"
+
 msgid "room.settings.expired"
 msgstr "Комната удалена, срок её действия истёк или выбранная дата уже прошла."
 

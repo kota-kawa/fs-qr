@@ -148,5 +148,6 @@
   "room.settings.invalid": "Pilih salah satu masa penyimpanan yang tersedia.",
   "room.settings.failed": "Masa berlaku tidak dapat diperbarui. Coba lagi nanti.",
   "room.settings.expired": "Ruang telah kedaluwarsa atau dihapus, atau waktu yang dipilih telah berlalu.",
-  "room.retention.720": "30 hari"
+  "room.retention.720": "30 hari",
+  "room.retention.range": "1 jam hingga 30 hari"
 }

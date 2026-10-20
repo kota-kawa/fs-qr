@@ -1,7 +1,12 @@
-<form method="POST" action="{{ room_quick_action }}" data-room-create
+<form method="POST" action="{{ room_quick_action }}" class="room-quick-create" data-room-create
       data-processing-label="{{ _('処理中...') }}">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <p class="room-access-help">{{ _('room.create.hint') }}</p>
-  <button type="submit" class="room-create-submit {{ room_quick_button_class | default('room-access-submit') }}">{{ _('ルームを作成') }}</button>
+  <div class="room-quick-create__actions">
+    <button type="submit" class="room-create-submit {{ room_quick_button_class | default('room-access-submit') }}">{{ room_quick_submit_label | default(_('ルームを作成')) }}</button>
+    {% if room_quick_advanced_href %}
+    <a class="room-quick-create__advanced" href="{{ room_quick_advanced_href }}">{{ _('room.create.advanced') }}</a>
+    {% endif %}
+  </div>
   <div class="room-create-feedback" data-room-create-error role="alert" aria-live="assertive"></div>
 </form>

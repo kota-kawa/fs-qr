@@ -3374,6 +3374,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 days"
 
+msgid "room.retention.range"
+msgstr "1 hour to 30 days"
+
 msgid "room.settings.expired"
 msgstr ""
 "The room has expired or been deleted, or the selected expiry is in the "

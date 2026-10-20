@@ -2194,6 +2194,9 @@ msgstr "作成から24時間後に自動削除されます。作成後に有効�
 msgid "room.retention.720"
 msgstr "30日"
 
+msgid "room.retention.range"
+msgstr "1時間〜30日"
+
 msgid "room.settings.expired"
 msgstr "ルームが期限切れ・削除済みか、選択した期限が過去になっています。"
 

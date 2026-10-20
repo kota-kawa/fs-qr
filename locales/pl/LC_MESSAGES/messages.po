@@ -3478,6 +3478,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 dni"
 
+msgid "room.retention.range"
+msgstr "Od 1 godziny do 30 dni"
+
 msgid "room.settings.expired"
 msgstr "Pokój wygasł lub został usunięty albo wybrany termin już minął."
 

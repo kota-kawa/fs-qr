@@ -148,5 +148,6 @@
   "room.settings.invalid": "Chagua mojawapo ya vipindi vya kuhifadhi vinavyopatikana.",
   "room.settings.failed": "Imeshindikana kusasisha muda wa kuisha. Jaribu tena baadaye.",
   "room.settings.expired": "Muda wa chumba umeisha au chumba kimefutwa, au muda uliochaguliwa umepita.",
-  "room.retention.720": "Siku 30"
+  "room.retention.720": "Siku 30",
+  "room.retention.range": "Saa 1 hadi siku 30"
 }

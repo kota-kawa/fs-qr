@@ -3310,6 +3310,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 วัน"
 
+msgid "room.retention.range"
+msgstr "1 ชั่วโมงถึง 30 วัน"
+
 msgid "room.settings.expired"
 msgstr "ห้องหมดอายุหรือถูกลบแล้ว หรือวันหมดอายุที่เลือกผ่านไปแล้ว"
 

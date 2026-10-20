@@ -3484,6 +3484,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 dagen"
 
+msgid "room.retention.range"
+msgstr "1 uur tot 30 dagen"
+
 msgid "room.settings.expired"
 msgstr ""
 "De kamer is verlopen of verwijderd, of de gekozen vervaldatum ligt in het"

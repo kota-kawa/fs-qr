@@ -3556,6 +3556,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 días"
 
+msgid "room.retention.range"
+msgstr "De 1 hora a 30 días"
+
 msgid "room.settings.expired"
 msgstr ""
 "La sala ha vencido o se ha eliminado, o el vencimiento elegido ya ha "

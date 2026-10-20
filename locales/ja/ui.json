@@ -148,5 +148,6 @@
   "room.settings.invalid": "保存期間を選択肢から選んでください。",
   "room.settings.failed": "有効期限を変更できませんでした。時間をおいて再度お試しください。",
   "room.settings.expired": "ルームが期限切れ・削除済みか、選択した期限が過去になっています。",
-  "room.retention.720": "30日"
+  "room.retention.720": "30日",
+  "room.retention.range": "1時間〜30日"
 }

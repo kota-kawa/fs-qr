@@ -3318,6 +3318,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 днів"
 
+msgid "room.retention.range"
+msgstr "Від 1 години до 30 днів"
+
 msgid "room.settings.expired"
 msgstr "Кімнату видалено, термін її дії завершився або вибрана дата вже минула."
 

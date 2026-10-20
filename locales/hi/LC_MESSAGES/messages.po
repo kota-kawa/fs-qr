@@ -3393,6 +3393,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 दिन"
 
+msgid "room.retention.range"
+msgstr "1 घंटे से 30 दिन तक"
+
 msgid "room.settings.expired"
 msgstr ""
 "रूम की अवधि समाप्त हो गई है या वह हटा दिया गया है, या चुना गया समय बीत "

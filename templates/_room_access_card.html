@@ -4,7 +4,7 @@
 #}
 <div class="room-access-page"
      data-room-access
-     style="--room-access-start: {{ room_access_theme_start }}; --room-access-end: {{ room_access_theme_end }};">
+     style="--room-access-start: {{ room_access_theme_start }}; --room-access-end: {{ room_access_theme_end }};{% if room_access_theme_link %} --room-access-link: {{ room_access_theme_link }};{% endif %}">
   <section class="room-access-shell" aria-labelledby="{{ room_access_id_prefix }}-access-title">
     <header class="room-access-intro">
       <h1 id="{{ room_access_id_prefix }}-access-title" class="room-access-intro__title">{{ room_access_title }}</h1>
@@ -22,8 +22,8 @@
     <section class="room-access-card" aria-labelledby="{{ room_access_id_prefix }}-access-card-title">
       <h2 id="{{ room_access_id_prefix }}-access-card-title" class="room-access-card__title">{{ room_access_card_title }}</h2>
       {% set room_quick_action = room_access_create_action %}
+      {% set room_quick_advanced_href = room_access_settings_action %}
       {% include "_room_quick_create.html" %}
-      <p><a href="{{ room_access_settings_action }}">{{ _('room.create.advanced') }}</a></p>
       <details class="room-access-join" open>
         <summary>{{ room_access_join_tab_label }}</summary>
         <div class="room-access-panel">

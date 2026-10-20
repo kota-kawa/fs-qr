@@ -3350,6 +3350,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 ngày"
 
+msgid "room.retention.range"
+msgstr "Từ 1 giờ đến 30 ngày"
+
 msgid "room.settings.expired"
 msgstr "Phòng đã hết hạn hoặc bị xóa, hoặc thời hạn được chọn đã qua."
 
