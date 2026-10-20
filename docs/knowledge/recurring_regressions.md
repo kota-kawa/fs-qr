@@ -24,6 +24,16 @@ git の履歴（2024-05 〜 2026-09、約 1,400 コミット）から、同じ�
 [frontend_visual_verification.md](frontend_visual_verification.md) の手順で実描画し、
 `git show <変更前>:<path>` の旧実装と数値比較する。読み込み順は本番と同じ `_scripts.html` で確認する。
 
+## 共通 CSS の変更が既存ブラウザに届かない（2026-09-06 〜 2026-10-20）
+
+`static/style.css` が `static/css/*.css` を `@import` で読み込み、子ファイルの URL に `?v=` が
+付かなかった。nginx は `/static/` を 1 年の `immutable` で返すため、一度訪れたブラウザは
+`static/css/` の変更を受け取れず、本番に出した修正が「見た目が変わらない」と報告された（PR #399 の後）。
+再発防止: テンプレートは `stylesheet_bundle('style.css')` で各ファイルを `?v=` 付きの `<link>`
+として出力し、`style.css` は読み込み順の一覧だけを持つ。`tests/test_basic_routes.py` が、
+`style.css` に通常ルールが無いことと全ファイルが版付きで読み込まれることを検証する。
+CSS の確認は、キャッシュのあるブラウザで本番を開いても反映されるかまで見る。
+
 ## 初期スキーマと migration のずれ（2026-08-16）
 
 `db_init/create_tables.sql` にだけ列を足し、既存環境向け migration を作らなかったため、本番で

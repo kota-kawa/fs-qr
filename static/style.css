@@ -1,3 +1,4 @@
+/* Entry list only: templates link each file via stylesheet_bundle() so it gets its own ?v=. */
 @import url("css/00-breakpoints.css");
 @import url("css/01-base-search.css");
 @import url("css/02-design-retention.css");
