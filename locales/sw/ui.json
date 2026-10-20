@@ -136,5 +136,17 @@
   "html.width_mobile": "Simu",
   "html.auto_hint": "Kwenye skrini pana, onyesho husasishwa kiotomatiki unapoacha kuandika. Unapoendesha JavaScript, sasisha kwa kitufe.",
   "html.sample_title": "Ukurasa wa mfano",
-  "html.sample_text": "Hariri HTML hii na onyesho litaonyesha mabadiliko yako."
+  "html.sample_text": "Hariri HTML hii na onyesho litaonyesha mabadiliko yako.",
+  "room.create.hint": "Hufutwa kiotomatiki saa 24 baada ya kuundwa. Unaweza kubadilisha muda wa kuisha baada ya kuunda chumba.",
+  "room.create.advanced": "Unda kwa mipangilio",
+  "room.settings.title": "Mipangilio ya chumba",
+  "room.settings.help": "Muundaji pekee ndiye anayeweza kubadilisha muda wa kuisha, hadi siku 30 tangu kuundwa. Chumba na yaliyomo hufutwa kiotomatiki muda ukiisha.",
+  "room.settings.retention": "Muda wa kuhifadhi tangu kuundwa",
+  "room.settings.save": "Hifadhi muda wa kuisha",
+  "room.settings.saved": "Muda wa kuisha umesasishwa.",
+  "room.settings.forbidden": "Muundaji pekee ndiye anayeweza kubadilisha muda wa kuisha.",
+  "room.settings.invalid": "Chagua mojawapo ya vipindi vya kuhifadhi vinavyopatikana.",
+  "room.settings.failed": "Imeshindikana kusasisha muda wa kuisha. Jaribu tena baadaye.",
+  "room.settings.expired": "Muda wa chumba umeisha au chumba kimefutwa, au muda uliochaguliwa umepita.",
+  "room.retention.720": "Siku 30"
 }

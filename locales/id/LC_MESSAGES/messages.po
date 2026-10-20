@@ -3416,6 +3416,48 @@ msgstr "Anda dapat memasukkan hingga %(max_length)s karakter."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Buat dengan pengaturan"
+
+msgid "room.create.hint"
+msgstr ""
+"Dihapus otomatis 24 jam setelah dibuat. Anda dapat mengubah masa berlaku "
+"setelah membuat ruang."
+
+msgid "room.retention.720"
+msgstr "30 hari"
+
+msgid "room.settings.expired"
+msgstr ""
+"Ruang telah kedaluwarsa atau dihapus, atau waktu yang dipilih telah "
+"berlalu."
+
+msgid "room.settings.failed"
+msgstr "Masa berlaku tidak dapat diperbarui. Coba lagi nanti."
+
+msgid "room.settings.forbidden"
+msgstr "Hanya pembuat yang dapat mengubah masa berlaku."
+
+msgid "room.settings.help"
+msgstr ""
+"Hanya pembuat yang dapat mengubah masa berlaku, hingga 30 hari sejak "
+"dibuat. Ruang dan isinya akan dihapus otomatis saat masa berlaku habis."
+
+msgid "room.settings.invalid"
+msgstr "Pilih salah satu masa penyimpanan yang tersedia."
+
+msgid "room.settings.retention"
+msgstr "Masa penyimpanan sejak dibuat"
+
+msgid "room.settings.save"
+msgstr "Simpan masa berlaku"
+
+msgid "room.settings.saved"
+msgstr "Masa berlaku diperbarui."
+
+msgid "room.settings.title"
+msgstr "Pengaturan ruang"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8337,14 +8379,6 @@ msgstr "PapanをCari"
 msgid "ボードを開く"
 msgstr "Papanを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"PapanBuat時に1 hari、1 minggu、1 bulanからPeriode "
-"penyimpananを選べます。期間を過ぎるとPapanとタスクはHapus otomatisされます。"
-
-msgid "ボード操作"
-msgstr "PapanTindakan"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Beralih antara tampilan papan dan kalender"
 
@@ -9000,11 +9034,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Tidak dapat menentukan tujuan pengalihan setelah pembuatan ruang."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"RuangBuat時に1時間、6時間、12時間、24時間からPeriode "
-"penyimpananを選べます。期間を過ぎるとRuangとファイルはHapus otomatisされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -9941,11 +9970,6 @@ msgstr "Masa Penyimpanan dan Permintaan Penghapusan"
 
 msgid "保存期間と自動削除"
 msgstr "Masa Penyimpanan dan Penghapusan Otomatis"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Periode penyimpananは1・6・12・24時間。Jatuh tempoを過ぎるとRuangとFile "
-"tersimpanがHapus otomatisされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -12268,9 +12292,6 @@ msgstr "Tambahkan tugas baru (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいBuat papan tugasして、チームの作業を整理・Bagikanしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいPapan tugasBuatページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Nama tugas baru"

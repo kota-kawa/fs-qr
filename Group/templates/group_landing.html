@@ -5,7 +5,7 @@
   {"question": _("アカウント登録は必要ですか？"), "answer": _("必要ありません。ブラウザからルームを作成し、参加に必要な情報をメンバーへ共有すれば使い始められます。")},
   {"question": _("選んだファイルはいつ送信されますか？"), "answer": _("トップの共有ボックスで選んだファイルは、お使いの端末に留まります。共有リンクを発行した時点で初めてルームが作成され、選んだファイルがまとめてアップロードされます。")},
   {"question": _("メンバーはどのようにルームへ参加しますか？"), "answer": _("共有URLまたはQRコードを開くか、参加画面でルームIDとパスワードを入力します。参加情報は必要な相手だけに共有してください。")},
-  {"question": _("ファイルはいつまで保存されますか？"), "answer": _("ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。")},
+  {"question": _("ファイルはいつまで保存されますか？"), "answer": _("room.create.hint") + " " + _("room.settings.help")},
   {"question": _("アップロードできるファイル数や容量に上限はありますか？"), "answer": _("上限があります。現在のファイル数と容量の上限は、アップロード画面に表示される案内をご確認ください。")},
   {"question": _("機密性の高いファイルにも使えますか？"), "answer": _("ルームへの参加には共有情報が必要ですが、ファイルはサーバー上で暗号化されない状態で保管されます。機密性の高いファイルの共有は、所属組織のルールを確認したうえで慎重に判断してください。")}
 ] %}
@@ -153,6 +153,7 @@
             {{ _("共有リンクを発行する") }} <span aria-hidden="true">→</span>
           </button>
           <p class="lp-instant__hint" data-instant-hint>{{ _("発行するまで、選んだファイルが送信されることはありません。発行するとルームが作られ、24時間後にファイルごと自動削除されます。") }}</p>
+          <p class="lp-instant__hint">{{ _("room.settings.help") }}</p>
 
           <!-- Share panel / 発行後に共有情報をその場で提示する -->
           <div class="lp-instant__share" data-instant-share-panel hidden>
@@ -202,7 +203,7 @@
         <p class="lp-trust__lead">{{ _("チーム共有に必要なことだけ") }}</p>
         <div class="lp-trust__items">
           <div class="lp-trust__item"><strong>{{ _("登録不要") }}</strong><span>{{ _("メンバーのアカウント作成なし") }}</span></div>
-          <div class="lp-trust__item"><strong>{{ _("保存期間を選択") }}</strong><span>{{ _("1・6・12・24時間") }}</span></div>
+          <div class="lp-trust__item"><strong>{{ _("保存期間を選択") }}</strong><span>{{ _("room.retention.720") }}</span></div>
           <div class="lp-trust__item"><strong>{{ _("ひとつのルーム") }}</strong><span>{{ _("ファイルを一か所に集約") }}</span></div>
           <div class="lp-trust__item"><strong>{{ _("ブラウザ完結") }}</strong><span>{{ _("PC・スマートフォンに対応") }}</span></div>
         </div>
@@ -343,7 +344,7 @@
               </svg>
             </span>
             <h3>{{ _("保存期限を選んで自動削除") }}</h3>
-            <p>{{ _("保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。") }}</p>
+            <p>{{ _("room.settings.help") }}</p>
           </article>
           <article class="lp-card lp-feature-card">
             <span class="lp-card__icon" aria-hidden="true">

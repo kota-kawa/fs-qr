@@ -28,6 +28,7 @@ from room_credentials import (
 )
 from room_create import RoomIdConflict, select_room_id
 from room_delete import delete_owned_room
+from room_settings import room_retention_options
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -109,6 +110,7 @@ def _render_task_room(request: Request, room_id: str, record: dict):
         retention_hours=record.get("retention_hours", 24),
         deletion_date=expires_at.strftime("%Y-%m-%d %H:%M") if expires_at else None,
         can_delete=can_delete_task_room(request, room_id),
+        room_retention_options=room_retention_options(record),
         presence_scope="task",
         presence_key=room_id,
     )

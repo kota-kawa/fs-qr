@@ -3356,6 +3356,48 @@ msgstr "You can enter up to %(max_length)s characters."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Create with settings"
+
+msgid "room.create.hint"
+msgstr ""
+"Automatically deleted 24 hours after creation. You can change the expiry "
+"after creating the room."
+
+msgid "room.retention.720"
+msgstr "30 days"
+
+msgid "room.settings.expired"
+msgstr ""
+"The room has expired or been deleted, or the selected expiry is in the "
+"past."
+
+msgid "room.settings.failed"
+msgstr "Could not update the expiry. Please try again later."
+
+msgid "room.settings.forbidden"
+msgstr "Only the creator can change the expiry."
+
+msgid "room.settings.help"
+msgstr ""
+"Only the creator can change the expiry, up to 30 days from creation. The "
+"room and its contents are automatically deleted when it expires."
+
+msgid "room.settings.invalid"
+msgstr "Choose one of the available retention periods."
+
+msgid "room.settings.retention"
+msgstr "Retention from creation"
+
+msgid "room.settings.save"
+msgstr "Save expiry"
+
+msgid "room.settings.saved"
+msgstr "Expiry updated."
+
+msgid "room.settings.title"
+msgstr "Room settings"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8074,14 +8116,6 @@ msgstr "BoardをSearch"
 msgid "ボードを開く"
 msgstr "Boardを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"BoardCreate時に1 day、1 week、1 monthからRetention "
-"periodを選べます。期間を過ぎるとBoardとタスクはAutomatic deletionされます。"
-
-msgid "ボード操作"
-msgstr "BoardActions"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Switch between board and calendar views"
 
@@ -8721,11 +8755,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Could not determine where to redirect after room creation."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"RoomCreate時に1時間、6時間、12時間、24時間からRetention "
-"periodを選べます。期間を過ぎるとRoomとファイルはAutomatic deletionされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -9618,11 +9647,6 @@ msgstr "Retention Periods and Deletion Requests"
 
 msgid "保存期間と自動削除"
 msgstr "Retention Period and Auto-Deletion"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Retention periodは1・6・12・24時間。Dueを過ぎるとRoomとSaved filesがAutomatic "
-"deletionされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "Is the retention period set to only as long as the work requires?"
@@ -11823,9 +11847,6 @@ msgstr "Add a new task (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいCreate task boardして、チームの作業を整理・Shareしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいTask boardCreateページに移動します"
 
 msgid "新しいタスク名"
 msgstr "New task name"

@@ -1,0 +1,7 @@
+<form method="POST" action="{{ room_quick_action }}" data-room-create
+      data-processing-label="{{ _('処理中...') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <p class="room-access-help">{{ _('room.create.hint') }}</p>
+  <button type="submit" class="room-create-submit {{ room_quick_button_class | default('room-access-submit') }}">{{ _('ルームを作成') }}</button>
+  <div class="room-create-feedback" data-room-create-error role="alert" aria-live="assertive"></div>
+</form>

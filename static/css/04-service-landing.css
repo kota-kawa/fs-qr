@@ -191,7 +191,8 @@
   flex-grow: 1;
 }
 
-.service-menu-page .menu-card a {
+.service-menu-page .menu-card a,
+.service-menu-page .menu-create-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -207,7 +208,15 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.service-menu-page .menu-card a:hover {
+.service-menu-page .menu-create-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.service-menu-page .menu-card a:hover,
+.service-menu-page .menu-create-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 14px 28px var(--service-accent-shadow, rgba(19, 46, 157, 0.22));
 }

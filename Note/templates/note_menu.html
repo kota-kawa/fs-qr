@@ -193,8 +193,10 @@
                     <i class="fas fa-upload" aria-hidden="true"></i>
                     <h3>{{ _("ルームを作成") }}</h3>
                     <p>{{ _("新しいノートルームを作成してリアルタイム同時編集を始めましょう。") }}</p>
-                    <a href="/create_note_room" aria-describedby="create-room-desc">{{ _("作成する") }}</a>
-                    <span id="create-room-desc" class="visually-hidden">{{ _("新しいノートルーム作成ページに移動します") }}</span>
+                    {% set room_quick_action = '/create_note_room' %}
+                    {% set room_quick_button_class = 'menu-create-button' %}
+                    {% include '_room_quick_create.html' %}
+                    <a href="/create_note_room">{{ _('room.create.advanced') }}</a>
                 </article>
                 
                 <article class="menu-card">

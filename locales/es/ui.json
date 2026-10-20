@@ -136,5 +136,17 @@
   "html.width_mobile": "Móvil",
   "html.auto_hint": "En pantallas anchas, la vista previa se actualiza automáticamente al dejar de escribir. Al ejecutar JavaScript, actualiza con el botón.",
   "html.sample_title": "Página de ejemplo",
-  "html.sample_text": "Edita este HTML y la vista previa reflejará los cambios."
+  "html.sample_text": "Edita este HTML y la vista previa reflejará los cambios.",
+  "room.create.hint": "Se elimina automáticamente 24 horas después de su creación. Puedes cambiar el vencimiento después de crear la sala.",
+  "room.create.advanced": "Crear con ajustes",
+  "room.settings.title": "Ajustes de la sala",
+  "room.settings.help": "Solo el creador puede cambiar el vencimiento, hasta 30 días desde la creación. Al vencer, la sala y su contenido se eliminan automáticamente.",
+  "room.settings.retention": "Conservación desde la creación",
+  "room.settings.save": "Guardar vencimiento",
+  "room.settings.saved": "Vencimiento actualizado.",
+  "room.settings.forbidden": "Solo el creador puede cambiar el vencimiento.",
+  "room.settings.invalid": "Elige uno de los períodos de conservación disponibles.",
+  "room.settings.failed": "No se pudo actualizar el vencimiento. Inténtalo más tarde.",
+  "room.settings.expired": "La sala ha vencido o se ha eliminado, o el vencimiento elegido ya ha pasado.",
+  "room.retention.720": "30 días"
 }

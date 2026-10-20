@@ -3447,6 +3447,49 @@ msgstr "En fazla %(max_length)s karakter girebilirsiniz."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Ayarlarla oluştur"
+
+msgid "room.create.hint"
+msgstr ""
+"Oluşturulduktan 24 saat sonra otomatik olarak silinir. Odayı "
+"oluşturduktan sonra sona erme süresini değiştirebilirsiniz."
+
+msgid "room.retention.720"
+msgstr "30 gün"
+
+msgid "room.settings.expired"
+msgstr ""
+"Odanın süresi dolmuş veya oda silinmiş ya da seçilen sona erme zamanı "
+"geçmiş."
+
+msgid "room.settings.failed"
+msgstr "Sona erme süresi güncellenemedi. Lütfen daha sonra tekrar deneyin."
+
+msgid "room.settings.forbidden"
+msgstr "Sona erme süresini yalnızca oluşturan kişi değiştirebilir."
+
+msgid "room.settings.help"
+msgstr ""
+"Sona erme süresini yalnızca oluşturan kişi, oluşturulma tarihinden "
+"itibaren en fazla 30 güne kadar değiştirebilir. Süre dolduğunda oda ve "
+"içeriği otomatik olarak silinir."
+
+msgid "room.settings.invalid"
+msgstr "Mevcut saklama sürelerinden birini seçin."
+
+msgid "room.settings.retention"
+msgstr "Oluşturulmadan itibaren saklama süresi"
+
+msgid "room.settings.save"
+msgstr "Sona erme süresini kaydet"
+
+msgid "room.settings.saved"
+msgstr "Sona erme süresi güncellendi."
+
+msgid "room.settings.title"
+msgstr "Oda ayarları"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8350,14 +8393,6 @@ msgstr "PanoをAra"
 msgid "ボードを開く"
 msgstr "Panoを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"PanoOluştur時に1 gün、1 hafta、1 ayからSaklama "
-"süresiを選べます。期間を過ぎるとPanoとタスクはOtomatik silmeされます。"
-
-msgid "ボード操作"
-msgstr "Panoİşlemler"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Pano ve takvim görünümleri arasında geçiş yap"
 
@@ -9017,11 +9052,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Oda oluşturulduktan sonra yönlendirme adresi alınamadı."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"OdaOluştur時に1時間、6時間、12時間、24時間からSaklama "
-"süresiを選べます。期間を過ぎるとOdaとファイルはOtomatik silmeされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -9955,11 +9985,6 @@ msgstr "Saklama Süreleri ve Silme Talepleri"
 
 msgid "保存期間と自動削除"
 msgstr "Saklama Süresi ve Otomatik Silme"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Saklama süresiは1・6・12・24時間。Son tarihを過ぎるとOdaとKayıtlı DosyalarがOtomatik "
-"silmeされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "Saklama süresi yalnızca işin gerektirdiği kadar mı ayarlandı?"
@@ -12222,9 +12247,6 @@ msgstr "Yeni görev ekle (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいGörev panosu oluşturして、チームの作業を整理・Paylaşしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいGörev panosuOluşturページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Yeni görev adı"

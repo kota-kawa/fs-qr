@@ -1,4 +1,7 @@
 from fastapi import APIRouter, Request
+from room_settings import register_room_settings_route
+from room_session import GROUP_ACCESS
+from . import group_data
 
 from .group_common import (
     canonical_redirect,
@@ -40,6 +43,12 @@ register_group_main_pages_routes(router)
 register_group_room_access_route(router)
 register_group_create_room_page_route(router)
 register_group_create_room_route(router)
+register_room_settings_route(
+    router,
+    service="group",
+    access=GROUP_ACCESS,
+    update=lambda key, hours: group_data.update_room_retention(key, hours),
+)
 register_group_upload_route(router)
 register_group_list_files_route(router)
 register_group_download_all_route(router)

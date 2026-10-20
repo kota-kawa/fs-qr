@@ -1,0 +1,23 @@
+{% if can_delete and room_retention_options %}
+{% set retention_labels = {1: _('1時間'), 6: _('6時間'), 12: _('12時間'), 24: _('1日'), 168: _('1週間'), 720: _('room.retention.720')} %}
+<details class="room-settings">
+  <summary>{{ _('room.settings.title') }}</summary>
+  <form method="POST" action="{{ url_for(room_settings_service ~ '.settings', room_id=room_id) }}"
+        data-room-settings data-error-message="{{ _('room.settings.failed') }}"
+        data-success-message="{{ _('room.settings.saved') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <p class="room-access-help">{{ _('room.settings.help') }}</p>
+    <label class="room-access-label" for="room-retention">{{ _('room.settings.retention') }}</label>
+    <select id="room-retention" name="retention_hours" class="room-access-control">
+      {% for option in room_retention_options %}
+      <option value="{{ option.hours }}" data-deletion-date="{{ option.deletion_date }}"{% if option.hours == retention_hours %} selected{% endif %}>{{ retention_labels[option.hours] }}</option>
+      {% endfor %}
+    </select>
+    <p class="room-settings-preview">{{ _('削除予定日') }}: <strong data-room-settings-preview></strong></p>
+    <button type="submit" class="modern-btn">{{ _('room.settings.save') }}</button>
+    <p data-room-settings-error role="alert" aria-live="assertive" hidden></p>
+    <p data-room-settings-status role="status" aria-live="polite"></p>
+  </form>
+</details>
+<script src="{{ staticfile('js/shared/room-settings.js') }}" defer></script>
+{% endif %}

@@ -64,13 +64,15 @@
                             <span class="room-info-label">{{ _("削除予定日") }}</span>
                             <span class="room-info-value">
                                 {% if deletion_date %}
-                                    {{ deletion_date }} （{{ retention_hours | retention_label }}{{ _("後") }}）
+                                    <span data-room-deletion-date>{{ deletion_date }}</span>
                                 {% else %}
                                     {{ retention_hours | retention_label }}{{ _("後に自動削除") }}
                                 {% endif %}
                             </span>
                         </div>
                     </div>
+{% set room_settings_service = 'note' %}
+{% include '_room_settings.html' %}
                     {% if can_delete %}
                     <div class="owner-delete-panel">
                         <div class="owner-delete-copy">

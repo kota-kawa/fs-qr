@@ -172,8 +172,10 @@
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     <h3>{{ _("ボードを作成") }}</h3>
                     <p>{{ _("新しいタスクボードを作成して、チームの作業を整理・共有しましょう。") }}</p>
-                    <a href="/create_task_room" aria-describedby="create-task-desc">{{ _("作成する") }}</a>
-                    <span id="create-task-desc" class="visually-hidden">{{ _("新しいタスクボード作成ページに移動します") }}</span>
+                    {% set room_quick_action = '/create_task_room' %}
+                    {% set room_quick_button_class = 'menu-create-button' %}
+                    {% include '_room_quick_create.html' %}
+                    <a href="/create_task_room">{{ _('room.create.advanced') }}</a>
                 </article>
 
                 <article class="menu-card">

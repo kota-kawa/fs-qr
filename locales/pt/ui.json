@@ -136,5 +136,17 @@
   "html.width_mobile": "Celular",
   "html.auto_hint": "Em telas largas, a prévia é atualizada automaticamente quando você para de digitar. Ao executar JavaScript, atualize pelo botão.",
   "html.sample_title": "Página de exemplo",
-  "html.sample_text": "Edite este HTML e a prévia refletirá as alterações."
+  "html.sample_text": "Edite este HTML e a prévia refletirá as alterações.",
+  "room.create.hint": "Exclusão automática 24 horas após a criação. Você pode alterar o prazo após criar a sala.",
+  "room.create.advanced": "Criar com configurações",
+  "room.settings.title": "Configurações da sala",
+  "room.settings.help": "Somente o criador pode alterar o prazo, até 30 dias após a criação. Ao expirar, a sala e seu conteúdo são excluídos automaticamente.",
+  "room.settings.retention": "Retenção desde a criação",
+  "room.settings.save": "Salvar prazo",
+  "room.settings.saved": "Prazo atualizado.",
+  "room.settings.forbidden": "Somente o criador pode alterar o prazo.",
+  "room.settings.invalid": "Escolha um dos períodos de retenção disponíveis.",
+  "room.settings.failed": "Não foi possível atualizar o prazo. Tente novamente mais tarde.",
+  "room.settings.expired": "A sala expirou ou foi excluída, ou o prazo escolhido já passou.",
+  "room.retention.720": "30 dias"
 }

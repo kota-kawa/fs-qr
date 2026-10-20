@@ -62,11 +62,21 @@ HTML は第5のサービスで、共有・ルームの生命周期を持ちま�
 
 | 段階 | 利用者の操作 | 主な実装 |
 | --- | --- | --- |
-| 1. 作成 | ルームID（自動 / 手動）と保存期間を選んで作成する。FSQR はルームを作らず、アップロード時に ID とパスワードを発行する | `room_create.py`（FSQR は通らない）、`models.py`、`static/js/shared/instant-widget-core.js` |
+| 1. 作成 | 「ルームを作成」でIDを自動発行し、保存期間24時間で即時入室する。ID・保存期間を指定する場合は「設定して作成」を使う。FSQR はルームを作らず、アップロード時に ID とパスワードを発行する | `room_create.py`（FSQR は通らない）、`models.py`、`static/js/shared/instant-widget-core.js` |
 | 2. 共有 | 発行されたルームID・パスワード・共有URL・QR コードを相手へ渡す | `share_links.py`、`static/js/shared/share-panel.js` |
 | 3. 入室 | 共有URL / QR を開くか、ルームID とパスワードで検索して入る。FSQR の現行のアップロードは復号鍵が共有URL にしか無いため、検索からは受け取れない（409） | `room_repository.py`、`room_session.py`、`room_access.py`、`top_search.py` |
 | 4. 利用 | ダウンロード、アップロード、同時編集、タスク操作などサービス固有の操作をする | 各サービスの `*_app.py`、`*_routes_*.py`、`*_data.py` |
 | 5. 終了 | 作成者が削除するか、保存期間の経過で自動削除される。FSQR / Group は管理画面からも削除できる | `room_delete.py`、`room_cleanup.py`、`scheduler.py`、`Admin/admin_app.py`、`Group/group_routes_manage.py` |
+
+Group / Note / Task は、利用中に作成者だけがルームの設定から有効期限を変更できます。
+保存期間は変更日時ではなく最初の作成日時から数え、1・6・12・24・168・720時間から
+選びます。最大は作成から30日で、変更回数の制限はありません（短時間の連続操作は
+レート制限）。すでに過ぎた削除日時への変更と、期限切れ・削除済みルームの復活は
+認めません。ルームIDは作成後に変更できません。
+
+ルームと未失効の共有URLの期限は同一トランザクションで更新し、共有済みURLを維持します。
+Groupの保存ファイルもルームの期限に従います。削除予定日時はルーム内に表示し、
+変更した画面には保存後の日時を反映します。他の画面では再読み込み時に反映します。
 
 ## 用語集
 
@@ -83,7 +93,7 @@ HTML は第5のサービスで、共有・ルームの生命周期を持ちま�
 | （画面での名前なし） | `secure_id` | `fsqr.secure_id` | FSQR のアップロード 1 件を指すキー。`{ルームID}-{uuid の先頭 10 文字}-{送信ファイル名}` の形で（組み立ては `FSQR/fsqr_app.py`）、保存ファイル名、共有リンクの `resource_id`、`/download/{secure_id}` などの URL に使う。複数ファイルの info 画面ではファイル名として表示される |
 | パスワード | `password` | `password`（ハッシュ）、FSQR は `password_lookup_hash` も持つ | 6 桁の数字。Group / Note / Task はサーバーが発行し、FSQR はブラウザが生成して送る（無ければサーバーが発行）。FSQR ではダウンロードの認証にだけ使い、暗号鍵とは別物（[ADR-0004](../decisions/0004-browser-side-fsqr-encryption.md)）。DB にはハッシュだけを保存し、ログに出さない |
 | 共有URL | `share_url`、`share_token` | `share_links.token_hash` | 画面では「共有URL」と「共有リンク」が併用されているが、新しい文言は「共有URL」に揃える。token は DB にハッシュだけを保存する。`fsqr` / `note_room` / `task_room` の `share_token_hash` は旧形式の列で、現行コードは書き込まない（FSQR だけが旧 token の解決に読む） |
-| 保存期間 | `retention_hours` | `retention_hours`、`expires_at` | 作成フォームのラベルは「自動削除までの期間」。FSQR / Group は 1・6・12・24 時間、Note / Task は 1 日・1 週間・1 か月で、不正値は 24 時間に戻す（`models.py`）。`retention_days` は旧互換の列で常に 1 |
+| 保存期間 | `retention_hours` | `retention_hours`、`expires_at` | 作成日時から削除までの時間。既定は24時間。詳細作成ではFSQRは1・6・12・24時間、Groupはこれらと1週間・30日、Note / Taskは1日・1週間・1か月。不正値は24時間に戻す。作成後の変更は3サービス共通で1・6・12・24・168・720時間から選び、不正値を拒否する（`models.py`）。`retention_days` は旧互換の列で常に1 |
 | 自動削除 | expire / cleanup | `expires_at <= NOW()` の行 | 保存期間の経過による削除。`scheduler.py` が実行する |
 | 作成者 | `can_delete`（session の値） | 列なし | ルームを作成したブラウザ session。docstring では「所有者」。アカウントの概念は無く、削除権限は session の `can_delete` で判定する（FSQR は入室時の ID の一致も確認する） |
 | 参加者 | — | 列なし | ルームに入った利用者全般（作成者を含む）。閲覧者数は `presence.py` |
@@ -137,6 +147,7 @@ route 側に残っている判定もあります（FSQR の有効判定、Task �
 | --- | --- |
 | ルームID・パスワード・保存期間・タスク項目の入力値 | `models.py` の Pydantic モデルと検証関数、上限値は `settings.py` |
 | ルームID の生成と重複時の再試行 | `room_credentials.py`、`room_create.py` |
+| 作成後の有効期限変更と作成者認可 | `room_settings.py`、各サービスのデータ層、`room_repository.py`。有効な行だけを条件付き更新し、既存の作成日時列 `time` から最大30日を計算する |
 | ルームが有効か | `room_repository.py`（FSQR は `FSQR/fsqr_app.py` に残る） |
 | 入室済みか・削除できるか | `room_access.py`、`room_session.py` と、Group は `Group/group_common.py`、Note / Task は `*_access.py`（Task は `Task/task_authorize.py` も）、FSQR は `FSQR/fsqr_app.py` |
 | 状態遷移と削除手順 | 各サービスの `*_data.py`、共通の骨格は `room_delete.py` / `room_cleanup.py` |

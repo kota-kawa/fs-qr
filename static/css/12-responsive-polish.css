@@ -81,7 +81,8 @@ header h1 img {
 .btn-modern,
 .search-result-back,
 .search-result-cta,
-.service-menu-page .menu-card a {
+.service-menu-page .menu-card a,
+.service-menu-page .menu-create-button {
   min-width: 0;
   white-space: normal;
   text-align: center;

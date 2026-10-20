@@ -136,5 +136,17 @@
   "html.width_mobile": "Telefon",
   "html.auto_hint": "Geniş ekranlarda yazmayı bıraktığınızda önizleme otomatik güncellenir. JavaScript çalıştırırken düğmeyle güncelleyin.",
   "html.sample_title": "Örnek sayfa",
-  "html.sample_text": "Bu HTML'i düzenleyin, önizleme değişiklikleri gösterecek."
+  "html.sample_text": "Bu HTML'i düzenleyin, önizleme değişiklikleri gösterecek.",
+  "room.create.hint": "Oluşturulduktan 24 saat sonra otomatik olarak silinir. Odayı oluşturduktan sonra sona erme süresini değiştirebilirsiniz.",
+  "room.create.advanced": "Ayarlarla oluştur",
+  "room.settings.title": "Oda ayarları",
+  "room.settings.help": "Sona erme süresini yalnızca oluşturan kişi, oluşturulma tarihinden itibaren en fazla 30 güne kadar değiştirebilir. Süre dolduğunda oda ve içeriği otomatik olarak silinir.",
+  "room.settings.retention": "Oluşturulmadan itibaren saklama süresi",
+  "room.settings.save": "Sona erme süresini kaydet",
+  "room.settings.saved": "Sona erme süresi güncellendi.",
+  "room.settings.forbidden": "Sona erme süresini yalnızca oluşturan kişi değiştirebilir.",
+  "room.settings.invalid": "Mevcut saklama sürelerinden birini seçin.",
+  "room.settings.failed": "Sona erme süresi güncellenemedi. Lütfen daha sonra tekrar deneyin.",
+  "room.settings.expired": "Odanın süresi dolmuş veya oda silinmiş ya da seçilen sona erme zamanı geçmiş.",
+  "room.retention.720": "30 gün"
 }

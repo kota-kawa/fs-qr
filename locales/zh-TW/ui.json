@@ -136,5 +136,17 @@
   "html.width_mobile": "手機",
   "html.auto_hint": "在寬螢幕上停止輸入後會自動更新預覽。執行 JavaScript 時請使用按鈕更新。",
   "html.sample_title": "範例頁面",
-  "html.sample_text": "修改這段 HTML，預覽會隨之更新。"
+  "html.sample_text": "修改這段 HTML，預覽會隨之更新。",
+  "room.create.hint": "建立24小時後自動刪除。建立房間後可以修改有效期限。",
+  "room.create.advanced": "設定後建立",
+  "room.settings.title": "房間設定",
+  "room.settings.help": "只有建立者可以修改有效期限，最長保留至建立後30天。到期後房間及其內容將自動刪除。",
+  "room.settings.retention": "從建立時算起的保留期限",
+  "room.settings.save": "儲存有效期限",
+  "room.settings.saved": "有效期限已更新。",
+  "room.settings.forbidden": "只有建立者可以修改有效期限。",
+  "room.settings.invalid": "請選擇可用的保留期限。",
+  "room.settings.failed": "無法修改有效期限，請稍後再試。",
+  "room.settings.expired": "房間已到期或已刪除，或所選的到期時間已過。",
+  "room.retention.720": "30天"
 }

@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 from werkzeug.utils import secure_filename
 
 from api_response import api_error_response, api_ok_response, error_page_or_json
-from models import RoomCreateInput
+from models import GroupRoomCreateInput, RoomCreateInput
 from rate_limit import (
     SCOPE_GROUP,
     SCOPE_GROUP_ROOM_CREATE,
@@ -25,6 +25,7 @@ from room_credentials import generate_room_password, validate_room_credentials
 from room_credentials import generate_room_id as _secure_generate_room_id
 from room_create import RoomIdConflict, select_room_id
 from room_delete import delete_owned_room
+from room_settings import room_retention_options
 from share_links import (
     ServiceKey,
     build_room_url,
@@ -114,6 +115,7 @@ def _render_group_room(request: Request, room_id: str, record: dict):
         retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=can_delete_group_room(request, room_id),
+        room_retention_options=room_retention_options(record),
         websocket_csrf_token=get_or_create_csrf_token(request),
         presence_scope="group",
         presence_key=room_id,
@@ -220,7 +222,7 @@ def register_group_create_room_route(router: APIRouter):  # noqa: C901
             raw_retention = json_data.get("retention_hours", 24)
 
         try:
-            inp = RoomCreateInput(
+            inp = GroupRoomCreateInput(
                 id=raw_id, id_mode=raw_id_mode, retention_hours=raw_retention
             )
         except ValidationError:

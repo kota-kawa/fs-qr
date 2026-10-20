@@ -136,5 +136,17 @@
   "html.width_mobile": "Mobile",
   "html.auto_hint": "Sur grand écran, l'aperçu se met à jour automatiquement dès que vous arrêtez de saisir. Avec JavaScript, mettez à jour avec le bouton.",
   "html.sample_title": "Page d'exemple",
-  "html.sample_text": "Modifiez ce HTML et l'aperçu reflétera vos changements."
+  "html.sample_text": "Modifiez ce HTML et l'aperçu reflétera vos changements.",
+  "room.create.hint": "Suppression automatique 24 heures après la création. Vous pouvez modifier la date d’expiration après la création.",
+  "room.create.advanced": "Créer avec des paramètres",
+  "room.settings.title": "Paramètres du salon",
+  "room.settings.help": "Seul le créateur peut modifier l’expiration, dans la limite de 30 jours après la création. Le salon et son contenu sont alors supprimés automatiquement.",
+  "room.settings.retention": "Durée depuis la création",
+  "room.settings.save": "Enregistrer l’expiration",
+  "room.settings.saved": "Expiration mise à jour.",
+  "room.settings.forbidden": "Seul le créateur peut modifier l’expiration.",
+  "room.settings.invalid": "Choisissez une durée de conservation proposée.",
+  "room.settings.failed": "Impossible de modifier l’expiration. Veuillez réessayer plus tard.",
+  "room.settings.expired": "Le salon a expiré ou a été supprimé, ou l’expiration choisie est passée.",
+  "room.retention.720": "30 jours"
 }

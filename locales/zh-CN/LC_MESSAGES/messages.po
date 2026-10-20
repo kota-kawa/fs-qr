@@ -2526,6 +2526,42 @@ msgstr "最多可输入 %(max_length)s 个字符。"
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "设置后创建"
+
+msgid "room.create.hint"
+msgstr "创建24小时后自动删除。创建房间后可以修改有效期。"
+
+msgid "room.retention.720"
+msgstr "30天"
+
+msgid "room.settings.expired"
+msgstr "房间已过期或已删除，或所选的到期时间已过去。"
+
+msgid "room.settings.failed"
+msgstr "无法修改有效期，请稍后重试。"
+
+msgid "room.settings.forbidden"
+msgstr "只有创建者可以修改有效期。"
+
+msgid "room.settings.help"
+msgstr "只有创建者可以修改有效期，最长保留至创建后30天。到期后房间及其内容将自动删除。"
+
+msgid "room.settings.invalid"
+msgstr "请选择可用的保留期限。"
+
+msgid "room.settings.retention"
+msgstr "从创建时算起的保留期限"
+
+msgid "room.settings.save"
+msgstr "保存有效期"
+
+msgid "room.settings.saved"
+msgstr "有效期已更新。"
+
+msgid "room.settings.title"
+msgstr "房间设置"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -6129,12 +6165,6 @@ msgstr "看板を搜索"
 msgid "ボードを開く"
 msgstr "看板を開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr "看板创建時に1天、1 周、1 个周一から保存截止を選べます。期間を過ぎると看板とタスクは自动删除されます。"
-
-msgid "ボード操作"
-msgstr "看板操作"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "切换看板视图和日历视图"
 
@@ -6596,9 +6626,6 @@ msgstr "房间创建も登录も之后回し。まずは下書き笔记に書き
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "无法获取创建房间后要移动到的目的地。"
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr "房间创建時に1時間、6時間、12時間、24時間から保存截止を選べます。期間を過ぎると房间とファイルは自动删除されます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr "创建房间后，会显示房间 ID、密码、共享 URL 和二维码。创建者可以在需要时删除房间。删除后，保存的文件将不再可用。"
@@ -7271,9 +7298,6 @@ msgstr "保留期限与删除请求"
 
 msgid "保存期間と自動削除"
 msgstr "保存期限与自动删除"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr "保存截止は1・6・12・24時間。截止を過ぎると房间と已保存文件が自动删除されます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "保留期限是否仅设为工作所需的长度？"
@@ -8887,9 +8911,6 @@ msgstr "添加新任务（Enter）"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しい创建任务看板して、チームの作業を整理・分享しましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しい任务看板创建ページに移動します"
 
 msgid "新しいタスク名"
 msgstr "新任务名称"

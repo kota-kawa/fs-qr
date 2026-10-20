@@ -136,5 +136,17 @@
   "html.width_mobile": "Telefoon",
   "html.auto_hint": "Op brede schermen wordt het voorbeeld automatisch bijgewerkt zodra je stopt met typen. Gebruik bij JavaScript de knop om bij te werken.",
   "html.sample_title": "Voorbeeldpagina",
-  "html.sample_text": "Bewerk deze HTML en het voorbeeld toont je wijzigingen."
+  "html.sample_text": "Bewerk deze HTML en het voorbeeld toont je wijzigingen.",
+  "room.create.hint": "Wordt 24 uur na aanmaak automatisch verwijderd. Je kunt de vervaldatum na het aanmaken wijzigen.",
+  "room.create.advanced": "Aanmaken met instellingen",
+  "room.settings.title": "Kamerinstellingen",
+  "room.settings.help": "Alleen de maker kan de vervaldatum wijzigen, tot maximaal 30 dagen na aanmaak. Daarna worden de kamer en de inhoud automatisch verwijderd.",
+  "room.settings.retention": "Bewaartermijn vanaf aanmaak",
+  "room.settings.save": "Vervaldatum opslaan",
+  "room.settings.saved": "Vervaldatum bijgewerkt.",
+  "room.settings.forbidden": "Alleen de maker kan de vervaldatum wijzigen.",
+  "room.settings.invalid": "Kies een van de beschikbare bewaartermijnen.",
+  "room.settings.failed": "De vervaldatum kon niet worden bijgewerkt. Probeer het later opnieuw.",
+  "room.settings.expired": "De kamer is verlopen of verwijderd, of de gekozen vervaldatum ligt in het verleden.",
+  "room.retention.720": "30 dagen"
 }

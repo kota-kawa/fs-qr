@@ -3496,6 +3496,51 @@ msgstr "Sie können bis zu %(max_length)s Zeichen eingeben."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Mit Einstellungen erstellen"
+
+msgid "room.create.hint"
+msgstr ""
+"Wird 24 Stunden nach der Erstellung automatisch gelöscht. Sie können die "
+"Ablaufzeit nach der Erstellung ändern."
+
+msgid "room.retention.720"
+msgstr "30 Tage"
+
+msgid "room.settings.expired"
+msgstr ""
+"Der Raum ist abgelaufen oder gelöscht, oder die gewählte Ablaufzeit liegt"
+" in der Vergangenheit."
+
+msgid "room.settings.failed"
+msgstr ""
+"Die Ablaufzeit konnte nicht aktualisiert werden. Bitte versuchen Sie es "
+"später erneut."
+
+msgid "room.settings.forbidden"
+msgstr "Nur der Ersteller kann die Ablaufzeit ändern."
+
+msgid "room.settings.help"
+msgstr ""
+"Nur der Ersteller kann die Ablaufzeit ändern, bis zu 30 Tage nach der "
+"Erstellung. Danach werden der Raum und seine Inhalte automatisch "
+"gelöscht."
+
+msgid "room.settings.invalid"
+msgstr "Wählen Sie eine der verfügbaren Aufbewahrungszeiten."
+
+msgid "room.settings.retention"
+msgstr "Aufbewahrungsdauer ab Erstellung"
+
+msgid "room.settings.save"
+msgstr "Ablaufzeit speichern"
+
+msgid "room.settings.saved"
+msgstr "Ablaufzeit aktualisiert."
+
+msgid "room.settings.title"
+msgstr "Raumeinstellungen"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8476,15 +8521,6 @@ msgstr "BoardをSuchen"
 msgid "ボードを開く"
 msgstr "Boardを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"BoardErstellen時に1 Tag、1 Woche、1 "
-"MonatからAufbewahrungsfristを選べます。期間を過ぎるとBoardとタスクはAutomatisches "
-"Löschenされます。"
-
-msgid "ボード操作"
-msgstr "BoardAktionen"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Zwischen Board- und Kalenderansicht wechseln"
 
@@ -9170,11 +9206,6 @@ msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr ""
 "Es konnte nicht bestimmt werden, wohin nach der Raumerstellung "
 "weitergeleitet werden soll."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"RaumErstellen時に1時間、6時間、12時間、24時間からAufbewahrungsfristを選べます。期間を過ぎるとRaumとファイルはAutomatisches"
-" Löschenされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -10126,11 +10157,6 @@ msgstr "Aufbewahrung und Löschanfragen"
 
 msgid "保存期間と自動削除"
 msgstr "Aufbewahrungszeitraum und automatische Löschung"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Aufbewahrungsfristは1・6・12・24時間。Fälligを過ぎるとRaumとGespeicherte "
-"DateienがAutomatisches Löschenされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -12435,9 +12461,6 @@ msgstr "Neue Aufgabe hinzufügen (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいAufgabenboard erstellenして、チームの作業を整理・Teilenしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいAufgabenboardErstellenページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Name der neuen Aufgabe"

@@ -17,7 +17,7 @@
 {% set room_create_id_help = _("6文字の半角英数字で入力してください。") %}{% set room_create_id_title = _("6文字の半角英数字で入力してください") %}
 {% set room_create_auto_id_label = _("自動生成されるID") %}{% set room_create_auto_id_placeholder = _("自動生成されます") %}
 {% set room_create_retention_label = _("自動削除までの期間") %}
-{% set room_create_retention_options = [(1, _("1時間") if current_language == 'ja' else '1h'), (6, _("6時間") if current_language == 'ja' else '6h'), (12, _("12時間") if current_language == 'ja' else '12h'), (24, _("24時間（デフォルト）") if current_language == 'ja' else '24h (default)')] %}
+{% set room_create_retention_options = [(1, _("1時間") if current_language == 'ja' else '1h'), (6, _("6時間") if current_language == 'ja' else '6h'), (12, _("12時間") if current_language == 'ja' else '12h'), (24, _("24時間（デフォルト）") if current_language == 'ja' else '24h (default)'), (168, _('1週間')), (720, _('room.retention.720'))] %}
 {% set room_create_default_retention = 24 %}{% set room_create_retention_class = 'retention-select-wrapper--emerald' %}
 {% set room_create_retention_help = _("指定した保存期間を過ぎるとルーム全体が安全に削除されます。") %}
 {% set room_create_preview_title = _("この内容で今すぐ作成した場合の削除予定") %}{% set room_create_preview_pending = _("計算中...") %}

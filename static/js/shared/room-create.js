@@ -162,13 +162,16 @@
 
     form.addEventListener('submit', async function (event) {
       event.preventDefault();
+      if (form.dataset.submitting === 'true') return;
       clearError(form);
       if (!form.reportValidity()) return;
+      form.dataset.submitting = 'true';
       setLoading(form, true);
       try {
         await handleResponse(form, await post(form), true);
       } catch (error) {
         showError(form, error && error.message ? error.message : DEFAULT_ERROR);
+        form.dataset.submitting = 'false';
         setLoading(form, false);
       }
     });
@@ -177,6 +180,14 @@
   function init() {
     document.querySelectorAll('form[data-room-create]').forEach(bind);
   }
+
+  window.addEventListener('pageshow', function (event) {
+    if (!event.persisted) return;
+    document.querySelectorAll('form[data-room-create]').forEach(function (form) {
+      form.dataset.submitting = 'false';
+      setLoading(form, false);
+    });
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
