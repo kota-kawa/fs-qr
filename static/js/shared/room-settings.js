@@ -21,8 +21,11 @@
       error.hidden = true;
       status.textContent = '';
       var body = new FormData(form);
+      // The enhanced select's trigger is a separate button; lock it with the native select.
+      var trigger = form.querySelector('.retention-select-trigger');
       button.disabled = true;
       select.disabled = true;
+      if (trigger) trigger.disabled = true;
       button.setAttribute('aria-busy', 'true');
       var errorMessage = form.dataset.errorMessage;
       try {
@@ -48,6 +51,7 @@
         pending = false;
         button.disabled = false;
         select.disabled = false;
+        if (trigger) trigger.disabled = false;
         button.setAttribute('aria-busy', 'false');
       }
     });
