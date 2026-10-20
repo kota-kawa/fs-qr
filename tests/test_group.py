@@ -408,8 +408,10 @@ def test_group_upload_is_rate_limited_when_request_counter_is_unavailable(
     assert response.status_code == 429
 
 
-def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
-    """HTML/SVG 判定されたファイルは 400 で拒否する"""
+def test_group_upload_rejects_html_content_without_html_extension(
+    test_client: TestClient,
+):
+    """拡張子が .html / .htm 以外で HTML と判定されたファイルは 400 で拒否する"""
     mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
     detector = type("Detector", (), {"from_buffer": lambda self, _: "text/html"})()
     with (
@@ -430,8 +432,37 @@ def test_group_upload_rejects_html_or_svg_content(test_client: TestClient):
     assert response.status_code == 400
     payload = response.json()
     assert payload["status"] == "error"
-    assert payload["error"] == "HTML/SVGファイルはアップロードできません。"
+    assert payload["error"] == (
+        "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルは"
+        "アップロードできません。"
+    )
     assert payload["data"]["files"] == ["safe.txt"]
+
+
+def test_group_upload_accepts_html_file(test_client: TestClient, tmp_path):
+    """.html は Group に保存でき、プレビュー用のテキストとしてだけ扱う"""
+    detector = type("Detector", (), {"from_buffer": lambda self, _: "text/html"})()
+    with (
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+        patch(
+            "Group.group_routes_file.get_room_if_active",
+            new_callable=AsyncMock,
+            return_value={"id": "abc123"},
+        ),
+        patch("file_validation._MIME_DETECTOR", detector),
+        patch(
+            "Group.group_routes_file.notify_group_files_updated",
+            new_callable=AsyncMock,
+        ),
+    ):
+        response = test_client.post(
+            "/group_upload/abc123",
+            files={"upfile": ("page.html", b"<h1>Hello</h1>", "text/html")},
+        )
+
+    assert response.status_code == 200
+    assert (tmp_path / "abc123" / "page.html").read_bytes() == b"<h1>Hello</h1>"
 
 
 def test_group_upload_succeeds_when_realtime_notification_fails(
@@ -728,6 +759,7 @@ def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path)
     room_dir.mkdir()
     (room_dir / "sample.png").write_bytes(b"image")
     (room_dir / "archive.zip").write_bytes(b"zip")
+    (room_dir / "page.html").write_bytes(b"<p>page</p>")
 
     with (
         patch(
@@ -745,6 +777,7 @@ def test_list_files_includes_preview_metadata(test_client: TestClient, tmp_path)
     assert files["sample.png"]["previewable"] is True
     assert files["sample.png"]["preview_type"] == "image"
     assert files["archive.zip"]["previewable"] is False
+    assert files["page.html"]["preview_type"] == "html"
 
 
 def test_download_file_not_found_after_auth(test_client: TestClient):
@@ -784,6 +817,80 @@ def test_preview_file_returns_inline_response(test_client: TestClient, tmp_path)
     assert response.text == "hello"
     assert response.headers["content-disposition"].startswith("inline;")
     assert response.headers["x-content-type-options"] == "nosniff"
+
+
+def test_preview_html_returns_sandboxed_plain_text(test_client: TestClient, tmp_path):
+    """HTML はページとして描画させず、sandbox 付きの text/plain で返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    (room_dir / "page.html").write_bytes(b"<script>alert(1)</script><p>Hi</p>")
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+    ):
+        response = test_client.get("/preview/abc123/page.html")
+
+    assert response.status_code == 200
+    assert response.text == "<script>alert(1)</script><p>Hi</p>"
+    assert response.headers["content-type"] == "text/plain; charset=utf-8"
+    assert response.headers["content-security-policy"] == (
+        "sandbox; default-src 'none'"
+    )
+    assert response.headers["x-content-type-options"] == "nosniff"
+
+
+def test_group_html_viewer_isolates_untrusted_html(test_client: TestClient):
+    """HTML ビューアはルーム情報を持たず、入れ子の iframe の URL 移動を CSP で拒否する"""
+    response = test_client.get("/group-html-viewer")
+
+    assert response.status_code == 200
+    policy = response.headers["content-security-policy"]
+    assert "frame-src 'none'" in policy
+    assert "form-action 'none'" in policy
+    assert "frame-ancestors 'self'" in policy
+    assert response.headers["cache-control"] == "no-store"
+    html = response.text
+    assert 'sandbox="allow-scripts"' in html
+    assert "allow-same-origin" not in html
+    assert re.search(
+        r'<script nonce="[^"]+" src="/static/js/html_preview/renderer\.js\?v=\d+"',
+        html,
+    )
+    assert re.search(
+        r'<script nonce="[^"]+" src="/static/js/group_room/html-viewer\.js\?v=\d+"',
+        html,
+    )
+    assert "csrf" not in html.lower()
+
+
+def test_preview_html_rejects_files_over_limit(test_client: TestClient, tmp_path):
+    """上限を超える HTML はプレビューせず 413 を返す"""
+    mock_room = [{"password": "000000", "id": "abc123", "retention_hours": 24}]
+    room_dir = tmp_path / "abc123"
+    room_dir.mkdir()
+    (room_dir / "large.htm").write_bytes(b"x" * 11)
+
+    with (
+        patch(
+            "Group.group_data.get_data_direct",
+            new_callable=AsyncMock,
+            return_value=mock_room,
+        ),
+        patch("Group.group_routes_file.has_group_room_access", return_value=True),
+        patch("Group.group_routes_file.UPLOAD_FOLDER", str(tmp_path)),
+        patch("Group.group_routes_file.GROUP_HTML_PREVIEW_MAX_BYTES", 10),
+    ):
+        response = test_client.get("/preview/abc123/large.htm")
+
+    assert response.status_code == 413
+    assert response.json()["status"] == "error"
 
 
 def test_preview_file_rejects_unsupported_type(test_client: TestClient, tmp_path):

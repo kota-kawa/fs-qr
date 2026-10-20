@@ -1428,8 +1428,8 @@ msgstr "體驗 Group"
 msgid "HEIC形式に注意："
 msgstr "注意 HEIC 格式："
 
-msgid "HTML/SVG ファイルはアップロードできません。"
-msgstr "無法上傳 HTML/SVG 檔案。"
+msgid "HTML ファイルが大きすぎるためプレビューできません。"
+msgstr "此 HTML 檔案過大，無法預覽。"
 
 msgid "HTTPSによる通信保護"
 msgstr "HTTPS通訊保護"
@@ -1704,10 +1704,11 @@ msgstr "導致PDF檔案過大的主要原因"
 msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr "支援 PDF、Word、Excel、PowerPoint、圖片 (JPEG、PNG)、影片 (MP4)、ZIP、文字檔案等主流檔案格式。"
 
-msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。"
+msgid "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。"
 msgstr ""
-"支援主要檔案格式，包括 PDF、Word、Excel、PowerPoint、圖片 (JPEG/PNG)、影片 (MP4)、ZIP "
-"和文字檔案。出於安全考量，HTML/SVG 等部分格式無法上傳。"
+"支援 PDF、Word、Excel、PowerPoint、圖片（JPEG/PNG）、影片（MP4）、ZIP、文字和 HTML "
+"檔案等主要檔案格式。HTML 檔案可在房間內預覽，其中的 JavaScript 僅在你選擇執行時才會隔離執行。基於安全考量，SVG "
+"等部分格式無法上傳。"
 
 msgid "PDF・Word（.docx）・Excel（.xlsx）・PowerPoint（.pptx）・画像（JPEG・PNG・GIF）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。"
 msgstr ""
@@ -1981,6 +1982,9 @@ msgstr "在一個螢幕上使用QR Code、群組和筆記"
 
 msgid "Room情報"
 msgstr "房間資訊"
+
+msgid "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。"
+msgstr "無法上傳 SVG、XHTML 檔案，以及副檔名不是 .html / .htm 的 HTML 檔案。"
 
 msgid "Safariブラウザのデフォルト設定では、ダウンロードしたファイルは内蔵の「ファイル」アプリ内の「ダウンロード」フォルダに保存されます。"
 msgstr "預設情況下，Safari 瀏覽器將下載的檔案儲存到內建「檔案」應用程式中的「下載」資料夾中。"

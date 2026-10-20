@@ -10,7 +10,7 @@ from urllib.parse import urlsplit
 import httpx
 import pytest
 
-from HtmlPreview.html_preview_app import CDN_ASSETS
+from html_preview_assets import CDN_ASSETS
 
 playwright = pytest.importorskip("playwright.sync_api")
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +19,7 @@ ASSETS = {
     for name in (
         "css/00-breakpoints.css",
         "css/html-preview.css",
+        "js/html_preview/renderer.js",
         "js/html_preview/preview.js",
         "favicon.ico",
     )

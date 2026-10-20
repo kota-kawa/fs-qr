@@ -882,7 +882,6 @@
   "自動保存で内容を同期": "Sync content with autosave",
   "ノートルームではテキストをリアルタイムに共有できます。": "In a note room, text can be shared in real time.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "A group room can store up to 10 files totaling 500 MB. If adding new files would exceed the limit with existing ones, uploading is not allowed.",
-  "HTML/SVG ファイルはアップロードできません。": "HTML/SVG files cannot be uploaded.",
   "パスワードが違います。": "Incorrect password.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Room session could not be verified. Please re-enter using the shared URL.",
   "ルームが見つかりません。": "Room not found.",
@@ -1007,7 +1006,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Email requires knowing everyone's address and often has strict file size limits. With a group room, participants can join with a sharing URL or room ID and password, and files stay collected in one place.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Services such as Google Drive may require a Google account. FS!QR Group requires no account, and participants can join with a sharing URL or room ID and password.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "USB drives can be lost, infected with malware, and are cumbersome for distributing to multiple people. FS!QR Group works in the browser, and the whole room is automatically deleted after the retention period.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "Major file formats are supported, including PDF, Word, Excel, PowerPoint, images (JPEG/PNG), video (MP4), ZIP, and text files. Some formats, such as HTML/SVG, cannot be uploaded for security reasons.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "With the standard settings, one group room can store up to 1 GB total and 30 files. Uploading is blocked if the new files plus existing files would exceed the limit.",
   "共有情報の管理と削除": "Managing and deleting shared access information",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "When a room is created, the room ID, password, sharing URL, and QR code are shown. The creator can delete the room when needed. After deletion, saved files are no longer available.",
@@ -1038,5 +1036,8 @@
   "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "No. Recipients only need the share link or QR code and the issued 6-digit password. No account registration is required.",
   "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Share the generated QR code or share link and the 6-digit password by email or chat. Select the retention period when uploading.",
   "相手が受け取る": "The recipient downloads the file",
-  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "The recipient scans the QR code or opens the share link, enters the password if needed, and downloads within the retention period."
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "The recipient scans the QR code or opens the share link, enters the password if needed, and downloads within the retention period.",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "SVG and XHTML files, and HTML files without a .html or .htm extension, cannot be uploaded.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "This HTML file is too large to preview.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "Major file formats are supported, including PDF, Word, Excel, PowerPoint, images (JPEG/PNG), video (MP4), ZIP, text, and HTML files. HTML files can be previewed in the room, and their JavaScript runs in isolation only when you choose to run it. Some formats, such as SVG, cannot be uploaded for security reasons."
 }

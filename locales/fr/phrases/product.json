@@ -860,7 +860,6 @@
   "自動保存で内容を同期": "Synchroniser le contenu avec l'enregistrement automatique",
   "ノートルームではテキストをリアルタイムに共有できます。": "Dans un espace de notes, le texte peut être partagé en temps réel.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Une salle de groupe peut stocker jusqu'à 10 fichiers pour un total de 500 Mo. Si l'ajout de nouveaux fichiers dépasse la limite avec les fichiers existants, le téléversement n'est pas autorisé.",
-  "HTML/SVG ファイルはアップロードできません。": "Les fichiers HTML/SVG ne peuvent pas être envoyés.",
   "パスワードが違います。": "Le mot de passe est incorrect.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Impossible de vérifier la session du salon. Veuillez y accéder à nouveau depuis l'URL de partage.",
   "ルームが見つかりません。": "Salon introuvable.",
@@ -985,7 +984,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Le courrier électronique nécessite de connaître l'adresse de chacun et comporte souvent des limites strictes en matière de taille de fichier. Avec une salle de groupe, les participants peuvent rejoindre avec une URL de partage ou un identifiant de salle et un mot de passe, et les fichiers restent collectés au même endroit.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Les services tels que Google Drive peuvent nécessiter un compte Google. Le groupe FS!QR ne nécessite aucun compte et les participants peuvent se joindre avec une URL de partage ou un identifiant de salle et un mot de passe.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "Les clés USB peuvent être perdues, infectées par des logiciels malveillants et difficiles à distribuer à plusieurs personnes. FS!QR Group fonctionne dans le navigateur et toute la salle est automatiquement supprimée après la période de conservation.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "Les principaux formats de fichiers sont pris en charge, notamment PDF, Word, Excel, PowerPoint, images (JPEG/PNG), vidéos (MP4), ZIP et fichiers texte. Certains formats, comme HTML/SVG, ne peuvent pas être envoyés pour des raisons de sécurité.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Avec les paramètres standard, un salon de groupe peut stocker jusqu'à 1 Go au total et 30 fichiers. L'envoi est bloqué si les nouveaux fichiers et ceux déjà enregistrés dépassent cette limite.",
   "共有情報の管理と削除": "Gestion et suppression des informations d'accès partagé",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Lorsqu'une salle est créée, l'ID de la salle, le mot de passe, l'URL de partage et le code QR sont affichés. Le créateur peut supprimer la salle en cas de besoin. Après suppression, les fichiers enregistrés ne sont plus disponibles.",
@@ -1038,5 +1036,8 @@
   "FS!QRで共有されたファイルは、スマートフォンの標準カメラでQRコードを読み取るだけで受け取れます。専用アプリのインストールやアカウント登録は不要で、表示されたリンクをタップすればすぐにアクセスできます。": "Les fichiers partagés sur FS!QR peuvent être reçus simplement en scannant le QR code avec l'appareil photo standard de votre smartphone. Pas besoin d'installer d'application ou de vous inscrire, appuyez sur le lien affiché pour y accéder instantanément.",
   "学校の授業での活用例": "Exemples d'utilisation en milieu scolaire",
   "外出先や共有PCでも安心": "En toute sécurité, même en déplacement ou sur un PC partagé",
-  "受け取れないときの確認ポイント": "Points à vérifier en cas de problème de réception"
+  "受け取れないときの確認ポイント": "Points à vérifier en cas de problème de réception",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "Les fichiers SVG et XHTML, ainsi que les fichiers HTML sans extension .html ou .htm, ne peuvent pas être téléversés.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "Ce fichier HTML est trop volumineux pour l’aperçu.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "Les principaux formats sont pris en charge, notamment PDF, Word, Excel, PowerPoint, images (JPEG/PNG), vidéo (MP4), ZIP, texte et HTML. Les fichiers HTML peuvent être prévisualisés dans le salon, et leur JavaScript ne s’exécute de manière isolée que si vous choisissez de l’exécuter. Certains formats, comme SVG, ne peuvent pas être téléversés pour des raisons de sécurité."
 }

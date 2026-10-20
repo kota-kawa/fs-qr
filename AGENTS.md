@@ -19,6 +19,7 @@
 - `docs/knowledge/README.md` は再利用可能な知見の索引です。デバッグ手順は `docs/knowledge/debugging.md`、API 契約とマイグレーションの注意点は `docs/knowledge/contracts-and-migrations.md`、worktree を分けた後の運用手順は `docs/knowledge/parallel_work.md`、フロントエンドの実描画確認は `docs/knowledge/frontend_visual_verification.md`、過去に繰り返した回帰の型は `docs/knowledge/recurring_regressions.md`、リアルタイム機能は `docs/knowledge/realtime.md`、共通部品の拡張規則は `docs/knowledge/shared-service-components.md` を参照してください。作業ログや一時的な状態は追加しません。
 - `docs/decisions/README.md` は重要な技術判断（ADR）の索引です。判断を変更・追加するときは、既存 ADR を確認して理由と影響を更新・記録してください。
 - `docs/decisions/0009-browser-only-html-preview.md` は HTML プレビューの技術判断です。ブラウザ内処理と隔離の境界を変更するときに参照してください。
+- `docs/decisions/0010-group-sandboxed-html-preview.md` は Group の HTML ファイルのアップロードと sandbox プレビューの技術判断です。Group の HTML 配信・描画・JavaScript 実行の境界を変更するときに参照してください。
 - `docs/blue-green-deploy.md` は本番の初回セットアップ、切替、sudo、rollback、手動デプロイの運用手順です。構成の理解には使わず、`ARCHITECTURE.md` から辿ってください。
 - `docs/eu-readiness.md` は EU 対応のデータ取扱い、公開告知、cookie / 広告、既知 gap の前提資料です。法務・プライバシー文書を変更するときに参照し、実装の責務確認には使いません。
 - `docs/screenshots/` は PR や公開説明で参照するスクリーンショットの置き場です。設計や手順の確認には使いません。

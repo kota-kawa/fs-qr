@@ -19,6 +19,8 @@ import os
 # テンプレート内インラインスクリプトはリクエストごとの nonce で許可する。
 # `unsafe-inline` は使わず、漏洩した HTML 断片がスクリプト実行権限を持たないようにする。
 # 広告の画像・iframe・計測先は配信ドメインが流動的なため img/frame は https: で許可。
+# frame の 'self' は Group の HTML プレビュー用ビューア（/group-html-viewer）を
+# 開発時の http でも埋め込むためのもの。
 _CSP_SCRIPT_SOURCES = (
     "'self'",
     "https://pagead2.googlesyndication.com",
@@ -46,7 +48,7 @@ def _build_default_content_security_policy(nonce: str = "") -> str:
         " https://cdn.jsdelivr.net"
         " https://cdnjs.cloudflare.com",
         "img-src 'self' data: blob: https:",
-        "frame-src https:",
+        "frame-src 'self' https:",
         "connect-src 'self'"
         " https://pagead2.googlesyndication.com"
         " https://googleads.g.doubleclick.net"

@@ -1,0 +1,61 @@
+# ADR-0010: Group の HTML ファイルを sandbox でプレビューする
+
+## 状態
+
+採用。HTML ファイルのアップロード禁止を Group の `.html` / `.htm` に限って緩めます。
+[ADR-0009](0009-browser-only-html-preview.md) の `/html-preview` は変更しません。
+
+## 背景
+
+HTML プレビューは入力をサーバーへ送らないため、作った HTML を相手と共有できません。
+HTML プレビュー自体をルーム化すると、ADR-0009 の価値と衝突するうえ、誰でも任意のページを
+自サイトのドメインで公開できる場所になります（フィッシングや詐欺ページの踏み台、ドメイン評価の
+低下）。一方 Group は、パスワード付きのルーム・保存期間・自動削除・作成者や管理画面からの
+削除をすでに持っていますが、stored XSS を避けるために HTML / SVG のアップロードを拒否していました。
+
+## 判断
+
+- Group は `.html` / `.htm` の保存を許可します。SVG・XHTML と、拡張子が `.html` / `.htm` 以外で
+  HTML と判定された内容は引き続き拒否します（`file_validation.py`）。
+- 保存した HTML を自サイトのオリジンで HTML として配信しません。ダウンロードは従来どおり
+  `application/octet-stream` の添付です。`/preview/{room_id}/{filename}` は HTML を
+  `text/plain; charset=utf-8`、`X-Content-Type-Options: nosniff`、`Content-Security-Policy: sandbox`
+  付きでアプリが直接返し、X-Accel-Redirect には委譲しません（nginx 経由で独自ヘッダーが落ちないようにする）。
+  共有 URL で開くのは常にルーム画面で、HTML のページを直接開く URL はありません。
+- 描画は `/html-preview` と同じ処理を `static/js/html_preview/renderer.js` に共通化して使います。
+  Group のプレビューモーダルの中で、許可した要素・属性だけを再構築し、`allow-scripts` だけを持つ
+  sandbox iframe の srcdoc に表示します。同一オリジン権限、モーダル、ポップアップ、フォーム送信、
+  トップへの移動、ダウンロードは許可しません。
+- 開いた時点では script を除去して表示します。JavaScript は、アップロードした人を信頼できる場合だけ
+  実行するよう注意書きを出したうえで、ファイルを開くたびに利用者が明示的に実行します。選択は保存せず、
+  閉じる・開き直すと無効に戻ります。実行時も外部通信（`connect-src 'none'`）と外部リソース取得を
+  禁止し、対応 CDN は親画面で整合性を検証して埋め込みます。停止すると iframe ごと破棄します。
+- Group ルーム画面は広告のために `frame-src https:` を許可しており、その中の srcdoc iframe は
+  実行した script で自身を外部 URL へ移動できてしまいます。そのため、モーダルには同一オリジンの
+  ビューア `/group-html-viewer`（ルーム情報を持たない）を埋め込み、信頼できない HTML はその内側の
+  sandbox iframe で描画します。ビューアは `/html-preview` と同じ `frame-src 'none'` を含む CSP で
+  配信され、内側の srcdoc iframe はこの CSP を継承するため、自身の URL 移動も拒否されます。
+  ルーム画面はビューアに postMessage で HTML を渡し、送信元の window とオリジンを相互に確認します。
+  ルーム画面の CSP の frame-src には、開発環境の http でもビューアを埋め込めるよう `'self'` を加えます。
+- 全画面表示・表示幅切替・ソース表示は付けず、モーダルのファイル名・ダウンロード・閉じるを常に
+  表示したままにします。
+- 2 MB（`settings.py` の `GROUP_HTML_PREVIEW_MAX_BYTES`）を超える HTML はプレビューせず 413 を返し、
+  ダウンロードだけにします。
+
+## 理由
+
+既存のルーム・保存期間・削除の仕組みを再利用でき、見られるのはルームに入った参加者だけです。
+HTML を text/plain で返し、描画を sandbox の中に閉じ込めることで、アップロードを許可しても自サイトの
+オリジンで任意のスクリプトが動くことはありません。JavaScript 実行を毎回の明示操作にすることで、
+ルームの参加者が意図せず他人のスクリプトを動かすことを避けます。
+
+## 影響
+
+Group のアップロード可否と、その説明文（FAQ・エラー文言）が変わります。悪用されたページは
+ルームの削除・保存期間の経過・管理画面からの削除で消せます。JavaScript の実行は無限ループなどを
+止める実行制限ではなく、停止は iframe の破棄で行います。CSP の `connect-src 'none'` は WebRTC や
+DNS の先読みを制限しないため、実行した script が外部へ通信する経路を完全には塞げません。
+JavaScript の実行は、アップロードした人を信頼できる場合に限る前提です（注意書きでも「制限」と表現し、
+「できない」とは書きません）。文字コードは UTF-8 として扱い、
+それ以外の HTML は文字化けすることがあります。CDN の扱いと対象外のリソースは ADR-0009 と同じです。
+環境変数、DB マイグレーション、Python 依存の追加は不要です。

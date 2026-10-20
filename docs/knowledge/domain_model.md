@@ -53,7 +53,9 @@ HTML は第5のサービスで、共有・ルームの生命周期を持ちま�
 対応 CDN の固定 URL の CSS と Mermaid に対応します。信頼できる HTML では inline JavaScript の実行を明示的に切り替えられます。実行 iframe には
 外部リソース取得・親画面アクセス・ストレージを許可せず、対応 CDN は親で検証して埋め込みます。
 ページ内の目次移動にも対応します。外部スクリプト・許可以外のリソース・外部リンク移動・
-フォーム送信・保存共有・ソース整形は対象外です。
+フォーム送信・保存共有・ソース整形は対象外です。HTML を相手と共有したい場合は、`.html` ファイルを
+Group にアップロードし、ルームの参加者がプレビューで確認します（JavaScript は開くたびの明示操作でだけ
+隔離して実行）。
 
 ## 利用の流れ
 
@@ -154,7 +156,8 @@ route 側に残っている判定もあります（FSQR の有効判定、Task �
 | アップロード件数・合計サイズの上限 | `settings.py` の値と `file_validation.py` |
 | 失敗回数・操作頻度の制限 | `rate_limit.py` |
 | タスクの同時更新の競合 | `Task/task_data.py` の `version` 比較 |
-| HTML プレビューの表示要素・属性・通信制限 | `static/js/html_preview/preview.js` と `HtmlPreview/html_preview_app.py` の専用 CSP。入力はサーバーに送らないためブラウザで制約する |
+| HTML プレビューの表示要素・属性・通信制限 | `static/js/html_preview/renderer.js` と `HtmlPreview/html_preview_app.py` の専用 CSP。入力はサーバーに送らないためブラウザで制約する。Group の HTML ファイルも同じ renderer で描画する |
+| Group で保存できる形式と HTML プレビューの上限 | `file_validation.py`（SVG・XHTML と拡張子が `.html` / `.htm` 以外の HTML を拒否）、`settings.py` の `GROUP_HTML_PREVIEW_MAX_BYTES` |
 
 識別子で追跡するもの（ルーム、FSQR のアップロード、タスク、タグ）と、値そのものに意味が
 あるもの（ルームID の形式、パスワード、保存期間、日付、優先度）を区別して考えます。後者は

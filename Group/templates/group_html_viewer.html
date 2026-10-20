@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ html_lang }}" dir="{{ html_dir }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>FS!QR Group HTML</title>
+  <style>
+    html, body { height: 100%; margin: 0; background: #fff; }
+    iframe { display: block; width: 100%; height: 100%; border: 0; }
+    iframe[hidden] { display: none; }
+  </style>
+  <script nonce="{{ csp_nonce }}">window.HTML_PREVIEW_CDN = {{ cdn_assets | tojson }};</script>
+  <script nonce="{{ csp_nonce }}" src="{{ staticfile('js/html_preview/renderer.js') }}" defer></script>
+  <script nonce="{{ csp_nonce }}" src="{{ staticfile('js/group_room/html-viewer.js') }}" defer></script>
+</head>
+<body>
+  <iframe id="html-preview" title="HTML" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
+</body>
+</html>

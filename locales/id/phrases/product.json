@@ -882,7 +882,6 @@
   "自動保存で内容を同期": "Sinkronisasi konten dengan simpan otomatis",
   "ノートルームではテキストをリアルタイムに共有できます。": "Di ruang catatan, teks dapat dibagikan secara real-time.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Sebuah ruang grup dapat menyimpan hingga 10 file dengan total 500 MB. Jika penambahan file baru melebihi batas bersama file yang ada, unggahan tidak diizinkan.",
-  "HTML/SVG ファイルはアップロードできません。": "File HTML/SVG tidak dapat diunggah.",
   "パスワードが違います。": "Kata sandi salah.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Sesi ruang tidak dapat dikonfirmasi. Silakan masuk kembali melalui URL berbagi.",
   "ルームが見つかりません。": "Ruang tidak ditemukan.",
@@ -1007,7 +1006,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "Email memerlukan mengetahui alamat semua orang dan sering memiliki batas ukuran file yang ketat. Dengan ruang grup, peserta dapat bergabung dengan URL berbagi atau ID ruangan dan kata sandi, dan file terkumpul di satu tempat.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Layanan seperti Google Drive mungkin memerlukan akun Google. FS!QR Group tidak memerlukan akun, dan peserta dapat bergabung dengan URL berbagi atau ID ruangan dan kata sandi.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "Flash drive USB dapat hilang, terinfeksi malware, dan merepotkan untuk didistribusikan ke banyak orang. FS!QR Group berjalan di browser, dan seluruh ruangan dihapus secara otomatis setelah masa simpan berakhir.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "Format file umum didukung, termasuk PDF, Word, Excel, PowerPoint, gambar (JPEG/PNG), video (MP4), ZIP, dan file teks. Beberapa format seperti HTML/SVG tidak dapat diunggah karena alasan keamanan.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Dengan pengaturan standar, satu ruang grup dapat menyimpan hingga 1 GB dan 30 file. Pengunggahan diblokir jika file baru bersama file yang sudah ada melebihi batas.",
   "共有情報の管理と削除": "Mengelola dan menghapus informasi akses berbagi",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Saat ruangan dibuat, ID ruangan, kata sandi, URL berbagi, dan kode QR ditampilkan. Pembuat dapat menghapus ruangan bila diperlukan. Setelah dihapus, file yang tersimpan tidak lagi tersedia.",
@@ -1038,5 +1036,8 @@
   "いいえ。共有リンクまたはQRコードと、発行された6桁のパスワードがあれば受け取れます。アカウント登録は不要です。": "Tidak. Penerima hanya memerlukan tautan berbagi atau kode QR dan kata sandi 6 digit yang diterbitkan. Pendaftaran akun tidak diperlukan.",
   "生成されたQRコードや共有リンク、6桁のパスワードをメールやチャットで共有します。保存期間はアップロード時に選択します。": "Bagikan kode QR atau tautan berbagi yang dibuat dan kata sandi 6 digit melalui email atau obrolan. Masa simpan dipilih saat mengunggah.",
   "相手が受け取る": "Penerima mengunduh file",
-  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "Penerima memindai kode QR atau membuka tautan berbagi, memasukkan kata sandi jika diperlukan, dan mengunduh dalam masa simpan berlaku."
+  "相手はQRコードを読み取るか共有リンクを開き、必要に応じてパスワードを入力して保存期間内にダウンロードします。": "Penerima memindai kode QR atau membuka tautan berbagi, memasukkan kata sandi jika diperlukan, dan mengunduh dalam masa simpan berlaku.",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "File SVG dan XHTML, serta file HTML tanpa ekstensi .html atau .htm, tidak dapat diunggah.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "File HTML ini terlalu besar untuk dipratinjau.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "Format file utama didukung, termasuk PDF, Word, Excel, PowerPoint, gambar (JPEG/PNG), video (MP4), ZIP, teks, dan HTML. File HTML dapat dipratinjau di dalam ruang, dan JavaScript-nya hanya berjalan secara terisolasi saat Anda memilih untuk menjalankannya. Beberapa format, seperti SVG, tidak dapat diunggah karena alasan keamanan."
 }

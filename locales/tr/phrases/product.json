@@ -860,7 +860,6 @@
   "アクセスキーを期限付きで発行し、取引先・外部講師・クライアントに共有。終わったらキーを無効化するだけでアクセスを遮断できます。": "Geçerlilik süresi olan bir erişim anahtarı verin ve bunu iş ortaklarıyla, şirket dışındaki eğitmenlerle veya müşterilerle paylaşın. İş bittiğinde anahtarın devre dışı bırakılması erişimi anında engeller.",
   "FS!QR Noteは登録不要で使えるリアルタイム共同編集ノートです。ノートルームを作成してID・パスワード・QRコードを共有すると、複数人で会議メモや議事録を同時編集できます。": "FS!QR Note, kayıt olmadan kullanabileceğiniz gerçek zamanlı ortak düzenleme notudur. Not odası oluşturup ID, şifre ve QR kodunu paylaştığınızda birden fazla kişi toplantı notlarını ve tutanakları birlikte düzenleyebilir.",
   "1つのグループルームにつき合計500MBまで、最大10ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Bir grup odası toplamda 500 MB'a kadar 10 dosya saklayabilir. Mevcut dosyalarla birlikte sınırı aşacak şekilde yeni dosya eklenmek istenirse yüklemeye izin verilmez.",
-  "HTML/SVG ファイルはアップロードできません。": "HTML/SVG dosyaları yüklenemez.",
   "パスワードが違います。": "Şifre yanlış.",
   "ルームセッションが確認できません。共有URLから入り直してください。": "Oda oturumu doğrulanamadı. Lütfen paylaşılan URL'yi kullanarak tekrar giriş yapın.",
   "ルームが見つかりません。": "Oda bulunamadı.",
@@ -985,7 +984,6 @@
   "メールは全員のアドレスを把握する必要があり、ファイルサイズの上限も厳しいです。グループルームは共有URLやルームID・パスワードを渡すだけで参加でき、ファイルを一か所に集約できます。": "E-posta, herkesin adresini bilmeyi gerektirir ve genellikle katı dosya boyutu sınırları vardır. Grup odasında katılımcılar bir paylaşım URL'si veya oda ID'si ve şifre ile katılabilir; dosyalar tek bir yerde toplanır.",
   "Google Drive等はGoogleアカウントが必要になる場合があります。FS!QR Groupはアカウント不要で、共有URLまたはルームIDとパスワードで参加できます。": "Google Drive gibi hizmetler Google hesabı gerektirebilir. FS!QR Group hesap gerektirmez ve katılımcılar paylaşım URL'si veya oda ID'si ve şifre ile katılabilir.",
   "USBは紛失・ウイルス感染のリスクがあり、複数人への配布も手間です。FS!QR Groupはブラウザだけで共有でき、保存期間が過ぎるとルームごと自動削除されます。": "USB bellekler kaybolabilir, kötü amaçlı yazılım bulaşabilir ve birden fazla kişiye dağıtmak için zahmetlidir. FS!QR Group tarayıcıda çalışır ve saklama süresi dolunca tüm oda otomatik olarak silinir.",
-  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキストファイルなど主要なファイル形式に対応しています。HTML/SVGなど一部の形式は安全上の理由でアップロードできません。": "PDF, Word, Excel, PowerPoint, görseller (JPEG/PNG), video (MP4), ZIP ve metin dosyaları dahil olmak üzere tüm yaygın dosya formatları desteklenmektedir. HTML/SVG gibi bazı formatlar güvenlik nedeniyle yüklenemez.",
   "標準設定では1つのグループルームにつき合計1GBまで、最大30ファイルまで保存できます。すでに保存済みのファイルと合わせて上限を超える場合はアップロードできません。": "Standart ayarlarla bir grup odası toplamda 1 GB ve 30 dosyaya kadar depolayabilir. Yeni dosyalar mevcut dosyalarla birlikte sınırı aşarsa yükleme engellenir.",
   "共有情報の管理と削除": "Paylaşım bilgilerini yönetme ve silme",
   "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。": "Oda oluşturulduğunda oda ID'si, şifre, paylaşım URL'si ve QR kodu gösterilir. Oluşturucu gerektiğinde odayı silebilir. Silme işleminden sonra kaydedilen dosyalara artık erişilemez.",
@@ -1038,5 +1036,8 @@
   "学校の授業での活用例": "Sınıf Ortamında Kullanım Örnekleri",
   "安全で効率的な運用のポイント": "Güvenli ve Verimli Kullanım İçin İpuçları",
   "活用のヒント：クリップボード代わりにも": "Kullanım İpucu: Cihazlar Arası Pano Olarak da Kullanın",
-  "用途に合わせて選べる保持期間": "İhtiyacınıza Göre Saklama Süresi Seçin"
+  "用途に合わせて選べる保持期間": "İhtiyacınıza Göre Saklama Süresi Seçin",
+  "SVG・XHTML と、拡張子が .html / .htm 以外の HTML ファイルはアップロードできません。": "SVG ve XHTML dosyaları ile .html veya .htm uzantısı olmayan HTML dosyaları yüklenemez.",
+  "HTML ファイルが大きすぎるためプレビューできません。": "Bu HTML dosyası önizleme için çok büyük.",
+  "PDF・Word・Excel・PowerPoint・画像（JPEG・PNG）・動画（MP4）・ZIP・テキスト・HTMLファイルなど主要なファイル形式に対応しています。HTMLはルーム内でプレビューでき、JavaScriptは実行を選んだときだけ隔離して動かします。SVGなど一部の形式は安全上の理由でアップロードできません。": "PDF, Word, Excel, PowerPoint, görseller (JPEG/PNG), video (MP4), ZIP, metin ve HTML dosyaları dahil başlıca dosya biçimleri desteklenir. HTML dosyaları odada önizlenebilir ve JavaScript'leri yalnızca çalıştırmayı seçtiğinizde yalıtılmış olarak çalışır. SVG gibi bazı biçimler güvenlik nedeniyle yüklenemez."
 }
