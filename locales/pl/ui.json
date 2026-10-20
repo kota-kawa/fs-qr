@@ -148,5 +148,6 @@
   "room.settings.invalid": "Wybierz jeden z dostępnych okresów przechowywania.",
   "room.settings.failed": "Nie udało się zmienić terminu. Spróbuj ponownie później.",
   "room.settings.expired": "Pokój wygasł lub został usunięty albo wybrany termin już minął.",
-  "room.retention.720": "30 dni"
+  "room.retention.720": "30 dni",
+  "room.retention.range": "Od 1 godziny do 30 dni"
 }

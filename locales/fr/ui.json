@@ -148,5 +148,6 @@
   "room.settings.invalid": "Choisissez une durée de conservation proposée.",
   "room.settings.failed": "Impossible de modifier l’expiration. Veuillez réessayer plus tard.",
   "room.settings.expired": "Le salon a expiré ou a été supprimé, ou l’expiration choisie est passée.",
-  "room.retention.720": "30 jours"
+  "room.retention.720": "30 jours",
+  "room.retention.range": "De 1 heure à 30 jours"
 }

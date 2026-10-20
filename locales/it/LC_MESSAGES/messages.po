@@ -3548,6 +3548,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 giorni"
 
+msgid "room.retention.range"
+msgstr "Da 1 ora a 30 giorni"
+
 msgid "room.settings.expired"
 msgstr ""
 "La stanza è scaduta o è stata eliminata, oppure la scadenza scelta è già "

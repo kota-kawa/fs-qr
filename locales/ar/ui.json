@@ -148,5 +148,6 @@
   "room.settings.invalid": "اختر إحدى مدد الاحتفاظ المتاحة.",
   "room.settings.failed": "تعذر تحديث موعد الانتهاء. يُرجى المحاولة لاحقًا.",
   "room.settings.expired": "انتهت صلاحية الغرفة أو حُذفت، أو أن موعد الانتهاء المختار قد مضى.",
-  "room.retention.720": "30 يومًا"
+  "room.retention.720": "30 يومًا",
+  "room.retention.range": "من ساعة إلى 30 يومًا"
 }

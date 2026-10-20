@@ -3498,6 +3498,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "Siku 30"
 
+msgid "room.retention.range"
+msgstr "Saa 1 hadi siku 30"
+
 msgid "room.settings.expired"
 msgstr "Muda wa chumba umeisha au chumba kimefutwa, au muda uliochaguliwa umepita."
 

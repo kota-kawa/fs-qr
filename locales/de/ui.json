@@ -148,5 +148,6 @@
   "room.settings.invalid": "Wählen Sie eine der verfügbaren Aufbewahrungszeiten.",
   "room.settings.failed": "Die Ablaufzeit konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut.",
   "room.settings.expired": "Der Raum ist abgelaufen oder gelöscht, oder die gewählte Ablaufzeit liegt in der Vergangenheit.",
-  "room.retention.720": "30 Tage"
+  "room.retention.720": "30 Tage",
+  "room.retention.range": "1 Stunde bis 30 Tage"
 }

@@ -3434,6 +3434,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 hari"
 
+msgid "room.retention.range"
+msgstr "1 jam hingga 30 hari"
+
 msgid "room.settings.expired"
 msgstr ""
 "Ruang telah kedaluwarsa atau dihapus, atau waktu yang dipilih telah "

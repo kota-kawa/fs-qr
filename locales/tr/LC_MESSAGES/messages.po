@@ -3464,6 +3464,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 gün"
 
+msgid "room.retention.range"
+msgstr "1 saatten 30 güne"
+
 msgid "room.settings.expired"
 msgstr ""
 "Odanın süresi dolmuş veya oda silinmiş ya da seçilen sona erme zamanı "

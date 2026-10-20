@@ -148,5 +148,6 @@
   "room.settings.invalid": "Escolha um dos períodos de retenção disponíveis.",
   "room.settings.failed": "Não foi possível atualizar o prazo. Tente novamente mais tarde.",
   "room.settings.expired": "A sala expirou ou foi excluída, ou o prazo escolhido já passou.",
-  "room.retention.720": "30 dias"
+  "room.retention.720": "30 dias",
+  "room.retention.range": "De 1 hora a 30 dias"
 }

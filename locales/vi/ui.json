@@ -148,5 +148,6 @@
   "room.settings.invalid": "Chọn một trong các thời gian lưu có sẵn.",
   "room.settings.failed": "Không thể cập nhật thời hạn. Vui lòng thử lại sau.",
   "room.settings.expired": "Phòng đã hết hạn hoặc bị xóa, hoặc thời hạn được chọn đã qua.",
-  "room.retention.720": "30 ngày"
+  "room.retention.720": "30 ngày",
+  "room.retention.range": "Từ 1 giờ đến 30 ngày"
 }

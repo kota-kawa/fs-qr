@@ -148,5 +148,6 @@
   "room.settings.invalid": "उपलब्ध संग्रह अवधियों में से एक चुनें।",
   "room.settings.failed": "समाप्ति समय नहीं बदला जा सका। बाद में फिर कोशिश करें।",
   "room.settings.expired": "रूम की अवधि समाप्त हो गई है या वह हटा दिया गया है, या चुना गया समय बीत चुका है।",
-  "room.retention.720": "30 दिन"
+  "room.retention.720": "30 दिन",
+  "room.retention.range": "1 घंटे से 30 दिन तक"
 }

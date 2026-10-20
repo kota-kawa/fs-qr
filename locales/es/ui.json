@@ -148,5 +148,6 @@
   "room.settings.invalid": "Elige uno de los períodos de conservación disponibles.",
   "room.settings.failed": "No se pudo actualizar el vencimiento. Inténtalo más tarde.",
   "room.settings.expired": "La sala ha vencido o se ha eliminado, o el vencimiento elegido ya ha pasado.",
-  "room.retention.720": "30 días"
+  "room.retention.720": "30 días",
+  "room.retention.range": "De 1 hora a 30 días"
 }

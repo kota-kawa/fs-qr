@@ -148,5 +148,6 @@
   "room.settings.invalid": "请选择可用的保留期限。",
   "room.settings.failed": "无法修改有效期，请稍后重试。",
   "room.settings.expired": "房间已过期或已删除，或所选的到期时间已过去。",
-  "room.retention.720": "30天"
+  "room.retention.720": "30天",
+  "room.retention.range": "1小时至30天"
 }

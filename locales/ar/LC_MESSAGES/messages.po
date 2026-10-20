@@ -3271,6 +3271,9 @@ msgstr ""
 msgid "room.retention.720"
 msgstr "30 يومًا"
 
+msgid "room.retention.range"
+msgstr "من ساعة إلى 30 يومًا"
+
 msgid "room.settings.expired"
 msgstr "انتهت صلاحية الغرفة أو حُذفت، أو أن موعد الانتهاء المختار قد مضى."
 

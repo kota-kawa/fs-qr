@@ -148,5 +148,6 @@
   "room.settings.invalid": "Choose one of the available retention periods.",
   "room.settings.failed": "Could not update the expiry. Please try again later.",
   "room.settings.expired": "The room has expired or been deleted, or the selected expiry is in the past.",
-  "room.retention.720": "30 days"
+  "room.retention.720": "30 days",
+  "room.retention.range": "1 hour to 30 days"
 }
