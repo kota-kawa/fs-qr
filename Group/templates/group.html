@@ -196,8 +196,8 @@
                     <p>{{ _("新しいグループを作成してチームでファイルを安全に共有しましょう。") }}</p>
                     {% set room_quick_action = '/create_group_room' %}
                     {% set room_quick_button_class = 'menu-create-button' %}
+                    {% set room_quick_advanced_href = '/create_room' %}
                     {% include '_room_quick_create.html' %}
-                    <a href="/create_room">{{ _('room.create.advanced') }}</a>
                 </article>
                 
                 <article class="menu-card">

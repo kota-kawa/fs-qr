@@ -160,6 +160,8 @@
             --service-accent-strong: #5f8614;
             --service-accent-soft: rgba(149, 212, 32, 0.18);
             --service-accent-shadow: rgba(95, 134, 20, 0.22);
+            /* --service-accent is too light for text on the white cards. */
+            --service-link: #4d7c0f;
             --service-bg-start: #c2bf20;
             --service-bg-end: #1aa866;
             --service-glow-1: rgba(245, 249, 172, 0.34);
@@ -195,8 +197,8 @@
                     <p>{{ _("新しいノートルームを作成してリアルタイム同時編集を始めましょう。") }}</p>
                     {% set room_quick_action = '/create_note_room' %}
                     {% set room_quick_button_class = 'menu-create-button' %}
+                    {% set room_quick_advanced_href = '/create_note_room' %}
                     {% include '_room_quick_create.html' %}
-                    <a href="/create_note_room">{{ _('room.create.advanced') }}</a>
                 </article>
                 
                 <article class="menu-card">
