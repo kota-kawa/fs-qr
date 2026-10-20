@@ -3333,6 +3333,46 @@ msgstr "Bạn có thể nhập tối đa %(max_length)s ký tự."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Tạo với cài đặt"
+
+msgid "room.create.hint"
+msgstr ""
+"Tự động xóa sau 24 giờ kể từ khi tạo. Bạn có thể đổi thời hạn sau khi tạo"
+" phòng."
+
+msgid "room.retention.720"
+msgstr "30 ngày"
+
+msgid "room.settings.expired"
+msgstr "Phòng đã hết hạn hoặc bị xóa, hoặc thời hạn được chọn đã qua."
+
+msgid "room.settings.failed"
+msgstr "Không thể cập nhật thời hạn. Vui lòng thử lại sau."
+
+msgid "room.settings.forbidden"
+msgstr "Chỉ người tạo mới có thể đổi thời hạn."
+
+msgid "room.settings.help"
+msgstr ""
+"Chỉ người tạo mới có thể đổi thời hạn, tối đa 30 ngày kể từ khi tạo. "
+"Phòng và nội dung sẽ tự động bị xóa khi hết hạn."
+
+msgid "room.settings.invalid"
+msgstr "Chọn một trong các thời gian lưu có sẵn."
+
+msgid "room.settings.retention"
+msgstr "Thời gian lưu từ lúc tạo"
+
+msgid "room.settings.save"
+msgstr "Lưu thời hạn"
+
+msgid "room.settings.saved"
+msgstr "Đã cập nhật thời hạn."
+
+msgid "room.settings.title"
+msgstr "Cài đặt phòng"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8108,14 +8148,6 @@ msgstr "BảngをTìm kiếm"
 msgid "ボードを開く"
 msgstr "Bảngを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"BảngTạo時に1 ngày、1 tuần、1 thángからThời hạn lưu trữを選べます。期間を過ぎるとBảngとタスクはTự "
-"động xóaされます。"
-
-msgid "ボード操作"
-msgstr "BảngThao tác"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Chuyển đổi giữa chế độ xem bảng và lịch"
 
@@ -8765,11 +8797,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Không thể chuyển hướng đến phòng mới khởi tạo."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"PhòngTạo時に1時間、6時間、12時間、24時間からThời hạn lưu trữを選べます。期間を過ぎるとPhòngとファイルはTự "
-"động xóaされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -9683,11 +9710,6 @@ msgstr "Thời hạn lưu trữ và yêu cầu xóa"
 
 msgid "保存期間と自動削除"
 msgstr "Thời hạn lưu trữ và tự động xóa"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Thời hạn lưu trữは1・6・12・24時間。Hạnを過ぎるとPhòngとTệp tin lưu trữがTự động "
-"xóaされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -11903,9 +11925,6 @@ msgstr "Thêm công việc mới (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいTạo bảng công việcして、チームの作業を整理・Chia sẻしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいBảng công việcTạoページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Tên công việc mới"

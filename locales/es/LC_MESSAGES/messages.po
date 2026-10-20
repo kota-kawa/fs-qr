@@ -3539,6 +3539,48 @@ msgstr "Puedes introducir un máximo de %(max_length)s caracteres."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Crear con ajustes"
+
+msgid "room.create.hint"
+msgstr ""
+"Se elimina automáticamente 24 horas después de su creación. Puedes "
+"cambiar el vencimiento después de crear la sala."
+
+msgid "room.retention.720"
+msgstr "30 días"
+
+msgid "room.settings.expired"
+msgstr ""
+"La sala ha vencido o se ha eliminado, o el vencimiento elegido ya ha "
+"pasado."
+
+msgid "room.settings.failed"
+msgstr "No se pudo actualizar el vencimiento. Inténtalo más tarde."
+
+msgid "room.settings.forbidden"
+msgstr "Solo el creador puede cambiar el vencimiento."
+
+msgid "room.settings.help"
+msgstr ""
+"Solo el creador puede cambiar el vencimiento, hasta 30 días desde la "
+"creación. Al vencer, la sala y su contenido se eliminan automáticamente."
+
+msgid "room.settings.invalid"
+msgstr "Elige uno de los períodos de conservación disponibles."
+
+msgid "room.settings.retention"
+msgstr "Conservación desde la creación"
+
+msgid "room.settings.save"
+msgstr "Guardar vencimiento"
+
+msgid "room.settings.saved"
+msgstr "Vencimiento actualizado."
+
+msgid "room.settings.title"
+msgstr "Ajustes de la sala"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8541,14 +8583,6 @@ msgstr "TableroをBuscar"
 msgid "ボードを開く"
 msgstr "Tableroを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"TableroCrear時に1 día、1 semana、1 mesからPeriodo de "
-"conservaciónを選べます。期間を過ぎるとTableroとタスクはEliminación automáticaされます。"
-
-msgid "ボード操作"
-msgstr "TableroAcciones"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Cambiar entre las vistas de tablero y calendario"
 
@@ -9238,11 +9272,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "No se pudo determinar a dónde redirigir tras crear la sala."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"SalaCrear時に1時間、6時間、12時間、24時間からPeriodo de "
-"conservaciónを選べます。期間を過ぎるとSalaとファイルはEliminación automáticaされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -10197,11 +10226,6 @@ msgstr "Retención y solicitudes de eliminación"
 
 msgid "保存期間と自動削除"
 msgstr "Plazo de conservación y eliminación automática"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Periodo de conservaciónは1・6・12・24時間。Vencimientoを過ぎるとSalaとArchivos "
-"guardadosがEliminación automáticaされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -12576,9 +12600,6 @@ msgstr "Añadir una tarea nueva (Intro)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいCrear tablero de tareasして、チームの作業を整理・Compartirしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいTablero de tareasCrearページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Nombre de la tarea nueva"

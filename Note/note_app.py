@@ -26,6 +26,8 @@ from room_credentials import (
     validate_room_credentials,
 )
 from room_create import RoomIdConflict, select_room_id
+from room_settings import register_room_settings_route, room_retention_options
+from room_session import NOTE_ACCESS
 from room_delete import delete_owned_room
 from settings import NOTE_MAX_CONTENT_LENGTH
 from share_links import (
@@ -56,6 +58,12 @@ from .note_realtime import publish_room_expired
 from .note_collaboration import create_collaboration_token
 
 router = APIRouter()
+register_room_settings_route(
+    router,
+    service="note",
+    access=NOTE_ACCESS,
+    update=lambda key, hours: nd.update_room_retention(key, hours),
+)
 logger = logging.getLogger(__name__)
 # 既存テストと外部拡張が参照するモジュール属性を互換維持する。
 secrets = _secrets
@@ -134,6 +142,7 @@ def _render_note_room(request: Request, room_id: str, meta: dict):
         retention_hours=retention_hours,
         deletion_date=deletion_date,
         can_delete=can_delete_note_room(request, room_id),
+        room_retention_options=room_retention_options(meta),
         yjs_token=create_collaboration_token(room_id),
         presence_scope="note",
         presence_key=room_id,

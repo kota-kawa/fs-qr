@@ -136,5 +136,17 @@
   "html.width_mobile": "Phone",
   "html.auto_hint": "On wide screens, the preview updates automatically when you stop typing. When running JavaScript, update with the button.",
   "html.sample_title": "Sample page",
-  "html.sample_text": "Edit this HTML and the preview will reflect your changes."
+  "html.sample_text": "Edit this HTML and the preview will reflect your changes.",
+  "room.create.hint": "Automatically deleted 24 hours after creation. You can change the expiry after creating the room.",
+  "room.create.advanced": "Create with settings",
+  "room.settings.title": "Room settings",
+  "room.settings.help": "Only the creator can change the expiry, up to 30 days from creation. The room and its contents are automatically deleted when it expires.",
+  "room.settings.retention": "Retention from creation",
+  "room.settings.save": "Save expiry",
+  "room.settings.saved": "Expiry updated.",
+  "room.settings.forbidden": "Only the creator can change the expiry.",
+  "room.settings.invalid": "Choose one of the available retention periods.",
+  "room.settings.failed": "Could not update the expiry. Please try again later.",
+  "room.settings.expired": "The room has expired or been deleted, or the selected expiry is in the past.",
+  "room.retention.720": "30 days"
 }

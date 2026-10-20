@@ -136,5 +136,17 @@
   "html.width_mobile": "Smartphone",
   "html.auto_hint": "Sugli schermi larghi l'anteprima si aggiorna automaticamente quando smetti di scrivere. Con JavaScript, aggiorna con il pulsante.",
   "html.sample_title": "Pagina di esempio",
-  "html.sample_text": "Modifica questo HTML e l'anteprima mostrerà le modifiche."
+  "html.sample_text": "Modifica questo HTML e l'anteprima mostrerà le modifiche.",
+  "room.create.hint": "Eliminazione automatica 24 ore dopo la creazione. Puoi modificare la scadenza dopo aver creato la stanza.",
+  "room.create.advanced": "Crea con impostazioni",
+  "room.settings.title": "Impostazioni della stanza",
+  "room.settings.help": "Solo il creatore può modificare la scadenza, fino a 30 giorni dalla creazione. Alla scadenza, la stanza e i suoi contenuti vengono eliminati automaticamente.",
+  "room.settings.retention": "Conservazione dalla creazione",
+  "room.settings.save": "Salva scadenza",
+  "room.settings.saved": "Scadenza aggiornata.",
+  "room.settings.forbidden": "Solo il creatore può modificare la scadenza.",
+  "room.settings.invalid": "Scegli uno dei periodi di conservazione disponibili.",
+  "room.settings.failed": "Impossibile aggiornare la scadenza. Riprova più tardi.",
+  "room.settings.expired": "La stanza è scaduta o è stata eliminata, oppure la scadenza scelta è già passata.",
+  "room.retention.720": "30 giorni"
 }

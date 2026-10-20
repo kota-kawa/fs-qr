@@ -136,5 +136,17 @@
   "html.width_mobile": "Telefon",
   "html.auto_hint": "Na szerokich ekranach podgląd odświeża się automatycznie po przerwaniu pisania. Przy uruchamianiu JavaScriptu odśwież przyciskiem.",
   "html.sample_title": "Strona przykładowa",
-  "html.sample_text": "Edytuj ten HTML, a podgląd pokaże zmiany."
+  "html.sample_text": "Edytuj ten HTML, a podgląd pokaże zmiany.",
+  "room.create.hint": "Automatyczne usunięcie po 24 godzinach od utworzenia. Termin wygaśnięcia można zmienić po utworzeniu pokoju.",
+  "room.create.advanced": "Utwórz z ustawieniami",
+  "room.settings.title": "Ustawienia pokoju",
+  "room.settings.help": "Tylko twórca może zmienić termin wygaśnięcia, maksymalnie do 30 dni od utworzenia. Po tym terminie pokój i jego zawartość zostaną automatycznie usunięte.",
+  "room.settings.retention": "Okres przechowywania od utworzenia",
+  "room.settings.save": "Zapisz termin",
+  "room.settings.saved": "Termin wygaśnięcia zmieniony.",
+  "room.settings.forbidden": "Tylko twórca może zmienić termin wygaśnięcia.",
+  "room.settings.invalid": "Wybierz jeden z dostępnych okresów przechowywania.",
+  "room.settings.failed": "Nie udało się zmienić terminu. Spróbuj ponownie później.",
+  "room.settings.expired": "Pokój wygasł lub został usunięty albo wybrany termin już minął.",
+  "room.retention.720": "30 dni"
 }

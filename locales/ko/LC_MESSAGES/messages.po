@@ -2832,6 +2832,42 @@ msgstr "최대 %(max_length)s자까지 입력 가능합니다."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "설정하여 만들기"
+
+msgid "room.create.hint"
+msgstr "생성 후 24시간이 지나면 자동으로 삭제됩니다. 생성 후 만료 시간을 변경할 수 있습니다."
+
+msgid "room.retention.720"
+msgstr "30일"
+
+msgid "room.settings.expired"
+msgstr "룸이 만료되었거나 삭제되었거나 선택한 만료 시간이 이미 지났습니다."
+
+msgid "room.settings.failed"
+msgstr "만료 시간을 변경할 수 없습니다. 나중에 다시 시도하세요."
+
+msgid "room.settings.forbidden"
+msgstr "생성자만 만료 시간을 변경할 수 있습니다."
+
+msgid "room.settings.help"
+msgstr "생성자만 만료 시간을 변경할 수 있으며, 최대 보관 기간은 생성 후 30일입니다. 만료되면 룸과 내용이 자동으로 삭제됩니다."
+
+msgid "room.settings.invalid"
+msgstr "제공된 보관 기간 중 하나를 선택하세요."
+
+msgid "room.settings.retention"
+msgstr "생성 시점부터의 보관 기간"
+
+msgid "room.settings.save"
+msgstr "만료 시간 저장"
+
+msgid "room.settings.saved"
+msgstr "만료 시간이 변경되었습니다."
+
+msgid "room.settings.title"
+msgstr "룸 설정"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -6858,12 +6894,6 @@ msgstr "보드を검색"
 msgid "ボードを開く"
 msgstr "보드を開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr "보드생성時に1일、1주일、1개월から보관 기간を選べます。期間を過ぎると보드とタスクは자동 삭제されます。"
-
-msgid "ボード操作"
-msgstr "보드작업"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "보드 보기와 캘린더 보기 전환"
 
@@ -7396,9 +7426,6 @@ msgstr "룸생성も로그인も후回し。まずは下書き노트に書き始
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "룸 생성 후 이동할 페이지 경로를 가져오지 못했습니다."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr "룸생성時に1時間、6時間、12時間、24時間から보관 기간を選べます。期間を過ぎると룸とファイルは자동 삭제されます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -8158,9 +8185,6 @@ msgstr "보존 기간 및 삭제 요청"
 
 msgid "保存期間と自動削除"
 msgstr "보관 기간 및 자동 삭제"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr "보관 기간は1・6・12・24時間。기한を過ぎると룸と저장된 파일が자동 삭제されます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "보존 기간은 작업에 필요한 기간만큼만 설정했는가"
@@ -9993,9 +10017,6 @@ msgstr "새 작업 추가 (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しい작업 보드 만들기して、チームの作業を整理・공유しましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しい작업 보드생성ページに移動します"
 
 msgid "新しいタスク名"
 msgstr "새 작업 이름"

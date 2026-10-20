@@ -17,10 +17,21 @@ from room_repository import (
     get_active_room,
     list_expired_room_ids,
     revoke_room_links,
+    update_room_retention as update_retention,
 )
 from share_links import ServiceKey
 
 logger = logging.getLogger(__name__)
+
+
+async def update_room_retention(room_id: str, retention_hours: int):
+    record = await update_retention(
+        db_session, TASK_ROOMS, ServiceKey.TASK.value, room_id, retention_hours
+    )
+    if record:
+        await invalidate_cache_prefix(get_room_meta)
+        await invalidate_cache_prefix(pick_room_id)
+    return record
 
 
 class InvalidTaskDateRange(ValueError):

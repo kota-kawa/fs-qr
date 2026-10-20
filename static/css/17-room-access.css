@@ -231,33 +231,6 @@
   font-size: 1.35rem;
 }
 
-.room-access-tabs {
-  display: flex;
-  margin-bottom: 1.25rem;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #f1f5f9;
-}
-
-.room-access-tab {
-  flex: 1;
-  padding: 0.8rem 0.75rem;
-  border: 0;
-  background: transparent;
-  color: #64748b;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.room-access-tab.is-active {
-  background: linear-gradient(135deg, var(--room-access-start, #166534), var(--room-access-end, #22c55e));
-  color: white;
-}
-
-.room-access-panel[hidden] {
-  display: none;
-}
-
 .room-access-password {
   position: relative;
 }
@@ -277,25 +250,6 @@
   background: #e2e8f0;
   color: #334155;
   cursor: pointer;
-}
-
-.room-access-card .room-create-page {
-  padding: 0;
-}
-
-.room-access-card .room-create-card {
-  max-width: none;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.room-access-card .room-create-card__header {
-  display: none;
-}
-
-.room-access-card .room-create-card__body {
-  padding: 0;
 }
 
 /*
@@ -426,4 +380,16 @@
   .room-access-intro__points li + li {
     margin-top: 0.35rem;
   }
+}
+.room-access-join {
+  margin-top: 1.5rem;
+}
+
+.room-access-join > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.room-access-join .room-access-panel {
+  padding-top: 1rem;
 }

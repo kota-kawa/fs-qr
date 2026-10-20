@@ -3480,6 +3480,46 @@ msgstr "Unaweza kuingiza hadi herufi %(max_length)s."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Unda kwa mipangilio"
+
+msgid "room.create.hint"
+msgstr ""
+"Hufutwa kiotomatiki saa 24 baada ya kuundwa. Unaweza kubadilisha muda wa "
+"kuisha baada ya kuunda chumba."
+
+msgid "room.retention.720"
+msgstr "Siku 30"
+
+msgid "room.settings.expired"
+msgstr "Muda wa chumba umeisha au chumba kimefutwa, au muda uliochaguliwa umepita."
+
+msgid "room.settings.failed"
+msgstr "Imeshindikana kusasisha muda wa kuisha. Jaribu tena baadaye."
+
+msgid "room.settings.forbidden"
+msgstr "Muundaji pekee ndiye anayeweza kubadilisha muda wa kuisha."
+
+msgid "room.settings.help"
+msgstr ""
+"Muundaji pekee ndiye anayeweza kubadilisha muda wa kuisha, hadi siku 30 "
+"tangu kuundwa. Chumba na yaliyomo hufutwa kiotomatiki muda ukiisha."
+
+msgid "room.settings.invalid"
+msgstr "Chagua mojawapo ya vipindi vya kuhifadhi vinavyopatikana."
+
+msgid "room.settings.retention"
+msgstr "Muda wa kuhifadhi tangu kuundwa"
+
+msgid "room.settings.save"
+msgstr "Hifadhi muda wa kuisha"
+
+msgid "room.settings.saved"
+msgstr "Muda wa kuisha umesasishwa."
+
+msgid "room.settings.title"
+msgstr "Mipangilio ya chumba"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8396,14 +8436,6 @@ msgstr "UbaoをTafuta"
 msgid "ボードを開く"
 msgstr "Ubaoを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"UbaoUnda時にSiku 1、Wiki 1、Mwezi 1からMuda wa "
-"kuhifadhiを選べます。期間を過ぎるとUbaoとタスクはKufuta kiotomatikiされます。"
-
-msgid "ボード操作"
-msgstr "UbaoVitendo"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Badilisha kati ya mwonekano wa ubao na kalenda"
 
@@ -9082,11 +9114,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Haikuweza kuamuliwa wapi pa kuelekezwa baada ya kuunda chumba."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"ChumbaUnda時に1時間、6時間、12時間、24時間からMuda wa "
-"kuhifadhiを選べます。期間を過ぎるとChumbaとファイルはKufuta kiotomatikiされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -10025,11 +10052,6 @@ msgstr "Muda wa Uhifadhi na Maombi ya Kufuta"
 
 msgid "保存期間と自動削除"
 msgstr "Muda wa Kuhifadhi na Kufuta Kiotomatiki"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Muda wa kuhifadhiは1・6・12・24時間。Mwishoを過ぎるとChumbaとFaili "
-"zilizohifadhiwaがKufuta kiotomatikiされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -12308,9 +12330,6 @@ msgstr "Ongeza kazi mpya (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいUnda ubao wa kaziして、チームの作業を整理・Shirikiしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいUbao wa kaziUndaページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Jina la kazi mpya"

@@ -136,5 +136,17 @@
   "html.width_mobile": "スマホ",
   "html.auto_hint": "PC幅では入力が止まると自動でプレビューを更新します。JavaScriptを実行する場合はボタンで更新してください。",
   "html.sample_title": "サンプルページ",
-  "html.sample_text": "このHTMLを書き換えると、プレビューに反映されます。"
+  "html.sample_text": "このHTMLを書き換えると、プレビューに反映されます。",
+  "room.create.hint": "作成から24時間後に自動削除されます。作成後に有効期限を変更できます。",
+  "room.create.advanced": "設定して作成",
+  "room.settings.title": "ルームの設定",
+  "room.settings.help": "作成者だけが有効期限を変更できます。最大保存期間は作成から30日です。期限が来るとルームと内容は自動削除されます。",
+  "room.settings.retention": "作成からの保存期間",
+  "room.settings.save": "有効期限を保存",
+  "room.settings.saved": "有効期限を変更しました。",
+  "room.settings.forbidden": "有効期限を変更できるのは作成者だけです。",
+  "room.settings.invalid": "保存期間を選択肢から選んでください。",
+  "room.settings.failed": "有効期限を変更できませんでした。時間をおいて再度お試しください。",
+  "room.settings.expired": "ルームが期限切れ・削除済みか、選択した期限が過去になっています。",
+  "room.retention.720": "30日"
 }

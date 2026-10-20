@@ -3466,6 +3466,48 @@ msgstr "U kunt maximaal %(max_length)s tekens invoeren."
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "Aanmaken met instellingen"
+
+msgid "room.create.hint"
+msgstr ""
+"Wordt 24 uur na aanmaak automatisch verwijderd. Je kunt de vervaldatum na"
+" het aanmaken wijzigen."
+
+msgid "room.retention.720"
+msgstr "30 dagen"
+
+msgid "room.settings.expired"
+msgstr ""
+"De kamer is verlopen of verwijderd, of de gekozen vervaldatum ligt in het"
+" verleden."
+
+msgid "room.settings.failed"
+msgstr "De vervaldatum kon niet worden bijgewerkt. Probeer het later opnieuw."
+
+msgid "room.settings.forbidden"
+msgstr "Alleen de maker kan de vervaldatum wijzigen."
+
+msgid "room.settings.help"
+msgstr ""
+"Alleen de maker kan de vervaldatum wijzigen, tot maximaal 30 dagen na "
+"aanmaak. Daarna worden de kamer en de inhoud automatisch verwijderd."
+
+msgid "room.settings.invalid"
+msgstr "Kies een van de beschikbare bewaartermijnen."
+
+msgid "room.settings.retention"
+msgstr "Bewaartermijn vanaf aanmaak"
+
+msgid "room.settings.save"
+msgstr "Vervaldatum opslaan"
+
+msgid "room.settings.saved"
+msgstr "Vervaldatum bijgewerkt."
+
+msgid "room.settings.title"
+msgstr "Kamerinstellingen"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -8327,14 +8369,6 @@ msgstr "BordをZoeken"
 msgid "ボードを開く"
 msgstr "Bordを開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr ""
-"BordAanmaken時に1 dag、1 week、1 "
-"maandからBewaartermijnを選べます。期間を過ぎるとBordとタスクはAutomatische verwijderingされます。"
-
-msgid "ボード操作"
-msgstr "BordActies"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "Wisselen tussen bord- en kalenderweergave"
 
@@ -8991,11 +9025,6 @@ msgstr ""
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "Kon niet bepalen waarnaar te herleiden na het maken van de kamer."
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr ""
-"KamerAanmaken時に1時間、6時間、12時間、24時間からBewaartermijnを選べます。期間を過ぎるとKamerとファイルはAutomatische"
-" verwijderingされます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr ""
@@ -9903,11 +9932,6 @@ msgstr "Bewaartermijn en verwijderingsverzoeken"
 
 msgid "保存期間と自動削除"
 msgstr "Bewaartermijn en automatische verwijdering"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr ""
-"Bewaartermijnは1・6・12・24時間。Deadlineを過ぎるとKamerとOpgeslagen "
-"bestandenがAutomatische verwijderingされます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr ""
@@ -12209,9 +12233,6 @@ msgstr "Nieuwe taak toevoegen (Enter)"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しいTakenbord makenして、チームの作業を整理・Delenしましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しいTakenbordAanmakenページに移動します"
 
 msgid "新しいタスク名"
 msgstr "Naam van nieuwe taak"

@@ -136,5 +136,17 @@
   "html.width_mobile": "Smartphone",
   "html.auto_hint": "Auf breiten Bildschirmen wird die Vorschau automatisch aktualisiert, sobald Sie aufhören zu tippen. Bei JavaScript-Ausführung über die Schaltfläche aktualisieren.",
   "html.sample_title": "Beispielseite",
-  "html.sample_text": "Bearbeiten Sie dieses HTML, und die Vorschau übernimmt die Änderungen."
+  "html.sample_text": "Bearbeiten Sie dieses HTML, und die Vorschau übernimmt die Änderungen.",
+  "room.create.hint": "Wird 24 Stunden nach der Erstellung automatisch gelöscht. Sie können die Ablaufzeit nach der Erstellung ändern.",
+  "room.create.advanced": "Mit Einstellungen erstellen",
+  "room.settings.title": "Raumeinstellungen",
+  "room.settings.help": "Nur der Ersteller kann die Ablaufzeit ändern, bis zu 30 Tage nach der Erstellung. Danach werden der Raum und seine Inhalte automatisch gelöscht.",
+  "room.settings.retention": "Aufbewahrungsdauer ab Erstellung",
+  "room.settings.save": "Ablaufzeit speichern",
+  "room.settings.saved": "Ablaufzeit aktualisiert.",
+  "room.settings.forbidden": "Nur der Ersteller kann die Ablaufzeit ändern.",
+  "room.settings.invalid": "Wählen Sie eine der verfügbaren Aufbewahrungszeiten.",
+  "room.settings.failed": "Die Ablaufzeit konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut.",
+  "room.settings.expired": "Der Raum ist abgelaufen oder gelöscht, oder die gewählte Ablaufzeit liegt in der Vergangenheit.",
+  "room.retention.720": "30 Tage"
 }

@@ -136,5 +136,17 @@
   "html.width_mobile": "Ponsel",
   "html.auto_hint": "Di layar lebar, pratinjau diperbarui otomatis saat Anda berhenti mengetik. Saat menjalankan JavaScript, perbarui dengan tombol.",
   "html.sample_title": "Halaman contoh",
-  "html.sample_text": "Ubah HTML ini dan pratinjau akan menampilkan perubahannya."
+  "html.sample_text": "Ubah HTML ini dan pratinjau akan menampilkan perubahannya.",
+  "room.create.hint": "Dihapus otomatis 24 jam setelah dibuat. Anda dapat mengubah masa berlaku setelah membuat ruang.",
+  "room.create.advanced": "Buat dengan pengaturan",
+  "room.settings.title": "Pengaturan ruang",
+  "room.settings.help": "Hanya pembuat yang dapat mengubah masa berlaku, hingga 30 hari sejak dibuat. Ruang dan isinya akan dihapus otomatis saat masa berlaku habis.",
+  "room.settings.retention": "Masa penyimpanan sejak dibuat",
+  "room.settings.save": "Simpan masa berlaku",
+  "room.settings.saved": "Masa berlaku diperbarui.",
+  "room.settings.forbidden": "Hanya pembuat yang dapat mengubah masa berlaku.",
+  "room.settings.invalid": "Pilih salah satu masa penyimpanan yang tersedia.",
+  "room.settings.failed": "Masa berlaku tidak dapat diperbarui. Coba lagi nanti.",
+  "room.settings.expired": "Ruang telah kedaluwarsa atau dihapus, atau waktu yang dipilih telah berlalu.",
+  "room.retention.720": "30 hari"
 }

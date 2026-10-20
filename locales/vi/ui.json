@@ -136,5 +136,17 @@
   "html.width_mobile": "Điện thoại",
   "html.auto_hint": "Trên màn hình rộng, bản xem trước tự cập nhật khi bạn ngừng gõ. Khi chạy JavaScript, hãy cập nhật bằng nút.",
   "html.sample_title": "Trang mẫu",
-  "html.sample_text": "Sửa HTML này và bản xem trước sẽ hiển thị thay đổi."
+  "html.sample_text": "Sửa HTML này và bản xem trước sẽ hiển thị thay đổi.",
+  "room.create.hint": "Tự động xóa sau 24 giờ kể từ khi tạo. Bạn có thể đổi thời hạn sau khi tạo phòng.",
+  "room.create.advanced": "Tạo với cài đặt",
+  "room.settings.title": "Cài đặt phòng",
+  "room.settings.help": "Chỉ người tạo mới có thể đổi thời hạn, tối đa 30 ngày kể từ khi tạo. Phòng và nội dung sẽ tự động bị xóa khi hết hạn.",
+  "room.settings.retention": "Thời gian lưu từ lúc tạo",
+  "room.settings.save": "Lưu thời hạn",
+  "room.settings.saved": "Đã cập nhật thời hạn.",
+  "room.settings.forbidden": "Chỉ người tạo mới có thể đổi thời hạn.",
+  "room.settings.invalid": "Chọn một trong các thời gian lưu có sẵn.",
+  "room.settings.failed": "Không thể cập nhật thời hạn. Vui lòng thử lại sau.",
+  "room.settings.expired": "Phòng đã hết hạn hoặc bị xóa, hoặc thời hạn được chọn đã qua.",
+  "room.retention.720": "30 ngày"
 }

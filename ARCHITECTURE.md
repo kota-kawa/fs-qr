@@ -68,6 +68,7 @@ pwa_manifest.py         4 サービスの web manifest を生成する共通定�
 room_session.py         ルームアクセス session namespace の共通 facade
 room_create.py          ルーム ID 検証・衝突再試行の共通ロジック
 room_delete.py          所有者ルーム削除 outcome の共通ロジック
+room_settings.py        作成者向けの保存期間設定・入力検証・レート制限
 room_repository.py      ルーム有効期限・資格情報検索の共通 SQL
 room_cleanup.py         scheduler の期限切れ掃除・DB reset wrapper
 locales/                言語別 ui / js / phrases カタログ
@@ -125,6 +126,9 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
   のルーム access、作成 ID 選択、所有者削除、active / expired 検索を共通化する。
   既存の session namespace、import 名、cache key は各サービスの wrapper で互換維持する。
 - `room_cleanup.py`: scheduler の期限切れ掃除結果と DB 接続 cleanup を共通化する。
+- `room_settings.py`: Group / Note / Task の作成者向け保存期間設定を共通化する。
+  最大は最初の作成日時から30日。各サービスのデータ層から `room_repository.py` を
+  呼び、ルームと共有URLの期限を同じトランザクションで更新する。
 - `api_response.py`: HTML / JSON のエラー応答と翻訳を一本化する。
 - `pwa_manifest.py`: サービス別の web manifest を動的に生成する。
 - `share_links.py`: share token の生成、ハッシュ保存、サービス別 URL の組み立てを共通化する。

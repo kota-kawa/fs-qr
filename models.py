@@ -25,12 +25,14 @@ ROOM_ID_RE = re.compile(rf"^[a-zA-Z0-9]{{{ROOM_ID_LENGTH}}}$")
 _ALNUM_RE = re.compile(r"^[a-zA-Z0-9]+$")
 _PASSWORD_RE = re.compile(r"^[0-9]{6}$")
 _TASK_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-# 共有データは長期保管用途ではないため、保存期間を24時間以内に制限する。
+# FSQR の保存期間は24時間以内。ルームの長期保存は別の選択肢で扱う。
 _RETENTION_HOUR_CHOICES = frozenset({1, 6, 12, 24})
 # Note/Task は共同編集やタスク管理など、より長期の運用でも使われるため、
 # 保存期間を1日・1週間・1か月から選べるようにする。
 _LONG_RETENTION_HOUR_CHOICES = frozenset({24, 24 * 7, 24 * 30})
 _DEFAULT_RETENTION_HOURS = 24
+ROOM_MAX_RETENTION_HOURS = 24 * 30
+ROOM_RETENTION_CHOICES = (1, 6, 12, 24, 168, ROOM_MAX_RETENTION_HOURS)
 
 
 class RoomInputError(ValueError):
@@ -209,7 +211,7 @@ class _RetentionInput(BaseModel):
 class RoomCreateInput(_RetentionInput):
     """ルーム作成フォームの入力バリデーション。
 
-    使用箇所: Group /create_group_room
+    Group / Note / Task の詳細作成入力の共通基底。
     id は auto モードでは空可。manual モードでは 6文字英数字必須。
     """
 
@@ -234,6 +236,27 @@ class NoteTaskRoomCreateInput(RoomCreateInput):
     """
 
     retention_hour_choices: ClassVar[frozenset[int]] = _LONG_RETENTION_HOUR_CHOICES
+
+
+class GroupRoomCreateInput(RoomCreateInput):
+    """Group は短時間の共有から作成後30日までの保存に対応する。"""
+
+    retention_hour_choices: ClassVar[frozenset[int]] = frozenset(ROOM_RETENTION_CHOICES)
+
+
+class RoomRetentionInput(BaseModel):
+    """作成日時を起点とする保存期間。更新時の不正値は補正せず拒否する。"""
+
+    retention_hours: int
+
+    @field_validator("retention_hours", mode="before")
+    @classmethod
+    def validate_retention(cls, value: object) -> int:
+        if isinstance(value, str) and value.isascii() and value.isdecimal():
+            value = int(value)
+        if type(value) is not int or value not in ROOM_RETENTION_CHOICES:
+            raise ValueError("Invalid room retention")
+        return value
 
 
 class FsqrUploadInput(_RetentionInput):

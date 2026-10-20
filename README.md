@@ -7,6 +7,11 @@ FS-QR is a FastAPI-powered web app that makes file sharing, QR-based downloads, 
 ## 🌟 Highlights
 - **Instant sharing via QR codes** — upload a file and scan to download from any device.
 - **Group-based collaboration** — create a room with a shared passphrase and share files safely.
+- **Instant rooms and editable expiry** — Group, Note, and Task rooms open immediately
+  with an automatically generated ID and a default lifetime of 24 hours. Only the
+  creator can change the expiry, up to 30 days from the original creation time.
+  Shared URLs keep working until the updated expiry; expired rooms cannot be restored.
+  “Create with settings” remains available for a custom ID or initial retention period.
 - **Real-time notes** — collaborate in a shared note area for ideas and coordination.
 - **Shared task boards** — organize a room's work in todo, doing, and done columns without an account.
 - **HTML preview** — paste HTML at `/html-preview` and view it as a web page on desktop or mobile. Input stays in browser memory and is not sent to or saved by the service. Supports embedded CSS and raster images, pinned Bootstrap / Font Awesome CSS, and Mermaid diagrams with integrity checks. JavaScript is off by default; trusted inline scripts can run in an isolated opt-in mode. External scripts, unapproved resources, external links, and form submission remain disabled. In-page contents links and pinned Noto Sans JP / JetBrains Mono fonts are supported. The preview can switch between desktop, tablet, and phone widths, open in full screen, and update while you type on wide screens (except when JavaScript is enabled); a sample HTML is available. CDN features need internet; reloading clears the input.
@@ -281,6 +286,9 @@ FS-QRは、**ファイル共有・QRコード配布・リアルタイムノー�
 ## 🌟 特長
 - **QRコードで即共有**：アップロード後にQRを生成し、スマホから簡単ダウンロード。
 - **グループ共有**：合言葉で部屋を作り、メンバー間で安全にファイル共有。
+- **すぐに作成・期限変更**：Group・Note・TaskはIDを自動発行し、標準24時間で即時作成・入室します。
+  作成者だけが有効期限を作成から最大30日まで変更でき、共有済みURLも変更後の期限まで使えます。
+  期限切れ後の復活はできません。IDや初期の保存期間を指定する場合は「設定して作成」を使えます。
 - **HTMLプレビュー**：`/html-preview` にHTMLを貼り付けて、PC・スマホでWebページとして確認できます。入力はブラウザ内のメモリだけで扱い、自サービスへ送信・保存しません。埋め込みCSS・ラスター画像に加え、固定バージョン・整合性検証付きのBootstrap / Font Awesome CSSとMermaidに対応します。JavaScriptは初期状態では無効で、信頼できるHTMLのinline scriptだけ明示的に有効にできます。ページ内目次と固定版Noto Sans JP / JetBrains Monoにも対応します。PC・タブレット・スマホ幅の切替、全画面表示、サンプルHTMLの挿入ができ、PC幅では入力に合わせて自動で更新します（JavaScript実行時を除く）。外部スクリプト・未許可リソース・外部リンク・フォーム送信は無効です。CDN機能にはネット接続が必要で、再読み込みで入力は消えます。
 - **共同ノート**：リアルタイムで編集できるノート機能。
 - **Redis連携のWebSocket管理**：接続状態をRedisで管理し、複数インスタンスでも安定動作。

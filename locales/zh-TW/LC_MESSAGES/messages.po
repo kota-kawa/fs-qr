@@ -2557,6 +2557,42 @@ msgstr "最多可輸入 %(max_length)s 個字。"
 msgid "pdf-compression-free"
 msgstr "pdf-compression-free"
 
+msgid "room.create.advanced"
+msgstr "設定後建立"
+
+msgid "room.create.hint"
+msgstr "建立24小時後自動刪除。建立房間後可以修改有效期限。"
+
+msgid "room.retention.720"
+msgstr "30天"
+
+msgid "room.settings.expired"
+msgstr "房間已到期或已刪除，或所選的到期時間已過。"
+
+msgid "room.settings.failed"
+msgstr "無法修改有效期限，請稍後再試。"
+
+msgid "room.settings.forbidden"
+msgstr "只有建立者可以修改有效期限。"
+
+msgid "room.settings.help"
+msgstr "只有建立者可以修改有效期限，最長保留至建立後30天。到期後房間及其內容將自動刪除。"
+
+msgid "room.settings.invalid"
+msgstr "請選擇可用的保留期限。"
+
+msgid "room.settings.retention"
+msgstr "從建立時算起的保留期限"
+
+msgid "room.settings.save"
+msgstr "儲存有效期限"
+
+msgid "room.settings.saved"
+msgstr "有效期限已更新。"
+
+msgid "room.settings.title"
+msgstr "房間設定"
+
 msgid "screen-recording-free"
 msgstr "screen-recording-free"
 
@@ -6195,12 +6231,6 @@ msgstr "看板を搜尋"
 msgid "ボードを開く"
 msgstr "看板を開く"
 
-msgid "ボード作成時に1日、1週間、1か月から保存期間を選べます。期間を過ぎるとボードとタスクは自動削除されます。"
-msgstr "看板建立時に1 天、1 週、1 個週一から儲存到期を選べます。期間を過ぎると看板とタスクは自動刪除されます。"
-
-msgid "ボード操作"
-msgstr "看板操作"
-
 msgid "ボード表示とカレンダー表示を切り替え"
 msgstr "切換看板檢視和行事曆檢視"
 
@@ -6661,9 +6691,6 @@ msgstr "房間建立も登入も之後回し。まずは下書き筆記に書き
 
 msgid "ルーム作成後の移動先が取得できませんでした。"
 msgstr "無法取得建立房間後的重新導向地址。"
-
-msgid "ルーム作成時に1時間、6時間、12時間、24時間から保存期間を選べます。期間を過ぎるとルームとファイルは自動削除されます。"
-msgstr "房間建立時に1時間、6時間、12時間、24時間から儲存到期を選べます。期間を過ぎると房間とファイルは自動刪除されます。"
 
 msgid "ルーム作成時にルームID、パスワード、共有URL、QRコードが表示されます。作成者は必要に応じてルームを削除できます。削除後は保存済みファイルも利用できません。"
 msgstr "建立房間時，系統會顯示房間 ID、密碼、分享連結及 QR Code。建立者可在必要時刪除房間。刪除後，已儲存的檔案也將無法使用。"
@@ -7342,9 +7369,6 @@ msgstr "保留期限與刪除請求"
 
 msgid "保存期間と自動削除"
 msgstr "儲存期限與自動刪除"
-
-msgid "保存期間は1・6・12・24時間。期限を過ぎるとルームと保存ファイルが自動削除されます。"
-msgstr "儲存到期は1・6・12・24時間。到期を過ぎると房間と儲存的檔案が自動刪除されます。"
 
 msgid "保存期間は作業に必要な長さだけにしているか"
 msgstr "保留期限是否僅設為工作所需的長度？"
@@ -8983,9 +9007,6 @@ msgstr "新增任務（Enter）"
 
 msgid "新しいタスクボードを作成して、チームの作業を整理・共有しましょう。"
 msgstr "新しい建立任務看板して、チームの作業を整理・分享しましょう。"
-
-msgid "新しいタスクボード作成ページに移動します"
-msgstr "新しい任務看板建立ページに移動します"
 
 msgid "新しいタスク名"
 msgstr "新任務名稱"

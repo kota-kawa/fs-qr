@@ -2,7 +2,7 @@
   Shared room creation card for Group / Note / Task.
   翻訳は呼び出し側で解決し、この include は UI とフォームの骨格だけを持つ。
 #}
-<div class="room-create-page{% if room_create_compact %} room-create-page--compact{% endif %}"
+<div class="room-create-page"
      style="--room-create-start: {{ room_create_theme_start }}; --room-create-end: {{ room_create_theme_end }};">
   <section class="room-create-card" aria-labelledby="{{ room_create_id_prefix }}-create-title">
     <header class="room-create-card__header">

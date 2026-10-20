@@ -20,6 +20,9 @@ FSQR / Group / Note / Task は、サービスごとの URL、データ層、文�
 - `room_cleanup.py` は scheduler の cleanup 戻り値を一覧へ正規化し、DB 接続 reset
   を `finally` で必ず実行します。Note の期限切れ通知のような後処理は callback に
   渡します。
+- `room_settings.py` はGroup / Note / Taskの保存期間設定を共有します。作成者の
+  session権限、CSRF、操作頻度、入力値を確認し、各サービスのデータ層へ更新を委譲します。
+  `room_repository.py` はルームと未失効の共有URLの期限を同時に更新します。
 - `api_response.error_page_or_json` は `Accept` / fetch 判定を一本化し、ブラウザには
   HTML、API には翻訳済み JSON を返します。新しいサービス固有の判定関数を増やさない
   でください。
@@ -36,6 +39,9 @@ FSQR / Group / Note / Task は、サービスごとの URL、データ層、文�
   差分だけを置き、403 の案内は `FSQR_I18N` または template の data 属性を通します。
 - `static/js/shared/file-tray.js` / `progress-spinner.js` は FSQR と Group のアップ
   ロード UI を共有します。FSQR の置換型と Group の追加型は adapter の option で選びます。
+- `templates/_room_quick_create.html` は24時間の即時作成フォーム、
+  `templates/_room_settings.html` と `static/js/shared/room-settings.js` は作成後の
+  期限設定を共有します。設定保存でページを再読み込みせず、入力中の本文を維持します。
 - `static/js/shared/custom-select.js` は retention と Task board のキーボード操作を
   共有します。既存の各機能ファイルは薄い adapter として残します。
 - `static/css/17-room-access.css`、`18-room-share.css`、`19-transfer-card.css`、

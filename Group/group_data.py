@@ -8,7 +8,7 @@ import log_config  # noqa: F401
 from sqlalchemy import text
 
 from password_security import hash_password, verify_password
-from database import execute_query
+from database import db_session, execute_query
 from cache_utils import cache_data, invalidate_cache_entry, invalidate_cache_prefix
 from .group_realtime import notify_group_room_closed
 from .group_storage import UPLOAD_FOLDER, async_room_upload_lock, iter_room_folders
@@ -18,6 +18,7 @@ from room_repository import (
     get_active_room,
     revoke_room_links,
     room_id_exists,
+    update_room_retention as update_retention,
 )
 from share_links import ServiceKey
 
@@ -27,6 +28,17 @@ logger = logging.getLogger(__name__)
 BASE_DIR = os.path.dirname(__file__)
 QR = os.path.join(BASE_DIR, "static/qrcode")
 STATIC = os.path.join(BASE_DIR, "static/upload")
+
+
+async def update_room_retention(room_id: str, retention_hours: int):
+    record = await update_retention(
+        db_session, GROUP_ROOMS, ServiceKey.GROUP.value, room_id, retention_hours
+    )
+    if record:
+        await invalidate_cache_entry(get_data, room_id)
+        await invalidate_cache_entry(get_all)
+        await invalidate_cache_prefix(pich_room_id)
+    return record
 
 
 # グループの部屋の作成

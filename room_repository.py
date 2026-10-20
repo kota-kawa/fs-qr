@@ -5,8 +5,8 @@ Group / Note / Task はテーブル名や status 列の有無が異なります�
 必ずバインドパラメータにすることで、共通化後も SQL インジェクションの余地を
 増やしません。
 
-The repository is intentionally small: service data modules keep transactions and
-password verification, while this module owns the repeated active/expired predicates.
+Service data modules keep cache handling and password verification. This module
+owns active/expired predicates and atomic room/share-link expiry updates.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ from typing import Any, Awaitable, Callable, Sequence
 from sqlalchemy import text
 
 from password_security import verify_password
+from models import ROOM_MAX_RETENTION_HOURS, RoomRetentionInput
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,52 @@ class RoomTable:
 GROUP_ROOMS = RoomTable("room", status_column="status")
 NOTE_ROOMS = RoomTable("note_room", status_column="status")
 TASK_ROOMS = RoomTable("task_room", status_column="status")
+
+
+async def update_room_retention(
+    session: Any,
+    table: RoomTable,
+    service_key: str,
+    room_id: str,
+    retention_hours: int,
+) -> dict[str, Any] | None:
+    """有効なルームと未失効の共有URLの期限を同じトランザクションで更新する。
+
+    保存期間は毎回作成日時から計算する。期限切れ・削除との競合は UPDATE の
+    条件で拒否し、延長の繰り返しによる30日超えを許可しない。
+    """
+    hours = RoomRetentionInput(retention_hours=retention_hours).retention_hours
+    params = {
+        "room_id": room_id,
+        "retention_hours": hours,
+        "max_retention_hours": ROOM_MAX_RETENTION_HOURS,
+        "service_key": service_key,
+    }
+    async with session.begin():
+        result = await session.execute(
+            text(  # noqa: S608 - table is a fixed RoomTable constant
+                f"UPDATE {table.name} "  # noqa: S608 - fixed RoomTable name
+                "SET retention_hours = :retention_hours, "
+                "expires_at = DATE_ADD(time, INTERVAL :retention_hours HOUR) "
+                f"WHERE {table.id_column} = :room_id AND {table.active_predicate} "
+                "AND :retention_hours <= :max_retention_hours "
+                "AND DATE_ADD(time, INTERVAL :retention_hours HOUR) > NOW()"
+            ),
+            params,
+        )
+        if not result.rowcount:
+            return None
+        result = await session.execute(table.active_select(), {"room_id": room_id})
+        record = dict(result.mappings().one())
+        await session.execute(
+            text("""
+                UPDATE share_links SET expires_at = :expires_at
+                WHERE service_key = :service_key AND resource_id = :room_id
+                  AND revoked_at IS NULL
+            """),
+            {**params, "expires_at": record["expires_at"]},
+        )
+    return record
 
 
 async def revoke_room_links(
@@ -176,4 +223,5 @@ __all__ = [
     "room_id_exists",
     "list_expired_room_ids",
     "revoke_room_links",
+    "update_room_retention",
 ]
