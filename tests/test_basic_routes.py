@@ -1,3 +1,4 @@
+import re
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -197,6 +198,28 @@ def test_non_japanese_language_queries_render_localized_pages(
         response = test_client.get(f"{path}?lang={language}")
         assert response.status_code == 200, path
         assert response.headers["content-language"] == language, path
+
+
+@pytest.mark.parametrize("path", ["/", "/group_menu", "/group"])
+def test_shared_css_files_are_linked_with_their_own_version(
+    test_client: TestClient, path: str
+):
+    # /static/ is immutable, so an @import without ?v= would stay stale forever.
+    with open("static/style.css", encoding="utf-8") as entry:
+        source = entry.read()
+    imports = re.findall(r'^@import url\("([^"]+)"\);$', source, re.MULTILINE)
+    rules = re.sub(r"/\*.*?\*/", "", source, flags=re.S)
+    assert imports
+    assert rules.replace("\n", "").replace(" ", "") == "".join(
+        f'@importurl("{target}");' for target in imports
+    )
+
+    html = test_client.get(path).text
+    links = re.findall(
+        r'<link rel="stylesheet" href="/static/(css/[^"?]+)\?v=\d+">', html
+    )
+    assert links == imports
+    assert "/static/style.css" not in html
 
 
 def test_about(test_client: TestClient):

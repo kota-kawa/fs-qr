@@ -77,7 +77,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ staticfile(menu_apple_icon) }}">
   <link href="{{ menu_bootstrap_url }}"{% if menu_bootstrap_integrity %} integrity="{{ menu_bootstrap_integrity }}" crossorigin="anonymous"{% endif %} rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css" integrity="sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{{ staticfile('style.css') }}">
+  {% for href in stylesheet_bundle('style.css') %}<link rel="stylesheet" href="{{ href }}">
+  {% endfor %}
   <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}">
   <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}">
   {% if menu_font_url %}

@@ -2,6 +2,7 @@ import hashlib
 import hmac
 import logging
 import os
+import re
 import secrets
 import time
 from typing import Any, Dict, Iterable
@@ -181,6 +182,22 @@ def staticfile(fname: str) -> str:
     if query:
         return path + "?" + query
     return path
+
+
+_CSS_IMPORT_RE = re.compile(r'^@import url\("([^"]+)"\);$', re.MULTILINE)
+
+
+def stylesheet_bundle(fname: str) -> list[str]:
+    """Return a versioned URL for each file that a CSS entry ``@import``s.
+
+    ``@import`` targets cannot inherit the entry's ``?v=``, and ``/static/`` is
+    served as immutable, so an edited imported file would never reach returning
+    browsers. Templates link every file directly instead, in the entry's order.
+    """
+    with open(os.path.join(BASE_DIR, "static", fname), encoding="utf-8") as entry:
+        imports = _CSS_IMPORT_RE.findall(entry.read())
+    base = os.path.dirname(fname)
+    return [staticfile(os.path.join(base, target)) for target in imports]
 
 
 @pass_context
@@ -636,6 +653,7 @@ templates.env.filters["retention_label"] = _filter_retention_label
 
 templates.env.globals.update(
     staticfile=staticfile,
+    stylesheet_bundle=stylesheet_bundle,
     social_staticfile=social_staticfile,
     url_for=url_for,
     get_flashed_messages=get_flashed_messages,

@@ -89,7 +89,8 @@ DB スキーマは 3 か所を同じ変更で更新します。
   `*_partials/` に `_content.html` / `_scripts.html` / `_styles.html` を分けます。
 - テストモジュールは `tests/test_<対象領域>.py`。
 - 共通 CSS は `static/css/NN-<役割>.css` の番号付きファイルで、サービス色は CSS custom property
-  で渡します。
+  で渡します。全ページ共通のファイルは `static/style.css` に `@import` 行を足すと
+  `stylesheet_bundle()` が版付きの `<link>` として出力します。`style.css` には通常のルールを書きません。
 - 静的 JS は `static/js/<機能>/` に機能単位、共通基盤は `static/js/shared/` に置きます。
 - Alembic は `YYYYMMDD_NNNN_<内容>.py`、ADR は `docs/decisions/` 配下に 4 桁連番 + kebab-case（既存 ADR と同じ形）。
 - 概念の呼び名は [用語集](domain_model.md#用語集) に従います。既存の列名などを改名しない理由も

@@ -79,7 +79,8 @@
 
     <link rel="preload" as="image" href="{{ staticfile(service_logo) }}" fetchpriority="high" />
     <link rel="stylesheet" href="{{ staticfile('bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ staticfile('style.css') }}">
+    {% for href in stylesheet_bundle('style.css') %}<link rel="stylesheet" href="{{ href }}">
+    {% endfor %}
     <link rel="stylesheet" href="{{ staticfile('cookie-consent.css') }}">
     <link rel="stylesheet" href="{{ staticfile('tooltip.css') }}">
     {% block extra_css %}{% endblock %}
