@@ -84,7 +84,7 @@
   "group.preview_load_error": "Imeshindwa kupakia hakiki.",
   "group.preview_unsupported": "Hakiki haitumiki kwa muundo huu wa faili.",
   "group.html_preview_scripts_off": "JavaScript haiendeshwi. Iendeshe tu ikiwa unamwamini mtu aliyepakia faili hii.",
-  "group.html_preview_scripts_running": "JavaScript inaendeshwa katika fremu iliyotengwa. Haiwezi kutuma data wala kuondoka kwenye ukurasa huu.",
+  "group.html_preview_scripts_running": "JavaScript inaendeshwa katika fremu iliyotengwa. Ufikiaji wa mtandao na kuhama kurasa vimezuiliwa.",
   "group.html_preview_run_scripts": "Endesha JavaScript",
   "group.html_preview_stop_scripts": "Simamisha",
   "group.html_preview_cdn_error": "Baadhi ya rasilimali za CDN zinazotumika hazikuweza kupakiwa, kwa hivyo mpangilio unaweza kutofautiana.",

@@ -84,7 +84,7 @@
   "group.preview_load_error": "Impossibile caricare l'anteprima.",
   "group.preview_unsupported": "Impossibile visualizzare l'anteprima di questo formato di file.",
   "group.html_preview_scripts_off": "JavaScript non è in esecuzione. Eseguilo solo se ti fidi della persona che ha caricato questo file.",
-  "group.html_preview_scripts_running": "JavaScript è in esecuzione in un riquadro isolato. Non può inviare dati né lasciare questa pagina.",
+  "group.html_preview_scripts_running": "JavaScript è in esecuzione in un riquadro isolato. L’accesso alla rete e la navigazione sono limitati.",
   "group.html_preview_run_scripts": "Esegui JavaScript",
   "group.html_preview_stop_scripts": "Interrompi",
   "group.html_preview_cdn_error": "Alcune risorse CDN supportate non sono state caricate, quindi il layout potrebbe essere diverso.",

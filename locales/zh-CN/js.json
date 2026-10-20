@@ -35,7 +35,7 @@
   "group.preview_load_error": "无法加载预览。",
   "group.preview_unsupported": "此文件类型无法预览。",
   "group.html_preview_scripts_off": "JavaScript 未运行。仅在你信任上传此文件的人时才运行。",
-  "group.html_preview_scripts_running": "JavaScript 正在隔离的框架中运行，无法发送数据或离开此页面。",
+  "group.html_preview_scripts_running": "JavaScript 正在隔离的框架中运行，网络访问和页面跳转受到限制。",
   "group.html_preview_run_scripts": "运行 JavaScript",
   "group.html_preview_stop_scripts": "停止",
   "group.html_preview_cdn_error": "部分受支持的 CDN 资源无法加载，因此布局可能有所不同。",

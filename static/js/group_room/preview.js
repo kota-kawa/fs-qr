@@ -15,9 +15,6 @@
     var closeButton = options.closeButton;
     var downloadLink = options.downloadLink;
     var logger = options.logger || { warn: function () {} };
-    var htmlRenderer = window.FSQRHtmlPreviewRenderer && options.htmlPreviewCdn
-      ? window.FSQRHtmlPreviewRenderer.create(options.htmlPreviewCdn)
-      : null;
     var previousActiveElement = null;
     var previewToken = 0;
     var htmlPreview = null;
@@ -108,7 +105,7 @@
       body.appendChild(frame);
     }
 
-    function renderTextPreview(file) {
+    function renderTextPreview(file, token) {
       clearPreviewBody();
       body.classList.add('is-centered');
       setMessage(core.translate ? core.translate('common.loading', 'Loading...') : 'Loading...');
@@ -120,6 +117,9 @@
           return response.text();
         })
         .then(function (text) {
+          if (token !== previewToken) {
+            return;
+          }
           clearPreviewBody();
           var pre = document.createElement('pre');
           pre.className = 'group-preview-text';
@@ -127,6 +127,9 @@
           body.appendChild(pre);
         })
         .catch(function (error) {
+          if (token !== previewToken) {
+            return;
+          }
           logger.warn('Preview request failed.', error);
           setMessage(core.translate ? core.translate('group.preview_load_error', 'Could not load the preview.') : 'Could not load the preview.');
         });
@@ -138,12 +141,13 @@
     }
 
     // Uploaded HTML always opens without scripts. Running them is a per-open
-    // choice; stopping replaces the frame so the script document is discarded.
+    // choice; stopping replaces the viewer so the script document is discarded.
+    // The viewer page renders it one frame deeper under a frame-src 'none' CSP.
     function renderHtmlFrame(scriptsEnabled) {
       var state = htmlPreview;
       var version = ++htmlVersion;
       state.notice.textContent = scriptsEnabled
-        ? translate('group.html_preview_scripts_running', 'JavaScript is running in an isolated frame. It cannot send data or leave this page.')
+        ? translate('group.html_preview_scripts_running', 'JavaScript is running in an isolated frame. Network access and page navigation are restricted.')
         : translate('group.html_preview_scripts_off', 'JavaScript is not running. Run it only if you trust the person who uploaded this file.');
       state.toggle.textContent = scriptsEnabled
         ? translate('group.html_preview_stop_scripts', 'Stop')
@@ -153,29 +157,22 @@
       state.status.hidden = true;
       if (state.frame) {
         state.frame.remove();
-        state.frame = null;
       }
-      htmlRenderer.build(state.source, scriptsEnabled, version)
-        .then(function (html) {
-          if (state !== htmlPreview || version !== htmlVersion) {
-            return;
-          }
-          var frame = document.createElement('iframe');
-          frame.className = 'group-preview-frame group-html-preview-frame';
-          frame.title = core.formatMessage ? core.formatMessage('group.preview_alt', '{name} preview', { name: state.file.name }) : `${state.file.name} preview`;
-          frame.setAttribute('sandbox', 'allow-scripts');
-          frame.setAttribute('referrerpolicy', 'no-referrer');
-          frame.srcdoc = html;
-          state.frame = frame;
-          state.container.appendChild(frame);
-        })
-        .catch(function (error) {
-          if (state !== htmlPreview || version !== htmlVersion) {
-            return;
-          }
-          logger.warn('HTML preview rendering failed.', error);
+      var frame = document.createElement('iframe');
+      frame.className = 'group-preview-frame group-html-preview-frame';
+      frame.title = core.formatMessage ? core.formatMessage('group.preview_alt', '{name} preview', { name: state.file.name }) : `${state.file.name} preview`;
+      frame.setAttribute('referrerpolicy', 'no-referrer');
+      frame.src = '/group-html-viewer';
+      state.frame = frame;
+      state.version = version;
+      state.viewerReady = false;
+      state.container.appendChild(frame);
+      // A viewer blocked by CSP or a failed load never reports back.
+      window.setTimeout(function () {
+        if (state === htmlPreview && version === state.version && !state.viewerReady) {
           showHtmlStatus(translate('group.preview_load_error', 'Could not load the preview.'));
-        });
+        }
+      }, 10000);
     }
 
     function showHtmlPreview(file, source) {
@@ -206,7 +203,8 @@
         toggle: toggle,
         status: status,
         frame: null,
-        scriptsEnabled: false
+        scriptsEnabled: false,
+        version: 0
       };
       toggle.addEventListener('click', function () {
         renderHtmlFrame(!htmlPreview.scriptsEnabled);
@@ -215,10 +213,6 @@
     }
 
     function renderHtmlPreview(file, token) {
-      if (!htmlRenderer) {
-        setMessage(translate('group.preview_load_error', 'Could not load the preview.'));
-        return;
-      }
       setMessage(translate('common.loading', 'Loading...'));
       window.fetch(getPreviewUrl(file), { credentials: 'same-origin' })
         .then(function (response) {
@@ -276,7 +270,7 @@
       }
 
       if (file.previewType === 'text') {
-        renderTextPreview(file);
+        renderTextPreview(file, previewToken);
         return;
       }
 
@@ -286,11 +280,26 @@
     window.addEventListener('message', function (event) {
       var data = event.data;
       if (!htmlPreview || !htmlPreview.frame || event.source !== htmlPreview.frame.contentWindow ||
-          !data || data.type !== 'html-preview' || data.version !== htmlVersion) {
+          event.origin !== window.location.origin || !data || data.type !== 'html-preview') {
+        return;
+      }
+      if (data.state === 'viewer-ready') {
+        htmlPreview.viewerReady = true;
+        htmlPreview.frame.contentWindow.postMessage({
+          type: 'group-html-render',
+          source: htmlPreview.source,
+          scriptsEnabled: htmlPreview.scriptsEnabled,
+          version: htmlPreview.version
+        }, window.location.origin);
+        return;
+      }
+      if (data.version !== htmlPreview.version) {
         return;
       }
       if (data.state === 'cdn-error') {
         showHtmlStatus(translate('group.html_preview_cdn_error', 'Some supported CDN resources could not be loaded, so the layout may differ.'));
+      } else if (data.state === 'error') {
+        showHtmlStatus(translate('group.preview_load_error', 'Could not load the preview.'));
       }
     });
 

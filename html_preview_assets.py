@@ -57,3 +57,24 @@ CDN_ASSETS = {
         ),
     },
 }
+
+
+def build_preview_content_security_policy(nonce: str) -> str:
+    """CSP for pages that render untrusted HTML in nested srcdoc frames.
+
+    ``frame-src 'none'`` is inherited by the srcdoc frame, so even opt-in
+    scripts cannot navigate the frame to another URL to carry data out.
+    """
+    styles = " ".join(asset["url"] for asset in CDN_ASSETS["styles"])
+    webfonts = " ".join(asset["url"] for asset in CDN_ASSETS["webfonts"])
+    # Only the tool fetches fixed assets; pasted code runs in an opaque sandbox.
+    return (
+        f"default-src 'none'; script-src 'self' 'nonce-{nonce}' "
+        f"{CDN_ASSETS['mermaid']['url']}; "
+        "style-src 'self' 'unsafe-inline'; "
+        f"font-src data: {CDN_ASSETS['fonts']}; img-src 'self' data:; "
+        "frame-src 'none'; base-uri 'none'; form-action 'none'; "
+        f"frame-ancestors 'self'; connect-src {styles} "
+        f"{CDN_ASSETS['mermaid']['url']} {CDN_ASSETS['fonts']} {webfonts}; "
+        "object-src 'none'"
+    )

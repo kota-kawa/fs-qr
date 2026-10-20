@@ -84,7 +84,7 @@
   "group.preview_load_error": "Não foi possível carregar a prévia.",
   "group.preview_unsupported": "Este tipo de arquivo não pode ser pré-visualizado.",
   "group.html_preview_scripts_off": "O JavaScript não está em execução. Execute-o apenas se você confiar na pessoa que enviou este arquivo.",
-  "group.html_preview_scripts_running": "O JavaScript está sendo executado em um quadro isolado. Ele não pode enviar dados nem sair desta página.",
+  "group.html_preview_scripts_running": "O JavaScript está sendo executado em um quadro isolado. O acesso à rede e a navegação são restritos.",
   "group.html_preview_run_scripts": "Executar JavaScript",
   "group.html_preview_stop_scripts": "Parar",
   "group.html_preview_cdn_error": "Não foi possível carregar alguns recursos de CDN compatíveis, então o layout pode ficar diferente.",

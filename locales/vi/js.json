@@ -84,7 +84,7 @@
   "group.preview_load_error": "Không thể tải bản xem trước.",
   "group.preview_unsupported": "Định dạng tệp này không hỗ trợ xem trước.",
   "group.html_preview_scripts_off": "JavaScript chưa được chạy. Chỉ chạy khi bạn tin tưởng người đã tải tệp này lên.",
-  "group.html_preview_scripts_running": "JavaScript đang chạy trong một khung cách ly. Mã không thể gửi dữ liệu hoặc rời khỏi trang này.",
+  "group.html_preview_scripts_running": "JavaScript đang chạy trong một khung cách ly. Truy cập mạng và chuyển trang bị hạn chế.",
   "group.html_preview_run_scripts": "Chạy JavaScript",
   "group.html_preview_stop_scripts": "Dừng",
   "group.html_preview_cdn_error": "Không tải được một số tài nguyên CDN được hỗ trợ, nên bố cục có thể khác.",

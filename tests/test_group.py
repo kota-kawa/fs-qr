@@ -298,15 +298,6 @@ def test_group_room_uses_modular_scripts_without_legacy_inline_logic(
         script_positions.append(script_tag_match.start())
 
     assert script_positions == sorted(script_positions)
-
-    # The shared HTML renderer needs the page nonce for sandboxed previews.
-    renderer_match = re.search(
-        r'<script nonce="[^"]+" src="/static/js/html_preview/renderer\.js\?v=\d+">',
-        html,
-    )
-    assert renderer_match is not None
-    assert renderer_match.start() < script_positions[1]
-    assert "htmlPreviewCdn: {" in html
     assert "window.__FSQR_APP__.api.setConfig('groupRoom', Object.freeze({" in html
     assert "maxFiles" in html
     assert "maxTotalSizeBytes" in html
@@ -853,6 +844,30 @@ def test_preview_html_returns_sandboxed_plain_text(test_client: TestClient, tmp_
         "sandbox; default-src 'none'"
     )
     assert response.headers["x-content-type-options"] == "nosniff"
+
+
+def test_group_html_viewer_isolates_untrusted_html(test_client: TestClient):
+    """HTML ビューアはルーム情報を持たず、入れ子の iframe の URL 移動を CSP で拒否する"""
+    response = test_client.get("/group-html-viewer")
+
+    assert response.status_code == 200
+    policy = response.headers["content-security-policy"]
+    assert "frame-src 'none'" in policy
+    assert "form-action 'none'" in policy
+    assert "frame-ancestors 'self'" in policy
+    assert response.headers["cache-control"] == "no-store"
+    html = response.text
+    assert 'sandbox="allow-scripts"' in html
+    assert "allow-same-origin" not in html
+    assert re.search(
+        r'<script nonce="[^"]+" src="/static/js/html_preview/renderer\.js\?v=\d+"',
+        html,
+    )
+    assert re.search(
+        r'<script nonce="[^"]+" src="/static/js/group_room/html-viewer\.js\?v=\d+"',
+        html,
+    )
+    assert "csrf" not in html.lower()
 
 
 def test_preview_html_rejects_files_over_limit(test_client: TestClient, tmp_path):

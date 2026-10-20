@@ -84,7 +84,7 @@
   "group.preview_load_error": "Nie udało się załadować podglądu.",
   "group.preview_unsupported": "Podgląd nie jest obsługiwany dla tego formatu pliku.",
   "group.html_preview_scripts_off": "JavaScript nie jest uruchomiony. Uruchom go tylko wtedy, gdy ufasz osobie, która przesłała ten plik.",
-  "group.html_preview_scripts_running": "JavaScript działa w odizolowanej ramce. Nie może wysyłać danych ani opuścić tej strony.",
+  "group.html_preview_scripts_running": "JavaScript działa w odizolowanej ramce. Dostęp do sieci i nawigacja są ograniczone.",
   "group.html_preview_run_scripts": "Uruchom JavaScript",
   "group.html_preview_stop_scripts": "Zatrzymaj",
   "group.html_preview_cdn_error": "Nie udało się wczytać niektórych obsługiwanych zasobów CDN, więc układ może wyglądać inaczej.",

@@ -84,7 +84,7 @@
   "group.preview_load_error": "Failed to load preview.",
   "group.preview_unsupported": "Preview is not supported for this file format.",
   "group.html_preview_scripts_off": "JavaScript is not running. Run it only if you trust the person who uploaded this file.",
-  "group.html_preview_scripts_running": "JavaScript is running in an isolated frame. It cannot send data or leave this page.",
+  "group.html_preview_scripts_running": "JavaScript is running in an isolated frame. Network access and page navigation are restricted.",
   "group.html_preview_run_scripts": "Run JavaScript",
   "group.html_preview_stop_scripts": "Stop",
   "group.html_preview_cdn_error": "Some supported CDN resources could not be loaded, so the layout may differ.",

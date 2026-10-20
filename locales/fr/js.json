@@ -84,7 +84,7 @@
   "group.preview_load_error": "Impossible de charger l'aperçu.",
   "group.preview_unsupported": "Ce type de fichier ne peut pas être prévisualisé.",
   "group.html_preview_scripts_off": "JavaScript n’est pas exécuté. Exécutez-le uniquement si vous faites confiance à la personne qui a téléversé ce fichier.",
-  "group.html_preview_scripts_running": "JavaScript s’exécute dans un cadre isolé. Il ne peut ni envoyer de données ni quitter cette page.",
+  "group.html_preview_scripts_running": "JavaScript s’exécute dans un cadre isolé. L’accès au réseau et la navigation sont restreints.",
   "group.html_preview_run_scripts": "Exécuter JavaScript",
   "group.html_preview_stop_scripts": "Arrêter",
   "group.html_preview_cdn_error": "Certaines ressources CDN prises en charge n’ont pas pu être chargées ; la mise en page peut donc différer.",

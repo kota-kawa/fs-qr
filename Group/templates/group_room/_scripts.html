@@ -15,7 +15,6 @@
         roomId: {{ room_id|string|tojson }},
         websocketCsrfToken: {{ websocket_csrf_token|string|tojson }},
         debug: {{ frontend_debug | tojson }},
-        htmlPreviewCdn: {{ html_preview_cdn | tojson }},
         limits: Object.freeze(
             Object.assign(
                 {},
@@ -38,8 +37,6 @@
 <script src="{{staticfile('js/shared/file-tray.js')}}"></script>
 <script src="{{staticfile('js/shared/progress-spinner.js')}}"></script>
 <script src="{{staticfile('js/group_room/core.js')}}"></script>
-<!-- Shared with /html-preview; the nonce lets sandboxed previews reuse this page's CSP. -->
-<script nonce="{{ csp_nonce }}" src="{{staticfile('js/html_preview/renderer.js')}}"></script>
 <script src="{{staticfile('js/group_room/preview.js')}}"></script>
 <script src="{{staticfile('js/group_room/downloads.js')}}"></script>
 <script src="{{staticfile('js/group_room/remote-files.js')}}"></script>

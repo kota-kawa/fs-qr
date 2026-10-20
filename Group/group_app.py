@@ -25,6 +25,7 @@ from .group_routes_manage import (
 )
 from .group_routes_pages import (
     register_group_create_room_page_route,
+    register_group_html_viewer_route,
     register_group_main_pages_routes,
     register_group_search_page_route,
 )
@@ -40,6 +41,7 @@ from .group_responses import group_block_response, room_msg as _room_msg
 router = APIRouter()
 
 register_group_main_pages_routes(router)
+register_group_html_viewer_route(router)
 register_group_room_access_route(router)
 register_group_create_room_page_route(router)
 register_group_create_room_route(router)

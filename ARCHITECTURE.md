@@ -221,7 +221,10 @@ Fullscreen API が無い環境では固定表示で代替します。
 `/html-preview` の `static/js/html_preview/preview.js` と Group のプレビュー
 （`static/js/group_room/preview.js`）が共有します。Group は `.html` / `.htm` の保存を許可しますが、
 `/preview/{room_id}/{filename}` は HTML を text/plain と `Content-Security-Policy: sandbox` 付きで
-アプリから直接返し、ブラウザはそれをモーダル内の sandbox iframe でだけ描画します。初期状態では script を
+アプリから直接返します。ルーム画面は広告用に `frame-src https:` を許可しているため、モーダルには
+同一オリジンのビューア `/group-html-viewer`（`Group/templates/group_html_viewer.html`、
+`static/js/group_room/html-viewer.js`）を埋め込み、HTML は `frame-src 'none'` を持つビューアの内側の
+sandbox iframe でだけ描画します。CSP は `html_preview_assets.py` の共通関数で `/html-preview` と揃えます。初期状態では script を
 除去し、JavaScript は開くたびの明示操作でだけ実行します。2 MB を超える HTML は 413 でダウンロードのみに
 します。判断は [ADR-0010](docs/decisions/0010-group-sandboxed-html-preview.md) にあります。
 

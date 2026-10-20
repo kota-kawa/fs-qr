@@ -84,7 +84,7 @@
   "group.preview_load_error": "Önizleme yüklenemedi.",
   "group.preview_unsupported": "Bu dosya biçimi için önizleme desteklenmiyor.",
   "group.html_preview_scripts_off": "JavaScript çalıştırılmıyor. Yalnızca bu dosyayı yükleyen kişiye güveniyorsanız çalıştırın.",
-  "group.html_preview_scripts_running": "JavaScript yalıtılmış bir çerçevede çalışıyor. Veri gönderemez ve bu sayfadan ayrılamaz.",
+  "group.html_preview_scripts_running": "JavaScript yalıtılmış bir çerçevede çalışıyor. Ağ erişimi ve sayfa geçişleri kısıtlanmıştır.",
   "group.html_preview_run_scripts": "JavaScript'i çalıştır",
   "group.html_preview_stop_scripts": "Durdur",
   "group.html_preview_cdn_error": "Desteklenen bazı CDN kaynakları yüklenemedi, bu nedenle düzen farklı görünebilir.",

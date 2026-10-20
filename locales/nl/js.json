@@ -84,7 +84,7 @@
   "group.preview_load_error": "Kon het voorbeeld niet laden.",
   "group.preview_unsupported": "Dit bestandstype kan niet worden bekeken.",
   "group.html_preview_scripts_off": "JavaScript wordt niet uitgevoerd. Voer het alleen uit als je de persoon vertrouwt die dit bestand heeft geüpload.",
-  "group.html_preview_scripts_running": "JavaScript wordt uitgevoerd in een geïsoleerd kader. Het kan geen gegevens verzenden of deze pagina verlaten.",
+  "group.html_preview_scripts_running": "JavaScript wordt uitgevoerd in een geïsoleerd kader. Netwerktoegang en navigatie zijn beperkt.",
   "group.html_preview_run_scripts": "JavaScript uitvoeren",
   "group.html_preview_stop_scripts": "Stoppen",
   "group.html_preview_cdn_error": "Sommige ondersteunde CDN-bronnen konden niet worden geladen, waardoor de opmaak kan afwijken.",

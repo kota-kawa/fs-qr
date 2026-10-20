@@ -84,7 +84,7 @@
   "group.preview_load_error": "पूर्वावलोकन लोड नहीं किया जा सका।",
   "group.preview_unsupported": "इस फ़ाइल प्रारूप का पूर्वावलोकन नहीं किया जा सकता है।",
   "group.html_preview_scripts_off": "JavaScript नहीं चल रहा है। इसे केवल तभी चलाएँ जब आप इस फ़ाइल को अपलोड करने वाले व्यक्ति पर भरोसा करते हों।",
-  "group.html_preview_scripts_running": "JavaScript एक अलग किए गए फ़्रेम में चल रहा है। यह डेटा नहीं भेज सकता और इस पेज को छोड़ नहीं सकता।",
+  "group.html_preview_scripts_running": "JavaScript एक अलग किए गए फ़्रेम में चल रहा है। नेटवर्क एक्सेस और पेज बदलना प्रतिबंधित है।",
   "group.html_preview_run_scripts": "JavaScript चलाएँ",
   "group.html_preview_stop_scripts": "रोकें",
   "group.html_preview_cdn_error": "कुछ समर्थित CDN संसाधन लोड नहीं हो सके, इसलिए लेआउट अलग दिख सकता है।",

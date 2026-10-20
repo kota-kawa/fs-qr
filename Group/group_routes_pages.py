@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request
 
+from html_preview_assets import CDN_ASSETS, build_preview_content_security_policy
 from web import render_template
 
 from .group_common import canonical_redirect
@@ -42,3 +43,22 @@ def register_group_search_page_route(router: APIRouter):
     @router.get("/search_group", name="group.search_room_page")
     async def search_room_page(request: Request):
         return render_template(request, "search_room.html")
+
+
+def register_group_html_viewer_route(router: APIRouter):
+    @router.get("/group-html-viewer", name="group.html_viewer")
+    async def group_html_viewer(request: Request):
+        """Frame the room preview modal uses to render uploaded HTML.
+
+        The room page allows https frames for ads, so untrusted HTML is nested one
+        level deeper under this page's ``frame-src 'none'`` policy. It holds no
+        room data and only renders HTML posted by the same-origin room page.
+        """
+        response = render_template(
+            request, "group_html_viewer.html", cdn_assets=CDN_ASSETS
+        )
+        response.headers["Content-Security-Policy"] = (
+            build_preview_content_security_policy(request.state.csp_nonce)
+        )
+        response.headers["Cache-Control"] = "no-store"
+        return response

@@ -84,7 +84,7 @@
   "group.preview_load_error": "فشل في تحميل المعاينة.",
   "group.preview_unsupported": "المعاينة غير مدعومة لهذا التنسيق من الملفات.",
   "group.html_preview_scripts_off": "لا يتم تشغيل JavaScript. شغّله فقط إذا كنت تثق بالشخص الذي رفع هذا الملف.",
-  "group.html_preview_scripts_running": "يعمل JavaScript داخل إطار معزول، ولا يمكنه إرسال البيانات أو مغادرة هذه الصفحة.",
+  "group.html_preview_scripts_running": "يعمل JavaScript داخل إطار معزول، والوصول إلى الشبكة والانتقال بين الصفحات مقيّدان.",
   "group.html_preview_run_scripts": "تشغيل JavaScript",
   "group.html_preview_stop_scripts": "إيقاف",
   "group.html_preview_cdn_error": "تعذر تحميل بعض موارد CDN المدعومة، لذا قد يختلف التنسيق.",

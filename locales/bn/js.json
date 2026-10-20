@@ -84,7 +84,7 @@
   "group.preview_load_error": "প্রিভিউ লোড করা যায়নি।",
   "group.preview_unsupported": "এই ফরম্যাটের ফাইল প্রিভিউ করা সম্ভব নয়।",
   "group.html_preview_scripts_off": "JavaScript চালানো হচ্ছে না। যিনি এই ফাইল আপলোড করেছেন তাঁকে বিশ্বাস করলে তবেই চালান।",
-  "group.html_preview_scripts_running": "JavaScript একটি বিচ্ছিন্ন ফ্রেমে চলছে। এটি ডেটা পাঠাতে বা এই পৃষ্ঠা ছেড়ে যেতে পারে না।",
+  "group.html_preview_scripts_running": "JavaScript একটি বিচ্ছিন্ন ফ্রেমে চলছে। নেটওয়ার্ক অ্যাক্সেস ও পৃষ্ঠা পরিবর্তন সীমিত করা আছে।",
   "group.html_preview_run_scripts": "JavaScript চালান",
   "group.html_preview_stop_scripts": "থামান",
   "group.html_preview_cdn_error": "কিছু সমর্থিত CDN রিসোর্স লোড করা যায়নি, তাই লেআউট ভিন্ন দেখাতে পারে।",
