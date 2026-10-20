@@ -110,7 +110,7 @@ fs-qr.conf              nginx の proxy、WS、静的配信、保護ファイル
 | Group | `Group/group_app.py` | `group_data.py`, `group_storage.py`, `group_common.py` | `Group/templates/`, `static/js/group_landing/`, `static/js/group_room/`, `group_routes_ws.py` | `tests/test_group.py`, `tests/test_group_realtime.py` |
 | Note | `Note/note_app.py`, `note_api.py` | `note_data.py`, `note_access.py`, `note_collaboration.py`, `note_export.py` | `Note/templates/`, `static/js/note_room_realtime/`, `hocuspocus/` | `tests/test_note.py`, `tests/test_note_collaboration.py`, `tests/test_note_realtime.py`, `hocuspocus/*.test.js` |
 | Task | `Task/task_app.py`, `task_api.py` | `task_data.py`, `task_access.py`, `task_authorize.py`, `task_common.py` | `Task/templates/`, `static/js/task_landing/`, `static/js/task_board/` | `tests/test_task.py`, `tests/test_task_io.py` |
-| HTML | `HtmlPreview/html_preview_app.py` | 保存・入力 API なし | `HtmlPreview/templates/`, `static/js/html_preview/`, `static/css/html-preview.css` | `tests/test_html_preview.py`, `tests/test_html_preview_browser.py` |
+| HTML | `HtmlPreview/html_preview_app.py` | 保存・入力 API なし、`html_preview_assets.py` | `HtmlPreview/templates/`, `static/js/html_preview/`, `static/css/html-preview.css` | `tests/test_html_preview.py`, `tests/test_html_preview_browser.py` |
 | Admin | `Admin/admin_app.py`, `Admin/db_admin.py` | `session_auth.py`, `rate_limit.py` | `Admin/templates/` | `tests/test_admin.py` |
 | Articles | `Articles/articles_app.py` | `Articles/articles_registry.py`, `article_locale_shards.py` | `Articles/templates/` | `tests/test_articles.py`, `tests/test_product_landing_pages.py` |
 
@@ -193,7 +193,7 @@ FSQR はブラウザの Web Crypto AES-GCM で暗号化した payload を送信�
 ストレージへのアクセスは許可しません。初期状態では CSP nonce が一致するサービス自身の描画処理だけを実行し、
 Mermaid は `strict` 設定で描画します。子文書からの API 接続・フォーム送信は禁止します。
 
-CDN は `HtmlPreview/html_preview_app.py` の `CDN_ASSETS` を正とし、Bootstrap 5.3.8 と
+CDN は `html_preview_assets.py` の `CDN_ASSETS` を正とし、Bootstrap 5.3.8 と
 Font Awesome 7.3.0 の固定 URL の CSS を、入力の link が一致したときだけ取得します。
 ブラウザの fetch integrity で検証後に CSS を埋め込みます。外部 style-src を許可しないため、
 入力の `@import` から整合性検証を回避することはできません。
